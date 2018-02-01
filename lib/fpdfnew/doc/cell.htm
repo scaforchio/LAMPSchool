@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Cell</title>
+<link type="text/css" rel="stylesheet" href="../fpdf.css">
+</head>
+<body>
+<h1>Cell</h1>
+<code>Cell(<b>float</b> w [, <b>float</b> h [, <b>string</b> txt [, <b>mixed</b> border [, <b>int</b> ln [, <b>string</b> align [, <b>boolean</b> fill [, <b>mixed</b> link]]]]]]])</code>
+<h2>Descrizione</h2>
+Stampa una cella (area rettangolare) con bordi, colore di sfondo e stringa di caratteri opzionali.
+L'angolo superiore sinistro della cella corrisponde alla posizione corrente. Il testo può essere
+allineato o centrato. Dopo la chiamata, la posizione corrente si sposta a destra o sulla linea
+successiva. E' possibile inserire un link sul testo.
+<br>
+Se l'interruzione di pagina automatica è abilitata e la cella va oltre i limiti, viene inserita una
+interruzione di pagina prima dell'output.
+<h2>Parametri</h2>
+<dl class="param">
+<dt><code>w</code></dt>
+<dd>
+Larghezza della cella. Se <code>0</code>, la cella si estende dalla parte del margine destro.
+</dd>
+<dt><code>h</code></dt>
+<dd>
+Altezza della cella.
+Valore di default: <code>0</code>.
+</dd>
+<dt><code>txt</code></dt>
+<dd>
+Stringa da stampare.
+Valore di default: stringa vuota.
+</dd>
+<dt><code>border</code></dt>
+<dd>
+Indica se bisogna tracciare i bordi attorno alla cella. Il valore può essere sia un numero:
+<ul>
+<li><code>0</code>: nessun bordo</li>
+<li><code>1</code>: cornice</li>
+</ul>
+o una stringa contenente alcuni o tutti i seguenti caratteri (in qualsiasi ordine):
+<ul>
+<li><code>L</code>: sinistro</li>
+<li><code>T</code>: superiore</li>
+<li><code>R</code>: destro</li>
+<li><code>B</code>: inferiore</li>
+</ul>
+Valore di default: <code>0</code>.
+</dd>
+<dt><code>ln</code></dt>
+<dd>
+Indica la posizione corrente dopo la chiamata. Valori possibili sono:
+<ul>
+<li><code>0</code>: a destra</li>
+<li><code>1</code>: all'inizio della linea successiva</li>
+<li><code>2</code>: in basso</li>
+</ul>
+Inserire <code>1</code> equivale a inserire <code>0</code> e chiamare Ln() immediatamente dopo.
+Valore di default: <code>0</code>.
+</dd>
+<dt><code>align</code></dt>
+<dd>
+Permette di centrare o allineare il testo. Possibili valori sono:
+<ul>
+<li><code>L</code> o stringa vuota: allineamento a sinistra (valore di default)</li>
+<li><code>C</code>: centrato</li>
+<li><code>R</code>: allineamento a destra</li>
+</ul>
+</dd>
+<dt><code>fill</code></dt>
+<dd>
+Indica se lo sfondo della cella deve essere disegnato (<code>true</code>) o deve essere
+trasparente (<code>false</code>).
+Valore di default: <code>false</code>.
+</dd>
+<dt><code>link</code></dt>
+<dd>
+L'URL o l'identificatore restituito da AddLink().
+</dd>
+</dl>
+<h2>Esempio</h2>
+<div class="doc-source">
+<pre><code>// Imposta il font
+$pdf-&gt;SetFont('Arial','B',16);
+// Muove a 8 cm dalla destra
+$pdf-&gt;Cell(80);
+// Testo centrato in una cella di 20*10 mm e interruzione di linea
+$pdf-&gt;Cell(20,10,'Title',1,1,'C');</code></pre>
+</div>
+<h2>Vedi anche</h2>
+<a href="setfont.htm">SetFont</a>,
+<a href="setdrawcolor.htm">SetDrawColor</a>,
+<a href="setfillcolor.htm">SetFillColor</a>,
+<a href="settextcolor.htm">SetTextColor</a>,
+<a href="setlinewidth.htm">SetLineWidth</a>,
+<a href="addlink.htm">AddLink</a>,
+<a href="ln.htm">Ln</a>,
+<a href="multicell.htm">MultiCell</a>,
+<a href="write.htm">Write</a>,
+<a href="setautopagebreak.htm">SetAutoPageBreak</a>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Indice</a></div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<?php session_start();
+/**
+ * Nuova installazione o aggiornamento di LAMPSchool
+ *
+ * @copyright  Copyright (C) 2014 Renato Tamilio
+ * @license    GNU Affero General Public License versione 3 o successivi; vedete agpl-3.0.txt
+ */
+
+if (file_exists('../php-ini.php'))
+{
+    @require_once '../php-ini.php';
+}
+else
+{
+	$versioneprecedente="";
+}
+
+require_once '../lib/funzioni.php';
+require_once 'funzioni_install.php';
+
+$json = leggeFileJSON('../lampschool.json');
+$titolo = 'Installazione di '. $json['titolo']. ' '. $json['versione'];
+////session_start();
+
+//if (isset($versione)) {
+    $_SESSION['versioneprecedente'] = $versioneprecedente;
+//}
+
+stampa_head('Installazione Lampschool', '', getCssJavascript(),"", false);
+stampa_testata_installer($titolo, '', '');
+
+// print $versioneprecedente."->".$json['versione'];
+if ($json['versione']==$versioneprecedente)
+   print "
+   <center>
+   <h3 class='importante'>La versione installata è già aggiornata.</h3>
+   </center>
+   <form id='formInstall' method='post'>
+   </form>";
+else
+{
+
+
+    print "
+              <center>
+              <h3 class='importante'>Si consiglia di fare un backup del sito e del database prima di procedere.</h3>
+              </center>
+              <form id='formInstall' method='post'>
+              </form>";
+    stampaPulsanti('', 'updateparametri', '', 'Aggiorna');
+
+}
+stampa_piede('', false);
+

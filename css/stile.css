@@ -1,0 +1,244 @@
+html {
+   height: 98.9%;
+}
+
+body {
+   font-family: sans-serif;
+   background-color: white;
+   padding-bottom: 0px;
+   margin-left: 0.5em;
+   margin-right: 0.5em;
+   margin-top: 0.5em;
+   margin-bottom: 0px;
+   height: 100%;
+}
+
+.contenuto {
+   min-height: 90%;
+   padding-bottom: 0px;
+   margin-bottom: 0px;
+}
+
+body.stampa {
+   font-family:sans-serif;
+   background-color: white;
+}
+
+table {
+   font-family: sans-serif;
+   font-size: 10pt;
+   border-collapse: collapse;       
+}
+
+table.smallchar {
+   font-family: sans-serif;
+   font-size: 7pt;
+   border-collapse: collapse;
+}
+
+tr.prima {
+   background-color: #20ff99;
+   text-align: center;
+   font-weight: bold;
+}
+tr.red {
+   background-color: #ff0000;
+}
+tr.yellow {
+   background-color: #ffff00;
+}
+tr.green {
+   background-color: #00ff00;
+}
+td {
+   padding-left: 4px;
+   padding-right: 4px;
+}
+
+.oddeven:nth-child(even) {
+   background: #F0F0F0;
+}
+
+.oddeven:nth-child(odd) {
+   background: white;
+}
+
+input.smallchar {
+   font-size: 7pt;
+} 
+
+select.smallchar {
+   font-size: 7pt;
+} 
+
+.button {
+   border-top: 1px solid #fcfcfc;
+   background: #d9d9d9;
+   background: -webkit-gradient(linear, left top, left bottom, from(#a1a1a1), to(#d9d9d9));
+   background: -webkit-linear-gradient(top, #a1a1a1, #d9d9d9);
+   background: -moz-linear-gradient(top, #a1a1a1, #d9d9d9);
+   background: -ms-linear-gradient(top, #a1a1a1, #d9d9d9);
+   background: -o-linear-gradient(top, #a1a1a1, #d9d9d9);
+   padding: 5px 10px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   width:320px;
+   color: black;
+   font-size: 14px;
+   font-family: Helvetica, Arial, Sans-Serif;
+   text-decoration: none;
+   vertical-align: middle;
+}
+
+.button:hover {
+   border-top-color: #6e6e6e;
+   background: #6e6e6e;
+   color: #ccc;
+}
+
+
+.button:active {
+   border-top-color: #4f4f4f;
+   background: #4f4f4f;
+}
+
+img {
+   border: 0;
+   vertical-align: middle;/*text-bottom;*/
+}
+
+@media print {
+   h1 {
+      page-break-after: always
+   }
+}
+
+#testata {
+   color: black;
+   background-color: #20ff99;
+   text-align: center;
+   padding: 5px;
+   margin-left: auto;
+   margin-right: auto;
+   font-weight: bold;
+   border-top: 1px solid lightgrey;
+   border-left: 1px solid lightgrey;
+   border-right: 1px solid black;
+   border-bottom: 1px solid black;
+   border-radius: 12px; 
+   -webkit-box-shadow: 3px 3px 3px grey;
+   -moz-box-shadow: 3px 3px 3px grey;
+   box-shadow: 3px 3px 3px grey;
+}
+
+#testata .titolo {
+   font-size: 1.5em;
+}
+
+#testata .sottotitolo {
+   font-size: 1em;
+}
+
+div.logout {
+   padding-bottom: 2px;
+   font-size: 0.6em;
+   font-weight: normal;
+}
+
+#help {
+   float: right;
+   padding-top: 4px;
+   margin: 0px;
+}
+
+#funzione {
+   color: black;
+   text-align: left;
+   font-size: 0.75em;
+   padding-top: 1em;
+   padding-left: 1em;
+}
+
+#funzione a {
+   color: black;
+   font-weight: bold;
+}
+
+#piede {
+   position: relative;
+   clear: both;
+   color: black;
+   background-color: white;
+   text-align: center;
+   padding: 4px;
+   margin-left: auto;
+   margin-right: auto;
+   font-weight: bold;
+   font-size: 0.75em;
+   border-top: 1px solid lightgrey;
+   border-left: 1px solid lightgrey;
+   border-right: 1px solid black;
+   border-bottom: 1px solid black;
+   border-radius: 12px;
+   -webkit-box-shadow: 3px 3px 3px grey;
+   -moz-box-shadow: 3px 3px 3px grey;
+   box-shadow: 3px 3px 3px grey;
+}
+
+#accordion h3 {
+   font-family: arial, sans-serif;
+   font-weight: bold;
+}
+
+input[type="submit"] {
+   color: white;
+   background-color: #20ff99;
+   padding-top: 3px;
+   padding-bottom: 3px;
+   font-weight: bold;
+   border: 1px solid grey;
+   cursor: pointer;
+}
+input[type="submit"]:disabled {
+   color: white;
+   background-color: #777777;
+   padding-top: 3px;
+   padding-bottom: 3px;
+   font-weight: bold;
+   border: 1px solid grey;
+   cursor: default;
+}
+#result
+       {
+          border: 1px solid gray;
+          padding: 2px;
+          width: 200px;
+          height: 10px;
+       }
+#overlay {
+   position: absolute;
+   top: 0;
+   left: 0;
+   height: 100%;
+   width: 100%;
+   background: black url(../immagini/loader.gif) no-repeat scroll center center;
+}
+
+#popupjq {
+   position: absolute;
+   background-color: white;
+   padding: 3px;
+   height: auto;
+   overflow: auto;
+}
+
+.popupjq-maxheight
+{
+        height: auto;
+        max-height: 200px;
+}

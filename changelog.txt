@@ -1,0 +1,287 @@
+VER. 2017.2
+===========
+
+- Miglioramento procedura di backup
+- Debugging vari
+- Miglioramenti vari
+
+
+
+
+
+VER. 2017.1
+===========
+
+- Adeguamento valutazioni di comportamento alle normative vigenti
+  per primarie e secondarie di primo grado
+- Miglioramento nterfacciamento con Moodle
+- Gestione richieste ferie docenti
+- Gestione assemblee di classe
+- Introduzione (da completare) dell'utente di tipo alunno ('L')
+- Suddivisione file di log per giornate
+- Debugging vari
+- Miglioramenti vari
+
+
+
+
+
+VER. 2017
+===========
+
+- Interfacciamento con Moodle
+- Debugging vari
+- Miglioramenti vari
+
+
+
+VER. 2016
+===========
+
+- Applicazione patch
+
+
+
+VER. 2015.1
+===========
+
+- Gestione esami di terza media
+- Aggiunto seed nella crittografia della password trasmessa
+- Piccoli aggiustamenti nelle schede di valutazione
+- Risoluzione di alcuni bug
+
+VER. 2015.0.1
+=============
+
+- Gestione uscite e ingressi multipli degli alunni
+- Gestione cacellazione e modifica lezioni di gruppo
+- Gestione automatica ammonizioni per mancata giustifica
+- Gestione autorizzazioni ed esoneri
+- Gestione autorizzazione a firma propria per maggiorenni
+- Gestione blocco cambiamento password
+- Ricalcolo assenze per classe e periodo
+- Generazione automatica di annotazione per autorizzazione uscite
+- Cambiamento nella gestione del log
+- Possibilità di firma multipla di lezioni di gruppo
+- Visualizzazione numero ritardi brevi in situazione totale assenze
+- Visualizzazione data e docente giustifica in situazione assenze alunno
+- Parametrizzazione della visualizzazione del voto di condotta
+- Gestione modulo evacuazione
+
+VER. 2015
+=========
+
+- Gestione diario di classe
+- Calcolo delle automatico delle assenze alle lezioni
+- Esportazione delle programmazioni docente e di istituto in file csv
+- Importazione delle programmazioni docente da file csv
+- Scorrimento avanti e indietro nei riepiloghi registro di classe giornaliero e settimanale
+- Funzione di stampa del registri di classe
+- Accesso diretto alla materia/classe in inserimento lezione da riepilogo
+- Possibilità di blocco temporale a inserimento e modifica delle lezioni
+- Possibilità da parte del preside di sblocco temporaneo per inserimento e modifica delle lezioni
+- Gestione delle autorizzazioni per i ritardi
+- Accesso diretto dal riepilogo per le giustificazioni delle assenze
+- Limitazione della visualizzazione delle note disciplinari alle proprie classi
+- Possibilità di variazione delle valutazioni non numeriche
+- Possibilità diretta di creazione di nuove installazioni
+- Possibilità di installazione diretta di più ambienti/scuole
+- Aggiornamento automatico di tutti gli ambienti/scuole
+- Gestione deroghe al conteggio assenze (per validità anno scolastico)
+- Visualizzazione del log
+- Possibilità per utente preside di aliasing
+- Aggiunta tabella materie SIDI per utilizzo futuro
+
+VER. 1.9.2
+==========
+
+- Gestione valutazione del comportamento secondo criteri prestabiliti dal Collegio Docenti
+- Preinstallazione di criteri guida per la valutazione del comportamento
+- Gestione stampa scheda valutazione in base a modello ministeriale
+- Migliorata la gestione stampa scheda in formato A4 e A3
+- Gestione compilazione e stampa verbale di scrutinio
+- Gestione compilazione e stampa dei criteri di valutazione
+- Gestione scrutini integrativi
+- Gestione presenza 'forzata' alunni per gite o altre attività
+- Procedura di aggiornamento one-click
+- Aggiustamenti vari
+- Ricalcolo assenze lezione in base a ritardi, uscite anticipate e assenze
+
+VER. 1.8.1
+==========
+
+- Gestione cambiamenti di classe e trasferimenti da o per altre scuole
+- Ricalcolo assenze lezione in base a ritardi, uscite anticipate e assenze
+
+VER. 1.8
+========
+
+- Gestione e stampa dei verbali degli scrutini
+- Tabella sintetica di riepilogo dei voti attribuiti
+- Gestione dei coordinatori di classe
+- Possibilità di impostare limiti di validità delle password con richiesta obbligatoria di modifica
+- Visualizzazione di data e ora dell'ultimo accesso effettuato
+
+VER. 1.7
+========
+
+- Gestione installazioni multiple su singola cartella
+- Ricerca alunni per sottostringhe
+- Rigenerazione password di singolo alunno o singolo docente da anagrafica
+- Visualizzazione composizione classi a pubblico
+- Gestione calendario tempo scuola
+- Gestione festività
+- Gestione prenotazione colloqui
+- Visualizzazione cattedre esistenti in fase di aggiornamento
+- Link a situazione alunni da maschera delle lezioni
+- Gestione testi variabili per alcuni tipi di stampe
+- Riepilogo totale situazione di un alunno per staff e dirigente
+- Gestione invio SMS tramite servizio Skebby
+- Log comandi SQL su file attivabile da configurazione
+- Possibilità di modificare programmazione anche in presenza di valutazioni
+- Debugging vari
+
+Da questa versione è possibile utilizzare la stessa cartella per gestire più 
+scuole/installazioni che lavorano su più database/prefissi. 
+Per ogni ulteriore installazione bisogna stabilire un codice di 'suffisso' 
+(Es. scuola1, scuola2, ecc.).
+Per ogni suffisso bisogna creare 
+- una copia del file php-ini.php (php-iniscuola1.php, php-iniscuola2.php, ecc.) contenente
+  i parametri del database/prefisso da utilizzare per l'installazione;
+- una copia del file stile.css (stilescuola1.css, stilescuola2.css, ecc.)
+  contenente eventuali personalizzazioni dello stile;
+- una sottocartella di /abc (/abc/scuola1, /abc/scuola2, ecc.) contenente i file 
+  immagine relativi alla scuola/installazione;
+- una sottocartella di /lampschooldata (/lampschooldata/scuola1, /lampschooldata/scuola2, ecc.)
+  che conterrà i dati della scuola/installazione e l'eventuale log (se specificato 'yes' o 'all'
+  nei parametri di configurazione).
+L'accesso ad eventuali installazioni aggiuntive si dovrà fare accedendo con (ad esempio):
+
+http://www.scuolaxyz.it/lampschool/login/login.php?suffisso=scuola1
+
+oppure
+
+http://www.scuolaxyz.it/lampschool/
+
+in questo secondo caso verrano elencate tutte le installazioni disponibili in quella 
+cartella e si potrà accedere con un link a quella desiderata.
+
+IMPORTANTE: si sottolinea che ogni scuola/installazione deve avere le sue tabelle che devono
+essere su database diversi oppure devono avere un prefisso diverso da specificare nelle
+varie copie del file php-ini.
+
+
+
+VER. 1.6
+========
+
+- Trasferimento dati da anno precedente
+- Gestione alunni 'certificati'
+- Gestione docenti 'di sostegno'
+- Gestione programmazioni differenziate per alunni certificati
+- Gestione lezioni 'di sostegno'
+- Gestione caricamento 'documenti' per il PEI o documenti generici
+- Memorizzazione documenti nel file system in alternativa al database
+- Gestione PEI
+- Parametrizzazione del voto minimo attribuibile e dell'ordine di visualizzazione dei voti
+- Gestione circolari
+- Gestione cattedre 'speciali' per classi congiunte o classi divise
+- Possibilità di stampa lettere comunicazione password direttamente in fase di generazione
+
+
+VER. 1.5.1
+==========
+
+- Gestione upload relazioni finali
+- Gestione upload programmi svolti
+- Gestione 'congelamento' registro
+- Modulo per interfacciamento con App Android
+- Bug fix
+
+
+VER. 1.5
+========
+
+- Gestione scrutini finali
+- Stampa schede di valutazione finali e pagelle
+- Stampa tabelloni per affissione
+
+
+VER. 1.4.1
+==========
+
+- Miglioramento prestazioni per installazioni su servizi di hosting
+- Possibilità di ricaricamento delle proposte di voto
+- Abilitazione scrutini per staff
+- Verifica automatica disponibilità nuove versioni
+- Risoluzione di alcuni bug
+- Possibilità chiusura scrutini direttamente da tabellone anche in assenza di qualche voto
+
+VER. 1.4
+========
+
+- Gestione Scrutini
+- Gestione Stampa Schede di Valutazione
+- Gestione upload dei piani di lavoro
+- Gestione parametri di configurazione
+- Vista settimanale del registro di classe
+- Link diretto alle proprie lezioni dal registro di classe
+- Situazione alunni con note e osservazioni sistematiche
+- Miglioramento gestione note
+- Passaggio delle funzioni di accesso al database da mysql a mysqli
+- Risoluzione di alcuni bug minori
+
+VER. 1.3
+========
+
+- GESTIONE VISTA DEL REGISTRO DI CLASSE
+- Gestione sicurezza tramite token
+- Installer per nuove installazioni o aggiornamenti
+- Separazione voti in caso di compresenza
+- Possibilità di log completo di tutti gli aggiornamenti
+- Gestione permessi permanenti di entrata posticipata e uscita anticipata
+- Aumentato a 10 il numero di materie per cattedra
+- Possibilità per i docenti di controllare e correggere sovrapposizioni nelle proprie lezioni
+- Risolti alcuni bug
+
+
+VER. 1.2
+========
+
+- Aggiunta giustificazione assenze e ritardi
+- Aggiunte statistiche e riepiloghi vari
+- Aggiunta gestione supplenze
+- Aggiunta gestione firme dei docenti
+- Aggiunta gestione compresenza
+- Aggiunta crittografia della password in fase di invio
+- Migliorata gestione login
+- Aggiunto riepilogo argomenti e attività per genitori e alunni
+- Gestione verifiche con valutazione multipla per abilità e conoscenze
+- Risolti alcuni bug
+
+VER. 1.1.1
+==========
+
+- Aggiunto menu dinamico
+- Miglioramento gestione navigazione tra le funzioni
+- Aggiunta funzionalità di backup selettivo
+- Risolti alcuni bug
+
+VER. 1.1 (Non è possibile aggiornare da versioni precedenti)
+========
+
+- Aggiunta gestione della programmazione
+- Aggiunta gestione della valutazione delle competenze
+- Aggiunta gestione degli avvisi
+- Aggiunta possibilità di importazione alunni da file csv
+- Possibilità di inserimento degli alunni senza indicazione della classe e successiva attribuzione
+- Migliorata gestione dei ritardi, assenze, uscite
+- Migliorata gestione dei riepiloghi con esportazione dati in csv
+- Risolti alcuni bug
+
+
+VER. 1.0.1
+==========
+
+- Aggiunta gestione delle password nella parte amministrativa
+- Risolti alcuni bug

@@ -1,0 +1,343 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>FAQ</title>
+<link type="text/css" rel="stylesheet" href="fpdf.css">
+<style type="text/css">
+ul {list-style-type:none; margin:0; padding:0}
+ul#answers li {margin-top:1.8em}
+.question {font-weight:bold; color:#900000}
+</style>
+</head>
+<body>
+<h1>FAQ</h1>
+<ul>
+<li><b>1.</b> <a href='#q1'>Esattamente qual'è la licenza di FPDF? Ci sono limitazioni all'utilizzo?</a></li>
+<li><b>2.</b> <a href='#q2'>Quando tento di creare un PDF, molti strani caratteri vengono visualizzati sullo schermo. Perché?</a></li>
+<li><b>3.</b> <a href='#q3'>Quando provo a generare un PDF IE visualizza una pagina vuota. Che succede?</a></li>
+<li><b>4.</b> <a href='#q4'>Non riesco a far funzionare le interruzioni di linea. Inserisco i \n nella stringa stampata da MultiCell ma non funziona.</a></li>
+<li><b>5.</b> <a href='#q5'>Provo a visualizzare una variabile nel metodo Header, ma non viene stampato nulla.</a></li>
+<li><b>6.</b> <a href='#q6'>Ho definito i metodi Header e Footer nella mia classe PDF ma non appare nulla.</a></li>
+<li><b>7.</b> <a href='#q7'>I caratteri accentati vengono sostituiti da strani caratteri come Ã©.</a></li>
+<li><b>8.</b> <a href='#q8'>Tento di inserire il simbolo dell'Euro ma non funziona.</a></li>
+<li><b>9.</b> <a href='#q9'>Quando tento di generare un PDF, ricevo il seguente messaggio di errore: "Some data has already been output, can't send PDF file".</a></li>
+<li><b>10.</b> <a href='#q10'>Ho disegnato un frame di dimensioni molto precise, ma quando viene stampato noto alcune differenze.</a></li>
+<li><b>11.</b> <a href='#q11'>Vorrei utilizzare l'intera superficie della pagina, ma quando stampo restano sempre alcuni margini. Come posso eliminarli?</a></li>
+<li><b>12.</b> <a href='#q12'>Come posso impostare uno sfondo nel mio PDF?</a></li>
+<li><b>13.</b> <a href='#q13'>Come posso impostare una specifica intestazione o un piede nella prima pagina?</a></li>
+<li><b>14.</b> <a href='#q14'>Vorrei poter utilizzare estensioni rese disponibili tramite diversi script. Come posso combinarle?</a></li>
+<li><b>15.</b> <a href='#q15'>Come posso inviare il PDF tramite email?</a></li>
+<li><b>16.</b> <a href='#q16'>Qual'è il limite delle dimensioni dei file che posso generare con FPDF?</a></li>
+<li><b>17.</b> <a href='#q17'>Posso modificare un PDF con FPDF?</a></li>
+<li><b>18.</b> <a href='#q18'>Vorrei creare un motore di ricerca in PHP e indicizzare i file PDF. Posso farlo utilizzando FPDF?</a></li>
+<li><b>19.</b> <a href='#q19'>Posso convertire una pagina HTML in PDF con FPDF?</a></li>
+<li><b>20.</b> <a href='#q20'>Posso concatenare files PDF con FPDF?</a></li>
+</ul>
+
+<ul id='answers'>
+<li id='q1'>
+<p><b>1.</b> <span class='question'>Esattamente qual'è la licenza di FPDF? Ci sono limitazioni all'utilizzo?</span></p>
+FPDF è rilasciata con licenza permissiva: non vi sono restrizioni di utilizzo. Puoi incorporarla
+liberamente nelle tue applicazioni (commerciali o meno), con o senza modifiche.
+</li>
+
+<li id='q2'>
+<p><b>2.</b> <span class='question'>Quando tento di creare un PDF, molti strani caratteri vengono visualizzati sullo schermo. Perché?</span></p>
+Questi "strani" caratteri sono appunto il contenuto del tuo PDF. Questo comportamento è un difetto di IE6.
+Quando esso riceve una pagina HTML, e successivamente un file PDF dallo stesso indirizzo, visualizza
+quest'ultimo direttamente, senza lanciare Acrobat. Questo accade frequentemente durante lo sviluppo:
+all'ultimo errore dello script viene inviata una pagina HTML e, dopo la correzione, arriva il PDF.
+<br>
+Per risolvere il problema, semplicemente chiudi e riavvia IE. Oppure vai ad un altro indirizzo e poi torna
+indietro.
+<br>
+Per evitare questo tipo di inconvenienti durante lo sviluppo, puoi generare il PDF direttamente come file,
+aprendolo poi da explorer.
+</li>
+
+<li id='q3'>
+<p><b>3.</b> <span class='question'>Quando provo a generare un PDF IE visualizza una pagina vuota. Che succede?</span></p>
+Anzitutto verifica di non aver inviato nulla al browser dopo il PDF (nemmeno uno spazio o un ritorno a capo).
+Puoi inserire la funzione exit() subito dopo la chiamata alla funzione Output() per essere sicuro.
+Se ancora non funziona, significa che sei una vittima della "sindrome della pagina vuota". IE utilizzata
+assieme al plug-in di Acrobat soffre di numerosi bugs. Per evitare questi problemi esistono due tecniche:
+<br>
+<br>
+- Disabilitare il plug-in ed usare Acrobat come applicazione di supporto. Per fare questo, lancia Acrobat;
+nel menu Edit, Preferences, Options, deseleziona l'opzione "Display PDF in Browser". La prossima volta che
+caricherai un PDF da IE, ti verrà mostrata la finestra di dialogo con le opzioni "Apri il file dal percorso
+corrente" e "Salva il file su disco". Deseleziona l'opzione "Avvisa sempre prima di aprire questo tipo di
+file" e seleziona Apri. D'ora in poi, i file PDF verranno automaticametne aperti in una finestra di Acrobat.
+<br>
+Lo svantaggio di questo sistema è la necessità di alterare la configurazione del client, cosa fattibile
+in una rete privata, ma non su Internet.
+<br>
+<br>
+- Utilizzare una tecnica di reindirizzamento. Consiste nel generare il PDF in un file temporaneo sul
+server e reindirizzare il client a esso. Per esempio, alla fine dello script, puoi inserire quanto segue:
+<div class="doc-source">
+<pre><code>//Determina il nome del file temporaneo nella directory corrente
+$file = basename(tempnam('.', 'tmp'));
+rename($file, $file.'.pdf');
+$file .= '.pdf';
+//Salva il PDF come file
+$pdf-&gt;Output($file, 'F');
+//Reindirizzamento
+header('Location: '.$file);</code></pre>
+</div>
+Questo metodo converte il PDF dinamico in uno statico ed evita ogni problema. E' tuttavia necessario
+eliminare i file temporanei. Per esempio in questo modo:
+<div class="doc-source">
+<pre><code>function CleanFiles($dir)
+{
+    //Cancella i files temporanei
+    $t = time();
+    $h = opendir($dir);
+    while($file = readdir($h))
+    {
+        if(substr($file,0,3)=='tmp' &amp;&amp; substr($file,-4)=='.pdf')
+        {
+            $path = $dir.'/'.$file;
+            if($t-filemtime($path)&gt;3600)
+                @unlink($path);
+        }
+    }
+    closedir($h);
+}</code></pre>
+</div>
+Questa funzione cancella tutti i files il cui nome sia nel formato tmp*.pdf più vecchi di un'ora dalla
+directory specificata. Puoi chiamarla dove vuoi, ad esempio nello script che genera il PDF.
+</li>
+
+<li id='q4'>
+<p><b>4.</b> <span class='question'>Non riesco a far funzionare le interruzioni di linea. Inserisco i \n nella stringa stampata da MultiCell ma non funziona.</span></p>
+Devi chiudere la stringa tra virgolette, non tra apici singoli.
+</li>
+
+<li id='q5'>
+<p><b>5.</b> <span class='question'>Provo a visualizzare una variabile nel metodo Header, ma non viene stampato nulla.</span></p>
+Devi utilizzare la parola chiave <code>global</code> per accedere alle variabili globali, per esempio:
+<div class="doc-source">
+<pre><code>function Header()
+{
+    global $title;
+
+    $this-&gt;SetFont('Arial', 'B', 15);
+    $this-&gt;Cell(0, 10, $title, 1, 1, 'C');
+}</code></pre>
+</div>
+In alternativa, puoi utilizzare una proprietà dell'oggetto:
+<div class="doc-source">
+<pre><code>function Header()
+{
+    $this-&gt;SetFont('Arial', 'B', 15);
+    $this-&gt;Cell(0, 10, $this-&gt;title, 1, 1, 'C');
+}
+
+$pdf-&gt;title = 'My title';</code></pre>
+</div>
+</li>
+
+<li id='q6'>
+<p><b>6.</b> <span class='question'>Ho definito i metodi Header e Footer nella mia classe PDF ma non appare nulla.</span></p>
+Devi creare un oggetto dalla classe PDF, non FPDF:
+<div class="doc-source">
+<pre><code>$pdf = new PDF();</code></pre>
+</div>
+</li>
+
+<li id='q7'>
+<p><b>7.</b> <span class='question'>I caratteri accentati vengono sostituiti da strani caratteri come Ã©.</span></p>
+Non utilizzare la codifica UTF-8. I font standard FPDF utilizzano ISO-8859-1 o windows-1252.
+Vi è la possibilità di effettuare una conversione verso ISO-8859-1 tramite utf8_decode():
+<div class="doc-source">
+<pre><code>$str = utf8_decode($str);</code></pre>
+</div>
+Ma alcuni caratteri, come il simbolo di Euro, non possono essere convertiti correttamente. Se l'estensione
+iconv è disponibile, la via migliore è la seguente:
+<div class="doc-source">
+<pre><code>$str = iconv('UTF-8', 'windows-1252', $str);</code></pre>
+</div>
+</li>
+
+<li id='q8'>
+<p><b>8.</b> <span class='question'>Tento di inserire il simbolo dell'Euro ma non funziona.</span></p>
+I font standard hanno il simbolo dell'euro alla posizione 128. Puoi definire per convenienza una costante
+come questa:
+<div class="doc-source">
+<pre><code>define('EURO', chr(128));</code></pre>
+</div>
+</li>
+
+<li id='q9'>
+<p><b>9.</b> <span class='question'>Quando tento di generare un PDF, ricevo il seguente messaggio di errore: "Some data has already been output, can't send PDF file".</span></p>
+Non devi inviare al browser nient'altro che il solo PDF: non HTML, nessuno spazio o ritorno di carrello. Un
+caso comune consiste nell'avere uno spazio bianco indesiderato alla fine dello script di un file incluso.<br>
+Se non riesci a determinare da dove possa derivare l'errore, il seguente altro messaggio di errore
+eventualmente apparso appena prima potrà aiutarti:<br>
+<br>
+<b>Warning:</b> Cannot modify header information - headers already sent by (output started at script.php:X).<br>
+<br>
+Ciò significa che lo script.php genera qualche output alla riga X. Vai a tale linea di codice e correggila.
+Nel caso in cui tale messaggio non appaia, prima controlla di non aver disabilitato i messaggi d'errore e
+poi aggiungi all'inizio del tuo script le seguenti linee:
+<div class="doc-source">
+<pre><code>ob_end_clean();</code></pre>
+</div>
+Se continui a non vederlo, disabilita zlib.output_compression nel tuo file php.ini e così dovrebbe apparire.
+</li>
+
+<li id='q10'>
+<p><b>10.</b> <span class='question'>Ho disegnato un frame di dimensioni molto precise, ma quando viene stampato noto alcune differenze.</span></p>
+Per rispettare le dimensioni, scegli "Nessuno" nel settaggio della scala di stampa al posto di
+"Restringi all'area di stampa" nel box di dialogo della stampa.
+</li>
+
+<li id='q11'>
+<p><b>11.</b> <span class='question'>Vorrei utilizzare l'intera superficie della pagina, ma quando stampo restano sempre alcuni margini. Come posso eliminarli?</span></p>
+Tutte le stampanti hanno dei margini fisici (diversi a seconda del modello), ed è quindi impossibile
+rimuoverli e stampare su tutta la superficie della carta.
+</li>
+
+<li id='q12'>
+<p><b>12.</b> <span class='question'>Come posso impostare uno sfondo nel mio PDF?</span></p>
+Per un'immagine, effettua una chiamata a Image() all'interno del metodo Header(), prima di ogni altro
+output. Per impostare un colore di sfondo usa Rect().
+</li>
+
+<li id='q13'>
+<p><b>13.</b> <span class='question'>Come posso impostare una specifica intestazione o un piede nella prima pagina?</span></p>
+Semplicemente, testa il numero di pagina:
+<div class="doc-source">
+<pre><code>function Header()
+{
+    if($this-&gt;PageNo()==1)
+    {
+        //First page
+        ...
+    }
+    else
+    {
+        //Other pages
+        ...
+    }
+}</code></pre>
+</div>
+</li>
+
+<li id='q14'>
+<p><b>14.</b> <span class='question'>Vorrei poter utilizzare estensioni rese disponibili tramite diversi script. Come posso combinarle?</span></p>
+Utilizza un'ereditarietà a catena. Se hai due classi, diciamo A in a.php:
+<div class="doc-source">
+<pre><code>require('fpdf.php');
+
+class A extends FPDF
+{
+...
+}</code></pre>
+</div>
+e B in b.php:
+<div class="doc-source">
+<pre><code>require('fpdf.php');
+
+class B extends FPDF
+{
+...
+}</code></pre>
+</div>
+poi, effettua B extend A:
+<div class="doc-source">
+<pre><code>require('a.php');
+
+class B extends A
+{
+...
+}</code></pre>
+</div>
+e la tua classe extend B:
+<div class="doc-source">
+<pre><code>require('b.php');
+
+class PDF extends B
+{
+...
+}
+
+$pdf = new PDF();</code></pre>
+</div>
+</li>
+
+<li id='q15'>
+<p><b>15.</b> <span class='question'>Come posso inviare il PDF tramite email?</span></p>
+Come ogni altro file, ma una via semplice è utilizzare <a href="http://phpmailer.codeworxtech.com">PHPMailer</a>
+e il suo sistema di allegati in-memory:
+<div class="doc-source">
+<pre><code>$mail = new PHPMailer();
+...
+$doc = $pdf-&gt;Output('', 'S');
+$mail-&gt;AddStringAttachment($doc, 'doc.pdf', 'base64', 'application/pdf');
+$mail-&gt;Send();</code></pre>
+</div>
+</li>
+
+<li id='q16'>
+<p><b>16.</b> <span class='question'>Qual'è il limite delle dimensioni dei file che posso generare con FPDF?</span></p>
+Non c'è un limite particolare. Ci sono comunque alcune restrizioni:
+<br>
+<br>
+- La massima dimensione di memoria allocata per gli script PHP è impostata di default a 8 MB. Per
+documenti molto grandi, specialmetne con immagini, questo limite potrebbe essere raggiunto (il file
+viene generato nella memoria). Questo parametro è configurabile nel file php.ini.
+<br>
+<br>
+- Il tempo massimo di esecuzione è impostato di default a 30 secondi. Questo limite può naturalmente
+essere raggiunto con facilità. E' configurato nel file php.ini e può essere alterato dinamicamente con
+la funzione set_time_limit().
+<br>
+<br>
+- I browser hanno generalmente un timeout di 5 minuti. Se il PDF viene inviato direttamente al browser
+e il limite viene raggiunto, il file verrà perduto. E' quindi consigliabile generare i documenti di
+grandi dimensioni come files, e inviare i dati al browser poco a poco (per esempio, pagina 1, pagina 2...
+con la funzione flush() per forzare l'output). Quando il documento è completo, è possibile reindirizzare
+ad esso con JavaScript o creando un link.
+<br>
+Nota bene: anche se il browser va in timeout, lo script continuerà a girare sul server.
+</li>
+
+<li id='q17'>
+<p><b>17.</b> <span class='question'>Posso modificare un PDF con FPDF?</span></p>
+Grazie all'estensione FPDI, è possibile importare pagine da un documento PDF preesistente:<br>
+<br>
+<a href="http://www.setasign.de/products/pdf-php-solutions/fpdi/" target="_blank">http://www.setasign.de/products/pdf-php-solutions/fpdi/</a><br>
+<br>
+Poi, puoi aggiungere ad esse altro contenuto.
+</li>
+
+<li id='q18'>
+<p><b>18.</b> <span class='question'>Vorrei creare un motore di ricerca in PHP e indicizzare i file PDF. Posso farlo utilizzando FPDF?</span></p>
+No, ma esiste una utility scritta in C e rilasciata sotto licenza GPL, pdftotext, che consente di estrarre
+il contenuto testuale da un PDF. E' fornita col il pacchetto Xpdf:<br>
+<br>
+<a href="http://www.foolabs.com/xpdf/" target="_blank">http://www.foolabs.com/xpdf/</a>
+</li>
+
+<li id='q19'>
+<p><b>19.</b> <span class='question'>Posso convertire una pagina HTML in PDF con FPDF?</span></p>
+Non pagine del "mondo reale". No, ma esiste una utility scritta in C e rilasciata sotto licenza GPL,
+htmldoc, che permette di farlo ottenendo buoni risultati:<br>
+<br>
+<a href="http://www.htmldoc.org" target="_blank">http://www.htmldoc.org</a>
+</li>
+
+<li id='q20'>
+<p><b>20.</b> <span class='question'>Posso concatenare files PDF con FPDF?</span></p>
+Non direttamente, ma è possibile utilizzare <a href="http://www.setasign.de/products/pdf-php-solutions/fpdi/demos/concatenate-fake/" target="_blank">FPDI</a>
+per raggiungere tale obiettivo. Esistono anche alcuni tools liberi a linea di comando:<br>
+<br>
+<a href="http://thierry.schmit.free.fr/spip/spip.php?article15&amp;lang=en" target="_blank">mbtPdfAsm</a><br>
+<a href="http://www.accesspdf.com/pdftk/" target="_blank">pdftk</a>
+</li>
+</ul>
+</body>
+</html>

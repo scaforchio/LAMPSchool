@@ -1,0 +1,169 @@
+ NOTE DI INSTALLAZIONE Ver. 2017.1
+ =================================
+
+ Per l'installazione da zero, singola o multi-ambiente, del software:
+
+ Prima di tutto è necessario trasferire via ftp
+ i file del programma su una cartella del nostro web server.
+ Considerando che ogni anno la procedura potrebbe essere ripetuta
+ e che quindi, dopo qualche tempo, sul nostro web server potrebbero
+ venirsi a trovare parecchie, distinte istanze di Lampschool,
+ consigliamo di adottare un sistema che le renda facilmente riconoscibili.
+ Un'idea potrebbe essere quella di inserire l'anno scolastico
+ all'interno del nome, ad esempio: /lampschool_2014_2015,
+ oppure /registro_2015_2016 e poi /registro_2016_2017 e così via.
+
+ Prima di proseguire è necessario accertarsi che le cartelle
+ abc, install, lampschooldata e buffer siano scrivibili.
+ Su Aruba e sulla maggior parte dei sistemi di hosting lo sono di default e non serve
+ assolutamente intervenire per modificarne gli attributi,
+ anzi, su Aruba ogni modifica apportata potrebbe impedire la corretta installazione.
+
+ Via browser dobbiamo ora raggiungere la cartella /install/ della nostra
+ nuova installazione. Questo significa che, aperto il browser web
+ (consigliamo Firefox o Chrome, da escludere Explorer, poiché genera
+ degli errori con i menù dinamici all' interno del registro),
+ dovremo digitare nella barra degli indirizzi il percorso esatto,
+ che avrà una forma simile a questa:
+ http://www.miodominio.it/registro_2016_2017/install/
+ oppure questo, più completo:
+ http://www.miodominio.it/registro_2016_2017/install/index.php.
+ A questo punto partirà la procedura di installazione.
+
+ Il primo passaggio prevede, da parte del programma d'installazione,
+ la verifica di alcuni parametri. Se tutto risulterà regolare, si potrà procedere
+ con il successivo passaggio, che prevede l'inserimento dei dati di collegamento al d-base.
+ Essi sono:
+ - il nome host, cioè l'indirizzo IP del server dove si trova il nostro d-base;
+ - il nome del d-base che intendiamo utilizzare;
+ - il nome utente (user) per poter accedere al d-base;
+ - la password;
+ - il prefisso che intendiamo assegnare, o meno, alle tabelle;
+ - il suffisso della nostra installazione;
+ - il nome della scuola;
+ - la password dell'amministratore.
+
+ I primi quattro dati ci sono sicuramente stati comunicati dal nostro fornitore di hosting.
+
+ Il suffisso dell'installazione serve nel caso si vogliano installare sullo stesso server
+ più ambienti (scuole diverse, primaria/secondaria, ecc.).
+ Se si è certi di non dover installare ulteriori ambienti si può lasciare vuoto il campo.
+ Se invece si prevedono delle multi-installazioni, è necessaria la sua compilazione,
+ che deve essere fatta in modo da poter riconoscere facilmente le singole installazioni/ambienti,
+ ad esempio: scuola01, scuola02, scuola03 e via dicendo.
+ Il prefisso delle tabelle, pur non essendo strettamente necessario
+ per procedere all'installazione, è fortemente raccomandato ed è praticamente idispensabile
+ in caso di multi installazione,
+ per poter utilizzare al meglio lo spazio e i d-base che ci fornisce
+ il nostro provider.
+ Aruba, ad esempio, dà in uso solo 5 d-base per ogni contratto.
+ Nulla vieta di installare più registri sullo stesso d-base,
+ basta semplicemente distinguere le varie tabelle attraverso, appunto, il prefisso
+ che siamo chiamati ad inserire a questo punto dell'installazione.
+ Consigliamo di adottare un prefisso simile al seguente: as1617_ che l'anno successivo
+ diventerà as1718_ e via dicendo.
+ L'underscore serve per separare e distinguere facilmente il prefisso dal nome della tabella.
+ A questo punto basta premere il pulsante e il programma d'installazione procederà
+ alla creazione nel d-base delle tabelle necessarie e alla creazione
+ del file php-ini nella radice della nostra nuova installazione.
+ Nel caso si sia inserito un suffisso, il file di inizializzazione (php-in.php) avrà il formato:
+ php-inisuffisso.php.
+
+ Durante il processo d'installazione, verranno inoltre create nella cartella abc e
+ nella cartella lampschooldata delle sottocartelle che conterranno rispettivamente
+ le immagini (da trasferire via ftp) e i dati (log e documenti caricati) della installazione specifica.
+
+ Nel caso volessimo installare più ambienti, finita la prima installazione
+ per procedere alle successive non dovremmo fare altro che raggiungere nuovamente
+ via browser la cartella install e ripetere le operazioni già effettuate per la prima
+ installazione anche per i successivi ambienti/scuole, inserendo i dati opportuni.
+ L'operazione va ripetuta tante volte quanti sono gli ambienti che vogliamo installare.
+ Ad esempio: se un Istituto Comprensivo avesse 3 plessi di scuola primaria
+ e uno di scuola secondaria di primo grado, potremmo voler installare 4 registri (uno per ogni plesso).
+ In questo caso sarebbe comodo gestire una multi-installazione, ripetendo le procedure
+ più sopra indicate per 4 volte ed inserendo per ogni plesso un suffisso diverso.
+
+ L'ultima operazione da fare (solo dopo aver effettuato l'installazione di tutti gli ambienti)
+ è una procedura di sicurezza e consiste nel cancellare la cartella /install dal server web.
+
+ Una volta concellata la cartella /install, non sarà ovviamente più possibile procedere ad ulteriori installazioni,
+ quindi se per qualche motivo in futuro avessimo la necessità di installare ulteriori ambienti,
+ non potremmo farlo senza aver prima ricaricato sul web-server la cartella /install della versione installata in precedenza.
+
+ Nel caso, per qualche motivo, non siano stati creati i file php-ini si potrà procedere
+ manualmente alla loro creazione:
+ - effettuare una copia del file php-ini.php dalla cartella install nella cartella principale;
+ - rinominarla eventualmente con il suffisso dell'ambiente;
+ - aprirla in locale con un semplice editor testuale
+   (il blocco note o Notepad++ andranno benissimo);
+ - impostare i parametri di accesso al d-base come indicato
+   più sopra per la procedura automatica;
+ - salvare il file e trasferirlo nella cartella principale
+   del nostro server web
+
+ Per personalizzare le stampe dei dati che può produrre Lampschool
+ (pagelle, tabelloni, comunicazioni...) è necessario sostituire,
+ nella cartella /abc (o nella sottocartella relativa all'ambiente installato)
+ i file immagine presenti, con altri aventi
+ lo stesso nome e le stesse dimensioni, ma con contenuti relativi
+ ai dati della propria scuola.
+
+ Per lanciare il programma è necessario accedere via browser
+ (sempre Chrome o Firefox) alla cartella principale di LAMPSchool.
+ L'indirizzo da digitare nella barra degli indirizzi potrebbe essere
+ simile a questo http://www.miodominio.it/registro_2015_2016/
+ a seconda di come abbiamo denominato la cartella contenente
+ l'installazione del nostro registro elettronico.
+ Facendo click sul logo di LAMPschool si arriva alla pagina di login.
+
+ Le credenziali di accesso iniziali dell'amministratore sono:
+ USR:adminlamp
+ PWD:admin
+
+ Si raccomanda vivamente di cambiare la password al primo accesso.
+
+
+
+ NOTE PER L'AGGIORNAMENTO
+ ========================
+
+ ATTENZIONE!
+ Per evitare possibili perdite di dati dovute ad errori in fase di aggiornamento,
+ è sempre buona norma effettuare un backup del d-base e della cartella
+ del registro elettronico sul web server prima di procedere all'aggiornamento.
+
+ Per l'aggiornamento si dovrà trasferire sul server l'intero contenuto del file zip di
+ installazione AD ECCEZIONE DELLA CARTELLA /abc E DELLA CARTELLA /lampschooldata.
+
+
+ Per l'aggiornamento si dovrà accedere sempre alla cartella /install:
+
+ http://www.miodominio.it/registro_2016_2017/install/
+
+ L'aggiornamento verrà effettuato in automatico su tutti gli ambienti installati.
+
+ ********************************************************
+ * ATTENZIONE: AVVISO PER AGGIORNAMENTO ALLA VER. 2017.1*
+ ********************************************************
+
+LE SCUOLE CHE HANNO GIA' IMPLEMENTATO IL MODULO PER LA GESTIONE DEL NUMERO MASSIMO DI COLLOQUI PER DOCENTE
+E PER L'INSERIMENTO DELLA SOSPENSIONE DEI COLLOQUI
+DEVONO SOSTITUIRE NEL FILE /lampschool.json ALLA RIGA
+
+"aggiornamento": "sql/update/"
+
+LA RIGA
+
+"aggiornamento": "sql/updatetgm/"
+
+
+
+
+ NOTE DI CONTATTO
+ ================
+
+ Per qualsiasi altra informazione e segnalazione di problemi usare il forum su:
+
+ http://www.lampschool.it
+
+

@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>AddPage</title>
+<link type="text/css" rel="stylesheet" href="../fpdf.css">
+</head>
+<body>
+<h1>AddPage</h1>
+<code>AddPage([<b>string</b> orientation [, <b>mixed</b> size [, <b>int</b> rotation]]])</code>
+<h2>Descrizione</h2>
+Aggiunge una nuova pagina al documento. Se è già presente una pagina viene chiamato prima il
+metodo Footer() per inserire il piè d ipagina. Quindi viene aggiunta la pagina, la posizione
+corrente viene impostata nell'angolo superiore sinistro, tenendo conto del margine superiore e
+sinistro, quindi viene chiamato Header() per visualizzare l'intestazione.
+<br>
+Il font impostato prima della chiamata viene ripristinato automaticamente. Non c'è bisogno di
+chiamare di nuovo SetFont() se si vuole continuare con lo stesso font. Lo stesso dicasi per
+colori e larghezza di riga.
+<br>
+L'origine del sistema di coordinate è nell'angolo superiore sinistro e l'incremento delle
+ordinate fa muovere verso il basso.
+<h2>Parametri</h2>
+<dl class="param">
+<dt><code>orientation</code></dt>
+<dd>
+Orientamento della pagina. Possibili valori sono (case insensitive):
+<ul>
+<li><code>P</code> o <code>Portrait</code></li>
+<li><code>L</code> o <code>Landscape</code></li>
+</ul>
+Il valore di default è quello passato dal costruttore.
+</dd>
+<dt><code>size</code></dt>
+<dd>
+Il formato utilizzato per la pagina. Può essere uno dei seguenti valori (case insensitive):
+<ul>
+<li><code>A3</code></li>
+<li><code>A4</code></li>
+<li><code>A5</code></li>
+<li><code>Letter</code></li>
+<li><code>Legal</code></li>
+</ul>
+o un formato personalizzato nella forma di array bidimensionale contenente la larghezza e
+l'altezza (espressa nell'unità di misura data da <code>unit</code>).
+<br>
+<br>
+Il valore di default è <code>A4</code>.
+</dd>
+<dt><code>rotation</code></dt>
+<dd>
+Angolo con cui ruotare la pagina. Deve essere un multiplo di 90; valori positivi
+indicano una rotazione in senso orario. Il valore di default è <code>0</code>.
+</dd>
+</dl>
+<h2>Vedi anche</h2>
+<a href="__construct.htm">__construct</a>,
+<a href="header.htm">Header</a>,
+<a href="footer.htm">Footer</a>,
+<a href="setmargins.htm">SetMargins</a>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Indice</a></div>
+</body>
+</html>

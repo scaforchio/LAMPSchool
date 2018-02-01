@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>__construct</title>
+<link type="text/css" rel="stylesheet" href="../fpdf.css">
+</head>
+<body>
+<h1>__construct</h1>
+<code>__construct([<b>string</b> orientation [, <b>string</b> unit [, <b>mixed</b> size]]])</code>
+<h2>Descrizione</h2>
+Si tratta del costruttore della classe. Permette di impostare il formato pagina,
+l'orientamento e l'unità di misura utilizzata in tutti i metodi (eccetto per la
+dimensione dei font).
+<h2>Parametri</h2>
+<dl class="param">
+<dt><code>orientation</code></dt>
+<dd>
+Orientamento pagina di default. Possibili valori sono (case insensitive):
+<ul>
+<li><code>P</code> o <code>Portrait</code></li>
+<li><code>L</code> o <code>Landscape</code></li>
+</ul>
+Il valore di default è <code>P</code>.
+</dd>
+<dt><code>unit</code></dt>
+<dd>
+Unità di misura. Possibili valori sono:
+<ul>
+<li><code>pt</code>: punti</li>
+<li><code>mm</code>: millimetri</li>
+<li><code>cm</code>: centimetri</li>
+<li><code>in</code>: pollici</li>
+</ul>
+Un punto equivale a 1/72 di pollice, cioè circa 0.35 mm (un pollice corrisponde a
+2.54 cm). Si tratta di una misura molto comune in tipografia; la dimensione dei font
+è espressa in questa unità.
+<br>
+<br>
+Il valore di default è <code>mm</code>.
+</dd>
+<dt><code>size</code></dt>
+<dd>
+Il formato utilizzato per la pagina. Può essere uno dei seguenti valori (case insensitive):
+<ul>
+<li><code>A3</code></li>
+<li><code>A4</code></li>
+<li><code>A5</code></li>
+<li><code>Letter</code></li>
+<li><code>Legal</code></li>
+</ul>
+o un formato personalizzato nella forma di array bidimensionale contenente la larghezza e
+l'altezza (espressa nell'unità di misura data da <code>unit</code>).
+<br>
+<br>
+Il valore di default è <code>A4</code>.
+</dd>
+</dl>
+<h2>Esempio</h2>
+Esempio di pagina con formato personalizzato pari a 100x150 mm:
+<div class="doc-source">
+<pre><code>$pdf = new FPDF('P','mm',array(100,150));</code></pre>
+</div>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Indice</a></div>
+</body>
+</html>

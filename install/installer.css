@@ -1,0 +1,68 @@
+span {
+    color: red;
+    font-weight: bold;
+}
+.importante {
+    color: red;
+    font-weight: bold;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.importanteverde {
+    color: green;
+    font-weight: bold;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.contenitore {
+    width: 330px;
+    height: 3em;
+    margin: 10px auto 10px auto;
+    position: relative;
+}
+.pulsante {
+    background-color: #5EA7FF;
+    color: black;
+    margin: 10px 0 0 10px;
+    float: left;
+    width: 150px;
+    height: 2em;
+    line-height: 2em;
+    text-align: center;
+    -webkit-box-shadow: 3px 3px 3px grey;
+    -moz-box-shadow: 3px 3px 3px grey;
+    box-shadow: 3px 3px 3px grey;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    font-size: 1.5em;
+    font-weight: bold;
+    border-top: 2px solid #FFBD45;
+    border-left: 2px solid #FFBD45;
+    border-right: 2px solid #B2780D;
+    border-bottom: 2px solid #B2780D;
+    cursor: pointer;
+}
+p {
+    font-weight: bold;
+    border-bottom: 2px solid #FFBD45;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba( 255, 255, 255, .8 ) 
+    url('../immagini/loader.gif') 
+    50% 50% 
+    no-repeat;
+}
+body.loading {
+    overflow: hidden;   
+}
+body.loading .modal {
+    display: block;
+}

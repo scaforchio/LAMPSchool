@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>SetFont</title>
+<link type="text/css" rel="stylesheet" href="../fpdf.css">
+</head>
+<body>
+<h1>SetFont</h1>
+<code>SetFont(<b>string</b> family [, <b>string</b> style [, <b>float</b> size]])</code>
+<h2>Descrizione</h2>
+Imposta il font utilizzato per stampare stringhe di caratteri. E' obbligatorio chiamare questo
+metodo almeno una volta prima di stampare del testo.
+<br>
+Il font può essere sia uno standard oppure uno aggiunto tramite il metodo AddFont(). I fonts
+Standard utilizzano la codifica Windows cp1252 (Western Europe).
+<br>
+Il metodo può essere chiamato prima della creazione della prima pagina per mantenere il font di
+pagina in pagina.
+<br>
+Se si vuole solo cambiare la dimensione del font, è più semplice chiamare SetFontSize().
+<br>
+<br>
+<strong>Nota:</strong> i files di definizione devono essere accessibili. Vengono ricercati rispettivamente:
+<ul>
+<li>Nella directory definita dalla costante <code>FPDF_FONTPATH</code> (se la costante esiste)</li>
+<li>Nella directory delle fonts che si trova nella stessa directory del file fpdf.php (se la directory esiste)</li>
+<li>In tutte le directories accessibili tramite la direttiva <code>include()</code></li>
+</ul>
+Esempio per il caso in cui venga definita la costante <code>FPDF_FONTPATH</code>:
+<div class="doc-source">
+<pre><code>define('FPDF_FONTPATH','/home/www/font');
+require('fpdf.php');</code></pre>
+</div>
+Se non viene trovato il file corrispondente a quello richiesto, verrà generato l'errore
+"Could not include font definition file".
+<h2>Parametri</h2>
+<dl class="param">
+<dt><code>family</code></dt>
+<dd>
+Famiglia del font. Può essere sia un nome definito da AddFont() o una delle famiglie standard (case
+insensitive):
+<ul>
+<li><code>Courier</code> (fixed-width)</li>
+<li><code>Helvetica</code> o <code>Arial</code> (sinonimi; sans serif)</li>
+<li><code>Times</code> (serif)</li>
+<li><code>Symbol</code> (symbolic)</li>
+<li><code>ZapfDingbats</code> (symbolic)</li>
+</ul>
+E' anche possibile passare una stringa vuota. In questo caso, viene conservata la famiglia corrente.
+</dd>
+<dt><code>style</code></dt>
+<dd>
+Stile del font. Possibili valori sono (case insensitive):
+<ul>
+<li>stringa vuota: normale</li>
+<li><code>B</code>: grassetto</li>
+<li><code>I</code>: corsivo</li>
+<li><code>U</code>: sottolineato</li>
+</ul>
+o qualsiasi combinazione. Il valore di default è normale.
+Non è possibile applicare gli stili grassetto e corsivo a <code>Symbol</code> e <code>ZapfDingbats</code>.
+</dd>
+<dt><code>size</code></dt>
+<dd>
+Dimensione del font in punti.
+<br>
+Il valore di default è la dimensione corrente. Se non è stata specificata nessuna dimensione dall'inizio
+del documento, viene preso il valore 12.
+</dd>
+</dl>
+<h2>Esempio</h2>
+<div class="doc-source">
+<pre><code>// Times normale 12
+$pdf-&gt;SetFont('Times');
+// Arial grassetto 14
+$pdf-&gt;SetFont('Arial','B',14);
+// Rimuove il grassetto
+$pdf-&gt;SetFont('');
+// Times grassetto, corsivo e sottolineato 14
+$pdf-&gt;SetFont('Times','BIU');</code></pre>
+</div>
+<h2>Vedi anche</h2>
+<a href="addfont.htm">AddFont</a>,
+<a href="setfontsize.htm">SetFontSize</a>,
+<a href="cell.htm">Cell</a>,
+<a href="multicell.htm">MultiCell</a>,
+<a href="write.htm">Write</a>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Indice</a></div>
+</body>
+</html>

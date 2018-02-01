@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>MultiCell</title>
+<link type="text/css" rel="stylesheet" href="../fpdf.css">
+</head>
+<body>
+<h1>MultiCell</h1>
+<code>MultiCell(<b>float</b> w, <b>float</b> h, <b>string</b> txt [, <b>mixed</b> border [, <b>string</b> align [, <b>boolean</b> fill]]])</code>
+<h2>Descrizione</h2>
+Questo metodo permette di stampare del testo con interruzioni di linea. Possono essere automatiche
+(non appena il testo raggiunge il margine destro della cella) o esplicite (tramite il carattere \n).
+Vengono inserite tante celle quante necessarie, una sotto l'altra.
+<br>
+Il testo può essere allineato, centrato o giustificato. E' possibile inserire i bordi e lo sfondo al
+blocco di celle.
+<h2>Parametri</h2>
+<dl class="param">
+<dt><code>w</code></dt>
+<dd>
+Larghezza delle celle. Se <code>0</code>, si estendono dalla parte del margine destro della pagina.
+</dd>
+<dt><code>h</code></dt>
+<dd>
+Altezza delle celle.
+</dd>
+<dt><code>txt</code></dt>
+<dd>
+Stringa da stampare.
+</dd>
+<dt><code>border</code></dt>
+<dd>
+Indica se bisogna disegnare i bordi attorno al blocco di celle. Il valore può essere sia un numero:
+<ul>
+<li><code>0</code>: nessun bordo</li>
+<li><code>1</code>: cornice</li>
+</ul>
+o una stringa contenente alcuni o tutti i seguenti caratteri (in qualsiasi ordine):
+<ul>
+<li><code>L</code>: sinistro</li>
+<li><code>T</code>: superiore</li>
+<li><code>R</code>: destro</li>
+<li><code>B</code>: inferiore</li>
+</ul>
+Valore di default: <code>0</code>.
+</dd>
+<dt><code>align</code></dt>
+<dd>
+Imposta l'allineamento del testo. Possibili valori sono:
+<ul>
+<li><code>L</code>: allineamento a sinistra</li>
+<li><code>C</code>: centrato</li>
+<li><code>R</code>: allienamento a destra</li>
+<li><code>J</code>: giustificazione (valore di default)</li>
+</ul>
+</dd>
+<dt><code>fill</code></dt>
+<dd>
+Indica se lo sfondo della cella deve essere disegnato (<code>true</code>) o deve essere
+trasparente (<code>false</code>).
+Valore di default: <code>false</code>.
+</dd>
+</dl>
+<h2>Vedi anche</h2>
+<a href="setfont.htm">SetFont</a>,
+<a href="setdrawcolor.htm">SetDrawColor</a>,
+<a href="setfillcolor.htm">SetFillColor</a>,
+<a href="settextcolor.htm">SetTextColor</a>,
+<a href="setlinewidth.htm">SetLineWidth</a>,
+<a href="cell.htm">Cell</a>,
+<a href="write.htm">Write</a>,
+<a href="setautopagebreak.htm">SetAutoPageBreak</a>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Indice</a></div>
+</body>
+</html>

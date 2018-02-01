@@ -1,0 +1,4 @@
+Questa cartella contiene file gestiti dal codice di LAMPSchool.
+NON spostare, cambiare o rinominare nessuno dei file contenuti in questa cartella.
+Includere inoltre i file contenuti in questa cartella nelle regolari procedure di backup.
+In caso di trasferimento dei file tramite FTP utilizzare la modalità binaria e non la modalità ASCII.

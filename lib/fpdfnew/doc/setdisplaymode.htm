@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>SetDisplayMode</title>
+<link type="text/css" rel="stylesheet" href="../fpdf.css">
+</head>
+<body>
+<h1>SetDisplayMode</h1>
+<code>SetDisplayMode(<b>mixed</b> zoom [, <b>string</b> layout])</code>
+<h2>Descrizione</h2>
+Definisce la modalità in cui il documento verrà mostrato sul viewer. E' possibile impostare il
+livello dello zoom: le pagine possono essere mostrate interamente sullo schermo, a tutta pagina,
+utilizzare le dimensioni reali, rappresentate in scala con un fattore dello zoom specifico oppure
+utilizzare i valori di default del viewer (come configurato nel menu Preferences di Adobe Reader).
+E' possibile specificare anche il layout di pagina: una per volta, visualizzazione continua, due
+colonne o default del viewer.
+<h2>Parametri</h2>
+<dl class="param">
+<dt><code>zoom</code></dt>
+<dd>
+Lo zoom da usare. Può essere uno dei seguenti valori di stringa:
+<ul>
+<li><code>fullpage</code>: mostra a schermo l'intera pagina</li>
+<li><code>fullwidth</code>: a tutta pagina</li>
+<li><code>real</code>: utilizza le dimensioni reali (equivalente a zoom=100%)</li>
+<li><code>default</code>: utilizza la modalità di default del viewer</li>
+</ul>
+o un numero indicante il livello dello zoom da usare.
+</dd>
+<dt><code>layout</code></dt>
+<dd>
+Il layout di pagina. Possibili valori sono:
+<ul>
+<li><code>single</code>: mostra una pagina per volta</li>
+<li><code>continuous</code>: mostra le pagine in modo continuo</li>
+<li><code>two</code>: mostra due pagine su due colonne</li>
+<li><code>default</code>: utilizza la modalità di default del viewer</li>
+</ul>
+Il valore di default è <code>default</code>.
+</dd>
+</dl>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Indice</a></div>
+</body>
+</html>

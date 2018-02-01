@@ -1,0 +1,179 @@
+<?php session_start();
+
+/*
+Copyright (C) 2015 Pietro Tamburrano
+Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
+GNU Affero General Public License come pubblicata 
+dalla Free Software Foundation; sia la versione 3, 
+sia (a vostra scelta) ogni versione successiva.
+
+Questo programma é distribuito nella speranza che sia utile 
+ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
+POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
+Vedere la GNU Affero General Public License per ulteriori dettagli.
+
+Dovreste aver ricevuto una copia della GNU Affero General Public License
+in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+*/
+
+
+ 
+ @require_once("../php-ini".$_SESSION['suffisso'].".php");
+ @require_once("../lib/funzioni.php");
+	
+ // istruzioni per tornare alla pagina di login se non c'� una sessione valida
+ ////session_start();
+ $tipoutente=$_SESSION["tipoutente"]; //prende la variabile presente nella sessione
+ $iddocente=$_SESSION["idutente"];
+    if ($tipoutente=="")
+       {
+	   header("location: ../login/login.php?suffisso=".$_SESSION['suffisso']); 
+	   die;
+       } 
+$iddocprog=0;
+
+$titolo="Visualizzazione programmazione scolastica";
+$script="<script type='text/javascript'>
+         <!--
+               var stile = 'top=10, left=10, width=1024, height=400, status=no, menubar=no, toolbar=no, scrollbars=yes';
+               function Popup(apri) 
+               {
+                  window.open(apri, '', stile);
+               }
+         //-->
+         </script>"; 
+
+stampa_head($titolo,"",$script,"SDMAP");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo","","$nome_scuola","$comune_scuola");
+ 
+
+
+
+$tipocattedra = stringa_html('tipocattedra');
+$denominazione="";
+$anno="";
+
+print ("
+   <form method='post' action='visprogrsc.php' name='comp'>
+   
+   <p align='center'>
+   <table align='center'>
+   <tr>
+      <td width='50%'><p align='center'><b>Tipo cattedra</b></p></td>
+      <td width='50%'>
+      <SELECT ID='tipocattedra' NAME='tipocattedra' ONCHANGE='comp.submit()'> <option value=''>&nbsp "); 
+	  
+  
+          $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
+           
+          $query="SELECT distinct tbl_competscol.idmateria, denominazione, anno
+                      FROM tbl_competscol, tbl_materie
+                      WHERE tbl_competscol.idmateria = tbl_materie.idmateria
+                      ORDER BY anno, denominazione
+                      ";
+                      
+          $ris=mysqli_query($con,inspref($query));
+          while($nom=mysqli_fetch_array($ris))
+	      {
+            print "<option value='";
+            print ($nom["anno"]);
+            print ("-");
+            print ($nom["idmateria"]);
+            print "'";
+            if ($tipocattedra==($nom["anno"]."-".$nom["idmateria"]))
+            {
+				print " selected";
+				$denominazione=$nom["denominazione"];
+				$anno=$nom["anno"];
+			}
+               
+            print ">";
+            print ($nom["anno"]);
+            print "&nbsp;-&nbsp;"; 
+            print ($nom["denominazione"]);
+            
+          }
+        
+   print("
+      </SELECT>
+      
+      </td></tr></table></form>");
+   
+ 
+
+  if ($tipocattedra!="")
+  {
+	// TTTTT Continuare da qui  
+	  
+	  
+    $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
+     
+   
+        
+	print "<center>Programmazione scolastica per <b>$denominazione</b> delle classi: <b>$anno</b><br/>";
+	print "</center>";
+     
+    $idmateria=substr($tipocattedra,2);   
+    $query="select * from tbl_competscol where idmateria=$idmateria and anno=$anno order by numeroordine";
+    // print inspref($query);
+    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    
+    print "<font size=2>";
+    while($val=mysqli_fetch_array($ris))
+    {
+		
+		
+        $numord=$val["numeroordine"];
+        $sintcomp=$val["sintcomp"];
+        $competenza=$val["competenza"];
+        $idcompetenza=$val["idcompetenza"];
+        print "<br/><br/><b>$numord. $sintcomp</b><br>  $competenza";
+        
+        $query="select * from tbl_abilscol where idcompetenza=$idcompetenza and abil_cono='C' order by numeroordine";
+        $risabil=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+        print "<font size=1>";
+        while($valabil=mysqli_fetch_array($risabil))
+        { 
+               $sintabil=$valabil["sintabilcono"];
+               $numordabil=$valabil["numeroordine"];
+               $abilita=$valabil["abilcono"];
+               $obminimi=$valabil["obminimi"];
+               
+               //if ($numordabil==1) print "<br/><b><big><center>CONOSCENZE</center></big></b>"; 
+               if (!$obminimi)
+                  print "<br/><b>C $numord.$numordabil $sintabil</b><br> $abilita";
+               else
+                  print "<br/><i><b>C $numord.$numordabil $sintabil</b><br> $abilita</i>";
+        }
+        
+        $query="select * from tbl_abilscol where idcompetenza=$idcompetenza and abil_cono='A' order by numeroordine";
+        $risabil=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+        
+        while($valabil=mysqli_fetch_array($risabil))
+        { 
+               $sintabil=$valabil["sintabilcono"];
+               $numordabil=$valabil["numeroordine"];
+               $abilita=$valabil["abilcono"];
+               $obminimi=$valabil["obminimi"];
+               //if ($numordabil==1) print "<br/><b><big><center>ABILITA'</center></big></b>"; 
+               if (!$obminimi)
+                  print "<br/><b>A $numord.$numordabil $sintabil</b><br> $abilita";
+               else
+                  print "<br/><i><b>A $numord.$numordabil $sintabil</b><br> $abilita</i>";
+        }
+        print "</font>";              
+    }   
+    print "<br/><br/>(Le voci in <i>corsivo</i> fanno parte degli obiettivi minimi)";
+   
+   print "</font>";
+   
+   // print"<br/><center><a href=javascript:Popup('staprogrdo.php?cattedra=$cattedra')><img src='../immagini/stampa.png'></a><br/><br/>";
+   
+  }
+    
+   
+   
+         
+mysqli_close($con);
+stampa_piede(""); 
+

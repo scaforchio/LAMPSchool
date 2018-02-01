@@ -1,0 +1,14 @@
+{
+    "titolo": "LAMPSchool",
+    "versione": "2017.1",
+    "url": "www.lampschool.it",
+    "urlaggiornamento": "http://www.lampschool.net/lampschool/lampschool.json?format=raw",
+    "autore": {
+        "nome": "Pietro Tamburrano",
+        "mail": "pietro.tamburrano@gmail.com"
+    },
+    "database": {
+        "installazione": "sql/release/2017.1.sql",
+        "aggiornamento": "sql/update/"
+    }
+}

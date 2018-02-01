@@ -1,0 +1,32 @@
+# For more information about the robots.txt standard, see:
+# http://www.robotstxt.org/orig.html
+#
+# For syntax checking, see:
+# http://tool.motoricerca.info/robots-checker.phtml
+
+User-agent: *
+Disallow: /abc/
+Disallow: /alunni/
+Disallow: /assenze/
+Disallow: /buffer/
+Disallow: /caricaassenzesissi/
+Disallow: /cattedre/
+Disallow: /classi/
+Disallow: /comuni/
+Disallow: /contr/
+Disallow: /docenti/
+Disallow: /immagini/
+Disallow: /js/
+Disallow: /lezioni/
+Disallow: /lampschooldata/
+Disallow: /lib/
+Disallow: /login/
+Disallow: /materie/
+Disallow: /note/
+Disallow: /password/
+Disallow: /programmazione/
+Disallow: /regclasse/
+Disallow: /scrutini/
+Disallow: /sezioni/
+Disallow: /specializzazione/
+Disallow: /valutazioni/

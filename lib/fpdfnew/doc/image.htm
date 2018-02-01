@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Image</title>
+<link type="text/css" rel="stylesheet" href="../fpdf.css">
+</head>
+<body>
+<h1>Image</h1>
+<code>Image(<b>string</b> file [, <b>float</b> x [, <b>float</b> y [, <b>float</b> w [, <b>float</b> h [, <b>string</b> type [, <b>mixed</b> link]]]]]])</code>
+<h2>Descrizione</h2>
+Permette di inserire un immagine nella pagina. Le dimensioni possono essere specificate nei seguenti modi:
+<ul>
+<li>specificando larghezza e altezza (espresse nell'unità di misura scelte o dpi)</li>
+<li>specificando una sola dimensione, l'altra sarà calcolata automaticamente in maniera da mantenere le proporzioni originali</li>
+<li>senza specificare le dimensioni, in questo caso l'immagine sarà inserita a 96 dpi</li>
+</ul>
+I formati inseribili sono JPEG, PNG e GIF. Per il supporto al formato GIF è richiesta l'estensione GD.
+<br>
+<br>
+Per le JPEG, sono consentiti i seguenti colori:
+<ul>
+<li>scala di grigio</li>
+<li>true colors (24 bits)</li>
+<li>CMYK (32 bits)</li>
+</ul>
+Per le PNG, sono consentiti:
+<ul>
+<li>scala di grigio a 8 bits (256 livelli)</li>
+<li>indexed colors</li>
+<li>true colors (24 bits)</li>
+</ul>
+Nel caso di GIF animata, verrà utilizzato solo il primo frame.<br>
+<br>
+La trasparenza è supportata.<br>
+<br>
+Se il formato dell'immagine non viene specificato sarà preso dall'estensione del file.<br>
+<br>
+E' possibile inserire un link sull'immagine.<br>
+<br>
+Osservazione: se un immagine è usata più volte, solo una copia sarà inserita nel file.
+<h2>Parametri</h2>
+<dl class="param">
+<dt><code>file</code></dt>
+<dd>
+Nome del file che contiene l'immagine.
+</dd>
+<dt><code>x</code></dt>
+<dd>
+Ascissa dell'angolo superiore-sinistro. Se non specificata o pari a <code>null</code>, viene utilizzata
+l'ascissa corrente.
+</dd>
+<dt><code>y</code></dt>
+<dd>
+Ordinata dell'angolo superiore-sinistro. Se non specificata o pari a <code>null</code>, viene utilizzata
+l'ordinata corrente; inoltre, se necessario, prima viene inserita un'interruzione di pagina (in caso
+fosse abilita l'interruzione di pagina automatica) e, dopo la chiamata, le coordinate correnti vengono
+spostate al di sotto dell'immagine.
+</dd>
+<dt><code>w</code></dt>
+<dd>
+Larghezza dell'immagine nella pagina. Tre casi:
+<ul>
+<li>Se positivo, il valore rappresenta la larghezza espressa nell'unità di misura specificata</li>
+<li>Se negativo, il valore assoluto rappresenta la risoluzione orizzontale espressa in dpi</li>
+<li>Se non viene specificata o uguale a zero, sarà calcolata automaticamente</li>
+</ul>
+</dd>
+<dt><code>h</code></dt>
+<dd>
+Altezza dell'immagine nella pagina. Tre casi:
+<ul>
+<li>Se positivo, il valore rappresenta l'altezza espressa nell'unità di misura specificata</li>
+<li>Se negativo, il valore assoluto rappresenta la risoluzione verticale espressa in dpi</li>
+<li>Se non viene specificata o uguale a zero, sarà calcolata automaticamente</li>
+</ul>
+</dd>
+<dt><code>type</code></dt>
+<dd>
+Formato immagine. I valori possibili sono (case insensitive): <code>JPG</code>, <code>JPEG</code>, <code>PNG</code> e
+<code>GIF</code>.
+Se non specificato, il tipo sarà riferito all'estensione del file.
+</dd>
+<dt><code>link</code></dt>
+<dd>
+URL o identificatore generato da AddLink().
+</dd>
+</dl>
+<h2>Esempio</h2>
+<div class="doc-source">
+<pre><code>// Inserisce il logo nell'angolo in alto a sinistra, con risoluzione di 300 dpi
+$pdf-&gt;Image('logo.png',10,10,-300);
+// Inserisce un'immagine dinamica da URL
+$pdf-&gt;Image('http://chart.googleapis.com/chart?cht=p3&amp;chd=t:60,40&amp;chs=250x100&amp;chl=Hello|World',60,30,90,0,'PNG');</code></pre>
+</div>
+<h2>Vedi anche</h2>
+<a href="addlink.htm">AddLink</a>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Indice</a></div>
+</body>
+</html>

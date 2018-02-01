@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Output</title>
+<link type="text/css" rel="stylesheet" href="../fpdf.css">
+</head>
+<body>
+<h1>Output</h1>
+<code><b>string</b> Output([<b>string</b> dest [, <b>string</b> name [, <b>boolean</b> isUTF8]]])</code>
+<h2>Descrizione</h2>
+Passa il documento a una destinazione: stringa, file locale o browser. Nell'ultimo
+caso, verrà usato il plug-in (se presente), oppure sarà forzata l'apertura di una
+finestra di download ("Salva con nome").<br>
+Se necessario, il metodo richiama prima Close() per chiudere il documento.
+<h2>Parametri</h2>
+<dl class="param">
+<dt><code>dest</code></dt>
+<dd>
+Destinazione dove mandare il documento. Può essere specificato uno dei seguenti valori:
+<ul>
+<li><code>I</code>: manda il 'file inline' al  browser. Il plug-in sarà utilizzato se presente.</li>
+<li><code>D</code>: manda al browser e forza il download del file con il nome dato con <code>name</code>.</li>
+<li><code>F</code>: salva il file in locale con il nome dato con <code>name</code>.</li>
+<li><code>S</code>: ritorna il documento come stringa.</li>
+</ul>
+Il valore predefinito è <code>I</code>.
+</dd>
+<dt><code>name</code></dt>
+<dd>
+Il nome del file. È ignorato nel caso di destinazione <code>S</code>.<br>
+Il valore predefinito è <code>doc.pdf</code>.
+</dd>
+<dt><code>isUTF8</code></dt>
+<dd>
+Indica se <code>name</code> segue la codifica ISO-8859-1 (<code>false</code>) o UTF-8 (<code>true</code>).
+Usato solo per le destinazioni <code>I</code> e <code>D</code>.<br>
+Il valore predefinito è <code>false</code>.
+</dd>
+</dl>
+<h2>Vedi anche</h2>
+<a href="close.htm">Close</a>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Indice</a></div>
+</body>
+</html>
