@@ -70,7 +70,7 @@ $querydel = "DELETE FROM tbl_valutazionifinali
            WHERE idalunno=$idalunno
            AND periodo=$periodo";
 // print inspref($querydel);           
-$ris = mysqli_query($con, inspref($querydel)) or die(mysqli_error($con));
+$ris = mysqli_query($con, inspref($querydel)) or die(mysqli_error($con).inspref($querydel));
 
 
 
@@ -82,7 +82,7 @@ and tbl_cattnosupp.iddocente <> 1000000000";
 
 $votiinseriti = false;
 // print inspref($query);
-$rismat = mysqli_query($con, inspref($query));
+$rismat = mysqli_query($con, inspref($query)) or die("Errore:".inspref($query));
 while ($val = mysqli_fetch_array($rismat))
 {
     $idmateria = $val['idmateria'];
@@ -108,7 +108,7 @@ while ($val = mysqli_fetch_array($rismat))
     {
         $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,votoscritto,votoorale,votopratico,assenze,note,periodo)
 						 VALUES ('$idalunno','$idmateria','$votounico','$votoscritto','$votoorale','$votopratico','$ass','" . elimina_apici($note) . "','$periodo')";
-        $risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con));
+        $risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con).inspref($queryins));
         $votiinseriti = true;
     }
 }
@@ -124,7 +124,7 @@ $note = stringa_html($schenote);
 
 $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,periodo,note)
 	                 VALUES ('$idalunno','$idmateria','$voto','$periodo','$note')";
-$risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con));
+$risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con).inspref($queryins));
 //}
 // INSERISCO GIUDIZIO GENERALE
 
@@ -135,12 +135,12 @@ $querydel = "DELETE FROM tbl_giudizi
 
 // print inspref($querydel);           
 
-$ris = mysqli_query($con, inspref($querydel)) or die(mysqli_error($con));
+$ris = mysqli_query($con, inspref($querydel)) or die(mysqli_error($con).inspref($querydel));
 
 $giudizio = $_POST['giudizio'];
 $queryins = "INSERT into tbl_giudizi(idclasse,idalunno,periodo,giudizio)
 	                 VALUES ('$cl','$idalunno','$periodo','" . elimina_apici($giudizio) . "')";
-$risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con));
+$risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con).inspref($queryins));
 
 if ($provenienza == 'tab')
 {

@@ -258,7 +258,7 @@ if ($nome != "" & $idalunno != "")
     print "<form method='post' action='insschedaalu.php' name='votialu'>";
 
 // ESTRAGGO TUTTE LE MATERIE PER LA CLASSE
-    $query = "SELECT distinct tbl_materie.idmateria,tbl_materie.denominazione,sigla,tipovalutazione FROM tbl_cattnosupp,tbl_materie
+    $query = "SELECT distinct tbl_materie.idmateria,tbl_materie.denominazione,sigla,tipovalutazione, progrpag FROM tbl_cattnosupp,tbl_materie
               WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
               and tbl_cattnosupp.idclasse=$idclasse
               and tbl_cattnosupp.iddocente <> 1000000000

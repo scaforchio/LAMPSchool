@@ -234,7 +234,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         $schede->Cell(190, 8, "VALUTAZIONI PERIODICHE", NULL, 1, "C");
 
 
-        $query = "SELECT distinct tbl_materie.idmateria,sigla,denominazione,tipovalutazione
+        $query = "SELECT distinct tbl_materie.idmateria,sigla,denominazione,tipovalutazione,progrpag
 		        FROM tbl_cattnosupp,tbl_materie 
                 WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
                 and tbl_cattnosupp.idclasse=$classe

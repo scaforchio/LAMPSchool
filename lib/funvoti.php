@@ -13,8 +13,7 @@
  * @param string $voto
  * @return string
  */
-function dec_to_mod($voto)
-{
+function dec_to_mod($voto) {
     // La riga seguente serve a normalizzare il voto (Es. 4.18 -> 4.25)
     $voto = round($voto * 4) / 4;
 
@@ -149,8 +148,7 @@ function dec_to_mod($voto)
  * @param string $voto
  * @return string
  */
-function dec_to_csv($voto)
-{
+function dec_to_csv($voto) {
 
     // La riga seguente serve a normalizzare il voto (Es. 4.18 -> 4.25)
     $voto = round($voto * 4) / 4;
@@ -285,8 +283,7 @@ function dec_to_csv($voto)
  * @param string $voto
  * @return string
  */
-function dec_to_vot($voto)
-{
+function dec_to_vot($voto) {
     if ($voto == 0)
         return "";
     if ($voto == 1)
@@ -356,8 +353,7 @@ function dec_to_vot($voto)
  * @param string $voto
  * @return string
  */
-function dec_to_pag($voto)
-{
+function dec_to_pag($voto) {
     if ($voto == 0)
         return "";
     if ($voto == 1)
@@ -427,10 +423,8 @@ function dec_to_pag($voto)
  * @param string $voto
  * @return boolean
  */
-function insufficiente($voto)
-{
-    if (($voto > 0 and $voto < 6) | ($voto > 10 & $voto < 15))
-    {
+function insufficiente($voto) {
+    if (($voto > 0 and $voto < 6) | ($voto > 10 & $voto < 15)) {
         return true;
     }
 }
@@ -441,66 +435,54 @@ function insufficiente($voto)
  * @param object $conn Connessione al db
  * @return int
  */
-function calcola_media_condotta($idalunno, $periodo, $conn)
-{
+function calcola_media_condotta($idalunno, $periodo, $conn) {
     $query = "SELECT condotta FROM tbl_proposte WHERE idalunno=$idalunno AND periodo='$periodo'";
 
     $riscond = mysqli_query($conn, inspref($query)) or die("Errore:" . inspref($query));
     $totcond = 0;
     $numcond = 0;
     $numgiud = 0;
-    while ($reccond = mysqli_fetch_array($riscond))
-    {
+    while ($reccond = mysqli_fetch_array($riscond)) {
         $cond = $reccond['condotta'];
 
+        if ($cond != 99) {
 
-        if ($cond != 99)
-        {
-
-            if ($cond > 11)
-            {
-                if ($cond < 21)
-                {
+            if ($cond > 11) {
+                if ($cond < 21) {
                     $numgiud++;
                     $cond = $cond - 10;
                     $numcond++;
                     $totcond += $cond;
-                }
-                else
-                {
+                } else {
                     $numgiud++;
                     $cond = $cond - 20;
                     $numcond++;
                     $totcond += $cond;
                 }
-            }
-            else
-            {
-                $numcond++;
-                $totcond += $cond;
+            } else {
+                if ($cond < 11) {
+                    $numcond++;
+                    $totcond += $cond;
+                }
             }
         }
-       // print "$idalunno $numcond $totcond";
+       // if ($idalunno == 745)
+       //     print "$idalunno $numcond $totcond";
     }
     // SE NON CI SONO VOTI DI CONDOTTA O SONO TUTTI NC RESTITUISCO NC
-    if ($numcond == 0)
-    {
+    if ($numcond == 0) {
         return 11;
     }
-    
+
     $media = ceil($totcond / $numcond);
-    
-    //print " media $media <br>";
+
+    // print " media $media <br>";
     // SE PREVALGONO I GIUDIZI RESTITUISCO UN GIUDIZIO ALTRIMENTI UN NUMERO
-    if ($numgiud > ($numcond / 2))
-    {
+    if ($numgiud > ($numcond / 2)) {
         return ($media + 20);
-    }
-    else
-    {
+    } else {
         return $media;
     }
-    
 }
 
 /**
@@ -509,14 +491,12 @@ function calcola_media_condotta($idalunno, $periodo, $conn)
  * @param object $conn Connessione al db
  * @return int or string
  */
-function estrai_voto_ammissione($idalunno, $conn)
-{
+function estrai_voto_ammissione($idalunno, $conn) {
     $query = "SELECT votoammissione FROM tbl_esiti WHERE idalunno=$idalunno";
 
     $risesito = mysqli_query($conn, inspref($query));
     $votoamm = "--";
-    if ($recesito = mysqli_fetch_array($risesito))
-    {
+    if ($recesito = mysqli_fetch_array($risesito)) {
         $votoamm = $recesito['votoammissione'];
     }
 
@@ -529,14 +509,12 @@ function estrai_voto_ammissione($idalunno, $conn)
  * @param object $conn Connessione al db
  * @return string
  */
-function estrai_giudizio($idalunno, $periodo, $conn)
-{
+function estrai_giudizio($idalunno, $periodo, $conn) {
     $query = "SELECT giudizio FROM tbl_giudizi WHERE idalunno=$idalunno and periodo=$periodo";
 
     $risgiudizio = mysqli_query($conn, inspref($query));
     $giud = "--";
-    if ($recgiudizio = mysqli_fetch_array($risgiudizio))
-    {
+    if ($recgiudizio = mysqli_fetch_array($risgiudizio)) {
         $giud = $recgiudizio['giudizio'];
     }
 
@@ -549,14 +527,12 @@ function estrai_giudizio($idalunno, $periodo, $conn)
  * @param object $conn Connessione al db
  * @return int or string
  */
-function estrai_esito($idalunno, $conn, $integrativo = false)
-{
+function estrai_esito($idalunno, $conn, $integrativo = false) {
     $query = "SELECT validita,esito,integrativo FROM tbl_esiti WHERE idalunno=$idalunno";
 
     $risesito = mysqli_query($conn, inspref($query));
     $esito = "--";
-    if ($recesito = mysqli_fetch_array($risesito))
-    {
+    if ($recesito = mysqli_fetch_array($risesito)) {
         /* if (!$integrativo)
           $esito = str_replace("|", " ", decodifica_esito($recesito['esito'], $conn));
           else
@@ -574,14 +550,12 @@ function estrai_esito($idalunno, $conn, $integrativo = false)
  * @param object $conn Connessione al db
  * @return int
  */
-function estrai_idtipoesito($idalunno, $conn, $integrativo = false)
-{
+function estrai_idtipoesito($idalunno, $conn, $integrativo = false) {
     $query = "SELECT esito FROM tbl_esiti WHERE idalunno=$idalunno";
 
     $risesito = mysqli_query($conn, inspref($query));
     $esito = "-1";
-    if ($recesito = mysqli_fetch_array($risesito))
-    {
+    if ($recesito = mysqli_fetch_array($risesito)) {
 
         $esito = $recesito['esito'];
     }

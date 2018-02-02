@@ -1400,7 +1400,7 @@ CREATE TABLE IF NOT EXISTS `tbl_valutazionifinali` (
   `assenze` int(11) DEFAULT '0',
   `periodo` char(1) DEFAULT NULL COMMENT 'Quadrimestre, ecc.',
   `progrpag` tinyint(4) DEFAULT NULL COMMENT 'Progressivo in pagella',
-  `codsissi` char(15) NOT NULL,
+  `codsissi` char(15) NOT NULL DEFAULT '0',
   `note` varchar(180) DEFAULT NULL,
   `oraultmod` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

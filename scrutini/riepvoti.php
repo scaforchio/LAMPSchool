@@ -393,12 +393,12 @@ if ($idclasse != "")
         // RICHIAMO LA FUNZIONE PER LA CREAZIONE DEL FILE CSV
         $numerovalutazioni = creaFileCSV($idclasse, $periodo, $elencoalunni, $alunni, $mattipo, $valutazioni, $con,$annotazioni);
 
-        $query = "SELECT distinct tbl_materie.idmateria,sigla,tipovalutazione FROM tbl_cattnosupp,tbl_materie
+        $query = "SELECT distinct tbl_materie.idmateria,sigla,tipovalutazione,progrpag FROM tbl_cattnosupp,tbl_materie
 		          WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
 		          and tbl_cattnosupp.idclasse=$idclasse
                   and tbl_cattnosupp.iddocente <> 1000000000
 		          order by tbl_materie.progrpag,tbl_materie.sigla";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = mysqli_query($con, inspref($query)) or die("Errore nella query!".inspref($query));
         if (mysqli_num_rows($ris) > 0)
         {
             print ("<table align='center' border='1'><tr class='prima' align='center'><td>Alunno</td><td>Scrut.</td>");

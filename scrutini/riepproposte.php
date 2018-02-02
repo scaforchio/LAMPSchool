@@ -205,6 +205,9 @@ order by tbl_materie.sigla";
             $listamaterie[] = $nom["sigla"];
             print ("</td>");
         }
+        // AGGIUNGO COMPORTAMENTO
+        // 
+        // 
 //print("<td><b>MEDIA</b></td></tr>");
 
 //$lm=$listamaterie;
