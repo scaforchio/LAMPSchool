@@ -14,7 +14,7 @@ if (!isset($_SERVER['HTTP_HOST'])) {
 $db_server = "localhost";
 $db_nome = "ls2017";
 $db_user = "pma";
-$db_password = "user";
+$db_password = "pass";
 $prefisso_tabelle = "as1718_";
 
 // Caricamento parametri

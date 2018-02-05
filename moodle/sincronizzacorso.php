@@ -34,7 +34,7 @@ if ($tipoutente == "")
     die;
 }
 
-$titolo = "Creazione corso Moodle";
+$titolo = "Sincronizzazione corso Moodle";
 $script = "";
 stampa_head($titolo, "", $script,"SMP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
