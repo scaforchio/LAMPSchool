@@ -421,6 +421,7 @@ if ($idclasse != "")
 	WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
 	and tbl_cattnosupp.idclasse=$idclasse
 	and tbl_cattnosupp.iddocente <> 1000000000
+        and tbl_materie.progrpag<100
 	order by tbl_materie.progrpag,tbl_materie.sigla";
         $ris = mysqli_query($con, inspref($query));
         if (mysqli_num_rows($ris) > 0)
@@ -986,6 +987,7 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
     $query = "SELECT tbl_valutazionifinali.*,tbl_materie.tipovalutazione FROM tbl_valutazionifinali,tbl_alunni,tbl_materie
 	          WHERE tbl_valutazionifinali.idalunno=tbl_alunni.idalunno
 	          AND tbl_valutazionifinali.idmateria=tbl_materie.idmateria
+                  and tbl_materie.progrpag<100
 	          AND idclasse=$idclasse 
 	          AND periodo='1'";
     //print inspref($query);
@@ -1008,6 +1010,7 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
            WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
            and tbl_cattnosupp.idclasse=$idclasse
            and tbl_cattnosupp.iddocente <> 1000000000
+           and tbl_materie.progrpag<100
            order by tbl_materie.progrpag,tbl_materie.sigla";
     $ris = mysqli_query($conn, inspref($query));
     $intestazione = array();

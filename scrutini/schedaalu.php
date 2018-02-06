@@ -262,8 +262,9 @@ if ($nome != "" & $idalunno != "")
               WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
               and tbl_cattnosupp.idclasse=$idclasse
               and tbl_cattnosupp.iddocente <> 1000000000
+              and tbl_materie.progrpag<100
               order by progrpag,tbl_materie.sigla";
-// print inspref($query);
+ // print inspref($query);
     $ris = mysqli_query($con, inspref($query));
     if (mysqli_num_rows($ris) > 0)
     {
@@ -275,6 +276,7 @@ if ($nome != "" & $idalunno != "")
             //   print ($nom["sigla"]);
 
             $aggiungi = true;
+            
             // VERIFICO SE SI TRATTA DI UNA MATERIA DI CATTEDRA SPECIALE
             // E NEL CASO VERIFICO SE L'ALUNNO SEGUE LA MATERIA
 
@@ -282,13 +284,16 @@ if ($nome != "" & $idalunno != "")
                       where tbl_gruppi.idgruppo=tbl_gruppialunni.idgruppo
                       and tbl_gruppialunni.idalunno=tbl_alunni.idalunno
                       and tbl_alunni.idclasse=$idclasse
-                      and tbl_gruppi.idmateria=" . $nom['idmateria'] . "
-                      ";
-
+                      and tbl_gruppi.idmateria=" . $nom['idmateria'];
+           // print inspref($query);
             $risgru = mysqli_query($con, inspref($query));
+           // print "Numero record ".mysqli_num_rows($risgru);
             if ($recgru = mysqli_fetch_array($risgru))
             {
                 $idgruppo = $recgru['idgruppo'];
+                
+                // VERIFICO SE L'ALUNNO APPARTIENE AL GRUPPO
+                
                 $query = "select * from tbl_gruppialunni where
 		            idalunno=$idalunno and idgruppo IN (
 		            select distinct tbl_gruppi.idgruppo from tbl_gruppialunni,tbl_alunni,tbl_gruppi 
@@ -302,6 +307,12 @@ if ($nome != "" & $idalunno != "")
                 {
                     $aggiungi = false;
                 }
+                
+                // VERIFICO SE C'E' UNA CATTEDRA NON DI GRUPPO PER LA MATERIA
+                
+                
+                
+                
             }
 
 

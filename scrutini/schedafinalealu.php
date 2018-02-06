@@ -251,6 +251,7 @@ if ($nome != "" & $idalunno != "")
               WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
               and tbl_cattnosupp.idclasse=$idclasse
               and tbl_cattnosupp.iddocente <> 1000000000
+              and tbl_materie.progrpag<100
               order by progrpag,tbl_materie.sigla";
     $ris = mysqli_query($con, inspref($query));
     if (mysqli_num_rows($ris) > 0)

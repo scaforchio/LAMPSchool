@@ -396,7 +396,8 @@ if ($idclasse != "")
         $query = "SELECT distinct tbl_materie.idmateria,sigla,tipovalutazione,progrpag FROM tbl_cattnosupp,tbl_materie
 		          WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
 		          and tbl_cattnosupp.idclasse=$idclasse
-                  and tbl_cattnosupp.iddocente <> 1000000000
+                          and tbl_materie.progrpag<100
+                          and tbl_cattnosupp.iddocente <> 1000000000
 		          order by tbl_materie.progrpag,tbl_materie.sigla";
         $ris = mysqli_query($con, inspref($query)) or die("Errore nella query!".inspref($query));
         if (mysqli_num_rows($ris) > 0)
