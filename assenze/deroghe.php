@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -34,7 +36,7 @@ if ($tipoutente == "")
     die;
 }
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $titolo = "Inserimento deroghe assenze";
 
@@ -69,52 +71,95 @@ jQuery(function($){
 
 			$(document).ready(function(){
 				 $('#datainizio').datepicker({ dateFormat: 'dd/mm/yy' });
-			 });
+         $('#datafine').datepicker({ dateFormat: 'dd/mm/yy' });
+         
+    $('.giornocheckbox').change(function() {
+            // Controllo su checkbox: se è selezionata imposta il valore del select al massimo, altrimenti a 0
+            var elem = $('.oreselect[data-idgiorno=' + $(this).data('idgiorno') + ']');
+            $(elem).val(this.checked ? 0: 0);
 
-			 $(document).ready(function(){
-				 $('#datafine').datepicker({ dateFormat: 'dd/mm/yy' });
+            // Triggera onchange per aggiornare l'input hidden
+            // $(elem).change();
+            $(elem).prop('disabled', this.checked);
+         });
+
+         // Cambiamento select
+         $('.oreselect').change(function() {
+            // Imposta l'input hidden con il valore della select
+            $('input[name=ore' + $(this).data('idgiorno') + ']').val($(this).val());
+
+            // Se è selezionato il massimo, disabilita la checkbox
+            if ($(this).data('maxore') == $(this).val()) {
+              $('.giornocheckbox[data-idgiorno=' + $(this).data('idgiorno') + ']').prop('checked', true);
+              $(this).prop('disabled', true);
+            }
+         });
+
+
+
+/*
+         $('.giornocheckbox').change(function() {
+            // Controllo su checkbox: se è selezionata imposta il valore del select al massimo, altrimenti a 0
+            var elem = $('.oreselect[data-idgiorno=' + $(this).data('idgiorno') + ']');
+            $(elem).val(this.checked ? $(elem).data('maxore') : 0);
+
+            // Triggera onchange per aggiornare l'input hidden
+            $(elem).change();
+            $(elem).prop('disabled', this.checked);
+         });
+
+         // Cambiamento select
+         $('.oreselect').change(function() {
+            // Imposta l'input hidden con il valore della select
+            $('input[name=ore' + $(this).data('idgiorno') + ']').val($(this).val());
+
+            // Se è selezionato il massimo, disabilita la checkbox
+            if ($(this).data('maxore') == $(this).val()) {
+              $('.giornocheckbox[data-idgiorno=' + $(this).data('idgiorno') + ']').prop('checked', true);
+              $(this).prop('disabled', true);
+            }
+         }); */
 			 });
 </script>
 ";
-stampa_head($titolo, "", $script,"MSPD");
+stampa_head($titolo, "", $script, "MSPD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 /*
-$rissms=array();
-$rissms=verifica_numero_sms_residui($utentesms,$passsms);
-$smsresidui=$rissms['classic_sms'];
-$smsresidui=floor($smsresidui*($costosmsclassic/$costosmsplus));
-if ($smsresidui>1000)
-   $color='green';
-else if ($smsresidui>500)
-   $color='orange';
-else
-   $color='red';      
-print "<center><b><font color='$color' size='4'>SMS residui: $smsresidui</font></center></b>";
-*/
-$query="select * from tbl_alunni left join tbl_classi
+  $rissms=array();
+  $rissms=verifica_numero_sms_residui($utentesms,$passsms);
+  $smsresidui=$rissms['classic_sms'];
+  $smsresidui=floor($smsresidui*($costosmsclassic/$costosmsplus));
+  if ($smsresidui>1000)
+  $color='green';
+  else if ($smsresidui>500)
+  $color='orange';
+  else
+  $color='red';
+  print "<center><b><font color='$color' size='4'>SMS residui: $smsresidui</font></center></b>";
+ */
+$query = "select * from tbl_alunni left join tbl_classi
          on tbl_alunni.idclasse=tbl_classi.idclasse
          order by cognome,nome,anno, sezione, specializzazione";
-if ($tipoutente=='D')
-	$query = "SELECT * FROM tbl_alunni LEFT JOIN tbl_classi
+if ($tipoutente == 'D')
+    $query = "SELECT * FROM tbl_alunni LEFT JOIN tbl_classi
          ON tbl_alunni.idclasse=tbl_classi.idclasse
          WHERE tbl_alunni.idclasse IN (select distinct tbl_classi.idclasse from tbl_classi
-                                       where idcoordinatore=".$_SESSION['idutente'].")
+                                       where idcoordinatore=" . $_SESSION['idutente'] . ")
          ORDER BY cognome,nome,anno, sezione, specializzazione
          ";
-$ris=mysqli_query($con,inspref($query)) or die("Errore:".inspref($query,false));
+$ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
 
 print "<form name='selealu' action='deroghe.php' method='post'>";
 print "<table align='center'>";
 print "<tr><td>Alunno</td>";
 print "<td>";
 print "<select name='idalunno' ONCHANGE='selealu.submit();'><option value=''>&nbsp;</option>";
-while ($rec=mysqli_fetch_array($ris))
-{
-    if ($idalunno==$rec['idalunno'])
-        $sele=" selected";
+while ($rec = mysqli_fetch_array($ris)) {
+    if ($idalunno == $rec['idalunno'])
+        $sele = " selected";
     else
-        $sele="";
-    print ("<option value='".$rec['idalunno']."'$sele>".$rec['cognome']." ".$rec['nome']." (".$rec['datanascita'].") - ".$rec['anno']." ".$rec['sezione']." ".$rec['specializzazione']."</option>");
+        $sele = "";
+    print ("<option value='" . $rec['idalunno'] . "'$sele>" . $rec['cognome'] . " " . $rec['nome'] . " (" . $rec['datanascita'] . ") - " . $rec['anno'] . " " . $rec['sezione'] . " " . $rec['specializzazione'] . "</option>");
 }
 print "
  </select>
@@ -127,8 +172,7 @@ print "
 
 // VISUALIZZAZIONE ELENCO DOCENTI
 
-if ($idalunno!="")
-{
+if ($idalunno != "") {
 
     print ("
    <form method='post' action='insderoga.php' name='listadistr'>
@@ -137,12 +181,44 @@ if ($idalunno!="")
    Motivo: <input type='text' name='motivo' maxlength='200' size='80'><br>
    Datainizio: <input type='text' name='datainizio' value='" . data_italiana(date('Y-m-d')) . "' id='datainizio'>
    Datafine: <input type='text' name='datafine' value='" . data_italiana(date('Y-m-d')) . "' id='datafine'>
-   <br>Numero ore permesso: <select name='numeroore'><option value='0'></option><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option></select>
+   <div>
+   <br><br>
+    <table border='1'>
+      <tr class='prima'>
+        <th>Giorno</th>
+        <th>Ore</th>
+      </tr>
+      <tr>");
+
+    // Array con numero ore di lezione per ogni giorno della settimana
+    $ris = mysqli_query($con, inspref("SELECT giorno, COUNT(*) AS ore FROM tbl_orario WHERE valido = 1 GROUP BY giorno ORDER BY giorno"));
+    $orelez = array();
+    while ($res = mysqli_fetch_assoc($ris)) {
+        array_push($orelez, $res["ore"] - 1);
+    }
+    $giorni = array("Luned&igrave;", "Marted&igrave;", "Mercoled&igrave;", "Gioved&igrave;", "Venerd&igrave;", "Sabato", "Domenica");
+
+    // Maschera di inserimento dati
+    for ($i = 0; $i < $giornilezsett; $i++) {
+      //  print("<input type='hidden' name='ore" . ($i + 1) . "' value='0'>");
+        print("<tr>");
+        print("<td><label><input type='checkbox' name='giorno" . ($i + 1) . "' class='giornocheckbox' data-idgiorno='" . ($i + 1) . "'>$giorni[$i]</label></td>");
+        print("<td><select class='oreselect' name='ore" . ($i + 1) . "' data-idgiorno='" . ($i + 1) . "' data-maxore='$orelez[$i]' style='width: 100%'>");
+        for ($j = 0; $j <= $orelez[$i]; $j++) {
+            print("<option value='" . ($j) . "'>" . ($j) . "</option>");
+        }
+
+        print("</select></td>");
+        print("</tr>");
+    }
+
+
+    print("</tr>
+    </table>
+   </div>
    <br>
-   <br><br><center><input type='submit' value='Inserisci certificato'></center><br><br>
+   <br><br><center><input type='submit' value='Inserisci deroga'></center><br><br>
    </form>");
 }
 mysqli_close($con);
 stampa_piede("");
-
-

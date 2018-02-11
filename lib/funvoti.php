@@ -474,8 +474,8 @@ function calcola_media_condotta($idalunno, $periodo, $conn) {
         return 11;
     }
 
-    $media = ceil($totcond / $numcond);
-
+    $media = round($totcond / $numcond);
+   // print "M. $media<br> ";
     // print " media $media <br>";
     // SE PREVALGONO I GIUDIZI RESTITUISCO UN GIUDIZIO ALTRIMENTI UN NUMERO
     if ($numgiud > ($numcond / 2)) {
