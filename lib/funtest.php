@@ -23,10 +23,12 @@ function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, 
 
     print "<!DOCTYPE html>
            <html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+	    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
             <title>$titolo</title>
             <link rel='stylesheet' type='text/css' href='../css/stile" . get_suffisso() . ".css' />
             <link rel='icon' href='../immagini/favicon.ico?v=2' />
             <link rel='stylesheet' type='text/css' href='../lib/js/jquery-ui-1.10.3.smoothness.css' />
+            <link rel='stylesheet' type='text/css' href='../css/bootstrap.min.css' />
             <link rel='stylesheet' type='text/css' href='../lib/js/datetimepicker/jquery.datetimepicker.css'/>
 
             <script src='../lib/js/jquery-1.10.2.min.js'></script>
@@ -195,7 +197,7 @@ function stringa_html($parametro = '', $doppiapici = true, $metodo = '')
     $stringa = '';
     $matrice = '';
 
-    
+
     if ($metodo == 'G')
     {
         $matrice = $_GET;
