@@ -202,8 +202,8 @@ if ($idalunno != "") {
     for ($i = 0; $i < $giornilezsett; $i++) {
       //  print("<input type='hidden' name='ore" . ($i + 1) . "' value='0'>");
         print("<tr>");
-        print("<td><label><input type='checkbox' name='giorno" . ($i + 1) . "' class='giornocheckbox' data-idgiorno='" . ($i + 1) . "'>$giorni[$i]</label></td>");
-        print("<td><select class='oreselect' name='ore" . ($i + 1) . "' data-idgiorno='" . ($i + 1) . "' data-maxore='$orelez[$i]' style='width: 100%'>");
+        print("<td><label><input type='checkbox' name='giorno" . ($i + 1) . "' class='giornocheckbox' data-idgiorno='" . ($i + 1) . "' checked>$giorni[$i]</label></td>");
+        print("<td><select class='oreselect' name='ore" . ($i + 1) . "' data-idgiorno='" . ($i + 1) . "' data-maxore='$orelez[$i]' style='width: 100%' disabled>");
         for ($j = 0; $j <= $orelez[$i]; $j++) {
             print("<option value='" . ($j) . "'>" . ($j) . "</option>");
         }
