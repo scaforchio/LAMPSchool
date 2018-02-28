@@ -49,6 +49,7 @@ function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, 
 *     D - Docente
 *     S - Staff
 *     P - Preside
+*     L - Alunno
 *
 * In mancanza del parametro o con il quinto parametro a false il controllo non verrà effettuato. Quest'ultimo caso è
 * utilizzato nella funzione di login dove il tipo di utente non è ancora conosciuto.

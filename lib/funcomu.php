@@ -116,7 +116,7 @@ function controlla_codistat($cod)
 function estrai_sigla_provincia($idcomune, $conn)
 {
     
-    $query = "select codiceistat from tbl_comuni where idcomune=$idcomune";
+    $query = "select codiceistat from tbl_comuni where idcomune='$idcomune'";
     $ris = mysqli_query($conn, inspref($query));
     $rec = mysqli_fetch_array($ris);
     $codiceistat = $rec['codiceistat'];
@@ -127,7 +127,7 @@ function estrai_sigla_provincia($idcomune, $conn)
     
     if ($codprovincia!="")
     {
-        $query = "select siglaprovincia from tbl_province where codprovincia=$codprovincia";
+        $query = "select siglaprovincia from tbl_province where codprovincia='$codprovincia'";
         $ris = mysqli_query($conn, inspref($query)) or die("Errore:" . mysqli_error($conn) . " " . inspref($query));
         $rec = mysqli_fetch_array($ris);
         return $rec['siglaprovincia'];

@@ -37,7 +37,7 @@ function estrai_dati_alunno($idalunno, $conn)
  */
 function estrai_dati_alunno_rid($idalunno, $conn)
 {
-    $query = "select * from tbl_alunni where idalunno=$idalunno";
+    $query = "select * from tbl_alunni where idalunno='$idalunno'";
     $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
     $rec = mysqli_fetch_array($ris);
     $datialunno = $rec['cognome'] . " " . $rec['nome'];
@@ -53,7 +53,7 @@ function estrai_dati_alunno_rid($idalunno, $conn)
  */
 function alunno_certificato($idalunno, $conn)
 {
-    $query = "select certificato from tbl_alunni where idalunno=$idalunno";
+    $query = "select certificato from tbl_alunni where idalunno='$idalunno'";
     $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
     $rec = mysqli_fetch_array($ris);
     $datialunno = $rec['certificato'];
@@ -69,13 +69,13 @@ function alunno_certificato($idalunno, $conn)
 function alunno_certificato_pei($idalunno, $idmateria, $conn)
 {
     $datialunno = 0;
-    $query = "select certificato from tbl_alunni where idalunno=$idalunno";
+    $query = "select certificato from tbl_alunni where idalunno='$idalunno'";
 
     $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
     $rec = mysqli_fetch_array($ris);
     if ($rec['certificato'])
     {
-        $query = "select tipoprogr from tbl_tipoprog where idalunno=$idalunno and idmateria=$idmateria";
+        $query = "select tipoprogr from tbl_tipoprog where idalunno='$idalunno' and idmateria='$idmateria'";
 
         $ris2 = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
         $rec2 = mysqli_fetch_array($ris2);
@@ -98,13 +98,13 @@ function alunno_certificato_pei($idalunno, $idmateria, $conn)
 function alunno_certificato_ob_min($idalunno, $idmateria, $conn)
 {
     $datialunno = 0;
-    $query = "select certificato from tbl_alunni where idalunno=$idalunno";
+    $query = "select certificato from tbl_alunni where idalunno='$idalunno'";
 
     $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
     $rec = mysqli_fetch_array($ris);
     if ($rec['certificato'])
     {
-        $query = "select tipoprogr from tbl_tipoprog where idalunno=$idalunno and idmateria=$idmateria";
+        $query = "select tipoprogr from tbl_tipoprog where idalunno='$idalunno' and idmateria='$idmateria'";
 
         $ris2 = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
         $rec2 = mysqli_fetch_array($ris2);
@@ -132,7 +132,7 @@ function estrai_alunni_classe_data($idclasse, $data, $conn)
 
     if ($data == date("Y-m-d"))
     {
-        $query = "select idalunno from tbl_alunni where idclasse=$idclasse";
+        $query = "select idalunno from tbl_alunni where idclasse='$idclasse'";
         $ris = mysqli_query($conn, inspref($query));
         while ($rec = mysqli_fetch_array($ris))
         {
@@ -144,7 +144,7 @@ function estrai_alunni_classe_data($idclasse, $data, $conn)
     {
         // AGGIUNGO TUTTI GLI ALUNNI CHE NON HANNO CAMBIAMENTI DI CLASSE SUCCESSIVI
         // ALLA DATA SPECIFICATA
-        $query = "select idalunno from tbl_alunni alu where idclasse=$idclasse
+        $query = "select idalunno from tbl_alunni alu where idclasse='$idclasse'
                 and not exists (select * from tbl_cambiamenticlasse where idalunno=alu.idalunno
                                    and datafine>='$data')";
         //   print inspref($query);
@@ -157,7 +157,7 @@ function estrai_alunni_classe_data($idclasse, $data, $conn)
         // AGGIUNGO TUTTI GLI ALUNNI CHE HANNO AVUTO LA CLASSE IN QUELLA DATA
         // LA QUERY CERCA GLI idalunno degli alunni
 
-        $query = "select idalunno,datafine from tbl_cambiamenticlasse camb where idclasse=$idclasse
+        $query = "select idalunno,datafine from tbl_cambiamenticlasse camb where idclasse='$idclasse'
                 and datafine>'$data' and not exists (select * from tbl_cambiamenticlasse
                                   where idalunno=camb.idalunno
                                   and datafine>'$data' and datafine<camb.datafine) ";
@@ -196,7 +196,7 @@ function estrai_classe_alunno_data($idalunno, $data, $conn)
     {
 
         // VERIFICO SE L'ALUNNO NON HA TRASFERIMENTI SUCCESIVI ALLA DATA
-        $query = "select * from tbl_cambiamenticlasse where idalunno=$idalunno
+        $query = "select * from tbl_cambiamenticlasse where idalunno='$idalunno'
                        and datafine>'$data' order by datafine";
         $ris = mysqli_query($conn, inspref($query)) or die("Errore:" . inspref($query, false));
         if (mysqli_num_rows($ris) == 0)
@@ -224,13 +224,13 @@ function estrai_classe_alunno_data($idalunno, $data, $conn)
 function alunno_certificato_norm($idalunno, $idmateria, $conn)
 {
     $datialunno = 0;
-    $query = "select certificato from tbl_alunni where idalunno=$idalunno";
+    $query = "select certificato from tbl_alunni where idalunno='$idalunno'";
 
     $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
     $rec = mysqli_fetch_array($ris);
     if ($rec['certificato'])
     {
-        $query = "select tipoprogr from tbl_tipoprog where idalunno=$idalunno and idmateria=$idmateria";
+        $query = "select tipoprogr from tbl_tipoprog where idalunno='$idalunno' and idmateria='$idmateria'";
 
         $ris2 = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
 
@@ -255,7 +255,7 @@ function alunno_certificato_norm($idalunno, $idmateria, $conn)
 function estrai_alunno_da_cattedra_pei($idcattedra, $conn)
 {
     $codalu = 0;
-    $query = "select idalunno from tbl_cattnosupp where idcattedra=$idcattedra";
+    $query = "select idalunno from tbl_cattnosupp where idcattedra='$idcattedra'";
 
     $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
     $rec = mysqli_fetch_array($ris);
@@ -293,7 +293,7 @@ function estrai_classe_alunno($idalunno, $conn)
  */
 function estrai_tipo_prog($idalunno, $idmateria, $conn)
 {
-    $query = "select tipoprogr from tbl_tipoprog where idalunno=$idalunno and idmateria=$idmateria";
+    $query = "select tipoprogr from tbl_tipoprog where idalunno='$idalunno' and idmateria='$idmateria'";
 
     $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
     if ($rec = mysqli_fetch_array($ris))
@@ -315,7 +315,7 @@ function estrai_tipo_prog($idalunno, $idmateria, $conn)
  */
 function decodifica_alunno($idalunno, $conn)
 {
-    $query = "select cognome,nome from tbl_alunni where idalunno=$idalunno";
+    $query = "select cognome,nome from tbl_alunni where idalunno='$idalunno'";
     $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
     $rec = mysqli_fetch_array($ris);
     $datialunno = $rec['cognome'] . " " . $rec['nome'];
@@ -333,7 +333,7 @@ function decodifica_alunno($idalunno, $conn)
 
 function estrai_alunno_data($idalunno, $conn)
 {
-    $query = "select cognome, nome, datanascita from tbl_alunni where idalunno=$idalunno";
+    $query = "select cognome, nome, datanascita from tbl_alunni where idalunno='$idalunno'";
     $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
     $rec = mysqli_fetch_array($ris);
     $datialunno = $rec['cognome'] . " " . $rec['nome'] . " (" . data_italiana($rec['datanascita']) . ")";

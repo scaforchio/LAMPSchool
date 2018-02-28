@@ -6,8 +6,7 @@
  * Date: 16/06/15
  * Time: 18.20
  */
-function getIdMoodle($token, $domainname, $username)
-{
+function getIdMoodle($token, $domainname, $username) {
 
 
     /// SETUP - NEED TO BE CHANGED
@@ -20,9 +19,6 @@ function getIdMoodle($token, $domainname, $username)
     $cam = "username";
     $campo = $cam;
 
-
-    // $valore1 = new stdClass();
-    // $valore1->values="docitt20";
     $valore1 = $username;
 
     $param = array($valore1);
@@ -53,14 +49,8 @@ function getIdMoodle($token, $domainname, $username)
  * @param string $voto
  * @return string
  */
-function cambiaPasswordMoodle($token, $domainname, $idutente, $username, $newpassword)
-{
+function cambiaPasswordMoodle($token, $domainname, $idutente, $username, $newpassword) {
 
-
-    /// SETUP - NEED TO BE CHANGED
-    //$token = '2c3b06a89ae0dac83d05db3afca9e83d';
-    //$token = '5c76f506ceee29c52974e202c52c752d';
-    //$domainname = 'http://www.isdimaggio.it/moodle';
     $functionname = 'core_user_update_users';
 
     $restformat = 'xml'; //Also possible in Moodle 2.2 and later: 'json'
@@ -85,14 +75,8 @@ function cambiaPasswordMoodle($token, $domainname, $idutente, $username, $newpas
     //   print_r($resp);
 }
 
-function creaCategoriaMoodle($token, $domainname, $nomecategoria, $siglacategoria, $categoriagenitore)
-{
+function creaCategoriaMoodle($token, $domainname, $nomecategoria, $siglacategoria, $categoriagenitore) {
 
-
-    /// SETUP - NEED TO BE CHANGED
-    ////$token = 'c8eb0b4256599f680f3bea46d8248519';
-    //$token = '5c76f506ceee29c52974e202c52c752d';
-    ////$domainname = 'http://www.isdimaggio.it/moodle';
     $functionname = 'core_course_create_categories';
 
     $restformat = 'json';
@@ -119,14 +103,9 @@ function creaCategoriaMoodle($token, $domainname, $nomecategoria, $siglacategori
     return $categoriacreata[0]->id;
 }
 
-function creaUtenteMoodle($token, $domainname, $username, $password, $cognome, $nome, $email)
-{
+function creaUtenteMoodle($token, $domainname, $username, $password, $cognome, $nome, $email) {
 
 
-    /// SETUP - NEED TO BE CHANGED
-    //$token = '2c3b06a89ae0dac83d05db3afca9e83d';
-    //$token = '5c76f506ceee29c52974e202c52c752d';
-    //$domainname = 'http://www.isdimaggio.it/moodle';
     $functionname = 'core_user_create_users';
 
     $restformat = 'xml'; //Also possible in Moodle 2.2 and later: 'json'
@@ -155,14 +134,8 @@ function creaUtenteMoodle($token, $domainname, $username, $password, $cognome, $
     return $resp;
 }
 
-function getCategoriaMoodle($token, $domainname, $siglacat)
-{
+function getCategoriaMoodle($token, $domainname, $siglacat) {
 
-
-    /// SETUP - NEED TO BE CHANGED
-    // \\$token = 'c8eb0b4256599f680f3bea46d8248519';
-    //$token = '5c76f506ceee29c52974e202c52c752d';
-    //$domainname = 'http://www.isdimaggio.it/moodle';
     $functionname = 'core_course_get_categories';
 
     $richieste = array();
@@ -181,22 +154,15 @@ function getCategoriaMoodle($token, $domainname, $siglacat)
     $resp = $curl->post($serverurl . $restformat, $richieste);
     // print $resp;
     $categorie = json_decode($resp);
-    foreach ($categorie as $categoria)
-    {
+    foreach ($categorie as $categoria) {
         if ($siglacat == $categoria->idnumber)
             return $categoria->id;
     }
     return -1;
 }
 
-function getCorsiMoodle($token, $domainname)
-{
+function getCorsiMoodle($token, $domainname) {
 
-
-    /// SETUP - NEED TO BE CHANGED
-    ////$token = 'c8eb0b4256599f680f3bea46d8248519';
-    //$token = '5c76f506ceee29c52974e202c52c752d';
-    //$domainname = 'http://www.isdimaggio.it/moodle';
     $functionname = 'core_course_get_courses';
 
     $richieste = array();
@@ -218,14 +184,8 @@ function getCorsiMoodle($token, $domainname)
     return $resp;
 }
 
-function getIdCorsoMoodle($token, $domainname, $siglacorso)
-{
+function getIdCorsoMoodle($token, $domainname, $siglacorso) {
 
-
-    /// SETUP - NEED TO BE CHANGED
-    ////$token = 'c8eb0b4256599f680f3bea46d8248519';
-    //$token = '5c76f506ceee29c52974e202c52c752d';
-    //$domainname = 'http://www.isdimaggio.it/moodle';
     $functionname = 'core_course_get_courses';
 
     $richieste = array();
@@ -245,22 +205,16 @@ function getIdCorsoMoodle($token, $domainname, $siglacorso)
     // print $resp;
     $corsi = json_decode($resp);
     $categorie = json_decode($resp);
-    foreach ($corsi as $corso)
-    {
+    foreach ($corsi as $corso) {
         if ($siglacorso == $corso->shortname)
             return $corso->id;
     }
     return -1;
 }
 
-function creaCorsoMoodle($token, $domainname, $nomecorso, $siglacorso, $categoria)
-{
+function creaCorsoMoodle($token, $domainname, $nomecorso, $siglacorso, $categoria) {
 
 
-    /// SETUP - NEED TO BE CHANGED
-    ////$token = 'c8eb0b4256599f680f3bea46d8248519';
-    //$token = '5c76f506ceee29c52974e202c52c752d';
-    ////$domainname = 'http://www.isdimaggio.it/moodle';
     $functionname = 'core_course_create_courses';
 
     $restformat = 'json';
@@ -289,14 +243,9 @@ function creaCorsoMoodle($token, $domainname, $nomecorso, $siglacorso, $categori
     return $corsocreato[0]->id;
 }
 
-function aggiornaCategoriaCorso($token, $domainname, $idcorso, $idcategoria)
-{
+function aggiornaCategoriaCorso($token, $domainname, $idcorso, $idcategoria) {
 
 
-    /// SETUP - NEED TO BE CHANGED
-    ////$token = 'c8eb0b4256599f680f3bea46d8248519';
-    //$token = '5c76f506ceee29c52974e202c52c752d';
-    ////$domainname = 'http://www.isdimaggio.it/moodle';
     $functionname = 'core_course_update_courses';
 
     $restformat = 'json';
@@ -321,14 +270,8 @@ function aggiornaCategoriaCorso($token, $domainname, $idcorso, $idcategoria)
     // return $corsocreato[0]->id;
 }
 
-function iscriviUtenteMoodle($token, $domainname, $idcorso, $idutente, $idruolo)
-{
+function iscriviUtenteMoodle($token, $domainname, $idcorso, $idutente, $idruolo) {
 
-
-    /// SETUP - NEED TO BE CHANGED
-    ////$token = 'dd319c50df54defd00c4011a6c57d311';
-    //$token = '5c76f506ceee29c52974e202c52c752d';
-    ////$domainname = 'http://www.isdimaggio.it/moodle';
     // IDRUOLO    3 = docente,  5 = studente
 
     $functionname = 'enrol_manual_enrol_users';
@@ -354,14 +297,9 @@ function iscriviUtenteMoodle($token, $domainname, $idcorso, $idutente, $idruolo)
     // print $resp;
 }
 
-function disiscriviUtenteMoodle($token, $domainname, $idcorso, $idutente)
-{
+function disiscriviUtenteMoodle($token, $domainname, $idcorso, $idutente) {
 
 
-    /// SETUP - NEED TO BE CHANGED
-    ////$token = 'dd319c50df54defd00c4011a6c57d311';
-    //$token = '5c76f506ceee29c52974e202c52c752d';
-    ////$domainname = 'http://www.isdimaggio.it/moodle';
     $functionname = 'enrol_manual_unenrol_users';
 
     $restformat = 'json';
@@ -384,14 +322,11 @@ function disiscriviUtenteMoodle($token, $domainname, $idcorso, $idutente)
     print $resp;
 }
 
-function getUtentiCorsoMoodle($token, $domainname, $idcorso)
-{
+function getUtentiCorsoMoodle($token, $domainname, $idcorso) {
 
 
-    /// SETUP - NEED TO BE CHANGED
-    // //$token = 'dd319c50df54defd00c4011a6c57d311';
-    //$token = '5c76f506ceee29c52974e202c52c752d';
-    ////$domainname = 'http://www.isdimaggio.it/moodle';
+
+
     $functionname = 'core_enrol_get_enrolled_users';
 
     $params = array('courseid' => $idcorso);
@@ -414,16 +349,12 @@ function getUtentiCorsoMoodle($token, $domainname, $idcorso)
     return $corsi;
 }
 
-function costruisciUsernameMoodle($idutente)
-{
+function costruisciUsernameMoodle($idutente) {
 
 
-    if ($idutente >= 1000000000)
-    {
+    if ($idutente >= 1000000000) {
         return "doc" . $_SESSION['suffisso'] . ($idutente - 1000000000);
-    }
-    else
-    {
+    } else {
         return "al" . $_SESSION['suffisso'] . $idutente;
     }
 }

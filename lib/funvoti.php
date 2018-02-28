@@ -436,7 +436,7 @@ function insufficiente($voto) {
  * @return int
  */
 function calcola_media_condotta($idalunno, $periodo, $conn) {
-    $query = "SELECT condotta FROM tbl_proposte WHERE idalunno=$idalunno AND periodo='$periodo'";
+    $query = "SELECT condotta FROM tbl_proposte WHERE idalunno='$idalunno' AND periodo='$periodo'";
 
     $riscond = mysqli_query($conn, inspref($query)) or die("Errore:" . inspref($query));
     $totcond = 0;
@@ -492,7 +492,7 @@ function calcola_media_condotta($idalunno, $periodo, $conn) {
  * @return int or string
  */
 function estrai_voto_ammissione($idalunno, $conn) {
-    $query = "SELECT votoammissione FROM tbl_esiti WHERE idalunno=$idalunno";
+    $query = "SELECT votoammissione FROM tbl_esiti WHERE idalunno='$idalunno'";
 
     $risesito = mysqli_query($conn, inspref($query));
     $votoamm = "--";
@@ -510,7 +510,7 @@ function estrai_voto_ammissione($idalunno, $conn) {
  * @return string
  */
 function estrai_giudizio($idalunno, $periodo, $conn) {
-    $query = "SELECT giudizio FROM tbl_giudizi WHERE idalunno=$idalunno and periodo=$periodo";
+    $query = "SELECT giudizio FROM tbl_giudizi WHERE idalunno='$idalunno' and periodo='$periodo'";
 
     $risgiudizio = mysqli_query($conn, inspref($query));
     $giud = "--";
@@ -528,7 +528,7 @@ function estrai_giudizio($idalunno, $periodo, $conn) {
  * @return int or string
  */
 function estrai_esito($idalunno, $conn, $integrativo = false) {
-    $query = "SELECT validita,esito,integrativo FROM tbl_esiti WHERE idalunno=$idalunno";
+    $query = "SELECT validita,esito,integrativo FROM tbl_esiti WHERE idalunno='$idalunno'";
 
     $risesito = mysqli_query($conn, inspref($query));
     $esito = "--";
@@ -551,7 +551,7 @@ function estrai_esito($idalunno, $conn, $integrativo = false) {
  * @return int
  */
 function estrai_idtipoesito($idalunno, $conn, $integrativo = false) {
-    $query = "SELECT esito FROM tbl_esiti WHERE idalunno=$idalunno";
+    $query = "SELECT esito FROM tbl_esiti WHERE idalunno='$idalunno'";
 
     $risesito = mysqli_query($conn, inspref($query));
     $esito = "-1";

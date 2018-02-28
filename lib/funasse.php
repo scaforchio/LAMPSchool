@@ -10,7 +10,7 @@ function elimina_assenze_lezione($conn, $idalunno, $datalezione, $idclasse = "")
     if ($idclasse != "")
     {
         $query = "delete from tbl_asslezione where idlezione in (
-                      select idlezione from tbl_lezioni where idclasse=$idclasse and datalezione = '$datalezione')
+                      select idlezione from tbl_lezioni where idclasse='$idclasse' and datalezione = '$datalezione')
                       and not forzata ";
         mysqli_query($conn, inspref($query)) or die("Errore in cancellazione assenze" . $query);
         //  Eliminare tutte le assenze per la classe;
@@ -18,7 +18,7 @@ function elimina_assenze_lezione($conn, $idalunno, $datalezione, $idclasse = "")
     else
     {
         
-        $query = "delete from tbl_asslezione where idalunno=$idalunno and data='$datalezione' and not forzata ";
+        $query = "delete from tbl_asslezione where idalunno='$idalunno' and data='$datalezione' and not forzata ";
         mysqli_query($conn, inspref($query)) or die("Errore in cancellazione assenze" . $query);
 
     }
@@ -31,7 +31,7 @@ function inserisci_assenze_per_ritardi_uscite($conn, $idalunno, $data)
 {
 
     $idclasse = estrai_classe_alunno_data($idalunno, $data, $conn);
-    $query = "select * from tbl_lezioni where  idclasse=$idclasse and datalezione='$data'";
+    $query = "select * from tbl_lezioni where  idclasse='$idclasse' and datalezione='$data'";
     $rislez = mysqli_query($conn, inspref($query));
 
     while ($reclez = mysqli_fetch_array($rislez))
@@ -348,7 +348,7 @@ function oreassenzaold($inizio, $durata, $idalunno, $data, $con)
 function oreassenza($inizio, $durata, $idalunno, $data, $con)
 {
     // echo "$inizio $durata";
-    $queryass = "select * from tbl_assenze where idalunno=$idalunno and data='$data'";
+    $queryass = "select * from tbl_assenze where idalunno='$idalunno' and data='$data'";
     $risass = mysqli_query($con, inspref($queryass)) or die ("Errore nella query: " . mysqli_error($con));
     if (mysqli_num_rows($risass) > 0)
     {
@@ -359,14 +359,14 @@ function oreassenza($inizio, $durata, $idalunno, $data, $con)
 
     $esistonoeventi = false;
     $eventi = array();
-    $query = "select * from tbl_ritardi where idalunno=$idalunno and data='$data'";
+    $query = "select * from tbl_ritardi where idalunno='$idalunno' and data='$data'";
     $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
     while ($rec = mysqli_fetch_array($ris))
     {
         $eventi[] = substr($rec['oraentrata'], 0, 5) . "R";
         $esistonoeventi = true;
     }
-    $query = "select * from tbl_usciteanticipate where idalunno=$idalunno and data='$data'";
+    $query = "select * from tbl_usciteanticipate where idalunno='$idalunno' and data='$data'";
     $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
     while ($rec = mysqli_fetch_array($ris))
     {
@@ -584,7 +584,7 @@ function calcola_ore_deroga_oraria($idalunno, $datainizio,$datafine,$conn)
     }
 
     $oreassenzaperm = 0;
-    $query = "select data, numeroore from tbl_deroghe where idalunno=$idalunno and numeroore <> 0 $seledata";
+    $query = "select data, numeroore from tbl_deroghe where idalunno='$idalunno' and numeroore <> 0 $seledata";
     $risder = mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query, false));
     while ($recder = mysqli_fetch_array($risder))
     {
@@ -610,7 +610,7 @@ function calcola_ritardi_brevi($idalunno, $con, $ritardobreve, $rangedate='')
 {
     $numritardibrevi = 0;
 
-    $query = "select * from tbl_ritardi where idalunno=$idalunno $rangedate";
+    $query = "select * from tbl_ritardi where idalunno='$idalunno' $rangedate";
     $ris = mysqli_query($con, inspref($query));
     while ($rec = mysqli_fetch_array($ris))
     {

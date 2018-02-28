@@ -18,7 +18,7 @@ function scrutinio_completo($idclasse, $periodo, $numvalutazioni, $conn)
 {
     $query = "SELECT count(*) as numvotifin FROM tbl_valutazionifinali,tbl_alunni
 	          WHERE tbl_valutazionifinali.idalunno=tbl_alunni.idalunno
-	          AND idclasse=$idclasse
+	          AND idclasse='$idclasse'
 	          AND periodo='$periodo'
 	          AND (    (votoscritto>0 and votoscritto<21)
 	                or (votoorale>0 and votoorale<21)
@@ -39,7 +39,7 @@ function scrutinio_completo($idclasse, $periodo, $numvalutazioni, $conn)
  */
 function scrutinio_aperto($idclasse, $periodo, $conn)
 {
-    $queryscr = "SELECT * FROM tbl_scrutini WHERE idclasse=$idclasse AND periodo='$periodo'";
+    $queryscr = "SELECT * FROM tbl_scrutini WHERE idclasse='$idclasse' AND periodo='$periodo'";
     $risscr = mysqli_query($conn, inspref($queryscr)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
 
     if ($valscr = mysqli_fetch_array($risscr))
@@ -116,7 +116,7 @@ function decod_passaggio($val)
  */
 function estrai_datascrutinio($idclasse, $periodo, $conn)
 {
-    $query = "SELECT datascrutinio FROM tbl_scrutini WHERE periodo='$periodo' and idclasse=$idclasse";
+    $query = "SELECT datascrutinio FROM tbl_scrutini WHERE periodo='$periodo' and idclasse='$idclasse'";
     $ris = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
     $val = mysqli_fetch_array($ris);
 
@@ -133,7 +133,7 @@ function estrai_datascrutinio($idclasse, $periodo, $conn)
 function decodifica_esito($idesito, $conn1)
 {
 
-    $query = "select * from tbl_tipiesiti where idtipoesito=$idesito";
+    $query = "select * from tbl_tipiesiti where idtipoesito='$idesito'";
     $ris = mysqli_query($conn1, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn1) . inspref($query));
     if ($rec = mysqli_fetch_array($ris))
     {
@@ -155,7 +155,7 @@ function decodifica_esito($idesito, $conn1)
 function passaggio($idesito, $conn)
 {
     $datopassaggio=2;
-    $query="select * from tbl_tipiesiti where idtipoesito=$idesito";
+    $query="select * from tbl_tipiesiti where idtipoesito='$idesito'";
 
     $ris=mysqli_query($conn,inspref($query)) or die ("Errore: ".inspref($query,false));
     if ($rec=mysqli_fetch_array($ris))
@@ -176,7 +176,7 @@ function passaggio($idesito, $conn)
 function decodifica_passaggio($idesito, $conn1)
 {
 
-    $query = "select * from tbl_tipiesiti where idtipoesito=$idesito";
+    $query = "select * from tbl_tipiesiti where idtipoesito='$idesito'";
     $ris = mysqli_query($conn1, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn1) . inspref($query));
     $rec = mysqli_fetch_array($ris);
     $datipassaggio = $rec['passaggio'];
@@ -194,7 +194,7 @@ function decodifica_passaggio($idesito, $conn1)
  */
 function validita_anno($idalunno, $conn1)
 {
-    $query = "select * from tbl_esiti where idalunno=$idalunno";
+    $query = "select * from tbl_esiti where idalunno='$idalunno'";
     $ris = mysqli_query($conn1, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn1) . inspref($query));
     $rec = mysqli_fetch_array($ris);
     $datipassaggio = $rec['validita'];
@@ -211,7 +211,7 @@ function validita_anno($idalunno, $conn1)
  */
 function calcola_media($idmateria, $conn)
 {
-    $query = "select * from tbl_materie where idmateria=$idmateria";
+    $query = "select * from tbl_materie where idmateria='$idmateria'";
     $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
     $rec = mysqli_fetch_array($ris);
     $datimateria = $rec['media'];

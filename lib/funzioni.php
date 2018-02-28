@@ -579,7 +579,7 @@ function daily_cron($suffisso, $con, $lavori, $nomefilelog)
 
 function estrai_materia_lezione($idlezione, $conn)
 {
-    $query = "select * from tbl_lezioni where idlezione=$idlezione";
+    $query = "select * from tbl_lezioni where idlezione='$idlezione'";
     $ris = mysqli_query($conn, inspref($query)) or die("Errore nella query: " . inspref($query));
     $rec = mysqli_fetch_array($ris);
     $idmateria = $rec['idmateria'];

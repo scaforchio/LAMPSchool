@@ -15,7 +15,7 @@
  */
 function estrai_dati_docente($iddocente, $conn)
 {
-    $query = "select * from tbl_docenti where iddocente=$iddocente";
+    $query = "select * from tbl_docenti where iddocente='$iddocente'";
     $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
     $rec = mysqli_fetch_array($ris);
     $datidocente = $rec['cognome'] . " " . $rec['nome'];
@@ -31,7 +31,7 @@ function estrai_dati_docente($iddocente, $conn)
  */
 function estrai_dati_amministrativo($idamministrativo, $conn)
 {
-    $query = "select * from tbl_amministrativi where idamministrativo=$idamministrativo";
+    $query = "select * from tbl_amministrativi where idamministrativo='$idamministrativo'";
     $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
     $rec = mysqli_fetch_array($ris);
     $datiamm = $rec['cognome'] . " " . $rec['nome'];
@@ -48,7 +48,7 @@ function estrai_dati_amministrativo($idamministrativo, $conn)
  */
 function docente_sostegno($iddocente, $conn)
 {
-    $query = "select * from tbl_docenti where iddocente=$iddocente";
+    $query = "select * from tbl_docenti where iddocente='$iddocente'";
     $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
     $rec = mysqli_fetch_array($ris);
     $datidocente = $rec['sostegno'];
@@ -65,7 +65,7 @@ function docente_sostegno($iddocente, $conn)
 
 function estrai_docente_coordinatore($iddocente, $conn)
 {
-    $query = "select * from tbl_classi where idcoordinatore=$iddocente";
+    $query = "select * from tbl_classi where idcoordinatore='$iddocente'";
     $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
     if (mysqli_num_rows($ris) > 0)
     {
@@ -96,7 +96,7 @@ function estrai_dirigente($conn)
 function lezione_sostegno($idlezione,$iddocente,$con)
 {
     
-    $query="select * from tbl_lezionicert where idlezionenorm=$idlezione and iddocente=$iddocente";
+    $query="select * from tbl_lezionicert where idlezionenorm='$idlezione' and iddocente='$iddocente'";
     $ris=mysqli_query($con,inspref($query)) or die ("Errore".inspref($query));
     
     

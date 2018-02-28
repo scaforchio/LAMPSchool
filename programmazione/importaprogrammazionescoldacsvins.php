@@ -205,6 +205,7 @@ if ($anno != "" && $idmateria != "")
         else
         {
             print "<center><br><b>Struttura del file errata!</b>";
+            pulisci_buffer();
         }
 
     }

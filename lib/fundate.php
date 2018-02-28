@@ -374,7 +374,7 @@ function giorno_lezione_passata($datainizio, $giorni, $conn)
 function calcola_numero_ore($data, $idclasse, $conn)
 {
     $numore = 0;
-    $query = "select sum(numeroore) as totore from tbl_lezioni where datalezione='$data' and idclasse=$idclasse order by orainizio";
+    $query = "select sum(numeroore) as totore from tbl_lezioni where datalezione='$data' and idclasse='$idclasse' order by orainizio";
     $ris = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
     $rec = mysqli_fetch_array($ris);
 
@@ -526,7 +526,7 @@ function estrai_ora_inizio_giornata($data, $idclasse, $conn)
 {
     if ($data != "0000-00-00")
     {
-        $query = "select min(orainizio) as oraini from tbl_lezioni where datalezione='$data' and idclasse=$idclasse";
+        $query = "select min(orainizio) as oraini from tbl_lezioni where datalezione='$data' and idclasse='$idclasse'";
         $risora = mysqli_query($conn, inspref($query)) or die("Errore:" . inspref($query));
         // print "tttt $query ".mysqli_num_rows($risora);
         if ($recora = mysqli_fetch_array($risora))
@@ -549,7 +549,7 @@ function estrai_ora_inizio_giornata($data, $idclasse, $conn)
 
 function estrai_ora_fine_giornata($data, $idclasse, $conn)
 {
-    $query = "select max(orainizio+numeroore-1) as orafin from tbl_lezioni where datalezione='$data' and idclasse=$idclasse";
+    $query = "select max(orainizio+numeroore-1) as orafin from tbl_lezioni where datalezione='$data' and idclasse='$idclasse'";
     $risora = mysqli_query($conn, inspref($query));
     if ($recora = mysqli_fetch_array($risora))
     {

@@ -75,7 +75,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
 
         $query = "select idlezione,denominazione,tbl_materie.idmateria,idlezionegruppo from tbl_lezioni,tbl_materie where
               tbl_lezioni.idmateria=tbl_materie.idmateria and
-              datalezione='$data' and idclasse=$idclasse
+              datalezione='$data' and idclasse='$idclasse'
               and $no>=orainizio and $no<=(orainizio+numeroore-1)";
         // print inspref($query);
         $ris = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
@@ -128,7 +128,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
         $query = "select cognome,nome from tbl_firme,tbl_lezioni,tbl_docenti
               where tbl_firme.idlezione=tbl_lezioni.idlezione
                 and tbl_firme.iddocente=tbl_docenti.iddocente
-                and datalezione='$data' and idclasse=$idclasse
+                and datalezione='$data' and idclasse='$idclasse'
                 and $no>=orainizio and $no<=(orainizio+numeroore-1)";
         $ris = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
         print "<td>";
@@ -143,7 +143,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
 
         $query = "select argomenti,attivita,numeroore,orainizio
               from tbl_lezioni
-              where datalezione='$data' and idclasse=$idclasse
+              where datalezione='$data' and idclasse='$idclasse'
               and $no>=orainizio and $no<=(orainizio+numeroore-1)";
         $ris = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
         print "<td>";
@@ -442,7 +442,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
     $query = "select testo,provvedimenti,cognome,nome
                  from tbl_noteclasse,tbl_docenti
                  where tbl_noteclasse.iddocente=tbl_docenti.iddocente
-                 and data='$data' and idclasse=$idclasse";
+                 and data='$data' and idclasse='$idclasse'";
     $res = mysqli_query($conn, inspref($query)) or die (mysqli_error($conn) . inspref($query));
     while ($rec = mysqli_fetch_array($res))
     {
@@ -454,7 +454,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
     $query = "select idnotaalunno, testo, provvedimenti, cognome, nome
                  from tbl_notealunno,tbl_docenti
                  where tbl_notealunno.iddocente=tbl_docenti.iddocente
-                 and data='$data' and idclasse=$idclasse";
+                 and data='$data' and idclasse='$idclasse'";
     $res = mysqli_query($conn, inspref($query)) or die (mysqli_error($conn) . inspref($query));
     while ($rec = mysqli_fetch_array($res))
     {
@@ -487,7 +487,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
     $query = "select testo,cognome,nome
                  from tbl_annotazioni,tbl_docenti
                  where tbl_annotazioni.iddocente=tbl_docenti.iddocente
-                 and data='$data' and idclasse=$idclasse";
+                 and data='$data' and idclasse='$idclasse'";
     $res = mysqli_query($conn, inspref($query)) or die (mysqli_error($conn) . inspref($query));
     while ($rec = mysqli_fetch_array($res))
     {
