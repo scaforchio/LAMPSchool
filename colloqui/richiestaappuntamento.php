@@ -66,7 +66,7 @@ if ($iddocente != "")
            and tbl_orericevimento.idorario=tbl_orario.idorario
            and not tbl_orericevimento.valido 
            and tbl_prenotazioni.valido
-           and iddocente=$iddocente
+           and iddocente='$iddocente'
            and idalunno=" . $_SESSION['idutente'] . "
            and tbl_prenotazioni.data>'$dataoggi'";
     $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
@@ -85,7 +85,7 @@ if ($iddocente != "")
     $query = "select * from tbl_orericevimento,tbl_orario 
            where tbl_orericevimento.idorario=tbl_orario.idorario
            and tbl_orericevimento.valido=1 
-           and iddocente=$iddocente";
+           and iddocente='$iddocente'";
     $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
 
     while ($rec = mysqli_fetch_array($ris))

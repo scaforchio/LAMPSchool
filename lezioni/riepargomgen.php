@@ -125,7 +125,7 @@ if ($idmateria != "")
 //
     if ($idclasse != "")
     {
-        $query = "select * from tbl_lezioni where idclasse=$idclasse and idmateria=$idmateria and (argomenti<>'' or attivita<>'') order by datalezione";
+        $query = "select * from tbl_lezioni where idclasse='$idclasse' and idmateria='$idmateria' and (argomenti<>'' or attivita<>'') order by datalezione";
 
         $rislez = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
 
@@ -151,7 +151,7 @@ if ($idmateria != "")
 
             if (alunno_certificato($id_ut_doc, $con))
             {
-                $query = "select * from tbl_lezionicert where idclasse=$idclasse and idmateria=$idmateria and idalunno=$id_ut_doc order by datalezione";
+                $query = "select * from tbl_lezionicert where idclasse='$idclasse' and idmateria='$idmateria' and idalunno='$id_ut_doc' order by datalezione";
 
                 $rislez = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
 

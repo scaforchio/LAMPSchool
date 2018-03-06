@@ -109,6 +109,16 @@ function decodifica_classe_spec($idclasse, $conn)
     return $daticlasse;
 }
 
+function decodifica_classe_sezione($idclasse, $conn)
+{
+    $query = "select sezione from tbl_classi where idclasse='$idclasse'";
+    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $rec = mysqli_fetch_array($ris);
+    $daticlasse = $rec['sezione'];
+
+    return $daticlasse;
+}
+
 function estrai_classe_lezione($idlezione, $conn)
 {
     $query = "select * from tbl_lezioni where idlezione='$idlezione'";

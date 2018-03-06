@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: pietro
- * Date: 16/06/15
- * Time: 18.20
- */
 function getIdMoodle($token, $domainname, $username) {
 
 
@@ -25,14 +19,13 @@ function getIdMoodle($token, $domainname, $username) {
     //$par=array('values' => $param);
     $params = array('field' => $campo, 'values' => $param);
 
-/// REST CALL
-    //header('Content-Type: text/plain');
+
     $serverurl = $domainname . '/webservice/rest/server.php' . '?wstoken=' . $token . '&wsfunction=' . $functionname;
     require_once('curl.php');
 
     $curl = new curl;
 
-//if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
+
     $restformat = ($restformat == 'json') ? '&moodlewsrestformat=' . $restformat : '';
 
     // print $params;
@@ -43,20 +36,12 @@ function getIdMoodle($token, $domainname, $username) {
     return $id;
 }
 
-/**
- * Funzione che trasforma i decimali del voto in modificatori
- *
- * @param string $voto
- * @return string
- */
+
 function cambiaPasswordMoodle($token, $domainname, $idutente, $username, $newpassword) {
 
     $functionname = 'core_user_update_users';
 
-    $restformat = 'xml'; //Also possible in Moodle 2.2 and later: 'json'
-    //Setting it to 'json' will fail all calls on earlier Moodle version
-//////// moodle_user_create_users ////////
-/// PARAMETERS - NEED TO BE CHANGED IF YOU CALL A DIFFERENT FUNCTION
+    $restformat = 'xml';
     $user1 = new stdClass();
     $user1->id = $idutente;
     $user1->username = $username;
@@ -64,12 +49,11 @@ function cambiaPasswordMoodle($token, $domainname, $idutente, $username, $newpas
     $users = array($user1);
     $params = array('users' => $users);
 
-/// REST CALL
-    //header('Content-Type: text/plain');
+
     $serverurl = $domainname . '/webservice/rest/server.php' . '?wstoken=' . $token . '&wsfunction=' . $functionname;
     require_once('curl.php');
     $curl = new curl;
-//if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
+
     $restformat = ($restformat == 'json') ? '&moodlewsrestformat=' . $restformat : '';
     $resp = $curl->post($serverurl . $restformat, $params);
     //   print_r($resp);
@@ -90,15 +74,14 @@ function creaCategoriaMoodle($token, $domainname, $nomecategoria, $siglacategori
     $categorie = array($categoria);
     $params = array('categories' => $categorie);
 
-    //header('Content-Type: text/plain');
     $serverurl = $domainname . '/webservice/rest/server.php' . '?wstoken=' . $token . '&wsfunction=' . $functionname;
     require_once('curl.php');
     $curl = new curl;
 
     $restformat = ($restformat == 'json') ? '&moodlewsrestformat=' . $restformat : '';
     $resp = $curl->post($serverurl . $restformat, $params);
-    // Sostituire con la restituzione dell'ID del corso creato
-    print $resp;
+
+   // print $resp;
     $categoriacreata = json_decode($resp);
     return $categoriacreata[0]->id;
 }
@@ -108,10 +91,7 @@ function creaUtenteMoodle($token, $domainname, $username, $password, $cognome, $
 
     $functionname = 'core_user_create_users';
 
-    $restformat = 'xml'; //Also possible in Moodle 2.2 and later: 'json'
-    //Setting it to 'json' will fail all calls on earlier Moodle version
-//////// moodle_user_create_users ////////
-/// PARAMETERS - NEED TO BE CHANGED IF YOU CALL A DIFFERENT FUNCTION
+    $restformat = 'xml';
     $user1 = new stdClass();
 
     $user1->username = $username;
@@ -122,12 +102,10 @@ function creaUtenteMoodle($token, $domainname, $username, $password, $cognome, $
     $users = array($user1);
     $params = array('users' => $users);
 
-/// REST CALL
-    //header('Content-Type: text/plain');
     $serverurl = $domainname . '/webservice/rest/server.php' . '?wstoken=' . $token . '&wsfunction=' . $functionname;
     require_once('curl.php');
     $curl = new curl;
-//if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
+
     $restformat = ($restformat == 'json') ? '&moodlewsrestformat=' . $restformat : '';
     $resp = $curl->post($serverurl . $restformat, $params);
 
@@ -141,18 +119,14 @@ function getCategoriaMoodle($token, $domainname, $siglacat) {
     $richieste = array();
 
 
-    $restformat = 'json'; //Also possible in Moodle 2.2 and later: 'json'
-    //Setting it to 'json' will fail all calls on earlier Moodle version
-//////// moodle_user_create_users ////////
-/// PARAMETERS - NEED TO BE CHANGED IF YOU CALL A DIFFERENT FUNCTION
-    //header('Content-Type: text/plain');
+    $restformat = 'json';
     $serverurl = $domainname . '/webservice/rest/server.php' . '?wstoken=' . $token . '&wsfunction=' . $functionname;
     require_once('curl.php');
     $curl = new curl;
-//if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
+
     $restformat = ($restformat == 'json') ? '&moodlewsrestformat=' . $restformat : '';
     $resp = $curl->post($serverurl . $restformat, $richieste);
-    // print $resp;
+
     $categorie = json_decode($resp);
     foreach ($categorie as $categoria) {
         if ($siglacat == $categoria->idnumber)
@@ -168,15 +142,11 @@ function getCorsiMoodle($token, $domainname) {
     $richieste = array();
 
 
-    $restformat = 'json'; //Also possible in Moodle 2.2 and later: 'json'
-    //Setting it to 'json' will fail all calls on earlier Moodle version
-//////// moodle_user_create_users ////////
-/// PARAMETERS - NEED TO BE CHANGED IF YOU CALL A DIFFERENT FUNCTION
-    //header('Content-Type: text/plain');
+    $restformat = 'json';
     $serverurl = $domainname . '/webservice/rest/server.php' . '?wstoken=' . $token . '&wsfunction=' . $functionname;
     require_once('curl.php');
     $curl = new curl;
-//if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
+
     $restformat = ($restformat == 'json') ? '&moodlewsrestformat=' . $restformat : '';
     $resp = $curl->post($serverurl . $restformat, $richieste);
     // print $resp;
@@ -191,15 +161,11 @@ function getIdCorsoMoodle($token, $domainname, $siglacorso) {
     $richieste = array();
 
 
-    $restformat = 'json'; //Also possible in Moodle 2.2 and later: 'json'
-    //Setting it to 'json' will fail all calls on earlier Moodle version
-//////// moodle_user_create_users ////////
-/// PARAMETERS - NEED TO BE CHANGED IF YOU CALL A DIFFERENT FUNCTION
-    //header('Content-Type: text/plain');
+    $restformat = 'json';
     $serverurl = $domainname . '/webservice/rest/server.php' . '?wstoken=' . $token . '&wsfunction=' . $functionname;
     require_once('curl.php');
     $curl = new curl;
-//if rest format == 'xml', then we do not add the param for backward compatibility with Moodle < 2.2
+
     $restformat = ($restformat == 'json') ? '&moodlewsrestformat=' . $restformat : '';
     $resp = $curl->post($serverurl . $restformat, $richieste);
     // print $resp;
@@ -265,9 +231,6 @@ function aggiornaCategoriaCorso($token, $domainname, $idcorso, $idcategoria) {
     $restformat = ($restformat == 'json') ? '&moodlewsrestformat=' . $restformat : '';
     $resp = $curl->post($serverurl . $restformat, $params);
     return $resp;
-    // Sostituire con la restituzione dell'ID del corso creato
-    // $corsocreato=json_decode($resp);
-    // return $corsocreato[0]->id;
 }
 
 function iscriviUtenteMoodle($token, $domainname, $idcorso, $idutente, $idruolo) {
@@ -324,19 +287,9 @@ function disiscriviUtenteMoodle($token, $domainname, $idcorso, $idutente) {
 
 function getUtentiCorsoMoodle($token, $domainname, $idcorso) {
 
-
-
-
     $functionname = 'core_enrol_get_enrolled_users';
-
     $params = array('courseid' => $idcorso);
-
-
-    $restformat = 'json'; //Also possible in Moodle 2.2 and later: 'json'
-    //Setting it to 'json' will fail all calls on earlier Moodle version
-//////// moodle_user_create_users ////////
-/// PARAMETERS - NEED TO BE CHANGED IF YOU CALL A DIFFERENT FUNCTION
-    //header('Content-Type: text/plain');
+    $restformat = 'json';
     $serverurl = $domainname . '/webservice/rest/server.php' . '?wstoken=' . $token . '&wsfunction=' . $functionname;
     require_once('curl.php');
     $curl = new curl;
@@ -349,9 +302,73 @@ function getUtentiCorsoMoodle($token, $domainname, $idcorso) {
     return $corsi;
 }
 
+function creaGruppoGlobaleMoodle($token, $domainname, $nomegruppo, $siglagruppo) {
+
+    $functionname = 'core_cohort_create_cohorts';
+    $restformat = 'json';
+    // Creo l'oggetto di tipo categoria
+    $categoria = new stdClass();
+    $categoria->type = "system";
+    $categoria->value = "";
+    $gruppo1 = new stdClass();
+    $gruppo1->categorytype = $categoria;
+    $gruppo1->name = $nomegruppo;
+    $gruppo1->idnumber = $siglagruppo;
+
+    $gruppi = array($gruppo1);
+    $params = array('cohorts' => $gruppi);
+
+    //header('Content-Type: text/plain');
+    $serverurl = $domainname . '/webservice/rest/server.php' . '?wstoken=' . $token . '&wsfunction=' . $functionname;
+    require_once('curl.php');
+    $curl = new curl;
+
+    $restformat = ($restformat == 'json') ? '&moodlewsrestformat=' . $restformat : '';
+    $resp = $curl->post($serverurl . $restformat, $params);
+    //print $resp;
+    // Sostituire con la restituzione dell'ID del gruppo creato
+    $gruppocreato = json_decode($resp);
+    return $gruppocreato[0]->id;
+}
+
+function aggiungiUtenteAGruppoGlobale($token, $domainname, $idgruppo, $username) {
+
+    
+
+    $functionname = 'core_cohort_add_cohort_members';
+
+    $restformat = 'json';
+    
+    $categoria = new stdClass();
+    $categoria->type = "idnumber";
+    $categoria->value = $idgruppo;
+    
+    $tipoutente = new stdClass();
+    $tipoutente->type = "username";
+    $tipoutente->value = $username;
+    
+    $iscrizione1 = new stdClass();
+    $iscrizione1->cohorttype = $categoria;
+    $iscrizione1->usertype = $tipoutente;
+    
+
+
+    $iscrizioni = array($iscrizione1);
+    
+    $params = array('members' => $iscrizioni);
+
+    //header('Content-Type: text/plain');
+    $serverurl = $domainname . '/webservice/rest/server.php' . '?wstoken=' . $token . '&wsfunction=' . $functionname;
+    require_once('curl.php');
+    $curl = new curl;
+
+    $restformat = ($restformat == 'json') ? '&moodlewsrestformat=' . $restformat : '';
+    $resp = $curl->post($serverurl . $restformat, $params);
+    print $resp;
+}
+
+
 function costruisciUsernameMoodle($idutente) {
-
-
     if ($idutente >= 1000000000) {
         return "doc" . $_SESSION['suffisso'] . ($idutente - 1000000000);
     } else {

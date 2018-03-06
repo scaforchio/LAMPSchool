@@ -97,6 +97,7 @@ stampa_head($titolo, "", $script, "MASP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_alu_cla.php'>Elenco classi</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $n = stringa_html('idcla');
+
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 if (!$con) {
     print("<h1>Connessione al server fallita</h1>");

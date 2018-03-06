@@ -238,11 +238,11 @@ else
             $utente = "gen" . $idalunnoinserito;
             $password = creapassword();
             $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idalunnoinserito','$utente',md5('" . md5($password) . "'),'T')";
-            $res = mysqli_query($con, inspref($sqlt));
+            $res = mysqli_query($con, inspref($sqlt)) or die("Errore:" . inspref($sqlt, false));;
             // AGGIORNO IL RECORD DELL'ALUNNO CON l'ID DEL TUTORE
             $sqlt = "update tbl_alunni set idtutore=$idalunnoinserito,idutente=$idalunnoinserito where idalunno=$idalunnoinserito";
 
-            $res = mysqli_query($con, inspref($sqlt));
+            $res = mysqli_query($con, inspref($sqlt)) or die("Errore:" . inspref($sqlt, false));;
 
             // print "risultato inserimento $idalunnoinserito<br/>";
             print("Il nuovo alunno &egrave; stato inserito<br/><br/>Utente: $utente<br/><br/>Password:$password<br/>");

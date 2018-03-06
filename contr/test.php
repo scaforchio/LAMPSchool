@@ -21,32 +21,31 @@ if ($tipoutente == "")
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
-$titolo = "AGGIORNA PASS ALUNNI";
+$titolo = "AGGIUNGI ALUNNI A GRUPPO GLOBALE";
 $script = "";
 stampa_head($titolo, "", $script,"PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
 
-$queryalunni="select idalunno, codfiscale from tbl_alunni where idclasse<>0
-         and idalunno not in (select rappresentante1 from tbl_classi)
-         and idalunno not in (select rappresentante2 from tbl_classi)
-         ";
-$risalu=mysqli_query($con,inspref($queryalunni));
-$cont=0;
-while ($recalu=mysqli_fetch_array($risalu))
-{
-    $cont++;
-    $codfisc=$recalu['codfiscale'];
-    $pass=md5(md5($codfisc));
-    $utente=$recalu['idalunno']+2100000000;
-    $querymod="update tbl_utenti set password='$pass' where idutente=$utente";
-    mysqli_query($con,inspref($querymod)) or die("Errore: ".$querymod);
-    print "$cont - Cambiata password $codfisc <br>";
-}
-
-
-
-
+// creaGruppoGlobaleMoodle($tokenservizimoodle,$urlmoodle, "5ainf2017", "5ainf2017");
+AggiungiGruppoClasse($con, $tokenservizimoodle, $urlmoodle, 28,$annoscol);
 stampa_piede("");
 
+function AggiungiGruppoClasse($con,$token,$urlmoodle,$idclasse,$annoscol)
+{
+    $annocl=decodifica_anno_classe($idclasse, $con);
+    $sezicl=decodifica_classe_sezione($idclasse, $con);
+    $speccl= substr(decodifica_classe_spec($idclasse, $con),0,3);
+    $identgruppo= strtolower($annocl.$sezicl.$speccl.$annoscol);
+    $queryalunni="select idalunno from tbl_alunni where idclasse='$idclasse'";
+    $res=mysqli_query($con, inspref($queryalunni)) or die("Errore $queryalunni");
+    while ($rec=mysqli_fetch_array($res))
+    {
+        $idalunno=$rec['idalunno'];
+        $username= costruisciUsernameMoodle($idalunno);
+        aggiungiUtenteAGruppoGlobale($token, $urlmoodle, $identgruppo, $username);
+
+        
+    }
+}
