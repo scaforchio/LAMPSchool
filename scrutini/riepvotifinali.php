@@ -353,9 +353,9 @@ if ($idclasse != "")
             $testo3 = estrai_testo($textverb . '03', $con);
             $testo4 = estrai_testo($textverb . '04', $con);
             $criteri = estrai_testo('criterival', $con);
-            $queryscr = "INSERT into tbl_scrutini(idclasse,periodo,datascrutinio,stato)
-	                VALUES ($idclasse,$numper,'" . date("Y-m-d") . "','A')";
-            $risscr = mysqli_query($con, inspref($queryscr)) or print ("<br><center><b>Errore in inserimento scrutinio!</b></center><br>");
+            $queryscr = "INSERT into tbl_scrutini(idclasse,periodo,datascrutinio,stato,orainizioscrutinio,orafinescrutinio,dataverbale,sostituzioni,segretario,datastampa,firmadirigente,testo1,testo2,testo3,testo4,criteri)
+	                VALUES ($idclasse,$numper,'" . date("Y-m-d") . "','A','00:00','00:00','".date("Y-m-d")."','','0','".date("Y-m-d")."',0,'','','','','')";
+            $risscr = mysqli_query($con, inspref($queryscr)) or die("Errore: ".inspref($queryscr,false)." ".mysqli_error($con));
             $idscrutinio = mysqli_insert_id($con);
         }
         else
@@ -417,13 +417,13 @@ if ($idclasse != "")
         $numerovalutazioni = creaFileCSV($idclasse, $numeroperiodi, $alunni, $mattipo, $valutazioni, $con);
 
         // SELEZIONO LE MATERIE
-        $query = "SELECT distinct tbl_materie.idmateria,sigla,tipovalutazione FROM tbl_cattnosupp,tbl_materie
+        $query = "SELECT distinct tbl_materie.idmateria,tbl_materie.progrpag,sigla,tipovalutazione FROM tbl_cattnosupp,tbl_materie
 	WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
 	and tbl_cattnosupp.idclasse=$idclasse
 	and tbl_cattnosupp.iddocente <> 1000000000
         and tbl_materie.progrpag<100
 	order by tbl_materie.progrpag,tbl_materie.sigla";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = mysqli_query($con, inspref($query)) or die("Errore: ".inspref($query));
         if (mysqli_num_rows($ris) > 0)
         {
             print ("<table align='center' border='1'><tr class='prima' align='center'><td>Alunno</td><td>Scrut.</td>");

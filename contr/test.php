@@ -27,9 +27,17 @@ stampa_head($titolo, "", $script,"PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
-
+/*
 // creaGruppoGlobaleMoodle($tokenservizimoodle,$urlmoodle, "5ainf2017", "5ainf2017");
 AggiungiGruppoClasse($con, $tokenservizimoodle, $urlmoodle, 28,$annoscol);
+ * 
+ */
+
+ $esito=invia_mail("pietro.tamburrano@gmail.com", "Prova", "Mail di prova.");
+//$esito=mail("pietro.tamburrano@gmail.com", "Conferma", "prova","From: scaforchio@gmail.com");  
+print "Esito $esito";
+$esito=mail("pietro.tamburrano@gmail.com", "Conferma", "prova","From: lampschool@isdimaggio.it");  
+print "Esito $esito";
 stampa_piede("");
 
 function AggiungiGruppoClasse($con,$token,$urlmoodle,$idclasse,$annoscol)

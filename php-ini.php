@@ -13,8 +13,8 @@ if (!isset($_SERVER['HTTP_HOST'])) {
 // VARIABILI DEL DATABASE
 $db_server = "localhost";
 $db_nome = "ls2017";
-$db_user = "pma";
-$db_password = "pass";
+$db_user = "root";
+$db_password = "passroot";
 $prefisso_tabelle = "as1718_";
 
 // Caricamento parametri

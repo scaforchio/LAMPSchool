@@ -69,7 +69,7 @@ $m9m = stringa_html('m9m');
 $secondalingua=stringa_html('secondalingua');
 $invalsi=stringa_html('invalsi');
 $query = "SELECT * FROM tbl_esmaterie where idclasse=$idclasse";
-$ris = mysqli_query($con, inspref($query));
+$ris = mysqli_query($con, inspref($query)) or die("Errore:".inspref($query,false)." ".mysqli_error($con));
 
 
 if (mysqli_num_rows($ris) != 0)
@@ -87,7 +87,7 @@ if (mysqli_num_rows($ris) != 0)
               m7s='$m7s', m7e='$m7e', m7m='$m7m', 
               m8s='$m8s', m8e='$m8e', m8m='$m8m', 
               m9s='$m9s', m9e='$m9e', m9m='$m9m',
-              num2lin='$secondalingua', numpni='$invalsi'
+              num2lin='$secondalingua', numpni='0'
               where idclasse=$idclasse";
     mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
 }
@@ -95,8 +95,8 @@ else
 {
     // INSERIMENTO
     $query = "INSERT INTO tbl_esmaterie(idclasse,m1s,m1e,m1m,m2s,m2e,m2m,m3s,m3e,m3m,m4s,m4e,m4m,m5s,m5e,m5m,m6s,m6e,m6m,m7s,m7e,m7m,m8s,m8e,m8m,m9s,m9e,m9m,num2lin,numpni)
-              VALUES($idclasse,'$m1s','$m1e','$m1m','$m2s','$m2e','$m2m','$m3s','$m3e','$m3m','$m4s','$m4e','$m4m','$m5s','$m5e','$m5m','$m6s','$m6e','$m6m','$m7s','$m7e','$m7m','$m8s','$m8e','$m8m','$m9s','$m9e','$m9m','$secondalingua','$invalsi')";
-    mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+              VALUES($idclasse,'$m1s','$m1e','$m1m','$m2s','$m2e','$m2m','$m3s','$m3e','$m3m','$m4s','$m4e','$m4m','$m5s','$m5e','$m5m','$m6s','$m6e','$m6m','$m7s','$m7e','$m7m','$m8s','$m8e','$m8m','$m9s','$m9e','$m9m','$secondalingua','0')";
+    mysqli_query($con, inspref($query)) or die("Errore:".inspref($queryins,false)." ".mysqli_error($con));
 
 
 }

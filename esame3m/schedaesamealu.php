@@ -1,24 +1,26 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
@@ -32,8 +34,7 @@ $listamaterie[] = "Alunno";
 
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "")
-{
+if ($tipoutente == "") {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -78,14 +79,14 @@ $script = "<script>
                            cont++;
                            nomecamposcheda='schvotom'+i;
                            document.getElementById(nomecamposcheda).value=parseInt(elements[i].value);
-						}
+			}
 					 }
-                  }
-                  if (!(document.getElementById('privatista').value=='1'))
-                  {
-                     tot += parseInt(document.getElementById('votoamm').value);
-                     cont++;
-                  }
+                }
+                if (!(document.getElementById('privatista').value=='1'))
+                {
+                   tot += parseInt(document.getElementById('votoamm').value);
+                   cont++;
+                }
                   mediascam=tot/cont*100;
                   mediascam=Math.round(mediascam);
                   mediascam=mediascam/100;
@@ -188,14 +189,11 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 
 print "<center><br><b><big><big>";
 
-if (!privatista($idalunno, $con))
-{
+if (!privatista($idalunno, $con)) {
     print estrai_dati_alunno($idalunno, $con) . " - " . decodifica_classe($idclasse, $con);
     print "<input type='hidden' id='privatista' value='0'>";
     $privatista = false;
-}
-else
-{
+} else {
     print estrai_dati_alunno($idalunno, $con) . " - Privatista (" . decodifica_classe($idclasse, $con) . ")";
     print "<input type='hidden' id='privatista' value='1'>";
     $privatista = true;
@@ -223,8 +221,7 @@ $query = "select * from tbl_esmaterie where idclasse=$idclasse";
 $rismat = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
 $recmat = mysqli_fetch_array($rismat);
 
-if ($val['stato'] == 'C')
-{
+if ($val['stato'] == 'C') {
     print "<br><center><font color='red'>Dati in sola lettura! (Esame chiuso)</font></center><br>";
 }
 
@@ -233,78 +230,61 @@ if ($val['stato'] == 'C')
 
 $query = "select * from tbl_esiti where idalunno=$idalunno";
 $risva = mysqli_query($con, inspref($query));
-if (mysqli_num_rows($risva) == 0)
-{
+if (mysqli_num_rows($risva) == 0) {
     $presenteva = false;
-}
-else
-{
+} else {
     $recva = mysqli_fetch_array($risva);
-    if ($recva['votoammissione'] != 0)
-    {
+    if ($recva['votoammissione'] != 0) {
         $presenteva = true;
-    }
-    else
-    {
+    } else {
         $presenteva = false;
     }
 }
 
 print "<br><fieldset><legend>Attribuzione voti:</legend>";
 print "<table><tr>";
-if ($val['votoammissione'] == 0) $votamm = 6;
-else $votamm = $val['votoammissione'];
-if (!$privatista)
-{
-    if (!$presenteva)
-    {
+if ($val['votoammissione'] == 0)
+    $votamm = 6;
+else
+    $votamm = $val['votoammissione'];
+if (!$privatista) {
+    if (!$presenteva) {
         print "<td><table bgcolor='#00ffff'><tr><td align='center'>V.amm.</td></tr><tr><td align='center'><input name='votoamm' id='votoamm' type='number' value='" . $votamm . "' min='6' max='10' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
-    }
-    else
-    {
+    } else {
         print "<td><table bgcolor='#00ffff'><tr><td align='center'>V.amm.</td></tr><tr><td align='center'><input name='votoamm' id='votoamm' type='number' value='$votamm' min='$votamm' max='$votamm' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
     }
-}
-else
-{
+} else {
     print "<td><table bgcolor='#00ffff'><tr><td align='center'>V.amm.</td></tr><tr><td align='center'>&nbsp;<input name='votoamm' id='votoamm' type='hidden' value='--'></td></tr></table></td>";
 }
 //print "<td><table bgcolor='#00ffff'><tr><td align='center'>V.amm.</td></tr><tr><td align='center'><input name='va' id='va' type='text' value='".$votamm."' size='2' disabled><input name='votoamm' id='votoamm' type='hidden' value='".$votamm."'></td></tr></table></td>";
 /* $mat=$recmat['m1s'];
-print "<td><table><tr><td align='center'>$mat</td></tr><tr><td align='center'><input name='votom1' id='votom1' type='number' value='".$val['votom1']."' min='1' max='10' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
-$mat=$recmat['m2s'];
-print "<td><table><tr><td align='center'>$mat</td></tr><tr><td align='center'><input name='votom2' id='votom2' type='number' value='".$val['votom2']."' min='1' max='10' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
-$mat=$recmat['m3s'];
-print "<td><table><tr><td align='center'>$mat</td></tr><tr><td align='center'><input name='votom3' id='votom3' type='number' value='".$val['votom3']."' min='1' max='10' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
-$mat=$recmat['m4s'];
-print "<td><table><tr><td align='center'>$mat</td></tr><tr><td align='center'><input name='votom4' id='votom4' type='number' value='".$val['votom4']."' min='1' max='10' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
-*/
-for ($i = 1; $i <= 9; $i++)
-{
+  print "<td><table><tr><td align='center'>$mat</td></tr><tr><td align='center'><input name='votom1' id='votom1' type='number' value='".$val['votom1']."' min='1' max='10' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
+  $mat=$recmat['m2s'];
+  print "<td><table><tr><td align='center'>$mat</td></tr><tr><td align='center'><input name='votom2' id='votom2' type='number' value='".$val['votom2']."' min='1' max='10' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
+  $mat=$recmat['m3s'];
+  print "<td><table><tr><td align='center'>$mat</td></tr><tr><td align='center'><input name='votom3' id='votom3' type='number' value='".$val['votom3']."' min='1' max='10' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
+  $mat=$recmat['m4s'];
+  print "<td><table><tr><td align='center'>$mat</td></tr><tr><td align='center'><input name='votom4' id='votom4' type='number' value='".$val['votom4']."' min='1' max='10' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
+ */
+for ($i = 1; $i <= 9; $i++) {
     $nomecampo = "m" . $i . "s";
     $nomecampomedia = "m" . $i . "m";
     $mat = $recmat[$nomecampo];
-    if ($recmat[$nomecampo] != "")
-    {
-        if ($recmat[$nomecampomedia])
-        {
+    if ($recmat[$nomecampo] != "") {
+        if ($recmat[$nomecampomedia]) {
             print "<td><table><tr><td align='center'>$mat</td></tr><tr><td align='center'><input name='votom" . $i . "' id='votom" . $i . "' type='number' value='" . $val['votom' . $i] . "' min='0' max='10' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
-        }
-        else
-        {
+        } else {
             print "<td><table bgcolor='grey'><tr><td align='center'>$mat</td></tr><tr><td align='center'><input name='votom" . $i . "' id='vtm" . $i . "' type='number' value='" . $val['votom' . $i] . "' min='0' max='10' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
         }
-    }
-    else
-    {
+    } else {
         print "<input type='hidden' name='votom" . $i . "' value='0'>";
     }
 }
-
-print "<td><table><tr><td align='center'>Media va + scr.</td></tr><tr><td align='center'><input name='mediaamsc' id='mediaamsc' type='text' size='4' disabled><input name='mediaamsch' id='mediaamsch' type='hidden'></td></tr></table></td>";
 print "<td><table><tr><td align='center'>Colloquio</td></tr><tr><td align='center'><input name='votocoll' id='votocoll' type='number'  value='" . $val['votoorale'] . "' min='0' max='10' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
 
-print "<td><table><tr><td align='center'>Media fin.</td></tr><tr><td align='center'><input name='mediafina' id='mediafina' type='text' size='4' disabled><input name='mediafinah' id='mediafinah' type='hidden'></td></tr></table></td>";
+print "<td><table><tr><td align='center'>Media scr./coll.</td></tr><tr><td align='center'><input name='mediaamsc' id='mediaamsc' type='text' size='4' disabled><input name='mediaamsch' id='mediaamsch' type='hidden'></td></tr></table></td>";
+
+print "<td><table><tr><td align='center'>Media finale</td></tr><tr><td align='center'><input name='mediafina' id='mediafina' type='text' size='4' disabled><input name='mediafinah' id='mediafinah' type='hidden'></td></tr></table></td>";
 
 print "<td><table bgcolor='yellow'><tr><td align='center'>Voto finale</td></tr><tr><td align='center'><input name='vtfina' id='vtfina' type='text' size='2' disabled><input name='vtfinah' id='vtfinah' type='hidden'></td></tr></table></td>";
 print "<td><table><tr><td align='center'>Scarto</td></tr><tr><td align='center'><input name='scarto' id='scarto' type='text' size='4' disabled><input name='scartoh' id='scartoh' type='hidden'></td></tr></table></td>";
@@ -322,8 +302,7 @@ print "</fieldset>";
 
 print "<fieldset><legend>Prove d'esame - Prove scritte</legend>";
 
-for ($i = 1; $i <= 9; $i++)
-{
+for ($i = 1; $i <= 9; $i++) {
     $nomecri = "criteri$i";
     $nomesce = "provasceltam$i";
     $nomevoto = "votom$i";
@@ -332,24 +311,19 @@ for ($i = 1; $i <= 9; $i++)
     $nomecampoesteso = "m" . $i . "e";
     $mat = $recmat[$nomecampo];
 
-    if ($mat != '')
-    {
-        if ($recmat['numpni'] != $i)
-        {
+    if ($mat != '') {
+        if ($recmat['numpni'] != $i) {
             print "<br>Prova scritta di <b>" . $recmat[$nomecampoesteso] . "</b>";
             print "<br><left>Prova scelta: <input type='text' name='$nomesce' size='6' value='" . $val[$nomesce] . "'></left> ";
             print "<br>Criteri:<br><textarea rows='3' cols='80' name='$nomecri'>" . $val[$nomecri] . "</textarea>";
             print "<right><br>Valutazione complessiva: <input type='text' name='sch" . $nomevoto . "'  id='sch" . $nomevoto . "' size='2' value='" . $val[$nomevoto] . "' disabled></right><br>";
-        }
-        else
-        {
+        } else {
             print "<br>Prova scritta <b>Invalsi</b>";
             print "<br><left>Prova Italiano: <input type='number' name='votopniita' size='2' value='" . $val['votopniita'] . "' min='0' max='50'></left> ";
             print "<br><left>Prova Matematica: <input type='number' name='votopnimat' size='2' value='" . $val['votopnimat'] . "' min='0' max='50'></left> ";
             print "<right><br>Valutazione complessiva: <input type='text' name='sch" . $nomevoto . "'  id='sch" . $nomevoto . "' size='2' value='" . $val[$nomevoto] . "' disabled></right><br>";
         }
     }
-
 }
 print "</fieldset>";
 
@@ -366,30 +340,21 @@ print "<fieldset><legend>RISULTANZE DELL'ESAME</legend>";
 print "Giudizio complessivo:<br><textarea rows='3' cols='80' name='giudiziocomplessivo'>" . $val['giudiziocomplessivo'] . "</textarea>";
 
 print "<br>Valutazione complessiva: <input type='text' id='votofinale' size='2' disabled></right>&nbsp;";
-if ($val['lode'])
-{
+if ($val['lode']) {
     $cklode = ' checked';
-}
-else
-{
+} else {
     $cklode = '';
 }
 
-if ($val['ammissioneterza'])
-{
+if ($val['ammissioneterza']) {
     $ckamm3 = ' checked';
-}
-else
-{
+} else {
     $ckamm3 = '';
 }
 
-if ($val['unanimita'])
-{
+if ($val['unanimita']) {
     $ckuna = ' checked';
-}
-else
-{
+} else {
     $ckuna = '';
 }
 
@@ -397,12 +362,9 @@ else
 // TTTT
 
 print "Lode: <input type='checkbox' id='lode' name='lode'$cklode></right><br>";
-if ($privatista)
-{
+if ($privatista) {
     print "<div id='amm3'>Ammissione terza: <input type='checkbox' id='ammissioneterza' name='ammissioneterza'$ckamm3></right><br></div>";
-}
-else
-{
+} else {
     print "<div id='amm3' style='display:none'>Ammissione terza: <input type='checkbox' id='ammissioneterza' name='ammissioneterza'$ckamm3></right><br></div>";
 }
 print "Unanimità: <input type='checkbox' id='unanimita' name='unanimita'$ckuna></right><br>";
@@ -412,12 +374,9 @@ print "</fieldset>";
 
 print "<input type='hidden' value='$idclasse' name='idclasse'>";
 print "<input type='hidden' value='$idalunno' name='idalunno'>";
-if ($val['stato'] == 'A')
-{
+if ($val['stato'] == 'A') {
     print "<input type='submit' value='Registra dati'>";
-}
-else
-{
+} else {
     print "Esame chiuso!<br><a href='rieptabesame.php?cl=$idclasse'>Indietro</a><br><img src='../immagini/stampaA4.png'  onclick='stampaA4()'  onmouseover=$(this).css('cursor','pointer')>";
 }
 print "</form>";
@@ -429,17 +388,13 @@ mysqli_close($con);
 
 stampa_piede("");
 
-function privatista($idalunno, $con)
-{
+function privatista($idalunno, $con) {
     $query = "select idclasse,idclasseesame from tbl_alunni where idalunno=$idalunno";
     $ris = mysqli_query($con, inspref($query)) or die("Errore " . inspref($query, false));
     $rec = mysqli_fetch_array($ris);
-    if ($rec['idclasse'] == '0')
-    {
+    if ($rec['idclasse'] == '0') {
         return true;
-    }
-    else
-    {
+    } else {
         return false;
     }
 }

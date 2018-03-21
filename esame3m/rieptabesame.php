@@ -256,7 +256,7 @@ $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM
               ORDER BY anno,sezione,specializzazione";
 
 //print inspref($query);
-$ris = mysqli_query($con, inspref($query));
+$ris = mysqli_query($con, inspref($query))  or die("Errore:".inspref($query,false)." ".mysqli_error($con));
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -281,13 +281,13 @@ if ($idclasse != "")
 
     // Se non esistono i dati dell'esame relativi alla classe li inserisco
     $query = "select * from tbl_esami3m where idclasse=$idclasse";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+    $ris = mysqli_query($con, inspref($query))  or die("Errore:".inspref($query,false)." ".mysqli_error($con));
     if (mysqli_num_rows($ris) == 0)
     {
         $query = "insert into tbl_esami3m(idclasse,stato) values ('$idclasse','A')";
-        mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+        mysqli_query($con, inspref($query))  or die("Errore:".inspref($query,false)." ".mysqli_error($con));
         $query = "select * from tbl_esami3m where idclasse=$idclasse";
-        $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+        $ris = mysqli_query($con, inspref($query))  or die("Errore:".inspref($query,false)." ".mysqli_error($con));
     }
     // Visualizzo i dati dello scrutinio
     $rec = mysqli_fetch_array($ris);
@@ -317,7 +317,7 @@ if ($idclasse != "")
     $query = "SELECT * FROM tbl_esesiti,tbl_alunni
         where tbl_esesiti.idalunno=tbl_alunni.idalunno
         and tbl_alunni.idclasseesame=$idclasse";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = mysqli_query($con, inspref($query)) or die("Errore:".inspref($query,false)." ".mysqli_error($con));
     $numesitiesame = mysqli_num_rows($ris);
 
 
@@ -344,10 +344,11 @@ if ($idclasse != "")
                 $votoammissione = 0;
                 $query = "SELECT * FROM tbl_esiti
                       where idalunno=$idalunno";
-                $risesito = mysqli_query($con, inspref($query));
+                $risesito = mysqli_query($con, inspref($query)) or die("Errore:".inspref($query,false)." ".mysqli_error($con));
                 if ($recesito = mysqli_fetch_array($risesito))
                 {
-                    if (!passaggio($recesito['esito'], $con))
+                   // print "<br>Alunno: $idalunno"." Esito ". passaggio($recesito['esito'], $con);
+                    if (passaggio($recesito['esito'], $con)!=0)
                     {
                         $inserimento = false;
                     }
@@ -359,7 +360,7 @@ if ($idclasse != "")
                 if ($inserimento)
                 {
                     $query = "insert into tbl_esesiti(idalunno,votoammissione,unanimita) values ($idalunno,$votoammissione,1)";
-                    mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query, false));
+                    mysqli_query($con, inspref($query)) or die("Errore:".inspref($query,false)." ".mysqli_error($con));
                 }
 
             }

@@ -110,7 +110,7 @@ if ($idescommissione != '')
     if ($idescommissione != '1000000000') print "<font color='red'>(inserire 'del' per cancellare)</font>";
     print("</td></tr>");
     print("   <tr>
-      <td width='50%'><b>Npme presidente</b></td>
+      <td width='50%'><b>Nome presidente</b></td>
       <td width='50%'><INPUT TYPE='text' name='nomepresidente' required size='30' maxlength='30' value='$nomepresidente'></td></tr>");
     print("   <tr>
       <td width='50%'><b>Cognome presidente</b></td>

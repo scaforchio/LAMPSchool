@@ -54,7 +54,12 @@ $idrichiesta=mysqli_insert_id($con);
 print "RICHIESTA CORRETTAMENTE REGISTRATA! <br><br>";
 print "<big><b>NUMERO RICEVUTA: ".$_SESSION['suffisso'].$idrichiesta."</b><small>";
 
-/* if (invia_mail($to, $subject, $testomail))
+/* 
+ * 
+ * 
+ * 
+ * La Mail viene inviata solo dopo la conferma del dirigente
+ * if (invia_mail($to, $subject, $testomail))
 {
     print "OK! Mail correttamente inviata alla scuola.<br><br>";
     $query="update tbl_richiesteferie set erroremail=false where idrichiestaferie=$idrichiesta";

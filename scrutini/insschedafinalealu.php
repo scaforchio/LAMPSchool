@@ -62,10 +62,10 @@ $periodo = stringa_html('periodo');
 $cl = stringa_html('cl');
 $provenienza = stringa_html('prov');
 $esito = stringa_html('esito');
-$integrativo = stringa_html('esitoint');
+$integrativo = stringa_html('esitoint')!=''?stringa_html('esitoint'):0;
 $media = stringa_html('mediah');
-$creditotot = stringa_html('creditotot');
-$credito = stringa_html('credito');
+$creditotot = stringa_html('creditotot')!=''?stringa_html('creditotot'):0;
+$credito = stringa_html('credito')!=''?stringa_html('credito'):0;
 $votoammissione = stringa_html('votoammissione');
 $validita = stringa_html('validita');
 
@@ -95,12 +95,12 @@ while ($val = mysqli_fetch_array($rismat))
 
     $votounico = stringa_html($schevotounico);
     $note = stringa_html($schenote);
-    $ass = stringa_html($scheass);
+    $ass = stringa_html($scheass)!=''?stringa_html($scheass):0;
     if (($votounico != '' & $votounico != '99' & $votounico != NULL))
     {
-        $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,assenze,note,periodo)
-	                 VALUES ('$idalunno','$idmateria','$votounico','$ass','" . elimina_apici($note) . "','$periodo')";
-        $risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con));
+        $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,assenze,note,periodo, codsissi)
+	                 VALUES ('$idalunno','$idmateria','$votounico','$ass','" . elimina_apici($note) . "','$periodo',0)";
+        $risins = mysqli_query($con, inspref($queryins)) or die("Errore:".inspref($queryins,false)." ".mysqli_error($con));
         $votiinseriti = true;
     }
 }
@@ -114,9 +114,9 @@ if ($votiinseriti)
     $voto = stringa_html($schevoto);
     $note = stringa_html($schenote);
 
-    $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,periodo,note)
-	                 VALUES ('$idalunno','$idmateria','$voto','$periodo','$note')";
-    $risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con));
+    $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,periodo,note, codsissi)
+	                 VALUES ('$idalunno','$idmateria','$voto','$periodo','$note',0)";
+    $risins = mysqli_query($con, inspref($queryins)) or die("Errore:".inspref($queryins,false)." ".mysqli_error($con));
 }
 
 // INSERISCO GIUDIZIO GENERALE
@@ -133,7 +133,7 @@ $ris = mysqli_query($con, inspref($querydel)) or die(mysqli_error($con));
 $giudizio = $_POST['giudizio'];
 $queryins = "INSERT into tbl_giudizi(idclasse,idalunno,periodo,giudizio)
 	                 VALUES ('$cl','$idalunno','$periodo','" . elimina_apici($giudizio) . "')";
-$risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con));
+$risins = mysqli_query($con, inspref($queryins)) or die("Errore:".inspref($queryins,false)." ".mysqli_error($con));
 
 // INSERISCO ESITO SCRUTINIO
 
@@ -143,12 +143,12 @@ $querydel = "DELETE FROM tbl_esiti
 
 // print inspref($querydel);           
 
-$ris = mysqli_query($con, inspref($querydel)) or die(mysqli_error($con));
+$ris = mysqli_query($con, inspref($querydel)) or die("Errore:".inspref($querydel,false)." ".mysqli_error($con));
 
 $giudizio = $_POST['giudizio'];
 $queryins = "INSERT into tbl_esiti(idclasse,idalunno,esito, integrativo, media,creditotot, credito,votoammissione,validita)
 	                 VALUES ('$cl','$idalunno','$esito','$integrativo','$media','$creditotot','$credito','$votoammissione','$validita')";
-$risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con));
+$risins = mysqli_query($con, inspref($queryins)) or die("Errore:".inspref($queryins,false)." ".mysqli_error($con));
 
 
 if ($provenienza == 'tab')
