@@ -52,6 +52,11 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] -
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
 
 
+$incrementovoto=0.25;
+if (isset($solovotiinteri))
+if ($solovotiinteri=='yes')
+    $incrementovoto=1.00;
+
 $cattedra = '';
 $giorno = '';
 $meseanno = '';
@@ -772,7 +777,7 @@ else
 
                         if ($ordinevalutazioni == 'C')
                         {
-                            for ($v = $votominimoattribuibile; $v <= 10; $v = $v + 0.25)
+                            for ($v = $votominimoattribuibile; $v <= 10; $v = $v + $incrementovoto)
                             {
                                 if ($voto == $v)
                                 {
@@ -786,7 +791,7 @@ else
                         }
                         else
                         {
-                            for ($v = 10; $v >= $votominimoattribuibile; $v = $v - 0.25)
+                            for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                             {
                                 if ($voto == $v)
                                 {
@@ -815,7 +820,7 @@ else
                         echo '<select class="smallchar" name="votos' . $val["idalunno"] . '"><option value=99>&nbsp;';
                         if ($ordinevalutazioni == 'C')
                         {
-                            for ($v = $votominimoattribuibile; $v <= 10; $v = $v + 0.25)
+                            for ($v = $votominimoattribuibile; $v <= 10; $v = $v + $incrementovoto)
                             {
 
                                 echo '<option value=' . $v . '>' . dec_to_mod($v);
@@ -823,7 +828,7 @@ else
                         }
                         else
                         {
-                            for ($v = 10; $v >= $votominimoattribuibile; $v = $v - 0.25)
+                            for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                             {
 
                                 echo '<option value=' . $v . '>' . dec_to_mod($v);
@@ -876,7 +881,7 @@ else
 
                         if ($ordinevalutazioni == 'C')
                         {
-                            for ($v = $votominimoattribuibile; $v <= 10; $v = $v + 0.25)
+                            for ($v = $votominimoattribuibile; $v <= 10; $v = $v + $incrementovoto)
                             {
                                 if ($voto == $v)
                                 {
@@ -890,7 +895,7 @@ else
                         }
                         else
                         {
-                            for ($v = 10; $v >= $votominimoattribuibile; $v = $v - 0.25)
+                            for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                             {
                                 if ($voto == $v)
                                 {
@@ -920,7 +925,7 @@ else
                         echo '<select class="smallchar" name="votoo' . $val["idalunno"] . '"><option value=99>&nbsp;';
                         if ($ordinevalutazioni == 'C')
                         {
-                            for ($v = $votominimoattribuibile; $v <= 10; $v = $v + 0.25)
+                            for ($v = $votominimoattribuibile; $v <= 10; $v = $v + $incrementovoto)
                             {
 
                                 echo '<option value=' . $v . '>' . dec_to_mod($v);
@@ -928,7 +933,7 @@ else
                         }
                         else
                         {
-                            for ($v = 10; $v >= $votominimoattribuibile; $v = $v - 0.25)
+                            for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                             {
 
                                 echo '<option value=' . $v . '>' . dec_to_mod($v);
@@ -979,7 +984,7 @@ else
                         }
                         if ($ordinevalutazioni == 'C')
                         {
-                            for ($v = $votominimoattribuibile; $v <= 10; $v = $v + 0.25)
+                            for ($v = $votominimoattribuibile; $v <= 10; $v = $v + $incrementovoto)
                             {
                                 if ($voto == $v)
                                 {
@@ -993,7 +998,7 @@ else
                         }
                         else
                         {
-                            for ($v = 10; $v >= $votominimoattribuibile; $v = $v - 0.25)
+                            for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                             {
                                 if ($voto == $v)
                                 {
@@ -1023,14 +1028,14 @@ else
                         echo '<select class="smallchar" name="votop' . $val["idalunno"] . '"><option value=99>&nbsp;';
                         if ($ordinevalutazioni == 'C')
                         {
-                            for ($v = $votominimoattribuibile; $v <= 10; $v = $v + 0.25)
+                            for ($v = $votominimoattribuibile; $v <= 10; $v = $v + $incrementovoto)
                             {
                                 echo '<option value=' . $v . '>' . dec_to_mod($v);
                             }
                         }
                         else
                         {
-                            for ($v = 10; $v >= $votominimoattribuibile; $v = $v - 0.25)
+                            for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                             {
                                 echo '<option value=' . $v . '>' . dec_to_mod($v);
                             }

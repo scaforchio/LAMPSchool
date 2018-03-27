@@ -600,7 +600,7 @@ CREATE TABLE IF NOT EXISTS `tbl_esesiti` (
   `votom8` int(2),
   `votom9` int(2),
   `votoorale` int(2),
-  `mediascramm` decimal(4,2),
+  `mediascrcolloq` decimal(4,2),
   `mediafinale` decimal(4,2),
   `votofinale` int(2),
   `scarto` decimal(2,2),
@@ -2564,9 +2564,12 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'giudcomp08', 'Generalmente corretto', 'Ottavo giudizio per valutazione di comportamento (inserire NULL per non utilizzarlo)', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'giudcomp09', 'Molto corretto', 'Nono giudizio per valutazione di comportamento (inserire NULL per non utilizzarlo)', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'giudcomp10', 'Esemplare', 'Decimo giudizio per valutazione di comportamento (inserire NULL per non utilizzarlo)', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'solovotiinteri', 'no', 'Stabilisce se le valutazioni delle verifiche devono essere solo intere.', 'no|yes');
 
 INSERT INTO tbl_materie (idmateria, denominazione, idclasseconcorso, tipovalutazione, sigla) VALUES (-1, 'Comportamento', 0, 'CU', 'COMPO');
 INSERT INTO tbl_materie (idmateria, denominazione, idclasseconcorso, tipovalutazione, sigla) VALUES ( 0, 'Supplenza',     0, 'N', 'SUPP');
+
+
 
 -- Viene eseguita l'update seguente perché la variabile MySQL auto_increment_offset ha come valore predefinito 1
 -- in quel caso anche se si specifica 0 per idmateria, MySQL imposta il valore a 1

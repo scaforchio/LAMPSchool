@@ -33,6 +33,11 @@ if ($tipoutente == "")
 //    Parte iniziale della pagina
 //
 
+$incrementovoto=0.25;
+if (isset($solovotiinteri))
+if ($solovotiinteri=='yes')
+    $incrementovoto=1.00;
+
 $titolo = "Inserimento e modifica voti";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
@@ -564,7 +569,7 @@ else
                 $votoinserito = CercaVotoAbilita($idabilita, $abilita, $voti);
                 if ($ordinevalutazioni == 'C')
                 {
-                    for ($v = $votominimoattribuibile; $v <= 10; $v = $v + 0.25)
+                    for ($v = $votominimoattribuibile; $v <= 10; $v = $v + $incrementovoto)
                     {
                         if ($votoinserito == $v)
                         {
@@ -578,7 +583,7 @@ else
                 }
                 else
                 {
-                    for ($v = 10; $v >= $votominimoattribuibile; $v = $v - 0.25)
+                    for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                     {
                         if ($votoinserito == $v)
                         {
@@ -685,7 +690,7 @@ else
                 $votoinserito = CercaVotoAbilita($idabilita, $abilita, $voti);
                 if ($ordinevalutazioni == 'C')
                 {
-                    for ($v = $votominimoattribuibile; $v <= 10; $v = $v + 0.25)
+                    for ($v = $votominimoattribuibile; $v <= 10; $v = $v + $incrementovoto)
                     {
                         if ($votoinserito == $v)
                         {
@@ -699,7 +704,7 @@ else
                 }
                 else
                 {
-                    for ($v = 10; $v >= $votominimoattribuibile; $v = $v - 0.25)
+                    for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                     {
                         if ($votoinserito == $v)
                         {

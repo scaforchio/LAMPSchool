@@ -92,7 +92,11 @@ $classiconscrutiniochiuso = mysqli_num_rows($ris);
 
 if ($classiconscrutiniochiuso == $classiterzemedie)
 {
+    // ELIMINO EVENTUALI ALUNNI CON IMPOSTATA CLASSE ESAME DELL'ANNO PRECEDENTE
+    $query = "UPDATE tbl_alunni SET idclasseesame=0 WHERE 1=1";
 
+    mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+    
     $query = "UPDATE tbl_alunni SET idclasseesame=idclasse where idclasse in
              (SELECT DISTINCT tbl_classi.idclasse FROM tbl_classi
               WHERE 1=1 $ricercaterze

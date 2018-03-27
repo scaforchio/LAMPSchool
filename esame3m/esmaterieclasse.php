@@ -81,7 +81,7 @@ if ($idclasse != '') {
 
     print "<form action='insesmaterieclasse.php' method='POST'>";
     print "<input type='hidden' name='idclasse' value='$idclasse'>";
-    print "<br><br><table border=1><tr class='prima'><td>Sigla</td><td>Denominazione</td><td>Media</td><td>2^ Lingua</td></tr>";
+    print "<br><br><table border=1><tr class='prima'><td>Sigla</td><td>Denominazione</td><td>Media</td><td>Lingue straniere</td></tr>";
     // Leggo i dati della classe se già inseriti
     $query = "SELECT * FROM tbl_esmaterie where idclasse='$idclasse'";
     $ris = mysqli_query($con, inspref($query));
@@ -118,7 +118,7 @@ if ($idclasse != '') {
         }
     }
     else {
-        $secondalingua = 4;
+        $secondalingua = 3;
         
         for ($i = 1; $i <= 9; $i++) {
             $n1 = 'm' . $i . 's';
@@ -138,20 +138,21 @@ if ($idclasse != '') {
                     $denom = 'Matematica';
                     $media = '1';
                     break;
-                case 3: $sigla = 'ING';
-                    $denom = 'Inglese';
+                case 3: $sigla = 'L.STR';
+                    $denom = 'Inglese e Francese';
                     $media = '1';
                     break;
-                
+                /*
                 case 4: $sigla = 'FRA';
                     $denom = 'Francese';
                     $media = true;
-                    break;
+                    break; */
             }
             if ($secondalingua == $i)
-                $sel2l = ' checked';
+                $sel2l = ' checked'; 
+            /*
             if ($invalsi == $i)
-                $selinv = ' checked';
+                $selinv = ' checked'; */
             print "<tr><td><input type='text' name='$n1' value='$sigla' maxlength=5 size=5></td>
                        <td><input type='text' name='$n2' value='$denom' maxlength=30 size=30></td>";
             if ($media)

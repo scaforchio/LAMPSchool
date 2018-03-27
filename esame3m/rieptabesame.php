@@ -275,7 +275,7 @@ while ($nom = mysqli_fetch_array($ris))
 }
 
 print ("</select></td></tr></table></form><br><br>");
-
+$abilitaschede=false;
 if ($idclasse != "")
 {
 
@@ -288,10 +288,21 @@ if ($idclasse != "")
         mysqli_query($con, inspref($query))  or die("Errore:".inspref($query,false)." ".mysqli_error($con));
         $query = "select * from tbl_esami3m where idclasse=$idclasse";
         $ris = mysqli_query($con, inspref($query))  or die("Errore:".inspref($query,false)." ".mysqli_error($con));
+        $rec = mysqli_fetch_array($ris);
+    }
+    else
+    {
+        // Verifico che sia stata inserito il verbale
+        $rec= mysqli_fetch_array($ris);
+        $commissione=$rec['idcommissione'];
+        if ($commissione!=NULL)
+            $abilitaschede=true;
     }
     // Visualizzo i dati dello scrutinio
-    $rec = mysqli_fetch_array($ris);
-    $datascrutinio = $rec['datascrutinio'];
+    
+    // Carico la data odierna se non è ancora registrato lo scrutinio
+    $datascrutinio = $rec['datascrutinio']!=NULL?$rec['datascrutinio']:date('Y-m-d');
+    
     $luogoscrutinio = $rec['luogoscrutinio'];
     $orainizio = $rec['orainizio'];
     $orafine = $rec['orafine'];
@@ -405,10 +416,7 @@ if ($idclasse != "")
         }
 
 
-        // MEDIA SCR.+OR.
-        print ("<td>");
-        print "SCR.+AMM.";
-        print ("</td>");
+        
 
 
         // ORALE
@@ -416,6 +424,12 @@ if ($idclasse != "")
         print "COLLOQUIO";
         print ("</td>");
 
+        
+        // MEDIA SCR.+OR.
+        print ("<td>");
+        print "SCR.+COLL.";
+        print ("</td>");
+        
         // MEDIA FINALE
         print ("<td>");
         print "MEDIA FIN.";
@@ -510,9 +524,10 @@ if ($idclasse != "")
             }
 
             // $mediascrittivotoammissione=round($totalescritti/$numeroscritti,2);
-            print "<td align='center'>" . $datitabella['scam' . $idalunno] . "</td>";
+            
             print "<td align='center'>" . $datitabella['coll' . $idalunno] . "</td>";
 
+            print "<td align='center'>" . $datitabella['scco' . $idalunno] . "</td>";
             // $mediafinale=round(($totalescritti+$datitabella['coll'.$idalunno])/($numeroscritti+1),2);
 
             print "<td align='center'>" . $datitabella['mdfi' . $idalunno] . "</td>";
@@ -534,7 +549,8 @@ if ($idclasse != "")
        //     if ($stato=='C')
        //     {
                 print ("<td>");
-                print "<center><img width='50%' height='50%' src='../immagini/stampaA4.png'  onclick='stampaA4($idalunno)'  onmouseover=$(this).css('cursor','pointer')>";
+                if ($abilitaschede)
+                    print "<center><img width='50%' height='50%' src='../immagini/stampaA4.png'  onclick='stampaA4($idalunno)'  onmouseover=$(this).css('cursor','pointer')>";
                 print ("</td>");
        //     }
             print "</tr>";
@@ -563,7 +579,7 @@ if ($idclasse != "")
         print "<form name='registradativerbale' action='insdatiesame.php' method='post'>";
         print "<fieldset><legend>DATI VERBALE</legend>";
         print "<center>
-						<input type='hidden' name='idesame' value='$idesame'>";
+		<input type='hidden' name='idesame' value='$idesame'>";
         print "<input type='hidden' name='idclasse' value='$idclasse'>";
         print "Data scrutinio <input type='text' name='datascrutinio' id='datascrutinio' class='datepicker' size='8' maxlength='10' value ='" . data_italiana($datascrutinio) . "'>";
         print "&nbsp;Luogo (aula, ecc.): <input type='text' name='luogoscrutinio' value ='" . $luogoscrutinio . "'>";
@@ -699,9 +715,9 @@ function creaFileCSV($idclasse, &$datitabella, $conn)
     // $intestazione[] = "Prova 4 scelta";
     // $intestazione[] = "Prova 4 criteri";
     // $intestazione[] = "Prova 4 voto";
-    $intestazione[] = "P.N.I. Matematica";
-    $intestazione[] = "P.N.I. Italiano";
-    $intestazione[] = "P.N.I. Complessivo";
+    $intestazione[] = $recmat['m4e'] . " scelta";
+    $intestazione[] = $recmat['m4e'] . " criteri";
+    $intestazione[] = $recmat['m4e'] . " voto";
     $intestazione[] = $recmat['m5e'] . " scelta";
     $intestazione[] = $recmat['m5e'] . " criteri";
     $intestazione[] = $recmat['m5e'] . " voto";
@@ -726,7 +742,7 @@ function creaFileCSV($idclasse, &$datitabella, $conn)
     $intestazione[] = "Voto esame";
     $intestazione[] = "Lode";
     $intestazione[] = "Cons. orient. Commiss.";
-    $intestazione[] = "Media scritti e voto ammissione";
+    $intestazione[] = "Media scritti e colloquio";
     $intestazione[] = "Media finale";
     $intestazione[] = "Scarto";
 
@@ -810,8 +826,8 @@ function creaFileCSV($idclasse, &$datitabella, $conn)
         $alunno[] = $recval['votom3'];
         $datitabella["vtm3" . $idalunno] = $recval['votom3'];
 
-        $alunno[] = $recval['votopnimat'];
-        $alunno[] = $recval['votopniita'];
+        $alunno[] = $recval['provasceltam4'];
+        $alunno[] = $recval['criterim4'];
         $alunno[] = $recval['votom4'];
         $datitabella["vtm4" . $idalunno] = $recval['votom4'];
 
@@ -867,8 +883,8 @@ function creaFileCSV($idclasse, &$datitabella, $conn)
         $datitabella["lode" . $idalunno] = $recval['lode'];
         $alunno[] = $recval['consorientcomm'];
 
-        $alunno[] = $recval['mediascramm'];
-        $datitabella["scam" . $idalunno] = $recval['mediascramm'];
+        $alunno[] = $recval['mediascrcolloq'];
+        $datitabella["scco" . $idalunno] = $recval['mediascrcolloq'];
 
         $alunno[] = $recval['mediafinale'];
         $datitabella["mdfi" . $idalunno] = $recval['mediafinale'];

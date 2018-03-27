@@ -197,7 +197,7 @@ while ($nom = mysqli_fetch_array($ris))
     print "<option value='";
     print ($nom["iddocente"]);
     print "'";
-    if ($iddocente == $nom["iddocente"])
+    if (c == $nom["iddocente"])
     {
         print " selected";
     }
@@ -286,11 +286,15 @@ if ($idclasse != "")
     }
 
 }
+
 else
 {
    // $stringaricerca = $stringaricerca . " and 1=2 ";
-    $stringaricerca = $stringaricerca . " and tbl_notealunno.iddocente=$idutente ";
+    if ($_SESSION['tipoutente']=='D')
+        $stringaricerca = $stringaricerca . " and tbl_notealunno.iddocente=$idutente ";
 }
+
+
 if ($iddocente != "")
 {
     $stringaricerca = $stringaricerca . " and tbl_notealunno.iddocente=$iddocente ";

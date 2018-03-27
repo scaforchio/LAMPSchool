@@ -33,6 +33,12 @@ if ($tipoutente == "")
 //    Parte iniziale della pagina
 //
 
+
+$incrementovoto=0.25;
+if (isset($solovotiinteri))
+if ($solovotiinteri=='yes')
+    $incrementovoto=1.00;
+
 $titolo = "Inserimento e modifica voti verifiche";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
@@ -568,7 +574,7 @@ else
 
                         if ($ordinevalutazioni == 'C')
                         {
-                            for ($v = $votominimoattribuibile; $v <= 10; $v = $v + 0.25)
+                            for ($v = $votominimoattribuibile; $v <= 10; $v = $v + $incrementovoto)
                             {
                                 if ($voto == $v)
                                 {
@@ -582,7 +588,7 @@ else
                         }
                         else
                         {
-                            for ($v = 10; $v >= $votominimoattribuibile; $v = $v - 0.25)
+                            for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                             {
                                 if ($voto == $v)
                                 {
@@ -606,7 +612,7 @@ else
 									  <select name='voto" . $val['idalunno'] . "_" . $arrcodabil[1][$i] . "'><option value=99>&nbsp;";
                             if ($ordinevalutazioni == 'C')
                             {
-                                for ($v = $votominimoattribuibile; $v <= 10; $v = $v + 0.25)
+                                for ($v = $votominimoattribuibile; $v <= 10; $v = $v + $incrementovoto)
                                 {
 
                                     echo '<option value=' . $v . '>' . dec_to_mod($v);
@@ -614,7 +620,7 @@ else
                             }
                             else
                             {
-                                for ($v = 10; $v >= $votominimoattribuibile; $v = $v - 0.25)
+                                for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                                 {
 
                                     echo '<option value=' . $v . '>' . dec_to_mod($v);

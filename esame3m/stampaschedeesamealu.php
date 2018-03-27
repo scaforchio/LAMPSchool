@@ -50,7 +50,7 @@ if ($idclasse != "")
 {
 
     $query = "select idalunno from tbl_alunni where idclasseesame=$idclasse order by idclasse DESC, cognome,nome";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));;
     while ($val = mysqli_fetch_array($ris))
     {
         $alunni[] = $val['idalunno'];
@@ -61,7 +61,7 @@ else
 
     $alunni[] = $idalunno;
     $query = "select idclasseesame from tbl_alunni where idalunno=$idalunno";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));;
     if ($val = mysqli_fetch_array($ris))
     {
         $idclasse = $val['idclasseesame'];
@@ -101,23 +101,23 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
 
 
     $query = "select * from tbl_esami3m where idclasse=$idclasse";
-    $risesa = mysqli_query($con, inspref($query));
+    $risesa = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));;
     $recesa = mysqli_fetch_array($risesa);
 
 
     $query = "select * from tbl_esmaterie where idclasse=$idclasse";
-    $rismat = mysqli_query($con, inspref($query));
+    $rismat = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));;
     $recmat = mysqli_fetch_array($rismat);
 
 
-    $primalingua = converti_utf8($recmat['m3e']);
+    // $primalingua = converti_utf8($recmat['m3e']);
     $secondalingua = converti_utf8($recmat['m' . $recmat['num2lin'] . 'e']);
 
 
     foreach ($alunni as $alu)
     {
         $query = "select * from tbl_esesiti where idalunno=$alu";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));;
         $rec = mysqli_fetch_array($ris);
 
 
@@ -165,7 +165,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
         $query = "SELECT datanascita, codfiscale, denominazione,idcomnasc FROM tbl_alunni,tbl_comuni
               WHERE tbl_alunni.idcomnasc=tbl_comuni.idcomune 
               AND idalunno=$alu";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));;
         if ($val = mysqli_fetch_array($ris))
         {
             $datanascita = data_italiana($val['datanascita']);
@@ -245,15 +245,15 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
 
 
         $schede->setXY(60, 175);
-        $schede->SetFont('Arial', 'B', 12);
+    /*    $schede->SetFont('Arial', 'B', 12);
         $schede->Cell(100, 6, "Prima lingua straniera:", 0, 0, 'C');
         $schede->setXY(60, 185);
         $schede->SetFont('Arial', 'B', 12);
         $schede->Cell(100, 6, $primalingua, 0, 0, 'C');
-        $schede->setXY(60, 200);
+        $schede->setXY(60, 200); */
         $schede->SetFont('Arial', 'B', 12);
-        $schede->Cell(100, 6, "Seconda lingua straniera:", 0, 0, 'C');
-        $schede->setXY(60, 210);
+        $schede->Cell(100, 6, "Lingue straniere:", 0, 0, 'C');
+        $schede->setXY(60, 185);
         $schede->SetFont('Arial', 'B', 12);
         $schede->Cell(100, 6, $secondalingua, 0, 0, 'C');
 
@@ -351,7 +351,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
         $schede->SetFont('Arial', '', 10);
         $schede->MultiCell(170, 5, converti_utf8($rec['criteri'. $recmat['num2lin']]),"BLR");
 
-        $pY=$schede->GetY();
+      /*  $pY=$schede->GetY();
         $schede->SetXY($posX,$pY);
         $schede->SetFont('Arial', 'B', 12);
         $testata="Prova scritta nazionale";
@@ -362,7 +362,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
         $testo.="\n\nItaliano: ".$rec['votopniita']."\n\n";
         $schede->SetFont('Arial', '', 10);
         $schede->MultiCell(170, 5, converti_utf8($testo),"BLR");
-
+*/
 
         $schede->AddPage();
         // TERZA PAGINA

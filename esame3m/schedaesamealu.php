@@ -82,19 +82,24 @@ $script = "<script>
 			}
 					 }
                 }
+                /*
                 if (!(document.getElementById('privatista').value=='1'))
                 {
                    tot += parseInt(document.getElementById('votoamm').value);
                    cont++;
-                }
-                  mediascam=tot/cont*100;
+                } */
+                
+                tot += parseInt(document.getElementById('votocoll').value);
+                cont++;
+
+                mediascam=tot/cont*100;
                   mediascam=Math.round(mediascam);
                   mediascam=mediascam/100;
-                  document.getElementById('mediaamsc').value=mediascam;
-                  document.getElementById('mediaamsch').value=mediascam;
-                  mediafina=tot+parseFloat(document.getElementById('votocoll').value);
+                  document.getElementById('mediascrcolloq').value=mediascam;
+                  document.getElementById('mediascrcolloqh').value=mediascam;
+                  mediafina=(parseFloat(document.getElementById('mediascrcolloq').value)+parseFloat(document.getElementById('votoamm').value))/2;
                   document.getElementById('votoorale').value=parseFloat(document.getElementById('votocoll').value);
-                  mediafina=mediafina/(cont+1);
+                 // mediafina=mediafina/(cont+1);
                   mediafina=Math.round(mediafina*100)/100;
                   if (!isNaN(mediafina))
                   {
@@ -282,7 +287,7 @@ for ($i = 1; $i <= 9; $i++) {
 }
 print "<td><table><tr><td align='center'>Colloquio</td></tr><tr><td align='center'><input name='votocoll' id='votocoll' type='number'  value='" . $val['votoorale'] . "' min='0' max='10' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
 
-print "<td><table><tr><td align='center'>Media scr./coll.</td></tr><tr><td align='center'><input name='mediaamsc' id='mediaamsc' type='text' size='4' disabled><input name='mediaamsch' id='mediaamsch' type='hidden'></td></tr></table></td>";
+print "<td><table><tr><td align='center'>Media scr./coll.</td></tr><tr><td align='center'><input name='mediascrcolloq' id='mediascrcolloq' type='text' size='4' disabled><input name='mediascrcolloqh' id='mediascrcolloqh' type='hidden'></td></tr></table></td>";
 
 print "<td><table><tr><td align='center'>Media finale</td></tr><tr><td align='center'><input name='mediafina' id='mediafina' type='text' size='4' disabled><input name='mediafinah' id='mediafinah' type='hidden'></td></tr></table></td>";
 

@@ -55,7 +55,7 @@ $votom7=stringa_html('votom7');
 $votom8=stringa_html('votom8');
 $votom9=stringa_html('votom9');
 $votoorale=stringa_html('votocoll');
-$mediascramm=stringa_html('mediaamsch');
+$mediascrcolloq=stringa_html('mediascrcolloqh');
 $mediafinale=stringa_html('mediafinah');
 $votofinale=stringa_html('vtfinah');
 $scarto=stringa_html('scartoh');
@@ -78,8 +78,6 @@ $criteri6=stringa_html('criteri6');
 $criteri7=stringa_html('criteri7');
 $criteri8=stringa_html('criteri8');
 $criteri9=stringa_html('criteri9');
-$votopniita=stringa_html('votopniita');
-$votopnimat=stringa_html('votopnimat');
 $datacolloquio=data_to_db(stringa_html('datacolloquio'));
 $tracciacolloquio=stringa_html('tracciacolloquio');
 $giudiziocolloquio=stringa_html('giudiziocolloquio');
@@ -136,12 +134,10 @@ $query="update tbl_esesiti set
         provasceltam8='$provasceltam8',
         provasceltam9='$provasceltam9',
         votoorale='$votoorale',
-        mediascramm='$mediascramm',
+        mediascrcolloq='$mediascrcolloq',
         mediafinale='$mediafinale',
         votofinale='$mediafinale',
         scarto='$scarto',
-        votopniita='$votopniita',
-        votopnimat='$votopnimat',
         datacolloquio='$datacolloquio',
         tracciacolloquio='$tracciacolloquio',
         giudiziocolloquio='$giudiziocolloquio',
@@ -152,7 +148,7 @@ $query="update tbl_esesiti set
         unanimita='$unanimita',
         ammissioneterza='$ammissioneterza'
         where idalunno=$idalunno";
-mysqli_query($con,inspref($query));
+mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query,false). " ".mysqli_error($con));
 
 
 
