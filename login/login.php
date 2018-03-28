@@ -104,11 +104,9 @@ if (strlen($messaggio) > 0)
 
         <a style="text-decoration:none;" href='https://play.google.com/store/apps/details?id=com.gabriel.Registro&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
             <img style="width: 123px;" alt="Disponibile su AppStore" src="https://devimages-cdn.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" >
-        </a>
-      
+        </a>      
     </div>
     
-
     <?php
     print "<a href='$sito_scuola' target='_top'>Ritorna ad home page</a>";
     ?>
