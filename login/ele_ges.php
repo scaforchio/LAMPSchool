@@ -478,7 +478,11 @@ if ($cambiamentopassword) {
         menu_item('../valutazionecomportamento/sitvalcompalu.php', 'SITUAZIONE VOTI COMPORTAMENTO');
 
         menu_title_end();
-
+        menu_title_begin('CERTIFICAZIONE COMPETENZE');
+        
+        menu_item('../certcomp/ccproposte.php', 'PROPOSTE CERTIFICAZIONE COMPETENZE');
+        
+        menu_title_end();
 
         // MODIFICA PER PROF. FINI
         /*  if ($idutente == 1000000030)
@@ -721,13 +725,18 @@ if ($cambiamentopassword) {
         menu_item('../valutazionecomportamento/sitvalcompalu.php', 'SITUAZIONE VOTI COMPORTAMENTO');
         menu_title_end();
 
+        menu_title_begin('CERTIFICAZIONE COMPETENZE');
+        
+        menu_item('../certcomp/ccproposte.php', 'PROPOSTE CERTIFICAZIONE COMPETENZE');
+        
+        menu_title_end();
+        
         if ($norm & $valutazionepercompetenze == 'yes') {
             menu_title_begin('VALUTAZIONE COMPETENZE');
             menu_item('../valutazioni/valabilcono.php', 'VERIFICHE');
             menu_item('../valutazioni/valaluabilcono.php?modo=norm', 'VALUTAZIONI ALUNNO');
             menu_item('../valutazioni/sitvalalu.php', 'VISUALIZZA SITUAZIONE ALUNNO');
             menu_item('../valutazioni/sitvalobi.php', 'VISUALIZZA SITUAZ. PER OBIETT.');
-
             menu_title_end();
         }
 
