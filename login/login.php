@@ -96,6 +96,17 @@ if (strlen($messaggio) > 0)
         <input type='hidden' name='password' id='passwordmd5'>
     </form>
     <br/>
+
+    <div>
+        <a style="text-decoration:none;" href='https://play.google.com/store/apps/details?id=com.gabriel.Registro'>
+            <img style="width: 150px;" alt='Disponibile su Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/it_badge_web_generic.png'/>
+        </a>
+
+        <a style="text-decoration:none;" href='https://itunes.apple.com/us/app/registro-lampschool/id1364584771?l=it&ls=1&mt=8'>
+            <img style="width: 123px;" alt="Disponibile su AppStore" src="https://devimages-cdn.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" >
+        </a>      
+    </div>
+    
     <?php
     print "<a href='$sito_scuola' target='_top'>Ritorna ad home page</a>";
     ?>
