@@ -727,8 +727,9 @@ if ($cambiamentopassword) {
 
         menu_title_begin('CERTIFICAZIONE COMPETENZE');
         
-        menu_item('../certcomp/ccproposte.php', 'PROPOSTE CERTIFICAZIONE COMPETENZE');
-        menu_item('../certcomp/ccvalutazioni.php', 'CERTIFICAZIONE COMPETENZE');
+        menu_item('../certcomp/ccproposte.php', 'PROPOSTE ALUNNI');
+        menu_item('../certcomp/ccvalutazioni.php', 'CERTIFICAZIONE ALUNNI');
+        menu_item('../certcomp/cctabellone.php', 'TABELLONE CLASSE');
         
         menu_title_end();
         
@@ -968,6 +969,7 @@ if ($cambiamentopassword) {
         menu_item('../scrutini/schedafinalealu.php', 'PAGELLA FINALE ALUNNO');
         menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
         menu_item('../certcomp/ccvalutazioni.php', 'CERTIFICAZIONE COMPETENZE');
+        menu_item('../certcomp/cctabellone.php', 'CERTIFICAZIONE COMPETENZE - TABELLONE');
         menu_title_end();
 
 
