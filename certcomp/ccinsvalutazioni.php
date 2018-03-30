@@ -29,7 +29,7 @@ if ($tipoutente == "") {
     die;
 }
 
-$titolo = "Inserimento proposte per certificazione competenze";
+$titolo = "Inserimento valutazioni per certificazione competenze";
 $script = "";
 stampa_head($titolo, "", $script, "SD");
 
@@ -43,11 +43,11 @@ $iddocente = stringa_html('iddocente');
 $idalunno = stringa_html('idalunno');
 $idclasse = estrai_classe_alunno($idalunno, $con);
 $livscuola = stringa_html('livscuola');
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='ccproposte.php?idclasse=$idclasse'>PROPOSTE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='ccvalutazioni.php?idclasse=$idclasse'>VALUTAZIONI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 // Cancello le vecchie proposte
 
-$querydel = "delete from tbl_certcompproposte where idalunno=$idalunno and iddocente=$iddocente";
+$querydel = "delete from tbl_certcompvalutazioni where idalunno=$idalunno";
 
 mysqli_query($con, inspref($querydel)) or die("Errore nella query: " . mysqli_error($con));
 
@@ -63,14 +63,14 @@ while ($rec = mysqli_fetch_array($ris)) {
         $campo = "txtcmp_" . $rec['idccc'];
         $giud = stringa_html($campo);
         if ($giud != '')
-            $queryins = "insert into tbl_certcompproposte(idalunno,iddocente,idccc,giud) "
-                    . "values ($idalunno,$iddocente,'" . $rec[idccc] . "','$giud')";
+            $queryins = "insert into tbl_certcompvalutazioni(idalunno,idccc,giud) "
+                    . "values ($idalunno,'" . $rec[idccc] . "','$giud')";
     } else {
         $campo = "selcmp_" . $rec['idccc'];
         $live = stringa_html($campo);
         if ($live != "0")
-            $queryins = "insert into tbl_certcompproposte(idalunno,iddocente,idccc,idccl) "
-                    . "values ($idalunno,$iddocente,'" . $rec[idccc] . "','" . $live . "')";
+            $queryins = "insert into tbl_certcompvalutazioni(idalunno,idccc,idccl) "
+                    . "values ($idalunno,'" . $rec[idccc] . "','" . $live . "')";
     }
     if ($queryins != "")
         mysqli_query($con, inspref($queryins)) or die("Errore nella query: " . mysqli_error($con) . " " . inspref($queryins));
