@@ -98,7 +98,7 @@ if (strlen($messaggio) > 0)
     <br/>
 
     <div>
-        <a style="text-decoration:none;" href='https://play.google.com/store/apps/details?id=com.gabriel.Registro&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'>
+        <a style="text-decoration:none;" href='https://play.google.com/store/apps/details?id=com.gabriel.Registro'>
             <img style="width: 150px;" alt='Disponibile su Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/it_badge_web_generic.png'/>
         </a>
 
