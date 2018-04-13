@@ -877,6 +877,7 @@ if ($cambiamentopassword) {
         menu_item('../docenti/richferie.php', 'RICHIESTA ASTENSIONE DAL LAVORO');
         menu_item('../docenti/esamerichferie.php', 'ESAMINA RICHIESTE FERIE');
         menu_item('../docenti/visrichferie.php', 'VISIONA ASTENSIONI APPROVATE DAL D.S.');
+        menu_item('../docenti/visorepermesso.php', 'VISIONA ORE PERMESSO DOCENTI');
         menu_title_end();
     }
 
@@ -1077,6 +1078,7 @@ if ($cambiamentopassword) {
         menu_item('../contr/solalettura_on.php', 'ABILITA SOLA LETTURA');
         menu_item('../contr/solalettura_off.php', 'DISABILITA SOLA LETTURA');
         menu_item('../docenti/esamerichferie.php', 'ESAMINA RICHIESTE FERIE');
+        menu_item('../docenti/visorepermesso.php', 'CONTEGGIO ORE PERMESSO DOCENTI');
         menu_title_end();
     }
 

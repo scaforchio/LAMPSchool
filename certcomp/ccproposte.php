@@ -238,26 +238,3 @@ if ($idalunno != '') {
 mysqli_close($con);
 stampa_piede("");
 
-function cerca_livello_comp($con, $idalunno, $iddocente, $idcompetenza) {
-    $query = "select * from tbl_certcompproposte
-            where idalunno=$idalunno and iddocente=$iddocente and idccc=$idcompetenza";
-    // print inspref($query);
-    $ris = mysqli_query($con, inspref($query));
-    if (mysqli_num_rows($ris) > 0) {
-        $rec = mysqli_fetch_array($ris);
-        return $rec['idccl'];
-    } else
-        return 0;
-}
-
-function cerca_giudizio_comp($con, $idalunno, $iddocente, $idcompetenza) {
-    $query = "select * from tbl_certcompproposte
-            where idalunno=$idalunno and iddocente=$iddocente and idccc=$idcompetenza";
-    // print inspref($query);
-    $ris = mysqli_query($con, inspref($query));
-    if (mysqli_num_rows($ris) > 0) {
-        $rec = mysqli_fetch_array($ris);
-        return $rec['giud'];
-    } else
-        return "";
-}

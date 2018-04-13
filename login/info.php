@@ -39,7 +39,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 
 <b>Hanno contribuito (in ordine di intervento):</b><br/><br/>
 <table border=1>
-	<tr><td><a href='mailto:pietro.tamburrano@gmail.com'>Pietro Tamburrano</a></td><td><i>(Analisi, Sviluppo, Debugging, Documentazione)</i></td><td>ISIS Luigi Di Maggio - San Giovanni Rotondo</td></tr>
+    <tr><td><a href='mailto:pietro.tamburrano@gmail.com'>Pietro Tamburrano</a></td><td><i>(Analisi, Sviluppo, Debugging, Documentazione)</i></td><td>ISIS Luigi Di Maggio - San Giovanni Rotondo</td></tr>
     <tr><td><a href='mailto:gpgorgoglione@alice.it'>Giovanni Gorgoglione</a></td><td><i>(Analisi, Debugging)</i></td><td>ISIS Luigi Di Maggio - San Giovanni Rotondo</td></tr>
     <tr><td><a href='mailto:massimo.cunico@ic16verona.gov.it'>Massimo Cunico</a></td><td><i>(Analisi, Debugging, Documentazione)</i></td><td>IC 16 Verona</td></tr>
     <tr><td><a href='mailto:ubaldo@pernigo.com'>Ubaldo Pernigo</a></td><td><i>(Analisi, Debugging)</i></td><td>IC 04 Verona</td></tr>
@@ -64,6 +64,17 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
     <tr><td><a href='http://www.lampschool.it'><img src='../immagini/dematvr.png'></a></td><td>Rete delle scuole veronesi per la dematerializzazione</td></tr>
     
 </table>
+
+<div>
+        <a style="text-decoration:none;" href='https://play.google.com/store/apps/details?id=com.gabriel.Registro'>
+            <img style="width: 150px;" alt='Disponibile su Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/it_badge_web_generic.png'/>
+        </a>
+
+        <a style="text-decoration:none;" href='https://itunes.apple.com/us/app/registro-lampschool/id1364584771?l=it&ls=1&mt=8'>
+            <img style="width: 123px;" alt="Disponibile su AppStore" src="https://devimages-cdn.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" >
+        </a>      
+</div>
+
 
 <br><br><small><a href='mailto:pietro.tamburrano@gmail.com'>Informazioni e segnalazioni</a></small><br/><br/>
 <small><a href='http://sourceforge.net/p/lampschool/code/ci/master/tree/'>Codice</a></small><br/><br/>

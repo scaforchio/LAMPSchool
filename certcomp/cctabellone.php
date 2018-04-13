@@ -56,7 +56,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 
 print ('
-         <form method="post" action="ccvalutazioni.php" name="voti">
+         <form method="post" action="cctabellone.php" name="voti">
    
          <p align="center">
          <table align="center">
@@ -102,201 +102,53 @@ echo('
 //
 
 if ($idclasse != '') {
-    print('
-        <tr>
-        <td width="50%"><b>Alunno</b></td>
-        <td width="50%">
-        <SELECT ID="idalunno" NAME="idalunno" ONCHANGE="voti.submit()"><option value="">');
 
+    $competenzedes = array();
+    $competenzecod = array();
+
+    $annoclasse = decodifica_anno_classe($idclasse, $con);
+
+    if ($annoclasse == 3 || $annoclasse == 8)
+        $livscuola = 2;
+    if ($annoclasse == 5)
+        $livscuola = $livello_scuola;
+    $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
+    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
+    while ($rec = mysqli_fetch_array($ris)) {
+        $competenzedes[] = $rec['compcheuropea'];
+        $competenzecod[] = $rec['idccc'];
+        
+    }
+
+
+
+    print('<table border=1>
+        <tr>
+        <td width="50%"><b>Alunno</b></td>');
+    foreach ($competenzedes as $descr) {
+        print "<td><small><small>$descr<big><big></td>";
+    }
+    print "</tr>";
 
     $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
 
     $ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
     while ($nom = mysqli_fetch_array($ris)) {
-        print "<option value='";
-        print ($nom["idalunno"]);
-        print "'";
-        if ($idalunno == $nom["idalunno"]) {
-            print " selected";
-        }
-        print ">";
-        print ($nom["cognome"]);
-        print "&nbsp;";
-        print($nom["nome"]);
-        print "&nbsp;(";
-        print(data_italiana($nom["datanascita"]));
-        print ")";
-    }
-
-    echo('
-      </SELECT>
-      </td></tr>');
-}
-echo('</table>
- 
-       ');
-
-echo('</form><hr>');
-
-
-//
-//  Se è stato selezionato l'alunno si procede all'inserimento/modifica delle
-//  valutazioni
-//
-//Stabilisco il livello scuola
-
-
-$annoclasse = decodifica_anno_classe($idclasse, $con);
-
-if ($annoclasse == 3 || $annoclasse == 8)
-    $livscuola = 2;
-if ($annoclasse == 5)
-    $livscuola = $livello_scuola;
-
-if ($idalunno != '') {
-
-    $query = "select * from tbl_certcompvalutazioni where idalunno='$idalunno'";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
-    if (mysqli_num_rows($ris) == 0) {
-        if (importa_proposte($con, $idalunno, $livscuola))
-            print "<center><font color='green'><big>Proposte importate!</big></font></center>";
-        else
-            print "<center><font color='red'><big>Nessuna proposta presente!</big></font></center>";
-    }
-    print "<form name='regprop' action='ccinsvalutazioni.php' method='POST'>";
-    print "<input type='hidden' name='idalunno' value='$idalunno'>";
-    print "<input type='hidden' name='livscuola' value='$livscuola'>";
-
-    print "<table border=1>";
-
-
-
-    $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
-    while ($rec = mysqli_fetch_array($ris)) {
         print "<tr>";
-        print "<td valign='middle' width=5%>" . $rec['numprogressivo'] . "</td>";
-        if ($rec['compcheuropea'] != '') {  // Prevede valutazione sul livello
-            print "<td valign='middle' width=25%>" . $rec['compcheuropea'] . "</td>";
-            print "<td valign='middle' width=60%>" . $rec['compprofilo'] . "</td>";
-            print "<td valign='middle' width=10%>";
-            $livellocomp = cerca_livello_comp($con, $idalunno, $rec[idccc]);
-            //print $livellocomp;
+        print "<td>" . $nom['cognome'] . " " . $nom['nome'] . " (" . data_italiana($nom['datanascita']) . ")</td>";
 
-            $queryliv = "select * from tbl_certcomplivelli where livscuola='$livscuola' order by livello";
-            $risliv = mysqli_query($con, inspref($queryliv)) or die("Errore" . mysqli_error($con));
-            print "<select name='selcmp_" . $rec['idccc'] . "'><option value='0'>&nbsp;";
-            while ($recliv = mysqli_fetch_array($risliv)) {
-                $codliv = $recliv['idccl'];
-                $desliv = $recliv['livello'];
-                if ($codliv == $livellocomp)
-                    $sel = "selected";
-                else
-                    $sel = "";
-                print "<option value='$codliv' $sel>$desliv</option>";
-            }
-            print "</select>";
-            print "</td>";
+        foreach ($competenzecod as $codice) {
+            if (cerca_competenza_ch_europea($con,$codice)!="")
+               print "<td><small><small>" . decodifica_livello_certcomp($con,cerca_livello_comp($con, $nom['idalunno'], $codice)) . "<big><big></td>";
+            else
+               print "<td><small><small>" . cerca_giudizio_comp($con, $nom['idalunno'], $codice) . "<big><big></td>";
         }
-        else {
-            print "<td colspan=3 valign='middle' width=60%>" . $rec['compprofilo'] . ""
-                    . "<br><textarea cols=120 name='txtcmp_" . $rec['idccc'] . "'>";
 
-            print cerca_giudizio_comp($con, $idalunno, $rec['idccc']);
-
-            print "</textarea></td>";
-        }
         print "</tr>";
     }
     print "</table>";
-
-    print "<center><br><input type='submit' value='Registra proposte'><br>";
-
-    print "</form>";
 }
 
 mysqli_close($con);
 stampa_piede("");
 
-function importa_proposte($con, $idalunno, $livscuola) {
-    $inserimentoeffettuato = false;
-    $query = "select * from tbl_certcompcompetenze where livscuola=$livscuola";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
-    while ($rec = mysqli_fetch_array($ris)) {
-        $tipo = 'media';
-        $tipocomp = $rec['idccc'];
-        if ($rec['compcheuropea'] == '')
-            $tipo = 'concat';
-
-        if ($tipo == 'media') {
-            $querymedia = "select avg(indicatorenumerico) as media from tbl_certcompproposte,tbl_certcomplivelli where
-                        tbl_certcompproposte.idccl=tbl_certcomplivelli.idccl
-                        and tbl_certcompproposte.idccc=$tipocomp
-                        and tbl_certcompproposte.idalunno=$idalunno";
-        } else {
-            $querymedia = "select group_concat(DISTINCT giud SEPARATOR ' ') as media from tbl_certcompproposte where
-                        tbl_certcompproposte.idccc=$tipocomp
-                        and tbl_certcompproposte.idalunno=$idalunno";
-        }
-
-        $rismedia = mysqli_query($con, inspref($querymedia)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
-        if ($recmedia = mysqli_fetch_array($rismedia)) {
-
-            $media = $recmedia['media'];
-            if ($tipo == 'media')
-                $mediaprop = round($media);
-        }
-        $queryins = '';
-        if ($tipo == 'media') {
-            if ($media != 0) {
-                $idlivmedio = cerca_livello_da_valore($con, $mediaprop, $livscuola);
-                $queryins = "insert into tbl_certcompvalutazioni(idccc,idalunno,idccl) values($tipocomp,$idalunno,$idlivmedio)";
-            }
-        } else {
-
-            if ($media != "") {
-
-                $queryins = "insert into tbl_certcompvalutazioni(idccc,idalunno,giud) values($tipocomp,$idalunno,'$media')";
-            }
-        }
-        if ($queryins != "") {
-            mysqli_query($con, inspref($queryins)) or die("Errore:" . mysqli_error($con) . " " . inspref($queryins));
-            $inserimentoeffettuato = true;
-        }
-    }
-    return $inserimentoeffettuato;
-}
-
-function cerca_livello_da_valore($con, $valore, $livello) {
-    $query = "select idccl from tbl_certcomplivelli where livscuola=$livello and indicatorenumerico=$valore";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
-    if (mysqli_num_rows($ris) > 0) {
-        $rec = mysqli_fetch_array($ris);
-        return $rec['idccl'];
-    } else
-        return 0;
-}
-
-function cerca_livello_comp($con, $idalunno, $idcompetenza) {
-    $query = "select * from tbl_certcompvalutazioni
-            where idalunno=$idalunno and idccc=$idcompetenza";
-    // print inspref($query);
-    $ris = mysqli_query($con, inspref($query));
-    if (mysqli_num_rows($ris) > 0) {
-        $rec = mysqli_fetch_array($ris);
-        return $rec['idccl'];
-    } else
-        return 0;
-}
-
-function cerca_giudizio_comp($con, $idalunno, $idcompetenza) {
-    $query = "select * from tbl_certcompvalutazioni
-            where idalunno=$idalunno and idccc=$idcompetenza";
-    // print inspref($query);
-    $ris = mysqli_query($con, inspref($query));
-    if (mysqli_num_rows($ris) > 0) {
-        $rec = mysqli_fetch_array($ris);
-        return $rec['giud'];
-    } else
-        return "";
-}

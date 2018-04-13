@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -22,8 +24,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 // istruzioni per tornare alla pagina di login se non c'è una sessione valida
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "")
-{
+if ($tipoutente == "") {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -93,7 +94,7 @@ $but = stringa_html('visass');
 
 
 $meseanno = stringa_html('mese');  // In effetti contiene sia il mese che l'anno
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 // Divido il mese dall'anno
@@ -106,21 +107,17 @@ $datainizio = stringa_html("datainizio");
 $datafine = stringa_html("datafine");
 
 $dataoggi = date("d/m/Y");
-if ($datainizio == "")
-{
+if ($datainizio == "") {
     $datainizio = data_italiana($datainiziolezioni);
 }
-if ($datafine == "")
-{
+if ($datafine == "") {
     $datafine = $dataoggi;
 }
 
-if ($mese == '')
-{
+if ($mese == '') {
     $mese = date('m');
 }
-if ($anno == '')
-{
+if ($anno == '') {
     $anno = date('Y');
 }
 
@@ -137,19 +134,16 @@ print ("
 
 
 $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY specializzazione, sezione, anno";
-if ($tipoutente == 'D')
-{
+if ($tipoutente == 'D') {
     $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM tbl_classi
            WHERE idcoordinatore=" . $_SESSION['idutente'] . " ORDER BY anno,sezione,specializzazione";
 }
 $ris = mysqli_query($con, inspref($query));
-while ($nom = mysqli_fetch_array($ris))
-{
+while ($nom = mysqli_fetch_array($ris)) {
     print "<option value='";
     print ($nom["idclasse"]);
     print "'";
-    if ($nome == $nom["idclasse"])
-    {
+    if ($nome == $nom["idclasse"]) {
         print " selected";
     }
     print ">";
@@ -176,8 +170,7 @@ print("
 
 print ("</table>");
 
-if ($nome != "")
-{
+if ($nome != "") {
     echo('
  
     <table align="center">
@@ -189,21 +182,15 @@ if ($nome != "")
  
     ');
 
-    if ($mese == "")
-    {
+    if ($mese == "") {
         $m = 0;
-    }
-    else
-    {
+    } else {
         $m = $mese;
     }
 
-    if ($anno == "")
-    {
+    if ($anno == "") {
         $a = 0;
-    }
-    else
-    {
+    } else {
         $a = $anno;
     }
 
@@ -214,18 +201,16 @@ if ($nome != "")
     $classe = "";
     $oresettimanali = 0;
     $numoretot = 0;
-    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
     $seledata = "";
-    $seledatalezione="";
-    if ($datainizio != "")
-    {
+    $seledatalezione = "";
+    if ($datainizio != "") {
         $seledata = $seledata . " and data >= '" . data_to_db($datainizio) . "' ";
         $seledatalezione = $seledatalezione . " and datalezione >= '" . data_to_db($datainizio) . "' ";
     }
 
-    if ($datafine != "")
-    {
+    if ($datafine != "") {
         $seledata = $seledata . " and data <= '" . data_to_db($datafine) . "' ";
         $seledatalezione = $seledatalezione . " and datalezione <= '" . data_to_db($datafine) . "' ";
     }
@@ -239,16 +224,13 @@ if ($nome != "")
                $seledatalezione";
 
     $rislez = mysqli_query($con, inspref($querylez)) or die("Errore: " . inspref($querylez, false));
-    while ($reclez = mysqli_fetch_array($rislez))
-    {
+    while ($reclez = mysqli_fetch_array($rislez)) {
         $datalez = $reclez['datalezione'];
         $orainizio = $reclez['orainizio'];
         $numeroore = $reclez['numeroore'];
-        for ($i = $orainizio; $i < ($orainizio + $numeroore); $i++)
-        {
+        for ($i = $orainizio; $i < ($orainizio + $numeroore); $i++) {
             $indicearray = $datalez . $i;
             $arrlezioni[$indicearray] = 1;
-
         }
     }
 
@@ -256,19 +238,17 @@ if ($nome != "")
 
 
     $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
-    if ($val = mysqli_fetch_array($ris))
-    {
+    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    if ($val = mysqli_fetch_array($ris)) {
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
         $oresettimanali = $val["oresett"];
         $numoretot = round(33.333 * $oresettimanali);  // 33 = numero settimane di lezione convenzionale
     }
     $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
 
     $c = mysqli_fetch_array($ris);
-    if ($c == NULL)
-    {
+    if ($c == NULL) {
         echo '
                     <p align="center">
 		    <font size=4 color="black">Nessun alunno presente nella classe </font>
@@ -291,9 +271,8 @@ if ($nome != "")
 
 
     $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
-    while ($val = mysqli_fetch_array($ris))
-    {
+    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    while ($val = mysqli_fetch_array($ris)) {
         $idalunno = $val["idalunno"];
         echo '
              <tr>
@@ -306,34 +285,31 @@ if ($nome != "")
         $queryrit = "SELECT count(*) AS numrit FROM tbl_ritardi WHERE idalunno = '" . $val['idalunno'] . "' " . $seledata;
         $queryusc = "SELECT count(*) AS numusc FROM tbl_usciteanticipate WHERE idalunno = '" . $val["idalunno"] . "' " . $seledata;
 
-        $risass = mysqli_query($con, inspref($queryass)) or die ("Errore nella query: " . mysqli_error($con));
-        $risrit = mysqli_query($con, inspref($queryrit)) or die ("Errore nella query: " . mysqli_error($con));
-        $numritardibrevi = calcola_ritardi_brevi($val['idalunno'], $con, $ritardobreve,$seledata);
-        $risusc = mysqli_query($con, inspref($queryusc)) or die ("Errore nella query: " . mysqli_error($con));
-        while ($ass = mysqli_fetch_array($risass))
-        {
+        $risass = mysqli_query($con, inspref($queryass)) or die("Errore nella query: " . mysqli_error($con));
+        $risrit = mysqli_query($con, inspref($queryrit)) or die("Errore nella query: " . mysqli_error($con));
+        $numritardibrevi = calcola_ritardi_brevi($val['idalunno'], $con, $ritardobreve, $seledata);
+        $risusc = mysqli_query($con, inspref($queryusc)) or die("Errore nella query: " . mysqli_error($con));
+        while ($ass = mysqli_fetch_array($risass)) {
 
             $numass = $ass['numass'];
         }
-        while ($rit = mysqli_fetch_array($risrit))
-        {
+        while ($rit = mysqli_fetch_array($risrit)) {
             $numrit = $rit['numrit'];
         }
 
-        while ($usc = mysqli_fetch_array($risusc))
-        {
+        while ($usc = mysqli_fetch_array($risusc)) {
 
             $numusc = $usc['numusc'];
         }
 
         $numoretot = round(33.333 * $oresettimanali);
         $numoregio = $oresettimanali / $giornilezsett; //calcolo ore medie giornaliere
-        $oreassenza = calcola_ore_assenza($idalunno,$datainizio,$datafine,$con);
+        $oreassenza = calcola_ore_assenza($idalunno, $datainizio, $datafine, $con);
 
-        $oreassenzader = calcola_ore_deroga($idalunno,$datainizio,$datafine,$con);
+        $oreassenzader = calcola_ore_deroga($idalunno, $datainizio, $datafine, $con);
 
 
-        $oreassenzaperm=calcola_ore_deroga_oraria($idalunno,$datainizio,$datafine,$con);
+        $oreassenzaperm = calcola_ore_deroga_oraria($idalunno, $datainizio, $datafine, $con);
         $oreassenzader -= $oreassenzaperm;
 
 
@@ -341,8 +317,6 @@ if ($nome != "")
         $percassder = round($oreassenzader / $numoretot * 100, 2);
 
         print "<td><center>$numass</td><td><center>$numrit ($numritardibrevi) </td><td><center>$numusc</td><td align=center>$percass (Ore: $oreassenza) </td><td align=center>$percassder (Ore: $oreassenzader) </td></tr>";
-
-
     }
 
     echo '</table>';

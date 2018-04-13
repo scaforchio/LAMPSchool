@@ -35,6 +35,7 @@ error_reporting(E_ALL & ~E_NOTICE);
 @require_once("fundoce.php");
 @require_once("funclas.php");
 @require_once("funasse.php");
+@require_once("funcert.php");
 @require_once("funmoodle.php");
 // @require_once("funregi.php"); incluso solo nei due programmi che lo utilizzano
 
