@@ -137,8 +137,8 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
   $color='red';
   print "<center><b><font color='$color' size='4'>SMS residui: $smsresidui</font></center></b>";
  */
-$query = "select * from tbl_alunni left join tbl_classi
-         on tbl_alunni.idclasse=tbl_classi.idclasse
+$query = "select * from tbl_alunni, tbl_classi
+         where tbl_alunni.idclasse=tbl_classi.idclasse
          order by cognome,nome,anno, sezione, specializzazione";
 if ($tipoutente == 'D')
     $query = "SELECT * FROM tbl_alunni LEFT JOIN tbl_classi

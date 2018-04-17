@@ -49,7 +49,7 @@ if ($tipoutente == 'P')
     print "<tr class='prima'><td>Prot.</td><td>Docente</td><td>Richiesta</td><td>Concessione</td></tr>";
     // TTTT
     $query = "select * from tbl_richiesteferie where isnull(concessione) or concessione=2 order by idrichiestaferie desc";
-      $ris = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    $ris = mysqli_query($con, inspref($query)) or die("Errore: $query <br>".mysqli_error($con));
     while ($rec = mysqli_fetch_array($ris))
     {
         print "<tr>";

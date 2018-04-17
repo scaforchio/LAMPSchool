@@ -393,11 +393,13 @@ if ($cambiamentopassword) {
         menu_separator("");
         menu_item('../esame3m/rieptabesame.php', 'TABELLONE');
         menu_item('../esame3m/sitesami.php', 'SITUAZIONE ESAMI');
+        // menu_item('../esame3m/stamparegistroesame.php', 'REGISTRO ESAMI');
         menu_separator("");
         menu_item('../esame3m/esa_vis_alu_cla.php', 'ANAGRAFICHE ALUNNI');
 
         menu_separator("");
         menu_item('../esame3m/cambpassesame.php', 'CAMBIAMENTO PASSWORD');
+        
         // menu_item('../esame3m/schedaalunno.php', 'SCHEDA ALUNNO');
 
         menu_title_end();
