@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `tbl_richiesteferie` (
   `subject` varchar(1000) NOT NULL DEFAULT '',
   `testomail` varchar(1000) NOT NULL DEFAULT '',
   `erroremail` boolean NULL DEFAULT NULL,
-  `concessione` boolean NULL DEFAULT NULL,
+  `concessione` tinyint NULL DEFAULT NULL,
   `oraultmod` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

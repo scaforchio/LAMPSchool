@@ -67,7 +67,7 @@ else
     //print "<html>";
     //print " <head> ";
     //print (" <title> Controllo dati dell'inserimento</title> </head>");
-    $query = "insert into tbl_alunni (cognome,nome,datanascita,codfiscale,certificato,idcomnasc,indirizzo,idcomres,codmeccanografico,idclasseesame)values('$cognome','$nome','$aa-$mm-$gg','$codfiscale','$certificato','$idcomn','$indirizzo','$idcomr','$sidi','$datc')";
+    $query = "insert into tbl_alunni (cognome,nome,datanascita,codfiscale,idcomnasc,indirizzo,idcomres,codmeccanografico,idclasseesame)values('$cognome','$nome','$aa-$mm-$gg','$codfiscale','$idcomn','$indirizzo','$idcomr','$sidi','$datc')";
     $err = 0;
     $mes = "";
     if (!$cognome)

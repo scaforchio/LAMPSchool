@@ -70,48 +70,84 @@ if ($rec['idsegretario'] != "" & $rec['idsegretario'] != 0) {
 } else {
     $segretario = "";
 }
-$query = "SELECT cognome,nome FROM tbl_escompcommissioni,tbl_docenti
+$query = "SELECT distinct cognome,nome,tbl_docenti.iddocente FROM tbl_escompcommissioni,tbl_docenti
         WHERE tbl_escompcommissioni.iddocente = tbl_docenti.iddocente
-        AND idcommissione=" . $rec['idcommissione'];
+        AND idcommissione<>0
+        ORDER BY cognome, nome";
 $risdoc = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
-$elencodocenti = "";
+//$elencodocenti = "";
 $arrdocenti = array();
+// print inspref($query);
 while ($recdoc = mysqli_fetch_array($risdoc)) {
-    $elencodocenti .= $recdoc['nome'] . " " . $recdoc['cognome'] . ", ";
-    $arrdocenti[] = $recdoc['nome'] . " " . $recdoc['cognome'];
+   // $elencodocenti .= $recdoc['nome'] . " " . $recdoc['cognome'] . ", ";
+    // RICERCA MATERIE
+    $iddocentecomm=$recdoc['iddocente'];
+    if ($livello_scuola==3)
+        $ultimoanno=8;
+    else
+        $ultimoanno=3;
+    $materie="";
+    $query="select distinct denominazione from "
+            . "tbl_cattnosupp,tbl_materie,tbl_classi "
+            . "where tbl_cattnosupp.idmateria=tbl_materie.idmateria "
+            . "and tbl_cattnosupp.idclasse = tbl_classi.idclasse "
+            . "and anno=$ultimoanno "
+            . "and tbl_cattnosupp.iddocente=$iddocentecomm "
+            . "and idalunno=0";
+    $rismat=mysqli_query($con,inspref($query)) or die("Errore: " . inspref($query, false));
+    while($recmat= mysqli_fetch_array($rismat))
+    {
+        $materie.=$recmat['denominazione']." ";
+    }
+    $arrdocenti[] = $recdoc['cognome'] . " " . $recdoc['nome'];
+    $arrmaterie[] = $materie;
 }
-$elencodocenti = substr($elencodocenti, 0, strlen($elencodocenti) - 2);
+//$elencodocenti = substr($elencodocenti, 0, strlen($elencodocenti) - 2);
 
-$classe = decodifica_classe_no_spec($idclasse, $con, 1);
-$classe .= " $plesso_specializzazione ";
-$classe .= decodifica_classe_spec($idclasse, $con);
+
 
 
 $annoscolastico = $annoscol . " / " . ($annoscol + 1);
 
+stampa_prima_pagina($annoscolastico,$schede);
 
-$query = "select * from tbl_esesiti,tbl_alunni,tbl_classi
-        where tbl_esesiti.idalunno = tbl_alunni.idalunno
-        and tbl_alunni.idclasseesame = tbl_classi.idclasse
-        order by specializzazione, sezione, cognome, nome, datanascita";
-$risesi = mysqli_query($con, inspref($query));
+stampa_commissione($arrdocenti,$arrmaterie, $schede);
+
 
 $numalu = 0;
-$posYiniz = 0;
-while ($recesa = mysqli_fetch_array($risesi)) {
-    $numalu++;
-    //print $numalu;
-    if ($numalu % 2 != 0) {
-        $schede->AddPage();
-        stampa_testata_registro($classe, $annoscolastico, $schede);
-        $posYiniz = 20;
-    } else {
+$query = "select distinct idclasseesame,anno, sezione, specializzazione from tbl_alunni,tbl_classi
+          where tbl_alunni.idclasseesame = tbl_classi.idclasse
+          order by specializzazione, sezione";
+$riscla = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+while ($reccla = mysqli_fetch_array($riscla)) {
+    $idclasseesame = $reccla['idclasseesame'];
+    $query = "select * from tbl_esesiti, tbl_alunni, tbl_classi
+              where tbl_esesiti.idalunno = tbl_alunni.idalunno
+              and tbl_alunni.idclasseesame = tbl_classi.idclasse
+              and tbl_alunni.idclasseesame = $idclasseesame
+              order by tbl_alunni.idclasse desc, cognome, nome, datanascita";
+    $risesi = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
 
-        $posYiniz = 145;
+    $progrclasse=0;
+    $posYiniz = 0;
+    while ($recesa = mysqli_fetch_array($risesi)) {
+        $classe = decodifica_classe_no_spec($idclasseesame, $con, 1);
+        $classe .= " $plesso_specializzazione ";
+        $classe .= decodifica_classe_spec($idclasseesame, $con);
+        $numalu++;
+        $progrclasse++;
+        //print $numalu;
+        if ($progrclasse % 2 != 0) {
+            $schede->AddPage();
+            stampa_testata_registro($classe, $annoscolastico, $schede);
+            $posYiniz = 20;
+        } else {
+
+            $posYiniz = 145;
+        }
+        stampa_alunno($recesa['idalunno'], $numalu, $posYiniz, $con, $schede, $dataverbale, $presidente);
     }
-    stampa_alunno($recesa['idalunno'], $numalu, $posYiniz, $con, $schede, $dataverbale, $presidente);
 }
-
 
 $nomefile = "verbale_esame_" . $idclasse . ".pdf";
 $schede->Output($nomefile, "I");
@@ -120,7 +156,7 @@ mysqli_close($con);
 
 function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $dataverbale, $presidente) {
     $schede->rect(20, $posYiniz, 170, 125);
-
+    $schede->SetFont('Times', '', 10);
     $schede->setXY(20, $posYiniz);
     $schede->MultiCell(50, 7, converti_utf8("Cognome, nome e generalità del candidato"), 1, "C");
     $schede->setXY(70, $posYiniz);
@@ -134,9 +170,9 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
     if ($val = mysqli_fetch_array($ris)) {
         $datanascita = data_italiana($val['datanascita']);
         $codfiscale = $val['codfiscale'];
-        
-        $comunenascita = converti_utf8(decodifica_comune($val['idcomnasc'],$con));
-        $comuneresidenza = converti_utf8(decodifica_comune($val['idcomres'],$con));
+
+        $comunenascita = converti_utf8(decodifica_comune($val['idcomnasc'], $con));
+        $comuneresidenza = converti_utf8(decodifica_comune($val['idcomres'], $con));
         $provincianasc = estrai_sigla_provincia($val['idcomnasc'], $con);
         $indirizzo = $val['indirizzo'];
         $cognome = $val['cognome'];
@@ -176,14 +212,26 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
     $schede->Cell(50, 7, converti_utf8("Abitante in " . $comuneresidenza), 0, 0, "L");
     $schede->setXY(20, $posYiniz + 59);
     $schede->Cell(50, 7, converti_utf8($indirizzo), 0, 0, "L");
-    if ($classe != "") {
-        $schede->setXY(20, $posYiniz + 66);
-        $schede->Cell(50, 7, converti_utf8("Proveniente dalla classe"), 0, 0, "L");
-        $schede->setXY(20, $posYiniz + 72);
-        $schede->Cell(50, 7, converti_utf8($classe), 0, 0, "L");
+    if ($sesso == 'm') {
+        if ($classe != "") {
+            $schede->setXY(20, $posYiniz + 66);
+            $schede->Cell(50, 7, converti_utf8("Ammesso in seguito a scrutinio"), 0, 0, "L");
+            //  $schede->setXY(20, $posYiniz + 72);
+            //  $schede->Cell(50, 7, converti_utf8($classe), 0, 0, "L");
+        } else {
+            $schede->setXY(20, $posYiniz + 66);
+            $schede->Cell(50, 7, converti_utf8("Ammesso in seguito a domanda"), 0, 0, "L");
+        }
     } else {
-        $schede->setXY(20, $posYiniz + 66);
-        $schede->Cell(50, 7, converti_utf8("Ammesso in seguito a "), 0, 0, "L");
+        if ($classe != "") {
+            $schede->setXY(20, $posYiniz + 66);
+            $schede->Cell(50, 7, converti_utf8("Ammessa in seguito a scrutinio"), 0, 0, "L");
+            //  $schede->setXY(20, $posYiniz + 72);
+            //  $schede->Cell(50, 7, converti_utf8($classe), 0, 0, "L");
+        } else {
+            $schede->setXY(20, $posYiniz + 66);
+            $schede->Cell(50, 7, converti_utf8("Ammessa in seguito a domanda"), 0, 0, "L");
+        }
     }
     $query = "select * from tbl_esmaterie where idclasse=$idclasse";
     $rismat = mysqli_query($con, inspref($query));
@@ -226,7 +274,7 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
     $schede->SetFont('Times', '', 8);
     $schede->MultiCell(120, 7, converti_utf8($consiglioorientativo), 0, "L");
 
-    
+
     $schede->setXY(70, $posYiniz + 110);
     $schede->SetFont('Times', '', 8);
     $schede->Cell(120, 7, converti_utf8("Data $dataverbale"), 0, "L");
@@ -237,8 +285,8 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
         $suff = "";
     $schede->setXY(90, $posYiniz + 85);
     $schede->Image('../abc/' . $suff . 'timbro.png');
-    
-    
+
+
     $schede->setXY(130, $posYiniz + 100);
     $schede->SetFont('Arial', '', 11);
     $schede->Cell(40, 5, converti_utf8($presidente), "B", 0, "C");
@@ -253,4 +301,68 @@ function stampa_testata_registro($classe, $annoscolastico, &$schede) {
     $schede->SetFont('Times', '', 12);
     $schede->setXY(20, 10);
     $schede->Cell(170, 0, "Classe: $classe" . " - Anno scolastico " . $annoscolastico, 0, 0, "C");
+}
+
+function stampa_prima_pagina($annoscolastico, &$schede) {
+    $schede->AddPage();
+    $schede->SetFont('Times', 'B', 20);
+    $schede->setXY(20, 100);
+    $schede->Cell(170, 0, converti_utf8("REGISTRO DEGLI ESAMI DI STATO"), 0, 0, "C");
+    $schede->SetFont('Times', '', 16);
+    $schede->setXY(20, 110);
+    $schede->Cell(170, 0, converti_utf8("CONCLUSIVI DEL PRIMO CICLO DI ISTRUZIONE"), 0, 0, "C");
+    $schede->SetFont('Times', 'I', 14);
+    $schede->setXY(20, 120);
+    $schede->Cell(170, 0, converti_utf8("(Decreto Legge 1° Settembre 2008, n. 137 - Legge 30 ottobre 2008 n. 169)"), 0, 0, "C");
+    $schede->SetFont('Times', '', 16);
+    $schede->setXY(20, 150);
+    $schede->Cell(170, 0, converti_utf8("Anno scolastico " . $annoscolastico), 0, 0, "C");
+}
+
+
+function stampa_commissione($elencodocenti,$elencomaterie, &$schede) {
+    $schede->AddPage();
+    $posY=20;
+    $schede->setFont('Times','',10);
+    $schede->setXY(15,$posY);
+    $schede->Cell(5, 7, converti_utf8("N."), 1, 0, "L");
+    $schede->Cell(60, 7, converti_utf8("COGNOME E NOME"), 1, 0, "L");
+    $schede->Cell(80, 7, converti_utf8("MATERIE"), 1, 0, "L");
+    $schede->Cell(30, 7,"FIRMA", 1, 0, "L");
+    $progrdoc=0;
+    foreach($elencodocenti as $docente)
+    {
+       $progrdoc++;
+       $posY+=7;
+       $schede->setXY(15,$posY);
+       $schede->setFont('Times','',9);
+       $schede->Cell(5, 7, "$progrdoc", 1, 0, "L");
+    }
+    $posY=20;
+    foreach($elencodocenti as $docente)
+    {
+       $posY+=7;
+       $schede->setXY(20,$posY);
+       $schede->setFont('Times','',10);
+       $schede->Cell(60, 7, converti_utf8("$docente"), 1, 0, "L");
+    
+    }
+    $posY=20;
+    foreach($elencomaterie as $materie)
+    {
+       $posY+=7;
+       $schede->setXY(80,$posY);
+       $schede->setFont('Times','',10);
+       $schede->Cell(80, 7, converti_utf8("$materie"), 1, 0, "L");
+    
+    }
+    $posY=20;
+    foreach($elencomaterie as $materie)
+    {
+       $posY+=7;
+       $schede->setXY(160,$posY);
+       $schede->setFont('Times','',10);
+       $schede->Cell(30, 7,"", 1, 0, "L");
+    
+    }
 }
