@@ -79,25 +79,24 @@ $risdoc = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query
 $arrdocenti = array();
 // print inspref($query);
 while ($recdoc = mysqli_fetch_array($risdoc)) {
-   // $elencodocenti .= $recdoc['nome'] . " " . $recdoc['cognome'] . ", ";
+    // $elencodocenti .= $recdoc['nome'] . " " . $recdoc['cognome'] . ", ";
     // RICERCA MATERIE
-    $iddocentecomm=$recdoc['iddocente'];
-    if ($livello_scuola==3)
-        $ultimoanno=8;
+    $iddocentecomm = $recdoc['iddocente'];
+    if ($livello_scuola == 3)
+        $ultimoanno = 8;
     else
-        $ultimoanno=3;
-    $materie="";
-    $query="select distinct denominazione from "
+        $ultimoanno = 3;
+    $materie = "";
+    $query = "select distinct denominazione from "
             . "tbl_cattnosupp,tbl_materie,tbl_classi "
             . "where tbl_cattnosupp.idmateria=tbl_materie.idmateria "
             . "and tbl_cattnosupp.idclasse = tbl_classi.idclasse "
             . "and anno=$ultimoanno "
             . "and tbl_cattnosupp.iddocente=$iddocentecomm "
             . "and idalunno=0";
-    $rismat=mysqli_query($con,inspref($query)) or die("Errore: " . inspref($query, false));
-    while($recmat= mysqli_fetch_array($rismat))
-    {
-        $materie.=$recmat['denominazione']." ";
+    $rismat = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+    while ($recmat = mysqli_fetch_array($rismat)) {
+        $materie .= $recmat['denominazione'] . " ";
     }
     $arrdocenti[] = $recdoc['cognome'] . " " . $recdoc['nome'];
     $arrmaterie[] = $materie;
@@ -109,9 +108,116 @@ while ($recdoc = mysqli_fetch_array($risdoc)) {
 
 $annoscolastico = $annoscol . " / " . ($annoscol + 1);
 
-stampa_prima_pagina($annoscolastico,$schede);
+stampa_prima_pagina($annoscolastico, $schede);
 
-stampa_commissione($arrdocenti,$arrmaterie, $schede);
+
+// VARIABILI PER CALCOLI STATISTICI
+$contatori = array();
+
+$contatori['candidatiinterniammessi'] = 0;
+$contatori['candidatiesterniammessi'] = 0;
+$contatori['candidatiinterniesaminati'] = 0;
+$contatori['candidatiesterniesaminati'] = 0;
+$contatori['candidatiinterniassgiu'] = 0;
+$contatori['candidatiesterniassgiu'] = 0;
+$contatori['candidatiinterniassing'] = 0;
+$contatori['candidatiesterniassing'] = 0;
+$contatori['candidatiinternilicenziati'] = 0;
+$contatori['candidatiesternilicenziati'] = 0;
+$contatori['candidatiinterninonlicesito'] = 0;
+$contatori['candidatiesterninonlicesito'] = 0;
+$contatori['candidatiinterninonlicassenza'] = 0;
+$contatori['candidatiesterninonlicassenza'] = 0;
+
+$contatori['candidatitotaliammessi'] = 0;
+
+$contatori['candidatitotaliesaminati'] = 0;
+
+$contatori['candidatitotaliassenti'] = 0;
+
+
+$contatori['candidatitotalilicenziati'] = 0;
+
+$contatori['candidatitotalinonlicenziati'] = 0;
+
+
+
+
+
+
+
+
+// STATISTICHE
+$query = "select *,tbl_alunni.idclasse as idclassealunno from tbl_esesiti, tbl_alunni, tbl_classi
+              where tbl_esesiti.idalunno = tbl_alunni.idalunno
+              and tbl_alunni.idclasseesame = tbl_classi.idclasse
+              and tbl_alunni.idclasseesame <> 0";
+$risesi = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+// print inspref($query);
+
+while ($recesa = mysqli_fetch_array($risesi)) {
+
+    
+    if ($recesa['idclassealunno'] != 0) {
+        $contatori['candidatiinterniammessi'] ++;
+        $contatori['candidatitotaliammessi'] ++;
+    } else {
+        
+        $contatori['candidatiesterniammessi'] ++;
+        $contatori['candidatitotaliammessi'] ++;
+    }
+
+    if ($recesa['idclassealunno'] != 0 & $recesa['votofinale'] > 0) {
+        $contatori['candidatiinterniesaminati'] ++;
+        $contatori['candidatitotaliesaminati'] ++;
+    }
+    if ($recesa['idclassealunno'] == 0 & $recesa['votofinale'] > 0) {
+        $contatori['candidatiesterniesaminati'] ++;
+        $contatori['candidatitotaliesaminati'] ++;
+    }
+
+    if ($recesa['idclassealunno'] != 0 & $recesa['votofinale'] == 0) {
+        $contatori['candidatiinterniassing'] ++;
+        $contatori['candidatiinterninonlicassenza'] ++;
+        $contatori['candidatitotaliassenti'] ++;
+        $contatori['candidatitotalinonlicenziati'] ++;
+    }
+    if ($recesa['idclassealunno'] == 0 & $recesa['votofinale'] == 0) {
+        $contatori['candidatiesterniassing'] ++;
+        $contatori['candidatiesterninonlicassenza'] ++;
+        $contatori['candidatitotaliassenti'] ++;
+        $contatori['candidatitotalinonlicenziati'] ++;
+    }
+
+    if ($recesa['idclassealunno'] != 0 & $recesa['votofinale'] > 5) {
+        $contatori['candidatiinternilicenziati'] ++;
+        $contatori['candidatitotalilicenziati'] ++;
+    }
+    if ($recesa['idclassealunno'] == 0 & $recesa['votofinale'] > 5) {
+        $contatori['candidatiesternilicenziati'] ++;
+        $contatori['candidatitotalilicenziati'] ++;
+    }
+
+    if ($recesa['idclassealunno'] != 0 & $recesa['votofinale'] < 6 & $recesa['votofinale'] > 0) {
+        $contatori['candidatiinterninonlicesito'] ++;
+        $contatori['candidatitotalinonlicenziati'] ++;
+    }
+    
+    if ($recesa['idclassealunno'] == 0 & $recesa['votofinale'] < 6 & $recesa['votofinale'] > 0) {
+        $contatori['candidatiesterninonlicesito'] ++;
+        $contatori['candidatitotalinonlicenziati'] ++;
+    }
+}
+
+
+
+// STATISTICHE
+
+
+
+
+
+stampa_commissione($arrdocenti, $arrmaterie, $contatori, $schede);
 
 
 $numalu = 0;
@@ -128,7 +234,7 @@ while ($reccla = mysqli_fetch_array($riscla)) {
               order by tbl_alunni.idclasse desc, cognome, nome, datanascita";
     $risesi = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
 
-    $progrclasse=0;
+    $progrclasse = 0;
     $posYiniz = 0;
     while ($recesa = mysqli_fetch_array($risesi)) {
         $classe = decodifica_classe_no_spec($idclasseesame, $con, 1);
@@ -319,50 +425,218 @@ function stampa_prima_pagina($annoscolastico, &$schede) {
     $schede->Cell(170, 0, converti_utf8("Anno scolastico " . $annoscolastico), 0, 0, "C");
 }
 
-
-function stampa_commissione($elencodocenti,$elencomaterie, &$schede) {
+function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$schede) {
     $schede->AddPage();
-    $posY=20;
-    $schede->setFont('Times','',10);
-    $schede->setXY(15,$posY);
+
+    $posY = 8;
+    $schede->setFont('Times', 'B', 12);
+    $schede->setXY(15, $posY);
+    $schede->Cell(180, 7, "RIASSUNTO STATISTICO", 0, 0, "C");
+
+    $posY = 15;
+    $schede->setFont('Times', 'B', 12);
+    $schede->setXY(15, $posY);
+    $schede->Cell(45, 20, "", 1, 0, "C");
+
+    $posY = 15;
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(60, $posY);
+    $schede->Cell(15, 5, "1", 1, 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(75, $posY);
+    $schede->Cell(15, 5, "2", 1, 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(90, $posY);
+    $schede->Cell(30, 5, "3", 1, 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(120, $posY);
+    $schede->Cell(15, 5, "4", 1, 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(135, $posY);
+    $schede->Cell(30, 5, "5", 1, 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(165, $posY);
+    $schede->Cell(35, 5, "6", 1, 0, "C");
+
+    $posY = 20;
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(60, $posY);
+    $schede->Cell(15, 5, "Candidati", "ULR", 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(75, $posY);
+    $schede->Cell(15, 5, "Candidati", "ULR", 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(90, $posY);
+    $schede->Cell(30, 5, "ASSENTI", 1, 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(120, $posY);
+    $schede->Cell(15, 15, "licenziati", "ULRB", 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(135, $posY);
+    $schede->Cell(30, 5, "NON LICENZIATI", 1, 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(165, $posY);
+    $schede->Cell(35, 15, "OSSERVAZIONI", "ULRB", 0, "C");
+
+    $posY = 25;
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(60, $posY);
+    $schede->Cell(15, 5, "ammessi", "LR", 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(75, $posY);
+    $schede->Cell(15, 5, "esaminati", "LR", 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(90, $posY);
+    $schede->Cell(15, 10, "giustificati", 1, 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(105, $posY);
+    $schede->Cell(15, 10, "ingiustificati", 1, 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(135, $posY);
+    $schede->Cell(15, 5, "per esito", "LR", 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(150, $posY);
+    $schede->Cell(15, 5, "per assenza", "LR", 0, "C");
+
+
+
+    $posY = 30;
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(60, $posY);
+    $schede->Cell(15, 5, "agli esami", "LRB", 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(75, $posY);
+    $schede->Cell(15, 5, "", "LRB", 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(135, $posY);
+    $schede->Cell(15, 5, "esame", "LRB", 0, "C");
+    $schede->setFont('Times', '', 8);
+    $schede->setXY(150, $posY);
+    $schede->Cell(15, 5, "ingiustificata", "LRB", 0, "C");
+
+
+    
+    $posY = 35;
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(60, $posY);
+    $schede->Cell(15, 8, $contatori['candidatiinterniammessi'], 1, 0, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(75, $posY);
+    $schede->Cell(15, 8, $contatori['candidatiinterniesaminati'], 1, 0, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(90, $posY);
+    $schede->Cell(15, 8, $contatori['candidatiinterniassgiu'], 1, 1, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(105, $posY);
+    $schede->Cell(15, 8, $contatori['candidatiinterniassing'], 1, 0, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(120, $posY);
+    $schede->Cell(15, 8, $contatori['candidatiinternilicenziati'], 1, 0, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(135, $posY);
+    $schede->Cell(15, 8, $contatori['candidatiinterninonlicesito'], 1, 0, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(150, $posY);
+    $schede->Cell(15, 8, $contatori['candidatiinterninonlicassenza'], 1, 0, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(165, $posY);
+    $schede->Cell(35, 24, "", 1, 0, "C");
+    
+    $posY = 43;
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(60, $posY);
+    $schede->Cell(15, 8, $contatori['candidatiesterniammessi'], 1, 0, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(75, $posY);
+    $schede->Cell(15, 8, $contatori['candidatiesterniesaminati'], 1, 0, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(90, $posY);
+    $schede->Cell(15, 8, $contatori['candidatiesterniassgiu'], 1, 1, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(105, $posY);
+    $schede->Cell(15, 8, $contatori['candidatiesterniassing'], 1, 0, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(120, $posY);
+    $schede->Cell(15, 8, $contatori['candidatiesternilicenziati'], 1, 0, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(135, $posY);
+    $schede->Cell(15, 8, $contatori['candidatiesterninonlicesito'], 1, 0, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(150, $posY);
+    $schede->Cell(15, 8, $contatori['candidatiesterninonlicassenza'], 1, 0, "C");
+    
+    $posY = 51;
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(60, $posY);
+    $schede->Cell(15, 8, $contatori['candidatitotaliammessi'], 1, 0, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(75, $posY);
+    $schede->Cell(15, 8, $contatori['candidatitotaliesaminati'], 1, 0, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(90, $posY);
+    $schede->Cell(30, 8, $contatori['candidatitotaliassenti'], 1, 1, "C");
+    
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(120, $posY);
+    $schede->Cell(15, 8, $contatori['candidatitotalilicenziati'], 1, 0, "C");
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(135, $posY);
+    $schede->Cell(30, 8, $contatori['candidatitotalinonlicenziati'], 1, 0, "C");
+    
+    
+    
+    
+    $posY = 35;
+    $schede->setFont('Times', 'B', 11);
+    $schede->setXY(15, $posY);
+    $schede->Cell(45, 8, "CANDIDATI INTERNI", 1, 0, "C");
+    $posY = 43;
+    $schede->setFont('Times', 'B', 11);
+    $schede->setXY(15, $posY);
+    $schede->Cell(45, 8, "CANDIDATI ESTERNI", 1, 0, "C");
+    $posY = 51;
+    $schede->setFont('Times', 'B', 11);
+    $schede->setXY(15, $posY);
+    $schede->Cell(45, 8, "TOTALE", 1, 0, "C");
+
+    $posY = 62;
+    $schede->setFont('Times', 'B', 12);
+    $schede->setXY(15, $posY);
+    $schede->Cell(180, 7, "LA COMMISSIONE", 0, 0, "C");
+    $posY = 70;
+    $schede->setFont('Times', '', 10);
+    $schede->setXY(15, $posY);
     $schede->Cell(5, 7, converti_utf8("N."), 1, 0, "L");
     $schede->Cell(60, 7, converti_utf8("COGNOME E NOME"), 1, 0, "L");
     $schede->Cell(80, 7, converti_utf8("MATERIE"), 1, 0, "L");
-    $schede->Cell(30, 7,"FIRMA", 1, 0, "L");
-    $progrdoc=0;
-    foreach($elencodocenti as $docente)
-    {
-       $progrdoc++;
-       $posY+=7;
-       $schede->setXY(15,$posY);
-       $schede->setFont('Times','',9);
-       $schede->Cell(5, 7, "$progrdoc", 1, 0, "L");
+    $schede->Cell(30, 7, "FIRMA", 1, 0, "L");
+    $progrdoc = 0;
+    foreach ($elencodocenti as $docente) {
+        $progrdoc++;
+        $posY += 7;
+        $schede->setXY(15, $posY);
+        $schede->setFont('Times', '', 9);
+        $schede->Cell(5, 7, "$progrdoc", 1, 0, "L");
     }
-    $posY=20;
-    foreach($elencodocenti as $docente)
-    {
-       $posY+=7;
-       $schede->setXY(20,$posY);
-       $schede->setFont('Times','',10);
-       $schede->Cell(60, 7, converti_utf8("$docente"), 1, 0, "L");
-    
+    $posY = 70;
+    foreach ($elencodocenti as $docente) {
+        $posY += 7;
+        $schede->setXY(20, $posY);
+        $schede->setFont('Times', '', 10);
+        $schede->Cell(60, 7, converti_utf8("$docente"), 1, 0, "L");
     }
-    $posY=20;
-    foreach($elencomaterie as $materie)
-    {
-       $posY+=7;
-       $schede->setXY(80,$posY);
-       $schede->setFont('Times','',10);
-       $schede->Cell(80, 7, converti_utf8("$materie"), 1, 0, "L");
-    
+    $posY = 70;
+    foreach ($elencomaterie as $materie) {
+        $posY += 7;
+        $schede->setXY(80, $posY);
+        $schede->setFont('Times', '', 10);
+        $schede->Cell(80, 7, converti_utf8("$materie"), 1, 0, "L");
     }
-    $posY=20;
-    foreach($elencomaterie as $materie)
-    {
-       $posY+=7;
-       $schede->setXY(160,$posY);
-       $schede->setFont('Times','',10);
-       $schede->Cell(30, 7,"", 1, 0, "L");
-    
+    $posY = 70;
+    foreach ($elencomaterie as $materie) {
+        $posY += 7;
+        $schede->setXY(160, $posY);
+        $schede->setFont('Times', '', 10);
+        $schede->Cell(30, 7, "", 1, 0, "L");
     }
 }
