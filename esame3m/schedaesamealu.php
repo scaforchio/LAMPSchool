@@ -63,12 +63,14 @@ $script = "<script>
                   var tot = 0;
                   var cont = 0;
                   var med = 0;
-                  var mediascam=0;
+                  var mediasccoll=0;
                   var mediafina=0;
                   var votofina=0;
                   var flagNC = false;
-
+                  var calcolomediasccoll=true;
+                  var calcolomediatot=true;
                   var elements = document.votialu.getElementsByTagName('INPUT');
+                  
                   for (var i = 0; i < elements.length; i++)
                   {
                      if (elements[i].id.substr(0,5)=='votom')
@@ -80,24 +82,71 @@ $script = "<script>
                            nomecamposcheda='schvotom'+i;
                            document.getElementById(nomecamposcheda).value=parseInt(elements[i].value);
 			}
-					 }
+                        else
+                        {
+                           calcolomediasccoll=false;
+                           document.getElementById('mediascrcolloq').value='';
+                           document.getElementById('mediascrcolloqh').value='0';
+                           calcolomediatot=false;
+                        document.getElementById('mediafina').value=''; 
+                        document.getElementById('mediafinah').value='0';
+                        document.getElementById('vtfina').value='';
+                        document.getElementById('vtfinah').value='0';
+                        document.getElementById('votofinale').value='';
+                        document.getElementById('scarto').value='';
+                         document.getElementById('scartoh').value='0';
+                        }
+		     }
                 }
-                /*
+                
                 if (!(document.getElementById('privatista').value=='1'))
                 {
-                   tot += parseInt(document.getElementById('votoamm').value);
-                   cont++;
-                } */
-                
+                   if (parseInt(document.getElementById('votoamm').value)==0)
+                   {
+                        calcolomediatot=false;
+                        document.getElementById('mediafina').value=''; 
+                        document.getElementById('mediafinah').value='0';
+                        document.getElementById('vtfina').value='';
+                        document.getElementById('vtfinah').value='0';
+                        document.getElementById('votofinale').value='';
+                        document.getElementById('scarto').value='';
+                        document.getElementById('scartoh').value='0';
+                   }
+                } 
+                if (parseInt(document.getElementById('votocoll').value)==0 | document.getElementById('votocoll').value=='' )
+                {
+                      calcolomediatot=false;
+                      document.getElementById('mediafina').value=''; 
+                      document.getElementById('mediafinah').value='0';
+                      document.getElementById('scarto').value='';
+                       document.getElementById('scartoh').value='0';
+                      document.getElementById('vtfina').value='';
+                      document.getElementById('vtfinah').value='0';
+                      document.getElementById('votofinale').value='';
+                      calcolomediasccoll=false;
+                      document.getElementById('mediascrcolloq').value='';
+                      document.getElementById('mediascrcolloqh').value='0';
+                }
                 tot += parseInt(document.getElementById('votocoll').value);
                 cont++;
-
-                mediascam=tot/cont*100;
-                  mediascam=Math.round(mediascam);
-                  mediascam=mediascam/100;
-                  document.getElementById('mediascrcolloq').value=mediascam;
-                  document.getElementById('mediascrcolloqh').value=mediascam;
-                  mediafina=(parseFloat(document.getElementById('mediascrcolloq').value)+parseFloat(document.getElementById('votoamm').value))/2;
+                if (calcolomediasccoll)
+                {
+                  mediasccoll=tot/cont*100;
+                  mediasccoll=Math.round(mediasccoll);
+                  mediasccoll=mediasccoll/100;
+                  document.getElementById('mediascrcolloq').value=mediasccoll;
+                  document.getElementById('mediascrcolloqh').value=mediasccoll;
+                }
+                if (calcolomediatot)
+                {
+                  if (!(document.getElementById('privatista').value=='1'))
+                  {
+                      mediafina=(parseFloat(document.getElementById('mediascrcolloq').value)+parseFloat(document.getElementById('votoamm').value))/2;
+                  } 
+                  else
+                  {
+                      mediafina=parseFloat(document.getElementById('mediascrcolloq').value);
+                  }
                   document.getElementById('votoorale').value=parseFloat(document.getElementById('votocoll').value);
                  // mediafina=mediafina/(cont+1);
                   mediafina=Math.round(mediafina*100)/100;
@@ -140,7 +189,7 @@ $script = "<script>
                   else
                   {
                        document.getElementById('vtfina').value='';
-                        document.getElementById('vtfinah').value='';
+                       document.getElementById('vtfinah').value='';
                   }
                   scarto=Math.round((votofina-mediafina)*100)/100;
                   if (!isNaN(scarto))
@@ -153,8 +202,8 @@ $script = "<script>
                       document.getElementById('scarto').value='';
                       document.getElementById('scartoh').value='';
                    }
-
-               }
+                }
+            }
 
 
          </script>";
@@ -226,12 +275,13 @@ else
     $votamm = $val['votoammissione'];
 if (!$privatista) {
     if (!$presenteva) {
-        print "<td><table bgcolor='#00ffff'><tr><td align='center'>V.amm.</td></tr><tr><td align='center'><input name='votoamm' id='votoamm' type='number' value='" . $votamm . "' min='6' max='10' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
+        print "<td><table bgcolor='#00ffff'><tr><td align='center'>V.amm.</td></tr><tr><td align='center'><input name='votoamm' id='votoamm' type='number' value='" . $votamm . "' min='0' max='10' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
     } else {
         print "<td><table bgcolor='#00ffff'><tr><td align='center'>V.amm.</td></tr><tr><td align='center'><input name='votoamm' id='votoamm' type='number' value='$votamm' min='$votamm' max='$votamm' size='2' ONCHANGE='ricalcola()'></td></tr></table></td>";
     }
 } else {
-    print "<td><table bgcolor='#00ffff'><tr><td align='center'>V.amm.</td></tr><tr><td align='center'>&nbsp;<input name='votoamm' id='votoamm' type='hidden' value='--'></td></tr></table></td>";
+    //print "<td><table bgcolor='#00ffff'><tr><td align='center'>V.amm.</td></tr><tr><td align='center'>&nbsp;<input name='votoamm' id='votoamm' type='hidden' value='--'></td></tr></table></td>";
+    print "<td><table bgcolor='#00ffff'><tr><td align='center'>V.amm.</td></tr><tr><td align='center'>&nbsp;<input name='votoamm' id='votoamm' type='hidden' value='0'></td></tr></table></td>";
 }
 //print "<td><table bgcolor='#00ffff'><tr><td align='center'>V.amm.</td></tr><tr><td align='center'><input name='va' id='va' type='text' value='".$votamm."' size='2' disabled><input name='votoamm' id='votoamm' type='hidden' value='".$votamm."'></td></tr></table></td>";
 /* $mat=$recmat['m1s'];

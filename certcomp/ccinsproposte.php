@@ -31,7 +31,7 @@ if ($tipoutente == "") {
 
 $titolo = "Inserimento proposte per certificazione competenze";
 $script = "";
-stampa_head($titolo, "", $script, "SD");
+stampa_head($titolo, "", $script, "SDP");
 
 
 

@@ -121,12 +121,12 @@ for ($i = 1; $i <= 9; $i++)
 
 }
 
-$schede->Cell($larghcol, $altriga, converti_utf8("S.+A."), 1, NULL, "C",true);
-$posX += $larghcol;
+
 
 $schede->Cell($larghcol, $altriga, converti_utf8("Or."), 1, NULL, "C",true);
 $posX += $larghcol;
-
+$schede->Cell($larghcol, $altriga, converti_utf8("S.+C."), 1, NULL, "C",true);
+$posX += $larghcol;
 $schede->Cell($larghcol, $altriga, converti_utf8("M.fin."), 1, NULL, "C",true);
 $posX += $larghcol;
 
@@ -187,12 +187,12 @@ do
 
     }
 
-    $schede->Cell($larghcol, $altriga, converti_utf8($recesi['mediascramm']), 1, NULL, "C");
-    $posX += $larghcol;
+    
 
     $schede->Cell($larghcol, $altriga, converti_utf8($recesi['votoorale']), 1, NULL, "C");
     $posX += $larghcol;
-
+    $schede->Cell($larghcol, $altriga, converti_utf8($recesi['mediascrcolloq']), 1, NULL, "C");
+    $posX += $larghcol;
     $schede->Cell($larghcol, $altriga, converti_utf8($recesi['mediafinale']), 1, NULL, "C");
     $posX += $larghcol;
     if ($recesi['lode'])

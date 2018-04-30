@@ -393,7 +393,7 @@ if ($cambiamentopassword) {
         menu_separator("");
         menu_item('../esame3m/rieptabesame.php', 'TABELLONE');
         menu_item('../esame3m/sitesami.php', 'SITUAZIONE ESAMI');
-        // menu_item('../esame3m/stamparegistroesame.php', 'REGISTRO ESAMI');
+        menu_item_new_page('../esame3m/stamparegistroesame.php', 'REGISTRO ESAMI');
         menu_separator("");
         menu_item('../esame3m/esa_vis_alu_cla.php', 'ANAGRAFICHE ALUNNI');
 
@@ -1705,12 +1705,21 @@ function menu_title_end($enable = TRUE) {
 // Disegna una voce del menu'
 
 function menu_item($url, $label, $enable = TRUE) {
+
+    $enable and print "\n<button onclick=\"setAction('$url');\" class='button'>$label</button>";
+}
+
+function menu_item_new_page($url, $label, $enable = TRUE) {
 // $enable and print "\n<button onclick=\"window.open('$url','_self');\" class='button'>$label</button>";
 // permette di cambiare l'attributo action della form
 // la function setAction è definita nella sezione HEAD
 // in questo modo tutto il menu è compreso nella form con il metodo POST
-    $enable and print "\n<button onclick=\"setAction('$url');\" class='button'>$label</button>";
+ 
+    $enable and print "\n<button onclick=\"setAction('$url');\" class='button' formtarget=\"_blank\">$label</button>";   
+
 }
+
+
 
 // Disegna una riga vuota nel menu'
 
@@ -1719,31 +1728,4 @@ function menu_separator($titolo) {
     print "<br>$titolo<br>";
 }
 
-/*
 
-function inserisciAmmonizioniMancataGiustifica($datamessaggio, $con)
-{
-
-    $qp = "SELECT DISTINCT nomeparametro FROM tbl_paramcomunicazpers";
-    $risp = mysqli_query($con, inspref($qp));
-    while ($recp = mysqli_fetch_array($risp))
-    {
-
-        $nomeparametro = $recp['nomeparametro'];
-        // print "tttt $nomeparametro <br>";
-        $query = "SELECT valore FROM tbl_paramcomunicazpers WHERE nomeparametro='$nomeparametro' and idutente=" . $_SESSION['idutente'];
-        $rispc = mysqli_query($con, inspref($query));
-        $valper = "";
-        if ($recpf = mysqli_fetch_array($rispc))
-        {
-            $valper = $recpf['valore'];
-        }
-
-        $messaggio = str_replace("[$nomeparametro]", $valper, $messaggio);
-
-        return $messaggio;
-    }
-    return $messaggio;
-
-}
-*/

@@ -101,3 +101,17 @@ function cerca_giudizio_comp($con, $idalunno, $idcompetenza) {
     } else
         return "";
 }
+
+
+
+function cerca_livello_da_classe($con, $annoclasse, $livello_scuola) {
+    $query = "select * from tbl_certcompvalutazioni
+            where idalunno=$idalunno and idccc=$idcompetenza";
+    // print inspref($query);
+    $ris = mysqli_query($con, inspref($query));
+    if (mysqli_num_rows($ris) > 0) {
+        $rec = mysqli_fetch_array($ris);
+        return $rec['giud'];
+    } else
+        return "";
+}

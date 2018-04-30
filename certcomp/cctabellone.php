@@ -50,9 +50,17 @@ if ($livello_scuola == 4)
 
 
 $idclasse = stringa_html('idclasse');
-$idalunno = stringa_html('idalunno');
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
+
+if ($idclasse != '')
+    $scrutiniochiuso = !scrutinio_aperto($idclasse, $numeroperiodi, $con);
+if ($scrutiniochiuso) {
+    $datastampa = data_italiana(estrai_datascrutinio($idclasse, $numeroperiodi, $con));
+    $firmadirig = estrai_dirigente($con);
+}
+
+$_SESSION['ccritorno'] = 'tab';
 
 
 print ('
@@ -94,7 +102,7 @@ while ($nom = mysqli_fetch_array($ris)) {
 
 echo('
       </SELECT>
-      </td></tr>');
+      </td></tr></table>');
 
 
 //
@@ -117,7 +125,6 @@ if ($idclasse != '') {
     while ($rec = mysqli_fetch_array($ris)) {
         $competenzedes[] = $rec['compcheuropea'];
         $competenzecod[] = $rec['idccc'];
-        
     }
 
 
@@ -134,20 +141,40 @@ if ($idclasse != '') {
 
     $ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
     while ($nom = mysqli_fetch_array($ris)) {
+        $idalunno = $nom['idalunno'];
         print "<tr>";
         print "<td>" . $nom['cognome'] . " " . $nom['nome'] . " (" . data_italiana($nom['datanascita']) . ")</td>";
 
-        foreach ($competenzecod as $codice) {
-            if (cerca_competenza_ch_europea($con,$codice)!="")
-               print "<td><small><small>" . decodifica_livello_certcomp($con,cerca_livello_comp($con, $nom['idalunno'], $codice)) . "<big><big></td>";
-            else
-               print "<td><small><small>" . cerca_giudizio_comp($con, $nom['idalunno'], $codice) . "<big><big></td>";
-        }
 
+        foreach ($competenzecod as $codice) {
+            if (cerca_competenza_ch_europea($con, $codice) != "")
+                print "<td><small><small>" . decodifica_livello_certcomp($con, cerca_livello_comp($con, $nom['idalunno'], $codice)) . "<big><big></td>";
+            else
+                print "<td><small><small>" . cerca_giudizio_comp($con, $nom['idalunno'], $codice) . "<big><big></td>";
+        }
+        if ($scrutiniochiuso) {
+            print "<td>";
+            print "<a href='./stampacertcomp.php?idalunno=$idalunno&data=$datastampa&firma=$firmadirig' target='_blank'>Stampa</a>&nbsp;";
+            print "<a href='./ccvalutazioni.php?idalunno=$idalunno&idclasse=$idclasse'>Modifica</a>";
+            print "</td>";
+        } else {
+            print "<td>";
+            print "<a href='./stampacertcomp.php?idalunno=$idalunno' target='_blank'>Stampa</a>&nbsp;";
+            print "<a href='./ccvalutazioni.php?idalunno=$idalunno&idclasse=$idclasse'>Modifica</a>";
+            print "</td>";
+        }
         print "</tr>";
     }
     print "</table>";
+
+    if ($scrutiniochiuso) {
+        print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse&data=$datastampa&firma=$firmadirig' target='_blank'>Stampa schede</a><br><br>";
+    } else {
+        print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse' target='_blank'>Stampa schede</a><br><br>";
+    }
 }
+
+
 
 mysqli_close($con);
 stampa_piede("");

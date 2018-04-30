@@ -168,6 +168,16 @@ $script = "<script type='text/javascript'>
                   window.open(link);
                 }
 
+                function stampaCER(alunno='')
+               {
+                  datast=document.getElementById('datastampa').value;
+                  firmadir=document.getElementById('firmadirigente').value;
+                  link='../certcomp/stampacertcomp.php?classe=$idclasse&firma='+firmadir+'&data='+datast;
+                  if (alunno!='')
+                      link='stampaschedefinalialu_A3.php?firma='+firmadir+'&data='+datast+'&idalunno='+alunno;
+                  // document.location.href=link;
+                  window.open(link);
+		}
 
                jQuery(function($){
 	$.datepicker.regional['it'] = {
@@ -746,7 +756,7 @@ if ($idclasse != "")
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaTAB.png' onclick='stampaTAB()'  onmouseover=$(this).css('cursor','pointer')>";
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaVERB.png' onclick='stampaVER()'  onmouseover=$(this).css('cursor','pointer')>";
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaCRI.png' onclick='stampaCRI()'  onmouseover=$(this).css('cursor','pointer')>";
-
+            print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaCER.png' onclick='stampaCER()'  onmouseover=$(this).css('cursor','pointer')>";
             $nf = "scrut_" . decodifica_classe($idclasse, $con) . "_" . $numeroperiodi . ".csv";
             $nf = str_replace(" ", "_", $nf);
             $nomefile = "$cartellabuffer/" . $nf;
@@ -854,6 +864,8 @@ if ($idclasse != "")
 
                 echo "<td align='center'><img src='../immagini/stampaA4.png' height='24' width='24' onclick='stampaA4($idalunno)'  onmouseover=$(this).css('cursor','pointer')>";
                 echo "&nbsp;<img src='../immagini/stampaA3.png' height='24' width='24' onclick='stampaA3($idalunno)'  onmouseover=$(this).css('cursor','pointer')>";
+                echo "&nbsp;<img src='../immagini/stampaCER.png' height='24' width='24' onclick='stampaCER($idalunno)'  onmouseover=$(this).css('cursor','pointer')>";
+                
                 echo "&nbsp;<img src='../immagini/stampaMIN.png' height='24' width='24' onclick='stampaMIN($idalunno)'  onmouseover=$(this).css('cursor','pointer')>";
                 echo "&nbsp;<img src='../immagini/stampaSEP.png' height='24' width='24' onclick='stampaSEP($idalunno)'  onmouseover=$(this).css('cursor','pointer')></td></tr>";
 //     }
@@ -899,7 +911,8 @@ if ($idclasse != "")
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaTAB.png' onclick='stampaTAB()'  onmouseover=$(this).css('cursor','pointer')>";
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaVERB.png' onclick='stampaVER()'  onmouseover=$(this).css('cursor','pointer')>";
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaCRI.png' onclick='stampaCRI()'  onmouseover=$(this).css('cursor','pointer')>";
-
+            print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaCER.png' onclick='stampaCER()'  onmouseover=$(this).css('cursor','pointer')>";
+            
             $nf = "scrut_" . decodifica_classe($idclasse, $con) . "_" . $numeroperiodi . ".csv";
             $nf = str_replace(" ", "_", $nf);
             $nomefile = "$cartellabuffer/" . $nf;

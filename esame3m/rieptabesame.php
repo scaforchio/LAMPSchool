@@ -126,13 +126,7 @@ $script = "<script type='text/javascript'>
                   window.open(link);
 		}
 
-               function stampaREG()
-               {
-
-                  link='stamparegistroesame.php?classe=$idclasse';
-                  // document.location.href=link;
-                  window.open(link);
-		}
+               
                function stampaMIN()
                {
                   datast=document.getElementById('datastampa').value;
@@ -643,7 +637,7 @@ if ($idclasse != "")
         print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaTAB.png' onclick='stampaTAB()'  onmouseover=$(this).css('cursor','pointer')>";
         print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaESI.png' onclick='stampaESI()'  onmouseover=$(this).css('cursor','pointer')>";
         print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaVERB.png' onclick='stampaVER()'  onmouseover=$(this).css('cursor','pointer')>";
-        print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaVERB.png' onclick='stampaREG()'  onmouseover=$(this).css('cursor','pointer')>";
+        //print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaVERB.png' onclick='stampaREG()'  onmouseover=$(this).css('cursor','pointer')>";
         $nf = "esami_" . decodifica_classe($idclasse, $con) . ".csv";
         $nf = str_replace(" ", "_", $nf);
         $nomefile = "$cartellabuffer/" . $nf;

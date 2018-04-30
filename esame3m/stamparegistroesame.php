@@ -157,12 +157,12 @@ $risesi = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($
 
 while ($recesa = mysqli_fetch_array($risesi)) {
 
-    
+
     if ($recesa['idclassealunno'] != 0) {
         $contatori['candidatiinterniammessi'] ++;
         $contatori['candidatitotaliammessi'] ++;
     } else {
-        
+
         $contatori['candidatiesterniammessi'] ++;
         $contatori['candidatitotaliammessi'] ++;
     }
@@ -202,7 +202,7 @@ while ($recesa = mysqli_fetch_array($risesi)) {
         $contatori['candidatiinterninonlicesito'] ++;
         $contatori['candidatitotalinonlicenziati'] ++;
     }
-    
+
     if ($recesa['idclassealunno'] == 0 & $recesa['votofinale'] < 6 & $recesa['votofinale'] > 0) {
         $contatori['candidatiesterninonlicesito'] ++;
         $contatori['candidatitotalinonlicenziati'] ++;
@@ -217,7 +217,7 @@ while ($recesa = mysqli_fetch_array($risesi)) {
 
 
 
-stampa_commissione($arrdocenti, $arrmaterie, $contatori, $schede);
+stampa_commissione($arrdocenti, $arrmaterie, $contatori, $schede, $dataverbale, $presidente);
 
 
 $numalu = 0;
@@ -261,11 +261,12 @@ $schede->Output($nomefile, "I");
 mysqli_close($con);
 
 function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $dataverbale, $presidente) {
-    $schede->rect(20, $posYiniz, 170, 125);
+    $schede->rect(20, $posYiniz, 180, 125);
+    $schede->rect(20, $posYiniz, 60, 125);
     $schede->SetFont('Times', '', 10);
     $schede->setXY(20, $posYiniz);
-    $schede->MultiCell(50, 7, converti_utf8("Cognome, nome e generalità del candidato"), 1, "C");
-    $schede->setXY(70, $posYiniz);
+    $schede->MultiCell(60, 7, converti_utf8("Cognome, nome e generalità del candidato"), 1, "C");
+    $schede->setXY(80, $posYiniz);
     $schede->MultiCell(120, 14, converti_utf8("Risultato dell'esame di stato"), 1, "C");
 
     $schede->setXY(20, $posYiniz + 14);
@@ -307,36 +308,36 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
     }
     $schede->SetFont('Times', '', 10);
     $schede->setXY(20, $posYiniz + 24);
-    $schede->Cell(50, 7, converti_utf8("$cognome $nome"), 0, 0, "L");
+    $schede->Cell(60, 7, converti_utf8("$cognome $nome"), 0, 0, "L");
     $schede->setXY(20, $posYiniz + 31);
-    $schede->Cell(50, 7, converti_utf8("Nato a " . $comunenascita), 0, 0, "L");
+    $schede->Cell(60, 7, converti_utf8("Nato a " . $comunenascita), 0, 0, "L");
     $schede->setXY(20, $posYiniz + 38);
-    $schede->Cell(50, 7, converti_utf8("Prov. " . $provincianasc), 0, 0, "L");
+    $schede->Cell(60, 7, converti_utf8("Prov. " . $provincianasc), 0, 0, "L");
     $schede->setXY(20, $posYiniz + 45);
-    $schede->Cell(50, 7, converti_utf8("addì " . $datanascita), 0, 0, "L");
+    $schede->Cell(60, 7, converti_utf8("addì " . $datanascita), 0, 0, "L");
     $schede->setXY(20, $posYiniz + 52);
-    $schede->Cell(50, 7, converti_utf8("Abitante in " . $comuneresidenza), 0, 0, "L");
+    $schede->Cell(60, 7, converti_utf8("Abitante in " . $comuneresidenza), 0, 0, "L");
     $schede->setXY(20, $posYiniz + 59);
-    $schede->Cell(50, 7, converti_utf8($indirizzo), 0, 0, "L");
+    $schede->Cell(60, 7, converti_utf8($indirizzo), 0, 0, "L");
     if ($sesso == 'm') {
         if ($classe != "") {
             $schede->setXY(20, $posYiniz + 66);
-            $schede->Cell(50, 7, converti_utf8("Ammesso in seguito a scrutinio"), 0, 0, "L");
+            $schede->Cell(60, 7, converti_utf8("Ammesso in seguito a scrutinio"), 0, 0, "L");
             //  $schede->setXY(20, $posYiniz + 72);
             //  $schede->Cell(50, 7, converti_utf8($classe), 0, 0, "L");
         } else {
             $schede->setXY(20, $posYiniz + 66);
-            $schede->Cell(50, 7, converti_utf8("Ammesso in seguito a domanda"), 0, 0, "L");
+            $schede->Cell(60, 7, converti_utf8("Ammesso in seguito a domanda"), 0, 0, "L");
         }
     } else {
         if ($classe != "") {
             $schede->setXY(20, $posYiniz + 66);
-            $schede->Cell(50, 7, converti_utf8("Ammessa in seguito a scrutinio"), 0, 0, "L");
+            $schede->Cell(60, 7, converti_utf8("Ammessa in seguito a scrutinio"), 0, 0, "L");
             //  $schede->setXY(20, $posYiniz + 72);
             //  $schede->Cell(50, 7, converti_utf8($classe), 0, 0, "L");
         } else {
             $schede->setXY(20, $posYiniz + 66);
-            $schede->Cell(50, 7, converti_utf8("Ammessa in seguito a domanda"), 0, 0, "L");
+            $schede->Cell(60, 7, converti_utf8("Ammessa in seguito a domanda"), 0, 0, "L");
         }
     }
     $query = "select * from tbl_esmaterie where idclasse=$idclasse";
@@ -345,43 +346,43 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
     $secondalingua = converti_utf8($recmat['m' . $recmat['num2lin'] . 'e']);
 
     $schede->setXY(20, $posYiniz + 80);
-    $schede->Cell(50, 7, "Seconda lingua com.: $secondalingua", 0, 0, "L");
+    $schede->Cell(60, 7, "Seconda lingua com.: $secondalingua", 0, 0, "L");
 
     $schede->setXY(20, $posYiniz + 87);
-    $schede->Cell(50, 7, "NOTE", 0, 0, "C");
+    $schede->Cell(60, 7, "NOTE", 0, 0, "C");
 
 
 
     // ESITO ESAME
 
-    $schede->setXY(70, $posYiniz + 14);
+    $schede->setXY(80, $posYiniz + 14);
     if ($sesso == 'm')
         $schede->Cell(120, 7, converti_utf8("Il Presidente, sulla base del giudizio della commissione dichiara che il candidato"), 0, 0, "C");
     else
         $schede->Cell(120, 7, converti_utf8("Il Presidente, sulla base del giudizio della commissione dichiara che la candidata"), 0, 0, "C");
-    $schede->setXY(70, $posYiniz + 21);
+    $schede->setXY(80, $posYiniz + 21);
     if ($sesso == 'm')
         $schede->Cell(120, 7, converti_utf8("$cognome $nome é stato $esito"), 0, 0, "C");
     else
         $schede->Cell(120, 7, converti_utf8("$cognome $nome é stata $esito"), 0, 0, "C");
-    $schede->setXY(70, $posYiniz + 28);
+    $schede->setXY(80, $posYiniz + 28);
 
     $schede->Cell(120, 7, converti_utf8("con la valutazione di $votofinale / 10"), 0, 0, "C");
-    $schede->setXY(70, $posYiniz + 35);
+    $schede->setXY(80, $posYiniz + 35);
     $schede->SetFont('Times', 'B', 8);
     $schede->Cell(120, 7, converti_utf8("Motivato giudizio complessivo sul grado di formazione e di sviluppo della personalità del candidato"), 0, 0, "L");
-    $schede->setXY(70, $posYiniz + 40);
+    $schede->setXY(80, $posYiniz + 40);
     $schede->SetFont('Times', '', 8);
     $schede->MultiCell(120, 7, converti_utf8($giudiziocomplessivo), 0, "L");
-    $schede->setXY(70, $posYiniz + 70);
+    $schede->setXY(80, $posYiniz + 70);
     $schede->SetFont('Times', 'B', 8);
     $schede->Cell(120, 7, converti_utf8("Consiglio orientativo sulle scelte successive"), 0, 0, "L");
-    $schede->setXY(70, $posYiniz + 75);
+    $schede->setXY(80, $posYiniz + 75);
     $schede->SetFont('Times', '', 8);
     $schede->MultiCell(120, 7, converti_utf8($consiglioorientativo), 0, "L");
 
 
-    $schede->setXY(70, $posYiniz + 110);
+    $schede->setXY(80, $posYiniz + 110);
     $schede->SetFont('Times', '', 8);
     $schede->Cell(120, 7, converti_utf8("Data $dataverbale"), 0, "L");
 
@@ -389,16 +390,16 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
         $suff = $_SESSION['suffisso'] . "/";
     } else
         $suff = "";
-    $schede->setXY(90, $posYiniz + 85);
+    $schede->setXY(100, $posYiniz + 85);
     $schede->Image('../abc/' . $suff . 'timbro.png');
 
 
-    $schede->setXY(130, $posYiniz + 100);
+    $schede->setXY(140, $posYiniz + 100);
     $schede->SetFont('Arial', '', 11);
     $schede->Cell(40, 5, converti_utf8($presidente), "B", 0, "C");
 
     $dicituradirigente = "IL PRESIDENTE";
-    $schede->setXY(130, $posYiniz + 90);
+    $schede->setXY(140, $posYiniz + 90);
     $schede->SetFont('Arial', '', 8);
     $schede->Cell(40, 3, $dicituradirigente, "", 0, "C");
 }
@@ -425,7 +426,7 @@ function stampa_prima_pagina($annoscolastico, &$schede) {
     $schede->Cell(170, 0, converti_utf8("Anno scolastico " . $annoscolastico), 0, 0, "C");
 }
 
-function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$schede) {
+function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$schede, $dataverbale, $presidente) {
     $schede->AddPage();
 
     $posY = 8;
@@ -491,7 +492,7 @@ function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$sched
     $schede->setFont('Times', '', 8);
     $schede->setXY(105, $posY);
     $schede->Cell(15, 10, "ingiustificati", 1, 0, "C");
-    $schede->setFont('Times', '', 8);
+    $schede->setFont('Times', '',8);
     $schede->setXY(135, $posY);
     $schede->Cell(15, 5, "per esito", "LR", 0, "C");
     $schede->setFont('Times', '', 8);
@@ -515,7 +516,7 @@ function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$sched
     $schede->Cell(15, 5, "ingiustificata", "LRB", 0, "C");
 
 
-    
+
     $posY = 35;
     $schede->setFont('Times', '', 10);
     $schede->setXY(60, $posY);
@@ -541,7 +542,7 @@ function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$sched
     $schede->setFont('Times', '', 10);
     $schede->setXY(165, $posY);
     $schede->Cell(35, 24, "", 1, 0, "C");
-    
+
     $posY = 43;
     $schede->setFont('Times', '', 10);
     $schede->setXY(60, $posY);
@@ -564,7 +565,7 @@ function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$sched
     $schede->setFont('Times', '', 10);
     $schede->setXY(150, $posY);
     $schede->Cell(15, 8, $contatori['candidatiesterninonlicassenza'], 1, 0, "C");
-    
+
     $posY = 51;
     $schede->setFont('Times', '', 10);
     $schede->setXY(60, $posY);
@@ -575,17 +576,17 @@ function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$sched
     $schede->setFont('Times', '', 10);
     $schede->setXY(90, $posY);
     $schede->Cell(30, 8, $contatori['candidatitotaliassenti'], 1, 1, "C");
-    
+
     $schede->setFont('Times', '', 10);
     $schede->setXY(120, $posY);
     $schede->Cell(15, 8, $contatori['candidatitotalilicenziati'], 1, 0, "C");
     $schede->setFont('Times', '', 10);
     $schede->setXY(135, $posY);
     $schede->Cell(30, 8, $contatori['candidatitotalinonlicenziati'], 1, 0, "C");
-    
-    
-    
-    
+
+
+
+
     $posY = 35;
     $schede->setFont('Times', 'B', 11);
     $schede->setXY(15, $posY);
@@ -599,6 +600,11 @@ function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$sched
     $schede->setXY(15, $posY);
     $schede->Cell(45, 8, "TOTALE", 1, 0, "C");
 
+    /*
+     * ELENCO DOCENTI COMMISSIONE
+     */
+
+
     $posY = 62;
     $schede->setFont('Times', 'B', 12);
     $schede->setXY(15, $posY);
@@ -609,34 +615,64 @@ function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$sched
     $schede->Cell(5, 7, converti_utf8("N."), 1, 0, "L");
     $schede->Cell(60, 7, converti_utf8("COGNOME E NOME"), 1, 0, "L");
     $schede->Cell(80, 7, converti_utf8("MATERIE"), 1, 0, "L");
-    $schede->Cell(30, 7, "FIRMA", 1, 0, "L");
+    $schede->Cell(40, 7, "FIRMA", 1, 0, "L");
+
     $progrdoc = 0;
     foreach ($elencodocenti as $docente) {
-        $progrdoc++;
+        if ($posY > 240) {
+            $schede->AddPage();
+            $posY = 20;
+            $schede->setFont('Times', '', 10);
+            $schede->setXY(15, $posY);
+            $schede->Cell(5, 7, converti_utf8("N."), 1, 0, "L");
+            $schede->Cell(60, 7, converti_utf8("COGNOME E NOME"), 1, 0, "L");
+            $schede->Cell(80, 7, converti_utf8("MATERIE"), 1, 0, "L");
+            $schede->Cell(40, 7, "FIRMA", 1, 0, "L");
+        }
         $posY += 7;
         $schede->setXY(15, $posY);
         $schede->setFont('Times', '', 9);
-        $schede->Cell(5, 7, "$progrdoc", 1, 0, "L");
-    }
-    $posY = 70;
-    foreach ($elencodocenti as $docente) {
-        $posY += 7;
+        $numprogr = $progrdoc + 1;
+        $schede->Cell(5, 7, "$numprogr", 1, 0, "L");
+
+
         $schede->setXY(20, $posY);
         $schede->setFont('Times', '', 10);
         $schede->Cell(60, 7, converti_utf8("$docente"), 1, 0, "L");
-    }
-    $posY = 70;
-    foreach ($elencomaterie as $materie) {
-        $posY += 7;
+
+        $materie = $elencomaterie[$progrdoc];
         $schede->setXY(80, $posY);
         $schede->setFont('Times', '', 10);
+        if ($materie == "")
+            $materie = "Sostegno";
         $schede->Cell(80, 7, converti_utf8("$materie"), 1, 0, "L");
-    }
-    $posY = 70;
-    foreach ($elencomaterie as $materie) {
-        $posY += 7;
+
+
         $schede->setXY(160, $posY);
         $schede->setFont('Times', '', 10);
-        $schede->Cell(30, 7, "", 1, 0, "L");
+        $schede->Cell(40, 7, "", 1, 0, "L");
+        $progrdoc++;
     }
+    $schede->setXY(30, $posY+20);
+    $schede->SetFont('Times', '', 8);
+    $schede->Cell(120, 7, converti_utf8("Data $dataverbale"), 0, "L");
+
+    if ($_SESSION['suffisso'] != "") {
+        $suff = $_SESSION['suffisso'] . "/";
+    } else
+        $suff = "";
+    $schede->setXY(70, $posY + 10);
+    $schede->Image('../abc/' . $suff . 'timbro.png');
+
+
+    $schede->setXY(140, $posY + 25);
+    $schede->SetFont('Arial', '', 11);
+    $schede->Cell(40, 5, converti_utf8($presidente), "B", 0, "C");
+
+    $dicituradirigente = "IL PRESIDENTE";
+    $schede->setXY(140, $posY + 15);
+    $schede->SetFont('Arial', '', 8);
+    $schede->Cell(40, 3, $dicituradirigente, "", 0, "C");
+
+    
 }

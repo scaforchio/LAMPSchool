@@ -31,7 +31,7 @@ if ($tipoutente == "") {
 
 $titolo = "Inserimento valutazioni per certificazione competenze";
 $script = "";
-stampa_head($titolo, "", $script, "SD");
+stampa_head($titolo, "", $script, "SP");
 
 
 
@@ -43,7 +43,12 @@ $iddocente = stringa_html('iddocente');
 $idalunno = stringa_html('idalunno');
 $idclasse = estrai_classe_alunno($idalunno, $con);
 $livscuola = stringa_html('livscuola');
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='ccvalutazioni.php?idclasse=$idclasse'>VALUTAZIONI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+if ($_SESSION['ccritorno'] == 'tab')
+{
+    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='cctabellone.php?idclasse=$idclasse'>TABELLONE COMPETENZE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+    $_SESSION['ccritorno']='';
+}else
+    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='ccvalutazioni.php?idclasse=$idclasse'>VALUTAZIONI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 // Cancello le vecchie proposte
 

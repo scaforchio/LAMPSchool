@@ -3,6 +3,8 @@
 --
 
 ALTER TABLE tbl_esesiti CHANGE mediascramm mediascrcolloq DECIMAL(4,2) NULL DEFAULT NULL;
+ALTER TABLE tbl_esesiti
+    CHANGE datacolloquio datacolloquio DATE NULL DEFAULT NULL;
 
 INSERT INTO tbl_parametri (idparametro, gruppo, parametro, valore, descrizione, valoriammessi) VALUES (NULL, 'voti', 'solovotiinteri', 'no', 'Stabilisce se le valutazioni delle verifiche devono essere solo intere.', 'no|yes');
 
@@ -101,7 +103,8 @@ INSERT INTO tbl_certcomplivelli (idccl, livello, indicatoreesplicativo, indicato
 (7, 'C - Base', 'Lâ€™alunno/a svolge compiti semplici anche in situazioni nuove, mostrando di possedere conoscenze e abilitÃ  fondamentali e di saper applicare basilari regole e procedure apprese.', 2, 2, 1),
 (8, 'D - Iniziale', 'Lâ€™alunno/a, se opportunamente guidato/a, svolge compiti semplici in situazioni note.', 1, 2, 1);
 
-
+ALTER TABLE tbl_esesiti
+    CHANGE datacolloquio datacolloquio DATE NULL DEFAULT NULL;
 
 --
 -- LASCIARE SEMPRE ALLA FINE
