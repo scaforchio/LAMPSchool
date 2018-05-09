@@ -170,7 +170,7 @@ print "
 				<input class='date' type='text' id='datafine' name='datafine'> per:
 			</div>
 				
-			<label><input type='radio' name='reason' id='reason' value='0' required><b>Ferie</b> (ai sensi dell\'art. 13 CCNL)</label>
+			<label><input type='radio' name='reason' id='reason' value='0' required><b>Ferie</b> (ai sensi dell'art. 13 CCNL)</label>
 
 			<label><input type='radio' name='reason' id='reason' value='1'><b>Permesso retribuito</b> (ai sensi dell'art. 15 CCNL) per:</label>
 			<div id='subform1' class='hidden subform'>

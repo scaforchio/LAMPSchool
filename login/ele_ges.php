@@ -482,7 +482,7 @@ if ($cambiamentopassword) {
         menu_title_end();
         menu_title_begin('CERTIFICAZIONE COMPETENZE');
         
-        menu_item('../certcomp/ccproposte.php', 'PROPOSTE CERTIFICAZIONE COMPETENZE');
+        menu_item('../certcomp/ccproposte.php', 'PROPOSTE PER ALUNNI');
         
         menu_title_end();
 
@@ -711,9 +711,8 @@ if ($cambiamentopassword) {
             menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
         }
         menu_item('../scrutini/sitscrutini.php', 'SITUAZIONE SCRUTINI');
-        menu_item('../scrutini/schedaalu.php', 'SCHEDA INTERMEDIA ALUNNO');
-
-        menu_item('../scrutini/schedafinalealu.php', 'PAGELLA FINALE ALUNNO');
+        menu_item('../scrutini/schedaalu.php', 'SCRUTINIO INTERMEDIO ALUNNO');
+        menu_item('../scrutini/schedafinalealu.php', 'SCRUTINIO FINALE ALUNNO');
         menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
         menu_title_end();
 
@@ -729,8 +728,8 @@ if ($cambiamentopassword) {
 
         menu_title_begin('CERTIFICAZIONE COMPETENZE');
         
-        menu_item('../certcomp/ccproposte.php', 'PROPOSTE ALUNNI');
-        menu_item('../certcomp/ccvalutazioni.php', 'CERTIFICAZIONE ALUNNI');
+        menu_item('../certcomp/ccproposte.php', 'PROPOSTE PER ALUNNI');
+        //menu_item('../certcomp/ccvalutazioni.php', 'CERTIFICAZIONE ALUNNI');
         menu_item('../certcomp/cctabellone.php', 'TABELLONE CLASSE');
         
         menu_title_end();
@@ -969,12 +968,15 @@ if ($cambiamentopassword) {
         if ($livello_scuola == '4') {
             menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
         }
-        menu_item('../scrutini/schedafinalealu.php', 'PAGELLA FINALE ALUNNO');
+        menu_item('../scrutini/schedafinalealu.php', 'SCRUTINIO FINALE ALUNNO');
         menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
-        menu_item('../certcomp/ccvalutazioni.php', 'CERTIFICAZIONE COMPETENZE');
-        menu_item('../certcomp/cctabellone.php', 'CERTIFICAZIONE COMPETENZE - TABELLONE');
+        
         menu_title_end();
-
+        
+        menu_title_begin('CERTIFICAZIONE COMPETENZE');
+        //menu_item('../certcomp/ccvalutazioni.php', 'CERTIFICAZIONE ALUNNI');
+        menu_item('../certcomp/cctabellone.php', 'TABELLONE CLASSE');
+        menu_title_end();
 
         menu_title_begin('PROGRAMMI');
 
@@ -1280,8 +1282,8 @@ if ($cambiamentopassword) {
         if ($livello_scuola == '4') {
             menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
         }
-        menu_item('../scrutini/schedaalu.php', 'SCHEDA INTERMEDIA ALUNNO');
-        menu_item('../scrutini/schedafinalealu.php', 'PAGELLA FINALE ALUNNO');
+        menu_item('../scrutini/schedaalu.php', 'SCRUTINIO INTERMEDIO ALUNNO');
+        menu_item('../scrutini/schedafinalealu.php', 'SCRUTINIO FINALE ALUNNO');
         menu_title_end();
 
 

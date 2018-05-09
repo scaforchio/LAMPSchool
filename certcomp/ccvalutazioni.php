@@ -72,7 +72,7 @@ print('
         <tr>
         <td width="50%"><b>Classe</b></td>
         <td width="50%">
-        <SELECT ID="idclasse" NAME="idclasse" ONCHANGE="voti.submit()"><option value="">');
+        <SELECT ID="idclasse" NAME="idclasse" ONCHANGE="voti.submit()" disabled><option value="">');
 
 $query = "select idclasse, anno, sezione, specializzazione from tbl_classi where $annocomp order by anno, sezione, specializzazione";
 
@@ -106,7 +106,7 @@ if ($idclasse != '') {
         <tr>
         <td width="50%"><b>Alunno</b></td>
         <td width="50%">
-        <SELECT ID="idalunno" NAME="idalunno" ONCHANGE="voti.submit()"><option value="">');
+        <SELECT ID="idalunno" NAME="idalunno" ONCHANGE="voti.submit()" disabled><option value="">');
 
 
     $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";

@@ -177,9 +177,8 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
         $schede->Cell(190, 6, converti_utf8("nato a $comunenascita il $datanascita"), NULL, 1, "C");
     }
     $schede->Cell(190, 6, converti_utf8("ha frequentato nell'anno scolastico $annoscolastico la classe $classe ,"), NULL, 1, "C");
-    $schede->Cell(190, 6, converti_utf8("con orario settimanale di $orelezione ore;"), NULL, 1, "C");
+    $schede->Cell(190, 6, converti_utf8("con orario settimanale di $orelezione ore"), NULL, 1, "C");
     $schede->Cell(190, 6, converti_utf8("e ha raggiunto i livelli di competenza di seguito illustrati."), NULL, 1, "C");
-
 
     $schede->AddPage();
 
@@ -203,9 +202,6 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
     $posy += 12;
 
     $livscuola = $tiposcheda;
-
-
-
 
 // Cerco tutte le competenze previste per la classe
     $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
@@ -283,7 +279,11 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
             $posy += $altezza;
         }
     }
-
+    
+    $schede->SetFont('Times', 'I', 7);
+    $schede->Cell(60, 4, converti_utf8("* Sense of initiative and entrepreneurship nella Raccomandazione europea e del Consiglio del 18 dicembre 2006"),0,0);
+    
+    $schede->SetFont('Times', '', 10);
     $schede->SetXY(10, $posy + 5);
     $schede->Cell(60, 8, converti_utf8("Data, $datastampa"));
     $schede->SetXY(110, $posy + 5);

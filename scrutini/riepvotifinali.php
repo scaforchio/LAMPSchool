@@ -174,7 +174,7 @@ $script = "<script type='text/javascript'>
                   firmadir=document.getElementById('firmadirigente').value;
                   link='../certcomp/stampacertcomp.php?classe=$idclasse&firma='+firmadir+'&data='+datast;
                   if (alunno!='')
-                      link='stampaschedefinalialu_A3.php?firma='+firmadir+'&data='+datast+'&idalunno='+alunno;
+                      link='../certcomp/stampacertcomp.php?firma='+firmadir+'&data='+datast+'&idalunno='+alunno;
                   // document.location.href=link;
                   window.open(link);
 		}
@@ -308,10 +308,21 @@ while ($nom = mysqli_fetch_array($ris))
 }
 
 print ("</select></td></tr></table></form>");
-
+$classeterminale=false;
 if ($idclasse != "")
 {
+    $annoclasse= decodifica_anno_classe($idclasse, $con);
 
+    if ($livello_scuola==1 & $annoclasse==5)
+        $classeterminale=true;
+    if ($livello_scuola == 2 & $annoclasse==3)
+        $classeterminale=true;
+    
+    if ($livello_scuola == 3 & ($annoclasse==3 | $annoclasse==8))
+        $classeterminale=true;
+    
+   //  if ($livello_scuola == 4 & $annoclasse==5)
+   //     $classeterminale=true;
 
     if ($tipoutente != 'A')
     {
@@ -757,12 +768,18 @@ if ($idclasse != "")
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaVERB.png' onclick='stampaVER()'  onmouseover=$(this).css('cursor','pointer')>";
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaCRI.png' onclick='stampaCRI()'  onmouseover=$(this).css('cursor','pointer')>";
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaCER.png' onclick='stampaCER()'  onmouseover=$(this).css('cursor','pointer')>";
+            
+            
+            
             $nf = "scrut_" . decodifica_classe($idclasse, $con) . "_" . $numeroperiodi . ".csv";
             $nf = str_replace(" ", "_", $nf);
             $nomefile = "$cartellabuffer/" . $nf;
             print ("&nbsp;&nbsp;&nbsp;<a href='$nomefile' target='_blank'><img src='../immagini/csv.png'></a></center>");
 
             print "</fieldset>";
+            
+            
+            
             // VERIFICO SE LO SCRUTINIO E' COMPLETO E IN TAL CASO PROPONGO LA CHIUSURA
             // ALTRIMENTI VISUALIZZO AVVISO DI VOTI MANCANTI
             //  if (scrutinio_aperto($idclasse, $numeroperiodi, $con))
@@ -783,7 +800,9 @@ if ($idclasse != "")
 						 <input type='hidden' name='idscrutinio' value='$idscrutinio'>
 						 <br>ATTENZIONE! La reimportazione delle proposte annullerà eventuali modifiche apportate.<br>
 						 <input type='submit' value='Ricarica proposte'></form>";
-
+                if ($classeterminale)
+                print "<br><a href='../certcomp/cctabellone.php?idclasse=$idclasse&provenienza=scrutini' target='_blank'>Certificazione competenze</a>";
+            
                 print "</center>";
             }
             else
@@ -913,12 +932,16 @@ if ($idclasse != "")
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaCRI.png' onclick='stampaCRI()'  onmouseover=$(this).css('cursor','pointer')>";
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaCER.png' onclick='stampaCER()'  onmouseover=$(this).css('cursor','pointer')>";
             
+            
+            
             $nf = "scrut_" . decodifica_classe($idclasse, $con) . "_" . $numeroperiodi . ".csv";
             $nf = str_replace(" ", "_", $nf);
             $nomefile = "$cartellabuffer/" . $nf;
             print ("&nbsp;&nbsp;&nbsp;<a href='$nomefile' target='_blank'><img src='../immagini/csv.png'></a></center>");
 
             print "</fieldset>";
+            
+            
         }
     }
 }
