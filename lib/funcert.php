@@ -90,6 +90,8 @@ function cerca_livello_comp($con, $idalunno, $idcompetenza) {
         return 0;
 }
 
+
+
 function cerca_giudizio_comp($con, $idalunno, $idcompetenza) {
     $query = "select * from tbl_certcompvalutazioni
             where idalunno=$idalunno and idccc=$idcompetenza";
@@ -102,6 +104,31 @@ function cerca_giudizio_comp($con, $idalunno, $idcompetenza) {
         return "";
 }
 
+function cerca_livello_prop($con, $idalunno,$iddocente, $idcompetenza) {
+    $query = "select * from tbl_certcompproposte
+            where idalunno=$idalunno and iddocente=$iddocente and idccc=$idcompetenza";
+    // print inspref($query);
+    $ris = mysqli_query($con, inspref($query));
+    if (mysqli_num_rows($ris) > 0) {
+        $rec = mysqli_fetch_array($ris);
+        return $rec['idccl'];
+    } else
+        return 0;
+}
+
+
+
+function cerca_giudizio_prop($con, $idalunno,$iddocente, $idcompetenza) {
+    $query = "select * from tbl_certcompproposte
+            where idalunno=$idalunno and iddocente=$iddocente and idccc=$idcompetenza";
+    // print inspref($query);
+    $ris = mysqli_query($con, inspref($query));
+    if (mysqli_num_rows($ris) > 0) {
+        $rec = mysqli_fetch_array($ris);
+        return $rec['giud'];
+    } else
+        return "";
+}
 
 
 function cerca_livello_da_classe($con, $annoclasse, $livello_scuola) {

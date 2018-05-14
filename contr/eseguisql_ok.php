@@ -1,23 +1,25 @@
-<?php session_start();
+<?php
+
+session_start();
 
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
-/*Programma per la visualizzazione del menu principale.*/
+/* Programma per la visualizzazione del menu principale. */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -35,28 +37,25 @@ if ($tipoutente == "")
 
 $titolo = "ESECUZIONE SQL";
 $script = "";
-stampa_head($titolo, "", $script,"PMSD");
+stampa_head($titolo, "", $script, "M");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
-$querydaeseguire=$_POST["que"];
-// SVUOTO LA CARTELLA BUFFER DAI VECCHI FILE SQL E CSV
-//  svuota_cartella("$cartellabuffer/", ".sql");
-// svuota_cartella("$cartellabuffer/", ".csv");
-// svuota_cartella("$cartellabuffer/", ".txt");
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
-esecuzioneSQL($querydaeseguire,$con);
+$querydaeseguire = $_POST["que"];
+
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
+esecuzioneSQL($querydaeseguire, $con);
 /*
-$ris = mysqli_query($con,inspref($querydaeseguire)) or die("Errore: ".mysqli_error($con)." <br> Query: ".inspref($querydaeseguire,false));
+  $ris = mysqli_query($con,inspref($querydaeseguire)) or die("Errore: ".mysqli_error($con)." <br> Query: ".inspref($querydaeseguire,false));
 
-$numrec=mysqli_affected_rows($con);
+  $numrec=mysqli_affected_rows($con);
 
-print "<br><center><b>Query eseguita correttamente, righe influenzate: $numrec !</b></center>";*/
+  print "<br><center><b>Query eseguita correttamente, righe influenzate: $numrec !</b></center>"; */
 print "<form action='eseguisql.php' method='POST'>";
 
 print "<CENTER><br><table border='0'>";
 // print "<tr><td ALIGN='CENTER'><b>".$dati['parametro']."</b></td></tr>";
 print "<tr><td ALIGN='CENTER'><b></b></td></tr>";
-print '<tr><td ALIGN="CENTER"><input type="hidden" name="que" value="'.$querydaeseguire.'"></td></tr>';
+print '<tr><td ALIGN="CENTER"><input type="hidden" name="que" value="' . $querydaeseguire . '"></td></tr>';
 print "<tr><td ALIGN='CENTER'><input type='submit' value='Ritorna'></td></tr>";
 print "</table></form>";
 
@@ -97,8 +96,7 @@ function split_sql_commands($sql, $delimiter)
                 $output[] = $tokens[$i];
                 // save memory.
                 $tokens[$i] = "";
-            }
-            else
+            } else
             {
                 // incomplete sql statement. keep adding tokens until we have a complete one.
                 // $temp will hold what we have so far.
@@ -133,8 +131,7 @@ function split_sql_commands($sql, $delimiter)
                         $complete_stmt = true;
                         // make sure the outer loop continues at the right point.
                         $i = $j;
-                    }
-                    else
+                    } else
                     {
                         // even number of unescaped quotes. We still don't have a complete statement.
                         // (1 odd and 1 even always make an odd)
@@ -142,7 +139,6 @@ function split_sql_commands($sql, $delimiter)
                         // save memory.
                         $tokens[$j] = "";
                     }
-
                 } // for..
             } // else
         }
@@ -160,10 +156,10 @@ function esecuzioneSQL($comandisql, $con)
     foreach ($sql_query as $sql)
     {
 
-        $ris=mysqli_query($con, inspref($sql)) or die("Errore: ".mysqli_error($con)." <br> Query: ".inspref($sql,false));
+        $ris = mysqli_query($con, inspref($sql)) or die("Errore: " . mysqli_error($con) . " <br> Query: " . inspref($sql, false));
 
-        print "<br><b>Eseguito: ".inspref($sql,false)."</b><br><br>";
-        $numrecinfl=mysqli_affected_rows($con);
+        print "<br><b>Eseguito: " . inspref($sql, false) . "</b><br><br>";
+        $numrecinfl = mysqli_affected_rows($con);
         //print "Ris: $ris";
         if (is_object($ris))
         {
@@ -171,13 +167,13 @@ function esecuzioneSQL($comandisql, $con)
             print "<table border='1' align='center'>";
 
             $primo = true;
-            while($row = mysqli_fetch_assoc($ris))
+            while ($row = mysqli_fetch_assoc($ris))
             {
-                if($primo)
+                if ($primo)
                 {
                     $keys = array_keys($row);
                     print "<tr>";
-                    foreach($keys as $key)
+                    foreach ($keys as $key)
                     {
                         print "<td><b>$key</b></td>";
                     }
@@ -185,25 +181,17 @@ function esecuzioneSQL($comandisql, $con)
                     $primo = false;
                 }
                 print "<tr>";
-                foreach($row as $column)
+                foreach ($row as $column)
                 {
                     print "<td>$column</td>";
                 }
                 print "</tr>";
             }
             print "</table>";
-        }
-        else
+        } else
         {
             print "Righe influenzate dalla query: $numrecinfl";
         }
 
-
-        //if ()
-
-        // print "Righe influenzate: $numrec !<br>";
-
     }
-
-
 }

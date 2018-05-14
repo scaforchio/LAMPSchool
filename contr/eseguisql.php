@@ -35,7 +35,7 @@ if ($tipoutente == "")
 
 $titolo = "ESECUZIONE SQL";
 $script = "";
-stampa_head($titolo, "", $script,"PMSD");
+stampa_head($titolo, "", $script,"M");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 if (isset($_POST["que"]))
    $querydaeseguire=$_POST["que"];

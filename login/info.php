@@ -55,6 +55,9 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
     <tr><td><a href='mailto:maxbonetti@gmail.com'>Massimo Bonetti</a></td><td><i>(Debugging, Documentazione)</i></td><td>Scuola Media R. Montecuccoli di Pavullo nel Frignano</td></tr>
     <tr><td><a href='mailto:simone.amati@istruzione.it'>Simone Amati</a></td><td><i>(Debugging, Analisi)</i></td><td>IIS “Carlo e Nello Rosselli” di Aprilia (LT)</td></tr>
     <tr><td><a href='mailto:marco.benaglia@gmail.com'>Marco Benaglia</a></td><td><i>(Debugging, Analisi, Sviluppo)</i></td><td>&nbsp;</td></tr>
+    <tr><td><a href='mailto:giulio.ollasci@gmail.com'>Giulio Ollasci</a></td><td><i>(Debugging, Analisi)</i></td><td>&nbsp;</td></tr>
+    <tr><td><a href='mailto:matt.ruffoni@gmail.com'>Matteo Ruffoni</a></td><td><i>(Debugging, Analisi)</i></td><td>&nbsp;</td></tr>
+
 
 </table>
 <br/><br/>
@@ -72,12 +75,17 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 
         <a style="text-decoration:none;" href='https://itunes.apple.com/us/app/registro-lampschool/id1364584771?l=it&ls=1&mt=8'>
             <img style="width: 123px;" alt="Disponibile su AppStore" src="https://devimages-cdn.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" >
-        </a>      
+        </a> 
+    
+        <a style="text-decoration:none;" href='https://play.google.com/store/apps/details?id=com.gabriel.Registro'>
+            <img style="width: 150px;" alt='Disponibile su Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/it_badge_web_generic.png'/>
+        </a>
+    
 </div>
 
 
 <br><br><small><a href='mailto:pietro.tamburrano@gmail.com'>Informazioni e segnalazioni</a></small><br/><br/>
-<small><a href='http://sourceforge.net/p/lampschool/code/ci/master/tree/'>Codice</a></small><br/><br/>
+<small><a href='https://github.com/scaforchio/LAMPSchool'>Codice</a></small><br/><br/>
 </center></body>
 </html>
 <?

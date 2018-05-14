@@ -258,7 +258,7 @@ function backup_tables($host, $user, $pass, $name, $tables, $cartellabuffer)
     }
 
     //save file
-    $nomefile = $cartellabuffer . '/lampschool-' . date("YmdHis") . '.sql';
+    $nomefile = $cartellabuffer . '/lampschool-'.$_SESSION['suffisso']."-" . date("YmdHis") . '.sql';
     $handle = fopen($nomefile, 'w+');
     fwrite($handle, $return);
     fclose($handle);

@@ -107,7 +107,7 @@ print "<br><br>".$testomail;
 print "<br><form action='inviamailrichferie.php' method='post'>"
         . "<input type='hidden' name='subject' value='$subject'>"
         . "<input type='hidden' name='testomail' value='$testomail'>";
-print "<center><input type='submit' value='Inoltra'><br>";
+print "<center><input type='submit' value='Inoltra'><br></center>";
 
 mysqli_close($con);
 stampa_piede("");

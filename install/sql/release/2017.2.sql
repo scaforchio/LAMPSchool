@@ -2621,6 +2621,8 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'giudcomp09', 'Molto corretto', 'Nono giudizio per valutazione di comportamento (inserire NULL per non utilizzarlo)', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'giudcomp10', 'Esemplare', 'Decimo giudizio per valutazione di comportamento (inserire NULL per non utilizzarlo)', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'solovotiinteri', 'no', 'Stabilisce se le valutazioni delle verifiche devono essere solo intere.', 'no|yes');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'timbratureritardiabilitati', 'yes', 'Abilitazione a ricezione timbrature ritardi', 'no|yes');
+
 
 INSERT INTO tbl_materie (idmateria, denominazione, idclasseconcorso, tipovalutazione, sigla) VALUES (-1, 'Comportamento', 0, 'CU', 'COMPO');
 INSERT INTO tbl_materie (idmateria, denominazione, idclasseconcorso, tipovalutazione, sigla) VALUES ( 0, 'Supplenza',     0, 'N', 'SUPP');

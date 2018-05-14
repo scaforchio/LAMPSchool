@@ -44,7 +44,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 //
 
 if ($livello_scuola == 1)
-    $annocomp="anno = '5'";
+    $annocomp = "anno = '5'";
 if ($livello_scuola == 2)
     $annocomp = "anno = '3'";
 if ($livello_scuola == 3)
@@ -131,35 +131,39 @@ echo('
 //
 
 if ($idclasse != '') {
-    print('
+    if (scrutinio_aperto($idclasse, $numeroperiodi, $con)) {
+        print('
         <tr>
         <td width="50%"><b>Alunno</b></td>
         <td width="50%">
         <SELECT ID="idalunno" NAME="idalunno" ONCHANGE="voti.submit()"><option value="">');
 
 
-    $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
+        $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
 
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
-    while ($nom = mysqli_fetch_array($ris)) {
-        print "<option value='";
-        print ($nom["idalunno"]);
-        print "'";
-        if ($idalunno == $nom["idalunno"]) {
-            print " selected";
+        $ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+        while ($nom = mysqli_fetch_array($ris)) {
+            print "<option value='";
+            print ($nom["idalunno"]);
+            print "'";
+            if ($idalunno == $nom["idalunno"]) {
+                print " selected";
+            }
+            print ">";
+            print ($nom["cognome"]);
+            print "&nbsp;";
+            print($nom["nome"]);
+            print "&nbsp;(";
+            print(data_italiana($nom["datanascita"]));
+            print ")";
         }
-        print ">";
-        print ($nom["cognome"]);
-        print "&nbsp;";
-        print($nom["nome"]);
-        print "&nbsp;(";
-        print(data_italiana($nom["datanascita"]));
-        print ")";
-    }
 
-    echo('
+        echo('
       </SELECT>
       </td></tr>');
+    }
+    else
+        print "<tr><td colspan=2><b><center><br>Scrutinio già chiuso!<br></center></b></td></tr>";
 }
 echo('</table>
  
@@ -198,8 +202,17 @@ if ($idalunno != '') {
             print "<td valign='middle' width=25%>" . $rec['compcheuropea'] . "</td>";
             print "<td valign='middle' width=60%>" . $rec['compprofilo'] . "</td>";
             print "<td valign='middle' width=10%>";
-            $livellocomp = cerca_livello_comp($con, $idalunno, $id_ut_doc, $rec[idccc]);
+            $livellocomp = cerca_livello_prop($con, $idalunno, $id_ut_doc, $rec[idccc]);
             //print $livellocomp;
+            // SELEZIONO LIVELLO GIA' REGISTRATO
+            //  $queryreg="select * from tbl_certcompproposte where idalunno=$idalunno and idccc= ".$idccc;
+            //  $ris=mysqli_query($con,$queryreg);
+            //  if (mysqli_numrows($ris)==1)
+            //  {
+            //      $rec=mysqli_fetch_array($ris);
+            //      $livello=$rec['idccl'];
+            //      $giud  =$rec['giud'];
+            //  }
 
             $queryliv = "select * from tbl_certcomplivelli where livscuola='$livscuola' order by livello";
             $risliv = mysqli_query($con, inspref($queryliv)) or die("Errore" . mysqli_error($con));
@@ -220,7 +233,7 @@ if ($idalunno != '') {
             print "<td colspan=3 valign='middle' width=60%>" . $rec['compprofilo'] . ""
                     . "<br><textarea cols=120 name='txtcmp_" . $rec['idccc'] . "'>";
 
-            print cerca_giudizio_comp($con, $idalunno, $id_ut_doc, $rec['idccc']);
+            print cerca_giudizio_prop($con, $idalunno, $id_ut_doc, $rec['idccc']);
 
             print "</textarea></td>";
         }

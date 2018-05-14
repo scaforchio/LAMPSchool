@@ -106,6 +106,9 @@ INSERT INTO tbl_certcomplivelli (idccl, livello, indicatoreesplicativo, indicato
 ALTER TABLE tbl_esesiti
     CHANGE datacolloquio datacolloquio DATE NULL DEFAULT NULL;
 
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'timbratureritardiabilitati', 'yes', 'Abilitazione a ricezione timbrature ritardi', 'no|yes');
+
+
 --
 -- LASCIARE SEMPRE ALLA FINE
 UPDATE tbl_parametri set valore='2017.2' where parametro='versioneprecedente';
