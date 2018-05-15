@@ -90,11 +90,14 @@ if ($chiavegenerata != $chiavericevuta) {
     $gio = date('d');
     $mes = date('m');
     $anno = date('Y');
+    
+    $nuovetimbrature=0;
     foreach ($arrtimb as $m2) {
         // Le timbrature sono del tipo:
         // [matricola][I/R/U]hhmm    [matricola] ha dimensioni variabili da 1 a 5
         inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . "Stringa m2 $m2 ", $nomefilelog . "rp", $suff);
 
+        $nuovetimbrature++;
         $postipo = 0;
         $postipo = strpos($m2, "I");
         if ($postipo == 0) {
@@ -120,7 +123,8 @@ if ($chiavegenerata != $chiavericevuta) {
                 invia_mail("pietro.tamburrano@gmail.com", "$suffisso Verificare dati timbrature", "Le timbrature contengono una matricola non presente in anagrafica: $matricola");
                 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . "INVIATA MAIL WARNING! ", $nomefilelog . "rp", $suff);
             }
-            inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . "Numtimbrature $numtimbrature ", $nomefilelog . "rp", $suff);
+            $timbratureinserite=$numtimbrature+$nuovetimbrature;
+            inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . "Numtimbrature $timbratureinserite ", $nomefilelog . "rp", $suff);
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . "Data $dataoggi ", $nomefilelog . "rp", $suff);
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . "Esiste alunno $esiste_alunno ", $nomefilelog . "rp", $suff);
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . "Esiste assenza $esiste_assenza ", $nomefilelog . "rp", $suff);

@@ -45,25 +45,24 @@ if ($datalog == '')
 {
     $data = date('Ymd');
     $datalog = date('Y-m-d');
-}
-else
+} else
     $data = substr($datalog, 0, 4) . substr($datalog, 5, 2) . substr($datalog, 8, 2);
 
-$tipo= stringa_html('tipo');
-if ($tipo=='WEB')
+$tipo = stringa_html('tipo');
+if ($tipo == 'WEB')
 {
-    $selweb='selected';
-    $sufftipo='';
+    $selweb = 'selected';
+    $sufftipo = '';
 }
-if ($tipo=='APP')
+if ($tipo == 'APP')
 {
-    $selapp='selected';
-    $sufftipo='ap';
+    $selapp = 'selected';
+    $sufftipo = 'ap';
 }
-if ($tipo=='R.P.')
+if ($tipo == 'R.P.')
 {
-    $selrp='selected';
-    $sufftipo='rp';
+    $selrp = 'selected';
+    $sufftipo = 'rp';
 }
 stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
@@ -72,24 +71,34 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
   $filename="../lampschooldata/".$suff."0000$nomefilelog".date("Ymd").".log";
   else */
 
-$filename = "../lampschooldata/" . $suff . "0000$nomefilelog" .$sufftipo. $data . ".log";
+$filename = "../lampschooldata/" . $suff . "0000$nomefilelog" . $sufftipo . $data . ".log";
+try
+{
+    $handle = fopen($filename, "r");
+} catch (Exception $e)
+{
+    print "<br><br><center>Non esiste file di log per la data specificata!";
+    $handle = '';
+}
 $handle = fopen($filename, "r");
-
+// print "Handle ".$handle;
 print "<form name='sceglilog' method='post' action='visualizzalog.php'>";
 
 print "<br><br><center><input type='date' name='datalog' value='$datalog' ONCHANGE=sceglilog.submit()><br>"
         . "  <select name='tipo' ONCHANGE=sceglilog.submit()><option $selweb>WEB</option><option $selapp>APP</option><option $selrp>R.P.</option></select></center>";
 print "</form>";
 // $contents = fread($handle, filesize($filename));
-try
+if ($handle != '')
 {
-    $contents = file_get_contents($filename);
-    print "<font size='1'><b><pre>" . $filename . "</pre></b></font>";
-    print "<font size='1'><pre>" . $contents . "</pre></font>";
-    fclose($handle);
-} catch (Exception $e)
-{
-    print "<br><br><center>Non esiste file di log per la data specificata!";
+    try
+    {
+        $contents = file_get_contents($filename);
+        print "<font size='1'><b><pre>" . $filename . "</pre></b></font>";
+        print "<font size='1'><pre>" . $contents . "</pre></font>";
+        fclose($handle);
+    } catch (Exception $e)
+    {
+        print "<br><br><center>Non esiste file di log per la data specificata!";
+    }
 }
-
 stampa_piede("");

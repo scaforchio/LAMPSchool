@@ -51,7 +51,7 @@ $script = "<script type='text/javascript'>
          //-->
          </script>";
 
-stampa_head($titolo, "", $script, "SDMAP");
+stampa_head($titolo, "", $script, "SP");
 
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
@@ -106,8 +106,8 @@ while ($val = mysqli_fetch_array($rismat))
             ($votopratico != '' & $votopratico != '99' & $votopratico != NULL) |
             ($schenote != ''))
     {
-        $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,votoscritto,votoorale,votopratico,assenze,note,periodo)
-						 VALUES ('$idalunno','$idmateria','$votounico','$votoscritto','$votoorale','$votopratico','$ass','" . elimina_apici($note) . "','$periodo')";
+        $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,codsissi,votoscritto,votoorale,votopratico,assenze,note,periodo)
+						 VALUES ('$idalunno','$idmateria','$votounico','','$votoscritto','$votoorale','$votopratico','$ass','" . elimina_apici($note) . "','$periodo')";
         $risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con).inspref($queryins));
         $votiinseriti = true;
     }
@@ -122,8 +122,8 @@ $schenote = "not_-1";
 $voto = stringa_html($schevoto);
 $note = stringa_html($schenote);
 
-$queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,periodo,note)
-	                 VALUES ('$idalunno','$idmateria','$voto','$periodo','$note')";
+$queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,codsissi,votounico,periodo,note)
+	                 VALUES ('$idalunno','$idmateria','','$voto','$periodo','$note')";
 $risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con).inspref($queryins));
 //}
 // INSERISCO GIUDIZIO GENERALE

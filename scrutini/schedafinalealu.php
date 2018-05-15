@@ -399,7 +399,7 @@ if ($nome != "" & $idalunno != "")
                </td>';
 
                 print "<td><input type='text' size='2' maxsize='3' value='$assenze' name='ass_$cm'></td>";
-                print ("<td><textarea name='not_$cm' cols='45' rows='2' maxlength='100'>$note</textarea></td>");
+                print ("<td><textarea name='not_$cm' cols='45' rows='2' maxlength='180'>$note</textarea></td>");
             }
             else
             {

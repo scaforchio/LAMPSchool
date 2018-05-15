@@ -603,6 +603,29 @@ function stampa_materia($schede, $posX, $posY, $denom, $unico1, $unico2, $annota
 
     $schede->setXY($posX, $posY);
     $schede->SetFont('Arial', 'B', 12);
+    $schede->Cell(100, 8, $denom, 1, 0, 'C');
+    $schede->setXY($posX + 100, $posY);
+    $schede->SetFont('Arial', 'B', 12);
+    $schede->Cell(36, 8, $unico1, 1, 0, 'C');
+    $schede->setXY($posX + 136, $posY);
+    $schede->SetFont('Arial', 'B', 12);
+    $schede->Cell(36, 8, $unico2, 1, 0, 'C');
+   
+    $schede->setXY($posX, $posY + 8);
+    $schede->SetFont('Arial', NULL, 8);
+    $schede->MultiCell(172, 6, converti_utf8("ANNOTAZIONI 1° Q.: ") . $annotazioni1, 'TLR', 'L');
+    
+    $schede->setXY($posX, $posY + 20);
+    $schede->SetFont('Arial', NULL, 8);
+    $schede->MultiCell(172, 6, converti_utf8("ANNOTAZIONI 2° Q.: ") . $annotazioni2, 'TLR', 'L');
+    $schede->setXY($posX, $posY + 14);
+    $schede->Cell(172,6,"","BLR");
+    $schede->setXY($posX, $posY + 26);
+    $schede->Cell(172,6,"","BLR");
+   /* 
+    * 
+    $schede->setXY($posX, $posY);
+    $schede->SetFont('Arial', 'B', 12);
     $schede->Cell(100, 12, $denom, 1, 0, 'C');
     $schede->setXY($posX + 100, $posY);
     $schede->SetFont('Arial', 'B', 12);
@@ -610,13 +633,15 @@ function stampa_materia($schede, $posX, $posY, $denom, $unico1, $unico2, $annota
     $schede->setXY($posX + 136, $posY);
     $schede->SetFont('Arial', 'B', 12);
     $schede->Cell(36, 12, $unico2, 1, 0, 'C');
-
     $schede->setXY($posX, $posY + 12);
+    
     $schede->SetFont('Arial', NULL, 7);
     $schede->Cell(172, 10, converti_utf8("ANNOTAZIONI 1° Q.: ") . $annotazioni1, 1, 0, 'L');
     $schede->setXY($posX, $posY + 22);
     $schede->SetFont('Arial', NULL, 7);
     $schede->Cell(172, 10, converti_utf8("ANNOTAZIONI 2° Q.: ") . $annotazioni2, 1, 0, 'L');
+    * 
+    */
 }
 
 function elimina_cr($stringa)

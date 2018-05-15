@@ -201,6 +201,7 @@ function backup_tables($host, $user, $pass, $name, $tables, $cartellabuffer)
     $tabcontr = array_reverse($tables);
     $return = 'SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";';
     $return .= "\n\n";
+   
     //cycle through
     foreach ($tabcontr as $table)
     {
@@ -267,69 +268,5 @@ function backup_tables($host, $user, $pass, $name, $tables, $cartellabuffer)
     return $nomefile;
 }
 
-function backup_tables_old($host, $user, $pass, $name, $tables, $cartellabuffer)
-{
 
-    $link = mysqli_connect($host, $user, $pass, $name);
-
-    $tables = is_array($tables) ? $tables : explode(',', $tables);
-    // print "tables ".$row;// TTTT
-    $tabcontr = array_reverse($tables);
-    $return = 'SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";';
-    $return .= "\n\n";
-    //cycle through
-    foreach ($tabcontr as $table)
-    {
-        $return .= 'DROP TABLE IF EXISTS ' . $table . ';';
-    }
-
-    foreach ($tables as $table)
-    {
-
-        //print $table; // TTTT
-        $result = mysqli_query($link, 'SELECT * FROM ' . $table);
-        $num_fields = mysqli_num_fields($result);
-
-        //	$return.= 'DROP TABLE IF EXISTS '.$table.';';
-        // print $return; // TTTT
-        $row2 = mysqli_fetch_row(mysqli_query($link, 'SHOW CREATE TABLE ' . $table));
-        $return .= "\n\n" . $row2[1] . ";\n\n";
-
-        for ($i = 0; $i < $num_fields; $i++)
-        {
-            while ($row = mysqli_fetch_row($result))
-            {
-                $return .= 'INSERT INTO ' . $table . ' VALUES(';
-                for ($j = 0; $j < $num_fields; $j++)
-                {
-                    $row[$j] = addslashes($row[$j]);
-                    // $row[$j] = preg_replace("\n","\\n",$row[$j]);
-                    if (isset($row[$j]))
-                    {
-                        $return .= '"' . $row[$j] . '"';
-                    }
-                    else
-                    {
-                        $return .= '""';
-                    }
-                    if ($j < ($num_fields - 1))
-                    {
-                        $return .= ',';
-                    }
-                }
-                $return .= ");\n";
-            }
-        }
-        $return .= "\n";
-    }
-
-    //save file
-    $nomefile = $cartellabuffer . '/lampschool-' . date("YmdHis") . '.sql';
-    $handle = fopen($nomefile, 'w+');
-    fwrite($handle, $return);
-    fclose($handle);
-    mysqli_close($link);
-
-    return $nomefile;
-}
 

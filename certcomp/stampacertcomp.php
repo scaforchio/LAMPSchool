@@ -32,7 +32,8 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "") {
+if ($tipoutente == "")
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -45,7 +46,8 @@ $firmadirigente = stringa_html('firma');
 $schede = new FPDF('P', 'mm', 'A4');
 
 
-if ($idalunno != $_SESSION['idutente'] && $tipoutente == 'T') {
+if ($idalunno != $_SESSION['idutente'] && $tipoutente == 'T')
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -54,19 +56,21 @@ if ($classe != "")
     $elencoalunni = estrai_alunni_classe_data($classe, $fineprimo, $con);
 
 $alunni = array();
-if ($classe != "") {
+if ($classe != "")
+{
 
     $query = "select idalunno from tbl_alunni where idalunno in ($elencoalunni) order by cognome,nome";
     $ris = mysqli_query($con, inspref($query));
-    while ($val = mysqli_fetch_array($ris)) {
+    while ($val = mysqli_fetch_array($ris))
+    {
         $alunni[] = $val['idalunno'];
     }
-} else {
+} else
+{
 
     $alunni[] = $idalunno;
-    
+
     $classe = estrai_classe_alunno($idalunno, $con);
-   
 }
 
 
@@ -76,7 +80,8 @@ if ($livello_scuola == '1')
     $tiposcheda = 1;
 else if ($livello_scuola == '2')
     $tiposcheda = 2;
-else if ($livello_scuola == '3') {
+else if ($livello_scuola == '3')
+{
     if ($anno == '5')
         $tiposcheda = 1;
     if ($anno == '8')
@@ -86,7 +91,8 @@ else if ($livello_scuola == '4')
     $tiposcheda = 3;
 
 
-foreach ($alunni as $idalunno) {
+foreach ($alunni as $idalunno)
+{
 
     stampa_alunno($schede, $idalunno, $classe, $firmadirigente, $datastampa, $tiposcheda, $con, $annoscol, $nome_scuola, $comune_scuola);
 }
@@ -101,7 +107,8 @@ $schede->Output($nomefile, "I");
 
 mysqli_close($con);
 
-function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tiposcheda, $con, $annoscol, $nome_scuola, $comune_scuola) {
+function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tiposcheda, $con, $annoscol, $nome_scuola, $comune_scuola)
+{
 
 // $tiposcheda 1 = primaria, 2 = secondaria primo grado, 3 = secondaria secondo grado
 // PAGINA DATI ANAGRAFICI
@@ -137,19 +144,22 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
     $schede->MultiCell(190, 6, converti_utf8("Visto il decreto legislativo 13 aprile 2017, n. 62 e, in particolare, l'articolo 9;"));
     $schede->MultiCell(190, 6, converti_utf8("Visto il decreto ministeriale 3 ottobre 2017, n. 742, concernente l'adozione del modello nazionale di certificazione delle competenze per le scuole del primo ciclo di istruzione;"));
 
-    if ($tiposcheda == 1) {
+    if ($tiposcheda == 1)
+    {
         $schede->MultiCell(190, 6, converti_utf8("Visto il decreto legislativo 13 aprile 2017, n. 62 e, in particolare, l'articolo 9;"));
         $schede->MultiCell(190, 6, converti_utf8("Visto il decreto ministeriale 3 ottobre 2017, n. 742, concernente l'adozione del modello nazionale di certificazione delle competenze per le scuole del primo ciclo di istruzione;"));
         $schede->MultiCell(190, 6, converti_utf8("Visti gli atti d'ufficio relativi alle valutazioni espresse in sede di scrutinio finale dagli insegnati di classe al termine del quinto anno di corso della scuola primaria;"));
         $schede->MultiCell(190, 6, converti_utf8("tenuto conto del percorso scolastico quinquennale:"));
     }
-    if ($tiposcheda == 2) {
+    if ($tiposcheda == 2)
+    {
         $schede->MultiCell(190, 6, converti_utf8("Visto il decreto legislativo 13 aprile 2017, n. 62 e, in particolare, l'articolo 9;"));
         $schede->MultiCell(190, 6, converti_utf8("Visto il decreto ministeriale 3 ottobre 2017, n. 742, concernente l'adozione del modello nazionale di certificazione delle competenze per le scuole del primo ciclo di istruzione;"));
         $schede->MultiCell(190, 6, converti_utf8("Visti gli atti d'ufficio relativi alle valutazioni espresse in sede di scrutinio finale dal Consiglio di classe del terzo anno di corso della scuola secondaria di primo grado;"));
         $schede->MultiCell(190, 6, converti_utf8("tenuto conto del percorso scolastico ed in riferimento al Profilo dello studente al termine del primo ciclo di istruzione:"));
     }
-    if ($tiposcheda == 3) {
+    if ($tiposcheda == 3)
+    {
         
     }
 
@@ -169,10 +179,12 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
     $annoscolastico = $annoscol . "/" . ($annoscol + 1);
 
 
-    if ($sesso == 'f') {
+    if ($sesso == 'f')
+    {
         $schede->Cell(190, 6, converti_utf8("che l'alunna $alunno"), NULL, 1, "C");
         $schede->Cell(190, 6, converti_utf8("nata a $comunenascita il $datanascita"), NULL, 1, "C");
-    } else {
+    } else
+    {
         $schede->Cell(190, 6, converti_utf8("che l'alunno $alunno"), NULL, 1, "C");
         $schede->Cell(190, 6, converti_utf8("nato a $comunenascita il $datanascita"), NULL, 1, "C");
     }
@@ -198,7 +210,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
     $schede->Cell(120, 6, "al termine del primo ciclo di istruzione", "BLR", 0, "C");
     $posx += 120;
     $schede->SetXY($posx, $posy);
-    $schede->Cell(20, 12, "Livello", 1, 0, "C");
+    $schede->Cell(20, 12, "Livello (1)", 1, 0, "C");
     $posy += 12;
 
     $livscuola = $tiposcheda;
@@ -207,14 +219,16 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
     $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
     $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
 
-    while ($rec = mysqli_fetch_array($ris)) {
+    while ($rec = mysqli_fetch_array($ris))
+    {
         $schede->SetFont('Times', '', 8);
         $numeroprogressivo = $rec['numprogressivo'];
         $compcheuropea = $rec['compcheuropea'];
         $compprofilo = $rec['compprofilo'];
         $idccc = $rec['idccc'];
 
-        if ($compcheuropea != '') {
+        if ($compcheuropea != '')
+        {
             $schede->SetXY(60, $posy);
             $schede->MultiCell(120, 6, converti_utf8($compprofilo), 0, "J");
             $altezzaprof = $schede->GetY() - $posy;
@@ -242,19 +256,22 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
                     . "and idalunno=$alu";
             $risliv = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
 
-            if ($recliv = mysqli_fetch_array($risliv)) {
+            if ($recliv = mysqli_fetch_array($risliv))
+            {
                 $livello = $recliv['livello'];
                 $livello = substr($livello, 0, 1);
                 $schede->SetXY(180, $posy);
                 $schede->SetFont('Times', '', 14);
                 $schede->MultiCell(20, $altezza, $livello, 1, "C");
-            } else {
+            } else
+            {
                 $schede->SetXY(180, $posy);
                 $schede->SetFont('Times', '', 14);
                 $schede->MultiCell(20, $altezza, "", 1, "C");
             }
             $posy += $altezza;
-        } else {
+        } else
+        {
             $schede->SetXY(15, $posy);
 
 
@@ -279,23 +296,31 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
             $posy += $altezza;
         }
     }
-    
+
     $schede->SetFont('Times', 'I', 7);
-    $schede->Cell(60, 4, converti_utf8("* Sense of initiative and entrepreneurship nella Raccomandazione europea e del Consiglio del 18 dicembre 2006"),0,0);
-    
+    $schede->Cell(60, 4, converti_utf8("* Sense of initiative and entrepreneurship nella Raccomandazione europea e del Consiglio del 18 dicembre 2006"), 0, 0);
+
     $schede->SetFont('Times', '', 10);
     $schede->SetXY(10, $posy + 5);
     $schede->Cell(60, 8, converti_utf8("Data, $datastampa"));
-    $schede->SetXY(110, $posy + 5);
+    $schede->SetXY(140, $posy + 10);
     $schede->Cell(60, 8, converti_utf8("Il Dirigente Scolastico"), 0, 0, "C");
-    $schede->SetXY(110, $posy + 15);
+    $schede->SetXY(140, $posy + 30);
     $schede->Cell(60, 8, converti_utf8($firmadir), "B", 0, "C");
-
+    if ($_SESSION['suffisso'] != "")
+    {
+        $suff = $_SESSION['suffisso'] . "/";
+    } else
+        $suff = "";
+    $schede->setXY(140, $posy+16);
+    $schede->Image('../abc/' . $suff . 'firmadirigente.png');
+    $schede->SetXY(80, $posy+10);
+    $schede->Image('../abc/' . $suff . 'timbro.png');
 
 // LEGENDA INDICATORI
     $schede->SetFont('Times', 'B', 6);
     $posx = 10;
-    $posy += 30;
+    $posy += 50;
     $schede->SetXY($posx, $posy);
     $schede->Cell(30, 5, "(1) Livello", "B");
     $posx += 30;
@@ -307,7 +332,8 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
     $query = "select * from tbl_certcomplivelli where livscuola = '$livscuola' and valido order by livello";
     $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
 
-    while ($rec = mysqli_fetch_array($ris)) {
+    while ($rec = mysqli_fetch_array($ris))
+    {
         $schede->SetFont('Times', '', 7);
         $livello = $rec['livello'];
         $indicatoreesplicativo = $rec['indicatoreesplicativo'];
