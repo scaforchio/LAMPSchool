@@ -150,8 +150,8 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_lezionicert';
         $tabelle[] = 'tbl_assemblee';
         $tabelle[] = 'tbl_richiesteferie';
-
     }
+
     if ($ambito == 'tab')
     {
         $tabelle[] = 'tbl_classi';
@@ -167,14 +167,14 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_goindirizzo';
         $tabelle[] = 'tbl_gopercorso';
         $tabelle[] = 'tbl_gosettore';
-
     }
+
     if ($ambito == 'com')
     {
         $tabelle[] = 'tbl_comuni';
         $tabelle[] = 'tbl_province';
-
     }
+    
     if ($ambito == 'pdf')
     {
         $tabelle[] = 'tbl_documenti';
