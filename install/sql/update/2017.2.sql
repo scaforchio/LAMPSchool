@@ -108,6 +108,7 @@ ALTER TABLE tbl_esesiti
 
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'timbratureritardiabilitati', 'yes', 'Abilitazione a ricezione timbrature ritardi', 'no|yes');
 
+ALTER TABLE tbl_alunni ADD `oraultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 
 --
 -- LASCIARE SEMPRE ALLA FINE

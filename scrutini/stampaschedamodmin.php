@@ -733,33 +733,33 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 $lar = 62;
                 $alt = 10;
                 $schede->SetFont("Arial", 'B', 10);
-                $schede->Cell($lar, $alt, "Voto (in cifre e in lettere)", "TBLR", 0, "L");
+                $schede->Cell($lar, $alt, "Giudizio", "TBLR", 0, "L");
                 $posX += $lar;
 
-                $lar = 20;
+              /*  $lar = 20;
                 $schede->SetXY($posX, $posY);
                 $schede->SetFont("Arial", 'B', 10);
                 $schede->Cell($lar, $alt, $votocomp1 . " / 10", "TBLR", 0, "C");
                 $posX += $lar;
+              */
 
-
-                $lar = 35;
+                $lar = 55;
                 $schede->SetXY($posX, $posY);
                 $schede->SetFont("Arial", 'B', 10);
-                $schede->Cell($lar, $alt, dec_to_pag($votocomp1) . "/dieci", "TBLR", 0, "C");
+                $schede->Cell($lar, $alt, dec_to_pag($votocomp1) , "TBLR", 0, "C");
                 $posX += $lar;
 
-                $lar = 20;
+             /*   $lar = 20;
                 $schede->SetXY($posX, $posY);
                 $schede->SetFont("Arial", 'B', 10);
                 $schede->Cell($lar, $alt, $votocomp2 . " / 10", "TBLR", 0, "C");
                 $posX += $lar;
+*/
 
-
-                $lar = 35;
+                $lar = 55;
                 $schede->SetXY($posX, $posY);
                 $schede->SetFont("Arial", 'B', 10);
-                $schede->Cell($lar, $alt, dec_to_pag($votocomp2) . "/dieci", "TBLR", 0, "C");
+                $schede->Cell($lar, $alt, dec_to_pag($votocomp2) , "TBLR", 0, "C");
                 $posX += $lar;
                 $posY += $alt;
             }

@@ -1,12 +1,12 @@
 VER. 2017.2
 ===========
 
+- Certificazione delle competenze per primarie e secondarie di primo grado
+- Adeguamento modulo esami di stato alle nuove normative
+- Sincronizzazione database alunni con terminale rilevazione presenze
 - Miglioramento procedura di backup
 - Debugging vari
 - Miglioramenti vari
-
-
-
 
 
 VER. 2017.1

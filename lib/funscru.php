@@ -62,7 +62,7 @@ function estrai_firma_scrutinio($idclasse, $periodo, $conn)
     $ris = mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query, false));
     $rec = mysqli_fetch_array($ris);
     $firma = $rec['firmadirigente'];
-    if ($firma != "")
+    if (strlen($firma)>5)
     {
         return $firma;
     }

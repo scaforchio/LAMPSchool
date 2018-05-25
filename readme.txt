@@ -1,8 +1,6 @@
-LAMPSchool Ver. 2017
-====================
+LAMPSchool Ver. 2017.2
+======================
 
-
-Aggiunto seed nel criptaggio della password
 Possibilità di blocco temporale a inserimento e modifica delle lezioni
 Gestione della programmazione curricolare di Istituto e del docente
 Gestione voti
@@ -31,6 +29,8 @@ Gestione ammonizioni automatiche per mancata giustifica
 Gestione esami di terza media
 Gestione richieste ferie dei docenti
 Getsione assemblee di classe
+Certificazione delle competenze
+Criptaggio della password con seed
 
 Per informazioni sull'installazione singola o multipla leggere install.txt.
 Per informazioni sui cambiamenti di questa versione leggere changelog.txt.

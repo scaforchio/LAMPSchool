@@ -119,6 +119,12 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_escompcommissioni';
         $tabelle[] = 'tbl_esesiti';
         $tabelle[] = 'tbl_esmaterie';
+        $tabelle[] = 'tbl_certcompcompetenze';
+        $tabelle[] = 'tbl_certcomplivelli';
+        $tabelle[] = 'tbl_certcompvalutazioni';
+        $tabelle[] = 'tbl_certcompproposte';
+        $tabelle[] = 'tbl_certcompcompetenze';
+       
     }
     if ($ambito == 'scr')
     {
