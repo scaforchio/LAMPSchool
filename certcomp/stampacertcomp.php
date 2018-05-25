@@ -91,6 +91,13 @@ else if ($livello_scuola == '4')
     $tiposcheda = 3;
 
 
+// Se non vengo dal tabellone degli scrutini imposto data e dirigente
+
+if ($datastampa=="")
+    $datastampa= data_italiana (date('Y-m-d'));
+if ($firmadirigente=="")
+    $firmadirigente= estrai_dirigente ($con);
+
 foreach ($alunni as $idalunno)
 {
 

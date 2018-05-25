@@ -24,7 +24,8 @@ session_start();
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "") {
+if ($tipoutente == "")
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -33,10 +34,10 @@ if ($tipoutente == "") {
 //    Parte iniziale della pagina
 //
 
-$titolo = "Inserimento e modifica valutazioni per certificazione competenze";
+$titolo = "Certificazione competenze";
 $script = "";
 
-stampa_head($titolo, "", $script, "SP");
+stampa_head($titolo, "", $script, "SPA");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 if ($livello_scuola == 1)
@@ -55,7 +56,8 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 if ($idclasse != '')
     $scrutiniochiuso = !scrutinio_aperto($idclasse, $numeroperiodi, $con);
-if ($scrutiniochiuso) {
+if ($scrutiniochiuso)
+{
     $datastampa = data_italiana(estrai_datascrutinio($idclasse, $numeroperiodi, $con));
     $firmadirig = estrai_dirigente($con);
 }
@@ -85,11 +87,13 @@ print('
 $query = "select idclasse, anno, sezione, specializzazione from tbl_classi where $annocomp order by anno, sezione, specializzazione";
 
 $ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
-while ($nom = mysqli_fetch_array($ris)) {
+while ($nom = mysqli_fetch_array($ris))
+{
     print "<option value='";
     print ($nom["idclasse"]);
     print "'";
-    if ($idclasse == $nom["idclasse"]) {
+    if ($idclasse == $nom["idclasse"])
+    {
         print " selected";
     }
     print ">";
@@ -109,86 +113,177 @@ echo('
 //  ALUNNI
 //
 
-if ($idclasse != '') {
+if ($idclasse != '')
+{
 
-    $competenzedes = array();
-    $competenzecod = array();
+    if ($tipoutente == 'S' | $tipoutente == 'P')
+    {
+        $competenzedes = array();
+        $competenzecod = array();
 
-    $annoclasse = decodifica_anno_classe($idclasse, $con);
+        $annoclasse = decodifica_anno_classe($idclasse, $con);
 
-    if ($annoclasse == 3 || $annoclasse == 8)
-        $livscuola = 2;
-    if ($annoclasse == 5)
-        $livscuola = $livello_scuola;
-    $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
-    while ($rec = mysqli_fetch_array($ris)) {
-        $competenzedes[] = $rec['compcheuropea'];
-        $competenzecod[] = $rec['idccc'];
-    }
+        if ($annoclasse == 3 || $annoclasse == 8)
+            $livscuola = 2;
+        if ($annoclasse == 5)
+            $livscuola = $livello_scuola;
+        $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
+        $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
+        while ($rec = mysqli_fetch_array($ris))
+        {
+            $competenzedes[] = $rec['compcheuropea'];
+            $competenzecod[] = $rec['idccc'];
+        }
+        $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
 
+        $ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+        $numeroalunni = mysqli_num_rows($ris);
 
-
-
-
-    $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
-
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
-    $numeroalunni = mysqli_num_rows($ris);
-
-    if ($numeroalunni > 0) {
-        print("<table border=1>
+        if ($numeroalunni > 0)
+        {
+            print("<table border=1>
         <tr class='prima'>
         <td width='50%'><b>Alunno</b></td>");
-        foreach ($competenzedes as $descr) {
-            if ($descr == '')
-                $descr = "Altro";
-            print "<td><small><small>$descr<big><big></td>";
+            foreach ($competenzedes as $descr)
+            {
+                if ($descr == '')
+                    $descr = "Altro";
+                print "<td><small><small>$descr<big><big></td>";
+            }
+            print "<td></td></tr>";
+            while ($nom = mysqli_fetch_array($ris))
+            {
+                $propoteimportate = false;
+                $idalunno = $nom['idalunno'];
+                $query = "select * from tbl_certcompvalutazioni where idalunno='$idalunno'";
+                $ris2 = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
+                if (mysqli_num_rows($ris2) == 0)
+                {
+                    if (importa_proposte($con, $idalunno, $livscuola))
+                        $proposteimportate = true;
+                }
+                print "<tr>";
+                print "<td>" . $nom['cognome'] . " " . $nom['nome'] . " (" . data_italiana($nom['datanascita']) . ")</td>";
+
+
+                foreach ($competenzecod as $codice)
+                {
+                    if (cerca_competenza_ch_europea($con, $codice) != "")
+                        print "<td><small><small>" . decodifica_livello_certcomp($con, cerca_livello_comp($con, $nom['idalunno'], $codice)) . "<big><big></td>";
+                    else
+                        print "<td><small><small>" . cerca_giudizio_comp($con, $nom['idalunno'], $codice) . "<big><big></td>";
+                }
+                if ($scrutiniochiuso)
+                {
+                    print "<td>";
+                    print "<a href='./stampacertcomp.php?idalunno=$idalunno&data=$datastampa&firma=$firmadirig' target='_blank'>Stampa</a>&nbsp;";
+                    //print "<a href='./ccvalutazioni.php?idalunno=$idalunno&idclasse=$idclasse'>Modifica</a>";
+                    print "</td>";
+                } else
+                {
+                    print "<td>";
+                    print "<a href='./stampacertcomp.php?idalunno=$idalunno' target='_blank'>Stampa</a>&nbsp;";
+                    print "<a href='./ccvalutazioni.php?idalunno=$idalunno&idclasse=$idclasse'>Modifica</a>";
+                    print "</td>";
+                }
+                print "</tr>";
+            }
+            print "</table>";
+
+            if ($proposteimportate)
+                print "<center><font color='green'><big>Proposte importate!</big></font></center><br>";
+            else
+                print "<center><font color='red'><big>Nessuna nuova proposta presente!</big></font></center><br>";
+
+            if ($scrutiniochiuso)
+            {
+                print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse&data=$datastampa&firma=$firmadirig' target='_blank'>Stampa schede</a><br><br>";
+            } else
+            {
+                print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse' target='_blank'>Stampa schede</a><br><br>";
+            }
         }
-        print "<td></td></tr>";
-        while ($nom = mysqli_fetch_array($ris)) {
-            $propoteimportate=false;
-            $idalunno = $nom['idalunno'];
-            $query = "select * from tbl_certcompvalutazioni where idalunno='$idalunno'";
-            $ris2 = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
-            if (mysqli_num_rows($ris2) == 0) {
-                if (importa_proposte($con, $idalunno, $livscuola))
-                    $proposteimportate=true;
-            }
-            print "<tr>";
-            print "<td>" . $nom['cognome'] . " " . $nom['nome'] . " (" . data_italiana($nom['datanascita']) . ")</td>";
+    }
+    if ($tipoutente=='A')
+    {
+        $competenzedes = array();
+        $competenzecod = array();
 
+        $annoclasse = decodifica_anno_classe($idclasse, $con);
 
-            foreach ($competenzecod as $codice) {
-                if (cerca_competenza_ch_europea($con, $codice) != "")
-                    print "<td><small><small>" . decodifica_livello_certcomp($con, cerca_livello_comp($con, $nom['idalunno'], $codice)) . "<big><big></td>";
-                else
-                    print "<td><small><small>" . cerca_giudizio_comp($con, $nom['idalunno'], $codice) . "<big><big></td>";
-            }
-            if ($scrutiniochiuso) {
-                print "<td>";
-                print "<a href='./stampacertcomp.php?idalunno=$idalunno&data=$datastampa&firma=$firmadirig' target='_blank'>Stampa</a>&nbsp;";
-                //print "<a href='./ccvalutazioni.php?idalunno=$idalunno&idclasse=$idclasse'>Modifica</a>";
-                print "</td>";
-            } else {
-                print "<td>";
-                print "<a href='./stampacertcomp.php?idalunno=$idalunno' target='_blank'>Stampa</a>&nbsp;";
-                print "<a href='./ccvalutazioni.php?idalunno=$idalunno&idclasse=$idclasse'>Modifica</a>";
-                print "</td>";
-            }
-            print "</tr>";
+        if ($annoclasse == 3 || $annoclasse == 8)
+            $livscuola = 2;
+        if ($annoclasse == 5)
+            $livscuola = $livello_scuola;
+        $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
+        $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
+        while ($rec = mysqli_fetch_array($ris))
+        {
+            $competenzedes[] = $rec['compcheuropea'];
+            $competenzecod[] = $rec['idccc'];
         }
-        print "</table>";
 
-        if ($proposteimportate)
-            print "<center><font color='green'><big>Proposte importate!</big></font></center><br>";
-        else
-            print "<center><font color='red'><big>Nessuna nuova proposta presente!</big></font></center><br>";
-        
-        if ($scrutiniochiuso) {
-            print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse&data=$datastampa&firma=$firmadirig' target='_blank'>Stampa schede</a><br><br>";
-        } else {
-            print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse' target='_blank'>Stampa schede</a><br><br>";
+
+
+
+
+        $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
+
+        $ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+        $numeroalunni = mysqli_num_rows($ris);
+
+        if ($numeroalunni > 0)
+        {
+            print("<table border=1>
+        <tr class='prima'>
+        <td width='50%'><b>Alunno</b></td>");
+            foreach ($competenzedes as $descr)
+            {
+                if ($descr == '')
+                    $descr = "Altro";
+                print "<td><small><small>$descr<big><big></td>";
+            }
+            print "<td></td></tr>";
+            while ($nom = mysqli_fetch_array($ris))
+            {
+                $propoteimportate = false;
+                $idalunno = $nom['idalunno'];
+                print "<tr>";
+                print "<td>" . $nom['cognome'] . " " . $nom['nome'] . " (" . data_italiana($nom['datanascita']) . ")</td>";
+
+
+                foreach ($competenzecod as $codice)
+                {
+                    if (cerca_competenza_ch_europea($con, $codice) != "")
+                        print "<td><small><small>" . decodifica_livello_certcomp($con, cerca_livello_comp($con, $nom['idalunno'], $codice)) . "<big><big></td>";
+                    else
+                        print "<td><small><small>" . cerca_giudizio_comp($con, $nom['idalunno'], $codice) . "<big><big></td>";
+                }
+                if ($scrutiniochiuso)
+                {
+                    print "<td>";
+                    print "<a href='./stampacertcomp.php?idalunno=$idalunno&data=$datastampa&firma=$firmadirig' target='_blank'>Stampa</a>&nbsp;";
+                    //print "<a href='./ccvalutazioni.php?idalunno=$idalunno&idclasse=$idclasse'>Modifica</a>";
+                    print "</td>";
+                } else
+                {
+                    print "<td>";
+                    print "<a href='./stampacertcomp.php?idalunno=$idalunno' target='_blank'>Stampa</a>&nbsp;";
+                    //print "<a href='./ccvalutazioni.php?idalunno=$idalunno&idclasse=$idclasse'>Modifica</a>";
+                    print "</td>";
+                }
+                print "</tr>";
+            }
+            print "</table>";
+
+            
+            if ($scrutiniochiuso)
+            {
+                print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse&data=$datastampa&firma=$firmadirig' target='_blank'>Stampa schede</a><br><br>";
+            } else
+            {
+                print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse' target='_blank'>Stampa schede</a><br><br>";
+            }
         }
     }
 }

@@ -85,7 +85,8 @@ CREATE TABLE IF NOT EXISTS `tbl_alunni` (
   `titoloammissione` char(50) DEFAULT NULL,
   `sequenzaiscrizione` int(1) DEFAULT '1',
   `firmapropria` tinyint(1) DEFAULT '0',
-  `autorizzazioni` text
+  `autorizzazioni` text,
+  `oraultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

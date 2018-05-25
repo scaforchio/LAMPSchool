@@ -81,7 +81,18 @@ while ($rec = mysqli_fetch_array($ris)) {
         mysqli_query($con, inspref($queryins)) or die("Errore nella query: " . mysqli_error($con) . " " . inspref($queryins));
 }
 
-print "<br><br><center><big>Inserimento effettuato!</big>";
+print "
+			  <form method='post' id='formcc' action='./cctabellone.php'>
+			  
+			  <input type='hidden' name='idclasse' value='$idclasse'>
+			  <br><div style=\"text-align: center;\"><input type='submit' value='OK'></div>
+			  </form>
+                          <SCRIPT language='JavaScript'>
+			  {
+				  document.getElementById('formcc').submit();
+			  }
+			  </SCRIPT>";
+			  
 
 mysqli_close($con);
 stampa_piede("");
