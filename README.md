@@ -1,2 +1,2 @@
-LAMPSchool Ver. 2017.2 alfa
+LAMPSchool Ver. 2017.2
 
