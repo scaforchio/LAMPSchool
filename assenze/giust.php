@@ -42,7 +42,6 @@ $script = "<script type='text/javascript'>
 stampa_head($titolo, "", $script, "SPD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
-
 $idclasse = stringa_html('cl');
 $giorno = stringa_html('gio');
 $meseanno = stringa_html('meseanno');
@@ -51,8 +50,8 @@ $mese = substr($meseanno, 0, 2);
 $anno = substr($meseanno, 5, 4);
 $data = $anno . "-" . $mese . "-" . $giorno;
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
-
-$query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN (" . estrai_alunni_classe_data($idclasse, $data, $con) . ")  ORDER BY cognome, nome, datanascita";
+$elencoalunni=estrai_alunni_classe_data($idclasse, $data, $con);
+$query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
 $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
 print "<form name='giustass' method='post' action='giustass.php'>";
 
@@ -98,7 +97,7 @@ while ($recalu = mysqli_fetch_array($ris))
 print ("</td>");
 
 print ("<td valign='top'>");
-$query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN (" . estrai_alunni_classe_data($idclasse, $data, $con) . ")  ORDER BY cognome, nome, datanascita";
+$query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
 $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
 while ($recalu = mysqli_fetch_array($ris))
 {
@@ -145,7 +144,7 @@ print ("</td>");
 if ($giustificauscite == 'yes')
 {
     print ("<td valign='top'>");
-    $query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN (" . estrai_alunni_classe_data($idclasse, $data, $con) . ")  ORDER BY cognome, nome, datanascita";
+    $query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
     $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
     while ($recalu = mysqli_fetch_array($ris))
     {

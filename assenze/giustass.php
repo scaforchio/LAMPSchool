@@ -49,9 +49,10 @@ $idclasse = stringa_html('idclasse');
 $data = stringa_html('data');
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
 
-$query = "SELECT idalunno FROM tbl_alunni WHERE idalunno IN (" . estrai_alunni_classe_data($idclasse, $data, $con) . ")  ORDER BY cognome, nome, datanascita";
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$elencoalunni= estrai_alunni_classe_data($idclasse, $data, $con);
+$query = "SELECT idalunno FROM tbl_alunni WHERE idalunno IN (" . $lencoalunni . ")  ORDER BY cognome, nome, datanascita";
 $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
 
 while ($recalu = mysqli_fetch_array($ris))
@@ -77,7 +78,7 @@ while ($recalu = mysqli_fetch_array($ris))
 }
 
 
-$query = "SELECT idalunno FROM tbl_alunni WHERE idalunno IN (" . estrai_alunni_classe_data($idclasse, $data, $con) . ")  ORDER BY cognome, nome, datanascita";
+$query = "SELECT idalunno FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
 $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
 
 while ($recalu = mysqli_fetch_array($ris))
@@ -109,7 +110,7 @@ while ($recalu = mysqli_fetch_array($ris))
 
 if ($giustificauscite=='yes')
 {
-    $query = "SELECT idalunno FROM tbl_alunni WHERE idalunno IN (" . estrai_alunni_classe_data($idclasse, $data, $con) . ")  ORDER BY cognome, nome, datanascita";
+    $query = "SELECT idalunno FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
     $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
 
     while ($recalu = mysqli_fetch_array($ris))

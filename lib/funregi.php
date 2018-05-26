@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: pietro
  * Date: 16/06/15
  * Time: 18.29
  */
-
 
 /**
  * Stampa il registro di classe per giornata
@@ -16,7 +16,7 @@
  * @param int $numoremax
  * @param object $conn Connessione al db
  */
-function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $stampacollegamenti = true, $gestcentrassenze = 'no',$giustificauscite= 'no')
+function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $stampacollegamenti = true, $gestcentrassenze = 'no', $giustificauscite = 'no')
 {
     $gio = substr($data, 8, 2);
     $mese = substr($data, 5, 2) . " - " . substr($data, 0, 4);
@@ -28,8 +28,14 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
     // MODIFICA ANTE TOKEN
     // print "Doc $iddocente Cla $idclasse";
     $cattedra = codice_cattedra($iddocente, $idclasse, 0, $conn);
+    $elencoalunni = estrai_alunni_classe_data($idclasse, $data, $conn);
 
-
+    if (strlen($elencoalunni)==0)
+    {
+        print "<center><br>Nessun alunno iscritto in questa data nella classe!</center>";
+        return;
+    }
+    
     if ($stampacollegamenti)
     {
         if ($data <= date('Y-m-d'))
@@ -39,22 +45,18 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 if (!is_docente_sostegno_classe($iddocente, $idclasse, $conn))
                 {
                     print "<center><br><a href='../lezioni/lezsupp.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&meseanno=$mese&cattedra=$cattedra'>Supplenze</a></center>";
-                }
-                else
+                } else
                 {
                     print "<center><br><a href='../lezioni/lezcert.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&meseanno=$mese'>Lezioni</a>&nbsp;&nbsp;&nbsp;<a href='../lezioni/lezsupp.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&meseanno=$mese&cattedra=$cattedra'>Supplenze</a></center>";
                 }
-            }
-            else
+            } else
             {
                 print "<center><br><a href='../lezioni/lez.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&meseanno=$mese'>Lezioni</a>&nbsp;&nbsp;&nbsp;<a href='../lezioni/lezsupp.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&meseanno=$mese&cattedra=$cattedra'>Supplenze</a></center>";
             }
-        }
-        else
+        } else
         {
 
             print "<center><br><a href='../lezioni/lez.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&meseanno=$mese'>Lezioni</a></center>";
-
         }
     }
     // FINE MODIFICA ANTE TOKEN
@@ -94,7 +96,6 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                     $colore = "#ff0000";
                 }
             }
-
         }
         // FINE CONTROLLI
         mysqli_data_seek($ris, 0); // RIPORTO IL CURSORE AL PRIMO RECORD
@@ -113,8 +114,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 print "<a href='../lezioni/lez.php?goback=$gotoPage&idlezione=$idlezione&provenienza=registro'>";
                 print $rec['denominazione'];
                 print "</a>";
-            }
-            else
+            } else
             {
                 print $rec['denominazione'];
             }
@@ -164,49 +164,50 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
             if ($_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P')
             {
                 $collegamenti = "<a href='../assenze/ass.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese&idclasse=$idclasse'>Assenze</a>&nbsp;&nbsp;&nbsp;";
-            }
-            else
+            } else
             {
                 if ($gestcentrassenze == 'no')
                 {
                     $collegamenti = "<a href='../assenze/ass.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese&idclasse=$idclasse'>Assenze</a>&nbsp;&nbsp;&nbsp;";
-                }
-                else
+                } else
                 {
                     $collegamenti = "";
                 }
             }
             // VERIFICO SE CI SONO ASSENZE DA GIUSTIFICARE
-            $query = "select count(*) as numassingiust from tbl_assenze
-                where idalunno in (" . estrai_alunni_classe_data($idclasse, $data, $conn) . ")
+            
+            if (strlen($elencoalunni) > 0)
+            {
+                $query = "select count(*) as numassingiust from tbl_assenze
+                where idalunno in ($elencoalunni)
                 and data< '$data'
                 and not giustifica";
-            $risgiu = mysqli_query($conn, inspref($query));
-            $recgiu = mysqli_fetch_array($risgiu);
-            $numingiust = $recgiu['numassingiust'];
+                $risgiu = mysqli_query($conn, inspref($query));
+                $recgiu = mysqli_fetch_array($risgiu);
+                $numingiust = $recgiu['numassingiust'];
 
-            $query = "select count(*) as numritingiust from tbl_ritardi
-                where idalunno in (" . estrai_alunni_classe_data($idclasse, $data, $conn) . ")
-                and data<= '$data'
-                and not giustifica";
-            $risgiu = mysqli_query($conn, inspref($query));
-            $recgiu = mysqli_fetch_array($risgiu);
-            $numingiust += $recgiu['numritingiust'];
-            if ($giustificauscite=='yes')
-            {
-                $query = "select count(*) as numuscingiust from tbl_usciteanticipate
-                where idalunno in (" . estrai_alunni_classe_data($idclasse, $data, $conn) . ")
+                $query = "select count(*) as numritingiust from tbl_ritardi
+                where idalunno in ($elencoalunni)
                 and data<= '$data'
                 and not giustifica";
                 $risgiu = mysqli_query($conn, inspref($query));
                 $recgiu = mysqli_fetch_array($risgiu);
-                $numingiust += $recgiu['numuscingiust'];
+                $numingiust += $recgiu['numritingiust'];
+                if ($giustificauscite == 'yes')
+                {
+                    $query = "select count(*) as numuscingiust from tbl_usciteanticipate
+                where idalunno in ($elencoalunni)
+                and data<= '$data'
+                and not giustifica";
+                    $risgiu = mysqli_query($conn, inspref($query));
+                    $recgiu = mysqli_fetch_array($risgiu);
+                    $numingiust += $recgiu['numuscingiust'];
+                }
+                if ($numingiust > 0)
+                {
+                    $collegamenti .= "<a href='../assenze/giust.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese'>Giustifiche</a>&nbsp;&nbsp;&nbsp;";
+                }
             }
-            if ($numingiust > 0)
-            {
-                $collegamenti .= "<a href='../assenze/giust.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese'>Giustifiche</a>&nbsp;&nbsp;&nbsp;";
-            }
-
             if ($_SESSION['gestcentrautorizz'] == 'no' || $_SESSION['tipoutente'] == 'S' || $_SESSION['tipoutente'] == 'P')
             {
                 $collegamenti .= "<a href='../assenze/rit.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese'>Ritardi</a>&nbsp;&nbsp;&nbsp;";
@@ -216,14 +217,12 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
             $collegamenti .= "<a href='../note/noteindmul.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&mese=$mese'>Note individuali</a>&nbsp;&nbsp;&nbsp;";
             $collegamenti .= "<a href='../regclasse/annotaz.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&mese=$mese'>Annotazioni</a>";
             print "<div style=\"text-align: center;\"><br>$collegamenti</div>";
-        }
-        else
+        } else
         {
             $collegamenti = "<a href='../regclasse/annotaz.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&mese=$mese'>Annotazioni</a>";
 
             print "<div style=\"text-align: center;\"><br>$collegamenti</div>";
         }
-
     }
     print "<table border=1 width=100% class=smallchar>
 
@@ -234,17 +233,17 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
     print "<tr><td valign='top'>";
 
     // ASSENTI
- /*   $query = "select cognome,nome
-                 from tbl_assenze,tbl_alunni
-                 where
-                 tbl_assenze.idalunno=tbl_alunni.idalunno
-                 and data='$data' and idclasse=$idclasse"; */
+    /*   $query = "select cognome,nome
+      from tbl_assenze,tbl_alunni
+      where
+      tbl_assenze.idalunno=tbl_alunni.idalunno
+      and data='$data' and idclasse=$idclasse"; */
     $query = "select cognome,nome
                  from tbl_assenze,tbl_alunni
                  where
                  tbl_assenze.idalunno=tbl_alunni.idalunno
-                 and data='$data' and tbl_alunni.idalunno in (".estrai_alunni_classe_data($idclasse,$data,$conn).")";
-    $res = mysqli_query($conn, inspref($query)) or die (mysqli_error($conn) . inspref($query));
+                 and data='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ")";
+    $res = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
     $numalunni = mysqli_num_rows($res);
     $conta = 0;
     while ($rec = mysqli_fetch_array($res))
@@ -263,8 +262,8 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  from tbl_ritardi,tbl_alunni
                  where
                  tbl_ritardi.idalunno=tbl_alunni.idalunno
-                 and data='$data' and tbl_alunni.idalunno in (".estrai_alunni_classe_data($idclasse,$data,$conn).") and autorizzato";
-        $res = mysqli_query($conn, inspref($query)) or die (mysqli_error($conn) . inspref($query));
+                 and data='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ") and autorizzato";
+        $res = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
         $numalunni = mysqli_num_rows($res);
         if ($numalunni > 0)
         {
@@ -280,18 +279,17 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                     print ", ";
                 }
             }
-        }
-        else
+        } else
         {
-
+            
         }
 
         $query = "select cognome,nome, oraentrata, autorizzato
                  from tbl_ritardi,tbl_alunni
                  where
                  tbl_ritardi.idalunno=tbl_alunni.idalunno
-                 and data='$data' and tbl_alunni.idalunno in (".estrai_alunni_classe_data($idclasse,$data,$conn).") and not autorizzato";
-        $res = mysqli_query($conn, inspref($query)) or die (mysqli_error($conn) . inspref($query));
+                 and data='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ") and not autorizzato";
+        $res = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
         $numalunni = mysqli_num_rows($res);
         if ($numalunni > 0)
         {
@@ -308,15 +306,14 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 }
             }
         }
-    }
-    else
+    } else
     {
         $query = "select cognome,nome, oraentrata, autorizzato
                  from tbl_ritardi,tbl_alunni
                  where
                  tbl_ritardi.idalunno=tbl_alunni.idalunno
-                 and data='$data' and tbl_alunni.idalunno in (".estrai_alunni_classe_data($idclasse,$data,$conn).")";
-        $res = mysqli_query($conn, inspref($query)) or die (mysqli_error($conn) . inspref($query));
+                 and data='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ")";
+        $res = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
         $numalunni = mysqli_num_rows($res);
         if ($numalunni > 0)
         {
@@ -332,18 +329,17 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                     print ", ";
                 }
             }
-        }
-        else
+        } else
         {
-
+            
         }
     }
     $query = "select cognome,nome, orauscita
                  from tbl_usciteanticipate,tbl_alunni
                  where
                  tbl_usciteanticipate.idalunno=tbl_alunni.idalunno
-                 and data='$data' and tbl_alunni.idalunno in (".estrai_alunni_classe_data($idclasse,$data,$conn).")";
-    $res = mysqli_query($conn, inspref($query)) or die (mysqli_error($conn) . inspref($query));
+                 and data='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ")";
+    $res = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
     $numalunni = mysqli_num_rows($res);
     if ($numalunni > 0)
     {
@@ -371,8 +367,8 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  from tbl_assenze,tbl_alunni
                  where
                  tbl_assenze.idalunno=tbl_alunni.idalunno
-                 and datagiustifica='$data' and tbl_alunni.idalunno in (".estrai_alunni_classe_data($idclasse,$data,$conn).")";
-    $res = mysqli_query($conn, inspref($query)) or die (mysqli_error($conn) . inspref($query));
+                 and datagiustifica='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ")";
+    $res = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
     $numalunni = mysqli_num_rows($res);
     $conta = 0;
     while ($rec = mysqli_fetch_array($res))
@@ -390,8 +386,8 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  from tbl_ritardi,tbl_alunni
                  where
                  tbl_ritardi.idalunno=tbl_alunni.idalunno
-                 and datagiustifica='$data' and tbl_alunni.idalunno in (".estrai_alunni_classe_data($idclasse,$data,$conn).")";
-    $res = mysqli_query($conn, inspref($query)) or die (mysqli_error($conn) . inspref($query));
+                 and datagiustifica='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ")";
+    $res = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
     $numalunni = mysqli_num_rows($res);
     if ($numalunni > 0)
     {
@@ -414,8 +410,8 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  from tbl_usciteanticipate,tbl_alunni
                  where
                  tbl_usciteanticipate.idalunno=tbl_alunni.idalunno
-                 and datagiustifica='$data' and tbl_alunni.idalunno in (".estrai_alunni_classe_data($idclasse,$data,$conn).")";
-    $res = mysqli_query($conn, inspref($query)) or die (mysqli_error($conn) . inspref($query));
+                 and datagiustifica='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ")";
+    $res = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
     $numalunni = mysqli_num_rows($res);
     if ($numalunni > 0)
     {
@@ -430,7 +426,6 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 print ", ";
             }
         }
-
     }
 
     print "</td>";
@@ -443,7 +438,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  from tbl_noteclasse,tbl_docenti
                  where tbl_noteclasse.iddocente=tbl_docenti.iddocente
                  and data='$data' and idclasse='$idclasse'";
-    $res = mysqli_query($conn, inspref($query)) or die (mysqli_error($conn) . inspref($query));
+    $res = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
     while ($rec = mysqli_fetch_array($res))
     {
         print "" . $rec['testo'] . "(<i>" . $rec['cognome'] . " " . $rec['nome'] . "</i>)<br><b>" . $rec['provvedimenti'] . "</b><br><br>";
@@ -455,13 +450,13 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  from tbl_notealunno,tbl_docenti
                  where tbl_notealunno.iddocente=tbl_docenti.iddocente
                  and data='$data' and idclasse='$idclasse'";
-    $res = mysqli_query($conn, inspref($query)) or die (mysqli_error($conn) . inspref($query));
+    $res = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
     while ($rec = mysqli_fetch_array($res))
     {
         $queryal = "SELECT idalunno
                           FROM tbl_noteindalu
                           WHERE idnotaalunno=" . $rec['idnotaalunno'];
-        $resalu = mysqli_query($conn, inspref($queryal)) or die (mysqli_error($conn));
+        $resalu = mysqli_query($conn, inspref($queryal)) or die(mysqli_error($conn));
         $numalunni = mysqli_num_rows($resalu);
         $conta = 0;
         print "[Alunni: ";
@@ -488,7 +483,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  from tbl_annotazioni,tbl_docenti
                  where tbl_annotazioni.iddocente=tbl_docenti.iddocente
                  and data='$data' and idclasse='$idclasse'";
-    $res = mysqli_query($conn, inspref($query)) or die (mysqli_error($conn) . inspref($query));
+    $res = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
     while ($rec = mysqli_fetch_array($res))
     {
         print "" . $rec['testo'] . "<br>(<i>" . $rec['cognome'] . " " . $rec['nome'] . "</i>)<br>";
@@ -497,14 +492,14 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
     // Cerco presenti 'forzati'
 
 
-    $elencoalunni = estrai_alunni_classe_data($idclasse, $data, $conn);
+    
 
     $query = "select concat(concat(cognome,' '),nome) as nominativo, motivo from tbl_presenzeforzate,tbl_alunni
             where tbl_presenzeforzate.idalunno = tbl_alunni.idalunno
             and data='$data'
             and tbl_alunni.idalunno in ($elencoalunni)
             order by motivo,cognome, nome";
-    $risprf = mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query, false));
+    $risprf = mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query, false));
     // print "tttt ".inspref($query);
     $elencopresenti = "";
     if (mysqli_num_rows($risprf) > 0)
@@ -523,7 +518,6 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
 
             $motivo = $recprf['motivo'];
             $elencopresenti .= $recprf['nominativo'] . ", ";
-
         }
         $elencopresenti = substr($elencopresenti, 0, strlen($elencopresenti) - 2);
         print "Gli alunni $elencopresenti non sono in classe per $motivo.";
@@ -539,18 +533,14 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                      <a href=javascript:Popup('elencoalunni.php?idclasse=$idclasse')>Elenco alunni</a>&nbsp;&nbsp;&nbsp;
                      <a href='../documenti/visdocumenticlasse.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&mese=$mese')>Documenti di classe</a></center>";
     }
-
 }
 
-function esiste_lezione($data,$con)
+function esiste_lezione($data, $con)
 {
-    $query="select datalezione from tbl_lezioni where datalezione='$data'";
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore".inspref($query));
-    if (mysqli_num_rows($ris)>0)
+    $query = "select datalezione from tbl_lezioni where datalezione='$data'";
+    $ris = mysqli_query($con, inspref($query)) or die("Errore" . inspref($query));
+    if (mysqli_num_rows($ris) > 0)
         return true;
     else
         return false;
 }
-
-
-

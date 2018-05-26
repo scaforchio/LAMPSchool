@@ -243,13 +243,14 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
     $data = $a . "-" . $m . "-" . $g;
     $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
+    $elencoalunni=estrai_alunni_classe_data($idclasse, $data, $con);
     $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
     $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
     if ($val = mysqli_fetch_array($ris))
     {
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
     }
-    $query = "SELECT idalunno AS al FROM tbl_alunni WHERE idalunno IN (" . estrai_alunni_classe_data($idclasse, $data, $con) . ")  ORDER BY cognome, nome, datanascita";
+    $query = "SELECT idalunno AS al FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
 
     $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
 
@@ -282,7 +283,7 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
         ';
 
     // $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
-    $query = "SELECT * FROM tbl_alunni WHERE idalunno IN (" . estrai_alunni_classe_data($idclasse, $data, $con) . ")  ORDER BY cognome, nome, datanascita";
+    $query = "SELECT * FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
     $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
     $cont = 0;
     while ($val = mysqli_fetch_array($ris))
