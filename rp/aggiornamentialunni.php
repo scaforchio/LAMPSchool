@@ -39,8 +39,7 @@ while ($rec = mysqli_fetch_array($ris))
     $stringa.=  "0|";
     $stringa.=  "08:10|08:10|08:10|08:10|08:10|08:10";
     $stringa.=  ";<br>";
-    if ($classe == "3AI")
-       print $stringa;
+   
 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Inviato alunno ".$rec['idalunno'], $nomefilelog . "rp", $suff);
 
 }

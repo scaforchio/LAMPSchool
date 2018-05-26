@@ -455,7 +455,7 @@ if ($nome != "" & $idalunno != "")
     }
 
     print "<center><b>Giudizio generale</b><br>";
-    print "<textarea name='giudizio' cols=50 rows=5 maxlength=900>";
+    print "<textarea name='giudizio' cols=50 rows=5 maxlength=3000>";
     print $giudizio;
     print "</textarea><br><br>";
 
