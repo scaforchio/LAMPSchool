@@ -69,17 +69,29 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 </table>
 
 <div>
+    
+    <center><br><br><b>Applicazioni per smartphone per accesso a LAMPSchool da parte dei genitori: </b><br><br></center>
+        
+    <table border="1">
+        <tr> 
+            <td align='center'> 
+                LAMPSchool App by ISIS Di Maggio<br>
+                <a style="text-decoration:none;" href='https://play.google.com/store/apps/details?id=net.lampschool&hl=it'>
+            <img style="width: 150px;" alt='Disponibile su Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/it_badge_web_generic.png'/>
+        </a>
+            </td>
+            <td align='center'>
+                Registro LampSchool by Gabriel Tavernini<br>
         <a style="text-decoration:none;" href='https://play.google.com/store/apps/details?id=com.gabriel.Registro'>
             <img style="width: 150px;" alt='Disponibile su Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/it_badge_web_generic.png'/>
         </a>
 
         <a style="text-decoration:none;" href='https://itunes.apple.com/us/app/registro-lampschool/id1364584771?l=it&ls=1&mt=8'>
             <img style="width: 123px;" alt="Disponibile su AppStore" src="https://devimages-cdn.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" >
-        </a> 
-    
-        <a style="text-decoration:none;" href='https://play.google.com/store/apps/details?id=com.gabriel.Registro'>
-            <img style="width: 150px;" alt='Disponibile su Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/it_badge_web_generic.png'/>
         </a>
+            </td>
+    </table>
+        
     
 </div>
 

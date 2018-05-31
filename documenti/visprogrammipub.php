@@ -20,7 +20,15 @@ if ($suffisso == "")
 {
     $suffisso = $_POST['suffisso'];
 }
-$_SESSION['suffisso'] = $suffisso;
+if (!isset($_SESSION['suffisso']))
+    $_SESSION['suffisso'] = $suffisso;
+else
+{
+    if ($suffisso!=$_SESSION['suffisso'])
+        die( "<br><br><center><b>ERRORE! Già loggato in altra scheda su registro diverso!</b></center>");
+    
+}
+    
 // @require_once("../php-ini".$_SESSION['suffisso'].".php");
 @require_once("../lib/funzioni.php");
 
@@ -31,7 +39,7 @@ $_SESSION["annoscol"] = $annoscol; //prende la variabile presente nella sessione
 $_SESSION['versione'] = $versioneprecedente;
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 
-if (!isset($_SESSION["tipoutente"]))
+ if (!isset($_SESSION["tipoutente"]))
 {
     $_SESSION["tipoutente"] = "O";
 }

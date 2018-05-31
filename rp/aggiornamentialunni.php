@@ -21,6 +21,9 @@ $query = "SELECT * FROM tbl_alunni, tbl_classi
           WHERE oraultimamodifica> '$dataultagg $oraultagg'
               AND tbl_alunni.idclasse=tbl_classi.idclasse
          ";
+$querynorm=inspref($query);
+
+inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Eseguita query $querynorm", $nomefilelog . "rp", $suff);
 
 $ris = mysqli_query($con, inspref($query)) or die("errore query " . inspref($query));
 
@@ -39,9 +42,9 @@ while ($rec = mysqli_fetch_array($ris))
     $stringa.=  "0|";
     $stringa.=  "08:10|08:10|08:10|08:10|08:10|08:10";
     $stringa.=  ";<br>";
-   
-inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Inviato alunno ".$rec['idalunno'], $nomefilelog . "rp", $suff);
-
+    print $stringa;
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Inviato alunno ".$rec['idalunno'], $nomefilelog . "rp", $suff);
+    
 }
 
 
@@ -69,6 +72,8 @@ while ($rec = mysqli_fetch_array($ris))
 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Inviato alunno ".$rec['idalunno'], $nomefilelog . "rp", $suff);
 
 }
+ 
+ 
 print "FINE";
 mysqli_close($con);
 

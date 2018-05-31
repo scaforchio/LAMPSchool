@@ -245,7 +245,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa)
 
             //$schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (comma 1, art. 11D.L. 12/02/2004 n. 59),\nla frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,$der\nl'alunno/a, in base agli atti d'ufficio e alle valutazioni dei docenti,  risulta"), "LR", "C");
             // $schede->Multicell(172,6,inserisci_new_line($esito),"LR","C");
-            $schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (D.P.R. n. 122/2009),\nla frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,$der\nl'alunno/a, in base agli atti d'ufficio e alle valutazioni dei docenti,  risulta"), "LR", "C");
+            $schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (D.M. 62/2017 art.5 comma 1),\nla frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,$der\nl'alunno/a, in base agli atti d'ufficio e alle valutazioni dei docenti,  risulta"), "LR", "C");
             $schede->setXY(220, $schede->getY());
             $schede->Cell(172, 6, estrai_prima_riga($esito), "LR", 1, "C");
             $schede->setXY(220, $schede->getY());

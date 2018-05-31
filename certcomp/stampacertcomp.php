@@ -290,7 +290,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
             if ($recliv = mysqli_fetch_array($risliv))
                 $giud = $recliv['giud'];
 
-            $schede->MultiCell(185, 6, converti_utf8($compprofilo . "\n" . $giud), 0, "J");
+            $schede->MultiCell(185, 6, converti_utf8($compprofilo . "\n" . elimina_cr($giud)), 0, "J");
             $altezzaprof = $schede->GetY() - $posy;
 
             $altezza = $altezzaprof;
@@ -354,4 +354,11 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
 
         $posy += $altezza;
     }
+}
+
+function elimina_cr($stringa)
+{
+    // $strpul=converti_utf8($stringa);
+    $strpul = str_replace(array("\n", "\r"), " ", $stringa);
+    return $strpul;
 }
