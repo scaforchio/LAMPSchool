@@ -126,7 +126,7 @@ $posY += 8;
 
 
 // INIZIO TABELLA
-$query = "SELECT distinct tbl_materie.idmateria,sigla,tipovalutazione FROM tbl_cattnosupp,tbl_materie
+$query = "SELECT distinct tbl_materie.idmateria,tbl_materie.progrpag,sigla,tipovalutazione FROM tbl_cattnosupp,tbl_materie
 	        WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
 	              and tbl_cattnosupp.idclasse=$idclasse
 	              and tbl_cattnosupp.iddocente <> 1000000000
@@ -167,8 +167,8 @@ if ($nummaterie > 0)
         // INSERISCO LA CONDOTTA
         $schede->setXY($posX, $posY);
         $schede->SetFont('Arial', 'B', 7);
-        $schede->Cell($larghcol, $altriga, converti_utf8("COMP"), 1, NULL, "C");
-        $posX += $larghcol;
+        $schede->Cell($larghcol*2, $altriga, converti_utf8("COMP"), 1, NULL, "C");
+        $posX += $larghcol*2;
     }
 
     if ($voamtab == 'yes')
@@ -308,10 +308,10 @@ if ($nummaterie > 0)
             $schede->setXY($posX, $posY);
             $schede->SetFont('Arial', '', 8);
             if ($stampavoti)
-                $schede->Cell($larghcol, $altriga, converti_utf8(dec_to_vot($votounico)), 1, NULL, "C");
+                $schede->Cell($larghcol*2, $altriga, converti_utf8(dec_to_vot($votounico)), 1, NULL, "C");
             else
-                $schede->Cell($larghcol, $altriga, "", 1, NULL, "C");
-            $posX += $larghcol;
+                $schede->Cell($larghcol*2, $altriga, "", 1, NULL, "C");
+            $posX += $larghcol*2;
         }
 
 

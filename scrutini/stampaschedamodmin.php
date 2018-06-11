@@ -1362,11 +1362,13 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
         {
             if ($livello == 2)
             {
-                $legge = "(Art.2, comma 10 del D.P.R. n. 122/2009)";
+                //$legge = "(Art.2, comma 10 del D.P.R. n. 122/2009)";
+                $legge = "(D.M. n. 62/2017)";
             }
             else
             {
-                $legge = "(Art.14, comma 7 del D.P.R. n. 122/2009)";
+               // $legge = "(Art.14, comma 7 del D.P.R. n. 122/2009)";
+                $legge = "(D.M. n. 62/2017)";
             }
 
             $posX = 20;

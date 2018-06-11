@@ -618,7 +618,7 @@ function inspref($comando, $log = true)
 
                 if ($cmd == "inse" | $cmd == "upda" | $cmd == "dele" | $cmd == "INSE" | $cmd == "UPDA" | $cmd == "DELE")
                 {
-                    // Non effettuo registrazione completa per caricamento file pianilavoro
+                    // Non effettuo registrazione completa per caricamento file documenti
                     if (startsWith($comandoreg, "INSERT INTO " . $prefisso_tabelle . "tbl_documenti"))
                     {
                         $comandoreg = "Inserimento documento in db";

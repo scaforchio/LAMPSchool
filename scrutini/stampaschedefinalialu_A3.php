@@ -245,7 +245,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa)
 
             //$schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (comma 1, art. 11D.L. 12/02/2004 n. 59),\nla frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,$der\nl'alunno/a, in base agli atti d'ufficio e alle valutazioni dei docenti,  risulta"), "LR", "C");
             // $schede->Multicell(172,6,inserisci_new_line($esito),"LR","C");
-            $schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (D.M. 62/2017 art.5 comma 1),\nla frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,$der\nl'alunno/a, in base agli atti d'ufficio e alle valutazioni dei docenti,  risulta"), "LR", "C");
+            $schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (D.M. 62/2017),\nla frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,$der\nl'alunno/a, in base agli atti d'ufficio e alle valutazioni dei docenti,  risulta"), "LR", "C");
             $schede->setXY(220, $schede->getY());
             $schede->Cell(172, 6, estrai_prima_riga($esito), "LR", 1, "C");
             $schede->setXY(220, $schede->getY());
@@ -256,14 +256,14 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa)
             {
                 $schede->setXY(220, $schede->getY());
                 $schede->SetFont('Arial', 'B', 10);
-                $schede->Cell(172, 6, converti_utf8("con giudizio di idoneità di " . $votoammissione . "/10"), "LR", 1, "C");
+                $schede->Cell(172, 6, converti_utf8("con voto di ammissione di " . $votoammissione . "/10"), "LR", 1, "C");
             }
         }
         else
         {
             $schede->setXY(220, $schede->getY());
             $schede->SetFont('Arial', 'B', 10);
-             $schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (D.P.R. n. 122/2009),\nla mancata frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,\nnon si procede allo scrutinio dell'alunno"), "LR", "C");
+             $schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (D.M. 62/2017),\nla mancata frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,\nnon si procede allo scrutinio dell'alunno"), "LR", "C");
            // $schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (comma 1, art. 11D.L. 12/02/2004 n. 59),\nla mancata frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,\nnon si procede allo scrutinio dell'alunno"), "LR", "C");
             // $schede->Multicell(172,6,inserisci_new_line($esito),"LR","C");
             $schede->setXY(220, $schede->getY());
@@ -308,7 +308,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa)
             $giudizio = converti_utf8($recgiud['giudizio']);
             $giudizio = trim($giudizio);
         }
-        $schede->SetFont('Arial', '', 7);
+        $schede->SetFont('Arial', '', 10);
         $schede->setXY(23, 32);
         $schede->Multicell(172, 4, $giudizio . "\n", 1);
 
@@ -347,7 +347,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa)
             $giudizio = converti_utf8($recgiud['giudizio']);
             $giudizio = trim($giudizio);
         }
-        $schede->SetFont('Arial', '', 12);
+        $schede->SetFont('Arial', '', 10);
         $schede->setXY(23, $schede->getY());
         $schede->Multicell(172, 4, $giudizio . "\n", 1);
 

@@ -51,6 +51,7 @@ if ($livello_scuola == 4)
 
 
 $idclasse = stringa_html('idclasse');
+$ricarica = stringa_html('ricarica');
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
@@ -106,7 +107,7 @@ while ($nom = mysqli_fetch_array($ris))
 
 echo('
       </SELECT>
-      </td></tr></table><br>');
+      </td></tr></table><br></form>');
 
 
 //
@@ -153,7 +154,7 @@ if ($idclasse != '')
             print "<td></td></tr>";
             while ($nom = mysqli_fetch_array($ris))
             {
-                $propoteimportate = false;
+                $proposteimportate = false;
                 $idalunno = $nom['idalunno'];
                 $query = "select * from tbl_certcompvalutazioni where idalunno='$idalunno'";
                 $ris2 = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
@@ -193,13 +194,22 @@ if ($idclasse != '')
             if ($proposteimportate)
                 print "<center><font color='green'><big>Proposte importate!</big></font></center><br>";
             else
-                print "<center><font color='red'><big>Nessuna nuova proposta presente!</big></font></center><br>";
-
+                if ($ricarica!='yes')
+                   print "<center><font color='red'><big>Nessuna nuova proposta presente!</big></font></center><br>";
+                else
+                   print "<center><font color='green'><big>Proposte reimportate!</big></font></center><br>"; 
             if ($scrutiniochiuso)
             {
                 print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse&data=$datastampa&firma=$firmadirig' target='_blank'>Stampa schede</a><br><br>";
             } else
             {
+                print "<form name='ricaricaproposte' action='ricaricapropostecert.php' method='post'>
+						 <input type='hidden' name='idclasse' value='$idclasse'>
+                                                 <input type='hidden' name='livscuola' value='$livscuola'>    
+						 <center><br>ATTENZIONE! La reimportazione delle proposte annullerà eventuali modifiche apportate.<br>
+						 <input type='submit' value='Ricarica proposte'></center></form>";
+                
+                
                 print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse' target='_blank'>Stampa schede</a><br><br>";
             }
         }
@@ -246,7 +256,7 @@ if ($idclasse != '')
             print "<td></td></tr>";
             while ($nom = mysqli_fetch_array($ris))
             {
-                $propoteimportate = false;
+                $proposteimportate = false;
                 $idalunno = $nom['idalunno'];
                 print "<tr>";
                 print "<td>" . $nom['cognome'] . " " . $nom['nome'] . " (" . data_italiana($nom['datanascita']) . ")</td>";
@@ -282,6 +292,7 @@ if ($idclasse != '')
                 print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse&data=$datastampa&firma=$firmadirig' target='_blank'>Stampa schede</a><br><br>";
             } else
             {
+                
                 print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse' target='_blank'>Stampa schede</a><br><br>";
             }
         }
