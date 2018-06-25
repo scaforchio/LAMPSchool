@@ -496,12 +496,12 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
             if ($sesso == 'f')
             {
                 $cand = "la candidata";
-                $dich = "venga dichiarata licenziata";
+                $dich = "ha superato l'esame";
             }
             else
             {
                 $cand = "il candidato";
-                $dich = "venga dichiarato licenziato";
+                $dich = "ha superato l'esame";
             }
 
             $esito = "La Commissione plenaria, visto il curriculum scolastico e le risultanze dell’esame, delibera che $cand " . decodifica_alunno($alu, $con) . " $dich con la valutazione in decimi di ";
@@ -518,12 +518,12 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
             if ($sesso == 'f')
             {
                 $cand = "la candidata";
-                $dich = "venga dichiarata non licenziata";
+                $dich = "non ha superato l'esame";
             }
             else
             {
                 $cand = "il candidato";
-                $dich = "venga dichiarato non licenziato";
+                $dich = "non ha superato l'esame";
             }
 
             $esito = "La Commissione plenaria, visto il curriculum scolastico e le risultanze dell’esame, delibera che $cand " . decodifica_alunno($alu, $con) . " $dich ";

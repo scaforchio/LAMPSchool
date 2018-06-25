@@ -291,15 +291,15 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
         $consiglioorientativo = $val['consorientcomm'];
         if ($sesso == 'm') {
             if ($votofinale >= 6)
-                $esito = "licenziato";
+                $esito = "esame superato";
             else
-                $esito = "non licenziato";
+                $esito = "esame non superato";
         }
         else {
             if ($votofinale >= 6)
-                $esito = "licenziata";
+                $esito = "esame superato";
             else
-                $esito = "non licenziata";
+                $esito = "esame non superato";
         }
         if ($idclasse != 0)
             $classe = decodifica_classe($idclasse, $con);
@@ -471,10 +471,10 @@ function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$sched
     $schede->Cell(30, 5, "ASSENTI", 1, 0, "C");
     $schede->setFont('Times', '', 8);
     $schede->setXY(120, $posY);
-    $schede->Cell(15, 15, "licenziati", "ULRB", 0, "C");
+    $schede->Cell(15, 15, "ESAME SUPERATO", "ULRB", 0, "C");
     $schede->setFont('Times', '', 8);
     $schede->setXY(135, $posY);
-    $schede->Cell(30, 5, "NON LICENZIATI", 1, 0, "C");
+    $schede->Cell(30, 5, "ESAME NON SUPERATO", 1, 0, "C");
     $schede->setFont('Times', '', 8);
     $schede->setXY(165, $posY);
     $schede->Cell(35, 15, "OSSERVAZIONI", "ULRB", 0, "C");

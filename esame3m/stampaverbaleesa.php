@@ -301,7 +301,7 @@ if ($numdalic > 0)
     $posY += 4;
     $schede->SetXY(10, $posY);
     $schede->SetFont('Times', '', 10);
-    $schede->Cell(170, 5, converti_utf8("Candidati da licenziare n. $numdalic"));
+    $schede->Cell(170, 5, converti_utf8("Candidati dche hanno superato l'esame n. $numdalic"));
     $posY = $schede->GetY();
     $posY += 8;
 
@@ -353,7 +353,7 @@ if ($numnondalic > 0)
 
     $schede->SetXY(10, $posY);
     $schede->SetFont('Times', '', 10);
-    $schede->Cell(170, 5, converti_utf8("Candidati da non licenziare n. $numnondalic"));
+    $schede->Cell(170, 5, converti_utf8("Candidati che non hanno superato l'esame n. $numnondalic"));
     $posY = $schede->GetY();
     $posY += 8;
 }
@@ -395,7 +395,7 @@ if ($numterza > 0)
     $posY = $schede->GetY();
     $posY += 5;
     $schede->SetXY(10, $posY);
-    $schede->Cell(170, 5, converti_utf8("che non hanno superato le prove per il conseguimento della licenza:"));
+    $schede->Cell(170, 5, converti_utf8("che non hanno superato le prove d'esame:"));
     $posY = $schede->GetY();
     $posY += 8;
 

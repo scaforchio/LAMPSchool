@@ -47,7 +47,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 // prelevamento dati alunno
 
 $query = "select * from tbl_alunni where idalunno=$codalunno";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con). inspref($query));
 
 // echo '<table border=1 align="center" width="800"  >';
 
@@ -59,6 +59,14 @@ if ($val = mysqli_fetch_array($ris))
     echo '<center><b>Pagella dell\'Alunno: ' . $val["cognome"] . ' ' . $val["nome"] . '</b></center><br/>';
     $classe = $val["idclasse"];
 }
+
+$annoclasse= decodifica_anno_classe($classe, $con);
+
+$certificazione=false;
+if ($annoclasse==5 & $livello_scuola==1) $certificazione=true;
+if ($annoclasse==5 & $livello_scuola==3) $certificazione=true;
+if ($annoclasse==3 & $livello_scuola==2) $certificazione=true;
+if ($annoclasse==8 & $livello_scuola==3) $certificazione=true;
 
 
 if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
@@ -73,7 +81,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
           where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
           and idalunno=$codalunno and tbl_materie.progrpag<>100 and periodo = $numeroperiodi order by tbl_materie.progrpag";
 
-        $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con). inspref($query));
         // print $query;
         if (mysqli_num_rows($ris) > 0)
         {
@@ -82,7 +90,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
             while ($val = mysqli_fetch_array($ris))
             {
                 $query = "SELECT * FROM tbl_materie WHERE idmateria = " . $val['idmateria'];
-                $rismat = mysqli_query($con, inspref($query));
+                $rismat = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con). inspref($query));
                 $recmat = mysqli_fetch_array($rismat);
                 $materia = $recmat['denominazione'];
 
@@ -114,7 +122,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
             // Cerco il giudizio
 
             $query = "select * from tbl_giudizi where idalunno = $codalunno and periodo = '$numeroperiodi'";
-            $risgiu = mysqli_query($con, inspref($query));
+            $risgiu = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con). inspref($query));
             if ($recgiu = mysqli_fetch_array($risgiu))
             {
                 print "<tr class='prima'><td colspan=7 align=center><b>Giudizio complessivo</b></td></tr>";
@@ -134,7 +142,10 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
                 print "<br><center><a href='../scrutini/stampaschedefinalialu.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
             print "&nbsp;&nbsp;&nbsp;<a href='../scrutini/stampaschedeseparatefin.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampaSEP.png'></a>";
-
+            if ($certificazione)
+            {
+                print "<br><center><a href='../certcomp/stampacertcomp.php?idalunno=$codalunno' target='_blank'><img src='../immagini/stampaCER.png'></a>";
+            }
 
             print "&nbsp;&nbsp;&nbsp;<a href='../scrutini/stampacriteri.php?periodo=$per&classe=$classe' target='_blank'><img src='../immagini/stampaCRI.png'></a></center>";
 
@@ -148,7 +159,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
           where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
           and idalunno=$codalunno and tbl_materie.progrpag<>100 and periodo = $numeroperiodi order by tbl_materie.progrpag";
 
-        $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con). inspref($query));
         // print $query;
         if (mysqli_num_rows($ris) > 0)
         {
@@ -157,7 +168,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
             while ($val = mysqli_fetch_array($ris))
             {
                 $query = "SELECT * FROM tbl_materie WHERE idmateria = " . $val['idmateria'];
-                $rismat = mysqli_query($con, inspref($query));
+                $rismat = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con). inspref($query));
                 $recmat = mysqli_fetch_array($rismat);
                 $materia = $recmat['denominazione'];
 
@@ -189,7 +200,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
             // Cerco il giudizio
 
             $query = "select * from tbl_giudizi where idalunno = $codalunno and periodo = '$numeroperiodi'";
-            $risgiu = mysqli_query($con, inspref($query));
+            $risgiu = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con). inspref($query));
             if ($recgiu = mysqli_fetch_array($risgiu))
             {
                 print "<tr class='prima'><td colspan=7 align=center><b>Giudizio complessivo</b></td></tr>";
@@ -209,6 +220,10 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
                 print "<br><center><a href='../scrutini/stampaschedefinalialu.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
             print "&nbsp;&nbsp;&nbsp;<a href='../scrutini/stampaschedeseparatefin.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampaSEP.png'></a>";
+            if ($certificazione)
+            {
+                print "<br><center><a href='../certcomp/stampacertcomp.php?idalunno=$codalunno' target='_blank'><img src='../immagini/stampaCER.png'></a>";
+            }
 
 
             print "&nbsp;&nbsp;&nbsp;<a href='../scrutini/stampacriteri.php?periodo=$per&classe=$classe' target='_blank'><img src='../immagini/stampaCRI.png'></a></center>";

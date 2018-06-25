@@ -37,6 +37,8 @@ $idclasse = stringa_html('classe');
 $idalunno = stringa_html('idalunno');
 $datastampa = stringa_html('data');
 $firmadirigente = stringa_html('firma');
+$gioass = stringa_html('gioass');
+//print "Gioass $gioass Firmadirigente $firmadirigente";
 $periodo = stringa_html('periodo');
 //$periodo=2;
 $alunni = array();
@@ -80,9 +82,9 @@ else
 }
 
 mysqli_close($con);
-stampa_schede($alunni, $periodo, $idclasse, $firmadirigente, $datastampa);
+stampa_schede($alunni, $periodo, $idclasse, $firmadirigente, $datastampa, $gioass);
 
-function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa)
+function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa, $gioass)
 {
     @require("../php-ini" . $_SESSION['suffisso'] . ".php");
     require_once("../lib/fpdf/fpdf.php");
@@ -326,11 +328,12 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa)
             $numasse = $recasse['numassenze'];
         }
 
-
-        $schede->setXY(23, $schede->getY());
-        $schede->SetFont('Arial', 'BI', 8);
-        $schede->Cell(172, 6, "Numero assenze primo quadrimestre: " . $numasse, 1, 1);
-
+        if ($gioass=="yes")
+        {
+           $schede->setXY(23, $schede->getY());
+           $schede->SetFont('Arial', 'BI', 8);
+           $schede->Cell(172, 6, "Numero assenze primo quadrimestre: " . $numasse, 1, 1);
+        }
 
         // GIUDIZIO GLOBALE FINALE
         $schede->SetFont('Arial', 'BI', 12);
@@ -362,11 +365,12 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa)
             $numasse = $recasse['numassenze'];
         }
 
-
+        if ($gioass=='yes')
+        {
         $schede->setXY(23, $schede->getY());
         $schede->SetFont('Arial', 'BI', 8);
         $schede->Cell(172, 6, "Numero assenze totali: " . $numasse, 1, 1);
-
+        }
         // FIRME, LUOGO E DATA SCRUTINIO
         // FIRME
 

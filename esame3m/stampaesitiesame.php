@@ -161,17 +161,17 @@ do
     {
         $schede->Cell(10, $altriga, converti_utf8($recesi['votofinale'] . $lode), 1, NULL, "C");
         if ($sesso=='f')
-            $schede->Cell($larghcol, $altriga, converti_utf8("Licenziata"), 1, NULL, "C");
+            $schede->Cell($larghcol, $altriga, converti_utf8("Esame superato"), 1, NULL, "C");
         else
-            $schede->Cell($larghcol, $altriga, converti_utf8("Licenziato"), 1, NULL, "C");
+            $schede->Cell($larghcol, $altriga, converti_utf8("Esame superato"), 1, NULL, "C");
     }
     else
     {
         $schede->Cell(10, $altriga, "==", 1, NULL, "C");
         if ($sesso=='f')
-            $schede->Cell($larghcol, $altriga, converti_utf8("Non licenziata"), 1, NULL, "C");
+            $schede->Cell($larghcol, $altriga, converti_utf8("Esame non superato"), 1, NULL, "C");
         else
-            $schede->Cell($larghcol, $altriga, converti_utf8("Non licenziato"), 1, NULL, "C");
+            $schede->Cell($larghcol, $altriga, converti_utf8("Esame non superato"), 1, NULL, "C");
     }
     $posX += $larghcol;
 

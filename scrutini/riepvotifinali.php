@@ -106,6 +106,7 @@ $script = "<script type='text/javascript'>
                {
                   datast=document.getElementById('datastampa').value;
                   firmadir=document.getElementById('firmadirigente').value;
+                  
                   link='stampaschedeseparatefin.php?classe=$idclasse&periodo=$numper&firma='+firmadir+'&data='+datast;
                   if (alunno!='')
                       link='stampaschedeseparatefin.php?firma='+firmadir+'&data='+datast+'&idalunno='+alunno;
@@ -117,9 +118,10 @@ $script = "<script type='text/javascript'>
                {
                   datast=document.getElementById('datastampa').value;
                   firmadir=document.getElementById('firmadirigente').value;
-                  link='stampaschedefinalialu_A3.php?classe=$idclasse&periodo=$numper&firma='+firmadir+'&data='+datast;
+                  gioass=document.getElementById('gioass').value;
+                  link='stampaschedefinalialu_A3.php?classe=$idclasse&periodo=$numper&firma='+firmadir+'&gioass='+gioass+'&data='+datast;
                   if (alunno!='')
-                      link='stampaschedefinalialu_A3.php?firma='+firmadir+'&data='+datast+'&idalunno='+alunno;
+                      link='stampaschedefinalialu_A3.php?firma='+firmadir+'&data='+datast+'&gioass='+gioass+'&idalunno='+alunno;
                   // document.location.href=link;
                   window.open(link);
 					}
@@ -738,7 +740,7 @@ if ($idclasse != "")
             print "<center><br>Data stampa<input type='text' id='datastampa' size='10' maxlenght='10' name='datastampa' value='" . data_italiana(estrai_data_stampa($idclasse, $numper, $con)) . "'>";
             print "&nbsp;Firma dirigente<input type='text' id='firmadirigente' value='" . estrai_firma_scrutinio($idclasse, $numper, $con) . "'>&nbsp;
                    &nbsp;Voti in tabellone<select id='votitab'><option value='yes' selected>Si</option><option value='no'>No</option></select>
-                   &nbsp;Giorni assenza nella scheda A4<select name='gioass' id='gioass'><option value='yes'>Sì</option><option value='no'>No</option></select>
+                   &nbsp;Giorni assenza nella scheda A4/A3<select name='gioass' id='gioass'><option value='yes'>Sì</option><option value='no'>No</option></select>
                    &nbsp;Voti non promossi in tabellone<select id='votinp'><option value='yes'>Si</option><option value='no' selected>No</option></select>
                    &nbsp;Media in tabellone<select id='mediatab'><option value='yes'>Si</option><option value='no' selected>No</option></select>";
 
@@ -899,7 +901,7 @@ if ($idclasse != "")
             print "<center><br>Data stampa<input type='text' id='datastampa' size='10' name='datastampa' value='" . date('d/m/Y') . "'>";
             print "&nbsp;Firma dirigente<input type='text' id='firmadirigente' value='" . estrai_dirigente($con) . "'>&nbsp;
                    Voti in tabellone<select id='votitab'><option value='yes' selected>Si</option><option value='no'>No</option></select>
-                   &nbsp;Giorni assenza nella scheda A4<select name='gioass' id='gioass'><option value='yes'>Sì</option><option value='no'>No</option></select>
+                   &nbsp;Giorni assenza nella scheda A4/A3<select name='gioass' id='gioass'><option value='yes'>Sì</option><option value='no'>No</option></select>
                    Voti non promossi in tabellone<select id='votinp'><option value='yes'>Si</option><option value='no' selected>No</option></select>
                    Media in tabellone<select id='mediatab'><option value='yes'>Si</option><option value='no' selected>No</option></select>";
 
