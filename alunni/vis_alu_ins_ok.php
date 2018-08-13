@@ -75,8 +75,7 @@ $DB = true;
 if (!$DB)
 {
     print("<h1> Connessione al database fallita </h1>");
-}
-else
+} else
 {
     print "<center>";
     //print "<html>";
@@ -89,8 +88,7 @@ else
     {
         $err = 1;
         $mes = "Il cognome non &egrave; stato inserito<br/> ";
-    }
-    else
+    } else
     {
         $errore = controlla_stringa($cognome);
         if ($errore == 1)
@@ -103,8 +101,7 @@ else
     {
         $err = 1;
         $mes = $mes . "Il nome non &egrave; stato inserito<br/> ";
-    }
-    else
+    } else
     {
         $errore = controlla_stringa($nome);
         if ($errore == 1)
@@ -117,8 +114,7 @@ else
     {
         $err = 1;
         $mes = $mes . " L'anno di nascita non &egrave; stato inserito<br/> ";
-    }
-    else
+    } else
     {
         if (is_numeric($aa) === false)
         {
@@ -131,8 +127,7 @@ else
     {
         $err = 1;
         $mes = $mes . " Il giorno di nascita non &egrave; stato inserito<br/> ";
-    }
-    else
+    } else
     {
         if (is_numeric($gg) === false)
         {
@@ -144,8 +139,7 @@ else
     {
         $err = 1;
         $mes = $mes . "Il mese di nascita non &egrave; stato inserito<br/> ";
-    }
-    else
+    } else
     {
         switch ($mm)
         {
@@ -217,8 +211,7 @@ else
         if (!$res)
         {
             print("Il nuovo alunno non &egrave; stato inserito<br/>");
-        }
-        else
+        } else
         {
             $idalunnoinserito = mysqli_insert_id($con);
 
@@ -237,12 +230,23 @@ else
 
             $utente = "gen" . $idalunnoinserito;
             $password = creapassword();
-            $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idalunnoinserito','$utente',md5('" . md5($password) . "'),'T')";
-            $res = mysqli_query($con, inspref($sqlt)) or die("Errore:" . inspref($sqlt, false));;
-            // AGGIORNO IL RECORD DELL'ALUNNO CON l'ID DEL TUTORE
-            $sqlt = "update tbl_alunni set idtutore=$idalunnoinserito,idutente=$idalunnoinserito where idalunno=$idalunnoinserito";
 
-            $res = mysqli_query($con, inspref($sqlt)) or die("Errore:" . inspref($sqlt, false));;
+            if ($livello_scuola == 4)
+            {
+                $utentealunno = "al" . $_SESSION['suffisso'] . $idalunnoinserito;
+                $passwordalunno = creapassword();
+            }
+            $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idalunnoinserito','$utente',md5('" . md5($password) . "'),'T')";
+            $res = mysqli_query($con, inspref($sqlt)) or die("Errore:" . inspref($sqlt, false));
+            $sqlt = "update tbl_alunni set idtutore=$idalunnoinserito,idutente=$idalunnoinserito where idalunno=$idalunnoinserito";
+            $res = mysqli_query($con, inspref($sqlt)) or die("Errore:" . inspref($sqlt, false));
+
+            if ($livello_scuola == 4)
+            {
+                $idutentealunno = $idalunnoinserito + 2100000000;
+                $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idutentealunno','$utentealunno',md5('" . md5($passwordalunno) . "'),'L')";
+                $res = mysqli_query($con, inspref($sqlt)) or die("Errore:" . inspref($sqlt, false));
+            }
 
             // print "risultato inserimento $idalunnoinserito<br/>";
             print("Il nuovo alunno &egrave; stato inserito<br/><br/>Utente: $utente<br/><br/>Password:$password<br/>");
@@ -257,11 +261,21 @@ else
                    <input type='hidden' name='arrpw' value='$password'> 
                    <input type='hidden' name='numpass' value='1'> 
                    
-                   <input type='submit' value='STAMPA COMUNICAZIONE PASSWORD'>
+                   <input type='submit' value='STAMPA COMUNICAZIONE PASSWORD TUTOR'>
+                   </form><br>";
+        if ($livello_scuola == 4)
+        {
+            print "<form target='_blank' name='stampa' action='alu_stampa_pass_alu.php' method='POST'>
+                   <input type='hidden' name='arrid' value='$idalunnoinserito'> 
+                   <input type='hidden' name='arrut' value='$utentealunno'> 
+                   <input type='hidden' name='arrpw' value='$passwordalunno'> 
+                   <input type='hidden' name='numpass' value='1'> 
+                   
+                   <input type='submit' value='STAMPA COMUNICAZIONE PASSWORD ALUNNO'>
                    </form>";
+        }
         print "</center>";
-    }
-    else
+    } else
     {
         print (" <form action='vis_alu_ins.php' method='POST'>");
         print ("<input type='hidden'  name='cognome' value='$cognome'>");

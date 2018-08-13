@@ -85,6 +85,20 @@ $script = "<script type='text/javascript'>
                   window.open(link);
 			   }
                
+                function stampaCER(alu)
+                {
+                    //datast=document.getElementById('datastampa').value;
+                    //firmadir=document.getElementById('firmadirigente').value;
+                    //gioass=document.getElementById('gioass').value;
+                    if (alu==0)
+                        link='stampacertesamealu.php?classe=$idclasse';
+                    else
+                        link='stampacertesamealu.php?idalunno='+alu;
+                    // &firma='+firmadir+'&data='+datast+'&gioass='+gioass;
+                    // document.location.href=link;
+                    window.open(link);
+		}
+
                function stampaSEP()
                {
                   datast=document.getElementById('datastampa').value;
@@ -545,6 +559,8 @@ if ($idclasse != "")
                 print ("<td>");
                 if ($abilitaschede)
                     print "<center><img width='50%' height='50%' src='../immagini/stampaA4.png'  onclick='stampaA4($idalunno)'  onmouseover=$(this).css('cursor','pointer')>";
+                if ($datitabella['vtfi' . $idalunno]>=6)
+                    print "<center><img width='50%' height='50%' src='../immagini/stampaCER.png'  onclick='stampaCER($idalunno)'  onmouseover=$(this).css('cursor','pointer')>";
                 print ("</td>");
        //     }
             print "</tr>";
@@ -634,6 +650,8 @@ if ($idclasse != "")
 
 
         print "<br><center><img src='../immagini/stampaA4.png'  onclick='stampaA4(0)'  onmouseover=$(this).css('cursor','pointer')>";
+        print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaCER.png'  onclick='stampaCER(0)'  onmouseover=$(this).css('cursor','pointer')>";
+        
         print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaTAB.png' onclick='stampaTAB()'  onmouseover=$(this).css('cursor','pointer')>";
         print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaESI.png' onclick='stampaESI()'  onmouseover=$(this).css('cursor','pointer')>";
         print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaVERB.png' onclick='stampaVER()'  onmouseover=$(this).css('cursor','pointer')>";

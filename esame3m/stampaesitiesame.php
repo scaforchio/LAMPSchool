@@ -1,26 +1,28 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 require_once("../lib/fpdf/fpdf.php");
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
@@ -49,13 +51,13 @@ $larghcol = 35;
 // STAMPA INTESTAZIONE
 
 /* $schede->Image('../immagini/repubblica.png', 200, 20, 13, 15);
-//$schede->Image('../immagini/miur.png',35,NULL,120,10);
-$posY += 35;
-$schede->SetFont('palacescript', '', 32);
-$schede->setXY(10, $posY);
-$ministero = converti_utf8("Ministero dell’Istruzione, dell’ Università e della Ricerca");
-$schede->Cell(240, 8, $ministero, NULL, 1, "C");
-$posY += 10; */
+  //$schede->Image('../immagini/miur.png',35,NULL,120,10);
+  $posY += 35;
+  $schede->SetFont('palacescript', '', 32);
+  $schede->setXY(10, $posY);
+  $ministero = converti_utf8("Ministero dell’Istruzione, dell’ Università e della Ricerca");
+  $schede->Cell(240, 8, $ministero, NULL, 1, "C");
+  $posY += 10; */
 $schede->SetFont('Arial', 'B', 12);
 $schede->setXY(10, $posY);
 $schede->Cell(270, 6, converti_utf8("$nome_scuola") . " " . converti_utf8("$comune_scuola"), NULL, 1, "C");
@@ -75,21 +77,21 @@ $query = "SELECT * FROM tbl_esesiti,tbl_alunni,tbl_esami3m,tbl_esmaterie
 	          AND tbl_alunni.idclasseesame=$idclasse
 	          order by tbl_alunni.idclasse DESC, cognome, nome, datanascita";
 
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con) . $query);
+$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . $query);
 
 $recesi = mysqli_fetch_array($ris);
 $idcommissione = $recesi['idcommissione'];
 $datastampa = data_italiana($recesi['datascrutinio']);
 /*
-$codmat = array();
+  $codmat = array();
 
-$nummaterie = mysqli_num_rows($ris);
-$posIniziale = calcolaPosizioneIniziale($nummaterie, $votitab, $voamtab, $mediatab, $credtab, $larghcol);
-*/
+  $nummaterie = mysqli_num_rows($ris);
+  $posIniziale = calcolaPosizioneIniziale($nummaterie, $votitab, $voamtab, $mediatab, $credtab, $larghcol);
+ */
 
-$posIniziale = 50;
+$posIniziale = 20;
 
-$posX = 50;
+$posX = 20;
 
 
 $posY += $altriga;
@@ -102,25 +104,23 @@ $schede->SetFillColor(200, 200, 200);
 $schede->Cell(10, $altriga, converti_utf8("N°"), 1, NULL, "C", true);
 $posX += 10;
 
-$schede->Cell(150, $altriga, converti_utf8("Alunno"), 1, NULL, "C", true);
-$posX += 150;
-$schede->Cell(10, $altriga, converti_utf8("Voto"), 1, NULL, "C", true);
-$posX += 10;
-$schede->Cell($larghcol, $altriga, converti_utf8("Esito"), 1, NULL, "C", true);
-$posX += $larghcol;
+$schede->Cell(120, $altriga, converti_utf8("Alunno"), 1, NULL, "C", true);
+$posX += 120;
+$schede->Cell(60, $altriga, converti_utf8("Voto"), 1, NULL, "C", true);
+$posX += 60;
+$schede->Cell(50, $altriga, converti_utf8("Esito"), 1, NULL, "C", true);
+$posX += 50;
 
 // TTTT
-
-
 // CICLO SU TUTTI GLI ALUNNI
 
 $numeroalunno = 0;
 /*
 
-$query = "select * from tbl_alunni
-                where idclasseesame= $idclasse order by idclasse DESC, cognome,nome,datanascita";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con) . $query);
-*/
+  $query = "select * from tbl_alunni
+  where idclasseesame= $idclasse order by idclasse DESC, cognome,nome,datanascita";
+  $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con) . $query);
+ */
 do
 {
 
@@ -128,12 +128,11 @@ do
 
     $codfiscale = $recesi['codfiscale'];
 
-    $sesso='';
+    $sesso = '';
     if (substr($codfiscale, 9, 2) > '35')
     {
         $sesso = 'f';
-    }
-    else
+    } else
     {
         $sesso = 'm';
     }
@@ -145,37 +144,28 @@ do
     $schede->SetFont('Arial', '', 12);
     $schede->Cell(10, $altriga, converti_utf8($numeroalunno), 1, NULL, "L");
     $posX += 10;
-    $schede->Cell(150, $altriga, converti_utf8($recesi['cognome'] . " " . $recesi['nome'] . " (" . data_italiana($recesi['datanascita']) . ")"), 1, NULL, "L");
-    $posX += 90;
+    $schede->Cell(120, $altriga, converti_utf8($recesi['cognome'] . " " . $recesi['nome'] . " (" . data_italiana($recesi['datanascita']) . ")"), 1, NULL, "L");
+    $posX += 120;
 
     if ($recesi['lode'])
     {
-        $lode = " L";
-    }
-    else
+        $lode = " LODE";
+    } else
     {
         $lode = "";
     }
     if ($recesi['votofinale'] >= 6)
-
     {
-        $schede->Cell(10, $altriga, converti_utf8($recesi['votofinale'] . $lode), 1, NULL, "C");
-        if ($sesso=='f')
-            $schede->Cell($larghcol, $altriga, converti_utf8("Esame superato"), 1, NULL, "C");
-        else
-            $schede->Cell($larghcol, $altriga, converti_utf8("Esame superato"), 1, NULL, "C");
-    }
-    else
+        $schede->Cell(60, $altriga, converti_utf8($recesi['votofinale'] . $lode . " / 10 | " . dec_to_pag($recesi['votofinale']) . $lode . " / 10"), 1, NULL, "C");
+
+        $schede->Cell(50, $altriga, converti_utf8("Esame superato"), 1, NULL, "C");
+    } else
     {
-        $schede->Cell(10, $altriga, "==", 1, NULL, "C");
-        if ($sesso=='f')
-            $schede->Cell($larghcol, $altriga, converti_utf8("Esame non superato"), 1, NULL, "C");
-        else
-            $schede->Cell($larghcol, $altriga, converti_utf8("Esame non superato"), 1, NULL, "C");
+        $schede->Cell(60, $altriga, "==", 1, NULL, "C");
+
+        $schede->Cell(50, $altriga, converti_utf8("Esame non superato"), 1, NULL, "C");
     }
-    $posX += $larghcol;
-
-
+    $posX += 60;
 } while ($recesi = mysqli_fetch_array($ris));
 
 
@@ -199,15 +189,16 @@ while ($reccom = mysqli_fetch_array($riscom))
     $denominazionecomm = $reccom['denominazione'];
     $nomedocente = $reccom['nome'];
     $cognomedocente = $reccom['cognome'];
-
+    /* PEr non stampare i nomi dei commissari
     $posX = 30 + ($cont % 4 * 60);
     $posY = $posYiniz + 18 + (floor($cont / 4) * 18);
 
     $schede->setXY($posX, $posY);
     $schede->Line($posX, $posY, $posX + 50, $posY);
     $schede->Cell(50, 4, converti_utf8($nomedocente . " " . $cognomedocente), 0, 0, "C");
+     * 
+     */
     $cont++;
-
 }
 
 
@@ -230,8 +221,8 @@ $schede->Cell(40, 3, $dicituradirigente, "", 0, "C");
 if ($_SESSION['suffisso'] != "")
 {
     $suff = $_SESSION['suffisso'] . "/";
-}
-else $suff = "";
+} else
+    $suff = "";
 
 $schede->setXY(120, $posY + 45);
 $schede->Image('../abc/' . $suff . 'timbro.png');
@@ -243,7 +234,6 @@ $schede->Output($nomefile, "I");
 
 
 mysqli_close($con);
-
 
 function elimina_cr($stringa)
 {
@@ -266,8 +256,7 @@ function estrai_prima_riga($stringa)
     if ($posint != 0)
     {
         $str1 = substr($stringa, 0, $posint);
-    }
-    else
+    } else
     {
         $str1 = $stringa;
     }
@@ -281,14 +270,12 @@ function estrai_seconda_riga($stringa)
     if ($posint != 0)
     {
         $str2 = substr($stringa, $posint + 1);
-    }
-    else
+    } else
     {
         $str2 = "";
     }
     return $str2;
 }
-
 
 function ricerca_voto($idalunno, $idmateria, $alu, $materie, $valutaz)
 {
@@ -323,6 +310,4 @@ function calcolaPosizioneIniziale($nummaterie, $votitab, $voamtab, $mediatab, $c
         $spazio += $larghcol;
     }
     return (410 - $spazio) / 2;
-
 }
-

@@ -48,7 +48,6 @@ if ($idalunno != $_SESSION['idutente'] && $tipoutente == 'T')
 // altrimenti solo l'alunno passato come parametro
 if ($idclasse != "")
 {
-
     $query = "select idalunno from tbl_alunni where idclasseesame=$idclasse order by idclasse DESC, cognome,nome";
     $ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));;
     while ($val = mysqli_fetch_array($ris))

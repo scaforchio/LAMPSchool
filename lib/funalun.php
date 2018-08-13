@@ -29,6 +29,18 @@ function estrai_dati_alunno($idalunno, $conn)
     return $datialunno;
 }
 
+
+function estrai_codicefiscale($idalunno, $conn)
+{
+    $query = "select * from tbl_alunni where idalunno='$idalunno'";
+    $ris = mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+    $rec = mysqli_fetch_array($ris);
+    
+
+    return $rec['codfiscale'];
+}
+
+
 /**
  *
  * @param int $idalunno

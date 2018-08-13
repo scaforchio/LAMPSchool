@@ -53,7 +53,7 @@ if ($idalunno != $_SESSION['idutente'] && $tipoutente == 'T')
 }
 
 if ($classe != "")
-    $elencoalunni = estrai_alunni_classe_data($classe, $fineprimo, $con);
+    $elencoalunni = estrai_alunni_classe_data($classe, $datafinelezioni, $con);
 
 $alunni = array();
 if ($classe != "")
@@ -93,20 +93,24 @@ else if ($livello_scuola == '4')
 
 // Se non vengo dal tabellone degli scrutini imposto data e dirigente
 
-if ($datastampa=="")
-    $datastampa= data_italiana (date('Y-m-d'));
-if ($firmadirigente=="")
-    $firmadirigente= estrai_dirigente ($con);
+if ($datastampa == "")
+    $datastampa = data_italiana(date('Y-m-d'));
+if ($firmadirigente == "")
+    $firmadirigente = estrai_dirigente($con);
 
+$contalunni = 0;
 foreach ($alunni as $idalunno)
 {
-
     stampa_alunno($schede, $idalunno, $classe, $firmadirigente, $datastampa, $tiposcheda, $con, $annoscol, $nome_scuola, $comune_scuola);
+    $contalunni++;
+    $codicefiscale = estrai_codicefiscale($idalunno, $con);
 }
 
 
-
-$nomefile = "schede_competenze_" . decodifica_classe($classe, $con) . ".pdf";
+if ($contalunni > 1)
+    $nomefile = "schede_competenze_" . decodifica_classe($classe, $con) . ".pdf";
+else
+    $nomefile = "schede_competenze_" . decodifica_classe($classe, $con) . "_$codicefiscale" . ".pdf";
 $nomefile = str_replace(" ", "_", $nomefile);
 
 $schede->Output($nomefile, "I");
@@ -319,9 +323,9 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
         $suff = $_SESSION['suffisso'] . "/";
     } else
         $suff = "";
-    $schede->setXY(140, $posy+16);
+    $schede->setXY(140, $posy + 16);
     $schede->Image('../abc/' . $suff . 'firmadirigente.png');
-    $schede->SetXY(80, $posy+10);
+    $schede->SetXY(80, $posy + 10);
     $schede->Image('../abc/' . $suff . 'timbro.png');
 
 // LEGENDA INDICATORI

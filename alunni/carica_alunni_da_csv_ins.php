@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
-GNU Affero General Public License come pubblicata
-dalla Free Software Foundation; sia la versione 3,
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 @include '../php-ini' . $_SESSION['suffisso'] . '.php';
 @include '../lib/funzioni.php';
 
@@ -82,7 +84,8 @@ switch ($deli)
 }
 //  print $arrpar[1];
 
-if ($sep == 't') $sep = "\t";
+if ($sep == 't')
+    $sep = "\t";
 $del = $deli == '' ? '"' : ($deli == 'a' ? "'" : '"');  // delimitatore di testo
 //  print $del;
 
@@ -90,8 +93,7 @@ $del = $deli == '' ? '"' : ($deli == 'a' ? "'" : '"');  // delimitatore di testo
 if (is_stringa_html('sovrascrittura'))
 {
     $sovrascrittura = true;
-}
-else
+} else
 {
     $sovrascrittura = false;
 }
@@ -100,8 +102,7 @@ else
 if (is_stringa_html('intestazione'))
 {
     $arrpar[] = '1';
-}
-else
+} else
 {
     $arrpar[] = '0';
 }
@@ -121,13 +122,10 @@ $arrpar[] = stringa_html('posemail');
 $stringaparametri = implode("!", $arrpar);
 // print "Stringa ".$stringaparametri;
 // FINE COSTRUZIONE STRINGA DI IMPORTAZIONE
-
-
 // se i dati in ingresso sono stati inseriti correttamente:
 if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name']))
 //    && (substr($_FILES['filenomi']['name'],-4) == ".txt"
 //        || substr($_FILES['filenomi']['name'],-4) == ".csv"))
-
 {
 
     $posizioni = array();
@@ -136,14 +134,22 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
     $posizioni[] = stringa_html('posnome');
     $posizioni[] = stringa_html('posdata');
     $posizioni[] = stringa_html('poscodf');
-    if (stringa_html('possesso') != 99) $posizioni[] = stringa_html('possesso');
-    if (stringa_html('poscodsidi') != 99) $posizioni[] = stringa_html('poscodsidi');
-    if (stringa_html('poscomnasc') != 99) $posizioni[] = stringa_html('poscomnasc');
-    if (stringa_html('posindi') != 99) $posizioni[] = stringa_html('posindi');
-    if (stringa_html('poscomres') != 99) $posizioni[] = stringa_html('poscomres');
-    if (stringa_html('postele') != 99) $posizioni[] = stringa_html('postele');
-    if (stringa_html('poscell') != 99) $posizioni[] = stringa_html('poscell');
-    if (stringa_html('posemail') != 99) $posizioni[] = stringa_html('posemail');
+    if (stringa_html('possesso') != 99)
+        $posizioni[] = stringa_html('possesso');
+    if (stringa_html('poscodsidi') != 99)
+        $posizioni[] = stringa_html('poscodsidi');
+    if (stringa_html('poscomnasc') != 99)
+        $posizioni[] = stringa_html('poscomnasc');
+    if (stringa_html('posindi') != 99)
+        $posizioni[] = stringa_html('posindi');
+    if (stringa_html('poscomres') != 99)
+        $posizioni[] = stringa_html('poscomres');
+    if (stringa_html('postele') != 99)
+        $posizioni[] = stringa_html('postele');
+    if (stringa_html('poscell') != 99)
+        $posizioni[] = stringa_html('poscell');
+    if (stringa_html('posemail') != 99)
+        $posizioni[] = stringa_html('posemail');
 
     $max = 0;
     for ($i = 0; $i < count($posizioni); $i++)
@@ -184,8 +190,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
     {
         print("<h1> Connessione al server fallita </h1>");
         exit;
-    }
-    else
+    } else
     {
         $DB = true;
 
@@ -202,9 +207,8 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
         if (is_uploaded_file($_FILES['filenomi']['tmp_name']))
         {
             move_uploaded_file($_FILES['filenomi']['tmp_name'], "$dir/$nomefile")
-            or die("Impossibile spostare il file");
-        }
-        else
+                    or die("Impossibile spostare il file");
+        } else
         {
             die("Errore nell'upload del file." . $_FILES['filenomi']['error']);
         }
@@ -234,10 +238,15 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
               <td align='center'><b>Cognome</b></td>
               <td align='center'><b>Nome</b></td>
               <td align='center'><b>Data di Nascita</b></td>
-              <td align='center'><b>Utente</b></td>
-              <td align='center'><b>Password</b></td>
-              </tr>
-               ";
+              <td align='center'><b>Utente tutor</b></td>
+              <td align='center'><b>Password tutor</b></td>
+              ";
+        if ($livello_scuola == 4)
+        {
+            print "<td align='center'><b>Utente alunno</b></td>
+                   <td align='center'><b>Password alunno</b></td>";
+        }
+        print "</tr>";
         $numero_di_alunni = 0;
         $numero_alunni_inseriti = 0;
         if (is_stringa_html('intestazione'))
@@ -259,8 +268,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
             if (Verifica_CodiceFiscale($riga_tmp[$poscodf]))
             {
                 print "<td align=center>" . $riga_tmp[$poscodf] . "</td>";
-            }
-            else
+            } else
             {
                 print "<td align=center><font color='red'>" . $riga_tmp[$poscodf] . "</font></td>";
                 $err = 1;
@@ -270,8 +278,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
             if (Controllodata($riga_tmp[$posdata]))
             {
                 print "<td align=center>" . $riga_tmp[$posdata] . "</td>";
-            }
-            else
+            } else
             {
                 print "<td align=center><font color='red'>" . $riga_tmp[$posdata] . "</font></td>";
                 $err = 1;
@@ -310,8 +317,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                         if ($idutente > 0)
                         { // IMPORTANTE per non eliminare l'utente adminlamp
                             $where = "where idtutore=$idutente";
-                        }
-                        else
+                        } else
                         { // poi con idutente
                             $idutente = $colonna['idutente'];
                             $where = "where idutente=$idutente";
@@ -321,9 +327,9 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                         { // IMPORTANTE per non eliminare l'utente adminlamp
                             $sqlt = "delete from tbl_alunni $where";
                             mysqli_query($con, inspref($sqlt));
-                          //  $sqlt = "delete from tbl_tutori $where";
-                          //  mysqli_query($con, inspref($sqlt));
-                           // $sqlt = "delete from tbl_utenti where idutente=$idutente";
+                            //  $sqlt = "delete from tbl_tutori $where";
+                            //  mysqli_query($con, inspref($sqlt));
+                            // $sqlt = "delete from tbl_utenti where idutente=$idutente";
                             $sqlt = "delete from tbl_utenti $where";
                             mysqli_query($con, inspref($sqlt));
                         }
@@ -344,13 +350,11 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
 
                 // TUTORE
                 // PRIMA SI CANCELLA IL TUTORE ESISTENTE
-               // $sqlt = "delete from tbl_tutori where idtutore=$idalunnoinserito";
-               // mysqli_query($con, inspref($sqlt)) or die("Errore in iserimento alunno" . inspref($sqlt, false));
-
-
+                // $sqlt = "delete from tbl_tutori where idtutore=$idalunnoinserito";
+                // mysqli_query($con, inspref($sqlt)) or die("Errore in iserimento alunno" . inspref($sqlt, false));
                 // POI SI INSERISCE IL RECORD NELLA TABELLA tbl_tutori;
-               // $sqlt = "insert into tbl_tutori(idtutore,cognome,nome,idalunno,idutente) values ('$idalunnoinserito','$cognome','$nome','$idalunnoinserito','$idalunnoinserito')";
-               // mysqli_query($con, inspref($sqlt)) or die("Errore in iserimento alunno" . inspref($sqlt, false));
+                // $sqlt = "insert into tbl_tutori(idtutore,cognome,nome,idalunno,idutente) values ('$idalunnoinserito','$cognome','$nome','$idalunnoinserito','$idalunnoinserito')";
+                // mysqli_query($con, inspref($sqlt)) or die("Errore in iserimento alunno" . inspref($sqlt, false));
                 // UTENTE
                 // PRIMA SI CANCELLA L'UTENTE ESISTENTE
                 $sqlt = "delete from tbl_utenti where idutente=$idalunnoinserito";
@@ -359,18 +363,36 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                 // POI SI INSERISCE IL RECORD NELLA TABELLA tbl_utenti;
                 $utente = "gen" . $idalunnoinserito;
                 $password = creapassword();
+                if ($livello_scuola == 4)
+                {
+                    $utentealunno = "al" . $_SESSION['suffisso'] . $idalunnoinserito;
+                    $passwordalunno = creapassword();
+                }
+
                 print "<td align=center>$utente</td>";
                 print "<td align=center>$password</td>";
+                if ($livello_scuola == 4)
+                {
+                    print "<td align=center>$utentealunno</td>";
+                    print "<td align=center>$passwordalunno</td>";
+                }
                 $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idalunnoinserito','$utente',md5('" . md5($password) . "'),'T')";
                 mysqli_query($con, inspref($sqlt)) or die("Errore in iserimento alunno" . inspref($sqlt, false));
-
-                // AGGIORNAMENTO DELL'ALUNNO CON L'ID DEL TUTORE E CON L'ID DELL'UTENTE
                 $sqlt = "update tbl_alunni set idtutore=$idalunnoinserito,idutente=$idalunnoinserito where idalunno=$idalunnoinserito";
                 mysqli_query($con, inspref($sqlt)) or die("Errore in iserimento alunno" . inspref($sqlt, false));
 
+                if ($livello_scuola == 4)
+                {
+                    $idutentealunno=$idalunnoinserito+2100000000;
+                $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idutentealunno','$utentealunno',md5('" . md5($passwordalunno) . "'),'L')";
+                $res = mysqli_query($con, inspref($sqlt)) or die("Errore:" . inspref($sqlt, false));
+           
+                }
                 // Inseriamo nel file csv
-
-                fputcsv($fp, array($riga_tmp[$poscodf], $riga_tmp[$poscogn], $riga_tmp[$posnome], $riga_tmp[$posdata], $utente, $password), ";");
+                if ($livello_scuola<4)
+                   fputcsv($fp, array($riga_tmp[$poscodf], $riga_tmp[$poscogn], $riga_tmp[$posnome], $riga_tmp[$posdata], $utente, $password), ";");
+                else
+                   fputcsv($fp, array($riga_tmp[$poscodf], $riga_tmp[$poscogn], $riga_tmp[$posnome], $riga_tmp[$posdata], $utente, $password,$utentealunno,$passwordalunno), ";"); 
                 print "</tr>";
 
                 $numero_alunni_inseriti++;
@@ -385,8 +407,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
         print ("<br/><center><a href='$cartellabuffer/$nf'><img src='../immagini/csv.png'></a></center>");
     }
     printf("<p align='center'> Numero di alunni inseriti: $numero_alunni_inseriti su $numero_di_alunni");
-}
-else
+} else
 {
     print '<h1> File non valido </h1>';
 }
