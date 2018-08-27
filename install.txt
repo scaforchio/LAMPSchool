@@ -1,5 +1,5 @@
- NOTE DI INSTALLAZIONE Ver. 2017.2
- =================================
+ NOTE DI INSTALLAZIONE Ver. 2018
+ ===============================
 
  Per l'installazione da zero, singola o multi-ambiente, del software:
 
@@ -111,7 +111,7 @@
  Per lanciare il programma è necessario accedere via browser
  (sempre Chrome o Firefox) alla cartella principale di LAMPSchool.
  L'indirizzo da digitare nella barra degli indirizzi potrebbe essere
- simile a questo http://www.miodominio.it/registro_2017_2018/
+ simile a questo http://www.miodominio.it/registro_2018_2019/
  a seconda di come abbiamo denominato la cartella contenente
  l'installazione del nostro registro elettronico.
  Facendo click sul logo di LAMPschool si arriva alla pagina di login.
@@ -138,23 +138,9 @@
 
  Per l'aggiornamento si dovrà accedere sempre alla cartella /install:
 
- http://www.miodominio.it/registro_2017_2018/install/
+ http://www.miodominio.it/registro_2018_2019/install/
 
  L'aggiornamento verrà effettuato in automatico su tutti gli ambienti installati.
-
- ********************************************************
- * ATTENZIONE: AVVISO PER AGGIORNAMENTO ALLA VER. 2017.1*
- ********************************************************
-
-LE SCUOLE CHE HANNO GIA' IMPLEMENTATO IL MODULO PER LA GESTIONE DEL NUMERO MASSIMO DI COLLOQUI PER DOCENTE
-E PER L'INSERIMENTO DELLA SOSPENSIONE DEI COLLOQUI
-DEVONO SOSTITUIRE NEL FILE /lampschool.json ALLA RIGA
-
-"aggiornamento": "sql/update/"
-
-LA RIGA
-
-"aggiornamento": "sql/updatetgm/"
 
 
  NOTE DI CONTATTO

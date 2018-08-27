@@ -1,5 +1,5 @@
-LAMPSchool Ver. 2017.2
-======================
+LAMPSchool Ver. 2018
+====================
 
 Possibilità di blocco temporale a inserimento e modifica delle lezioni
 Gestione della programmazione curricolare di Istituto e del docente
@@ -28,7 +28,7 @@ Visualizzazione interna del log
 Gestione ammonizioni automatiche per mancata giustifica
 Gestione esami di terza media
 Gestione richieste ferie dei docenti
-Getsione assemblee di classe
+Gestione assemblee di classe
 Certificazione delle competenze
 Criptaggio della password con seed
 

@@ -1,3 +1,10 @@
+VER. 2018
+=========
+
+- Creazione e gestione utenze alunni per scuole secondo grado
+- Debugging vari 
+
+
 VER. 2017.2
 ===========
 

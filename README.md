@@ -1,2 +1,2 @@
-LAMPSchool Ver. 2017.2
+LAMPSchool Ver. 2018
 
