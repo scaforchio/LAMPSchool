@@ -2511,16 +2511,16 @@ MODIFY `idesmaterie` int(11) AUTO_INCREMENT;
 
 -- IMPORTAZIONE DATI
 
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2017.1', 'Versione del software', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2018', 'Versione del software', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'nome_scuola', '', 'Nome della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'comune_scuola', '', 'Comune sede della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'sito_scuola', 'http://', 'Indirizzo web dell''home page della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'numeroanni', '5', 'Numero annualit&agrave; da gestire', '3|5|8');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'numeromassimoore', '6', 'Numero massimo di ore nella giornata', '4|5|6|7|8|9|10');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'plesso_specializzazione', 'Specializzazione', 'Significato del terzo valore di descrizione di una classe (dopo anno e sezione)', 'Plesso|Specializzazione');
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'annoscol', '2017', 'Anno di inizio dell''anno scolastico (formato AAAA)', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'annoscol', '2018', 'Anno di inizio dell''anno scolastico (formato AAAA)', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'numeroperiodi', '2', 'Numero periodi (2 - quadrimestri, 3 - trimestri)', '');
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'fineprimo', '2017-01-31', 'Giorno fine primo periodo (AAAA-MM-GG)', 'data');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'fineprimo', '2019-01-31', 'Giorno fine primo periodo (AAAA-MM-GG)', 'data');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'finesecondo', '', 'Eventuale giorno fine secondo periodo (AAAA-MM-GG)', 'data');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'cartellabuffer', '../buffer', 'Percorso della cartella da utilizzare come buffer (devono essere impostati i permessi di scrittura)', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'editorhtml', 'TinyMCE', 'Editor che deve essere usato per le textarea (non cambiare se non si sa quello che si fa)', '');
@@ -2535,9 +2535,9 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'votominimoattribuibile', '1', 'Voto minimo attribuibile.', '1|2|3|4|5');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'votigenitori', 'yes', 'Visualizzazione voti per i genitori', 'no|yes');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'ordinevalutazioni', 'C', 'Ordine dei voti nelle maschere: Crescente o Decrescente', 'C|D');
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'datafinelezioni', '2018-06-09', 'Data di fine delle lezioni ', 'data');
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'datainiziolezioni', '2017-09-15', 'Data di inizio delle lezioni', 'data');
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'datafinecolloqui', '2017-09-15', 'Data di fine colloqui', 'data');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'datafinelezioni', '2019-06-12', 'Data di fine delle lezioni ', 'data');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'datainiziolezioni', '2018-09-15', 'Data di inizio delle lezioni', 'data');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'datafinecolloqui', '2018-09-15', 'Data di fine colloqui', 'data');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sms', 'utentesms', '', 'Nome utente per servizio invio sms.', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sms', 'passsms', '', 'Password per servizio invio sms.', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'chiaveuniversale', '', 'Chiave di accesso universale', '');
