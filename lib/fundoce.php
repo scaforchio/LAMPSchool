@@ -25,6 +25,23 @@ function estrai_dati_docente($iddocente, $conn)
 
 /**
  *
+ * @param int $iddocente
+ * @param object $conn Connessione al db
+ * @return string
+ */
+function estrai_mail_docente($iddocente, $conn)
+{
+    $query = "select * from tbl_docenti where iddocente='$iddocente'";
+    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $rec = mysqli_fetch_array($ris);
+    $maildocente = $rec['email'];
+
+    return $maildocente;
+}
+
+
+/**
+ *
  * @param int $idamm
  * @param object $conn Connessione al db
  * @return string

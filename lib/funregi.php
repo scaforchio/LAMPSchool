@@ -29,7 +29,8 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
     // print "Doc $iddocente Cla $idclasse";
     $cattedra = codice_cattedra($iddocente, $idclasse, 0, $conn);
     $elencoalunni = estrai_alunni_classe_data($idclasse, $data, $conn);
-
+    //print "ELENCO: $elencoalunni";
+    //print  "TTTT IDCLASSE $idclasse DATA $data <br>";
     if (strlen($elencoalunni)==0)
     {
         print "<center><br>Nessun alunno iscritto in questa data nella classe!</center>";
@@ -178,10 +179,12 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
             
             if (strlen($elencoalunni) > 0)
             {
+                
                 $query = "select count(*) as numassingiust from tbl_assenze
                 where idalunno in ($elencoalunni)
                 and data< '$data'
-                and not giustifica";
+                and isnull(giustifica)";
+                
                 $risgiu = mysqli_query($conn, inspref($query));
                 $recgiu = mysqli_fetch_array($risgiu);
                 $numingiust = $recgiu['numassingiust'];

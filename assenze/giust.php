@@ -51,7 +51,8 @@ $anno = substr($meseanno, 5, 4);
 $data = $anno . "-" . $mese . "-" . $giorno;
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
 $elencoalunni=estrai_alunni_classe_data($idclasse, $data, $con);
-$query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
+//PRINT "TTTT ELENCO: $elencoalunni";
+$query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN ($elencoalunni)  ORDER BY cognome, nome, datanascita";
 $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
 print "<form name='giustass' method='post' action='giustass.php'>";
 
@@ -70,7 +71,7 @@ while ($recalu = mysqli_fetch_array($ris))
     $idalunno = $recalu['al'];
     $firmapropria = $recalu['firmapropria'];
     // $query="select * from tbl_assenze where idalunno=$idalunno and data < '".date('Y-m-d')."' and not giustifica order by data ";
-    $query = "select * from tbl_assenze where idalunno=$idalunno and data < '" . $data . "' and not giustifica order by data ";
+    $query = "select * from tbl_assenze where idalunno=$idalunno and data < '" . $data . "' and isnull(giustifica) order by data ";
     $risass = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
     if (mysqli_num_rows($risass) > 0)
     {
@@ -105,7 +106,7 @@ while ($recalu = mysqli_fetch_array($ris))
     $idalunno = $recalu['al'];
     $firmapropria = $recalu['firmapropria'];
     // $query="select * from tbl_assenze where idalunno=$idalunno and data < '".date('Y-m-d')."' and not giustifica order by data ";
-    $query = "select * from tbl_ritardi where idalunno=$idalunno and data <= '" . $data . "' and not giustifica order by data ";
+    $query = "select * from tbl_ritardi where idalunno=$idalunno and data <= '" . $data . "' and isnull(giustifica) order by data ";
     $risass = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
     if (mysqli_num_rows($risass) > 0)
     {
@@ -152,7 +153,7 @@ if ($giustificauscite == 'yes')
         $idalunno = $recalu['al'];
         $firmapropria = $recalu['firmapropria'];
         // $query="select * from tbl_assenze where idalunno=$idalunno and data < '".date('Y-m-d')."' and not giustifica order by data ";
-        $query = "select * from tbl_usciteanticipate where idalunno=$idalunno and data <= '" . $data . "' and not giustifica order by data ";
+        $query = "select * from tbl_usciteanticipate where idalunno=$idalunno and data <= '" . $data . "' and isnull(giustifica) order by data ";
         $risass = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
         if (mysqli_num_rows($risass) > 0)
         {

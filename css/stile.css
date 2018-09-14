@@ -41,6 +41,11 @@ tr.prima {
    text-align: center;
    font-weight: bold;
 }
+td.prima {
+   background-color: #20ff99;
+   text-align: center;
+   font-weight: bold;
+}
 tr.red {
    background-color: #ff0000;
 }

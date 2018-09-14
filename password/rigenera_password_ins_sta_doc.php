@@ -115,7 +115,10 @@ else
 						 <td>".$val['cognome']." ".$val['nome']." (".data_italiana($val['datanascita']).")"."</td>");
 			
 			$iddocente=$val['iddocente'];
-			$utente="doc".($iddocente-1000000000);
+                        if ($iddocente==1000000000)
+                            $utente='preside';
+                        else
+			    $utente="doc".($iddocente-1000000000);
 			$pass=creapassword();
 			print ("<td>$utente</td><td>$pass<input type='hidden' name='iddoc".$numpass."' value='$iddocente'> 
 							 <input type='hidden' name='utdoc".$numpass."' value='$utente'> 

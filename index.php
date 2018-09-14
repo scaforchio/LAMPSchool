@@ -32,7 +32,7 @@ for ($i = 0; $i < count($elencoinstallazioni); $i++)
 
 
         $query = "SELECT valore FROM " . $prefisso_tabelle . "tbl_parametri WHERE parametro='nome_scuola'";
-        $ris = mysqli_query($con, $query);
+        $ris = mysqli_query($con, $query) or die("Errore ".$query);
         $rec = mysqli_fetch_array($ris);
         if ($rec['valore'] != "Scuola XYZ")
         {
@@ -40,7 +40,7 @@ for ($i = 0; $i < count($elencoinstallazioni); $i++)
             $suffissi[] = substr($fileinclude, 7, strlen($fileinclude) - 11);
 
             $query = "SELECT valore FROM " . $prefisso_tabelle . "tbl_parametri WHERE parametro='annoscol'";
-            $ris = mysqli_query($con, $query);
+            $ris = mysqli_query($con, $query) or die("Errore ".$query);
             $rec = mysqli_fetch_array($ris);
             $anni[] = $rec['valore'];
         }

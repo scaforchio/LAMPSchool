@@ -141,11 +141,12 @@ function estrai_alunni_classe_data($idclasse, $data, $conn)
     $elenco = "";
     // print "ttt $data <br>";
     // SE LA DATA E' QUELLA ODIERNA POSSO SELEZIONARE DALLA COMPOSIZIONE DELLA CLASSE
-
+    
     if ($data == date("Y-m-d"))
     {
         $query = "select idalunno from tbl_alunni where idclasse='$idclasse'";
-        $ris = mysqli_query($conn, inspref($query));
+        print "TTTT ".inspref($query)."<br>";
+        $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn)."".inspref($query,false));
         while ($rec = mysqli_fetch_array($ris))
         {
             $elenco .= $rec['idalunno'] . ",";
@@ -160,7 +161,8 @@ function estrai_alunni_classe_data($idclasse, $data, $conn)
                 and not exists (select * from tbl_cambiamenticlasse where idalunno=alu.idalunno
                                    and datafine>='$data')";
         //   print inspref($query);
-        $ris = mysqli_query($conn, inspref($query)) or die("Errore:" . inspref($query, false));
+        $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn)."".inspref($query,false));
+        //print "TTTT ".inspref($query)."<br>";
         while ($rec = mysqli_fetch_array($ris))
         {
             $elenco .= $rec['idalunno'] . ",";
@@ -172,9 +174,10 @@ function estrai_alunni_classe_data($idclasse, $data, $conn)
         $query = "select idalunno,datafine from tbl_cambiamenticlasse camb where idclasse='$idclasse'
                 and datafine>'$data' and not exists (select * from tbl_cambiamenticlasse
                                   where idalunno=camb.idalunno
-                                  and datafine>'$data' and datafine<camb.datafine) ";
+                                  and datafine>'$data' and datafine < camb.datafine) ";
         // print inspref($query,false);
-        $ris = mysqli_query($conn, inspref($query)) or die("Errore:" . inspref($query, false));
+        $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn)."".inspref($query,false));
+        //print "TTTT ".inspref($query)."<br>";
         while ($rec = mysqli_fetch_array($ris))
         {
             $elenco .= $rec['idalunno'] . ",";
