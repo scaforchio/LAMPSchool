@@ -59,7 +59,7 @@ while ($rec = mysqli_fetch_array($ris))
 
     if ($aludaamm == "on")
     {
-        $query = "SELECT idassenza,data FROM tbl_assenze WHERE NOT giustifica AND data< '$datalimiteinferiore'
+        $query = "SELECT idassenza,data FROM tbl_assenze WHERE isnull(giustifica) AND data< '$datalimiteinferiore'
             AND dataammonizione IS NULL AND idalunno=$idalunno ORDER BY data";
         $risass = mysqli_query($con, inspref($query)) or die("Errore:".inspref($query,false));
 
@@ -71,7 +71,7 @@ while ($rec = mysqli_fetch_array($ris))
          print $elenco;
          if (strlen($elenco)>7)
                   $elenco=substr($elenco,0,strlen($elenco)-9)." e ".substr($elenco,strlen($elenco)-7,6);
-        $query = "UPDATE tbl_assenze SET dataammonizione='".date('Y-m-d')."' WHERE NOT giustifica AND data< '$datalimiteinferiore'
+        $query = "UPDATE tbl_assenze SET dataammonizione='".date('Y-m-d')."' WHERE isnull(giustifica) AND data< '$datalimiteinferiore'
             AND dataammonizione IS NULL AND idalunno=$idalunno";
         mysqli_query($con, inspref($query)) or die("Errore:".inspref($query,false));
         $elenco=substr($elenco,0,strlen($elenco)-1);
@@ -99,7 +99,7 @@ while ($rec = mysqli_fetch_array($ris))
     if ($aludaamm == "on")
     {
 
-        $query = "SELECT idritardo,data FROM tbl_ritardi WHERE NOT giustifica AND data< '$datalimiteinferiore'
+        $query = "SELECT idritardo,data FROM tbl_ritardi WHERE isnull(giustifica) AND data< '$datalimiteinferiore'
             AND dataammonizione IS NULL AND idalunno=$idalunno ORDER BY data";
         $risass = mysqli_query($con, inspref($query)) or die("Errore:".inspref($query,false));
         $elenco="";
@@ -108,7 +108,7 @@ while ($rec = mysqli_fetch_array($ris))
             $elenco.=substr(data_italiana($recass['data']),0,5).", ";
         }
 
-        $query = "UPDATE tbl_ritardi SET dataammonizione='".date('Y.-m-d')."' WHERE NOT giustifica AND data< '$datalimiteinferiore'
+        $query = "UPDATE tbl_ritardi SET dataammonizione='".date('Y.-m-d')."' WHERE isnull(giustifica) AND data< '$datalimiteinferiore'
             AND dataammonizione IS NULL AND idalunno=$idalunno";
         mysqli_query($con, inspref($query)) or die("Errore:".inspref($query,false));
         $elenco=substr($elenco,0,strlen($elenco)-1);

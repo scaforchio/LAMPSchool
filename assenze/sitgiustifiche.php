@@ -72,7 +72,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
 //$giornianticipo=0-$maxritardogiust;
 $datalimiteinferiore=giorno_lezione_passata(date('Y-m-d'),$maxritardogiust,$con);
- $query = "SELECT count(*) as nang,cognome, nome,tbl_alunni.idalunno,dataammonizione FROM tbl_assenze,tbl_alunni,tbl_classi WHERE NOT giustifica AND data< '$datalimiteinferiore'
+ $query = "SELECT count(*) as nang,cognome, nome,tbl_alunni.idalunno,dataammonizione FROM tbl_assenze,tbl_alunni,tbl_classi WHERE isnull(giustifica) AND data< '$datalimiteinferiore'
             AND tbl_assenze.idalunno=tbl_alunni.idalunno AND tbl_alunni.idclasse=tbl_classi.idclasse
             AND tbl_alunni.idclasse<>0
             AND tbl_assenze.idalunno NOT IN (select idalunno from tbl_assenze where data>='$datalimiteinferiore')
@@ -110,11 +110,11 @@ if (mysqli_num_rows($ris) > 0)
         $dataammonizione=$val['dataammonizione'];
         // Cerco assenze da considerare
         if ($dataammonizione==NULL)
-            $query="SELECT * from tbl_assenze where idalunno=".$val['idalunno']." AND dataammonizione IS NULL AND NOT giustifica "
+            $query="SELECT * from tbl_assenze where idalunno=".$val['idalunno']." AND dataammonizione IS NULL AND isnull(giustifica) "
                 . "        AND idalunno NOT IN (select idalunno from tbl_assenze where data>='$datalimiteinferiore')"
                 . "        order by data desc";
         else
-            $query="SELECT * from tbl_assenze where idalunno=".$val['idalunno']." AND dataammonizione ='$dataammonizione' AND NOT giustifica "
+            $query="SELECT * from tbl_assenze where idalunno=".$val['idalunno']." AND dataammonizione ='$dataammonizione' AND isnull(giustifica) "
                 . "AND idalunno NOT IN (select idalunno from tbl_assenze where data>='$datalimiteinferiore')"
                 . "order by data desc";
         $risasse=mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query,false));
@@ -144,7 +144,7 @@ if (mysqli_num_rows($ris) > 0)
 }
 // fine if
 
-$query = "SELECT count(*) as nrng,cognome, nome,tbl_alunni.idalunno,dataammonizione FROM tbl_ritardi,tbl_alunni,tbl_classi WHERE NOT giustifica AND data< '$datalimiteinferiore'
+$query = "SELECT count(*) as nrng,cognome, nome,tbl_alunni.idalunno,dataammonizione FROM tbl_ritardi,tbl_alunni,tbl_classi WHERE isnull(giustifica) AND data< '$datalimiteinferiore'
             AND tbl_ritardi.idalunno=tbl_alunni.idalunno AND tbl_alunni.idclasse=tbl_classi.idclasse
             AND tbl_alunni.idclasse<>0
             AND tbl_ritardi.idalunno NOT IN (select idalunno from tbl_assenze where data>='$datalimiteinferiore')
@@ -177,11 +177,11 @@ if (mysqli_num_rows($ris) > 0)
         $dataammonizione=$val['dataammonizione'];
         // Cerco assenze da considerare
         if ($dataammonizione==NULL)
-            $query="SELECT * from tbl_ritardi where idalunno=".$val['idalunno']." AND dataammonizione IS NULL AND NOT giustifica "
+            $query="SELECT * from tbl_ritardi where idalunno=".$val['idalunno']." AND dataammonizione IS NULL AND isnull(giustifica) "
                 . "AND idalunno NOT IN (select idalunno from tbl_assenze where data>='$datalimiteinferiore')"
                 . "order by data desc";
         else
-            $query="SELECT * from tbl_ritardi where idalunno=".$val['idalunno']." AND dataammonizione ='$dataammonizione' AND NOT giustifica "
+            $query="SELECT * from tbl_ritardi where idalunno=".$val['idalunno']." AND dataammonizione ='$dataammonizione' AND isnull(giustifica) "
                 . "AND idalunno NOT IN (select idalunno from tbl_assenze where data>='$datalimiteinferiore')"
                 . "order by data desc";
         $risasse=mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query,false));

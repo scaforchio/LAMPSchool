@@ -55,7 +55,7 @@ $data = stringa_html('data');
      
     $datialunno = estrai_dati_alunno($idalunno, $con);
     print "<center>Ritardi dell'alunno $datialunno<br></center>";
-    $query='select * from tbl_ritardi where idalunno="'.$idalunno.'" and not giustifica order by data ';
+    $query='select * from tbl_ritardi where idalunno="'.$idalunno.'" and isnull(giustifica) order by data ';
     $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
 	if (mysqli_num_rows($ris)>0)
 	{
