@@ -22,7 +22,8 @@ session_start();
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"];
 $userid = $_SESSION["userid"]; //prende la variabile presente nella sessione
-
+$idutente=$_SESSION['idutente'];
+// print "USERID $idutente";
 if ($tipoutente == "")
 {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
@@ -103,14 +104,15 @@ else
                 {
                     $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $ute);
                     cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $ute, $npass);
-                    print "<center>Password cambiata correttamente anche per l'elearning.</center>";
+                    print "<center>Password cambiata correttamente anche per l'elearning per utente $ute ($idmoodle).</center>";
                 }
                 else if (($tipoutente == 'D' | $tipoutente == 'S') & $tokenservizimoodle != '')
                 {
-                    $ute = "doc".$_SESSION['suffisso']. ($userid-1000000000);
+                    $ndocente=$idutente-1000000000;
+                    $ute = "doc".$_SESSION['suffisso']. $ndocente;
                     $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $ute);
                     cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $ute, $npass);
-                    print "<center>Password cambiata correttamente anche per l'elearning.</center>";
+                    print "<center>Password cambiata correttamente anche per l'elearning per utente $ute ($idmoodle).</center>";
                 }
                 else
                     print "<center>Password cambiata correttamente.</center>";
