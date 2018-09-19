@@ -959,6 +959,7 @@ if ($cambiamentopassword)
         menu_item('../docenti/visrichferie.php', 'VISIONA ASTENSIONI APPROVATE DAL D.S.');
         menu_item('../docenti/visorepermesso.php', 'VISIONA ORE PERMESSO DOCENTI');
         menu_item('../docenti/visorario.php', 'VISUALIZZA ORARIO');
+        menu_item('../docenti/visoraridocenti.php', 'VISUALIZZA ORARIO DOCENTE');
         menu_title_end();
     }
 
@@ -1171,6 +1172,7 @@ if ($cambiamentopassword)
         menu_item('../contr/scar_sit_totale.php', 'SCARICA SITUAZIONE ATTUALE');
         menu_item('../contr/solalettura_on.php', 'ABILITA SOLA LETTURA');
         menu_item('../contr/solalettura_off.php', 'DISABILITA SOLA LETTURA');
+        menu_item('../docenti/visoraridocenti.php', 'VISUALIZZA ORARIO DOCENTE');
         
         menu_title_end();
     }

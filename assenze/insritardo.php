@@ -69,6 +69,7 @@ while ($id = mysqli_fetch_array($ris))
     {
         if (!$ritardopresente)
         {
+            if ($numeroore=='') $numeroore=0;
             if ($tipoutente=='D')
                 $query = "insert into tbl_ritardi(idalunno,data,oraentrata,numeroore) values('$idalunno','$data','$oraentrata','$numeroore')";
             if ($tipoutente=='P' | $tipoutente=='S')
@@ -110,47 +111,6 @@ while ($id = mysqli_fetch_array($ris))
 }
 
 
-/*
-while ($id = mysqli_fetch_array($ris))
-{
-    // $idal = stringa_html('rit'.$id['al'])?"on":"off";
-    $idalunno = $id['al'];
-    $numeroore = stringa_html('numeroore' . $id['al']);
-    $oraentrata = stringa_html('oraentrata' . $id['al']);
-    $query = 'SELECT * FROM tbl_ritardi WHERE idalunno=' . $id['al'] . ' AND data="' . $data . '"';
-    $rissel = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)." " .inspref($query,false));
-    if (mysqli_num_rows($rissel) > 0)
-    {
-        $query = 'DELETE FROM tbl_ritardi WHERE idalunno=' . $id['al'] . ' AND data="' . $data . '"';
-        $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)." " .inspref($query,false));
-    }
-    if ($numeroore != 0 | checktime($oraentrata))
-    {
-        $query = "insert into tbl_ritardi(idalunno,data,oraentrata,numeroore) values('$idalunno','$data','$oraentrata','$numeroore')";
-        $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query inserimento: " . mysqli_error($con)." " .inspref($query,false));
-        $query = "delete from tbl_assenze where idalunno='$idalunno' and data='$data'";
-        $ris3 = mysqli_query($con, inspref($query)) or die ("Errore nella query canc. ass.: " . mysqli_error($con)." " .inspref($query,false));
-
-
-        // inserisci_assenze_per_ritardi($con,$idalunno,$data,$numeroore);
-
-    }
-    else
-    {
-        if (!checktime($oraentrata) & $oraentrata != "")
-        {
-            print "<br><center>Controllare orario per " . decodifica_alunno($id['al'], $con) . "</center>";
-        }
-    }
-    if (checktime($oraentrata))
-        ricalcola_ritardi($con,$idalunno,$data);
-    elimina_assenze_lezione($con,$idalunno,$data);
-    inserisci_assenze_per_ritardi_uscite($con,$idalunno,$data);
-  //  ricalcola_uscite($con,$idalunno,$data,$data);
-  //  ricalcola_assenze($con,$idalunno,$data,$data);
-}
-*/
-// ricalcola_assenze_lezioni_classe($con,$idclasse,$data);
 
 if ($_SESSION['regcl'] != "")
 {

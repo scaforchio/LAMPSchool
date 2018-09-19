@@ -146,7 +146,7 @@ elseif ($idalu != "")
         $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $utente);
         //print "IDMOODLE $idmoodle";
         cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $utente, $pass);
-    }
+    } 
     fputcsv($fp, array($val['cognome'], $val['nome'], data_italiana($val['datanascita']), $utente, $pass), ";");
 
 

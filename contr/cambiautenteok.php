@@ -36,7 +36,7 @@ if ($tipoutente == "")
 
 $titolo = "Cambiamento utente";
 $script = "";
-stampa_head($titolo, "", $script,"P");
+stampa_head($titolo, "", $script,"PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));

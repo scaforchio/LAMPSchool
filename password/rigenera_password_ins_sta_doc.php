@@ -65,13 +65,8 @@ if ($iddoc=="")
 
 	$query="select * from tbl_docenti where iddocente>1000000000 order by cognome,nome,datanascita";
 	$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
-
-
 	$numpass=0;
-							 
-							 
-							 
-					
+				
 	while($val=mysqli_fetch_array($ris)) 
 	{
 			$numpass++;
@@ -81,6 +76,7 @@ if ($iddoc=="")
 			
 			$iddocente=$val['iddocente'];
 			$utente="doc".($iddocente-1000000000);
+                        $utentemoodle="doc".$_SESSION['suffisso'].($iddocente-1000000000);
 			$pass=creapassword();
 			print ("<td>$utente</td><td>$pass<input type='hidden' name='iddoc".$numpass."' value='$iddocente'> 
 							 <input type='hidden' name='utdoc".$numpass."' value='$utente'> 
@@ -88,6 +84,13 @@ if ($iddoc=="")
 			$qupd ="update tbl_utenti set password=md5('".md5($pass)."') where idutente=$iddocente";
 			$resupd=mysqli_query($con,inspref($qupd)) or die ("Errore nella query: ". mysqli_error($con));
 			
+                        if ($tokenservizimoodle != '')
+                        {
+                            $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $utentemoodle);
+                             //print "IDMOODLE $idmoodle";
+                            cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $utentemoodle, $pass);
+                        }
+                        
 							 
 	}
 }   
@@ -119,20 +122,33 @@ else
                             $utente='preside';
                         else
 			    $utente="doc".($iddocente-1000000000);
+                        $utentemoodle="doc".$_SESSION['suffisso'].($iddocente-1000000000);
 			$pass=creapassword();
 			print ("<td>$utente</td><td>$pass<input type='hidden' name='iddoc".$numpass."' value='$iddocente'> 
 							 <input type='hidden' name='utdoc".$numpass."' value='$utente'> 
-							 <input type='hidden' name='pwdoc".$numpass."' value='$pass'></td></tr>");
-			$qupd ="update tbl_utenti set password=md5('".md5($pass)."') where idutente=$iddocente";
+							 <input type='hidden' name='pwdoc".$numpass."' value='$pass'>");
+			$qupd ="update tbl_utenti set password = md5('".md5($pass)."') where idutente=$iddocente";
+                        //print inspref($qupd);
 			$resupd=mysqli_query($con,inspref($qupd)) or die ("Errore nella query: ". mysqli_error($con));
 			
-							 
+                        if ($tokenservizimoodle != '')
+                        {
+                            $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $utentemoodle);
+                            
+                            $esito=cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $utentemoodle, $pass);
+                            //print ("ESITO $esito");
+                            print (" (anche Moodle)");
+                        }
+				
+                        print "</td></tr>";
 	}
 }     
 print("</table>");
 
 print "<input type='hidden' name='numpass' value='$numpass'> 
-       <center><input type='submit' value='STAMPA COMUNICAZIONI'></center>
+       
+       <center>Invio mail <select name='email'><option>N</option><option>S</option></select><br><br>
+       <input type='submit' value='STAMPA COMUNICAZIONI'></center>
        </form>";
 
 mysqli_close($con);

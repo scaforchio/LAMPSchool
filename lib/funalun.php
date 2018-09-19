@@ -145,7 +145,7 @@ function estrai_alunni_classe_data($idclasse, $data, $conn)
     if ($data == date("Y-m-d"))
     {
         $query = "select idalunno from tbl_alunni where idclasse='$idclasse'";
-        print "TTTT ".inspref($query)."<br>";
+        // print "TTTT ".inspref($query)."<br>";
         $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn)."".inspref($query,false));
         while ($rec = mysqli_fetch_array($ris))
         {

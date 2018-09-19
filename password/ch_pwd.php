@@ -93,14 +93,21 @@ else
         }
         else
         {
-            $query = "UPDATE tbl_utenti SET password = md5(md5('" . $npass . "')),passprecedenti=concat(passprecedenti,md5('" . $pwd . "'),'|') WHERE userid='" . $ute . "'";
+            $query = "UPDATE tbl_utenti SET password = '".md5(md5($npass))."',passprecedenti=concat(passprecedenti,md5('" . $pwd . "'),'|') WHERE userid='" . $ute . "'";
 
-            $result = mysqli_query($con, inspref($query));
+            $result = mysqli_query($con, inspref($query)) or die("Errore:".inspref($query));
 
             if (mysqli_affected_rows($con) == 1)
             {
                 if ($tipoutente == 'L' & $tokenservizimoodle != '')
                 {
+                    $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $ute);
+                    cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $ute, $npass);
+                    print "<center>Password cambiata correttamente anche per l'elearning.</center>";
+                }
+                else if (($tipoutente == 'D' | $tipoutente == 'S') & $tokenservizimoodle != '')
+                {
+                    $ute = "doc".$_SESSION['suffisso']. ($userid-1000000000);
                     $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $ute);
                     cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $ute, $npass);
                     print "<center>Password cambiata correttamente anche per l'elearning.</center>";
