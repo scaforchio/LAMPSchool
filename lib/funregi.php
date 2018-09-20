@@ -183,7 +183,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 $query = "select count(*) as numassingiust from tbl_assenze
                 where idalunno in ($elencoalunni)
                 and data< '$data'
-                and isnull(giustifica)";
+                and (isnull(giustifica) or giustifica=0)";
                 
                 $risgiu = mysqli_query($conn, inspref($query));
                 $recgiu = mysqli_fetch_array($risgiu);
@@ -192,7 +192,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 $query = "select count(*) as numritingiust from tbl_ritardi
                 where idalunno in ($elencoalunni)
                 and data<= '$data'
-                and isnull(giustifica)";
+                and (isnull(giustifica) or giustifica=0)";
                 $risgiu = mysqli_query($conn, inspref($query));
                 $recgiu = mysqli_fetch_array($risgiu);
                 $numingiust += $recgiu['numritingiust'];
@@ -201,7 +201,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                     $query = "select count(*) as numuscingiust from tbl_usciteanticipate
                 where idalunno in ($elencoalunni)
                 and data<= '$data'
-                and isnull(giustifica)";
+                and (isnull(giustifica) or giustifica=0)";
                     $risgiu = mysqli_query($conn, inspref($query));
                     $recgiu = mysqli_fetch_array($risgiu);
                     $numingiust += $recgiu['numuscingiust'];

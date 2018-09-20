@@ -76,7 +76,7 @@ $ris1 = mysqli_query($con, inspref($query1));//$lQuery->query($query1);
 if ($val1 = mysqli_fetch_array($ris1)) //->fetch())
 {
 // conteggio assenze non giustificate
-    $query2 = "select count(*) as numeroassenze from tbl_assenze where idalunno='$codalunno' and isnull(giustifica)";
+    $query2 = "select count(*) as numeroassenze from tbl_assenze where idalunno='$codalunno' and (isnull(giustifica) or giustifica=0)";
     $ris2 = mysqli_query($con, inspref($query2));//$lQuery->query($query2);
     $val2 = mysqli_fetch_array($ris2);//$ris2->fetch();
     echo ' 
@@ -95,7 +95,7 @@ if ($val3 = mysqli_fetch_array($ris3)) //$ris3->fetch())
 // conteggio assenze non giustificate
     //  if ($giustifica_ritardi=='yes')
     //  {
-    $query4 = "select count(*) as numeroritardi from tbl_ritardi where idalunno='$codalunno' and isnull(giustifica)";
+    $query4 = "select count(*) as numeroritardi from tbl_ritardi where idalunno='$codalunno' and (isnull(giustifica) or giustifica=0)";
     $ris4 = mysqli_query($con, inspref($query4));
     $val4 = mysqli_fetch_array($ris4);
     $numritnongiust = $val4['numeroritardi'];
@@ -114,7 +114,7 @@ $ris5 = mysqli_query($con, inspref($query5));
 
 if ($val5 = mysqli_fetch_array($ris5))
 {
-    $query6 = "select count(*) as numerousciteant from tbl_usciteanticipate where idalunno='$codalunno' and isnull(giustifica)";
+    $query6 = "select count(*) as numerousciteant from tbl_usciteanticipate where idalunno='$codalunno' and (isnull(giustifica) or giustifica=0)";
     $ris6 = mysqli_query($con, inspref($query6));
     $val6 = mysqli_fetch_array($ris6);
     $numuuscantnongiust = $val6['numerousciteant'];

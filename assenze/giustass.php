@@ -60,7 +60,7 @@ $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysq
 while ($recalu = mysqli_fetch_array($ris))
 {
     $idalunno = $recalu['idalunno'];
-    $query = 'SELECT * FROM tbl_assenze WHERE idalunno="' . $idalunno . '" AND isnull(giustifica) ORDER BY data ';
+    $query = 'SELECT * FROM tbl_assenze WHERE idalunno="' . $idalunno . '" AND (isnull(giustifica) or giustifica=0) ORDER BY data ';
     $risass = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)."".inspref($query,false));
     
     if (mysqli_num_rows($risass) > 0)
@@ -87,7 +87,7 @@ $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysq
 while ($recalu = mysqli_fetch_array($ris))
 {
     $idalunno = $recalu['idalunno'];
-    $query = 'SELECT * FROM tbl_ritardi WHERE idalunno="' . $idalunno . '" AND isnull(giustifica) ORDER BY data ';
+    $query = 'SELECT * FROM tbl_ritardi WHERE idalunno="' . $idalunno . '" AND (isnull(giustifica) or giustifica=0) ORDER BY data ';
 
     $risass = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)."".inspref($query,false));
     if (mysqli_num_rows($risass) > 0)
@@ -119,7 +119,7 @@ if ($giustificauscite=='yes')
     while ($recalu = mysqli_fetch_array($ris))
     {
         $idalunno = $recalu['idalunno'];
-        $query = 'SELECT * FROM tbl_usciteanticipate WHERE idalunno="' . $idalunno . '" AND isnull(giustifica) ORDER BY data ';
+        $query = 'SELECT * FROM tbl_usciteanticipate WHERE idalunno="' . $idalunno . '" AND (isnull(giustifica) or giustifica=0) ORDER BY data ';
 
         $risass = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)."".inspref($query,false));
         if (mysqli_num_rows($risass) > 0)

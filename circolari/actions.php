@@ -51,7 +51,7 @@ if ($Circ != "")
 					set datalettura='$dataoggi'
 					where idcircolare=$Circ
 					and idutente=$Ute
-					and datalettura='0000-00-00'";
+					and isnull(datalettura)";
     //  die("tttt".inspref($querylett));
     mysqli_query($con, inspref($querylett)) or die ("Errore:" . inspref($querylett));
 }

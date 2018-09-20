@@ -98,6 +98,7 @@ $query = "select tbl_diffusionecircolari.idcircolare,tbl_circolari.iddocumento,r
 			  order by datainserimento desc";
 
 $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query) . mysqli_error($ris));
+
 while ($nom = mysqli_fetch_array($ris))
 {
 
@@ -105,6 +106,7 @@ while ($nom = mysqli_fetch_array($ris))
     print "<tr><td>" . $nom['descrizione'] .
         "</td><td>" . data_italiana($nom['datainserimento']) .
         "</td><td>";
+    // print "TTTT".$nom['datalettura'];
     if ($nom['datalettura'] != "0000-00-00")
     {
         print ("<img src='../immagini/apply_small.png'>");
@@ -118,11 +120,12 @@ while ($nom = mysqli_fetch_array($ris))
     }
     print "</td>";
     print "<td>&nbsp;";
-    if ($nom['dataconfermalettura'] == '0000-00-00' & $nom['ricevuta'] == 1) // & $nom['datalettura']!="0000-00-00")
+    // print "TTTT".$nom['dataconfermalettura'];
+    if (($nom['dataconfermalettura'] == '0000-00-00' | $nom['dataconfermalettura'] == '')  & $nom['ricevuta'] == 1) // & $nom['datalettura']!="0000-00-00")
     {
         print "<a href='firmacirc.php?idcircolare=" . $nom['idcircolare'] . "&idutente=$idutente'><img src='../immagini/stilo.png'></a>";
     }
-    if ($nom['dataconfermalettura'] != '0000-00-00' & $nom['ricevuta'] == 1)
+    if (($nom['dataconfermalettura'] != '0000-00-00' & $nom['dataconfermalettura'] != '') & $nom['ricevuta'] == 1)
     {
         print data_italiana($nom['dataconfermalettura']);
     }

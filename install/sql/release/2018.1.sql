@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `tbl_amministrativi` (
   `idamministrativo` int(11),
   `cognome` varchar(30) DEFAULT '',
   `nome` varchar(30) DEFAULT '',
-  `datanascita` date DEFAULT '0000-00-00',
+  `datanascita` date DEFAULT NULL,
   `idcomnasc` int(11) DEFAULT '0',
   `indirizzo` varchar(30) DEFAULT NULL,
   `idcomres` int(11) DEFAULT '0',
@@ -167,7 +167,7 @@ CREATE TABLE `tbl_assemblee` (
 CREATE TABLE IF NOT EXISTS `tbl_assenze` (
   `idassenza` int(11),
   `idalunno` int(11) DEFAULT '0',
-  `data` date DEFAULT '0000-00-00',
+  `data` date DEFAULT NULL,
   `giustifica` tinyint(1),
   `iddocentegiust` int(11) DEFAULT NULL,
   `datagiustifica` date DEFAULT NULL,
@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `tbl_avvisi` (
 CREATE TABLE IF NOT EXISTS `tbl_assenze` (
   `idassenza` int(11),
   `idalunno` int(11) DEFAULT '0',
-  `data` date DEFAULT '0000-00-00',
+  `data` date DEFAULT NULL,
   `giustifica` tinyint(1),
   `iddocentegiust` int(11) DEFAULT NULL,
   `datagiustifica` date DEFAULT NULL,
@@ -326,8 +326,8 @@ CREATE TABLE IF NOT EXISTS `tbl_circolari` (
   `descrizione` varchar(100) DEFAULT NULL,
   `destinatari` varchar(10) DEFAULT NULL,
   `ricevuta` tinyint(1) DEFAULT '0',
-  `datainserimento` date DEFAULT '0000-00-00',
-  `datafine` date DEFAULT '0000-00-00',
+  `datainserimento` date DEFAULT NULL,
+  `datafine` date DEFAULT NULL,
   `ultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -501,8 +501,8 @@ CREATE TABLE IF NOT EXISTS `tbl_diffusionecircolari` (
   `iddiffusionecircolare` int(11),
   `idcircolare` int(11),
   `idutente` int(11) DEFAULT '0',
-  `datalettura` date DEFAULT '0000-00-00',
-  `dataconfermalettura` date DEFAULT '0000-00-00',
+  `datalettura` date DEFAULT NULL,
+  `dataconfermalettura` date DEFAULT NULL,
   `ultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -516,7 +516,7 @@ CREATE TABLE IF NOT EXISTS `tbl_docenti` (
   `iddocente` int(11),
   `cognome` varchar(30) DEFAULT '',
   `nome` varchar(30) DEFAULT '',
-  `datanascita` date DEFAULT '0000-00-00',
+  `datanascita` date DEFAULT NULL,
   `idcomnasc` int(11) DEFAULT '0',
   `indirizzo` varchar(30) DEFAULT NULL,
   `idcomres` int(11) DEFAULT '0',
@@ -1182,7 +1182,7 @@ CREATE TABLE IF NOT EXISTS `tbl_prenotazioni` (
 CREATE TABLE IF NOT EXISTS `tbl_presenzeforzate` (
   `idpresenzaforzata` int(11),
   `idalunno` int(11),
-  `data` date DEFAULT '0000-00-00',
+  `data` date DEFAULT NULL,
   `motivo` varchar(200) DEFAULT NULL,
   `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1240,7 +1240,7 @@ CREATE TABLE IF NOT EXISTS `tbl_richiesteferie` (
 
 CREATE TABLE IF NOT EXISTS `tbl_ritardi` (
   `idalunno` int(11) DEFAULT '0',
-  `data` date DEFAULT '0000-00-00',
+  `data` date DEFAULT NULL,
   `oraentrata` time DEFAULT NULL,
   `idritardo` int(11),
   `numeroore` tinyint(4),
@@ -1439,7 +1439,7 @@ CREATE TABLE IF NOT EXISTS `tbl_tutori` (
 
 CREATE TABLE IF NOT EXISTS `tbl_usciteanticipate` (
   `idalunno` int(11) DEFAULT '0',
-  `data` date DEFAULT '0000-00-00',
+  `data` date DEFAULT NULL,
   `orauscita` time DEFAULT NULL,
   `iduscita` int(11),
   `numeroore` tinyint(4),
@@ -1496,7 +1496,7 @@ CREATE TABLE IF NOT EXISTS `tbl_valutazionicomp` (
   `idmateria` int(11),
   `iddocente` int(11),
   `idclasse` int(11) DEFAULT '0',
-  `data` date DEFAULT '0000-00-00',
+  `data` date DEFAULT NULL,
   `giudizio` varchar(200) DEFAULT NULL,
   `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1539,7 +1539,7 @@ CREATE TABLE IF NOT EXISTS `tbl_valutazioniintermedie` (
   `idclasse` int(11) DEFAULT '0',
   `idlezione` int(11) DEFAULT NULL,
   `tipo` char(1) DEFAULT NULL,
-  `data` date DEFAULT '0000-00-00',
+  `data` date DEFAULT NULL,
   `voto` decimal(4,2) DEFAULT '0.00',
   `giudizio` varchar(200) DEFAULT NULL,
   `pei` tinyint(1) DEFAULT '0',

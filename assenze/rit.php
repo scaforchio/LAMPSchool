@@ -391,7 +391,7 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
             $query = "select count(*) as numritingiust from tbl_ritardi
              where idalunno=" . $val['idalunno'] . "
              and data<= '$a-$m-$g'
-             and isnull(giustifica)";
+             and (isnull(giustifica) or giustifica=0)";
             $risriting = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
             $valriting = mysqli_fetch_array($risriting);
             $numero_ritardi_ing = $valriting['numritingiust'];

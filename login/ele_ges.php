@@ -1627,7 +1627,7 @@ if ($cambiamentopassword)
         $query = "select * from tbl_diffusionecircolari,tbl_circolari
 							  where tbl_diffusionecircolari.idcircolare=tbl_circolari.idcircolare
 							  and idutente='" . $_SESSION['idutente'] . "'
-							  and datalettura='0000-00-00'
+							  and isnull(datalettura)
 							  and datainserimento<='$dataoggi'";
         // print "tttt ".inspref($query);
         $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));

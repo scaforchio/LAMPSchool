@@ -118,7 +118,7 @@ if (mysqli_num_rows($ris) > 0)
 
 
 
-        $queryprec="select count(*) as ritardiprec from tbl_ritardi where idalunno=$idalunno and data<'".date('Y-m-d')."' and isnull(giustifica)";
+        $queryprec="select count(*) as ritardiprec from tbl_ritardi where idalunno=$idalunno and data<'".date('Y-m-d')."' and (isnull(giustifica) or giustifica=0)";
         $risprec=mysqli_query($con,inspref($queryprec)) or die("Errore:".inspref($queryprec,false));
         $recprec=mysqli_fetch_array($risprec);
         $numeroritardiprecsenzagiust=$recprec['ritardiprec'];

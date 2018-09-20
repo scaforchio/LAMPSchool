@@ -340,7 +340,7 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
         $query = "select count(*) as numassingiust from tbl_assenze
                 where idalunno=" . $val['idalunno'] . "
                 and data< '$a-$m-$g'
-                and isnull(giustifica)";
+                and (isnull(giustifica) or giustifica=0)";
         $risassing = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
         $valassing = mysqli_fetch_array($risassing);
         $numero_assenze_ing = $valassing['numassingiust'];

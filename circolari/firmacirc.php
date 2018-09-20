@@ -54,7 +54,7 @@ $querylett="update tbl_diffusionecircolari
             set datalettura='$dataoggi'
             where idcircolare=$idcircolare
             and idutente=$idutente
-            and datalettura='0000-00-00'";
+            and isnull(datalettura)";
         //    print "tttt".inspref($querylett);
 mysqli_query($con,inspref($querylett)) or die ("Errore:".inspref($querylett));
 
