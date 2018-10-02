@@ -85,6 +85,7 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_festivita';
         $tabelle[] = 'tbl_orario';
         $tabelle[] = 'tbl_tipidocumenti';
+        $tabelle[] = 'tbl_collegamenti';
     }
     if ($ambito == 'par')
     {

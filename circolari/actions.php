@@ -1,21 +1,23 @@
-<?php session_start();
+<?php
+
+session_start();
 
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -35,15 +37,9 @@ $Id = stringa_html('Id');
 $Circ = stringa_html('Circ');
 $Ute = stringa_html('Ute');
 
-/* 
-$titolo="Visualizza circolare";
-stampa_head($titolo,"",$script);
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo","","$nome_scuola","$comune_scuola");
-*/
-
 
 // CONNESSIONE AL DATABASE
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 if ($Circ != "")
 {
     $dataoggi = data_to_db(date('d/m/Y'));
@@ -51,12 +47,13 @@ if ($Circ != "")
 					set datalettura='$dataoggi'
 					where idcircolare=$Circ
 					and idutente=$Ute
-					and isnull(datalettura)";
+					and (isnull(datalettura) or datalettura='0000-00-00')";
     //  die("tttt".inspref($querylett));
-    mysqli_query($con, inspref($querylett)) or die ("Errore:" . inspref($querylett));
+    mysqli_query($con, inspref($querylett)) or die("Errore:" . inspref($querylett));
 }
 
-if (!isset($_GET)) $_GET = $HTTP_GET_VARS;
+if (!isset($_GET))
+    $_GET = $HTTP_GET_VARS;
 
 if ($_GET["action"] && $_GET["Id"] && is_numeric($_GET["Id"]))
 {
@@ -75,7 +72,6 @@ if ($_GET["action"] && $_GET["Id"] && is_numeric($_GET["Id"]))
     switch ($_GET["action"])
     {
 
-// VISUALIZZAZIONE
         case "view" :
 
 
@@ -89,14 +85,15 @@ if ($_GET["action"] && $_GET["Id"] && is_numeric($_GET["Id"]))
                 header("Content-Type: $type");
                 header("Content-Disposition: inline; filename=" . $name);
                 echo $data;
-            }
-            else
+            } else
             {
 
                 //$cart1=substr($hashmd5,0,2);
                 //$cart2=substr($hashmd5,2,2);
-                if ($_SESSION['suffisso'] != "") $suff = $_SESSION['suffisso'] . "/";
-                else $suff = "";
+                if ($_SESSION['suffisso'] != "")
+                    $suff = $_SESSION['suffisso'] . "/";
+                else
+                    $suff = "";
                 $origine = "../lampschooldata/$suff$hashmd5";
                 $destinazione = "$cartellabuffer/$name";
                 copy($origine, $destinazione);
@@ -108,7 +105,7 @@ if ($_GET["action"] && $_GET["Id"] && is_numeric($_GET["Id"]))
                 header("Content-Type: $type");
                 header("Content-Disposition: inline; filename=" . $name);
                 readfile($destinazione);
-                //header("location: ".$destinazione);
+                
             }
             break;
 
@@ -116,20 +113,6 @@ if ($_GET["action"] && $_GET["Id"] && is_numeric($_GET["Id"]))
         case "download" :
 
 
-            // RIVEDERE TTTTT
-            // SE IL BROWSER È INTERNET EXPLORER
-            // if(ereg("MSIE ([0-9].[0-9]{1,2})", $_SERVER["HTTP_USER_AGENT"])) {
-
-            //header("Content-Type: application/octetstream");
-            //header("Content-Type: application/pdf");
-            //header("Content-Disposition: inline; filename=$name");
-            //header("Expires: 0");
-            //header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-            //header("Pragma: public");
-
-            //}
-            //else
-            //{
 
             if (strlen($data) > 0)   // Il documento è nel database altrimenti è su disco
             {
@@ -141,13 +124,14 @@ if ($_GET["action"] && $_GET["Id"] && is_numeric($_GET["Id"]))
                 header("Content-Type: $type");
                 header("Content-Disposition: attachment; filename=$name");
                 echo $data;
-            }
-            else
+            } else
             {
                 //$cart1=substr($hashmd5,0,2);
                 //$cart2=substr($hashmd5,2,2);
-                if ($_SESSION['suffisso'] != "") $suff = $_SESSION['suffisso'] . "/";
-                else $suff = "";
+                if ($_SESSION['suffisso'] != "")
+                    $suff = $_SESSION['suffisso'] . "/";
+                else
+                    $suff = "";
                 $origine = "../lampschooldata/$suff$hashmd5";
                 $destinazione = "$cartellabuffer/$name";
                 // print $origine. " ".$destinazione;
@@ -160,7 +144,6 @@ if ($_GET["action"] && $_GET["Id"] && is_numeric($_GET["Id"]))
                 header("Content-Type: $type");
                 header("Content-Disposition: attachment; filename=" . $name);
                 readfile($destinazione);
-
             }
             //}
 
@@ -172,25 +155,9 @@ if ($_GET["action"] && $_GET["Id"] && is_numeric($_GET["Id"]))
             // DEFAULT CASE, NESSUNA AZIONE
 
             break;
-
     } // endswitch
-
-
 // CHIUDIAMO LA CONNESSIONE
-
-
-} //endif
-/*
-print "
-                 <form method='post' id='formcancdoc' action='../circolari/viscircolari.php'>
-                 
-                 
-                 </form> 
-                 <SCRIPT language='JavaScript'>
-                 {
-                     document.getElementById('formcancdoc').submit();
-                 }
-                 </SCRIPT>"; */
+} 
 mysqli_close($con);
 // stampa_piede("");
 

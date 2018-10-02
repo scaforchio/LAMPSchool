@@ -141,7 +141,7 @@ while ($nom = mysqli_fetch_array($ris))
     print "&nbsp;&nbsp;";
     print(decodifica_classe($nom["idclasse"], $con));
     print "&nbsp;&nbsp;";
-    print("($idalunno)");
+    print("(".$nom['idalunno'].")");
 }
 echo "</select></td></tr>";
 //}
