@@ -55,7 +55,14 @@ if ($tipoutente == 'P')
         print "<tr>";
         $prot = $rec['idrichiestaferie'];
         print "<td>$prot</td>";
-        print "<td>" . estrai_dati_docente($rec['iddocente'], $con) . "</td>";
+        
+        $totaleore=calcolaOrePermesso($rec['iddocente'],$con);
+        $giorniferie = calcolaGiorniFerie($rec['iddocente'],$con);
+        $giorniperm = calcolaGiorniPermesso($rec['iddocente'],$con);
+        
+        
+        
+        print "<td>" . estrai_dati_docente($rec['iddocente'], $con) ."<small><br><br>PRECEDENTI:<br>Ore perm.: $totaleore <br>Ferie: $giorniferie <br>Perm.: $giorniperm <big></td>";
         // PREPARAZIONE STRINGA SINTETICA RICHIESTA
         $testocompleto = $rec['testomail'];
         //$posperiodo = strpos($testocompleto,"", $testocompleto)

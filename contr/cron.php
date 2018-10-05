@@ -37,10 +37,14 @@ if ($controllo==md5($nomefilelog))
 {
     daily_cron($suffisso, $con, $lavori, $nomefilelog);
     print "\nCron $lavori eseguito";
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cron eseguito con lavori $lavori!", $nomefilelog, $suff);
+
 }
 else
 {
-    print "Cron non eseguito per controllo MD5 fallito!";
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cron non eseguito per controllo MD5 fallito!", $nomefilelog, $suff);
+
+   // print "Cron non eseguito per controllo MD5 fallito!";
 }
 
 mysqli_close($con);

@@ -957,7 +957,7 @@ if ($cambiamentopassword)
         menu_item('../docenti/richferie.php', 'RICHIESTA ASTENSIONE DAL LAVORO');
         menu_item('../docenti/esamerichferie.php', 'ESAMINA RICHIESTE FERIE');
         menu_item('../docenti/visrichferie.php', 'VISIONA ASTENSIONI APPROVATE DAL D.S.');
-        menu_item('../docenti/visorepermesso.php', 'VISIONA ORE PERMESSO DOCENTI');
+        menu_item('../docenti/visorepermesso.php', 'TOTALI ASTENSIONI DOCENTI');
         menu_item('../docenti/visorario.php', 'VISUALIZZA ORARIO');
         menu_item('../docenti/visoraridocenti.php', 'VISUALIZZA ORARIO DOCENTE');
         menu_title_end();
@@ -1153,7 +1153,7 @@ if ($cambiamentopassword)
         menu_title_begin('PERMESSI DOCENTI');
         
         menu_item('../docenti/esamerichferie.php', 'ESAMINA RICHIESTE FERIE');
-        menu_item('../docenti/visorepermesso.php', 'CONTEGGIO ORE PERMESSO DOCENTI');
+        menu_item('../docenti/visorepermesso.php', 'TOTALI ASTENSIONI DOCENTI');
         menu_title_end();
         menu_title_begin('STATISTICHE E RIEPILOGHI');
         menu_item('../contr/statinsertot.php', 'STATISTICHE INSERIMENTO DATI');

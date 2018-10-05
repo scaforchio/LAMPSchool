@@ -122,3 +122,63 @@ function lezione_sostegno($idlezione,$iddocente,$con)
     else
         return false;
 }
+
+function calcolaOrePermesso($iddoc,$con)
+{
+    $totaleore = 0;
+    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and subject LIKE '%permesso breve%'";
+    $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    while ($recperm = mysqli_fetch_array($risperm)) {
+
+        $mail = $recperm['testomail'];
+        $posizioneore = strpos($mail, "per un totale di ore") + 21;
+        // PREPARAZIONE STRINGA SINTETICA RICHIESTA
+        //$periodo = $recperm['subject'];
+        //$posperiodo = strpos($testocompleto,"", $testocompleto)j
+        //str_replace("");
+        $oreperm = substr($mail, $posizioneore, 1);
+
+        $totaleore += $oreperm;
+    }
+    return $totaleore;
+}
+
+function calcolaGiorniPermesso($iddoc,$con)
+{
+    $totalegiorni = 0;
+    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Permesso retribuito%'";
+    $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    while ($recperm = mysqli_fetch_array($risperm)) {
+
+        $mail = $recperm['testomail'];
+        $posizionegiorni = strpos($mail, "alla S.V. di assentarsi per n.") + 34;
+        // PREPARAZIONE STRINGA SINTETICA RICHIESTA
+        //$periodo = $recperm['subject'];
+        //$posperiodo = strpos($testocompleto,"", $testocompleto)j
+        //str_replace("");
+        $giorniperm = substr($mail, $posizionegiorni, 1);
+        // print "GP $giorniperm $posizionegiorni ";
+        $totalegiorni += $giorniperm;
+    }
+    return $totalegiorni;
+}
+
+function calcolaGiorniFerie($iddoc,$con)
+{
+    $totalegiorni = 0;
+    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Ferie%'";
+    $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    while ($recperm = mysqli_fetch_array($risperm)) {
+
+        $mail = $recperm['testomail'];
+        $posizionegiorni = strpos($mail, "alla S.V. di assentarsi per n.") + 34;
+        // PREPARAZIONE STRINGA SINTETICA RICHIESTA
+        //$periodo = $recperm['subject'];
+        //$posperiodo = strpos($testocompleto,"", $testocompleto)j
+        //str_replace("");
+        $giorniferie = substr($mail, $posizionegiorni, 1);
+        //print "GF $giorniferie $posizionegiorni ";
+        $totalegiorni += $giorniferie;
+    }
+    return $totalegiorni;
+}

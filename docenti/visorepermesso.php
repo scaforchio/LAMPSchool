@@ -33,7 +33,7 @@ if ($tipoutente == "") {
     die;
 }
 
-$titolo = "Visualizza totali ore permessi";
+$titolo = "Visualizza permessi e ferie";
 $script = "";
 stampa_head($titolo, "", $script, "PS");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
@@ -42,11 +42,11 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 
 
-print "<br><center><b>ORE DI PERMESSO PER DOCENTE</b></center><br><br>";
+print "<br><center><b>PERMESSI E FERIE</b></center><br><br>";
 
 
 print "<table border='1' align='center'>";
-print "<tr class='prima'><td>Docente</td><td>Ore</td></tr>";
+print "<tr class='prima'><td>Docente</td><td>Ore perm.</td><td>Giorni ferie</td><td>Giorni perm.</td></tr>";
 // TTTT
 
 
@@ -58,9 +58,10 @@ while ($rec = mysqli_fetch_array($ris)) {
     $iddoc = $rec['iddocente'];
     $nominativo = estrai_dati_docente($iddoc, $con);
 
-
-
-    $totaleore = 0;
+    $totaleore=calcolaOrePermesso($iddoc,$con);
+    $giorniferie = calcolaGiorniFerie($iddoc,$con);
+    $giorniperm = calcolaGiorniPermesso($iddoc,$con);
+  /*  $totaleore = 0;
     $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and subject LIKE '%permesso breve%'";
     $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
     while ($recperm = mysqli_fetch_array($risperm)) {
@@ -74,12 +75,13 @@ while ($rec = mysqli_fetch_array($ris)) {
         $oreperm = substr($mail, $posizioneore, 1) . "<br>";
 
         $totaleore += $oreperm;
-    }
-    if ($totaleore > 0)
-        print "<tr><td>$nominativo</td><td>$totaleore</td></tr>";
+    } */
+    if ($totaleore > 0 | $giorniferie > 0 | $giorniperm>0)
+        print "<tr><td>$nominativo</td><td>$totaleore</td><td>$giorniferie</td><td>$giorniperm</td></tr>";
 }
 print "</table>";
 print "<br>";
 
 mysqli_close($con);
 stampa_piede("");
+
