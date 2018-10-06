@@ -659,8 +659,8 @@ if ($cambiamentopassword)
         menu_item('../colloqui/visrichieste_doc.php', 'PRENOTAZIONI COLLOQUI');
         menu_item("../docenti/mod_contatto.php", 'AGGIORNA DATI DI CONTATTO');
         menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');
-        menu_item('../docenti/richferie.php', 'RICHIESTA ASTENSIONE DAL LAVORO');
-        menu_item('../docenti/esamerichferie.php', 'ESAMINA RICHIESTE FERIE');
+        menu_item('../ferie/richferie.php', 'RICHIESTA ASTENSIONE DAL LAVORO');
+        menu_item('../ferie/esamerichferie.php', 'ESAMINA RICHIESTE FERIE');
         menu_item('../docenti/visorario.php', 'VISUALIZZA ORARIO');
         menu_title_end();
     }
@@ -954,10 +954,10 @@ if ($cambiamentopassword)
         menu_item('../colloqui/visrichieste_doc.php', 'PRENOTAZIONI COLLOQUI');
         menu_item("../docenti/mod_contatto.php", 'AGGIORNA DATI DI CONTATTO');
         menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');
-        menu_item('../docenti/richferie.php', 'RICHIESTA ASTENSIONE DAL LAVORO');
-        menu_item('../docenti/esamerichferie.php', 'ESAMINA RICHIESTE FERIE');
-        menu_item('../docenti/visrichferie.php', 'VISIONA ASTENSIONI APPROVATE DAL D.S.');
-        menu_item('../docenti/visorepermesso.php', 'TOTALI ASTENSIONI DOCENTI');
+        menu_item('../ferie/richferie.php', 'RICHIESTA ASTENSIONE DAL LAVORO');
+        menu_item('../ferie/esamerichferie.php', 'ESAMINA RICHIESTE FERIE');
+        menu_item('../ferie/visrichferie.php', 'VISIONA ASTENSIONI APPROVATE DAL D.S.');
+        menu_item('../ferie/visorepermesso.php', 'TOTALI ASTENSIONI DOCENTI');
         menu_item('../docenti/visorario.php', 'VISUALIZZA ORARIO');
         menu_item('../docenti/visoraridocenti.php', 'VISUALIZZA ORARIO DOCENTE');
         menu_title_end();
@@ -1152,8 +1152,8 @@ if ($cambiamentopassword)
 
         menu_title_begin('PERMESSI DOCENTI');
         
-        menu_item('../docenti/esamerichferie.php', 'ESAMINA RICHIESTE FERIE');
-        menu_item('../docenti/visorepermesso.php', 'TOTALI ASTENSIONI DOCENTI');
+        menu_item('../ferie/esamerichferie.php', 'ESAMINA RICHIESTE FERIE');
+        menu_item('../ferie/visorepermesso.php', 'TOTALI ASTENSIONI DOCENTI');
         menu_title_end();
         menu_title_begin('STATISTICHE E RIEPILOGHI');
         menu_item('../contr/statinsertot.php', 'STATISTICHE INSERIMENTO DATI');
@@ -1627,7 +1627,7 @@ if ($cambiamentopassword)
         $query = "select * from tbl_diffusionecircolari,tbl_circolari
 							  where tbl_diffusionecircolari.idcircolare=tbl_circolari.idcircolare
 							  and idutente='" . $_SESSION['idutente'] . "'
-							  and isnull(datalettura)
+							  and (isnull(datalettura) or datalettura='0000-00-00')
 							  and datainserimento<='$dataoggi'";
         // print "tttt ".inspref($query);
         $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));

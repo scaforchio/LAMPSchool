@@ -54,9 +54,9 @@ print ("
 print("   <tr>
       <td width='50%'><b>Docente</b></td>
       <td width='50%'>");
-print ("<SELECT NAME='iddocente' ONCHANGE='gruppo.submit()'>");
+print ("<SELECT NAME='iddocente' ONCHANGE='gruppo.submit()'><option values=''>&nbsp;</option>");
 
-$query = "SELECT * FROM tbl_docenti ORDER BY cognome, nome";
+$query = "SELECT * FROM tbl_docenti WHERE iddocente<>1000000000 ORDER BY cognome, nome";
 $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
 while ($rec = mysqli_fetch_array($ris))
 {
