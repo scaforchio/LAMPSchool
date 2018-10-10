@@ -285,7 +285,7 @@ echo('
       </td></tr>');
 
 echo('</table>');
-
+ echo ('</form>');
 
 $dataoggi = "$anno-$mese-$giorno";
 $datadomani = aggiungi_giorni($dataoggi, 1);
@@ -322,8 +322,8 @@ print "</center>";
 //       <td>');
 //     //     <p align="center"><input type="submit" value="Visualizza voti" name="b"></p>
 //echo('</td></table>');
-echo('</form><hr>');
-
+//echo('</form><hr>');
+echo('<hr>');
 
 if ($mese == "")
 {

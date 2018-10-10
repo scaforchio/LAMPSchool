@@ -27,7 +27,6 @@ session_start();
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 $idutente = $_SESSION["idutente"];
-$idcircolare = stringa_html("idcircolare");
 // $idclasse=stringa_html("idclasse");
 $destinatari = 'SP';
 
@@ -161,9 +160,30 @@ if ($idclasse != "")
            <form method='post' action='insaautorizzuscita.php' name='listadistr'>
            <center>
            <input type='hidden' name='idclasse' value='$idclasse'><br>
-           Ora autorizzazione uscita: <input type='text' name='orauscita' maxlength='5' size=5><br><br>
-           Motivo: <input type='text' name='motivo' maxlength='200' size='80'><br><br>";
-    if ($gesttimbrature == 'no')
+           Ora autorizzazione uscita: <input type='text' name='orauscita' maxlength='5' size=5>";
+    // INIZIO MODIFICHE
+    print " su ";
+
+    print "<select name='tiporichiesta'><option>richiesta personale</option><option>richiesta telefonica</option><option>autorizzazione</option></select>";
+
+    print " ";
+
+    print "<select name='tiporichiedente'>"
+            . "<option>del padre</option>"
+            . "<option>della madre</option>"
+            . "<option>del nonno/nonna</option>"
+            . "<option>dell'alunno/a maggiorenne</option>"
+            . "<option>del fratello o sorella maggiorenne</option>"
+            . "<option>di un delegato dai genitori</option>"
+            . "<option>del dirigente o suo delegato</option>"
+            . "</select>";
+    print "<fieldset value='Dati privati'><legend>Dati privati</legend>";
+    print "Cognome e nome richiedente <input type='text' name='richiedente'> , telefono contattato <input type='text' name='recapito'>";
+    print "</fieldset>";
+    
+    // FINE MODIFICHE
+    print "<br>Motivo: <input type='text' name='motivo' maxlength='200' size='80'><br><br>";
+   // if ($gesttimbrature == 'no')
         print "Uscita contestuale ad autorizzazione: <input type='checkbox' name='uscitacont'><br><br>";
 
 
@@ -180,14 +200,17 @@ if ($idclasse != "")
             where tbl_alunni.idclasse=$idclasse
 
             order by cognome, nome, datanascita";
+    
     $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
     while ($rec = mysqli_fetch_array($ris))
     {
-
         print "<tr>";
         print "     <td>" . $rec['cognome'] . " " . $rec['nome'] . " " . data_italiana($rec['datanascita']);
         if ($rec['firmapropria'])
+        {
+
             print "<small> (Autorizz. a firma propria)</small>";
+        }
         print "</td>";
 
 
@@ -196,27 +219,27 @@ if ($idclasse != "")
         print "<td align='center'>";
 
         $seledata = " data <= '" . $fineprimo . "' ";
-        $queryusc = "select count(*) as numusc from tbl_usciteanticipate where idalunno = '" . $rec["idalunno"] ."' and". $seledata;
+        $queryusc = "select count(*) as numusc from tbl_usciteanticipate where idalunno = '" . $rec["idalunno"] . "' and" . $seledata;
         //print inspref($queryusc);
         $risusc = mysqli_query($con, inspref($queryusc)) or die("Errore nella query: " . mysqli_error($con));
-        
+
         while ($ass = mysqli_fetch_array($risusc))
         {
             $numuscprimo = $ass['numusc'];
         }
-        print "1°=<b>".$numuscprimo."</b>";
+        print "1°=<b>" . $numuscprimo . "</b>";
 
         $seledata = " data > '" . $fineprimo . "' ";
-        $queryusc = "select count(*) as numusc from tbl_usciteanticipate where idalunno = '" . $rec["idalunno"] ."' and". $seledata;
+        $queryusc = "select count(*) as numusc from tbl_usciteanticipate where idalunno = '" . $rec["idalunno"] . "' and" . $seledata;
         //print inspref($queryusc);
         $risusc = mysqli_query($con, inspref($queryusc)) or die("Errore nella query: " . mysqli_error($con));
         while ($ass = mysqli_fetch_array($risusc))
         {
             $numuscprimo = $ass['numusc'];
         }
-        print " - 2°=<b>".$numuscprimo."</b>";
+        print " - 2°=<b>" . $numuscprimo . "</b>";
 
-        
+
         print "</td>";
         print "</tr>";
     }

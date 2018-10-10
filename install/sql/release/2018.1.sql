@@ -121,6 +121,7 @@ CREATE TABLE IF NOT EXISTS `tbl_annotazioni` (
   `iddocente` int(11),
   `data` date,
   `testo` text,
+  `visibilitagenitori` boolean,
   `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1231,6 +1232,8 @@ CREATE TABLE IF NOT EXISTS `tbl_richiesteferie` (
   `testomail` varchar(1000) NULL,
   `erroremail` boolean NULL DEFAULT NULL,
   `concessione` tinyint NULL DEFAULT NULL,
+  numerogiorni TINYINT NOT NULL DEFAULT 0, 
+  orepermessobreve TINYINT NOT NULL DEFAULT 0,
   `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1450,6 +1453,19 @@ CREATE TABLE IF NOT EXISTS `tbl_usciteanticipate` (
   `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Struttura della tabella `tbl_usciteanticipate`
+--
+
+CREATE TABLE IF NOT EXISTS `tbl_autorizzazioniuscite` (
+  `idalunno` int(11) DEFAULT '0',
+  `data` date DEFAULT NULL,
+  `orauscita` time DEFAULT NULL,
+  `idautorizzazioneuscita` int(11),
+  `iddocenteautorizzante` int(11) DEFAULT NULL,
+  `testoautorizzazione` varchar(500) DEFAULT NULL,
+  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1977,6 +1993,11 @@ ALTER TABLE `tbl_usciteanticipate`
 ADD PRIMARY KEY (`iduscita`), ADD KEY `data` (`data`);
 
 --
+-- Indexes for table `tbl_autorizzazioniusciteanticipate`
+--
+ALTER TABLE `tbl_autorizzazioniuscite`
+ADD PRIMARY KEY (`idautorizzazioneuscita`);
+--
 -- Indexes for table `tbl_utenti`
 --
 ALTER TABLE `tbl_utenti`
@@ -2396,6 +2417,12 @@ MODIFY `idtutore` int(11) AUTO_INCREMENT;
 --
 ALTER TABLE `tbl_usciteanticipate`
 MODIFY `iduscita` int(11) AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_usciteanticipate`
+--
+ALTER TABLE `tbl_autorizzazioniuscite`
+MODIFY `idautorizzazioneuscita` int(11) AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `tbl_utenti`
 --

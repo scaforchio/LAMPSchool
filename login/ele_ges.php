@@ -211,14 +211,14 @@ if (count($_POST))
         $passdb = $data['password'];  // TTTT per controllo iniziale alunni
         // print "Data: $dataultimamodifica - Ora: $dataodierna";
         // print "Diff: $giornidiff";
-        
-        if($sitoinmanutenzione=="yes" & ($_SESSION['tipoutente']!='P' & $_SESSION['tipoutente']!='S' & $_SESSION['tipoutente']!='M' & $_SESSION['tipoutente']!='A'))
+
+        if ($sitoinmanutenzione == "yes" & ($_SESSION['tipoutente'] != 'P' & $_SESSION['tipoutente'] != 'S' & $_SESSION['tipoutente'] != 'M' & $_SESSION['tipoutente'] != 'A'))
         {
             print "<br><br><br><center><b>REGISTRO IN MANUTENZIONE!</b></center>";
             die;
         }
-        
-        
+
+
         if ($_SESSION['tipoutente'] == 'T')
         {
             //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
@@ -575,8 +575,6 @@ if ($cambiamentopassword)
             menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
             menu_item('../documenti/stampafirmaprogrammi.php?docente=' . $idutente, 'STAMPE PER PRESA VISIONE PROGRAMMI');
             menu_item('../documenti/documenticlasse.php', 'DOCUMENTI CLASSE');
-
-
             menu_title_end();
         }
 
@@ -1106,7 +1104,7 @@ if ($cambiamentopassword)
         menu_item('../colloqui/disponibilita.php', 'DISPONIBIL. DOCENTI');
         menu_item('../colloqui/visdisponibilita.php', 'VISUALIZZA DISP. DOCENTI');
         menu_title_end();
-        
+
         menu_title_begin('DOCUMENTI');
         menu_item('../documenti/verdocumprog.php?tipodoc=pia', 'VISUALIZZA PIANI DI LAVORO');
         menu_item('../documenti/verdocumprog.php?tipodoc=pro', 'VISUALIZZA PROGRAMMI');
@@ -1148,10 +1146,10 @@ if ($cambiamentopassword)
         menu_item('../collegamenti/collegamentiweb.php', 'PREPARAZIONE COLLEGAMENTI WEB');
         menu_title_end();
 
-        
+
 
         menu_title_begin('PERMESSI DOCENTI');
-        
+
         menu_item('../ferie/esamerichferie.php', 'ESAMINA RICHIESTE FERIE');
         menu_item('../ferie/visorepermesso.php', 'TOTALI ASTENSIONI DOCENTI');
         menu_title_end();
@@ -1173,7 +1171,7 @@ if ($cambiamentopassword)
         menu_item('../contr/solalettura_on.php', 'ABILITA SOLA LETTURA');
         menu_item('../contr/solalettura_off.php', 'DISABILITA SOLA LETTURA');
         menu_item('../docenti/visoraridocenti.php', 'VISUALIZZA ORARIO DOCENTE');
-        
+
         menu_title_end();
     }
 
@@ -1636,13 +1634,6 @@ if ($cambiamentopassword)
             print ("<center><br><i><b><font color='red'><big><big>Ci sono circolari non lette! <a href='../circolari/viscircolari.php'>Leggi ora!</a></big></big></font></b></i><br/></center>");
             print ("<br/>");
         }
-
-
-
-
-
-
-
 
         //
         // VERIFICO PRESENZA COLLOQUI

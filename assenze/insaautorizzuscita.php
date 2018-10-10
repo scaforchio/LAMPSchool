@@ -56,6 +56,7 @@ $datafine = data_to_db(stringa_html('datafine'));
 $pos = 0;
 $annotazione="";
 $elencoalunni="";
+$codicialunni=array();
 while ($rec = mysqli_fetch_array($ris))
 {
     $stralu = "pres" . $rec['idalunno'];
@@ -70,6 +71,8 @@ while ($rec = mysqli_fetch_array($ris))
 
         $alunno=estrai_dati_alunno_rid($idalunno,$con);
         $elencoalunni.=$alunno.", ";
+        $codicialunni[]=$idalunno;
+        
         $pos++;
 
         if (stringa_html("uscitacont")=='on')
@@ -84,7 +87,7 @@ while ($rec = mysqli_fetch_array($ris))
 
         }
 
-	}
+    }
 
 }
 
@@ -101,16 +104,27 @@ if ($pos>0)
         $inizio="";
         $mezzo=" può uscire alle ";
     }
+    $richiedente=" su ".stringa_html('tiporichiesta')." ".stringa_html('tiporichiedente'). " ";
+    $richiedentecompleto = $richiedente."(".stringa_html('richiedente')." - ". stringa_html('recapito').") ";
     if ($motivo!="")
         $fine=" $motivo.";
     else
         $fine=".";
-    $annotazione=$inizio.$elencoalunni.$mezzo.$ora.$fine;
+    
+    $annotazione=$inizio.$elencoalunni.$mezzo.$ora.$richiedente." per ".$fine;
+    $annotazionepergenitori="Uscito alle ".$ora." $richiedentecompleto per $fine";
 
     $sql="insert into tbl_annotazioni(idclasse,iddocente,data,testo) values ($idclasse,".$_SESSION['idutente'].",'".date('Y-m-d')."','$annotazione')";
     mysqli_query($con,inspref($sql)) or die ("Errore".inspref($sql,false));
 
     print "<br><br><center><b><font color='green'>Inserimento effettuato!</font></b>";
+    foreach ($codicialunni as $codalunno)
+    {
+        $sql="insert into tbl_autorizzazioniuscite(idalunno,data,orauscita,iddocenteautorizzante,testoautorizzazione) "
+                . "values ($codalunno,'".date('Y-m-d')."','$ora','".$_SESSION['idutente']."','$annotazionepergenitori')";
+        mysqli_query($con,inspref($sql)) or die ("Errore".inspref($sql,false));
+
+    }
 }
 else
 {

@@ -46,6 +46,7 @@ $nominativo = stringa_html('nominativo');
 $datainizio = stringa_html('datainizio');
 $datafine = stringa_html('datafine');
 $numerogiorni = stringa_html('numerogiorni');
+$orepermessobreve = stringa_html('orepermessobreve');
 $tempo = stringa_html('tempo');
 $to = $indirizzomailassenze;
 $reason = stringa_html('reason');
@@ -106,7 +107,9 @@ $testomail .= "<center>IN FEDE<br>$nominativo<br></center>";
 print "<br><br>".$testomail;
 print "<br><form action='inviamailrichferie.php' method='post'>"
         . "<input type='hidden' name='subject' value='$subject'>"
-        . "<input type='hidden' name='testomail' value='$testomail'>";
+        . "<input type='hidden' name='testomail' value='$testomail'>"
+        . "<input type='hidden' name='numerogiorni' value='$numerogiorni'>"
+        . "<input type='hidden' name='orepermessobreve' value='$orepermessobreve'>";
 print "<center><input type='submit' value='Inoltra'><br></center>";
 
 mysqli_close($con);
