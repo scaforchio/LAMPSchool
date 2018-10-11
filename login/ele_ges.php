@@ -1723,6 +1723,28 @@ if ($cambiamentopassword)
                     }
                 }
             }
+
+            //
+            //  ANNOTAZIONI RECENTI
+            //
+            
+            $idclassealunno = estrai_classe_alunno($_SESSION['idutente'],$con);
+            $query = "select * from tbl_annotazioni
+                where idclasse=$idclassealunno
+                    and data>DATE_ADD(data, INTERVAL -5 DAY)
+                    and visibilitagenitori=true";
+
+            $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+            if (mysqli_num_rows($ris) > 0)
+            {
+                while ($rec = mysqli_fetch_array($ris))
+                {
+
+
+                    print ("<center><br><i>".data_italiana($rec['data'])."</i><b><font color='green'><br> ".$rec['testo']."</font></b><br/></center>");
+                    print ("<br/>");
+                }
+            }
         }
 
 

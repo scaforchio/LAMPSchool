@@ -1,28 +1,29 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
 // require_once '../lib/ db / query.php';
-
 //$lQuery = LQuery::getIstanza();
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // istruzioni per tornare alla pagina di login se non c'è una sessione valida
 ////session_start();
@@ -67,14 +68,14 @@ if ($rs)
 
 // conteggio assenze
 $query1 = "select count(*) as numeroassenze from tbl_assenze where idalunno='$codalunno'";
-$ris1 = mysqli_query($con, inspref($query1));//$lQuery->query($query1);
+$ris1 = mysqli_query($con, inspref($query1)); //$lQuery->query($query1);
 
 if ($val1 = mysqli_fetch_array($ris1)) //->fetch())
 {
 // conteggio assenze non giustificate
     $query2 = "select count(*) as numeroassenze from tbl_assenze where idalunno='$codalunno' and (isnull(giustifica) or giustifica=0)";
-    $ris2 = mysqli_query($con, inspref($query2));//$lQuery->query($query2);
-    $val2 = mysqli_fetch_array($ris2);//$ris2->fetch();
+    $ris2 = mysqli_query($con, inspref($query2)); //$lQuery->query($query2);
+    $val2 = mysqli_fetch_array($ris2); //$ris2->fetch();
     echo ' 
  <tr>
   <td colspan="3"><b>Assenze: ' . $val1["numeroassenze"] . ' <font color="red">(' . $val2["numeroassenze"] . ')</font></b></td>
@@ -133,20 +134,20 @@ while ($val6 = mysqli_fetch_array($ris6))
 
         $data = $val6["data"];
         echo ' ' . data_italiana($data);
-        if ($val6['dataammonizione']!=NULL)
-            echo " (Amm. ".data_italiana($val6['dataammonizione']).")";
+        if ($val6['dataammonizione'] != NULL)
+            echo " (Amm. " . data_italiana($val6['dataammonizione']) . ")";
 
-        print " Giust. il ".data_italiana($val6['datagiustifica'])." da ".estrai_dati_docente($val6['iddocentegiust'],$con);
+        print " Giust. il " . data_italiana($val6['datagiustifica']) . " da " . estrai_dati_docente($val6['iddocentegiust'], $con);
 
         echo '<br>';
     }
     else
     {
         $data = $val6["data"];
-        echo '<font color="red"> ' . data_italiana($data) ;
-        if ($val6['dataammonizione']!=NULL)
-            echo " (Amm. ".data_italiana($val6['dataammonizione']).")";
-        echo    '</font><br/>';
+        echo '<font color="red"> ' . data_italiana($data);
+        if ($val6['dataammonizione'] != NULL)
+            echo " (Amm. " . data_italiana($val6['dataammonizione']) . ")";
+        echo '</font><br/>';
     }
 }
 echo "</td>";
@@ -165,9 +166,9 @@ while ($val7 = mysqli_fetch_array($ris7))
     {
         $data = $val7["data"];
         echo ' ' . data_italiana($data);
-        if ($val7['dataammonizione']!=NULL)
-            echo " (Amm. ".data_italiana($val7['dataammonizione']).")";
-        print " Giust. il ".data_italiana($val7['datagiustifica'])." da ".estrai_dati_docente($val7['iddocentegiust'],$con);
+        if ($val7['dataammonizione'] != NULL)
+            echo " (Amm. " . data_italiana($val7['dataammonizione']) . ")";
+        print " Giust. il " . data_italiana($val7['datagiustifica']) . " da " . estrai_dati_docente($val7['iddocentegiust'], $con);
 
         echo '<br>';
     }
@@ -175,8 +176,8 @@ while ($val7 = mysqli_fetch_array($ris7))
     {
         $data = $val7["data"];
         echo '<font color="red"> ' . data_italiana($data);
-        if ($val7['dataammonizione']!=NULL)
-            echo " (Amm. ".data_italiana($val7['dataammonizione']).")";
+        if ($val7['dataammonizione'] != NULL)
+            echo " (Amm. " . data_italiana($val7['dataammonizione']) . ")";
         echo '</font><br/>';
     }
 }
@@ -191,6 +192,10 @@ while ($val8 = mysqli_fetch_array($ris8))
 {
     $data = $val8["data"];
     echo ' ' . data_italiana($data) . '<br/>';
+    $query="select * from tbl_autorizzazioniuscite where idalunno=$codalunno and data='$data'";
+        $ris=mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query,false));
+        if ($rec = mysqli_fetch_array($ris))
+            print "<small>".$rec['testoautorizzazione']."</small><br>";
 }
 echo '
     </td>

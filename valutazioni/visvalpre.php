@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 //
 //    VISUALIZZAZIONE DELLE VALUTAZIONI 
@@ -46,7 +48,7 @@ $periodo = stringa_html('periodo');
 $idclasse = "";
 $cambiamentoclasse = false;
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // LA QUERY SEGUENTE E' FATTA IN MODO TALE CHE VENGANO VISUALIZZATI
 // ANCHE ALUNNI SENZA CLASSE PER VEDERE LA SITUAZIONE DEGLI ALUNNI
@@ -68,8 +70,7 @@ while ($rec = mysqli_fetch_array($ris))
     if ($idalunno == $rec['idalunno'])
     {
         $sele = " selected";
-    }
-    else
+    } else
     {
         $sele = "";
     }
@@ -80,29 +81,29 @@ print "
  </td>
  
  </tr>";
-if ($periodo=='tutti' | $periodo=='')
-    $seltutti=' selected';
-if ($periodo=='primo')
-    $selprimo=' selected';
-if ($periodo=='secondo')
-    $selsecondo=' selected';
+if ($periodo == 'tutti' | $periodo == '')
+    $seltutti = ' selected';
+if ($periodo == 'primo')
+    $selprimo = ' selected';
+if ($periodo == 'secondo')
+    $selsecondo = ' selected';
 print "<tr><td>Periodo:</td><td><select name='periodo' ONCHANGE='selealu.submit();'>";
 print "<option value='tutti'$seltutti>Tutti</option>";
 print "<option value='primo'$selprimo>Primo</option>";
 print "<option value='secondo'$selsecondo>Secondo</option>";
 print "</select>";
- 
+
 print "</table></form>";
 
 // IMPOSTO LA SELEZIONE SULLA DATA
 // 
 // 
 
-$seledata='';
-if ($periodo=='primo')
-    $seledata="and data<='$fineprimo'";
-if ($periodo=='secondo')
-    $seledata="and data>'$fineprimo'";
+$seledata = '';
+if ($periodo == 'primo')
+    $seledata = "and data<='$fineprimo'";
+if ($periodo == 'secondo')
+    $seledata = "and data>'$fineprimo'";
 
 
 
@@ -111,7 +112,7 @@ if ($periodo=='secondo')
 if ($idalunno != '')
 {
     $query = "select * from tbl_alunni where idalunno=$idalunno";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
 
     if ($val = mysqli_fetch_array($ris))
     {
@@ -122,7 +123,7 @@ if ($idalunno != '')
 
     // prelevamento voti
     $query = "select * from tbl_valutazioniintermedie, tbl_materie where tbl_valutazioniintermedie.idmateria=tbl_materie.idmateria and idalunno=$idalunno $seledata order by denominazione, data desc";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . inspref($query));
+    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . inspref($query));
     // print $query;
     if (mysqli_num_rows($ris) > 0)
     {
@@ -133,12 +134,16 @@ if ($idalunno != '')
             $materia = $val['denominazione'];
             $data = data_italiana($val['data']);
             $tipo = $val['tipo'];
-            if ($tipo == 'O') $tipo = 'Orale';
-            if ($tipo == 'S') $tipo = 'Scritta';
-            if ($tipo == 'P') $tipo = 'Pratica';
+            if ($tipo == 'O')
+                $tipo = 'Orale';
+            if ($tipo == 'S')
+                $tipo = 'Scritta';
+            if ($tipo == 'P')
+                $tipo = 'Pratica';
             $voto = dec_to_mod($val['voto']);
             $giudizio = $val['giudizio'];
-            if ($giudizio == "" | substr($giudizio, 0, 1) == "(") $giudizio = "&nbsp;";
+            if ($giudizio == "" | substr($giudizio, 0, 1) == "(")
+                $giudizio = "&nbsp;";
 
 
             if ($materia != $mat)
@@ -161,7 +166,6 @@ if ($idalunno != '')
                 print("<td align=center>$voto</td>");
                 print("<td>$giudizio</td>");
                 print("</tr>");
-
             }
         }
         print ("</table><br/>");
@@ -169,9 +173,7 @@ if ($idalunno != '')
         {
             print ("<center><font color='grey'>Le valutazioni con sfondo grigio sono state attribuite in una classe diversa da quella di attuale appartenenza.</font></center>");
         }
-
-    }
-    else
+    } else
     {
         print("<br/><big><big><center>Non ci sono voti registrati!</center><small><small><br/>");
     }
@@ -195,15 +197,15 @@ if ($idalunno != '')
 
     // prelevamento dati alunno
 
-    /*	if ($rs1) {
+    /* 	if ($rs1) {
 
-             if ($val1 = mysqli_fetch_array($rs1))
-                  echo '
-         <tr class="prima">
-          <td colspan="3"><b>Alunno: '. $val1["cognome"]. ' '. $val1["nome"]. '</b></td>
-         </tr>';
-        }
-    */
+      if ($val1 = mysqli_fetch_array($rs1))
+      echo '
+      <tr class="prima">
+      <td colspan="3"><b>Alunno: '. $val1["cognome"]. ' '. $val1["nome"]. '</b></td>
+      </tr>';
+      }
+     */
     // conteggio tbl_assenze
 
     if ($val2 = mysqli_fetch_array($rs2))
@@ -280,18 +282,22 @@ if ($idalunno != '')
         {
             $data = $val7["data"];
             echo ' ' . data_italiana($data) . ' ' . giorno_settimana($data) . '<br/> ';
+            $query="select * from tbl_autorizzazioniuscite where idalunno=$idalunno and data='$data'";
+        $ris=mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query,false));
+        if ($rec = mysqli_fetch_array($ris))
+            print "<small>".$rec['testoautorizzazione']."</small><br>";
         }
     }
     echo '
 		  </td>
 		 </tr>
 		';
-    
-    
-    
+
+
+
     $rasstot = mysqli_query($con, inspref("select sum(oreassenza) as assenzetotali from tbl_asslezione where idalunno=$idalunno"));
-    $rec= mysqli_fetch_array($rasstot);
-    $numerooreasstotali=$rec['assenzetotali'];    
+    $rec = mysqli_fetch_array($rasstot);
+    $numerooreasstotali = $rec['assenzetotali'];
 
     print "<tr><td colspan=3 align=center><b>Ore totali di assenza: $numerooreasstotali</b></td><tr></table>";
     //
@@ -299,26 +305,26 @@ if ($idalunno != '')
     //
 
     $query = "select idclasse from tbl_alunni where idalunno=$idalunno";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
     $rec = mysqli_fetch_array($ris);
     $codclasse = $rec['idclasse'];
 
     // prelevamento dati alunno
 
     $query = "select * from tbl_alunni,tbl_classi where tbl_alunni.idclasse=tbl_classi.idclasse and idalunno='$idalunno'";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
 
     echo '<table border=1 align="center" width="800"  >';
 
-    /*	if($val=mysqli_fetch_array($ris))
-        {
-            echo '
-                 <tr>
-                     <td align=center><b> Alunno: '.$val["cognome"].' '.$val["nome"].' Classe '.$val["anno"].' '.$val["sezione"].' '.$val["specializzazione"].'</b></td>
-                  </tr> </table><br>
-            ';
-        }
-    */
+    /* 	if($val=mysqli_fetch_array($ris))
+      {
+      echo '
+      <tr>
+      <td align=center><b> Alunno: '.$val["cognome"].' '.$val["nome"].' Classe '.$val["anno"].' '.$val["sezione"].' '.$val["specializzazione"].'</b></td>
+      </tr> </table><br>
+      ';
+      }
+     */
 
 
     $query = "select tbl_notealunno.idnotaalunno, data, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno, tbl_alunni.datanascita as dataalunno, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, tbl_alunni.datanascita, testo, provvedimenti
@@ -330,7 +336,7 @@ if ($idalunno != '')
 					and tbl_noteindalu.idalunno=$idalunno $seledata
 					order by tbl_notealunno.data desc";
     // print inspref($query);
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query di selezione nota: " . mysqli_error($con));
+    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query di selezione nota: " . mysqli_error($con));
 
     $c = mysqli_num_rows($ris);
 
@@ -341,8 +347,7 @@ if ($idalunno != '')
     if ($c == 0)
     {
         echo "<tr><td colspan=4 align=center>Nessuna nota da visualizzare!</td></tr>";
-    }
-    else
+    } else
     {
         print "<tr class=prima><td>Docente</td><td>Data</td><td>Nota</td><td>Provv.</td></tr>";
         while ($rec = mysqli_fetch_array($ris))
@@ -364,10 +369,7 @@ if ($idalunno != '')
             print("</td>");
 
             print("</tr>");
-
         }
-
-
     }
     print "</table><br>";
 
@@ -379,7 +381,7 @@ if ($idalunno != '')
                                         $seledata
 					order by tbl_noteclasse.data desc";
     // print $query."<br/>";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query di selezione nota: " . mysqli_error($con));
+    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query di selezione nota: " . mysqli_error($con));
 
     $c = mysqli_num_rows($ris);
 
@@ -389,8 +391,7 @@ if ($idalunno != '')
     if ($c == 0)
     {
         echo "<tr><td colspan=4 align=center>Nessuna nota da visualizzare!</td></tr>";
-    }
-    else
+    } else
     {
         print "<tr class=prima><td>Docente</td><td>Data</td><td>Nota</td><td>Provv.</td></tr>";
         while ($rec = mysqli_fetch_array($ris))
@@ -412,15 +413,11 @@ if ($idalunno != '')
 
             print("</tr>");
         }
-
-
     }
     print "</table> <br/> <br/>";
-
-
 }
 mysqli_close($con);
-stampa_piede(""); 
+stampa_piede("");
 
 
 

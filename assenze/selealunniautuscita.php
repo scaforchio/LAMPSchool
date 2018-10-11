@@ -179,10 +179,11 @@ if ($idclasse != "")
             . "</select>";
     print "<fieldset value='Dati privati'><legend>Dati privati</legend>";
     print "Cognome e nome richiedente <input type='text' name='richiedente'> , telefono contattato <input type='text' name='recapito'>";
-    print "</fieldset>";
+    
     
     // FINE MODIFICHE
     print "<br>Motivo: <input type='text' name='motivo' maxlength='200' size='80'><br><br>";
+    print "</fieldset>";
    // if ($gesttimbrature == 'no')
         print "Uscita contestuale ad autorizzazione: <input type='checkbox' name='uscitacont'><br><br>";
 

@@ -324,22 +324,27 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
     }
     if ($c == NULL)
     {
-        echo "<form method='post' action='insannotaz.php'>
+        echo "<form method='get' action='insannotaz.php'>
           <table border=1 align='center'><tr class=prima><td align='center'><b>Annotazione</b></td></tr><tr><td>";
         echo "<textarea cols=60 rows=10 name ='testo'>";
         echo "";
-        echo "</textarea><br/>";
+        echo "</textarea><br/><br>";
+        echo "<center>Visibile ai genitori <input type='checkbox' name='visibile'></center>";
         echo "</td>";
 
 
     }
     else
     {
-        echo "<form method='post' action='insannotaz.php'>
+        echo "<form method='get' action='insannotaz.php'>
           <table border=2 align='center'><tr class=prima><td align='center'><b>Annotazione</b></td></tr><tr><td>";
         echo "<textarea  cols=60 rows=10 name ='testo'>";
         echo $c['testo'];
-        echo "</textarea><br/>";
+        echo "</textarea><br/><br>";
+        if ($c['visibilitagenitori']==true)
+            echo "<center>Visibile ai genitori <input type='checkbox' name='visibile' checked></center>";
+        else
+            echo "<center>Visibile ai genitori <input type='checkbox' name='visibile'></center>";
         echo "</td>";
 
     }

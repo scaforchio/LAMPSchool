@@ -111,7 +111,7 @@ if ($pos>0)
     else
         $fine=".";
     
-    $annotazione=$inizio.$elencoalunni.$mezzo.$ora.$richiedente." per ".$fine;
+    $annotazione=$inizio.$elencoalunni.$mezzo.$ora.$richiedente.".";
     $annotazionepergenitori="Uscito alle ".$ora." $richiedentecompleto per $fine";
 
     $sql="insert into tbl_annotazioni(idclasse,iddocente,data,testo) values ($idclasse,".$_SESSION['idutente'].",'".date('Y-m-d')."','$annotazione')";
