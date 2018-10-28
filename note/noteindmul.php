@@ -39,10 +39,13 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] -
 $idnota = stringa_html('idnota');
 $notacl = "";
 $provvedimenti = "";
+
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+
+
 if ($idnota != "")   // se si arriva dalla pagina della ricerca
 {
-    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
-
+    
 
     $query = "SELECT * FROM tbl_notealunno WHERE idnotaalunno=" . $idnota;
     $ris = mysqli_query($con, inspref($query));
@@ -75,7 +78,11 @@ else
     $mese = substr($meseanno, 0, 2);
     $anno = substr($meseanno, 5, 4);
 }
-
+if ($nome!='')
+{
+$coordinatoreclasse= verifica_classe_coordinata($_SESSION['idutente'], $nome, $con);
+// print "Coordinatore $coordinatoreclasse";
+}
 $data = $anno . "-" . $mese . "-" . $giorno;
 $giornosettimana = giorno_settimana($data);
 if ($giorno == '')
@@ -90,6 +97,7 @@ if ($anno == '')
 {
     $anno = date('Y');
 }
+
 
 
 print ('
@@ -113,7 +121,6 @@ else
 print "<option value=''>&nbsp;";
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
 
 
 // Riempimento combo box tbl_classi
@@ -347,7 +354,7 @@ else
         echo "$notacl";
         echo "</textarea><br/>";
         echo "</td><td>";
-        if ($tipoutente == "S" | $tipoutente == "P")
+        if ($tipoutente == "S" | $tipoutente == "P" | $coordinatoreclasse)
         {
             echo "<textarea  cols=60 rows=10 name ='provvedimenti'>";
         }

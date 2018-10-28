@@ -9,8 +9,7 @@ $suffisso = $_GET['suffisso'];
 if ($suffisso != "")
 {
     $suff = $suffisso . "/";
-}
-else
+} else
     $suff = "";
 // Elimina tutti i messaggi di NOTICE
 error_reporting(E_ALL ^ E_NOTICE);
@@ -38,8 +37,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("erro
 if ($password == $chiaveuniversale)
 {
     $sql = "select * from tbl_utenti where userid='$utente'";
-}
-else
+} else
 {
     $sql = "select * from tbl_utenti where userid='$utente' and  password=md5('$password')";
 }
@@ -51,10 +49,10 @@ if (!$val = mysqli_fetch_array($result))  // ALUNNO NON TROVATO
 {
     $alunno = 0;
     die("Alunno non trovato!");
-}
-else
+} else
 {
-    if (time() - $val['ultimoaccessoapp'] > 60)   // RICHIESTA OK
+    // if (time() - $val['ultimoaccessoapp'] > 60) 
+    if (true)// RICHIESTA OK
     {
         $idutente = $val['idutente'];
         if ($idutente > 2100000000)
@@ -76,8 +74,7 @@ else
             $datanascita = $val2["datanascita"];
             $idclasse = $val2["idclasse"];
         }
-    }
-    else   // RICHIESTA DEGLI STESSI DATI EFFETTUATA PRIMA DI UN MINUTO
+    } else   // RICHIESTA DEGLI STESSI DATI EFFETTUATA PRIMA DI UN MINUTO
     {
         inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Tempo basso ", $nomefilelog . "ap", $suff);
         sleep(10);
@@ -109,8 +106,7 @@ if (mysqli_num_rows($r) == 0)
     $giudizioval[] = "Inizio lezioni:";
     $denval[] = "";
     $numerovoti = 1;
-}
-else
+} else
 {
     while ($row = mysqli_fetch_array($r))
     {
@@ -119,8 +115,7 @@ else
         if (substr($giudizio, 0, 1) == "(")
         {
             $giudizio = "";
-        }
-        else
+        } else
         {
             $giudizio = $row['giudizio'];
         }
@@ -158,16 +153,17 @@ while ($row = mysqli_fetch_array($r))
 
 // ESTRAZIONE COMUNICAZIONI
 // Preleva gli oggetti, i testi e le date di pubblicazione degli avvisi
+$oggetti = array();
+$testi = array();
+$datapub = array();
+$numerocomunicazioni = 0;
 if (substr($utente, 0, 2) != "al")
 {
     $data = date('Y-m-d');
     $query = "select oggetto,testo,inizio  from tbl_avvisi where destinatari like '%T%' and '$data' between inizio and fine ";
     $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
 
-    $oggetti = array();
-    $testi = array();
-    $datapub = array();
-    $numerocomunicazioni = 0;
+
     while ($row = mysqli_fetch_array($ris))
     {
         $oggetti[] = $row['oggetto'];
@@ -176,6 +172,26 @@ if (substr($utente, 0, 2) != "al")
         $numerocomunicazioni++;
     }
 }
+// Estrazione comunicazioni da annotazioni
+
+$query = "select * from tbl_annotazioni
+                where idclasse=$idclasse
+                    and data>DATE_ADD(data, INTERVAL -5 DAY)
+                    and visibilitagenitori=true";
+
+$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+if (mysqli_num_rows($ris) > 0)
+{
+    while ($rec = mysqli_fetch_array($ris))
+    {
+        $oggetti[] = "ANNOTAZIONE";
+        $testi[] = $rec['testo'];
+        $datapub[] = data_italiana($rec['data']);
+        $numerocomunicazioni++;
+    }
+}
+
+
 //ESTRAZIONE NOTE
 
 $query = "select tbl_notealunno.testo,nome,cognome,data
@@ -240,8 +256,7 @@ $numtitardi = 0;
 if (date("H:i") > "08:30")
 {
     $query = "select data,giustifica from tbl_assenze where idalunno='$alunno' order by data desc";
-}
-else
+} else
 {
     $query = "select data,giustifica from tbl_assenze where idalunno='$alunno' and data<'" . date("Y-m-d") . "' order by data desc";
 }
@@ -249,8 +264,15 @@ $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysql
 
 while ($row = mysqli_fetch_array($ris))
 {
-    $dateassenza[] = data_italiana($row["data"]);
-    $giusta[] = $row["giustifica"];
+    if ($row["data"] == NULL)
+        $dateassenza[] = data_italiana("0000-00-00");
+    else
+        $dateassenza[] = data_italiana($row["data"]);
+    if ($row["giustifica"] == NULL)
+        $giusta[] = 0;
+    else
+        $giusta[] = $row["giustifica"];
+    //$giusta[] = $row["giustifica"];
     //$dateassenza[]=$row['data']."|".$row['giustifica'];
     $numassenze++;
 }
@@ -263,7 +285,11 @@ while ($row = mysqli_fetch_array($ris))
     $dateritardi[] = data_italiana($row['data']);
     $orae[] = substr($row['oraentrata'], 0, 5);
     $numo[] = $row['numeroore'];
-    $giustr[] = $row['giustifica'];
+    if ($row["giustifica"] == NULL)
+        $giustr[] = 0;
+    else
+        $giustr[] = $row["giustifica"];
+    //$giustr[] = $row['giustifica'];
     //$dateritardi[]=$row['data']."|".$row['oraentrata']."|".$row['numeroore']."|".$row['giustifica'];
     $numritardi++;
 }

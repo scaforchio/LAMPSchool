@@ -158,7 +158,7 @@ if ($idclasse != "")
 			  FROM tbl_documenti,tbl_tipidocumenti
 			  WHERE tbl_documenti.idtipodocumento=tbl_tipidocumenti.idtipodocumento
 			  AND tbl_documenti.idtipodocumento<1000000000
-			  AND idclasse=$idclasse AND idalunno=0
+			  AND idclasse=$idclasse AND (idalunno=0 or isnull(idalunno))
 			  ORDER BY datadocumento";
 
     $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query) . mysqli_error($ris));

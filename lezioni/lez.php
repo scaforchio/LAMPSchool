@@ -71,8 +71,12 @@ $idlezione = '';
 $orainizionew = '';
 $orainizioold = '';
 
-
+$idlezionegruppo= '';
 $idgruppo = '';
+
+$cattgruppi=false;
+
+
 // Creo un array per verificare le ore già impegnate da lezioni
 $oredisp = array();
 $oredisp[] = 9;
@@ -90,6 +94,7 @@ $cattedra = stringa_html('cattedra');
 $giorno = stringa_html('gio');
 
 $meseanno = stringa_html('meseanno');
+$idlezionegruppo=stringa_html('idlezionegruppo');
 
 $orainizionew = stringa_html('orainizionew');
 $orainizioold = stringa_html('orainizioold');
@@ -98,7 +103,13 @@ $anno = substr($meseanno, 5, 4);
 $mese = substr($meseanno, 0, 2);
 
 $giornosettimana = "";
-
+if ($idlezionegruppo!='')
+{
+    $query="select idgruppo from tbl_lezionigruppi where idlezionegruppo=$idlezionegruppo";
+    $ris=mysqli_query($con,inspref($query)) or die ("Errore: ".inspref($query));
+    $rec=mysqli_fetch_array($ris);
+    $idgruppo=$rec['idgruppo'];
+}
 //print "Id lez. $idlezione";
 if ($idlezione != "") {
     $query = "select * from tbl_lezioni where idlezione=$idlezione";
@@ -379,9 +390,11 @@ if ($idclasse != '' & $materia != '' & $giorno != '' & $mese != '') {
              and tbl_alunni.idclasse=$idclasse
              and tbl_gruppi.idmateria=$materia
              and tbl_gruppi.iddocente=$iddocente";
+   // print inspref($query);
     $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
-    if ($rec = mysqli_fetch_array($ris)) {
-        $idgruppo = $rec['idgruppo'];
+    if (mysqli_num_rows($ris)>0) {
+        $cattgruppi = true;
+        
     }
 
 
@@ -419,7 +432,7 @@ if ($idclasse != '' & $materia != '' & $giorno != '' & $mese != '') {
     }
 
     //  if (!$_SESSION['sostegno']){
-    if (!cattedra_sost($iddocente, $materia, $idclasse, $con) & $idgruppo == '') {
+    if (!cattedra_sost($iddocente, $materia, $idclasse, $con) & !$cattgruppi) {
         echo(" Nuova lez.:");
 
         if ($orainizioold != "") {
@@ -447,7 +460,7 @@ if ($idclasse != '' & $materia != '' & $giorno != '' & $mese != '') {
 
         print "</select>";
     } else {
-        if ($idgruppo != '') {
+        if ($cattgruppi) {
             echo(" Nuova lez.: <b>[Usare inserimento <a href='../lezionigruppo/lezgru.php'>lezioni di gruppo</a>]</b>");
         } else {
             echo(" Nuova lez.: <b>[Usare inserimento <a href='lezcert.php'>lezioni di sostegno</a>]</b>");
@@ -679,7 +692,7 @@ if (!checkdate($m, $g, $a)) {
             // print "tttt ".$idlezionegruppo;
 
             if (!$sost) {
-                if ($idgruppo == "") {
+                if (!$cattgruppi) {
                     $query = "SELECT idalunno,cognome,nome,datanascita FROM tbl_alunni
                               WHERE idalunno IN (" . estrai_alunni_classe_data($idclasse, $anno . "-" . $mese . "-" . $giorno, $con) . ")
                                ORDER BY cognome, nome, datanascita";

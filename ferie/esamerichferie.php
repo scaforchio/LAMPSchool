@@ -71,10 +71,10 @@ if ($tipoutente == 'P')
         $concesso = $rec['concessione'];
         print "<td align='center' valign='middle'>";
         if ($concesso == NULL)
-            print "<a href='concediferie.php?prot=$prot&conc=1'>Concedi</a><br><br><a href='./concediferie.php?prot=$prot&conc=0'>Nega</a><br><br><a href='./concediferie.php?prot=$prot&conc=2'>Chiedi chiarimenti</a></td>";
+            print "<a href='concediferie.php?prot=$prot&conc=1'>Concedi</a><br><br><a href='concediferie.php?prot=$prot&conc=3'>Concedi per motivi di servizio</a><br><br><a href='./concediferie.php?prot=$prot&conc=0'>Nega</a><br><br><a href='./concediferie.php?prot=$prot&conc=2'>Chiedi chiarimenti</a></td>";
         else
         if ($concesso == 2)
-            print "<a href='concediferie.php?prot=$prot&conc=1'>Concedi</a><br><br><a href='./concediferie.php?prot=$prot&conc=0'>Nega</a><br><br>In attesa di chiarimenti!</td>";
+            print "<a href='concediferie.php?prot=$prot&conc=1'>Concedi</a><br><br><a href='concediferie.php?prot=$prot&conc=3'>Concedi per motivi di servizio</a><br><br><a href='./concediferie.php?prot=$prot&conc=0'>Nega</a><br><br>In attesa di chiarimenti!</td>";
         else
         if ($concesso == 1)
             print "<img src='../immagini/apply.png'></td>";
@@ -100,10 +100,10 @@ if ($tipoutente == 'P')
         $concesso = $rec['concessione'];
         print "<td align='center' valign='middle'>";
         if ($concesso == NULL)
-            print "<a href='concediferie.php?prot=$prot&conc=1'>Concedi</a><br><br><a href='./concediferie.php?prot=$prot&conc=0'>Nega</a><br><br><a href='./concediferie.php?prot=$prot&conc=2'>Chiedi chiarimenti</a></td>";
+            print "<a href='concediferie.php?prot=$prot&conc=1'>Concedi</a><br><br><a href='concediferie.php?prot=$prot&conc=3'>Concedi per motivi di servizio</a><br><br><a href='./concediferie.php?prot=$prot&conc=0'>Nega</a><br><br><a href='./concediferie.php?prot=$prot&conc=2'>Chiedi chiarimenti</a></td>";
         else
         if ($concesso == 2)
-            print "<a href='concediferie.php?prot=$prot&conc=1'>Concedi</a><br><br><a href='./concediferie.php?prot=$prot&conc=0'>Nega</a><br><br>In attesa di chiarimenti!</td>";
+            print "<a href='concediferie.php?prot=$prot&conc=1'>Concedi</a><br><br><a href='concediferie.php?prot=$prot&conc=3'>Concedi per motivi di servizio</a><br><br><a href='./concediferie.php?prot=$prot&conc=0'>Nega</a><br><br>In attesa di chiarimenti!</td>";
         else
         if ($concesso == 1)
             print "<img src='../immagini/apply.png'></td>";
@@ -120,7 +120,7 @@ else
     print "<br><center><b>ESITO PROPRIE RICHIESTE ASTENSIONE DAL LAVORO</b></center><br><br>";
     print "<table border='1' align='center'>";
     print "<tr class='prima'><td>Prot.</td><td>Docente</td><td>Richiesta</td><td>Concessione</td></tr>";
-    $query = "select * from tbl_richiesteferie where iddocente=$iddocente order by idrichiestaferie desc";
+    $query = "select * from tbl_richiesteferie where iddocente=$iddocente and (concessione<>9 or isnull(concessione)) order by idrichiestaferie desc";
     $ris = mysqli_query($con, inspref($query)) or die("Errore: $query");
     while ($rec = mysqli_fetch_array($ris))
     {
@@ -136,7 +136,7 @@ else
         $concesso = $rec['concessione'];
         print "<td align='center' valign='middle'>";
         if ($concesso == NULL)
-            print "Non ancora esaminata!</td>";
+            print "Non ancora esaminata!<br><br><a href='annullarichiestaferie.php?prot=$prot'>ANNULLA</a></td>";
         else
         if ($concesso == 1)
             print "Accettata!</td>";

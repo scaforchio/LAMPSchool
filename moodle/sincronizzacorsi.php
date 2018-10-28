@@ -34,25 +34,58 @@ if ($tipoutente == "")
     die;
 }
 
-$titolo = "Sincronizzazione corso Moodle";
+$titolo = "Sincronizzazione corsi Moodle";
 $script = "";
 stampa_head($titolo, "", $script, "SMP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
-$idclasse = stringa_html("idclasse");
-$idmateria = stringa_html("idmateria");
 
 
-sincronizzaCorsoMoodle($idclasse, $idmateria, $con,$tokenservizimoodle,$urlmoodle,$nome_scuola,$annoscol);
 
 
-print "	  <form method='post' id='formlez' action='creacorsimoodle.php'>
-              <input type='submit' value='Indietro'>
-			  </form>
-			  ";
+$query = "SELECT tbl_cattnosupp.idmateria,tbl_classi.idclasse,
+idcattedra,tbl_docenti.iddocente,cognome,nome,sigla,tbl_classi.anno,tbl_classi.sezione,tbl_classi.specializzazione,tbl_materie.denominazione
+ FROM 
+tbl_cattnosupp,tbl_classi,tbl_materie,tbl_docenti
+ WHERE 
+tbl_cattnosupp.idclasse=tbl_classi.idclasse 
+and tbl_cattnosupp.idmateria=tbl_materie.idmateria 
+and tbl_cattnosupp.iddocente=tbl_docenti.iddocente 
+and tbl_cattnosupp.iddocente<>1000000000
+GROUP BY tbl_cattnosupp.idmateria,tbl_classi.idclasse
+ ORDER BY 
+    anno,specializzazione,sezione,denominazione";
 
+$ris = mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query));
+$corsi=getCorsiMoodle($tokenservizimoodle,$urlmoodle);
+// print "Corsi: $corsi";
+if (mysqli_num_rows($ris)>0) 
+{    
+    
+
+    while ($lez=mysqli_fetch_array($ris)){
+        $ann=$lez['anno'];
+        $sez=$lez['sezione'];
+        $spe=$lez['specializzazione'];
+        $mat=$lez['denominazione'];
+        $idmat=$lez['idmateria'];
+        $idcla=$lez['idclasse'];
+        $sigmat=$lez['sigla'];
+        $specsigla=substr($spe,0,3);
+        $siglacorso=$sigmat.$ann.$sez.$specsigla.$_SESSION['annoscol'];
+
+        $presente=strstr($corsi,$siglacorso);
+        if ($presente)
+        {
+            print "<br>Sincronizzazione corso classe $idcla materia $idmat";
+            sincronizzaCorsoMoodle($idcla, $idmat, $con,$tokenservizimoodle,$urlmoodle,$nome_scuola,$annoscol);
+        }
+
+    }
+    
+}
 
 mysqli_close($con);
 stampa_piede("");

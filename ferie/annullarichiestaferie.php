@@ -26,7 +26,8 @@ require_once '../lib/funzioni.php';
 ////session_start();
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-$iddocente = $_SESSION["idutente"];
+//$iddocente = $_SESSION["idutente"];
+
 
 if ($tipoutente == "")
 {
@@ -34,26 +35,34 @@ if ($tipoutente == "")
     die;
 }
 
-$titolo = "Sincronizzazione corso Moodle";
+$titolo = "Annullamento richiesta ferie";
 $script = "";
-stampa_head($titolo, "", $script, "SMP");
+stampa_head($titolo, "", $script, "SD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
-$idclasse = stringa_html("idclasse");
-$idmateria = stringa_html("idmateria");
+$nominativodirigente = estrai_dati_docente(1000000000, $con);
+$prot = stringa_html('prot');
 
 
-sincronizzaCorsoMoodle($idclasse, $idmateria, $con,$tokenservizimoodle,$urlmoodle,$nome_scuola,$annoscol);
+//$query = "delete from tbl_richiesteferie where idrichiestaferie=$prot";
+// Concessione = 9 corrisponde a richiesta annullata.
+$query = "update tbl_richiesteferie set concessione=9 where idrichiestaferie=$prot";
+
+mysqli_query($con, inspref($query)) or die("Errore $query");
 
 
-print "	  <form method='post' id='formlez' action='creacorsimoodle.php'>
-              <input type='submit' value='Indietro'>
-			  </form>
-			  ";
+        print "<form method='post' id='formlez' action='esamerichferie.php'>
+       <input type='submit' value='OK'>
+       </form>
+       <SCRIPT language='JavaScript'>
+	  {
+	      document.getElementById('formlez').submit();
+	  }
+       </SCRIPT>";
+    
 
 
 mysqli_close($con);
 stampa_piede("");
-

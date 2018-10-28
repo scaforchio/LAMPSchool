@@ -25,6 +25,10 @@ MODIFY `idautorizzazioneuscita` int(11) AUTO_INCREMENT;
 ALTER TABLE tbl_annotazioni
 ADD visibilitagenitori boolean;
 
+ALTER TABLE tbl_richiesteferie CHANGE testomail testomail 
+VARCHAR(2000) CHARACTER SET utf8 COLLATE utf8_general_ci 
+NULL DEFAULT NULL;
+
 
 --
 -- LASCIARE SEMPRE ALLA FINE

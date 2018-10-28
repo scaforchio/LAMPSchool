@@ -94,6 +94,22 @@ function estrai_docente_coordinatore($iddocente, $conn)
     }
 }
 
+
+function verifica_classe_coordinata($iddocente, $idclasse, $conn)
+{
+    $query = "select * from tbl_classi where idcoordinatore='$iddocente' and idclasse='$idclasse'";
+    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    if (mysqli_num_rows($ris) > 0)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+
 /**
  *
  * @param int $idmateria
@@ -178,6 +194,51 @@ function calcolaGiorniFerie($iddoc,$con)
         //str_replace("");
         $giorniferie = substr($mail, $posizionegiorni, 1);
         //print "GF $giorniferie $posizionegiorni ";
+        $totalegiorni += $giorniferie;
+    }
+    return $totalegiorni;
+}
+
+function contaOrePermesso($iddoc,$con)
+{
+    $totaleore = 0;
+    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and subject LIKE '%permesso breve%'";
+    $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    while ($recperm = mysqli_fetch_array($risperm)) {
+
+        $oreperm = $recperm['orepermessobreve'];
+        
+
+        $totaleore += $oreperm;
+    }
+    return $totaleore;
+}
+
+function contaGiorniPermesso($iddoc,$con)
+{
+    $totalegiorni = 0;
+    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Permesso retribuito%'";
+    $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    while ($recperm = mysqli_fetch_array($risperm)) {
+
+        
+        $giorniperm = $recperm['numerogiorni'];
+        // print "GP $giorniperm $posizionegiorni ";
+        $totalegiorni += $giorniperm;
+    }
+    return $totalegiorni;
+}
+
+function contaGiorniFerie($iddoc,$con)
+{
+    $totalegiorni = 0;
+    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Ferie%'";
+    $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    while ($recperm = mysqli_fetch_array($risperm)) {
+
+        
+        $giorniferie = $recperm['numerogiorni'];
+        
         $totalegiorni += $giorniferie;
     }
     return $totalegiorni;

@@ -702,6 +702,7 @@ if ($cambiamentopassword)
         menu_item('../assenze/visderoghe.php', 'SITUAZIONE DEROGHE ASSENZE');
         menu_separator("");
         menu_item('../assenze/ricalcoloassenzesele.php', 'RICALCOLO ASSENZE');
+        
         menu_title_end();
 
         menu_title_begin('LEZIONI');
@@ -1296,6 +1297,8 @@ if ($cambiamentopassword)
             menu_item('../moodle/sincronizzautenti.php', 'AGGIUNGI NUOVI UTENTI A MOODLE');
             menu_item('../moodle/seleiscrizionecorsi.php', 'ISCRIVI STUDENTI A CORSO MOODLE');
             menu_item('../moodle/seleiscrizionecorsidoc.php', 'ISCRIVI DOCENTI A CORSO MOODLE');
+            menu_item('../moodle/sincronizzacorsi.php', 'SINCRONIZZA TUTTI I CORSI MOODLE (PESANTE)');
+            
             menu_title_end();
         }
 
@@ -1311,6 +1314,11 @@ if ($cambiamentopassword)
         menu_item('../contr/visualizzalog.php', 'VISUALIZZA LOG');
         menu_item('../contr/test.php', 'TEST ');
         menu_title_end();
+        
+        menu_title_begin('ASSENZE');
+        menu_item('../assenze/forzaassenzapertutti.php', 'FORZA ASSENZE PER TUTTI! (Da usare in caso di mancate timbrature)');
+        menu_title_end();
+        
     }
 
     if ($tipoutente == 'A')
@@ -1638,6 +1646,7 @@ if ($cambiamentopassword)
         //
         // VERIFICO PRESENZA COLLOQUI
         //
+        
         if ($tipoutente == "D" | $tipoutente == "S")
         {
             $dataoggi = date('Y-m-d');
@@ -1773,7 +1782,7 @@ if ($cambiamentopassword)
             //
             //  VERIFICO PRESENZA AGGIORNAMENTI
             //
-            //
+            
             $idscuola = md5($nomefilelog);
             //print "<iframe style='visibility:hidden;display:none' src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola'></iframe>";
             // print "<iframe src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola'></iframe>";

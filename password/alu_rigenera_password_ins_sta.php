@@ -49,115 +49,214 @@ $annoscolastico = $annoscol . "/" . ($annoscol + 1);
 
 // print ('<body class="stampa" onLoad="JavaScript:printPage()">');
 //$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+/*
+  if ($idclasse != 0)
+  {
+  $query = "select idclasse,anno,sezione,specializzazione from tbl_classi where idclasse=$idclasse";
+  $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+
+  $val = mysqli_fetch_array($ris);
+
+  print "<center><b>Elenco password per alunni della classe: " . $val['anno'] . $val['sezione'] . " " . $val['specializzazione'] . "</b></center><br/><br/>";
+
+  print "<form name='stampa'  target='_blank' action='../alunni/alu_stampa_pass_alu.php' method='POST'>";
+
+  print "<table align='center' border='1'><tr><td><b>Alunno</b></td><td><b>Utente</b></td><td><b>Password</b></td></tr>";
+
+
+  $query = "SELECT * FROM tbl_alunni,tbl_utenti
+  WHERE (tbl_alunni.idalunno+2100000000)=tbl_utenti.idutente
+  AND idclasse='" . $idclasse . "' ORDER BY cognome,nome,datanascita";
+  $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+
+  $nf = session_id() . ".csv";
+  $nomefile = "$cartellabuffer/" . $nf;
+  $fp = fopen($nomefile, 'w');
+  $numpass = 0;
+  $arr_id = "";
+  $arr_ut = "";
+  $arr_pw = "";
+  while ($val = mysqli_fetch_array($ris))
+  {
+  $numpass++;
+
+  print ("
+  <tr>
+  <td>" . $val['cognome'] . " " . $val['nome'] . " (" . data_italiana($val['datanascita']) . ")" . "</td>");
+
+  $idalunno = $val['idalunno'];
+  $utente = $val['userid'];
+  $pass = creapassword();
+  $arr_id .= "$idalunno|";
+  $arr_ut .= "$utente|";
+  $arr_pw .= "$pass|";
+  print ("<td>$utente</td><td>$pass</td></tr>");
+  $qupd = "update tbl_utenti set password=md5('" . md5($pass) . "') where idutente=($idalunno+2100000000)";
+  $resupd = mysqli_query($con, inspref($qupd)) or die("Errore nella query: " . mysqli_error($con));
+  //print "TOKEN SERVIZI MOODLE $tokenservizimoodle";
+  if ($tokenservizimoodle != '')
+  {
+  $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $utente);
+  //print "IDMOODLE $idmoodle";
+  cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $utente, $pass);
+  }
+  fputcsv($fp, array($val['cognome'], $val['nome'], data_italiana($val['datanascita']), $utente, $pass), ";");
+  }
+  }
+  elseif ($idalu != "")
+  {
+  $query = "select * from tbl_alunni,tbl_utenti
+  where (tbl_alunni.idalunno+2100000000)=tbl_utenti.idutente
+  and idalunno=$idalu";
+  $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+
+  $val = mysqli_fetch_array($ris);
+
+  print "<center><b>Password alunno " . decodifica_alunno($idalu, $con) . "</b></center><br/><br/>";
+
+  print "<form name='stampa'  target='_blank' action='../alunni/alu_stampa_pass_alu.php' method='POST'>";
+
+  $nf = session_id() . ".csv";
+  $nomefile = "$cartellabuffer/" . $nf;
+  $fp = fopen($nomefile, 'w');
+  $numpass = 0;
+  $arr_id = "";
+  $arr_ut = "";
+  $arr_pw = "";
+  //while($val=mysqli_fetch_array($ris))
+  //	{
+  $numpass++;
+
+  print (" <table align='center' border=1>
+  <tr>
+  <td>" . $val['cognome'] . " " . $val['nome'] . " (" . data_italiana($val['datanascita']) . ")" . "</td>");
+
+  $idalunno = $val['idalunno'];
+  $utente = $val['userid'];
+  $pass = creapassword();
+  $arr_id .= "$idalunno|";
+  $arr_ut .= "$utente|";
+  $arr_pw .= "$pass|";
+  print ("<td>$utente</td><td>$pass</td></tr>");
+  $qupd = "update tbl_utenti set password=md5('" . md5($pass) . "') where idutente=($idalunno+2100000000)";
+  $resupd = mysqli_query($con, inspref($qupd)) or die("Errore nella query: " . mysqli_error($con));
+  if ($tokenservizimoodle != '')
+  {
+
+  $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $utente);
+  //print "IDMOODLE $idmoodle";
+  cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $utente, $pass);
+  }
+  fputcsv($fp, array($val['cognome'], $val['nome'], data_italiana($val['datanascita']), $utente, $pass), ";");
+
+
+  // }
+  }
+
+  else
+  {
+  print "<center><b>Elenco password alunni</b></center><br/><br/>";
+  print "<form target='_blank' name='stampa' action='../alunni/alu_stampa_pass_alu.php' method='POST'>";
+  print "<table align='center' border='1'><tr><td>Nessuna password rigenerata!</td></tr>";
+  }
+  print("</table>");
+  $arr_id = substr($arr_id, 0, strlen($arr_id) - 1);
+  $arr_ut = substr($arr_ut, 0, strlen($arr_ut) - 1);
+  $arr_pw = substr($arr_pw, 0, strlen($arr_pw) - 1);
+  print "<input type='hidden' name='arrid' value='$arr_id'>
+  <input type='hidden' name='arrut' value='$arr_ut'>
+  <input type='hidden' name='arrpw' value='$arr_pw'>
+  <input type='hidden' name='numpass' value='$numpass'>
+  <center><br><input type='submit' value='STAMPA COMUNICAZIONI'></center>
+  </form>";
+  fclose($fp);
+
+
+  print ("<br/><center><a href='$cartellabuffer/$nf'><img src='../immagini/csv.png'></a></center>");
+ */
 
 if ($idclasse != 0)
 {
     $query = "select idclasse,anno,sezione,specializzazione from tbl_classi where idclasse=$idclasse";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
 
     $val = mysqli_fetch_array($ris);
 
     print "<center><b>Elenco password per alunni della classe: " . $val['anno'] . $val['sezione'] . " " . $val['specializzazione'] . "</b></center><br/><br/>";
-
-    print "<form name='stampa'  target='_blank' action='../alunni/alu_stampa_pass_alu.php' method='POST'>";
-
-    print "<table align='center' border='1'><tr><td><b>Alunno</b></td><td><b>Utente</b></td><td><b>Password</b></td></tr>";
-
-
-    $query = "SELECT * FROM tbl_alunni,tbl_utenti
-			  WHERE (tbl_alunni.idalunno+2100000000)=tbl_utenti.idutente
-			  AND idclasse='" . $idclasse . "' ORDER BY cognome,nome,datanascita";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
-
-    $nf = session_id() . ".csv";
-    $nomefile = "$cartellabuffer/" . $nf;
-    $fp = fopen($nomefile, 'w');
-    $numpass = 0;
-    $arr_id = "";
-    $arr_ut = "";
-    $arr_pw = "";
-    while ($val = mysqli_fetch_array($ris))
-    {
-        $numpass++;
-
-        print ("
-					 <tr>
-						 <td>" . $val['cognome'] . " " . $val['nome'] . " (" . data_italiana($val['datanascita']) . ")" . "</td>");
-
-        $idalunno = $val['idalunno'];
-        $utente = $val['userid'];
-        $pass = creapassword();
-        $arr_id .= "$idalunno|";
-        $arr_ut .= "$utente|";
-        $arr_pw .= "$pass|";
-        print ("<td>$utente</td><td>$pass</td></tr>");
-        $qupd = "update tbl_utenti set password=md5('" . md5($pass) . "') where idutente=($idalunno+2100000000)";
-        $resupd = mysqli_query($con, inspref($qupd)) or die("Errore nella query: " . mysqli_error($con));
-        //print "TOKEN SERVIZI MOODLE $tokenservizimoodle";
-        if ($tokenservizimoodle != '')
-        {
-            $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $utente);
-            //print "IDMOODLE $idmoodle";
-            cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $utente, $pass);
-        }
-        fputcsv($fp, array($val['cognome'], $val['nome'], data_italiana($val['datanascita']), $utente, $pass), ";");
-    }
 }
-elseif ($idalu != "")
+print "<form name='stampa'  target='_blank' action='../alunni/alu_stampa_pass_alu.php' method='POST'>";
+
+print "<table align='center' border='1'><tr><td><b>Alunno</b></td><td><b>Utente</b></td><td><b>Password</b></td></tr>";
+
+if ($idclasse != 0)
 {
-    $query = "select * from tbl_alunni,tbl_utenti
-			  where (tbl_alunni.idalunno+2100000000)=tbl_utenti.idutente 
-			  and idalunno=$idalu";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
 
-    $val = mysqli_fetch_array($ris);
+    $query = "SELECT * FROM tbl_alunni
+			  WHERE idclasse='" . $idclasse . "' ORDER BY cognome,nome,datanascita";
+   // print $query;
+    //$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+} else
+{
 
-    print "<center><b>Password alunno " . decodifica_alunno($idalu, $con) . "</b></center><br/><br/>";
+    $query = "SELECT * FROM tbl_alunni
+        WHERE idalunno='$idalu'";
+  //  print $query;
+    //$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+}
 
-    print "<form name='stampa'  target='_blank' action='../alunni/alu_stampa_pass_alu.php' method='POST'>";
 
-    $nf = session_id() . ".csv";
-    $nomefile = "$cartellabuffer/" . $nf;
-    $fp = fopen($nomefile, 'w');
-    $numpass = 0;
-    $arr_id = "";
-    $arr_ut = "";
-    $arr_pw = "";
-    //while($val=mysqli_fetch_array($ris))
-//	{
+
+
+$nf = session_id() . ".csv";
+$nomefile = "$cartellabuffer/" . $nf;
+$fp = fopen($nomefile, 'w');
+$numpass = 0;
+$arr_id = "";
+$arr_ut = "";
+$arr_pw = "";
+$risalunni = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+//print ("Righe ".mysqli_num_rows($risalunni));
+while ($valalunni = mysqli_fetch_array($risalunni))
+{
     $numpass++;
 
-    print (" <table align='center' border=1>
-					 <tr>
-						 <td>" . $val['cognome'] . " " . $val['nome'] . " (" . data_italiana($val['datanascita']) . ")" . "</td>");
+// VERIFICO SE C'E' GIA' L'UTENTE ALUNNO
+    $idalu=$valalunni['idalunno'];
+    $query = "SELECT * FROM tbl_utenti
+        WHERE idutente='" . ($idalu + 2100000000) . "'";
+    $risute = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+    $utente = "al" . $_SESSION['suffisso'] . $idalu;
+    if (mysqli_num_rows($risute) == 0)
+    {
+        $idutente = $idalu + 2100000000;
 
-    $idalunno = $val['idalunno'];
-    $utente = $val['userid'];
+        $query = "insert into tbl_utenti(idutente,userid, tipo) values ($idutente,'$utente','L')";
+        mysqli_query($con, inspref($query)) or die("Errore" . inspref($query, false));
+    }
+
+    print ("
+					 <tr>
+						 <td>" . $valalunni['cognome'] . " " . $valalunni['nome'] . " (" . data_italiana($valalunni['datanascita']) . ")" . "</td>");
+
+    $idalunno = $idalu;
+
     $pass = creapassword();
     $arr_id .= "$idalunno|";
     $arr_ut .= "$utente|";
     $arr_pw .= "$pass|";
     print ("<td>$utente</td><td>$pass</td></tr>");
     $qupd = "update tbl_utenti set password=md5('" . md5($pass) . "') where idutente=($idalunno+2100000000)";
-    $resupd = mysqli_query($con, inspref($qupd)) or die("Errore nella query: " . mysqli_error($con));
+    mysqli_query($con, inspref($qupd)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+
     if ($tokenservizimoodle != '')
     {
-
         $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $utente);
-        //print "IDMOODLE $idmoodle";
+
         cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $utente, $pass);
-    } 
-    fputcsv($fp, array($val['cognome'], $val['nome'], data_italiana($val['datanascita']), $utente, $pass), ";");
-
-
-    // }
-}
-
-else
-{
-    print "<center><b>Elenco password alunni</b></center><br/><br/>";
-    print "<form target='_blank' name='stampa' action='../alunni/alu_stampa_pass_alu.php' method='POST'>";
-    print "<table align='center' border='1'><tr><td>Nessuna password rigenerata!</td></tr>";
+    }
+    //print "qui";
+    fputcsv($fp, array($valalunni['cognome'], $valalunni['nome'], data_italiana($valalunni['datanascita']), $utente, $pass), ";");
+    //print "qua";
 }
 print("</table>");
 $arr_id = substr($arr_id, 0, strlen($arr_id) - 1);
@@ -173,7 +272,6 @@ fclose($fp);
 
 
 print ("<br/><center><a href='$cartellabuffer/$nf'><img src='../immagini/csv.png'></a></center>");
-
 
 stampa_piede("");
 mysqli_close($con);

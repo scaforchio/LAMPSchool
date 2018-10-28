@@ -295,6 +295,7 @@ per un totale di ore <input type='number' class='narrow' id='orepermessobreve' n
                                    document.getElementById('datainizio').removeAttribute('required');
                                    document.getElementById('datafine').removeAttribute('required');
                                    document.getElementById('numerogiorni').removeAttribute('required');
+                                   document.getElementById('numerogiorni').value='';
                                    document.getElementById('orainiziopermessobreve').setAttribute('required',true);
                                    document.getElementById('orafinepermessobreve').setAttribute('required',true);
                                    document.getElementById('orepermessobreve').setAttribute('required',true);

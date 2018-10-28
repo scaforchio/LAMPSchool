@@ -112,7 +112,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
             //if (esiste_firma($idlezione, $iddocente, $conn))
             if (esiste_cattedra($idlezione, $iddocente, $conn))
             {
-                print "<a href='../lezioni/lez.php?goback=$gotoPage&idlezione=$idlezione&provenienza=registro'>";
+                print "<a href='../lezioni/lez.php?goback=$gotoPage&idlezione=$idlezione&provenienza=registro&idlezionegruppo=".$rec['idlezionegruppo']."'>";
                 print $rec['denominazione'];
                 print "</a>";
             } else

@@ -230,14 +230,12 @@ if ($idclasse != "" & $idclasse != "all")
         print($nom["nome"]);
         print "&nbsp;&nbsp;&nbsp;";
         print(data_italiana($nom["datanascita"]));
-
     }
 }
 else
 {
     print "<tr><td width='50%'><p align='center'><b>Alunno</b></p></td><td>";
     echo("<select name='idalunno'><option value=''>&nbsp");
-
 }
 
 echo('
@@ -284,9 +282,7 @@ if ($idclasse != "")
     {
         $stringaricerca = $stringaricerca . " and tbl_notealunno.idclasse=$idclasse ";
     }
-
 }
-
 else
 {
    // $stringaricerca = $stringaricerca . " and 1=2 ";
@@ -376,12 +372,9 @@ else
         print("</td>");
 
         print("</tr>");
-
     }
     print "</table>";
-
 }
-
 
 mysqli_close($con);
 stampa_piede(""); 

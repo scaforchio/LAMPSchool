@@ -185,71 +185,9 @@ if (!$flagsovrapposizione)
     
 
     /*
-     *
-     * L'inserimentoe modifica delle ore di assenza è stata disabilitata in quanto le assenze delle lezioni
-     * sono state sincronizzate con le assenze, ritardi e uscite anticipate.
-
-    if ($idgruppo == "")
-    {
-        $query = "SELECT idalunno AS al FROM tbl_alunni WHERE idalunno in (".estrai_alunni_classe_data($idclasse,$data,$con).")";
-    }
-    else
-    {
-        $query = "select tbl_gruppialunni.idalunno as al from tbl_gruppialunni,tbl_alunni
-           where tbl_gruppialunni.idalunno=tbl_alunni.idalunno
-           and idgruppo=$idgruppo
-           and idclasse=$idclasse";
-    }
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
-
-
-    while ($id = mysqli_fetch_array($ris))
-    {
-
-        $va = "oreass" . $id['al'];
-        $assal = stringa_html($va);
-
-        $query = "SELECT * FROM tbl_asslezione WHERE idalunno=" . $id['al'] . " AND idlezione=$codlez";
-        $rissel = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
-        if (mysqli_num_rows($rissel) > 0)
-        {
-            $query = "DELETE FROM tbl_asslezione WHERE idalunno='" . $id['al'] . "' AND idlezione='" . $codlez . "'";
-            $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
-
-        }
-        if ($ope == 'U' | $ope == 'I')
-        {
-            if ($assal != "0")
-            {
-                if ($assal <= $numeroore)
-                {
-
-                    $query = "INSERT INTO tbl_asslezione(idalunno,idmateria,data,oreassenza,idlezione)
-									VALUES(" . $id['al'] . "," . $materia . ",'" . $data . "','" . $assal . "','" . $codlez . "')";
-
-                    $ris3 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
-                }
-                else
-                {
-
-
-                    $query = "INSERT INTO tbl_asslezione(idalunno,idmateria,data,oreassenza,idlezione)
-									VALUES(" . $id['al'] . "," . $materia . ",'" . $data . "','" . $numeroore . "','" . $codlez . "')";
-
-                    $ris4 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
-                    print "Ore di assenza cambiate per alunno " . $id['al'];
-                }
-            }
-        }
-    }
-
-    */
-
-
-    /*
      * INSERIMENTO VALUTAZIONI
      */
-
+    
     if ($idgruppo == "")
     {
         if (!cattedra_sost($iddocente, $materia, $idclasse, $con))

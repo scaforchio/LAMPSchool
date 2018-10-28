@@ -39,10 +39,11 @@ stampa_head($titolo,"",$script,"SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $idnota = stringa_html('idnota');
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
 
 if ($idnota != "")   // se si arriva dalla pagina della ricerca
 {
-    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+    //$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
 
     $query = "SELECT * FROM tbl_noteclasse WHERE idnotaclasse=" . $idnota . "";
     $ris = mysqli_query($con, inspref($query));
@@ -69,7 +70,11 @@ else
     $mese = substr($meseanno, 0, 2);
     $anno = substr($meseanno, 5, 4);
 }
-
+if ($nome!='')
+{
+$coordinatoreclasse= verifica_classe_coordinata($_SESSION['idutente'], $nome, $con);
+//print "Coordinatore $coordinatoreclasse";
+}
 $data = $anno . "-" . $mese . "-" . $giorno;
 $giornosettimana = giorno_settimana($data);
 
@@ -100,7 +105,7 @@ print ('
       <SELECT ID="cl" NAME="idclasse" ONCHANGE="tbl_noteclasse.submit()"><option value="">&nbsp;</option>');
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+
 
 
 // Riempimento combo box tbl_classi
@@ -331,7 +336,7 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
         echo "";
         echo "</textarea><br/>";
         echo "</td><td>";
-        if ($tipoutente == "S" | $tipoutente == "P")
+        if ($tipoutente == "S" | $tipoutente == "P" | $coordinatoreclasse)
         {
             echo "<textarea  cols=60 rows=10 name ='provvedimenti'>";
         }
@@ -350,7 +355,7 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
         echo $c['testo'];
         echo "</textarea><br/>";
         echo "</td><td>";
-        if ($tipoutente == "S" | $tipoutente == "P")
+        if ($tipoutente == "S" | $tipoutente == "P" | $coordinatoreclasse)
         {
             echo "<textarea  cols=60 rows=10 name ='provvedimenti'>";
         }

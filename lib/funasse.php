@@ -639,3 +639,16 @@ function calcola_ritardi_brevi($idalunno, $con, $ritardobreve, $rangedate='')
     return $numritardibrevi;
 }
 
+function esiste_assenza_alunno($idalunno, $data, $con)
+{
+    
+    $query = "select * from tbl_assenze where idalunno='$idalunno' and data='$data'";
+    $ris = mysqli_query($con, inspref($query));
+    if (mysqli_num_rows($ris)>0)
+    {
+        return true;
+    }
+    
+    return false;
+}
+

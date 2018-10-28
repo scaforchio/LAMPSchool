@@ -58,9 +58,15 @@ while ($rec = mysqli_fetch_array($ris)) {
     $iddoc = $rec['iddocente'];
     $nominativo = estrai_dati_docente($iddoc, $con);
 
-    $totaleore=calcolaOrePermesso($iddoc,$con);
+    /*$totaleore=calcolaOrePermesso($iddoc,$con);
     $giorniferie = calcolaGiorniFerie($iddoc,$con);
-    $giorniperm = calcolaGiorniPermesso($iddoc,$con);
+    $giorniperm = calcolaGiorniPermesso($iddoc,$con); */
+    
+    $totaleore = contaOrePermesso($iddoc,$con);
+    $giorniferie = contaGiorniFerie($iddoc,$con);
+    $giorniperm = contaGiorniPermesso($iddoc,$con);
+    
+    
   /*  $totaleore = 0;
     $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and subject LIKE '%permesso breve%'";
     $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");

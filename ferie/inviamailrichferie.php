@@ -44,17 +44,15 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 $nominativo= estrai_dati_docente($_SESSION['idutente'], $con);
 
 $to = $indirizzomailassenze;
-$subject = stringa_html('subject');
 
-$testomail= stringa_html('testomail');
-$orepermessobreve= stringa_html('orepermessobreve');
-if ($orepermessobreve=='') $orepermessobreve=0;
+// NON USATA LA FUNZIONE stringa_html per evitare modifica dei tag html 
+$subject = $_POST['subject'];
+$testomail= $_POST['testomail'];
 $numerogiorni=stringa_html('numerogiorni');
+$orepermessobreve=stringa_html('orepermessobreve');
 if ($numerogiorni=='') $numerogiorni=0;
-
-
-
-$query="insert into tbl_richiesteferie(iddocente, subject, testomail,orepermessobreve,numerogiorni) values ('$iddocente','$subject','$testomail','$orepermessobreve','$numerogiorni')";
+if ($orepermessobreve=='') $orepermessobreve=0;
+$query="insert into tbl_richiesteferie(iddocente, subject, testomail,numerogiorni,orepermessobreve) values ('$iddocente','$subject','$testomail',$numerogiorni,$orepermessobreve)";
 mysqli_query($con,inspref($query)) or die("Errore $query");
 $idrichiesta=mysqli_insert_id($con);
 

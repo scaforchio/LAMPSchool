@@ -43,7 +43,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
  $iddocente = stringa_html('iddocente');
  $testo = stringa_html('testo');
  $visibile = stringa_html('visibile');
- print "Visibile$visibile";
+ //print "Visibile$visibile";
  $idannotazione=stringa_html('idannotazione');
  $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
  $numerorighe=0;
