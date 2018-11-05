@@ -1178,6 +1178,7 @@ if ($cambiamentopassword)
 
     if ($tipoutente == 'M')
     {  // Amministratore
+       // inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Inizio menu");
         menu_separator("STRUMENTI DI AMMINISTRAZIONE");
         menu_title_begin('DATI E CONFIGURAZIONE');
         menu_item('../password/cambpwd.php', 'CAMBIAMENTO PROPRIA PASSWORD');
@@ -1315,6 +1316,7 @@ if ($cambiamentopassword)
         menu_item('../contr/test.php', 'TEST ');
         menu_title_end();
         
+        
         menu_title_begin('ASSENZE');
         menu_item('../assenze/forzaassenzapertutti.php', 'FORZA ASSENZE PER TUTTI! (Da usare in caso di mancate timbrature)');
         menu_title_end();
@@ -1338,7 +1340,9 @@ if ($cambiamentopassword)
         menu_item("../docenti/carica_docenti_da_csv.php?par=1!0!1!1!2!99!99!99!99!99!99!99", "Carica docenti da file CSV generico");
         menu_title_end();
 
+       
 
+        
         menu_title_begin('PASSWORD');
         menu_item('../password/rigenera_password.php', 'Rigenera e stampa password tutor');
         if ($livello_scuola == '4')
@@ -1582,19 +1586,6 @@ if ($cambiamentopassword)
 
         print ("<td valign=top>");
 
-        /*            if ($tipoutente == 'S')
-          {
-          $risultato = controlloNuovaVersione();
-          $esito = $risultato['esito'];
-          $nuovaVersione = $risultato['versione'];
-
-          if ($esito) {
-          print "<center><h5><font color='red'>E' disponibile sul sito di LAMPSchool la versione $nuovaVersione</font></h5></center>";
-          }
-          }
-         */
-
-
         //VERIFICO PRESENZA ASSEMBLEE DI CLASSE DA AUTORIZZARE
         if ($livello_scuola == '4')
         {
@@ -1782,11 +1773,12 @@ if ($cambiamentopassword)
             //
             //  VERIFICO PRESENZA AGGIORNAMENTI
             //
-            
+         //   inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
             $idscuola = md5($nomefilelog);
+         //   inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
             //print "<iframe style='visibility:hidden;display:none' src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola'></iframe>";
             // print "<iframe src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola'></iframe>";
-            $url = "http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola&ver=$versioneprecedente&asc=$annoscol";
+           /* $url = "http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola&ver=$versioneprecedente&asc=$annoscol";
             $url = str_replace(" ", "_", $url);
             $ch = curl_init();
             $timeout = 5;
@@ -1795,8 +1787,8 @@ if ($cambiamentopassword)
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
             $data = curl_exec($ch);
             curl_close($ch);
-            echo $data;
-
+            echo $data; */
+          //  inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
             /*  $ch = curl_init();
 
               curl_setopt($ch, CURLOPT_URL, 'http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola');
@@ -1816,12 +1808,15 @@ if ($cambiamentopassword)
                 print "<center><h5><font color='red'>E' disponibile sul sito di LAMPSchool la versione $nuovaVersione</font></h5></center>";
             }
 
+            print $_SERVER['HTTP_USER_AGENT'];
             //
             // FINE VERIFICA AGGIORNAMENTI
         //
         }
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "2");
         $query = "select * from tbl_avvisi where inizio<='$dataoggi' and fine>='$dataoggi' order by inizio desc";
         $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§3");
         while ($val = mysqli_fetch_array($ris))
         {
             $inizio = data_italiana($val["inizio"]);

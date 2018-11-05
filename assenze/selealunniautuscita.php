@@ -182,7 +182,7 @@ if ($idclasse != "")
     
     
     // FINE MODIFICHE
-    print "<br>Motivo: <input type='text' name='motivo' maxlength='200' size='80'><br><br>";
+    print "<br>per <input type='text' name='motivo' maxlength='200' size='80'><br><br>";
     print "</fieldset>";
    // if ($gesttimbrature == 'no')
         print "Uscita contestuale ad autorizzazione: <input type='checkbox' name='uscitacont'><br><br>";

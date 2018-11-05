@@ -29,7 +29,7 @@ $sorgente = stringa_html("sorgente");
 
 //if ($suffisso == 'demo')
 //{
-inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Tentato accesso da App Android $password Versione $versione Android $andver Sorgente $sorgente", $nomefilelog . "ap", $suff);
+// inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Tentato accesso da App Android $password Versione $versione Android $andver Sorgente $sorgente", $nomefilelog . "ap", $suff);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("errore connessione");
 
@@ -48,6 +48,8 @@ $result = mysqli_query($con, inspref($sql)) or die(inspref($sql, false));
 if (!$val = mysqli_fetch_array($result))  // ALUNNO NON TROVATO
 {
     $alunno = 0;
+    inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Tentato accesso errato da App Android $password Versione $versione Android $andver Sorgente $sorgente", $nomefilelog . "ap", $suff);
+
     die("Alunno non trovato!");
 } else
 {
@@ -60,9 +62,9 @@ if (!$val = mysqli_fetch_array($result))  // ALUNNO NON TROVATO
         else
             $alunno = $idutente;
         // AGGIORNO ULTIMO ACCESSO
-        $sql = "UPDATE tbl_utenti SET ultimoaccessoapp=" . time() . " where idutente=$idutente";
+        //$sql = "UPDATE tbl_utenti SET ultimoaccessoapp=" . time() . " where idutente=$idutente";
 
-        mysqli_query($con, inspref($sql)) or die(inspref($sql, false));
+        //mysqli_query($con, inspref($sql)) or die(inspref($sql, false));
 
         $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . $alunno . "'";
         $ris2 = mysqli_query($con, inspref($sql)) or die(inspref($sql, false));
@@ -76,9 +78,9 @@ if (!$val = mysqli_fetch_array($result))  // ALUNNO NON TROVATO
         }
     } else   // RICHIESTA DEGLI STESSI DATI EFFETTUATA PRIMA DI UN MINUTO
     {
-        inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Tempo basso ", $nomefilelog . "ap", $suff);
+       // inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Tempo basso ", $nomefilelog . "ap", $suff);
         sleep(10);
-        inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Sbloccato ", $nomefilelog . "ap", $suff);
+        // inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Sbloccato ", $nomefilelog . "ap", $suff);
         die("Tempo basso");
     }
 }
@@ -86,7 +88,7 @@ if (!$val = mysqli_fetch_array($result))  // ALUNNO NON TROVATO
 session_start();
 $_SESSION['idutente'] = $idutente;
 
-inserisci_log($utente . "§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Accesso da App Android", $nomefilelog . "ap", $suff);
+// inserisci_log($utente . "§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Accesso da App Android", $nomefilelog . "ap", $suff);
 
 $q = "select data,tipo,voto,giudizio,denominazione from tbl_valutazioniintermedie,tbl_materie where idalunno='$alunno' and tbl_valutazioniintermedie.idmateria=tbl_materie.idmateria order by data desc, denominazione";
 
@@ -310,6 +312,6 @@ $denclasse = decodifica_classe($idclasse, $con);
 $arr = array('fineprimo' => $fineprimo, 'alunno' => $alunno, 'classe' => $denclasse, 'cognome' => $cognome, 'nome' => $nome, 'datanascita' => $datanascita, 'numeroassenze' => $numassenze, 'numeroritardi' => $numritardi, 'numerouscite' => $numuscite, 'numerovoti' => $numerovoti, 'numeronote' => $numeronote, 'numerocomunicazioni' => $numerocomunicazioni, 'oggcom' => $oggetti, 'datecom' => $datapub, 'testicom' => $testi, 'date' => $dataval, 'tipo' => $tipoval, 'voto' => $votoval, 'giudizio' => $giudizioval, 'denominazione' => $denval, 'notealunno' => $notealunno, 'nomedoc' => $nomed, 'cognomedoc' => $cognomed, 'data' => $data3, 'noteclasse' => $noteclasse, 'nomedc' => $nomedc, 'cognomedc' => $cognomedc, 'datac' => $datac, 'dateass' => $dateassenza, 'giustass' => $giusta, 'daterit' => $dateritardi, 'oraent' => $orae, 'numore' => $numo, 'giustr' => $giustr, 'dateusc' => $dateuscite, 'oraus' => $orau, 'numoreu' => $numou, 'matelez' => $matelez, 'datelez' => $datelez, 'argolez' => $argolez, 'attilez' => $attilez);
 $strarr = json_encode($arr);
 
-inserisci_log($utente . "§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Trasmessi dati a smartphone", $nomefilelog . "ap", $suff);
+// inserisci_log($utente . "§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Trasmessi dati a smartphone", $nomefilelog . "ap", $suff);
 
 print $strarr;

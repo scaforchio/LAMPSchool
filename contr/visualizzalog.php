@@ -41,12 +41,21 @@ if ($tipoutente == "")
 $titolo = "VISUALIZZAZIONE LOG";
 $script = "";
 $datalog = stringa_html('datalog');
+$datafinelog = stringa_html('datafinelog');
 if ($datalog == '')
 {
-    $data = date('Ymd');
+    $datainizio = date('Ymd');
     $datalog = date('Y-m-d');
 } else
-    $data = substr($datalog, 0, 4) . substr($datalog, 5, 2) . substr($datalog, 8, 2);
+    $datainizio = substr($datalog, 0, 4) . substr($datalog, 5, 2) . substr($datalog, 8, 2);
+
+if ($datafinelog == '')
+{
+    $datafine = date('Ymd');
+    $datafinelog = date('Y-m-d');
+} else
+    $datafine = substr($datafinelog, 0, 4) . substr($datafinelog, 5, 2) . substr($datafinelog, 8, 2);
+
 
 $tipo = stringa_html('tipo');
 if ($tipo == 'WEB')
@@ -71,34 +80,46 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
   $filename="../lampschooldata/".$suff."0000$nomefilelog".date("Ymd").".log";
   else */
 
-$filename = "../lampschooldata/" . $suff . "0000$nomefilelog" . $sufftipo . $data . ".log";
-try
-{
-    $handle = fopen($filename, "r");
-} catch (Exception $e)
-{
-    print "<br><br><center>Non esiste file di log per la data specificata!";
-    $handle = '';
-}
-$handle = fopen($filename, "r");
-// print "Handle ".$handle;
+
 print "<form name='sceglilog' method='post' action='visualizzalog.php'>";
 
-print "<br><br><center><input type='date' name='datalog' value='$datalog' ONCHANGE=sceglilog.submit()><br>"
+print "<br><br><center><input type='date' name='datalog' value='$datalog' ONCHANGE=sceglilog.submit()><br><input type='date' name='datafinelog' value='$datafinelog' ONCHANGE=sceglilog.submit()><br>"
         . "  <select name='tipo' ONCHANGE=sceglilog.submit()><option $selweb>WEB</option><option $selapp>APP</option><option $selrp>R.P.</option></select></center>";
 print "</form>";
-// $contents = fread($handle, filesize($filename));
-if ($handle != '')
+
+
+for ($d = $datalog; $d <= $datafinelog; $d=aggiungi_giorni($d,1))
 {
+    $data=substr($d, 0, 4) . substr($d, 5, 2) . substr($d, 8, 2);
+    print "DATA $data<br>";
+    
+    
+    $filename = "../lampschooldata/" . $suff . "0000$nomefilelog" . $sufftipo . $data . ".log";
+    
     try
     {
-        $contents = file_get_contents($filename);
-        print "<font size='1'><b><pre>" . $filename . "</pre></b></font>";
-        print "<font size='1'><pre>" . $contents . "</pre></font>";
-        fclose($handle);
+        $handle = fopen($filename, "r");
     } catch (Exception $e)
     {
         print "<br><br><center>Non esiste file di log per la data specificata!";
+        $handle = '';
     }
+    $handle = fopen($filename, "r");
+ // print "Handle ".$handle.$filename;
+// $contents = fread($handle, filesize($filename));
+    if ($handle != '')
+    {
+        try
+        {
+            $contents = file_get_contents($filename);
+            print "<font size='1'><b><pre>" . $filename . "</pre></b></font>";
+            print "<font size='1'><pre>" . $contents . "</pre></font>";
+            fclose($handle);
+        } catch (Exception $e)
+        {
+            print "<br><br><center>Non esiste file di log per le date specificate!";
+        }
+    }
+    fclose($handle);
 }
 stampa_piede("");
