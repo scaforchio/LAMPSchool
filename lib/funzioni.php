@@ -604,3 +604,40 @@ function invia_mail($to, $subject, $msg, $from = "", $reply = "")
      
     
 }
+function decod_dest($tipodest)
+{
+    //if ($tipodest=='O')
+    //   return "Tutti";
+    if ($tipodest == 'D')
+    {
+        return "Tutti i docenti";
+    }
+    if ($tipodest == 'A')
+    {
+        return "Tutti i genitori";
+    }
+    if ($tipodest == 'I')
+    {
+        return "Tutti gli impiegati";
+    }
+    if ($tipodest == 'L')
+    {
+        return "Tutti gli alunni";
+    }
+    if ($tipodest == 'SD')
+    {
+        return "Selezione docenti";
+    }
+    if ($tipodest == 'SA')
+    {
+        return "Selezione genitori";
+    }
+    if ($tipodest == 'SI')
+    {
+        return "Selezione impiegati";
+    }
+    if ($tipodest == 'SL')
+    {
+        return "Selezione alunni";
+    }
+}

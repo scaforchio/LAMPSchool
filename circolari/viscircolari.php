@@ -68,7 +68,7 @@ $script .= "<script>
 	                 
 	             });
 </script>";
-stampa_head($titolo, "", $script,"MSAPDT");
+stampa_head($titolo, "", $script,"MSAPDTL");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -138,24 +138,4 @@ print "</table>";
 
 mysqli_close($con);
 stampa_piede("");
-
-function decod_dest($tipodest)
-{
-    if ($tipodest == 'O')
-    {
-        return "Tutti";
-    }
-    if ($tipodest == 'D')
-    {
-        return "Docenti";
-    }
-    if ($tipodest == 'A')
-    {
-        return "Alunni";
-    }
-    if ($tipodest == 'I')
-    {
-        return "Impiegati";
-    }
-}
 

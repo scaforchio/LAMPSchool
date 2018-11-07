@@ -113,6 +113,14 @@ if ($idcircolare != "")
                and tbl_alunni.idclasse=tbl_classi.idclasse
                order by anno,sezione,specializzazione,cognome,nome";
     }
+    if ($dest == 'L' | $dest == 'SL')
+    {
+        $query = "select * from tbl_diffusionecircolari,tbl_alunni,tbl_classi
+               where tbl_diffusionecircolari.idutente=(tbl_alunni.idalunno+2100000000)
+               and idcircolare=$idcircolare
+               and tbl_alunni.idclasse=tbl_classi.idclasse
+               order by anno,sezione,specializzazione,cognome,nome";
+    }
     if ($dest == 'I' | $dest == 'SI')
     {
         $query = "select * from tbl_diffusionecircolari,tbl_amministrativi
@@ -161,34 +169,4 @@ print"<br/><center><a href=javascript:Popup('listadistrstampa.php?idcircolare=$i
 
 mysqli_close($con);
 stampa_piede("");
-
-function decod_dest($tipodest)
-{
-    //if ($tipodest=='O')
-    //   return "Tutti";
-    if ($tipodest == 'D')
-    {
-        return "Tutti i docenti";
-    }
-    if ($tipodest == 'A')
-    {
-        return "Tutti gli alunni";
-    }
-    if ($tipodest == 'I')
-    {
-        return "Tutti gli impiegati";
-    }
-    if ($tipodest == 'SD')
-    {
-        return "Selezione docenti";
-    }
-    if ($tipodest == 'SA')
-    {
-        return "Selezione alunni";
-    }
-    if ($tipodest == 'SI')
-    {
-        return "Selezione impiegati";
-    }
-}
 

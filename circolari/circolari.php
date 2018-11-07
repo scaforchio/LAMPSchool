@@ -83,6 +83,62 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 $visualizzabili = array("image/jpeg", "application/pdf", "image/pjpeg", "image/gif", "image/png");
 
 
+
+
+//
+//  AGGIUNTA CIRCOLARE
+//
+
+print "<br><br>";
+print "<fieldset><legend>AGGIUNGI CIRCOLARE</legend>";
+print ("
+		
+		<form action='inscircolare.php' method='POST' enctype='multipart/form-data'>
+
+		<p align='center'>
+		<table align='center' border='1'>
+		<tr class='prima'>
+			<td><b>Circolare</b></td>
+			<td><b>Destinatari</b></td>
+			<td><b>Ricevuta</b></td>
+			<td><b>Data inizio</b></td>
+			<td><b>File da caricare</b></td>
+			");
+
+print "<tr>";
+print "<td><input type='text' maxlength='100' size='30' name='descrizione'></td>";
+print "<td><SELECT NAME='destinatari'>
+                
+                <option value='L'>Tutti gli alunni</option> 
+                <option value='A'>Tutti i genitori</option> 
+                <option value='D'>Tutti i docenti</option>
+                <option value='I'>Tutti gli impiegati</option>
+                <option value='SL'>Selezione alunni</option> 
+                <option value='SA'>Selezione genitori</option> 
+                <option value='SD'>Selezione docenti</option>
+                <option value='SI'>Selezione impiegati</option>";
+print "   
+	   </SELECT>";
+
+print "</td>";
+print "<td><SELECT NAME='ricevuta'>
+                <option value='0'>No</option>      
+                <option value='1'>S&igrave;</option>     
+                </SELECT></td><td>";
+$dataoggi = date('d/m/Y');
+$datascad = date('d/m/Y', strtotime('+1 months'));
+print "<input type ='text' id='datainserimento' name='datainserimento' size='10' maxlength='10' value='$dataoggi'>";
+print "</td>";
+print ("<td><center><input type=file name='filedocumento' value='Carica file'>  </td></tr>");
+
+
+print "</table>";
+
+print "<center><br><input type='submit' value='Invia file selezionato'></center>";
+print "</form>";
+print "</fieldset>";
+
+
 //
 //  SELEZIONE ALUNNO
 //
@@ -111,11 +167,11 @@ else
 //   print "<option value='O'>Tutti</option>";     
 if ($destinatari == 'A')
 {
-    print "<option value='A' selected>Tutti gli alunni</option>";
+    print "<option value='A' selected>Tutti i genitori</option>";
 }
 else
 {
-    print "<option value='A'>Tutti gli alunni</option>";
+    print "<option value='A'>Tutti i genitori</option>";
 }
 if ($destinatari == 'D')
 {
@@ -133,13 +189,21 @@ else
 {
     print "<option value='I'>Tutti gli impiegati</option>";
 }
-if ($destinatari == 'SA')
+if ($destinatari == 'L')
 {
-    print "<option value='SA' selected>Selezione alunni</option>";
+    print "<option value='L' selected>Tutti gli alunni</option>";
 }
 else
 {
-    print "<option value='SA'>Selezione alunni</option>";
+    print "<option value='L'>Tutti gli alunni</option>";
+}
+if ($destinatari == 'SA')
+{
+    print "<option value='SA' selected>Selezione genitori</option>";
+}
+else
+{
+    print "<option value='SA'>Selezione genitori</option>";
 }
 if ($destinatari == 'SD')
 {
@@ -157,7 +221,14 @@ else
 {
     print "<option value='SI'>Selezione impiegati</option>";
 }
-
+if ($destinatari == 'SL')
+{
+    print "<option value='SL' selected>Selezione alunni</option>";
+}
+else
+{
+    print "<option value='SL'>Selezione alunni</option>";
+}
 print "   
 	   </SELECT>
       </td></tr>";
@@ -225,95 +296,20 @@ while ($nom = mysqli_fetch_array($ris))
     {
         echo " <a href='selealunni.php?idcircolare=" . $nom["idcircolare"] . "&tipo=" . $nom['destinatari'] . "'><img src='../immagini/tabella.png' alt='lista distribuzione'></a>";
     }
-
+    if ($nom['destinatari'] == 'SL' | $nom['destinatari'] == 'L')
+    {
+        echo " <a href='selealunni.php?idcircolare=" . $nom["idcircolare"] . "&tipo=" . $nom['destinatari'] . "'><img src='../immagini/tabella.png' alt='lista distribuzione'></a>";
+    }
 }
 print "</td></tr>";
 
 
 print "</table>";
 
-//
-//  AGGIUNTA CIRCOLARE
-//
-
-print "<br><br>";
-print "<fieldset><legend>AGGIUNGI CIRCOLARE</legend>";
-print ("
-		
-		<form action='inscircolare.php' method='POST' enctype='multipart/form-data'>
-
-		<p align='center'>
-		<table align='center' border='1'>
-		<tr class='prima'>
-			<td><b>Circolare</b></td>
-			<td><b>Destinatari</b></td>
-			<td><b>Ricevuta</b></td>
-			<td><b>Data inizio</b></td>
-			<td><b>File da caricare</b></td>
-			");
-
-print "<tr>";
-print "<td><input type='text' maxlength='100' size='30' name='descrizione'></td>";
-print "<td><SELECT NAME='destinatari'>
-                
-                <option value='A'>Tutti gli alunni</option> 
-                <option value='D'>Tutti i docenti</option>
-                <option value='I'>Tutti gli impiegati</option>
-                <option value='SA'>Selezione alunni</option> 
-                <option value='SD'>Selezione docenti</option>
-                <option value='SI'>Selezione impiegati</option>";
-print "   
-	   </SELECT>";
-
-print "</td>";
-print "<td><SELECT NAME='ricevuta'>
-                <option value='0'>No</option>      
-                <option value='1'>S&igrave;</option>     
-                </SELECT></td><td>";
-$dataoggi = date('d/m/Y');
-$datascad = date('d/m/Y', strtotime('+1 months'));
-print "<input type ='text' id='datainserimento' name='datainserimento' size='10' maxlength='10' value='$dataoggi'>";
-print "</td>";
-print ("<td><center><input type=file name='filedocumento' value='Carica file'>  </td></tr>");
-
-
-print "</table>";
-
-print "<center><br><input type='submit' value='Invia file selezionato'></center>";
-print "</form>";
-print "</fieldset>";
 
 
 mysqli_close($con);
 stampa_piede("");
 
-function decod_dest($tipodest)
-{
-    //if ($tipodest=='O')
-    //   return "Tutti";
-    if ($tipodest == 'D')
-    {
-        return "Tutti i docenti";
-    }
-    if ($tipodest == 'A')
-    {
-        return "Tutti gli alunni";
-    }
-    if ($tipodest == 'I')
-    {
-        return "Tutti gli impiegati";
-    }
-    if ($tipodest == 'SD')
-    {
-        return "Selezione docenti";
-    }
-    if ($tipodest == 'SA')
-    {
-        return "Selezione alunni";
-    }
-    if ($tipodest == 'SI')
-    {
-        return "Selezione impiegati";
-    }
-}
+
 

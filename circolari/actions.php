@@ -43,7 +43,13 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 if ($Circ != "")
 {
     $dataoggi = data_to_db(date('d/m/Y'));
-    $querylett = "update tbl_diffusionecircolari
+//    $querylett = "update tbl_diffusionecircolari
+//					set datalettura='$dataoggi'
+//					where idcircolare=$Circ
+//					and idutente=$Ute
+//					and (isnull(datalettura) or datalettura='0000-00-00')";
+//					
+$querylett = "update tbl_diffusionecircolari
 					set datalettura='$dataoggi'
 					where idcircolare=$Circ
 					and idutente=$Ute

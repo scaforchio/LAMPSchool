@@ -118,13 +118,13 @@ if ($filedainserire['tmp_name'] != "")
 
         // INSERIMENTO CIRCOLARE
         $queryins = "insert into tbl_circolari
-                               (iddocumento,descrizione, destinatari,ricevuta, datainserimento)
-                        values ('$iddocumento','$descrizione','$destinatari','$ricevuta','$datainserimento')";
+                               (iddocumento,descrizione, destinatari,ricevuta, datainserimento,datafine)
+                        values ('$iddocumento','$descrizione','$destinatari','$ricevuta','$datainserimento','')";
         $result = mysqli_query($con, inspref($queryins)) or die("Errore:" . inspref($queryins));
         $idcircolare = mysqli_insert_id($con);
 
         // INSERIMENTO LISTA DI DISTRIBUZIONE
-        if ($destinatari == 'A' || $destinatari == 'I' || $destinatari == 'D')
+        if ($destinatari == 'A' || $destinatari == 'I' || $destinatari == 'D' || $destinatari == 'L')
         {
             $dest = '';
 
@@ -140,15 +140,18 @@ if ($filedainserire['tmp_name'] != "")
             {
                 $dest = "where tipo in ('A')";
             }
-
+            if ($destinatari == 'L')
+            {
+                $dest = "where tipo in ('L')";
+            }
 
             $query = "select idutente from tbl_utenti " . $dest;
             $ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($queryins));
             while ($rec = mysqli_fetch_array($ris))
             {
                 $idutente = $rec['idutente'];
-                $queryins = "insert into tbl_diffusionecircolari(idcircolare,idutente)
-											 values($idcircolare,$idutente)";
+                $queryins = "insert into tbl_diffusionecircolari(idcircolare,idutente, datalettura, dataconfermalettura)
+											 values($idcircolare,$idutente,'','')";
                 mysqli_query($con, inspref($queryins)) or die("Errore:" . inspref($queryins));
             }
 
@@ -169,7 +172,19 @@ if ($filedainserire['tmp_name'] != "")
             if ($destinatari == 'SA')
             {
                 print "
-                 <form method='post' id='formalu' action='../circolari/selealunni.php'>
+                 <form method='post' id='formalu' action='../circolari/selealunni.php?tipo=genitori'>
+                 <input type='hidden' name='idcircolare' value='$idcircolare'>
+                 </form> 
+                 <SCRIPT language='JavaScript'>
+                 {
+                     document.getElementById('formalu').submit();
+                 }
+                 </SCRIPT>";
+            }
+            if ($destinatari == 'SL')
+            {
+                print "
+                 <form method='post' id='formalu' action='../circolari/selealunni.php?tipo=alunni'>
                  <input type='hidden' name='idcircolare' value='$idcircolare'>
                  </form> 
                  <SCRIPT language='JavaScript'>

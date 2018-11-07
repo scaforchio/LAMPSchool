@@ -1561,6 +1561,9 @@ if ($cambiamentopassword)
             menu_title_begin('PASSWORD');
             menu_item('../password/cambpwd.php', 'CAMBIAMENTO PROPRIA PASSWORD');
             menu_title_end();
+            menu_title_begin('COMUNICAZIONI');
+            menu_item('../circolari/viscircolari.php', 'LETTURA CIRCOLARI');
+            menu_title_end();
         }
     }
 

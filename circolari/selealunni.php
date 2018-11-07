@@ -28,7 +28,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
  $idcircolare=stringa_html("idcircolare");
 // $idclasse=stringa_html("idclasse");
  $destinatari=stringa_html("tipo");
- 
+ print "destinatari $destinatari";
  $anno=stringa_html('anno');
  $sezione=stringa_html('sezione');
  $specializzazione=stringa_html('specializzazione');
@@ -196,7 +196,7 @@ while ($rec=mysqli_fetch_array($ris))
    print "     <td>".$rec['cognome']." ".$rec['nome']. "</td>";
    print "     <td>".$rec['anno']." ".$rec['sezione']." ".$rec['specializzazione']. "</td>";
    print "     <td><input type='checkbox' name='cb".$rec['idalunno']."' value='yes'";
-   if (inLista($rec['idalunno'],$idcircolare,$con))
+   if (inLista($rec['idalunno'],$idcircolare,$con, $destinatari))
       print "checked='checked'></td>";
    else
       print "></td>";    
@@ -209,9 +209,12 @@ print "</table><br><center><input type='submit' value='Aggiorna lista di distrib
 mysqli_close($con);
 stampa_piede(""); 
 
-function inLista($idalu,$idcirc,$conn)
+function inLista($idalu,$idcirc,$conn,$destinatari)
 {
+    if ($destinatari=='A' || $destinatari=='SA')
 	$query="select * from tbl_diffusionecircolari where idutente=$idalu and idcircolare=$idcirc";
+    else
+        $query="select * from tbl_diffusionecircolari where idutente=($idalu+2100000000) and idcircolare=$idcirc";
 	$ris=mysqli_query($conn,inspref($query)) or die("Errore: ".inspref($query)." - ".mysqli_error($ris));
 	if (mysqli_num_rows($ris)==0)
 	   return false;
