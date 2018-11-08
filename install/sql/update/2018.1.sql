@@ -31,6 +31,12 @@ NULL DEFAULT NULL;
 
 ALTER TABLE tbl_assemblee CHANGE docenteconcedente1 docenteconcedente1 INT(11) NULL DEFAULT '0', CHANGE docenteconcedente2 docenteconcedente2 INT(11) NULL DEFAULT '0', CHANGE docenteautorizzante docenteautorizzante INT(11) NULL DEFAULT '0', CHANGE docentepresente1 docentepresente1 INT(11) NULL DEFAULT '0', CHANGE docentepresente2 docentepresente2 INT(11) NULL DEFAULT '0', CHANGE rappresentante1 rappresentante1 INT(11) NULL DEFAULT '0', CHANGE rappresentante2 rappresentante2 INT(11) NULL DEFAULT '0', CHANGE alunnopresidente alunnopresidente INT(11) NULL DEFAULT '0', CHANGE alunnosegretario alunnosegretario INT(11) NULL DEFAULT '0', CHANGE docente_visione docente_visione INT(11) NULL DEFAULT '0';
 
+
+CREATE TABLE IF NOT EXISTS `tbl_consorientativi` (
+  `idalunno` int(11),
+  `consiglioorientativo` text,
+   `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 --
 -- LASCIARE SEMPRE ALLA FINE
 UPDATE tbl_parametri set valore='2018.1' where parametro='versioneprecedente';

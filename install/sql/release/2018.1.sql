@@ -452,6 +452,17 @@ CREATE TABLE IF NOT EXISTS `tbl_comuni` (
 
 -- --------------------------------------------------------
 
+CREATE TABLE IF NOT EXISTS `tbl_consorientativi` (
+  `idalunno` int(11),
+  `consiglioorientativo` text,
+   `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
+
+
 --
 -- Struttura della tabella `tbl_deroghe`
 --

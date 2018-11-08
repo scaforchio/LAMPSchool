@@ -568,10 +568,15 @@ if ($cambiamentopassword)
             menu_item('../assenze/visderoghe.php', 'SITUAZIONE DEROGHE ASSENZE');
             menu_item('../scrutini/riepvoti.php', 'TABELLONE SCRUTINI INTERMEDI');
             menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
+            
             if ($livello_scuola == '4')
             {
                 menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
             }
+            if ($livello_scuola == '3' || $livello_scuola== '2')
+            {
+                menu_item('../consorientativo/cotabellone.php', 'CONSIGLI ORIENTATIVI');
+            }    
             menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
             menu_item('../documenti/stampafirmaprogrammi.php?docente=' . $idutente, 'STAMPE PER PRESA VISIONE PROGRAMMI');
             menu_item('../documenti/documenticlasse.php', 'DOCUMENTI CLASSE');
@@ -769,6 +774,10 @@ if ($cambiamentopassword)
             {
                 menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
             }
+            if ($livello_scuola == '3' || $livello_scuola== '2')
+            {
+                menu_item('../consorientativo/cotabellone.php', 'CONSIGLI ORIENTATIVI');
+            }    
             menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
             menu_item('../documenti/stampafirmaprogrammi.php?docente=' . $idutente, 'STAMPE PER PRESA VISIONE PROGRAMMI');
             menu_item('../documenti/documenticlasse.php', 'DOCUMENTI CLASSE');

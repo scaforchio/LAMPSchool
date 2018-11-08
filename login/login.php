@@ -46,6 +46,12 @@ $seme=md5(date('Y-m-d'));
 $script = "<script src='../lib/js/crypto.js'></script>\n";
 $script .= "<script>
 
+var isIE = /*@cc_on!@*/false || !!document.documentMode;
+var isEdge = !isIE && !!window.StyleMedia;
+
+if (isEdge)
+    alert('L\'uso di Edge può portare ad anomalie nel funzionamento del registro! Usa Chrome, Firefox o Safari.');
+
 function codifica()
 {
     seme='$seme';
@@ -54,6 +60,8 @@ function codifica()
     document.getElementById('password').value = '';
     return true;
 }
+   
+
 </script>\n";
 stampa_head($titolo, "", $script, "", false);
 stampa_testata("Accesso al registro", "", "$nome_scuola", "$comune_scuola");
