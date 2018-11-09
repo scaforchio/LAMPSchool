@@ -59,7 +59,7 @@ if ($livello_scuola == 3)
 
 
 $idclasse = stringa_html('idclasse');
-
+$tipoaccesso = stringa_html('tipoaccesso');
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
@@ -86,8 +86,11 @@ print('
         <td width="50%">
         <SELECT ID="idclasse" NAME="idclasse" ONCHANGE="voti.submit()"><option value="">');
 
-$query = "select idclasse, anno, sezione, specializzazione from tbl_classi where $annocomp "
-        . " and idcoordinatore = ".$_SESSION['idutente']." order by anno, sezione, specializzazione";
+if (!($tipoaccesso == 'coordinatore'))
+    $query = "select idclasse, anno, sezione, specializzazione from tbl_classi where $annocomp order by anno, sezione, specializzazione";
+else
+    $query = "select idclasse, anno, sezione, specializzazione from tbl_classi where $annocomp "
+            . " and idcoordinatore = " . $_SESSION['idutente'] . " order by anno, sezione, specializzazione";
 
 $ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
 while ($nom = mysqli_fetch_array($ris))
@@ -118,26 +121,20 @@ echo('
 
 if ($idclasse != '')
 {
-
-
-
     $annoclasse = decodifica_anno_classe($idclasse, $con);
-
 
     $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
 
     $ris = mysqli_query($con, inspref($query)) or die("Error " . mysqli_error($con));
     $numeroalunni = mysqli_num_rows($ris);
 
-    print "<form action='coinserimento.php' method='post'>" ;
+    print "<form action='coinserimento.php' method='post'>";
     print "<input type='hidden' name='idclasse' value='$idclasse'>";
     if ($numeroalunni > 0)
     {
         print("<table border=1 align=center>
                    <tr class='prima'>
                    <td width='50%'><b>Alunno</b></td><td>Consiglio orientativo</td><td>Stampa</td>");
-
-
 
         while ($nom = mysqli_fetch_array($ris))
         {
@@ -156,21 +153,18 @@ if ($idclasse != '')
             {
                 $consorientativo = "";
             }
-
-            print "<td><input type='text' name='co_$idalunno' value='$consorientativo' onkeypress='disabilitastampa($idalunno);'><input type='hidden' name='coor_$idalunno' value='$consorientativo'></td>";
-            print "<td><a href='costampa.php?idalunno=$idalunno'><img src='../immagini/stampa.png' id='st$idalunno' height='50%' width='50%'></td>";
+            
+            print "<td align ='center'><input type='text' size='50' name='co_$idalunno' value='$consorientativo' onchange='disabilitastampa($idalunno);'><input type='hidden' name='coor_$idalunno' value='$consorientativo'></td>";
+            print "<td align ='center'><a href='costampa.php?idalunno=$idalunno'><img src='../immagini/stampa.png' id='st$idalunno' height='50%' width='50%'></td>";
             print "</tr>";
         }
         print "</table>";
     }
     print "<center><br><br><input type='submit' value='Salva modifiche'>";
-    
+
     print "</form>";
     print "<br><a href='costampa.php?idclasse=$idclasse'><img src='../immagini/stampa.png' id='stampa'>";
 }
-
-
-
 
 mysqli_close($con);
 stampa_piede("");

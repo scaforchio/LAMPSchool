@@ -568,15 +568,15 @@ if ($cambiamentopassword)
             menu_item('../assenze/visderoghe.php', 'SITUAZIONE DEROGHE ASSENZE');
             menu_item('../scrutini/riepvoti.php', 'TABELLONE SCRUTINI INTERMEDI');
             menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
-            
+
             if ($livello_scuola == '4')
             {
                 menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
             }
-            if ($livello_scuola == '3' || $livello_scuola== '2')
+            if ($livello_scuola == '3' || $livello_scuola == '2')
             {
-                menu_item('../consorientativo/cotabellone.php', 'CONSIGLI ORIENTATIVI');
-            }    
+                menu_item('../consorientativo/cotabellone.php?tipoaccesso=coordinatore', 'CONSIGLI ORIENTATIVI');
+            }
             menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
             menu_item('../documenti/stampafirmaprogrammi.php?docente=' . $idutente, 'STAMPE PER PRESA VISIONE PROGRAMMI');
             menu_item('../documenti/documenticlasse.php', 'DOCUMENTI CLASSE');
@@ -707,7 +707,7 @@ if ($cambiamentopassword)
         menu_item('../assenze/visderoghe.php', 'SITUAZIONE DEROGHE ASSENZE');
         menu_separator("");
         menu_item('../assenze/ricalcoloassenzesele.php', 'RICALCOLO ASSENZE');
-        
+
         menu_title_end();
 
         menu_title_begin('LEZIONI');
@@ -774,10 +774,10 @@ if ($cambiamentopassword)
             {
                 menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
             }
-            if ($livello_scuola == '3' || $livello_scuola== '2')
+            if ($livello_scuola == '3' || $livello_scuola == '2')
             {
-                menu_item('../consorientativo/cotabellone.php', 'CONSIGLI ORIENTATIVI');
-            }    
+                menu_item('../consorientativo/cotabellone.php?tipoaccesso=coordinatore', 'CONSIGLI ORIENTATIVI');
+            }
             menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
             menu_item('../documenti/stampafirmaprogrammi.php?docente=' . $idutente, 'STAMPE PER PRESA VISIONE PROGRAMMI');
             menu_item('../documenti/documenticlasse.php', 'DOCUMENTI CLASSE');
@@ -794,6 +794,10 @@ if ($cambiamentopassword)
         menu_item('../scrutini/schedaalu.php', 'SCRUTINIO INTERMEDIO ALUNNO');
         menu_item('../scrutini/schedafinalealu.php', 'SCRUTINIO FINALE ALUNNO');
         menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
+        if ($livello_scuola == '3' || $livello_scuola == '2')
+        {
+            menu_item('../consorientativo/cotabellone.php', 'CONSIGLI ORIENTATIVI');
+        }
         menu_title_end();
 
 
@@ -1062,7 +1066,10 @@ if ($cambiamentopassword)
         }
         menu_item('../scrutini/schedafinalealu.php', 'SCRUTINIO FINALE ALUNNO');
         menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
-
+        if ($livello_scuola == '3' || $livello_scuola == '2')
+        {
+            menu_item('../consorientativo/cotabellone.php', 'CONSIGLI ORIENTATIVI');
+        }
         menu_title_end();
         if ($livello_scuola != 4)
         {
@@ -1187,7 +1194,7 @@ if ($cambiamentopassword)
 
     if ($tipoutente == 'M')
     {  // Amministratore
-       // inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Inizio menu");
+        // inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Inizio menu");
         menu_separator("STRUMENTI DI AMMINISTRAZIONE");
         menu_title_begin('DATI E CONFIGURAZIONE');
         menu_item('../password/cambpwd.php', 'CAMBIAMENTO PROPRIA PASSWORD');
@@ -1308,7 +1315,7 @@ if ($cambiamentopassword)
             menu_item('../moodle/seleiscrizionecorsi.php', 'ISCRIVI STUDENTI A CORSO MOODLE');
             menu_item('../moodle/seleiscrizionecorsidoc.php', 'ISCRIVI DOCENTI A CORSO MOODLE');
             menu_item('../moodle/sincronizzacorsi.php', 'SINCRONIZZA TUTTI I CORSI MOODLE (PESANTE)');
-            
+
             menu_title_end();
         }
 
@@ -1324,12 +1331,11 @@ if ($cambiamentopassword)
         menu_item('../contr/visualizzalog.php', 'VISUALIZZA LOG');
         menu_item('../contr/test.php', 'TEST ');
         menu_title_end();
-        
-        
+
+
         menu_title_begin('ASSENZE');
         menu_item('../assenze/forzaassenzapertutti.php', 'FORZA ASSENZE PER TUTTI! (Da usare in caso di mancate timbrature)');
         menu_title_end();
-        
     }
 
     if ($tipoutente == 'A')
@@ -1349,9 +1355,9 @@ if ($cambiamentopassword)
         menu_item("../docenti/carica_docenti_da_csv.php?par=1!0!1!1!2!99!99!99!99!99!99!99", "Carica docenti da file CSV generico");
         menu_title_end();
 
-       
 
-        
+
+
         menu_title_begin('PASSWORD');
         menu_item('../password/rigenera_password.php', 'Rigenera e stampa password tutor');
         if ($livello_scuola == '4')
@@ -1401,6 +1407,10 @@ if ($cambiamentopassword)
         }
         menu_item('../scrutini/schedaalu.php', 'SCRUTINIO INTERMEDIO ALUNNO');
         menu_item('../scrutini/schedafinalealu.php', 'SCRUTINIO FINALE ALUNNO');
+        if ($livello_scuola == '3' || $livello_scuola == '2')
+        {
+            menu_item('../consorientativo/cotabellone.php', 'CONSIGLI ORIENTATIVI');
+        }
         menu_title_end();
         if ($livello_scuola != 4)
         {
@@ -1740,7 +1750,7 @@ if ($cambiamentopassword)
             //  ANNOTAZIONI RECENTI
             //
             
-            $idclassealunno = estrai_classe_alunno($_SESSION['idutente'],$con);
+            $idclassealunno = estrai_classe_alunno($_SESSION['idutente'], $con);
             $query = "select * from tbl_annotazioni
                 where idclasse=$idclassealunno
                     and data>DATE_ADD(data, INTERVAL -5 DAY)
@@ -1753,7 +1763,7 @@ if ($cambiamentopassword)
                 {
 
 
-                    print ("<center><br><i>".data_italiana($rec['data'])."</i><b><font color='green'><br> ".$rec['testo']."</font></b><br/></center>");
+                    print ("<center><br><i>" . data_italiana($rec['data']) . "</i><b><font color='green'><br> " . $rec['testo'] . "</font></b><br/></center>");
                     print ("<br/>");
                 }
             }
@@ -1787,20 +1797,20 @@ if ($cambiamentopassword)
             //
          //   inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
             $idscuola = md5($nomefilelog);
-         //   inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
+            //   inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
             //print "<iframe style='visibility:hidden;display:none' src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola'></iframe>";
             // print "<iframe src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola'></iframe>";
-           /* $url = "http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola&ver=$versioneprecedente&asc=$annoscol";
-            $url = str_replace(" ", "_", $url);
-            $ch = curl_init();
-            $timeout = 5;
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-            $data = curl_exec($ch);
-            curl_close($ch);
-            echo $data; */
-          //  inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
+            /* $url = "http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola&ver=$versioneprecedente&asc=$annoscol";
+              $url = str_replace(" ", "_", $url);
+              $ch = curl_init();
+              $timeout = 5;
+              curl_setopt($ch, CURLOPT_URL, $url);
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+              curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+              $data = curl_exec($ch);
+              curl_close($ch);
+              echo $data; */
+            //  inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
             /*  $ch = curl_init();
 
               curl_setopt($ch, CURLOPT_URL, 'http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola');

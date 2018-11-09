@@ -174,6 +174,21 @@ if (substr($utente, 0, 2) != "al")
         $numerocomunicazioni++;
     }
 }
+else
+{
+    $data = date('Y-m-d');
+    $query = "select oggetto,testo,inizio  from tbl_avvisi where destinatari like '%L%' and '$data' between inizio and fine ";
+    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+
+
+    while ($row = mysqli_fetch_array($ris))
+    {
+        $oggetti[] = $row['oggetto'];
+        $testi[] = inserisci_parametri($row['testo'], $con);
+        $datapub[] = data_italiana($row['inizio']);
+        $numerocomunicazioni++;
+    }
+}
 // Estrazione comunicazioni da annotazioni
 
 $query = "select * from tbl_annotazioni
