@@ -328,7 +328,7 @@ if (count($_POST))
             $suff = $_SESSION['suffisso'] . "/";
         } else
             $suff = "";
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Accesso: $username - $password");
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Accesso: $username - $password§" . $_SERVER['HTTP_USER_AGENT']);
 
         // Ricerca ultimo accesso
         $query = "select dataacc from " . $_SESSION["prefisso"] . "tbl_logacc where idlog=(select max(idlog) from " . $_SESSION["prefisso"] . "tbl_logacc where utente='$username' and comando='Accesso')";
@@ -1751,9 +1751,10 @@ if ($cambiamentopassword)
             //
             
             $idclassealunno = estrai_classe_alunno($_SESSION['idutente'], $con);
+            $datalimiteinferiore = aggiungi_giorni(date('Y-m-d'), -5);
             $query = "select * from tbl_annotazioni
                 where idclasse=$idclassealunno
-                    and data>DATE_ADD(data, INTERVAL -5 DAY)
+                    and data>'$datalimiteinferiore'
                     and visibilitagenitori=true";
 
             $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
@@ -1769,6 +1770,33 @@ if ($cambiamentopassword)
             }
         }
 
+        if ($tipoutente == "L")
+        {
+            
+
+            //
+            //  ANNOTAZIONI RECENTI
+            //
+            
+            $idclassealunno = estrai_classe_alunno($_SESSION['idutente']-2100000000, $con);
+            $datalimiteinferiore = aggiungi_giorni(date('Y-m-d'), -5);
+            $query = "select * from tbl_annotazioni
+                where idclasse=$idclassealunno
+                    and data>'$datalimiteinferiore'
+                    and visibilitaalunni=true";
+
+            $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+            if (mysqli_num_rows($ris) > 0)
+            {
+                while ($rec = mysqli_fetch_array($ris))
+                {
+
+
+                    print ("<center><br><i>" . data_italiana($rec['data']) . "</i><b><font color='green'><br> " . $rec['testo'] . "</font></b><br/></center>");
+                    print ("<br/>");
+                }
+            }
+        }
 
         //
         // VERIFICO PRESENZA AVVISI
@@ -1835,10 +1863,10 @@ if ($cambiamentopassword)
             // FINE VERIFICA AGGIORNAMENTI
         //
         }
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "2");
+        //inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "2");
         $query = "select * from tbl_avvisi where inizio<='$dataoggi' and fine>='$dataoggi' order by inizio desc";
         $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§3");
+        //inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§3");
         while ($val = mysqli_fetch_array($ris))
         {
             $inizio = data_italiana($val["inizio"]);

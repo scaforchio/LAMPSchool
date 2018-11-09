@@ -330,6 +330,7 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
         echo "";
         echo "</textarea><br/><br>";
         echo "<center>Visibile ai genitori <input type='checkbox' name='visibile'></center>";
+        echo "<center>Visibile agli alunni <input type='checkbox' name='visibilealu'></center>";
         echo "</td>";
 
 
@@ -341,10 +342,16 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
         echo "<textarea  cols=60 rows=10 name ='testo'>";
         echo $c['testo'];
         echo "</textarea><br/><br>";
+        
+        
         if ($c['visibilitagenitori']==true)
             echo "<center>Visibile ai genitori <input type='checkbox' name='visibile' checked></center>";
         else
             echo "<center>Visibile ai genitori <input type='checkbox' name='visibile'></center>";
+        if ($c['visibilitaalunni']==true)
+            echo "<center>Visibile agli alunni <input type='checkbox' name='visibilealu' checked></center>";
+        else
+            echo "<center>Visibile agli alunni <input type='checkbox' name='visibilealu'></center>";
         echo "</td>";
 
     }

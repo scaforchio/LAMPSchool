@@ -217,6 +217,7 @@ else
             echo("<option value='L' selected>Alunni</option>");
         }
         
+        
         if (strpos($destin, "A") === false)
         {
             echo("<option value='A'>Amministrativi</option>");

@@ -63,7 +63,6 @@ if (!$val = mysqli_fetch_array($result))  // ALUNNO NON TROVATO
             $alunno = $idutente;
         // AGGIORNO ULTIMO ACCESSO
         //$sql = "UPDATE tbl_utenti SET ultimoaccessoapp=" . time() . " where idutente=$idutente";
-
         //mysqli_query($con, inspref($sql)) or die(inspref($sql, false));
 
         $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . $alunno . "'";
@@ -78,7 +77,7 @@ if (!$val = mysqli_fetch_array($result))  // ALUNNO NON TROVATO
         }
     } else   // RICHIESTA DEGLI STESSI DATI EFFETTUATA PRIMA DI UN MINUTO
     {
-       // inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Tempo basso ", $nomefilelog . "ap", $suff);
+        // inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Tempo basso ", $nomefilelog . "ap", $suff);
         sleep(10);
         // inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Sbloccato ", $nomefilelog . "ap", $suff);
         die("Tempo basso");
@@ -173,8 +172,7 @@ if (substr($utente, 0, 2) != "al")
         $datapub[] = data_italiana($row['inizio']);
         $numerocomunicazioni++;
     }
-}
-else
+} else
 {
     $data = date('Y-m-d');
     $query = "select oggetto,testo,inizio  from tbl_avvisi where destinatari like '%L%' and '$data' between inizio and fine ";
@@ -190,11 +188,24 @@ else
     }
 }
 // Estrazione comunicazioni da annotazioni
-
-$query = "select * from tbl_annotazioni
+$datalimiteinferiore = aggiungi_giorni(date('Y-m-d'), -5);
+if (substr($utente, 0, 2) != "al")
+    $query = "select * from tbl_annotazioni
                 where idclasse=$idclasse
-                    and data>DATE_ADD(data, INTERVAL -5 DAY)
+                    and data>'$datalimiteinferiore'
                     and visibilitagenitori=true";
+else
+    $query = "select * from tbl_annotazioni
+                where idclasse=$idclasse
+                    and data>'$datalimiteinferiore'
+                    and visibilitaalunni=true";
+
+/*
+  $query = "select * from tbl_annotazioni
+  where idclasse=$idclasse
+  and data>DATE_ADD(data, INTERVAL -5 DAY)
+  and visibilitagenitori=true";
+ */
 
 $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
 if (mysqli_num_rows($ris) > 0)

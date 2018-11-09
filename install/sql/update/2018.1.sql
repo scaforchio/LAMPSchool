@@ -37,6 +37,11 @@ CREATE TABLE IF NOT EXISTS `tbl_consorientativi` (
   `consiglioorientativo` text,
    `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+ALTER TABLE tbl_annotazioni
+ADD visibilitaalunni boolean;
+
 --
 -- LASCIARE SEMPRE ALLA FINE
 UPDATE tbl_parametri set valore='2018.1' where parametro='versioneprecedente';

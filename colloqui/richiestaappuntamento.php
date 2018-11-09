@@ -56,6 +56,7 @@ if ($iddocente != "")
     $inizi = array("xyz");
     $fini = array("xyz");
     $dataoggi = date('Y-m-d');
+    $datadomani = aggiungi_giorni($dataoggi, 1);
     print "<center><br><b>Selezionare una data<br>
                          per colloquio con Prof. " . estrai_dati_docente($iddocente, $con) . "</b><br></center>";
 
@@ -99,7 +100,7 @@ if ($iddocente != "")
     //$dataoggi=date('Y-m-d');
     $numgiorni = 0;
     $trovatogiorno = false;
-    $dataattuale = $dataoggi;
+    //$dataattuale = $datadomani;
     print "<center>";
     print "<form action='insrichiestaappuntamento.php' method='post'>";
     print "<br><input type='submit' value='Inoltra richiesta'><br><br>";
@@ -109,7 +110,7 @@ if ($iddocente != "")
     do
     {
         $numgiorni++;
-        $dataattuale = aggiungi_giorni($dataoggi, $numgiorni);
+        $dataattuale = aggiungi_giorni($datadomani, $numgiorni);
 
 
         $giornoutile = array_search(giorno_settimana($dataattuale), $ore);

@@ -122,6 +122,7 @@ CREATE TABLE IF NOT EXISTS `tbl_annotazioni` (
   `data` date,
   `testo` text,
   `visibilitagenitori` boolean,
+  `visibilitaalunni` boolean,
   `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

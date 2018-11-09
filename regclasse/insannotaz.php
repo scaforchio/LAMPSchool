@@ -43,6 +43,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
  $iddocente = stringa_html('iddocente');
  $testo = stringa_html('testo');
  $visibile = stringa_html('visibile');
+ $visibilealu = stringa_html('visibilealu');
  //print "Visibile$visibile";
  $idannotazione=stringa_html('idannotazione');
  $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
@@ -60,8 +61,12 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
         $visibilitagenitori='true';
     else
         $visibilitagenitori='false';
+    if ($visibilealu=='on')  
+        $visibilitaalunni='true';
+    else
+        $visibilitaalunni='false';
     $ins=true;  
-    $query="insert into tbl_annotazioni(data,idclasse,iddocente,testo,visibilitagenitori) values ('$data',$idclasse,$iddocente,'".elimina_apici($testo)."',$visibilitagenitori)";
+    $query="insert into tbl_annotazioni(data,idclasse,iddocente,testo,visibilitagenitori,visibilitaalunni) values ('$data',$idclasse,$iddocente,'".elimina_apici($testo)."',$visibilitagenitori,$visibilitaalunni)";
     $ris3=mysqli_query($con,inspref($query)) or die ("Errore nella query di inserimento: ". inspref($query,false));
     $idannotazione=mysqli_insert_id($con);
  }
