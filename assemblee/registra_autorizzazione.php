@@ -58,8 +58,8 @@ if ($autorizza == 1)
     else
        $mess .= "Vista la regolare richiesta si autorizza assemblea di classe dalla " . $data['orainizio'] . "^ ora alla " . $data['orafine'] . "^ ora di lezione.";
 
-    $ann = "INSERT INTO tbl_annotazioni(idclasse,iddocente,data,testo) 
-		VALUES ($idclasse,$iddocente,'" . $data['dataassemblea'] . "','$mess')";
+    $ann = "INSERT INTO tbl_annotazioni(idclasse,iddocente,data,testo,visibilitaalunni) 
+		VALUES ($idclasse,$iddocente,'" . $data['dataassemblea'] . "','$mess',1)";
     mysqli_query($con,inspref($ann)) or die("Errore : " . inspref($ann));
 }
 

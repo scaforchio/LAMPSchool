@@ -5,261 +5,261 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_abilalu`
+-- Struttura della tabella tbl_abilalu
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_abilalu` (
-  `idabilita` int(11),
-  `idcompetenza` int(11),
-  `numeroordine` int(11),
-  `sintabilcono` varchar(80),
-  `abilcono` text,
-  `obminimi` tinyint(1),
-  `abil_cono` varchar(1)
+CREATE TABLE IF NOT EXISTS tbl_abilalu (
+  idabilita int(11),
+  idcompetenza int(11),
+  numeroordine int(11),
+  sintabilcono varchar(80),
+  abilcono text,
+  obminimi tinyint(1),
+  abil_cono varchar(1)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_abildoc`
+-- Struttura della tabella tbl_abildoc
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_abildoc` (
-  `idabilita` int(11),
-  `idcompetenza` int(11),
-  `numeroordine` int(11),
-  `sintabilcono` varchar(80),
-  `abilcono` text,
-  `obminimi` tinyint(1),
-  `abil_cono` varchar(1)
+CREATE TABLE IF NOT EXISTS tbl_abildoc (
+  idabilita int(11),
+  idcompetenza int(11),
+  numeroordine int(11),
+  sintabilcono varchar(80),
+  abilcono text,
+  obminimi tinyint(1),
+  abil_cono varchar(1)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_abilscol`
+-- Struttura della tabella tbl_abilscol
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_abilscol` (
-  `idabilita` int(11),
-  `idcompetenza` int(11),
-  `numeroordine` int(11),
-  `sintabilcono` varchar(80),
-  `abilcono` text,
-  `obminimi` tinyint(1),
-  `abil_cono` varchar(1)
+CREATE TABLE IF NOT EXISTS tbl_abilscol (
+  idabilita int(11),
+  idcompetenza int(11),
+  numeroordine int(11),
+  sintabilcono varchar(80),
+  abilcono text,
+  obminimi tinyint(1),
+  abil_cono varchar(1)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_alunni`
+-- Struttura della tabella tbl_alunni
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_alunni` (
-  `idalunno` int(11),
-  `cognome` varchar(30) DEFAULT '',
-  `nome` varchar(30) DEFAULT '',
-  `datanascita` date DEFAULT NULL,
-  `sesso` char(1) DEFAULT NULL,
-  `codfiscale` varchar(16),
-  `certificato` tinyint(1) DEFAULT '0',
-  `codmeccanografico` char(20) DEFAULT NULL,
-  `idcomnasc` int(11) DEFAULT '0',
-  `indirizzo` varchar(30) DEFAULT NULL,
-  `idcomres` int(11) DEFAULT '0',
-  `telefono` varchar(15) DEFAULT NULL,
-  `telcel` varchar(25) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `idclasse` int(11) DEFAULT '0',
-  `idclasseesame` INT(11) NULL DEFAULT '0',
-  `autentrata` varchar(30) DEFAULT NULL,
-  `autuscita` varchar(30) DEFAULT NULL,
-  `idtutore` int(11) DEFAULT '0',
-  `idutente` int(11) DEFAULT '0',
-  `idesterno` varchar(16) DEFAULT NULL,
-  `pwesterna` varchar(16) DEFAULT NULL,
-  `note` varchar(50) DEFAULT '',
-  `numeroregistro` char(20) DEFAULT NULL,
-  `provenienza` char(50) DEFAULT NULL,
-  `titoloammissione` char(50) DEFAULT NULL,
-  `sequenzaiscrizione` int(1) DEFAULT '1',
-  `firmapropria` tinyint(1) DEFAULT '0',
-  `autorizzazioni` text,
-  `oraultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_alunni (
+  idalunno int(11),
+  cognome varchar(30) DEFAULT '',
+  nome varchar(30) DEFAULT '',
+  datanascita date DEFAULT NULL,
+  sesso char(1) DEFAULT NULL,
+  codfiscale varchar(16),
+  certificato tinyint(1) DEFAULT '0',
+  codmeccanografico char(20) DEFAULT NULL,
+  idcomnasc int(11) DEFAULT '0',
+  indirizzo varchar(30) DEFAULT NULL,
+  idcomres int(11) DEFAULT '0',
+  telefono varchar(15) DEFAULT NULL,
+  telcel varchar(25) DEFAULT NULL,
+  email varchar(100) DEFAULT NULL,
+  idclasse int(11) DEFAULT '0',
+  idclasseesame INT(11) NULL DEFAULT '0',
+  autentrata varchar(30) DEFAULT NULL,
+  autuscita varchar(30) DEFAULT NULL,
+  idtutore int(11) DEFAULT '0',
+  idutente int(11) DEFAULT '0',
+  idesterno varchar(16) DEFAULT NULL,
+  pwesterna varchar(16) DEFAULT NULL,
+  note varchar(50) DEFAULT '',
+  numeroregistro char(20) DEFAULT NULL,
+  provenienza char(50) DEFAULT NULL,
+  titoloammissione char(50) DEFAULT NULL,
+  sequenzaiscrizione int(1) DEFAULT '1',
+  firmapropria tinyint(1) DEFAULT '0',
+  autorizzazioni text,
+  oraultimamodifica timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_amministrativi`
+-- Struttura della tabella tbl_amministrativi
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_amministrativi` (
-  `idamministrativo` int(11),
-  `cognome` varchar(30) DEFAULT '',
-  `nome` varchar(30) DEFAULT '',
-  `datanascita` date DEFAULT NULL,
-  `idcomnasc` int(11) DEFAULT '0',
-  `indirizzo` varchar(30) DEFAULT NULL,
-  `idcomres` int(11) DEFAULT '0',
-  `telefono` varchar(15) DEFAULT NULL,
-  `telcel` varchar(15) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  `idutente` int(11) DEFAULT '0'
+CREATE TABLE IF NOT EXISTS tbl_amministrativi (
+  idamministrativo int(11),
+  cognome varchar(30) DEFAULT '',
+  nome varchar(30) DEFAULT '',
+  datanascita date DEFAULT NULL,
+  idcomnasc int(11) DEFAULT '0',
+  indirizzo varchar(30) DEFAULT NULL,
+  idcomres int(11) DEFAULT '0',
+  telefono varchar(15) DEFAULT NULL,
+  telcel varchar(15) DEFAULT NULL,
+  email varchar(50) DEFAULT NULL,
+  idutente int(11) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_annotazioni`
+-- Struttura della tabella tbl_annotazioni
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_annotazioni` (
-  `idannotazione` int(11),
-  `idclasse` int(11),
-  `iddocente` int(11),
-  `data` date,
-  `testo` text,
-  `visibilitagenitori` boolean,
-  `visibilitaalunni` boolean,
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_annotazioni (
+  idannotazione int(11),
+  idclasse int(11),
+  iddocente int(11),
+  data date,
+  testo text,
+  visibilitagenitori boolean,
+  visibilitaalunni boolean,
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 -- -------------------------------------
 --
--- Struttura della tabella `tbl_assemblee`
+-- Struttura della tabella tbl_assemblee
 
-CREATE TABLE `tbl_assemblee` (
-  `idassemblea` int(11),
-  `idclasse` int(11),
-  `datarichiesta` date,
-  `dataassemblea` date,
-  `orainizio` int(2),
-  `orafine` int(2),
-  `docenteconcedente1` int(11) DEFAULT '0',
-  `docenteconcedente2` int(11) DEFAULT '0',
-  `concesso1` tinyint(1) DEFAULT '0',
-  `concesso2` tinyint(1) DEFAULT '0',
-  `docenteautorizzante` int(11) DEFAULT '0',
-  `autorizzato` tinyint(1) DEFAULT '0',
-  `docentepresente1` int(11) DEFAULT '0',
-  `docentepresente2` int(11) DEFAULT '0',
-  `idmateria1` int(11),
-  `idmateria2` int(11),
-  `rappresentante1` int(11) DEFAULT '0',
-  `rappresentante2` int(11) DEFAULT '0',
-  `alunnopresidente` int(11) DEFAULT '0',
-  `alunnosegretario` int(11) DEFAULT '0',
-  `oratermine` time,
-  `verbale` text,
-  `visione_verbale` tinyint(1) DEFAULT '0',
-  `commenti_verbale` text,
-  `docente_visione` int(11) DEFAULT '0',
-  `note` text,
-  `consegna_verbale` tinyint(1),
-  `odg` text
+CREATE TABLE tbl_assemblee (
+  idassemblea int(11),
+  idclasse int(11),
+  datarichiesta date,
+  dataassemblea date,
+  orainizio int(2),
+  orafine int(2),
+  docenteconcedente1 int(11) DEFAULT '0',
+  docenteconcedente2 int(11) DEFAULT '0',
+  concesso1 tinyint(1) DEFAULT '0',
+  concesso2 tinyint(1) DEFAULT '0',
+  docenteautorizzante int(11) DEFAULT '0',
+  autorizzato tinyint(1) DEFAULT '0',
+  docentepresente1 int(11) DEFAULT '0',
+  docentepresente2 int(11) DEFAULT '0',
+  idmateria1 int(11),
+  idmateria2 int(11),
+  rappresentante1 int(11) DEFAULT '0',
+  rappresentante2 int(11) DEFAULT '0',
+  alunnopresidente int(11) DEFAULT '0',
+  alunnosegretario int(11) DEFAULT '0',
+  oratermine time,
+  verbale text,
+  visione_verbale tinyint(1) DEFAULT '0',
+  commenti_verbale text,
+  docente_visione int(11) DEFAULT '0',
+  note text,
+  consegna_verbale tinyint(1),
+  odg text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Struttura della tabella `tbl_assenze`
+-- Struttura della tabella tbl_assenze
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_assenze` (
-  `idassenza` int(11),
-  `idalunno` int(11) DEFAULT '0',
-  `data` date DEFAULT NULL,
-  `giustifica` tinyint(1),
-  `iddocentegiust` int(11) DEFAULT NULL,
-  `datagiustifica` date DEFAULT NULL,
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `dataammonizione` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `tbl_asslezione`
---
-
-CREATE TABLE IF NOT EXISTS `tbl_asslezione` (
-  `idassenzalezione` int(11),
-  `idalunno` int(11),
-  `idlezione` int(11),
-  `idmateria` int(11),
-  `data` date,
-  `oreassenza` smallint(6),
-  `forzata` tinyint(1) DEFAULT '0',
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_assenze (
+  idassenza int(11),
+  idalunno int(11) DEFAULT '0',
+  data date DEFAULT NULL,
+  giustifica tinyint(1),
+  iddocentegiust int(11) DEFAULT NULL,
+  datagiustifica date DEFAULT NULL,
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  dataammonizione date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_avvisi`
+-- Struttura della tabella tbl_asslezione
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_avvisi` (
-  `idavviso` int(11),
-  `oggetto` varchar(80),
-  `testo` mediumblob,
-  `destinatari` varchar(10),
-  `inizio` date,
-  `fine` date
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-CREATE TABLE IF NOT EXISTS `tbl_assenze` (
-  `idassenza` int(11),
-  `idalunno` int(11) DEFAULT '0',
-  `data` date DEFAULT NULL,
-  `giustifica` tinyint(1),
-  `iddocentegiust` int(11) DEFAULT NULL,
-  `datagiustifica` date DEFAULT NULL,
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `dataammonizione` date DEFAULT NULL
+CREATE TABLE IF NOT EXISTS tbl_asslezione (
+  idassenzalezione int(11),
+  idalunno int(11),
+  idlezione int(11),
+  idmateria int(11),
+  data date,
+  oreassenza smallint(6),
+  forzata tinyint(1) DEFAULT '0',
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_cambiamenticlasse`
+-- Struttura della tabella tbl_avvisi
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_cambiamenticlasse` (
-  `idcambiamentoclasse` int(11),
-  `idalunno` int(11),
-  `idclasse` int(11),
-  `datafine` date,
-  `dataultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_avvisi (
+  idavviso int(11),
+  oggetto varchar(80),
+  testo mediumblob,
+  destinatari varchar(10),
+  inizio date,
+  fine date
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS tbl_assenze (
+  idassenza int(11),
+  idalunno int(11) DEFAULT '0',
+  data date DEFAULT NULL,
+  giustifica tinyint(1),
+  iddocentegiust int(11) DEFAULT NULL,
+  datagiustifica date DEFAULT NULL,
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  dataammonizione date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella tbl_cambiamenticlasse
+--
+
+CREATE TABLE IF NOT EXISTS tbl_cambiamenticlasse (
+  idcambiamentoclasse int(11),
+  idalunno int(11),
+  idclasse int(11),
+  datafine date,
+  dataultimamodifica timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Contiene la cronologia dei cambiamenti di classe degli alunni';
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_cattnosupp`
+-- Struttura della tabella tbl_cattnosupp
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_cattnosupp` (
-  `idcattedra` int(11),
-  `iddocente` int(11) DEFAULT '0',
-  `idmateria` int(11) DEFAULT '0',
-  `idclasse` int(11) DEFAULT '0',
-  `idalunno` int(11) DEFAULT '0'
+CREATE TABLE IF NOT EXISTS tbl_cattnosupp (
+  idcattedra int(11),
+  iddocente int(11) DEFAULT '0',
+  idmateria int(11) DEFAULT '0',
+  idclasse int(11) DEFAULT '0',
+  idalunno int(11) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_cattsupp`
+-- Struttura della tabella tbl_cattsupp
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_cattsupp` (
-  `idcattedra` int(11),
-  `iddocente` int(11) DEFAULT '0',
-  `idmateria` int(11) DEFAULT '0',
-  `idclasse` int(11) DEFAULT '0'
+CREATE TABLE IF NOT EXISTS tbl_cattsupp (
+  idcattedra int(11),
+  iddocente int(11) DEFAULT '0',
+  idmateria int(11) DEFAULT '0',
+  idclasse int(11) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE tbl_certcompcompetenze (
@@ -322,141 +322,141 @@ ALTER TABLE tbl_certcompvalutazioni
 ALTER TABLE tbl_certcompproposte
   MODIFY idccp int(11) NOT NULL AUTO_INCREMENT;
 
-CREATE TABLE IF NOT EXISTS `tbl_circolari` (
-  `idcircolare` int(11),
-  `iddocumento` int(11) DEFAULT '0',
-  `descrizione` varchar(100) DEFAULT NULL,
-  `destinatari` varchar(10) DEFAULT NULL,
-  `ricevuta` tinyint(1) DEFAULT '0',
-  `datainserimento` date DEFAULT NULL,
-  `datafine` date DEFAULT NULL,
-  `ultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_circolari (
+  idcircolare int(11),
+  iddocumento int(11) DEFAULT '0',
+  descrizione varchar(100) DEFAULT NULL,
+  destinatari varchar(10) DEFAULT NULL,
+  ricevuta tinyint(1) DEFAULT '0',
+  datainserimento date DEFAULT NULL,
+  datafine date DEFAULT NULL,
+  ultimamodifica timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_classi`
+-- Struttura della tabella tbl_classi
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_classi` (
-  `idclasse` int(11),
-  `anno` int(11) DEFAULT '0',
-  `sezione` char(1) DEFAULT '',
-  `specializzazione` varchar(50) DEFAULT NULL,
-  `oresett` int(11),
-  `idcoordinatore` int(11) DEFAULT '0',
-  `rappresentante1` int(11) DEFAULT '0',
-  `rappresentante2` int(11) DEFAULT '0',
-  `idmoodle` char(5) DEFAULT ''
+CREATE TABLE IF NOT EXISTS tbl_classi (
+  idclasse int(11),
+  anno int(11) DEFAULT '0',
+  sezione char(1) DEFAULT '',
+  specializzazione varchar(50) DEFAULT NULL,
+  oresett int(11),
+  idcoordinatore int(11) DEFAULT '0',
+  rappresentante1 int(11) DEFAULT '0',
+  rappresentante2 int(11) DEFAULT '0',
+  idmoodle char(5) DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_collegamenti`
+-- Struttura della tabella tbl_collegamenti
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_collegamenti` (
-  `idcollegamento` int(11),
-  `descrizione` varchar(80),
-  `link` varchar(255),
-  `destinatari` varchar(10)
+CREATE TABLE IF NOT EXISTS tbl_collegamenti (
+  idcollegamento int(11),
+  descrizione varchar(80),
+  link varchar(255),
+  destinatari varchar(10)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_competalu`
+-- Struttura della tabella tbl_competalu
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_competalu` (
-  `idcompetenza` int(11),
-  `idclasse` int(11),
-  `idmateria` int(11),
-  `idalunno` int(11),
-  `numeroordine` int(11),
-  `sintcomp` varchar(80),
-  `competenza` text
+CREATE TABLE IF NOT EXISTS tbl_competalu (
+  idcompetenza int(11),
+  idclasse int(11),
+  idmateria int(11),
+  idalunno int(11),
+  numeroordine int(11),
+  sintcomp varchar(80),
+  competenza text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_competdoc`
+-- Struttura della tabella tbl_competdoc
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_competdoc` (
-  `idcompetenza` int(11),
-  `idclasse` int(11),
-  `idmateria` int(11),
-  `numeroordine` int(11),
-  `sintcomp` varchar(80),
-  `competenza` text
+CREATE TABLE IF NOT EXISTS tbl_competdoc (
+  idcompetenza int(11),
+  idclasse int(11),
+  idmateria int(11),
+  numeroordine int(11),
+  sintcomp varchar(80),
+  competenza text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_competscol`
+-- Struttura della tabella tbl_competscol
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_competscol` (
-  `idcompetenza` int(11),
-  `idmateria` int(11),
-  `anno` int(11),
-  `numeroordine` int(11),
-  `sintcomp` varchar(80),
-  `competenza` text
+CREATE TABLE IF NOT EXISTS tbl_competscol (
+  idcompetenza int(11),
+  idmateria int(11),
+  anno int(11),
+  numeroordine int(11),
+  sintcomp varchar(80),
+  competenza text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_compob`
+-- Struttura della tabella tbl_compob
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_compob` (
-  `idobiettivo` int(11),
-  `numeroordine` int(11),
-  `sintob` varchar(80),
-  `obiettivo` text
+CREATE TABLE IF NOT EXISTS tbl_compob (
+  idobiettivo int(11),
+  numeroordine int(11),
+  sintob varchar(80),
+  obiettivo text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_compsubob`
+-- Struttura della tabella tbl_compsubob
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_compsubob` (
-  `idsubob` int(11),
-  `idobiettivo` int(11),
-  `numeroordine` int(11),
-  `sintsubob` varchar(80),
-  `subob` text
+CREATE TABLE IF NOT EXISTS tbl_compsubob (
+  idsubob int(11),
+  idobiettivo int(11),
+  numeroordine int(11),
+  sintsubob varchar(80),
+  subob text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_comuni`
+-- Struttura della tabella tbl_comuni
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_comuni` (
-  `idcomune` int(11),
-  `denominazione` varchar(30) DEFAULT '',
-  `codiceistat` int(11) DEFAULT NULL,
-  `statoestero` varchar(1) DEFAULT NULL,
-  `codcatastale` varchar(4)
+CREATE TABLE IF NOT EXISTS tbl_comuni (
+  idcomune int(11),
+  denominazione varchar(30) DEFAULT '',
+  codiceistat int(11) DEFAULT NULL,
+  statoestero varchar(1) DEFAULT NULL,
+  codcatastale varchar(4)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `tbl_consorientativi` (
-  `idalunno` int(11),
-  `consiglioorientativo` text,
-   `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_consorientativi (
+  idalunno int(11),
+  consiglioorientativo text,
+   oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -465,283 +465,283 @@ CREATE TABLE IF NOT EXISTS `tbl_consorientativi` (
 
 
 --
--- Struttura della tabella `tbl_deroghe`
+-- Struttura della tabella tbl_deroghe
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_deroghe` (
-  `idderoga` int(11),
-  `data` date,
-  `idalunno` int(11),
-  `motivo` char(200),
-  `numeroore` int(1) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `tbl_derogheinserimento`
---
-
-CREATE TABLE IF NOT EXISTS `tbl_derogheinserimento` (
-  `idderogainserimento` int(11),
-  `iddocente` int(11),
-  `data` date,
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_deroghe (
+  idderoga int(11),
+  data date,
+  idalunno int(11),
+  motivo char(200),
+  numeroore int(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_diariocl`
+-- Struttura della tabella tbl_derogheinserimento
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_diariocl` (
-  `iddiariocl` int(11),
-  `idclasse` int(11),
-  `data` date,
-  `iddocente` int(11),
-  `testo` longtext,
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_derogheinserimento (
+  idderogainserimento int(11),
+  iddocente int(11),
+  data date,
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_diffusionecircolari`
+-- Struttura della tabella tbl_diariocl
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_diffusionecircolari` (
-  `iddiffusionecircolare` int(11),
-  `idcircolare` int(11),
-  `idutente` int(11) DEFAULT '0',
-  `datalettura` date DEFAULT NULL,
-  `dataconfermalettura` date DEFAULT NULL,
-  `ultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_diariocl (
+  iddiariocl int(11),
+  idclasse int(11),
+  data date,
+  iddocente int(11),
+  testo longtext,
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_docenti`
+-- Struttura della tabella tbl_diffusionecircolari
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_docenti` (
-  `iddocente` int(11),
-  `cognome` varchar(30) DEFAULT '',
-  `nome` varchar(30) DEFAULT '',
-  `datanascita` date DEFAULT NULL,
-  `idcomnasc` int(11) DEFAULT '0',
-  `indirizzo` varchar(30) DEFAULT NULL,
-  `idcomres` int(11) DEFAULT '0',
-  `telefono` varchar(15) DEFAULT NULL,
-  `telcel` varchar(15) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  `idutente` int(11) DEFAULT '0',
-  `sostegno` tinyint(1) DEFAULT '0',
-  `nummaxcolloqui` tinyint(1) DEFAULT '5'
+CREATE TABLE IF NOT EXISTS tbl_diffusionecircolari (
+  iddiffusionecircolare int(11),
+  idcircolare int(11),
+  idutente int(11) DEFAULT '0',
+  datalettura date DEFAULT NULL,
+  dataconfermalettura date DEFAULT NULL,
+  ultimamodifica timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_documenti`
+-- Struttura della tabella tbl_docenti
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_documenti` (
-  `iddocumento` int(11),
-  `idmateria` int(11),
-  `idclasse` int(11),
-  `iddocente` int(11),
-  `idalunno` int(11),
-  `idtipodocumento` int(11),
-  `pei` tinyint(1) DEFAULT NULL,
-  `datadocumento` date,
-  `descrizione` varchar(255),
-  `docbin` mediumblob,
-  `docmd5` varchar(64),
-  `docnome` varchar(255),
-  `docsize` varchar(50),
-  `doctype` varchar(50),
-  `ultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_docenti (
+  iddocente int(11),
+  cognome varchar(30) DEFAULT '',
+  nome varchar(30) DEFAULT '',
+  datanascita date DEFAULT NULL,
+  idcomnasc int(11) DEFAULT '0',
+  indirizzo varchar(30) DEFAULT NULL,
+  idcomres int(11) DEFAULT '0',
+  telefono varchar(15) DEFAULT NULL,
+  telcel varchar(15) DEFAULT NULL,
+  email varchar(50) DEFAULT NULL,
+  idutente int(11) DEFAULT '0',
+  sostegno tinyint(1) DEFAULT '0',
+  nummaxcolloqui tinyint(1) DEFAULT '5'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_entrateclassi`
+-- Struttura della tabella tbl_documenti
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_entrateclassi` (
-  `identrataclasse` int(11),
-  `idclasse` int(11),
-  `data` date,
-  `ora` time
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
---
--- Struttura della tabella `tbl_esiti`
---
-
-CREATE TABLE IF NOT EXISTS `tbl_esiti` (
-  `idesito` int(11),
-  `idalunno` int(11),
-  `idclasse` int(11),
-  `esito` int(11),
-  `integrativo` int(11) DEFAULT '0',
-  `media` decimal(4,2) DEFAULT NULL,
-  `validita` int(11) DEFAULT '1' COMMENT '1 - valido, 2 - deroga, 3 - non valido',
-  `creditotot` int(2) DEFAULT NULL,
-  `credito` int(2) DEFAULT NULL,
-  `votoammissione` int(2) DEFAULT NULL,
-  `ultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `tbl_esami3m`
---
-
-CREATE TABLE IF NOT EXISTS `tbl_esami3m` (
-  `idesame` int(11),
-  `idclasse` int(11),
-  `datascrutinio` date,
-  `stato` char(1),
-  `luogoscrutinio` varchar(100) DEFAULT '',
-  `dataverbale` date,
-  `datastampa` date,
-  `ultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP,
-  `idcommissione` int(11),
-  `testo1` longtext,
-  `testo2` longtext,
-  `testo3` longtext,
-  `testo4` longtext,
-  `orainizio` char(5),
-  `orafine` char(5)
+CREATE TABLE IF NOT EXISTS tbl_documenti (
+  iddocumento int(11),
+  idmateria int(11),
+  idclasse int(11),
+  iddocente int(11),
+  idalunno int(11),
+  idtipodocumento int(11),
+  pei tinyint(1) DEFAULT NULL,
+  datadocumento date,
+  descrizione varchar(255),
+  docbin mediumblob,
+  docmd5 varchar(64),
+  docnome varchar(255),
+  docsize varchar(50),
+  doctype varchar(50),
+  ultimamodifica timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_escommissioni`
+-- Struttura della tabella tbl_entrateclassi
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_escommissioni` (
-  `idescommissione` int(11),
-  `denominazione` char(30),
-  `nomepresidente` char(30),
-  `cognomepresidente` char(30),
-  `idsegretario` int(11)
+CREATE TABLE IF NOT EXISTS tbl_entrateclassi (
+  identrataclasse int(11),
+  idclasse int(11),
+  data date,
+  ora time
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+--
+-- Struttura della tabella tbl_esiti
+--
+
+CREATE TABLE IF NOT EXISTS tbl_esiti (
+  idesito int(11),
+  idalunno int(11),
+  idclasse int(11),
+  esito int(11),
+  integrativo int(11) DEFAULT '0',
+  media decimal(4,2) DEFAULT NULL,
+  validita int(11) DEFAULT '1' COMMENT '1 - valido, 2 - deroga, 3 - non valido',
+  creditotot int(2) DEFAULT NULL,
+  credito int(2) DEFAULT NULL,
+  votoammissione int(2) DEFAULT NULL,
+  ultimamodifica timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella tbl_esami3m
+--
+
+CREATE TABLE IF NOT EXISTS tbl_esami3m (
+  idesame int(11),
+  idclasse int(11),
+  datascrutinio date,
+  stato char(1),
+  luogoscrutinio varchar(100) DEFAULT '',
+  dataverbale date,
+  datastampa date,
+  ultimamodifica timestamp DEFAULT CURRENT_TIMESTAMP,
+  idcommissione int(11),
+  testo1 longtext,
+  testo2 longtext,
+  testo3 longtext,
+  testo4 longtext,
+  orainizio char(5),
+  orafine char(5)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_escompcommissioni`
+-- Struttura della tabella tbl_escommissioni
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_escompcommissioni` (
-  `idescompcommissione` int(11),
-  `idcommissione` int(11),
-  `iddocente` int(11)
+CREATE TABLE IF NOT EXISTS tbl_escommissioni (
+  idescommissione int(11),
+  denominazione char(30),
+  nomepresidente char(30),
+  cognomepresidente char(30),
+  idsegretario int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_esesiti`
+-- Struttura della tabella tbl_escompcommissioni
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_esesiti` (
-  `idalunno` int(11),
-  `votoammissione` int(2),
-  `votom1` int(2),
-  `votom2` int(2),
-  `votom3` int(2),
-  `votom4` int(2),
-  `votom5` int(2),
-  `votom6` int(2),
-  `votom7` int(2),
-  `votom8` int(2),
-  `votom9` int(2),
-  `votoorale` int(2),
-  `mediascrcolloq` decimal(4,2),
-  `mediafinale` decimal(4,2),
-  `votofinale` int(2),
-  `scarto` decimal(2,2),
-  `idesesiti` int(11),
-  `consorientcons` text,
-  `consorientcomm` text,
-  `provasceltam1` char(6),
-  `provasceltam2` char(6),
-  `provasceltam3` char(6),
-  `provasceltam4` char(6),
-  `provasceltam5` char(6),
-  `provasceltam6` char(6),
-  `provasceltam7` char(6),
-  `provasceltam8` char(6),
-  `provasceltam9` char(6),
-  `criteri1` text,
-  `criteri2` text,
-  `criteri3` text,
-  `criteri4` text,
-  `criteri5` text,
-  `criteri6` text,
-  `criteri7` text,
-  `criteri8` text,
-  `criteri9` text,
-  `votopniita` smallint(6),
-  `votopnimat` smallint(6),
-  `tracciacolloquio` text,
-  `datacolloquio` date,
-  `giudiziocolloquio` text,
-  `giudiziocomplessivo` text,
-  `lode` tinyint(1),
-  `unanimita` tinyint(1),
-  `ammissioneterza` tinyint(1)
+CREATE TABLE IF NOT EXISTS tbl_escompcommissioni (
+  idescompcommissione int(11),
+  idcommissione int(11),
+  iddocente int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_esmaterie`
+-- Struttura della tabella tbl_esesiti
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_esmaterie` (
-  `idesmaterie` int(11),
-  `idclasse` int(11),
-  `m1s` char(5),
-  `m1e` char(30),
-  `m1m` tinyint(4),
-  `m2s` char(5),
-  `m2e` char(30),
-  `m2m` tinyint(4),
-  `m3s` char(5),
-  `m3e` char(30),
-  `m3m` tinyint(4),
-  `m4s` char(5),
-  `m4e` char(30),
-  `m4m` tinyint(4),
-  `m5s` char(5),
-  `m5e` char(30),
-  `m5m` tinyint(4),
-  `m6s` char(5),
-  `m6e` char(30),
-  `m6m` tinyint(4),
-  `m7s` char(5),
-  `m7e` char(30),
-  `m7m` tinyint(4),
-  `m8s` char(5),
-  `m8e` char(30),
-  `m8m` tinyint(4),
-  `m9s` char(5),
-  `m9e` char(30),
-  `m9m` tinyint(4),
-  `num2lin` smallint(6),
-  `numpni` smallint(6)
+CREATE TABLE IF NOT EXISTS tbl_esesiti (
+  idalunno int(11),
+  votoammissione int(2),
+  votom1 int(2),
+  votom2 int(2),
+  votom3 int(2),
+  votom4 int(2),
+  votom5 int(2),
+  votom6 int(2),
+  votom7 int(2),
+  votom8 int(2),
+  votom9 int(2),
+  votoorale int(2),
+  mediascrcolloq decimal(4,2),
+  mediafinale decimal(4,2),
+  votofinale int(2),
+  scarto decimal(2,2),
+  idesesiti int(11),
+  consorientcons text,
+  consorientcomm text,
+  provasceltam1 char(6),
+  provasceltam2 char(6),
+  provasceltam3 char(6),
+  provasceltam4 char(6),
+  provasceltam5 char(6),
+  provasceltam6 char(6),
+  provasceltam7 char(6),
+  provasceltam8 char(6),
+  provasceltam9 char(6),
+  criteri1 text,
+  criteri2 text,
+  criteri3 text,
+  criteri4 text,
+  criteri5 text,
+  criteri6 text,
+  criteri7 text,
+  criteri8 text,
+  criteri9 text,
+  votopniita smallint(6),
+  votopnimat smallint(6),
+  tracciacolloquio text,
+  datacolloquio date,
+  giudiziocolloquio text,
+  giudiziocomplessivo text,
+  lode tinyint(1),
+  unanimita tinyint(1),
+  ammissioneterza tinyint(1)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella tbl_esmaterie
+--
+
+CREATE TABLE IF NOT EXISTS tbl_esmaterie (
+  idesmaterie int(11),
+  idclasse int(11),
+  m1s char(5),
+  m1e char(30),
+  m1m tinyint(4),
+  m2s char(5),
+  m2e char(30),
+  m2m tinyint(4),
+  m3s char(5),
+  m3e char(30),
+  m3m tinyint(4),
+  m4s char(5),
+  m4e char(30),
+  m4m tinyint(4),
+  m5s char(5),
+  m5e char(30),
+  m5m tinyint(4),
+  m6s char(5),
+  m6e char(30),
+  m6m tinyint(4),
+  m7s char(5),
+  m7e char(30),
+  m7m tinyint(4),
+  m8s char(5),
+  m8e char(30),
+  m8m tinyint(4),
+  m9s char(5),
+  m9e char(30),
+  m9m tinyint(4),
+  num2lin smallint(6),
+  numpni smallint(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -750,48 +750,48 @@ CREATE TABLE IF NOT EXISTS `tbl_esmaterie` (
 
 
 --
--- Struttura della tabella `tbl_festivita`
+-- Struttura della tabella tbl_festivita
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_festivita` (
-  `idfestivita` int(11),
-  `data` date,
-  `note` varchar(30) DEFAULT NULL
+CREATE TABLE IF NOT EXISTS tbl_festivita (
+  idfestivita int(11),
+  data date,
+  note varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
-CREATE TABLE IF NOT EXISTS `tbl_sospensionicolloqui` (
-  `idsospensionecolloqui` int(11),
-  `data` date,
-  `note` varchar(30) DEFAULT NULL
+CREATE TABLE IF NOT EXISTS tbl_sospensionicolloqui (
+  idsospensionecolloqui int(11),
+  data date,
+  note varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_firme`
+-- Struttura della tabella tbl_firme
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_firme` (
-  `idfirma` int(11),
-  `idlezione` int(11),
-  `iddocente` int(11),
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_firme (
+  idfirma int(11),
+  idlezione int(11),
+  iddocente int(11),
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_giudizi`
+-- Struttura della tabella tbl_giudizi
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_giudizi` (
-  `idgiudizio` int(11),
-  `idclasse` int(11),
-  `periodo` char(1),
-  `idalunno` int(11),
-  `giudizio` text,
-  `ultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_giudizi (
+  idgiudizio int(11),
+  idclasse int(11),
+  periodo char(1),
+  idalunno int(11),
+  giudizio text,
+  ultimamodifica timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -800,21 +800,21 @@ CREATE TABLE IF NOT EXISTS `tbl_giudizi` (
 
 
 --
--- Struttura della tabella `tbl_goindirizzo`
+-- Struttura della tabella tbl_goindirizzo
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_goindirizzo` (
-  `idindirizzo` int(11),
-  `idsettore` int(11),
-  `denominazione` text,
-  `codsidi` text
+CREATE TABLE IF NOT EXISTS tbl_goindirizzo (
+  idindirizzo int(11),
+  idsettore int(11),
+  denominazione text,
+  codsidi text
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `tbl_goindirizzo`
+-- Dump dei dati per la tabella tbl_goindirizzo
 --
 
-INSERT INTO `tbl_goindirizzo` (`idindirizzo`, `idsettore`, `denominazione`, `codsidi`) VALUES
+INSERT INTO tbl_goindirizzo (idindirizzo, idsettore, denominazione, codsidi) VALUES
   (1, 1, 'Classico', ''),
   (2, 2, 'Scientifico', ''),
   (3, 2, 'Scientifico - Opzione Scienze Applicate', ''),
@@ -848,19 +848,19 @@ INSERT INTO `tbl_goindirizzo` (`idindirizzo`, `idsettore`, `denominazione`, `cod
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_gopercorso`
+-- Struttura della tabella tbl_gopercorso
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_gopercorso` (
-  `idpercorso` int(11),
-  `denominazione` text
+CREATE TABLE IF NOT EXISTS tbl_gopercorso (
+  idpercorso int(11),
+  denominazione text
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `tbl_gopercorso`
+-- Dump dei dati per la tabella tbl_gopercorso
 --
 
-INSERT INTO `tbl_gopercorso` (`idpercorso`, `denominazione`) VALUES
+INSERT INTO tbl_gopercorso (idpercorso, denominazione) VALUES
   (1, 'Liceo'),
   (2, 'Istituto Tecnico'),
   (3, 'Istituto Professionale'),
@@ -876,21 +876,21 @@ INSERT INTO `tbl_gopercorso` (`idpercorso`, `denominazione`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_gosettore`
+-- Struttura della tabella tbl_gosettore
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_gosettore` (
-  `idsettore` int(11),
-  `idpercorso` int(11),
-  `denominazione` text,
-  `codsidi` text
+CREATE TABLE IF NOT EXISTS tbl_gosettore (
+  idsettore int(11),
+  idpercorso int(11),
+  denominazione text,
+  codsidi text
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
--- Dump dei dati per la tabella `tbl_gosettore`
+-- Dump dei dati per la tabella tbl_gosettore
 --
 
-INSERT INTO `tbl_gosettore` (`idsettore`, `idpercorso`, `denominazione`, `codsidi`) VALUES
+INSERT INTO tbl_gosettore (idsettore, idpercorso, denominazione, codsidi) VALUES
   (1, 1, 'Classico', ''),
   (2, 1, 'Scientifico', ''),
   (3, 1, 'Linguistico', ''),
@@ -911,681 +911,681 @@ INSERT INTO `tbl_gosettore` (`idsettore`, `idpercorso`, `denominazione`, `codsid
 
 
 --
--- Struttura della tabella `tbl_gruppi`
+-- Struttura della tabella tbl_gruppi
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_gruppi` (
-  `idgruppo` int(11),
-  `descrizione` varchar(255) DEFAULT '',
-  `iddocente` int(11),
-  `idmateria` int(11)
+CREATE TABLE IF NOT EXISTS tbl_gruppi (
+  idgruppo int(11),
+  descrizione varchar(255) DEFAULT '',
+  iddocente int(11),
+  idmateria int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_gruppialunni`
+-- Struttura della tabella tbl_gruppialunni
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_gruppialunni` (
-  `idgruppoalunno` int(11),
-  `idgruppo` int(11),
-  `idalunno` int(11),
-  `ultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_gruppialunni (
+  idgruppoalunno int(11),
+  idgruppo int(11),
+  idalunno int(11),
+  ultimamodifica timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_lezioni`
+-- Struttura della tabella tbl_lezioni
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_lezioni` (
-  `idlezione` int(11),
-  `idclasse` int(11),
-  `datalezione` date,
-  `iddocente` int(11),
-  `idmateria` int(11),
-  `idlezionegruppo` int(11) DEFAULT NULL COMMENT 'Se vuota lezione normale',
-  `numeroore` smallint(6),
-  `orainizio` smallint(6),
-  `argomenti` varchar(512),
-  `attivita` varchar(512),
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_lezioni (
+  idlezione int(11),
+  idclasse int(11),
+  datalezione date,
+  iddocente int(11),
+  idmateria int(11),
+  idlezionegruppo int(11) DEFAULT NULL COMMENT 'Se vuota lezione normale',
+  numeroore smallint(6),
+  orainizio smallint(6),
+  argomenti varchar(512),
+  attivita varchar(512),
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_lezionicert`
+-- Struttura della tabella tbl_lezionicert
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_lezionicert` (
-  `idlezione` int(11),
-  `idclasse` int(11),
-  `datalezione` date,
-  `iddocente` int(11),
-  `idalunno` int(11),
-  `idmateria` int(11),
-  `numeroore` smallint(6),
-  `orainizio` smallint(6),
-  `argomenti` varchar(512),
-  `attivita` varchar(512),
-  `idlezionenorm` int(11),
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_lezionicert (
+  idlezione int(11),
+  idclasse int(11),
+  datalezione date,
+  iddocente int(11),
+  idalunno int(11),
+  idmateria int(11),
+  numeroore smallint(6),
+  orainizio smallint(6),
+  argomenti varchar(512),
+  attivita varchar(512),
+  idlezionenorm int(11),
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_lezionigruppi`
+-- Struttura della tabella tbl_lezionigruppi
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_lezionigruppi` (
-  `idlezionegruppo` int(11),
-  `datalezione` date,
-  `idgruppo` int(11),
-  `numeroore` smallint(6),
-  `orainizio` smallint(6),
-  `argomenti` varchar(512),
-  `attivita` varchar(512),
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_lezionigruppi (
+  idlezionegruppo int(11),
+  datalezione date,
+  idgruppo int(11),
+  numeroore smallint(6),
+  orainizio smallint(6),
+  argomenti varchar(512),
+  attivita varchar(512),
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_logacc`
+-- Struttura della tabella tbl_logacc
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_logacc` (
-  `idlog` int(11),
-  `utente` varchar(30),
-  `dataacc` varchar(20),
-  `comando` text,
-  `indirizzo` char(50)
+CREATE TABLE IF NOT EXISTS tbl_logacc (
+  idlog int(11),
+  utente varchar(30),
+  dataacc varchar(20),
+  comando text,
+  indirizzo char(50)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_materie`
+-- Struttura della tabella tbl_materie
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_materie` (
-  `idmateria` int(11),
-  `denominazione` varchar(50) DEFAULT '',
-  `idclasseconcorso` int(11) DEFAULT '0',
-  `tipovalutazione` varchar(4),
-  `sigla` varchar(5),
-  `progrpag` int(11),
-  `media` tinyint(1) DEFAULT '1',
-  `classesidi` int(5) DEFAULT '0'
+CREATE TABLE IF NOT EXISTS tbl_materie (
+  idmateria int(11),
+  denominazione varchar(50) DEFAULT '',
+  idclasseconcorso int(11) DEFAULT '0',
+  tipovalutazione varchar(4),
+  sigla varchar(5),
+  progrpag int(11),
+  media tinyint(1) DEFAULT '1',
+  classesidi int(5) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_materiesidi`
+-- Struttura della tabella tbl_materiesidi
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_materiesidi` (
-  `tiposcuola` int(1),
-  `descrizione` varchar(255),
-  `codice` int(5),
-  `descrizionebreve` char(50) DEFAULT ''
+CREATE TABLE IF NOT EXISTS tbl_materiesidi (
+  tiposcuola int(1),
+  descrizione varchar(255),
+  codice int(5),
+  descrizionebreve char(50) DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_menu`
+-- Struttura della tabella tbl_menu
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_menu` (
-  `idvoce` int(11),
-  `menu` varchar(50),
-  `voce` varchar(50),
-  `programma` varchar(50),
-  `ordine` tinyint(4),
-  `abilitazioni` varchar(10)
+CREATE TABLE IF NOT EXISTS tbl_menu (
+  idvoce int(11),
+  menu varchar(50),
+  voce varchar(50),
+  programma varchar(50),
+  ordine tinyint(4),
+  abilitazioni varchar(10)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_notealunno`
+-- Struttura della tabella tbl_notealunno
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_notealunno` (
-  `idnotaalunno` int(11),
-  `idclasse` int(11),
-  `data` date,
-  `iddocente` int(11) DEFAULT NULL,
-  `testo` text,
-  `provvedimenti` text,
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_notealunno (
+  idnotaalunno int(11),
+  idclasse int(11),
+  data date,
+  iddocente int(11) DEFAULT NULL,
+  testo text,
+  provvedimenti text,
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_noteclasse`
+-- Struttura della tabella tbl_noteclasse
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_noteclasse` (
-  `idnotaclasse` int(11),
-  `data` date,
-  `idclasse` int(11),
-  `iddocente` int(11) DEFAULT NULL,
-  `testo` text,
-  `provvedimenti` text,
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_noteclasse (
+  idnotaclasse int(11),
+  data date,
+  idclasse int(11),
+  iddocente int(11) DEFAULT NULL,
+  testo text,
+  provvedimenti text,
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_noteindalu`
+-- Struttura della tabella tbl_noteindalu
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_noteindalu` (
-  `idnoteindalu` int(11),
-  `idnotaalunno` int(11),
-  `idalunno` int(11)
+CREATE TABLE IF NOT EXISTS tbl_noteindalu (
+  idnoteindalu int(11),
+  idnotaalunno int(11),
+  idalunno int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_orario`
+-- Struttura della tabella tbl_orario
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_orario` (
-  `idorario` int(11),
-  `ora` tinyint(4),
-  `giorno` tinyint(4),
-  `inizio` time,
-  `fine` time,
-  `valido` tinyint(1) DEFAULT '1'
+CREATE TABLE IF NOT EXISTS tbl_orario (
+  idorario int(11),
+  ora tinyint(4),
+  giorno tinyint(4),
+  inizio time,
+  fine time,
+  valido tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_orericevimento`
+-- Struttura della tabella tbl_orericevimento
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_orericevimento` (
-  `idoraricevimento` int(11),
-  `iddocente` int(11),
-  `idorario` int(11),
-  `note` varchar(30) DEFAULT NULL,
-  `valido` tinyint(1) DEFAULT '1'
+CREATE TABLE IF NOT EXISTS tbl_orericevimento (
+  idoraricevimento int(11),
+  iddocente int(11),
+  idorario int(11),
+  note varchar(30) DEFAULT NULL,
+  valido tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_osssist`
+-- Struttura della tabella tbl_osssist
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_osssist` (
-  `idosssist` int(11),
-  `idalunno` int(11),
-  `idclasse` int(11),
-  `data` date,
-  `iddocente` int(11),
-  `idlezione` int(11) DEFAULT '0',
-  `idmateria` int(11) DEFAULT '0',
-  `testo` text,
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_osssist (
+  idosssist int(11),
+  idalunno int(11),
+  idclasse int(11),
+  data date,
+  iddocente int(11),
+  idlezione int(11) DEFAULT '0',
+  idmateria int(11) DEFAULT '0',
+  testo text,
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_paramcomunicazpers`
+-- Struttura della tabella tbl_paramcomunicazpers
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_paramcomunicazpers` (
-  `idparamcomunicazpers` int(11),
-  `idutente` int(11),
-  `nomeparametro` varchar(20),
-  `valore` varchar(100)
+CREATE TABLE IF NOT EXISTS tbl_paramcomunicazpers (
+  idparamcomunicazpers int(11),
+  idutente int(11),
+  nomeparametro varchar(20),
+  valore varchar(100)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_parametri`
+-- Struttura della tabella tbl_parametri
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_parametri` (
-  `idparametro` int(11),
-  `gruppo` varchar(255),
-  `parametro` varchar(255),
-  `valore` varchar(255),
-  `descrizione` varchar(512),
-  `valoriammessi` varchar(255) DEFAULT ''
+CREATE TABLE IF NOT EXISTS tbl_parametri (
+  idparametro int(11),
+  gruppo varchar(255),
+  parametro varchar(255),
+  valore varchar(255),
+  descrizione varchar(512),
+  valoriammessi varchar(255) DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_prenotazioni`
+-- Struttura della tabella tbl_prenotazioni
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_prenotazioni` (
-  `idprenotazione` int(11),
-  `idalunno` int(11),
-  `idoraricevimento` int(11),
-  `data` date,
-  `conferma` tinyint(1),
-  `note` varchar(255) DEFAULT NULL,
-  `valido` tinyint(1) DEFAULT '1'
+CREATE TABLE IF NOT EXISTS tbl_prenotazioni (
+  idprenotazione int(11),
+  idalunno int(11),
+  idoraricevimento int(11),
+  data date,
+  conferma tinyint(1),
+  note varchar(255) DEFAULT NULL,
+  valido tinyint(1) DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_presenzeforzate`
+-- Struttura della tabella tbl_presenzeforzate
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_presenzeforzate` (
-  `idpresenzaforzata` int(11),
-  `idalunno` int(11),
-  `data` date DEFAULT NULL,
-  `motivo` varchar(200) DEFAULT NULL,
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_presenzeforzate (
+  idpresenzaforzata int(11),
+  idalunno int(11),
+  data date DEFAULT NULL,
+  motivo varchar(200) DEFAULT NULL,
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_proposte`
+-- Struttura della tabella tbl_proposte
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_proposte` (
-  `idproposta` int(11),
-  `idalunno` int(11),
-  `idmateria` int(11),
-  `periodo` char(1),
-  `orale` int(11) DEFAULT NULL,
-  `scritto` int(11) DEFAULT NULL,
-  `pratico` int(11) DEFAULT NULL,
-  `unico` int(11) DEFAULT NULL,
-  `condotta` int(11) DEFAULT NULL,
-  `assenze` int(11) DEFAULT '0',
-  `note` varchar(180) DEFAULT NULL,
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_proposte (
+  idproposta int(11),
+  idalunno int(11),
+  idmateria int(11),
+  periodo char(1),
+  orale int(11) DEFAULT NULL,
+  scritto int(11) DEFAULT NULL,
+  pratico int(11) DEFAULT NULL,
+  unico int(11) DEFAULT NULL,
+  condotta int(11) DEFAULT NULL,
+  assenze int(11) DEFAULT '0',
+  note varchar(180) DEFAULT NULL,
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_province`
+-- Struttura della tabella tbl_province
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_province` (
-  `idprovincia` int(11),
-  `codregione` int(2),
-  `denregione` char(50),
-  `codprovincia` int(3),
-  `denprovincia` char(50),
-  `siglaprovincia` char(2)
+CREATE TABLE IF NOT EXISTS tbl_province (
+  idprovincia int(11),
+  codregione int(2),
+  denregione char(50),
+  codprovincia int(3),
+  denprovincia char(50),
+  siglaprovincia char(2)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabella delle province';
 
 -- --------------------------------------------------------
-CREATE TABLE IF NOT EXISTS `tbl_richiesteferie` (
-  `idrichiestaferie` int(11),
-  `iddocente` int(11) DEFAULT '0',
-  `subject` varchar(1000) NULL DEFAULT NULL,
-  `testomail` varchar(1000) NULL,
-  `erroremail` boolean NULL DEFAULT NULL,
-  `concessione` tinyint NULL DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS tbl_richiesteferie (
+  idrichiestaferie int(11),
+  iddocente int(11) DEFAULT '0',
+  subject varchar(1000) NULL DEFAULT NULL,
+  testomail varchar(1000) NULL,
+  erroremail boolean NULL DEFAULT NULL,
+  concessione tinyint NULL DEFAULT NULL,
   numerogiorni TINYINT NOT NULL DEFAULT 0, 
   orepermessobreve TINYINT NOT NULL DEFAULT 0,
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 --
--- Struttura della tabella `tbl_ritardi`
+-- Struttura della tabella tbl_ritardi
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_ritardi` (
-  `idalunno` int(11) DEFAULT '0',
-  `data` date DEFAULT NULL,
-  `oraentrata` time DEFAULT NULL,
-  `idritardo` int(11),
-  `numeroore` tinyint(4),
-  `giustifica` tinyint(1),
-  `iddocentegiust` int(11) DEFAULT NULL,
-  `datagiustifica` date DEFAULT NULL,
-  `autorizzato` tinyint(4) DEFAULT '0',
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `calcolato` char(1) DEFAULT 'I',
-  `dataammonizione` date DEFAULT NULL
+CREATE TABLE IF NOT EXISTS tbl_ritardi (
+  idalunno int(11) DEFAULT '0',
+  data date DEFAULT NULL,
+  oraentrata time DEFAULT NULL,
+  idritardo int(11),
+  numeroore tinyint(4),
+  giustifica tinyint(1),
+  iddocentegiust int(11) DEFAULT NULL,
+  datagiustifica date DEFAULT NULL,
+  autorizzato tinyint(4) DEFAULT '0',
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  calcolato char(1) DEFAULT 'I',
+  dataammonizione date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_scrutini`
+-- Struttura della tabella tbl_scrutini
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_scrutini` (
-  `idscrutinio` int(11),
-  `idclasse` int(11),
-  `periodo` char(1),
-  `datascrutinio` date,
-  `stato` char(1),
-  `orainizioscrutinio` time,
-  `orafinescrutinio` time,
-  `luogoscrutinio` varchar(100) DEFAULT '',
-  `dataverbale` date,
-  `sostituzioni` varchar(512),
-  `segretario` int(11),
-  `datastampa` date,
-  `firmadirigente` char(50),
-  `testo1` text,
-  `testo2` text,
-  `testo3` text,
-  `testo4` text,
-  `criteri` text,
-  `ultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_scrutini (
+  idscrutinio int(11),
+  idclasse int(11),
+  periodo char(1),
+  datascrutinio date,
+  stato char(1),
+  orainizioscrutinio time,
+  orafinescrutinio time,
+  luogoscrutinio varchar(100) DEFAULT '',
+  dataverbale date,
+  sostituzioni varchar(512),
+  segretario int(11),
+  datastampa date,
+  firmadirigente char(50),
+  testo1 text,
+  testo2 text,
+  testo3 text,
+  testo4 text,
+  criteri text,
+  ultimamodifica timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_sezioni`
+-- Struttura della tabella tbl_sezioni
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_sezioni` (
-  `idsezione` int(11),
-  `denominazione` char(1) DEFAULT ''
+CREATE TABLE IF NOT EXISTS tbl_sezioni (
+  idsezione int(11),
+  denominazione char(1) DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_sms`
+-- Struttura della tabella tbl_sms
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_sms` (
-  `idsms` int(11),
-  `tipo` char(10),
-  `sottotipo` char(10),
-  `iddestinatario` int(11),
-  `idinvio` CHAR(100),
-  `celldestinatario` varchar(15),
-  `idtestosms` int(11),
-  `esito` varchar(100) DEFAULT NULL
+CREATE TABLE IF NOT EXISTS tbl_sms (
+  idsms int(11),
+  tipo char(10),
+  sottotipo char(10),
+  iddestinatario int(11),
+  idinvio CHAR(100),
+  celldestinatario varchar(15),
+  idtestosms int(11),
+  esito varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `tbl_sospinviosms` (
-  `idsospinviosms` int(11),
-  `datasosp` date,
-  `ultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_sospinviosms (
+  idsospinviosms int(11),
+  datasosp date,
+  ultimamodifica timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
 --
--- Struttura della tabella `tbl_specializzazioni`
+-- Struttura della tabella tbl_specializzazioni
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_specializzazioni` (
-  `idspecializzazione` int(11),
-  `denominazione` varchar(50) DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Struttura della tabella `tbl_testi`
---
-
-CREATE TABLE IF NOT EXISTS `tbl_testi` (
-  `idtesto` int(11),
-  `nometesto` char(20),
-  `valore` text,
-  `spiegazione` varchar(255),
-  `possibilivalori` char(255)
+CREATE TABLE IF NOT EXISTS tbl_specializzazioni (
+  idspecializzazione int(11),
+  denominazione varchar(50) DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_testisms`
+-- Struttura della tabella tbl_testi
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_testisms` (
-  `idtestosms` int(11),
-  `testo` varchar(2048),
-  `idinvio` int(11),
-  `idutente` int(11),
-  `dataora` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_testi (
+  idtesto int(11),
+  nometesto char(20),
+  valore text,
+  spiegazione varchar(255),
+  possibilivalori char(255)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_timbrature`
+-- Struttura della tabella tbl_testisms
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_timbrature` (
-  `idtimbratura` int(11),
-  `idalunno` int(11),
-  `tipotimbratura` char(1),
-  `datatimbratura` date,
-  `oratimbratura` time,
-  `utilizzata` tinyint(1),
-  `forzata` tinyint(4) DEFAULT '0',
-  `ultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_testisms (
+  idtestosms int(11),
+  testo varchar(2048),
+  idinvio int(11),
+  idutente int(11),
+  dataora timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_tipidocumenti`
+-- Struttura della tabella tbl_timbrature
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_tipidocumenti` (
-  `idtipodocumento` int(11),
-  `descrizione` text CHARACTER SET utf8
+CREATE TABLE IF NOT EXISTS tbl_timbrature (
+  idtimbratura int(11),
+  idalunno int(11),
+  tipotimbratura char(1),
+  datatimbratura date,
+  oratimbratura time,
+  utilizzata tinyint(1),
+  forzata tinyint(4) DEFAULT '0',
+  ultimamodifica timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella tbl_tipidocumenti
+--
+
+CREATE TABLE IF NOT EXISTS tbl_tipidocumenti (
+  idtipodocumento int(11),
+  descrizione text CHARACTER SET utf8
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_tipiesiti`
+-- Struttura della tabella tbl_tipiesiti
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_tipiesiti` (
-  `idtipoesito` int(11),
-  `descrizione` varchar(80),
-  `passaggio` tinyint(1)
+CREATE TABLE IF NOT EXISTS tbl_tipiesiti (
+  idtipoesito int(11),
+  descrizione varchar(80),
+  passaggio tinyint(1)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_tipoprog`
+-- Struttura della tabella tbl_tipoprog
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_tipoprog` (
-  `idtipoprogr` int(11),
-  `idalunno` int(11),
-  `idmateria` int(11),
-  `tipoprogr` char(1) COMMENT 'Normale, Obiettivi minimi, Personalizzata'
+CREATE TABLE IF NOT EXISTS tbl_tipoprog (
+  idtipoprogr int(11),
+  idalunno int(11),
+  idmateria int(11),
+  tipoprogr char(1) COMMENT 'Normale, Obiettivi minimi, Personalizzata'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_tutori`
+-- Struttura della tabella tbl_tutori
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_tutori` (
-  `idtutore` int(11),
-  `cognome` varchar(30) DEFAULT '',
-  `nome` varchar(30) DEFAULT '',
-  `datanascita` date DEFAULT NULL,
-  `idcomnasc` int(11) DEFAULT '0',
-  `indirizzo` varchar(30) DEFAULT NULL,
-  `idcomres` int(11) DEFAULT '0',
-  `telefono` varchar(15) DEFAULT NULL,
-  `telcel` varchar(15) DEFAULT NULL,
-  `email` varchar(30) DEFAULT NULL,
-  `tipo` char(1) DEFAULT NULL,
-  `idalunno` int(11),
-  `idutente` int(11)
+CREATE TABLE IF NOT EXISTS tbl_tutori (
+  idtutore int(11),
+  cognome varchar(30) DEFAULT '',
+  nome varchar(30) DEFAULT '',
+  datanascita date DEFAULT NULL,
+  idcomnasc int(11) DEFAULT '0',
+  indirizzo varchar(30) DEFAULT NULL,
+  idcomres int(11) DEFAULT '0',
+  telefono varchar(15) DEFAULT NULL,
+  telcel varchar(15) DEFAULT NULL,
+  email varchar(30) DEFAULT NULL,
+  tipo char(1) DEFAULT NULL,
+  idalunno int(11),
+  idutente int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_usciteanticipate`
+-- Struttura della tabella tbl_usciteanticipate
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_usciteanticipate` (
-  `idalunno` int(11) DEFAULT '0',
-  `data` date DEFAULT NULL,
-  `orauscita` time DEFAULT NULL,
-  `iduscita` int(11),
-  `numeroore` tinyint(4),
-  `giustifica` tinyint(1),
-  `iddocentegiust` int(11) DEFAULT NULL,
-  `datagiustifica` date DEFAULT NULL,
-  `dataammonizione` date DEFAULT NULL,
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_usciteanticipate (
+  idalunno int(11) DEFAULT '0',
+  data date DEFAULT NULL,
+  orauscita time DEFAULT NULL,
+  iduscita int(11),
+  numeroore tinyint(4),
+  giustifica tinyint(1),
+  iddocentegiust int(11) DEFAULT NULL,
+  datagiustifica date DEFAULT NULL,
+  dataammonizione date DEFAULT NULL,
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Struttura della tabella `tbl_usciteanticipate`
+-- Struttura della tabella tbl_usciteanticipate
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_autorizzazioniuscite` (
-  `idalunno` int(11) DEFAULT '0',
-  `data` date DEFAULT NULL,
-  `orauscita` time DEFAULT NULL,
-  `idautorizzazioneuscita` int(11),
-  `iddocenteautorizzante` int(11) DEFAULT NULL,
-  `testoautorizzazione` varchar(500) DEFAULT NULL,
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_autorizzazioniuscite (
+  idalunno int(11) DEFAULT '0',
+  data date DEFAULT NULL,
+  orauscita time DEFAULT NULL,
+  idautorizzazioneuscita int(11),
+  iddocenteautorizzante int(11) DEFAULT NULL,
+  testoautorizzazione varchar(500) DEFAULT NULL,
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_utenti`
+-- Struttura della tabella tbl_utenti
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_utenti` (
-  `idutente` int(11),
-  `userid` varchar(15) DEFAULT '',
-  `password` varchar(128) DEFAULT '',
-  `tipo` char(1) DEFAULT '',
-  `dischpwd` tinyint(1) DEFAULT '0',
-  `ultimamodifica` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `passprecedenti` text,
+CREATE TABLE IF NOT EXISTS tbl_utenti (
+  idutente int(11),
+  userid varchar(15) DEFAULT '',
+  password varchar(128) DEFAULT '',
+  tipo char(1) DEFAULT '',
+  dischpwd tinyint(1) DEFAULT '0',
+  ultimamodifica timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  passprecedenti text,
   ultimoaccessoapp BIGINT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_valutazioniabilcono`
+-- Struttura della tabella tbl_valutazioniabilcono
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_valutazioniabilcono` (
-  `idvalabilcono` int(11),
-  `voto` decimal(4,2) DEFAULT '0.00',
-  `idvalint` int(11),
-  `idabilita` int(11) COMMENT 'Se PEI=0 fa riferimento ad abildoc altrimenti ad abilalu',
-  `pei` tinyint(1) DEFAULT '0',
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_valutazioniabilcono (
+  idvalabilcono int(11),
+  voto decimal(4,2) DEFAULT '0.00',
+  idvalint int(11),
+  idabilita int(11) COMMENT 'Se PEI=0 fa riferimento ad abildoc altrimenti ad abilalu',
+  pei tinyint(1) DEFAULT '0',
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_valutazionicomp`
+-- Struttura della tabella tbl_valutazionicomp
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_valutazionicomp` (
-  `idvalcomp` int(11),
-  `voto` decimal(4,2) DEFAULT '0.00',
-  `idalunno` int(11),
-  `idmateria` int(11),
-  `iddocente` int(11),
-  `idclasse` int(11) DEFAULT '0',
-  `data` date DEFAULT NULL,
-  `giudizio` varchar(200) DEFAULT NULL,
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_valutazionicomp (
+  idvalcomp int(11),
+  voto decimal(4,2) DEFAULT '0.00',
+  idalunno int(11),
+  idmateria int(11),
+  iddocente int(11),
+  idclasse int(11) DEFAULT '0',
+  data date DEFAULT NULL,
+  giudizio varchar(200) DEFAULT NULL,
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_valutazionifinali`
+-- Struttura della tabella tbl_valutazionifinali
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_valutazionifinali` (
-  `idvalfin` int(11),
-  `idalunno` int(11) DEFAULT '0',
-  `idmateria` int(11) DEFAULT '0',
-  `votoscritto` char(4) DEFAULT NULL,
-  `votoorale` char(4) DEFAULT NULL,
-  `votopratico` char(4) DEFAULT NULL,
-  `votoaltro` char(4) DEFAULT NULL,
-  `votounico` char(4) DEFAULT NULL,
-  `debito` tinyint(1) DEFAULT '0',
-  `assenze` int(11) DEFAULT '0',
-  `periodo` char(1) DEFAULT NULL COMMENT 'Quadrimestre, ecc.',
-  `progrpag` tinyint(4) DEFAULT NULL COMMENT 'Progressivo in pagella',
-  `codsissi` char(15),
-  `note` varchar(180) DEFAULT NULL,
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_valutazionifinali (
+  idvalfin int(11),
+  idalunno int(11) DEFAULT '0',
+  idmateria int(11) DEFAULT '0',
+  votoscritto char(4) DEFAULT NULL,
+  votoorale char(4) DEFAULT NULL,
+  votopratico char(4) DEFAULT NULL,
+  votoaltro char(4) DEFAULT NULL,
+  votounico char(4) DEFAULT NULL,
+  debito tinyint(1) DEFAULT '0',
+  assenze int(11) DEFAULT '0',
+  periodo char(1) DEFAULT NULL COMMENT 'Quadrimestre, ecc.',
+  progrpag tinyint(4) DEFAULT NULL COMMENT 'Progressivo in pagella',
+  codsissi char(15),
+  note varchar(180) DEFAULT NULL,
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_valutazioniintermedie`
+-- Struttura della tabella tbl_valutazioniintermedie
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_valutazioniintermedie` (
-  `idvalint` int(11),
-  `idalunno` int(11) DEFAULT '0',
-  `idmateria` int(11) DEFAULT '0',
-  `iddocente` int(11) DEFAULT '0',
-  `idclasse` int(11) DEFAULT '0',
-  `idlezione` int(11) DEFAULT NULL,
-  `tipo` char(1) DEFAULT NULL,
-  `data` date DEFAULT NULL,
-  `voto` decimal(4,2) DEFAULT '0.00',
-  `giudizio` varchar(200) DEFAULT NULL,
-  `pei` tinyint(1) DEFAULT '0',
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_valutazioniintermedie (
+  idvalint int(11),
+  idalunno int(11) DEFAULT '0',
+  idmateria int(11) DEFAULT '0',
+  iddocente int(11) DEFAULT '0',
+  idclasse int(11) DEFAULT '0',
+  idlezione int(11) DEFAULT NULL,
+  tipo char(1) DEFAULT NULL,
+  data date DEFAULT NULL,
+  voto decimal(4,2) DEFAULT '0.00',
+  giudizio varchar(200) DEFAULT NULL,
+  pei tinyint(1) DEFAULT '0',
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tbl_valutazioniobcomp`
+-- Struttura della tabella tbl_valutazioniobcomp
 --
 
-CREATE TABLE IF NOT EXISTS `tbl_valutazioniobcomp` (
-  `idvalobcomp` int(11),
-  `voto` decimal(4,2) DEFAULT '0.00',
-  `idvalcomp` int(11),
-  `idsubob` int(11),
-  `oraultmod` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS tbl_valutazioniobcomp (
+  idvalobcomp int(11),
+  voto decimal(4,2) DEFAULT '0.00',
+  idvalcomp int(11),
+  idsubob int(11),
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1593,959 +1593,959 @@ CREATE TABLE IF NOT EXISTS `tbl_valutazioniobcomp` (
 --
 
 --
--- Indexes for table `tbl_abilalu`
+-- Indexes for table tbl_abilalu
 --
-ALTER TABLE `tbl_abilalu`
-ADD PRIMARY KEY (`idabilita`), ADD KEY `idcompetenza` (`idcompetenza`);
+ALTER TABLE tbl_abilalu
+ADD PRIMARY KEY (idabilita), ADD KEY idcompetenza (idcompetenza);
 
 --
--- Indexes for table `tbl_abildoc`
+-- Indexes for table tbl_abildoc
 --
-ALTER TABLE `tbl_abildoc`
-ADD PRIMARY KEY (`idabilita`), ADD KEY `idcompetenza` (`idcompetenza`);
+ALTER TABLE tbl_abildoc
+ADD PRIMARY KEY (idabilita), ADD KEY idcompetenza (idcompetenza);
 
 --
--- Indexes for table `tbl_abilscol`
+-- Indexes for table tbl_abilscol
 --
-ALTER TABLE `tbl_abilscol`
-ADD PRIMARY KEY (`idabilita`), ADD UNIQUE KEY `idcompetenza` (`idcompetenza`,`numeroordine`,`abil_cono`);
+ALTER TABLE tbl_abilscol
+ADD PRIMARY KEY (idabilita), ADD UNIQUE KEY idcompetenza (idcompetenza,numeroordine,abil_cono);
 
 --
--- Indexes for table `tbl_alunni`
+-- Indexes for table tbl_alunni
 --
-ALTER TABLE `tbl_alunni`
-ADD PRIMARY KEY (`idalunno`), ADD KEY `idclasse` (`idclasse`);
+ALTER TABLE tbl_alunni
+ADD PRIMARY KEY (idalunno), ADD KEY idclasse (idclasse);
 
 --
--- Indexes for table `tbl_amministrativi`
+-- Indexes for table tbl_amministrativi
 --
-ALTER TABLE `tbl_amministrativi`
-ADD PRIMARY KEY (`idamministrativo`);
+ALTER TABLE tbl_amministrativi
+ADD PRIMARY KEY (idamministrativo);
 
 --
--- Indexes for table `tbl_annotazioni`
+-- Indexes for table tbl_annotazioni
 --
-ALTER TABLE `tbl_annotazioni`
-ADD PRIMARY KEY (`idannotazione`), ADD KEY `data` (`data`);
+ALTER TABLE tbl_annotazioni
+ADD PRIMARY KEY (idannotazione), ADD KEY data (data);
 
 --
--- Indexes for table `tbl_assemblee`
+-- Indexes for table tbl_assemblee
 --
-ALTER TABLE `tbl_assemblee`
-ADD PRIMARY KEY (`idassemblea`);
+ALTER TABLE tbl_assemblee
+ADD PRIMARY KEY (idassemblea);
 
 
 
 --
--- Indexes for table `tbl_assenze`
+-- Indexes for table tbl_assenze
 --
-ALTER TABLE `tbl_assenze`
-ADD PRIMARY KEY (`idassenza`), ADD KEY `data` (`data`), ADD KEY `datagiustifica` (`datagiustifica`);
+ALTER TABLE tbl_assenze
+ADD PRIMARY KEY (idassenza), ADD KEY data (data), ADD KEY datagiustifica (datagiustifica);
 
 --
--- Indexes for table `tbl_asslezione`
+-- Indexes for table tbl_asslezione
 --
-ALTER TABLE `tbl_asslezione`
-ADD PRIMARY KEY (`idassenzalezione`), ADD KEY `idalunno` (`idalunno`), ADD KEY `idlezione` (`idlezione`), ADD KEY `data` (`data`);
+ALTER TABLE tbl_asslezione
+ADD PRIMARY KEY (idassenzalezione), ADD KEY idalunno (idalunno), ADD KEY idlezione (idlezione), ADD KEY data (data);
 
 --
--- Indexes for table `tbl_avvisi`
+-- Indexes for table tbl_avvisi
 --
-ALTER TABLE `tbl_avvisi`
-ADD PRIMARY KEY (`idavviso`);
+ALTER TABLE tbl_avvisi
+ADD PRIMARY KEY (idavviso);
 
 --
--- Indexes for table `tbl_cambiamenticlasse`
+-- Indexes for table tbl_cambiamenticlasse
 --
-ALTER TABLE `tbl_cambiamenticlasse`
-ADD PRIMARY KEY (`idcambiamentoclasse`);
+ALTER TABLE tbl_cambiamenticlasse
+ADD PRIMARY KEY (idcambiamentoclasse);
 
 --
--- Indexes for table `tbl_cattnosupp`
+-- Indexes for table tbl_cattnosupp
 --
-ALTER TABLE `tbl_cattnosupp`
-ADD PRIMARY KEY (`idcattedra`), ADD KEY `idclasse` (`idclasse`), ADD KEY `iddocente` (`iddocente`), ADD KEY `idmateria` (`idmateria`), ADD KEY `idalunno` (`idalunno`);
+ALTER TABLE tbl_cattnosupp
+ADD PRIMARY KEY (idcattedra), ADD KEY idclasse (idclasse), ADD KEY iddocente (iddocente), ADD KEY idmateria (idmateria), ADD KEY idalunno (idalunno);
 
 --
--- Indexes for table `tbl_cattsupp`
+-- Indexes for table tbl_cattsupp
 --
-ALTER TABLE `tbl_cattsupp`
-ADD PRIMARY KEY (`idcattedra`);
+ALTER TABLE tbl_cattsupp
+ADD PRIMARY KEY (idcattedra);
 
 --
--- Indexes for table `tbl_circolari`
+-- Indexes for table tbl_circolari
 --
-ALTER TABLE `tbl_circolari`
-ADD PRIMARY KEY (`idcircolare`);
+ALTER TABLE tbl_circolari
+ADD PRIMARY KEY (idcircolare);
 
 --
--- Indexes for table `tbl_classi`
+-- Indexes for table tbl_classi
 --
-ALTER TABLE `tbl_classi`
-ADD PRIMARY KEY (`idclasse`);
+ALTER TABLE tbl_classi
+ADD PRIMARY KEY (idclasse);
 
 --
--- Indexes for table `tbl_collegamenti`
+-- Indexes for table tbl_collegamenti
 --
-ALTER TABLE `tbl_collegamenti`
-ADD PRIMARY KEY (`idcollegamento`);
+ALTER TABLE tbl_collegamenti
+ADD PRIMARY KEY (idcollegamento);
 
 --
--- Indexes for table `tbl_competalu`
+-- Indexes for table tbl_competalu
 --
-ALTER TABLE `tbl_competalu`
-ADD PRIMARY KEY (`idcompetenza`);
+ALTER TABLE tbl_competalu
+ADD PRIMARY KEY (idcompetenza);
 
 --
--- Indexes for table `tbl_competdoc`
+-- Indexes for table tbl_competdoc
 --
-ALTER TABLE `tbl_competdoc`
-ADD PRIMARY KEY (`idcompetenza`);
+ALTER TABLE tbl_competdoc
+ADD PRIMARY KEY (idcompetenza);
 
 --
--- Indexes for table `tbl_competscol`
+-- Indexes for table tbl_competscol
 --
-ALTER TABLE `tbl_competscol`
-ADD PRIMARY KEY (`idcompetenza`);
+ALTER TABLE tbl_competscol
+ADD PRIMARY KEY (idcompetenza);
 
 --
--- Indexes for table `tbl_compob`
+-- Indexes for table tbl_compob
 --
-ALTER TABLE `tbl_compob`
-ADD PRIMARY KEY (`idobiettivo`);
+ALTER TABLE tbl_compob
+ADD PRIMARY KEY (idobiettivo);
 
 --
--- Indexes for table `tbl_compsubob`
+-- Indexes for table tbl_compsubob
 --
-ALTER TABLE `tbl_compsubob`
-ADD PRIMARY KEY (`idsubob`);
+ALTER TABLE tbl_compsubob
+ADD PRIMARY KEY (idsubob);
 
 --
--- Indexes for table `tbl_comuni`
+-- Indexes for table tbl_comuni
 --
-ALTER TABLE `tbl_comuni`
-ADD PRIMARY KEY (`idcomune`);
+ALTER TABLE tbl_comuni
+ADD PRIMARY KEY (idcomune);
 
 --
--- Indexes for table `tbl_deroghe`
+-- Indexes for table tbl_deroghe
 --
-ALTER TABLE `tbl_deroghe`
-ADD PRIMARY KEY (`idderoga`);
+ALTER TABLE tbl_deroghe
+ADD PRIMARY KEY (idderoga);
 
 --
--- Indexes for table `tbl_derogheinserimento`
+-- Indexes for table tbl_derogheinserimento
 --
-ALTER TABLE `tbl_derogheinserimento`
-ADD PRIMARY KEY (`idderogainserimento`);
+ALTER TABLE tbl_derogheinserimento
+ADD PRIMARY KEY (idderogainserimento);
 
 --
--- Indexes for table `tbl_diariocl`
+-- Indexes for table tbl_diariocl
 --
-ALTER TABLE `tbl_diariocl`
-ADD PRIMARY KEY (`iddiariocl`), ADD KEY `data` (`data`);
+ALTER TABLE tbl_diariocl
+ADD PRIMARY KEY (iddiariocl), ADD KEY data (data);
 
 --
--- Indexes for table `tbl_diffusionecircolari`
+-- Indexes for table tbl_diffusionecircolari
 --
-ALTER TABLE `tbl_diffusionecircolari`
-ADD PRIMARY KEY (`iddiffusionecircolare`);
+ALTER TABLE tbl_diffusionecircolari
+ADD PRIMARY KEY (iddiffusionecircolare);
 
 --
--- Indexes for table `tbl_docenti`
+-- Indexes for table tbl_docenti
 --
-ALTER TABLE `tbl_docenti`
-ADD PRIMARY KEY (`iddocente`);
+ALTER TABLE tbl_docenti
+ADD PRIMARY KEY (iddocente);
 
 --
--- Indexes for table `tbl_documenti`
+-- Indexes for table tbl_documenti
 --
-ALTER TABLE `tbl_documenti`
-ADD PRIMARY KEY (`iddocumento`);
+ALTER TABLE tbl_documenti
+ADD PRIMARY KEY (iddocumento);
 
 --
--- Indexes for table `tbl_entrateclassi`
+-- Indexes for table tbl_entrateclassi
 --
-ALTER TABLE `tbl_entrateclassi`
-ADD PRIMARY KEY (`identrataclasse`);
+ALTER TABLE tbl_entrateclassi
+ADD PRIMARY KEY (identrataclasse);
 
 --
--- Indexes for table `tbl_esiti`
+-- Indexes for table tbl_esiti
 --
-ALTER TABLE `tbl_esiti`
-ADD PRIMARY KEY (`idesito`);
+ALTER TABLE tbl_esiti
+ADD PRIMARY KEY (idesito);
 
 --
--- Indexes for table `tbl_festivita`
+-- Indexes for table tbl_festivita
 --
-ALTER TABLE `tbl_festivita`
-ADD PRIMARY KEY (`idfestivita`);
+ALTER TABLE tbl_festivita
+ADD PRIMARY KEY (idfestivita);
 
 
-ALTER TABLE `tbl_sospensionicolloqui`
-ADD PRIMARY KEY (`idsospensionecolloqui`);
+ALTER TABLE tbl_sospensionicolloqui
+ADD PRIMARY KEY (idsospensionecolloqui);
 --
--- Indexes for table `tbl_firme`
+-- Indexes for table tbl_firme
 --
-ALTER TABLE `tbl_firme`
-ADD PRIMARY KEY (`idfirma`);
+ALTER TABLE tbl_firme
+ADD PRIMARY KEY (idfirma);
 
 --
--- Indexes for table `tbl_giudizi`
+-- Indexes for table tbl_giudizi
 --
-ALTER TABLE `tbl_giudizi`
-ADD PRIMARY KEY (`idgiudizio`);
+ALTER TABLE tbl_giudizi
+ADD PRIMARY KEY (idgiudizio);
 
 --
--- Indexes for table `tbl_gruppi`
+-- Indexes for table tbl_gruppi
 --
-ALTER TABLE `tbl_gruppi`
-ADD PRIMARY KEY (`idgruppo`);
+ALTER TABLE tbl_gruppi
+ADD PRIMARY KEY (idgruppo);
 
 --
--- Indexes for table `tbl_gruppialunni`
+-- Indexes for table tbl_gruppialunni
 --
-ALTER TABLE `tbl_gruppialunni`
-ADD PRIMARY KEY (`idgruppoalunno`);
+ALTER TABLE tbl_gruppialunni
+ADD PRIMARY KEY (idgruppoalunno);
 
 --
--- Indexes for table `tbl_lezioni`
+-- Indexes for table tbl_lezioni
 --
-ALTER TABLE `tbl_lezioni`
-ADD PRIMARY KEY (`idlezione`), ADD UNIQUE KEY `uk_principale` (`idclasse`,`idmateria`,`datalezione`,`orainizio`,`numeroore`), ADD KEY `datalezione` (`datalezione`), ADD KEY `idclasse` (`idclasse`);
+ALTER TABLE tbl_lezioni
+ADD PRIMARY KEY (idlezione), ADD UNIQUE KEY uk_principale (idclasse,idmateria,datalezione,orainizio,numeroore), ADD KEY datalezione (datalezione), ADD KEY idclasse (idclasse);
 
 --
--- Indexes for table `tbl_lezionicert`
+-- Indexes for table tbl_lezionicert
 --
-ALTER TABLE `tbl_lezionicert`
-ADD PRIMARY KEY (`idlezione`), ADD KEY `datalezione` (`datalezione`), ADD KEY `idclasse` (`idclasse`);
+ALTER TABLE tbl_lezionicert
+ADD PRIMARY KEY (idlezione), ADD KEY datalezione (datalezione), ADD KEY idclasse (idclasse);
 
 --
--- Indexes for table `tbl_lezionigruppi`
+-- Indexes for table tbl_lezionigruppi
 --
-ALTER TABLE `tbl_lezionigruppi`
-ADD PRIMARY KEY (`idlezionegruppo`), ADD KEY `datalezione` (`datalezione`);
+ALTER TABLE tbl_lezionigruppi
+ADD PRIMARY KEY (idlezionegruppo), ADD KEY datalezione (datalezione);
 
 --
--- Indexes for table `tbl_logacc`
+-- Indexes for table tbl_logacc
 --
-ALTER TABLE `tbl_logacc`
-ADD PRIMARY KEY (`idlog`);
+ALTER TABLE tbl_logacc
+ADD PRIMARY KEY (idlog);
 
 --
--- Indexes for table `tbl_materie`
+-- Indexes for table tbl_materie
 --
-ALTER TABLE `tbl_materie`
-ADD PRIMARY KEY (`idmateria`);
+ALTER TABLE tbl_materie
+ADD PRIMARY KEY (idmateria);
 
 --
--- Indexes for table `tbl_materiesidi`
+-- Indexes for table tbl_materiesidi
 --
-ALTER TABLE `tbl_materiesidi`
-ADD PRIMARY KEY (`codice`);
+ALTER TABLE tbl_materiesidi
+ADD PRIMARY KEY (codice);
 
 --
--- Indexes for table `tbl_menu`
+-- Indexes for table tbl_menu
 --
-ALTER TABLE `tbl_menu`
-ADD PRIMARY KEY (`idvoce`);
+ALTER TABLE tbl_menu
+ADD PRIMARY KEY (idvoce);
 
 --
--- Indexes for table `tbl_notealunno`
+-- Indexes for table tbl_notealunno
 --
-ALTER TABLE `tbl_notealunno`
-ADD PRIMARY KEY (`idnotaalunno`), ADD KEY `data` (`data`);
+ALTER TABLE tbl_notealunno
+ADD PRIMARY KEY (idnotaalunno), ADD KEY data (data);
 
 --
--- Indexes for table `tbl_noteclasse`
+-- Indexes for table tbl_noteclasse
 --
-ALTER TABLE `tbl_noteclasse`
-ADD PRIMARY KEY (`idnotaclasse`), ADD KEY `data` (`data`);
+ALTER TABLE tbl_noteclasse
+ADD PRIMARY KEY (idnotaclasse), ADD KEY data (data);
 
 --
--- Indexes for table `tbl_noteindalu`
+-- Indexes for table tbl_noteindalu
 --
-ALTER TABLE `tbl_noteindalu`
-ADD PRIMARY KEY (`idnoteindalu`);
+ALTER TABLE tbl_noteindalu
+ADD PRIMARY KEY (idnoteindalu);
 
 --
--- Indexes for table `tbl_orario`
+-- Indexes for table tbl_orario
 --
-ALTER TABLE `tbl_orario`
-ADD PRIMARY KEY (`idorario`);
+ALTER TABLE tbl_orario
+ADD PRIMARY KEY (idorario);
 
 --
--- Indexes for table `tbl_orericevimento`
+-- Indexes for table tbl_orericevimento
 --
-ALTER TABLE `tbl_orericevimento`
-ADD PRIMARY KEY (`idoraricevimento`);
+ALTER TABLE tbl_orericevimento
+ADD PRIMARY KEY (idoraricevimento);
 
 --
--- Indexes for table `tbl_osssist`
+-- Indexes for table tbl_osssist
 --
-ALTER TABLE `tbl_osssist`
-ADD PRIMARY KEY (`idosssist`), ADD KEY `data` (`data`);
+ALTER TABLE tbl_osssist
+ADD PRIMARY KEY (idosssist), ADD KEY data (data);
 
 --
--- Indexes for table `tbl_paramcomunicazpers`
+-- Indexes for table tbl_paramcomunicazpers
 --
-ALTER TABLE `tbl_paramcomunicazpers`
-ADD PRIMARY KEY (`idparamcomunicazpers`);
+ALTER TABLE tbl_paramcomunicazpers
+ADD PRIMARY KEY (idparamcomunicazpers);
 
 --
--- Indexes for table `tbl_parametri`
+-- Indexes for table tbl_parametri
 --
-ALTER TABLE `tbl_parametri`
-ADD PRIMARY KEY (`idparametro`);
+ALTER TABLE tbl_parametri
+ADD PRIMARY KEY (idparametro);
 
 --
--- Indexes for table `tbl_prenotazioni`
+-- Indexes for table tbl_prenotazioni
 --
-ALTER TABLE `tbl_prenotazioni`
-ADD PRIMARY KEY (`idprenotazione`);
+ALTER TABLE tbl_prenotazioni
+ADD PRIMARY KEY (idprenotazione);
 
 --
--- Indexes for table `tbl_presenzeforzate`
+-- Indexes for table tbl_presenzeforzate
 --
-ALTER TABLE `tbl_presenzeforzate`
-ADD PRIMARY KEY (`idpresenzaforzata`), ADD KEY `data` (`data`);
+ALTER TABLE tbl_presenzeforzate
+ADD PRIMARY KEY (idpresenzaforzata), ADD KEY data (data);
 
 --
--- Indexes for table `tbl_proposte`
+-- Indexes for table tbl_proposte
 --
-ALTER TABLE `tbl_proposte`
-ADD PRIMARY KEY (`idproposta`), ADD KEY `idmateria` (`idmateria`), ADD KEY `periodo` (`periodo`), ADD KEY `idalunno` (`idalunno`);
+ALTER TABLE tbl_proposte
+ADD PRIMARY KEY (idproposta), ADD KEY idmateria (idmateria), ADD KEY periodo (periodo), ADD KEY idalunno (idalunno);
 
 --
--- Indexes for table `tbl_province`
+-- Indexes for table tbl_province
 --
-ALTER TABLE `tbl_province`
-ADD PRIMARY KEY (`idprovincia`);
+ALTER TABLE tbl_province
+ADD PRIMARY KEY (idprovincia);
 
 --
--- Indexes for table `tbl_ritardi`
+-- Indexes for table tbl_ritardi
 --
-ALTER TABLE `tbl_richiesteferie`
-ADD PRIMARY KEY (`idrichiestaferie`);
+ALTER TABLE tbl_richiesteferie
+ADD PRIMARY KEY (idrichiestaferie);
 
 
 
-ALTER TABLE `tbl_ritardi`
-ADD PRIMARY KEY (`idritardo`), ADD KEY `data` (`data`), ADD KEY `datagiustifica` (`datagiustifica`);
+ALTER TABLE tbl_ritardi
+ADD PRIMARY KEY (idritardo), ADD KEY data (data), ADD KEY datagiustifica (datagiustifica);
 
 --
--- Indexes for table `tbl_scrutini`
+-- Indexes for table tbl_scrutini
 --
-ALTER TABLE `tbl_scrutini`
-ADD PRIMARY KEY (`idscrutinio`);
+ALTER TABLE tbl_scrutini
+ADD PRIMARY KEY (idscrutinio);
 
 --
--- Indexes for table `tbl_sezioni`
+-- Indexes for table tbl_sezioni
 --
-ALTER TABLE `tbl_sezioni`
-ADD PRIMARY KEY (`idsezione`);
+ALTER TABLE tbl_sezioni
+ADD PRIMARY KEY (idsezione);
 
 --
--- Indexes for table `tbl_sms`
+-- Indexes for table tbl_sms
 --
-ALTER TABLE `tbl_sms`
-ADD PRIMARY KEY (`idsms`);
+ALTER TABLE tbl_sms
+ADD PRIMARY KEY (idsms);
 
 --
--- Indexes for table `tbl_specializzazioni`
+-- Indexes for table tbl_specializzazioni
 --
-ALTER TABLE `tbl_specializzazioni`
-ADD PRIMARY KEY (`idspecializzazione`);
+ALTER TABLE tbl_specializzazioni
+ADD PRIMARY KEY (idspecializzazione);
 
 --
--- Indexes for table `tbl_testi`
+-- Indexes for table tbl_testi
 --
-ALTER TABLE `tbl_testi`
-ADD PRIMARY KEY (`idtesto`);
+ALTER TABLE tbl_testi
+ADD PRIMARY KEY (idtesto);
 
 --
--- Indexes for table `tbl_testisms`
+-- Indexes for table tbl_testisms
 --
-ALTER TABLE `tbl_testisms`
-ADD PRIMARY KEY (`idtestosms`);
+ALTER TABLE tbl_testisms
+ADD PRIMARY KEY (idtestosms);
 
 --
--- Indexes for table `tbl_timbrature`
+-- Indexes for table tbl_timbrature
 --
-ALTER TABLE `tbl_timbrature`
-ADD PRIMARY KEY (`idtimbratura`), ADD KEY `datatimbratura` (`datatimbratura`);
+ALTER TABLE tbl_timbrature
+ADD PRIMARY KEY (idtimbratura), ADD KEY datatimbratura (datatimbratura);
 
 --
--- Indexes for table `tbl_tipidocumenti`
+-- Indexes for table tbl_tipidocumenti
 --
-ALTER TABLE `tbl_tipidocumenti`
-ADD PRIMARY KEY (`idtipodocumento`);
+ALTER TABLE tbl_tipidocumenti
+ADD PRIMARY KEY (idtipodocumento);
 
 --
--- Indexes for table `tbl_tipiesiti`
+-- Indexes for table tbl_tipiesiti
 --
-ALTER TABLE `tbl_tipiesiti`
-ADD PRIMARY KEY (`idtipoesito`);
+ALTER TABLE tbl_tipiesiti
+ADD PRIMARY KEY (idtipoesito);
 
 --
--- Indexes for table `tbl_tipoprog`
+-- Indexes for table tbl_tipoprog
 --
-ALTER TABLE `tbl_tipoprog`
-ADD PRIMARY KEY (`idtipoprogr`);
+ALTER TABLE tbl_tipoprog
+ADD PRIMARY KEY (idtipoprogr);
 
 --
--- Indexes for table `tbl_tutori`
+-- Indexes for table tbl_tutori
 --
-ALTER TABLE `tbl_tutori`
-ADD PRIMARY KEY (`idtutore`);
+ALTER TABLE tbl_tutori
+ADD PRIMARY KEY (idtutore);
 
 --
--- Indexes for table `tbl_usciteanticipate`
+-- Indexes for table tbl_usciteanticipate
 --
-ALTER TABLE `tbl_usciteanticipate`
-ADD PRIMARY KEY (`iduscita`), ADD KEY `data` (`data`);
+ALTER TABLE tbl_usciteanticipate
+ADD PRIMARY KEY (iduscita), ADD KEY data (data);
 
 --
--- Indexes for table `tbl_autorizzazioniusciteanticipate`
+-- Indexes for table tbl_autorizzazioniusciteanticipate
 --
-ALTER TABLE `tbl_autorizzazioniuscite`
-ADD PRIMARY KEY (`idautorizzazioneuscita`);
+ALTER TABLE tbl_autorizzazioniuscite
+ADD PRIMARY KEY (idautorizzazioneuscita);
 --
--- Indexes for table `tbl_utenti`
+-- Indexes for table tbl_utenti
 --
-ALTER TABLE `tbl_utenti`
-ADD PRIMARY KEY (`idutente`);
+ALTER TABLE tbl_utenti
+ADD PRIMARY KEY (idutente);
 
 --
--- Indexes for table `tbl_valutazioniabilcono`
+-- Indexes for table tbl_valutazioniabilcono
 --
-ALTER TABLE `tbl_valutazioniabilcono`
-ADD PRIMARY KEY (`idvalabilcono`), ADD KEY `idvalint` (`idvalint`);
+ALTER TABLE tbl_valutazioniabilcono
+ADD PRIMARY KEY (idvalabilcono), ADD KEY idvalint (idvalint);
 
 --
--- Indexes for table `tbl_valutazionicomp`
+-- Indexes for table tbl_valutazionicomp
 --
-ALTER TABLE `tbl_valutazionicomp`
-ADD PRIMARY KEY (`idvalcomp`);
+ALTER TABLE tbl_valutazionicomp
+ADD PRIMARY KEY (idvalcomp);
 
 --
--- Indexes for table `tbl_valutazionifinali`
+-- Indexes for table tbl_valutazionifinali
 --
-ALTER TABLE `tbl_valutazionifinali`
-ADD PRIMARY KEY (`idvalfin`);
+ALTER TABLE tbl_valutazionifinali
+ADD PRIMARY KEY (idvalfin);
 
 --
--- Indexes for table `tbl_valutazioniintermedie`
+-- Indexes for table tbl_valutazioniintermedie
 --
-ALTER TABLE `tbl_valutazioniintermedie`
-ADD PRIMARY KEY (`idvalint`), ADD KEY `idalunno` (`idalunno`), ADD KEY `idlezione` (`idlezione`), ADD KEY `data` (`data`);
+ALTER TABLE tbl_valutazioniintermedie
+ADD PRIMARY KEY (idvalint), ADD KEY idalunno (idalunno), ADD KEY idlezione (idlezione), ADD KEY data (data);
 
 --
--- Indexes for table `tbl_valutazioniobcomp`
+-- Indexes for table tbl_valutazioniobcomp
 --
-ALTER TABLE `tbl_valutazioniobcomp`
-ADD PRIMARY KEY (`idvalobcomp`);
+ALTER TABLE tbl_valutazioniobcomp
+ADD PRIMARY KEY (idvalobcomp);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `tbl_abilalu`
+-- AUTO_INCREMENT for table tbl_abilalu
 --
-ALTER TABLE `tbl_abilalu`
-MODIFY `idabilita` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_abilalu
+MODIFY idabilita int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_abildoc`
+-- AUTO_INCREMENT for table tbl_abildoc
 --
-ALTER TABLE `tbl_abildoc`
-MODIFY `idabilita` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_abildoc
+MODIFY idabilita int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_abilscol`
+-- AUTO_INCREMENT for table tbl_abilscol
 --
-ALTER TABLE `tbl_abilscol`
-MODIFY `idabilita` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_abilscol
+MODIFY idabilita int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_alunni`
+-- AUTO_INCREMENT for table tbl_alunni
 --
-ALTER TABLE `tbl_alunni`
-MODIFY `idalunno` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_alunni
+MODIFY idalunno int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_amministrativi`
+-- AUTO_INCREMENT for table tbl_amministrativi
 --
-ALTER TABLE `tbl_amministrativi`
-MODIFY `idamministrativo` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_amministrativi
+MODIFY idamministrativo int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_annotazioni`
+-- AUTO_INCREMENT for table tbl_annotazioni
 --
-ALTER TABLE `tbl_annotazioni`
-MODIFY `idannotazione` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_annotazioni
+MODIFY idannotazione int(11) AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tbl_assemblee`
+-- AUTO_INCREMENT for table tbl_assemblee
 --
 
-ALTER TABLE `tbl_assemblee`
-MODIFY `idassemblea` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_assemblee
+MODIFY idassemblea int(11) AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tbl_assenze`
+-- AUTO_INCREMENT for table tbl_assenze
 --
-ALTER TABLE `tbl_assenze`
-MODIFY `idassenza` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_assenze
+MODIFY idassenza int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_asslezione`
+-- AUTO_INCREMENT for table tbl_asslezione
 --
-ALTER TABLE `tbl_asslezione`
-MODIFY `idassenzalezione` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_asslezione
+MODIFY idassenzalezione int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_avvisi`
+-- AUTO_INCREMENT for table tbl_avvisi
 --
-ALTER TABLE `tbl_avvisi`
-MODIFY `idavviso` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_avvisi
+MODIFY idavviso int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_cambiamenticlasse`
+-- AUTO_INCREMENT for table tbl_cambiamenticlasse
 --
-ALTER TABLE `tbl_cambiamenticlasse`
-MODIFY `idcambiamentoclasse` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_cambiamenticlasse
+MODIFY idcambiamentoclasse int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_cattnosupp`
+-- AUTO_INCREMENT for table tbl_cattnosupp
 --
-ALTER TABLE `tbl_cattnosupp`
-MODIFY `idcattedra` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_cattnosupp
+MODIFY idcattedra int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_cattsupp`
+-- AUTO_INCREMENT for table tbl_cattsupp
 --
-ALTER TABLE `tbl_cattsupp`
-MODIFY `idcattedra` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_cattsupp
+MODIFY idcattedra int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_circolari`
+-- AUTO_INCREMENT for table tbl_circolari
 --
-ALTER TABLE `tbl_circolari`
-MODIFY `idcircolare` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_circolari
+MODIFY idcircolare int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_classi`
+-- AUTO_INCREMENT for table tbl_classi
 --
-ALTER TABLE `tbl_classi`
-MODIFY `idclasse` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_classi
+MODIFY idclasse int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_collegamenti`
+-- AUTO_INCREMENT for table tbl_collegamenti
 --
-ALTER TABLE `tbl_collegamenti`
-MODIFY `idcollegamento` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_collegamenti
+MODIFY idcollegamento int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_competalu`
+-- AUTO_INCREMENT for table tbl_competalu
 --
-ALTER TABLE `tbl_competalu`
-MODIFY `idcompetenza` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_competalu
+MODIFY idcompetenza int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_competdoc`
+-- AUTO_INCREMENT for table tbl_competdoc
 --
-ALTER TABLE `tbl_competdoc`
-MODIFY `idcompetenza` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_competdoc
+MODIFY idcompetenza int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_competscol`
+-- AUTO_INCREMENT for table tbl_competscol
 --
-ALTER TABLE `tbl_competscol`
-MODIFY `idcompetenza` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_competscol
+MODIFY idcompetenza int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_compob`
+-- AUTO_INCREMENT for table tbl_compob
 --
-ALTER TABLE `tbl_compob`
-MODIFY `idobiettivo` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_compob
+MODIFY idobiettivo int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_compsubob`
+-- AUTO_INCREMENT for table tbl_compsubob
 --
-ALTER TABLE `tbl_compsubob`
-MODIFY `idsubob` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_compsubob
+MODIFY idsubob int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_comuni`
+-- AUTO_INCREMENT for table tbl_comuni
 --
-ALTER TABLE `tbl_comuni`
-MODIFY `idcomune` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_comuni
+MODIFY idcomune int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_deroghe`
+-- AUTO_INCREMENT for table tbl_deroghe
 --
-ALTER TABLE `tbl_deroghe`
-MODIFY `idderoga` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_deroghe
+MODIFY idderoga int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_derogheinserimento`
+-- AUTO_INCREMENT for table tbl_derogheinserimento
 --
-ALTER TABLE `tbl_derogheinserimento`
-MODIFY `idderogainserimento` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_derogheinserimento
+MODIFY idderogainserimento int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_diariocl`
+-- AUTO_INCREMENT for table tbl_diariocl
 --
-ALTER TABLE `tbl_diariocl`
-MODIFY `iddiariocl` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_diariocl
+MODIFY iddiariocl int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_diffusionecircolari`
+-- AUTO_INCREMENT for table tbl_diffusionecircolari
 --
-ALTER TABLE `tbl_diffusionecircolari`
-MODIFY `iddiffusionecircolare` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_diffusionecircolari
+MODIFY iddiffusionecircolare int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_docenti`
+-- AUTO_INCREMENT for table tbl_docenti
 --
-ALTER TABLE `tbl_docenti`
-MODIFY `iddocente` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_docenti
+MODIFY iddocente int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_documenti`
+-- AUTO_INCREMENT for table tbl_documenti
 --
-ALTER TABLE `tbl_documenti`
-MODIFY `iddocumento` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_documenti
+MODIFY iddocumento int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_entrateclassi`
+-- AUTO_INCREMENT for table tbl_entrateclassi
 --
-ALTER TABLE `tbl_entrateclassi`
-MODIFY `identrataclasse` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_entrateclassi
+MODIFY identrataclasse int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_esiti`
+-- AUTO_INCREMENT for table tbl_esiti
 --
-ALTER TABLE `tbl_esiti`
-MODIFY `idesito` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_esiti
+MODIFY idesito int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_festivita`
+-- AUTO_INCREMENT for table tbl_festivita
 --
-ALTER TABLE `tbl_festivita`
-MODIFY `idfestivita` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_festivita
+MODIFY idfestivita int(11) AUTO_INCREMENT;
 
-ALTER TABLE `tbl_sospensionicolloqui`
-MODIFY `idsospensionecolloqui` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_sospensionicolloqui
+MODIFY idsospensionecolloqui int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_firme`
+-- AUTO_INCREMENT for table tbl_firme
 --
-ALTER TABLE `tbl_firme`
-MODIFY `idfirma` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_firme
+MODIFY idfirma int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_giudizi`
+-- AUTO_INCREMENT for table tbl_giudizi
 --
-ALTER TABLE `tbl_giudizi`
-MODIFY `idgiudizio` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_giudizi
+MODIFY idgiudizio int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_gruppi`
---
-
---
--- Indexes for table `tbl_goindirizzo`
---
-ALTER TABLE `tbl_goindirizzo`
-ADD PRIMARY KEY (`idindirizzo`);
-
---
--- Indexes for table `tbl_gopercorso`
---
-ALTER TABLE `tbl_gopercorso`
-ADD PRIMARY KEY (`idpercorso`);
-
---
--- Indexes for table `tbl_gosettore`
---
-ALTER TABLE `tbl_gosettore`
-ADD PRIMARY KEY (`idsettore`);
-
-
-
-
-ALTER TABLE `tbl_gruppi`
-MODIFY `idgruppo` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_gruppialunni`
---
-ALTER TABLE `tbl_gruppialunni`
-MODIFY `idgruppoalunno` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_lezioni`
---
-ALTER TABLE `tbl_lezioni`
-MODIFY `idlezione` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_lezionicert`
---
-ALTER TABLE `tbl_lezionicert`
-MODIFY `idlezione` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_lezionigruppi`
---
-ALTER TABLE `tbl_lezionigruppi`
-MODIFY `idlezionegruppo` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_logacc`
---
-ALTER TABLE `tbl_logacc`
-MODIFY `idlog` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_materie`
---
-ALTER TABLE `tbl_materie`
-MODIFY `idmateria` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_menu`
---
-ALTER TABLE `tbl_menu`
-MODIFY `idvoce` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_notealunno`
---
-ALTER TABLE `tbl_notealunno`
-MODIFY `idnotaalunno` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_noteclasse`
---
-ALTER TABLE `tbl_noteclasse`
-MODIFY `idnotaclasse` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_noteindalu`
---
-ALTER TABLE `tbl_noteindalu`
-MODIFY `idnoteindalu` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_orario`
---
-ALTER TABLE `tbl_orario`
-MODIFY `idorario` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_orericevimento`
---
-ALTER TABLE `tbl_orericevimento`
-MODIFY `idoraricevimento` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_osssist`
---
-ALTER TABLE `tbl_osssist`
-MODIFY `idosssist` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_parametri`
---
-ALTER TABLE `tbl_parametri`
-MODIFY `idparametro` int(11) AUTO_INCREMENT;
-
-
-ALTER TABLE `tbl_paramcomunicazpers`
-MODIFY `idparamcomunicazpers` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_prenotazioni`
---
-ALTER TABLE `tbl_prenotazioni`
-MODIFY `idprenotazione` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_presenzeforzate`
---
-ALTER TABLE `tbl_presenzeforzate`
-MODIFY `idpresenzaforzata` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_proposte`
---
-ALTER TABLE `tbl_proposte`
-MODIFY `idproposta` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_province`
---
-ALTER TABLE `tbl_province`
-MODIFY `idprovincia` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_ritardi`
---
-ALTER TABLE `tbl_richiesteferie`
-MODIFY `idrichiestaferie` int(11) AUTO_INCREMENT;
-
-ALTER TABLE `tbl_ritardi`
-MODIFY `idritardo` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_scrutini`
---
-ALTER TABLE `tbl_scrutini`
-MODIFY `idscrutinio` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_sezioni`
---
-ALTER TABLE `tbl_sezioni`
-MODIFY `idsezione` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_sms`
---
-ALTER TABLE `tbl_sms`
-MODIFY `idsms` int(11) AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `tbl_specializzazioni`
+-- AUTO_INCREMENT for table tbl_gruppi
 --
 
 --
--- Indexes for table `tbl_sospinviosms`
+-- Indexes for table tbl_goindirizzo
 --
-ALTER TABLE `tbl_sospinviosms`
-ADD PRIMARY KEY (`idsospinviosms`);
+ALTER TABLE tbl_goindirizzo
+ADD PRIMARY KEY (idindirizzo);
+
+--
+-- Indexes for table tbl_gopercorso
+--
+ALTER TABLE tbl_gopercorso
+ADD PRIMARY KEY (idpercorso);
+
+--
+-- Indexes for table tbl_gosettore
+--
+ALTER TABLE tbl_gosettore
+ADD PRIMARY KEY (idsettore);
+
+
+
+
+ALTER TABLE tbl_gruppi
+MODIFY idgruppo int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_gruppialunni
+--
+ALTER TABLE tbl_gruppialunni
+MODIFY idgruppoalunno int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_lezioni
+--
+ALTER TABLE tbl_lezioni
+MODIFY idlezione int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_lezionicert
+--
+ALTER TABLE tbl_lezionicert
+MODIFY idlezione int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_lezionigruppi
+--
+ALTER TABLE tbl_lezionigruppi
+MODIFY idlezionegruppo int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_logacc
+--
+ALTER TABLE tbl_logacc
+MODIFY idlog int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_materie
+--
+ALTER TABLE tbl_materie
+MODIFY idmateria int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_menu
+--
+ALTER TABLE tbl_menu
+MODIFY idvoce int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_notealunno
+--
+ALTER TABLE tbl_notealunno
+MODIFY idnotaalunno int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_noteclasse
+--
+ALTER TABLE tbl_noteclasse
+MODIFY idnotaclasse int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_noteindalu
+--
+ALTER TABLE tbl_noteindalu
+MODIFY idnoteindalu int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_orario
+--
+ALTER TABLE tbl_orario
+MODIFY idorario int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_orericevimento
+--
+ALTER TABLE tbl_orericevimento
+MODIFY idoraricevimento int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_osssist
+--
+ALTER TABLE tbl_osssist
+MODIFY idosssist int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_parametri
+--
+ALTER TABLE tbl_parametri
+MODIFY idparametro int(11) AUTO_INCREMENT;
+
+
+ALTER TABLE tbl_paramcomunicazpers
+MODIFY idparamcomunicazpers int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_prenotazioni
+--
+ALTER TABLE tbl_prenotazioni
+MODIFY idprenotazione int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_presenzeforzate
+--
+ALTER TABLE tbl_presenzeforzate
+MODIFY idpresenzaforzata int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_proposte
+--
+ALTER TABLE tbl_proposte
+MODIFY idproposta int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_province
+--
+ALTER TABLE tbl_province
+MODIFY idprovincia int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_ritardi
+--
+ALTER TABLE tbl_richiesteferie
+MODIFY idrichiestaferie int(11) AUTO_INCREMENT;
+
+ALTER TABLE tbl_ritardi
+MODIFY idritardo int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_scrutini
+--
+ALTER TABLE tbl_scrutini
+MODIFY idscrutinio int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_sezioni
+--
+ALTER TABLE tbl_sezioni
+MODIFY idsezione int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_sms
+--
+ALTER TABLE tbl_sms
+MODIFY idsms int(11) AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table tbl_specializzazioni
+--
+
+--
+-- Indexes for table tbl_sospinviosms
+--
+ALTER TABLE tbl_sospinviosms
+ADD PRIMARY KEY (idsospinviosms);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `tbl_sospinviosms`
+-- AUTO_INCREMENT for table tbl_sospinviosms
 --
-ALTER TABLE `tbl_sospinviosms`
-MODIFY `idsospinviosms` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_sospinviosms
+MODIFY idsospinviosms int(11) AUTO_INCREMENT;
 
 
 
 
-ALTER TABLE `tbl_specializzazioni`
-MODIFY `idspecializzazione` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_specializzazioni
+MODIFY idspecializzazione int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_testi`
+-- AUTO_INCREMENT for table tbl_testi
 --
-ALTER TABLE `tbl_testi`
-MODIFY `idtesto` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_testi
+MODIFY idtesto int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_testisms`
+-- AUTO_INCREMENT for table tbl_testisms
 --
-ALTER TABLE `tbl_testisms`
-MODIFY `idtestosms` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_testisms
+MODIFY idtestosms int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_timbrature`
+-- AUTO_INCREMENT for table tbl_timbrature
 --
-ALTER TABLE `tbl_timbrature`
-MODIFY `idtimbratura` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_timbrature
+MODIFY idtimbratura int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_tipidocumenti`
+-- AUTO_INCREMENT for table tbl_tipidocumenti
 --
-ALTER TABLE `tbl_tipidocumenti`
-MODIFY `idtipodocumento` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_tipidocumenti
+MODIFY idtipodocumento int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_tipiesiti`
+-- AUTO_INCREMENT for table tbl_tipiesiti
 --
-ALTER TABLE `tbl_tipiesiti`
-MODIFY `idtipoesito` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_tipiesiti
+MODIFY idtipoesito int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_tipoprog`
+-- AUTO_INCREMENT for table tbl_tipoprog
 --
-ALTER TABLE `tbl_tipoprog`
-MODIFY `idtipoprogr` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_tipoprog
+MODIFY idtipoprogr int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_tutori`
+-- AUTO_INCREMENT for table tbl_tutori
 --
-ALTER TABLE `tbl_tutori`
-MODIFY `idtutore` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_tutori
+MODIFY idtutore int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_usciteanticipate`
+-- AUTO_INCREMENT for table tbl_usciteanticipate
 --
-ALTER TABLE `tbl_usciteanticipate`
-MODIFY `iduscita` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_usciteanticipate
+MODIFY iduscita int(11) AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `tbl_usciteanticipate`
+-- AUTO_INCREMENT for table tbl_usciteanticipate
 --
-ALTER TABLE `tbl_autorizzazioniuscite`
-MODIFY `idautorizzazioneuscita` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_autorizzazioniuscite
+MODIFY idautorizzazioneuscita int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_utenti`
+-- AUTO_INCREMENT for table tbl_utenti
 --
-ALTER TABLE `tbl_utenti`
-MODIFY `idutente` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_utenti
+MODIFY idutente int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_valutazioniabilcono`
+-- AUTO_INCREMENT for table tbl_valutazioniabilcono
 --
-ALTER TABLE `tbl_valutazioniabilcono`
-MODIFY `idvalabilcono` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_valutazioniabilcono
+MODIFY idvalabilcono int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_valutazionicomp`
+-- AUTO_INCREMENT for table tbl_valutazionicomp
 --
-ALTER TABLE `tbl_valutazionicomp`
-MODIFY `idvalcomp` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_valutazionicomp
+MODIFY idvalcomp int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_valutazionifinali`
+-- AUTO_INCREMENT for table tbl_valutazionifinali
 --
-ALTER TABLE `tbl_valutazionifinali`
-MODIFY `idvalfin` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_valutazionifinali
+MODIFY idvalfin int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_valutazioniintermedie`
+-- AUTO_INCREMENT for table tbl_valutazioniintermedie
 --
-ALTER TABLE `tbl_valutazioniintermedie`
-MODIFY `idvalint` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_valutazioniintermedie
+MODIFY idvalint int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_valutazioniobcomp`
+-- AUTO_INCREMENT for table tbl_valutazioniobcomp
 --
-ALTER TABLE `tbl_valutazioniobcomp`
-MODIFY `idvalobcomp` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_valutazioniobcomp
+MODIFY idvalobcomp int(11) AUTO_INCREMENT;
 --
 -- Limiti per le tabelle scaricate
 --
 
 --
--- Limiti per la tabella `tbl_abilalu`
+-- Limiti per la tabella tbl_abilalu
 --
-ALTER TABLE `tbl_abilalu`
-ADD CONSTRAINT `tbl_abilalu_ibfk_1` FOREIGN KEY (`idcompetenza`) REFERENCES `tbl_competalu` (`idcompetenza`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE tbl_abilalu
+ADD CONSTRAINT tbl_abilalu_ibfk_1 FOREIGN KEY (idcompetenza) REFERENCES tbl_competalu (idcompetenza) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `tbl_abildoc`
+-- Limiti per la tabella tbl_abildoc
 --
-ALTER TABLE `tbl_abildoc`
-ADD CONSTRAINT `tbl_abildoc_ibfk_1` FOREIGN KEY (`idcompetenza`) REFERENCES `tbl_competdoc` (`idcompetenza`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE tbl_abildoc
+ADD CONSTRAINT tbl_abildoc_ibfk_1 FOREIGN KEY (idcompetenza) REFERENCES tbl_competdoc (idcompetenza) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Limiti per la tabella `tbl_valutazioniabilcono`
+-- Limiti per la tabella tbl_valutazioniabilcono
 --
-ALTER TABLE `tbl_valutazioniabilcono`
-ADD CONSTRAINT `tbl_valutazioniabilcono_ibfk_1` FOREIGN KEY (`idvalint`) REFERENCES `tbl_valutazioniintermedie` (`idvalint`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE tbl_valutazioniabilcono
+ADD CONSTRAINT tbl_valutazioniabilcono_ibfk_1 FOREIGN KEY (idvalint) REFERENCES tbl_valutazioniintermedie (idvalint) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Indexes for table `tbl_esami3m`
+-- Indexes for table tbl_esami3m
 --
-ALTER TABLE `tbl_esami3m`
-ADD PRIMARY KEY (`idesame`);
+ALTER TABLE tbl_esami3m
+ADD PRIMARY KEY (idesame);
 
 --
--- Indexes for table `tbl_escommissioni`
+-- Indexes for table tbl_escommissioni
 --
-ALTER TABLE `tbl_escommissioni`
-ADD PRIMARY KEY (`idescommissione`);
+ALTER TABLE tbl_escommissioni
+ADD PRIMARY KEY (idescommissione);
 
 --
--- Indexes for table `tbl_escompcommissioni`
+-- Indexes for table tbl_escompcommissioni
 --
-ALTER TABLE `tbl_escompcommissioni`
-ADD PRIMARY KEY (`idescompcommissione`);
+ALTER TABLE tbl_escompcommissioni
+ADD PRIMARY KEY (idescompcommissione);
 
 --
--- Indexes for table `tbl_esesiti`
+-- Indexes for table tbl_esesiti
 --
-ALTER TABLE `tbl_esesiti`
-ADD PRIMARY KEY (`idesesiti`);
+ALTER TABLE tbl_esesiti
+ADD PRIMARY KEY (idesesiti);
 
 --
--- Indexes for table `tbl_esmaterie`
+-- Indexes for table tbl_esmaterie
 --
-ALTER TABLE `tbl_esmaterie`
-ADD PRIMARY KEY (`idesmaterie`);
+ALTER TABLE tbl_esmaterie
+ADD PRIMARY KEY (idesmaterie);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `tbl_esami3m`
+-- AUTO_INCREMENT for table tbl_esami3m
 --
-ALTER TABLE `tbl_esami3m`
-MODIFY `idesame` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_esami3m
+MODIFY idesame int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_escommissioni`
+-- AUTO_INCREMENT for table tbl_escommissioni
 --
-ALTER TABLE `tbl_escommissioni`
-MODIFY `idescommissione` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_escommissioni
+MODIFY idescommissione int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_escompcommissioni`
+-- AUTO_INCREMENT for table tbl_escompcommissioni
 --
-ALTER TABLE `tbl_escompcommissioni`
-MODIFY `idescompcommissione` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_escompcommissioni
+MODIFY idescompcommissione int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_esesiti`
+-- AUTO_INCREMENT for table tbl_esesiti
 --
-ALTER TABLE `tbl_esesiti`
-MODIFY `idesesiti` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_esesiti
+MODIFY idesesiti int(11) AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `tbl_esmaterie`
+-- AUTO_INCREMENT for table tbl_esmaterie
 --
-ALTER TABLE `tbl_esmaterie`
-MODIFY `idesmaterie` int(11) AUTO_INCREMENT;
+ALTER TABLE tbl_esmaterie
+MODIFY idesmaterie int(11) AUTO_INCREMENT;
 
 
 -- IMPORTAZIONE DATI

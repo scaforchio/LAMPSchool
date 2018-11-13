@@ -206,7 +206,8 @@ else
         }
         else
         {
-            print "<td>&nbsp;</td>";
+            if ($data['autorizzato']==1)
+                print "<td>&nbsp;<a href='annullaassemblea.php?idassemblea=".$data['idassemblea']."'>ANNULLA RICHIESTA</a></td>";
         }
 
         //COMMENTI
