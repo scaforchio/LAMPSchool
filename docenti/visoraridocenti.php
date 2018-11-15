@@ -124,7 +124,7 @@ emaildocente='$maildocente'";
 
                 $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
                 if ($rec = mysqli_fetch_array($ris))
-                    print ("<td align='center'>" . $rec['nomeclasse'] . "<br>" . $rec['nomemateria'] . "<br>" . $rec['nomeaula'] . "</td>");
+                    print ("<td align='center'>" .inspref($query). $rec['nomeclasse'] . "<br>" . $rec['nomemateria'] . "<br>" . $rec['nomeaula'] . "</td>");
                 else
                     print "<td></td>";
             }
@@ -132,29 +132,6 @@ emaildocente='$maildocente'";
         }
         print "</table>";
     }
-    /* print "<table border='1' align='center'>";
-      print "<tr class='prima'><td>Prot.</td><td>Docente</td><td>Periodo</td></tr>";
-      // TTTT
-      $query = "select * from tbl_richiesteferie where concessione=1 order by idrichiestaferie desc";
-      $ris = mysqli_query($con, inspref($query)) or die("Errore: $query");
-      while ($rec = mysqli_fetch_array($ris))
-      {
-      print "<tr>";
-      $prot = $rec['idrichiestaferie'];
-      print "<td>$prot</td>";
-      print "<td>" . estrai_dati_docente($rec['iddocente'], $con) . "</td>";
-      // PREPARAZIONE STRINGA SINTETICA RICHIESTA
-      $periodo = $rec['subject'];
-      //$posperiodo = strpos($testocompleto,"", $testocompleto)
-      //str_replace("");
-      print "<td><small><small>$periodo<big><big></td>";
-
-
-      print "</tr>";
-      }
-
-      print "</table>";
-      print "<br>"; */
 }
 
 

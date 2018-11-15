@@ -60,7 +60,7 @@ $dataass = $rec['dataassemblea'];
 
 // INSERIMENTO ASSEMBLEA NON AUTORIZZATA CON MOTIVAZIONE "Richiesta spostameto"
 
-$assq = "update tbl_assemblee set autorizzato=2, note='Richiesta annullata da ". estrai_dati_docente($iddocente, $con)."!' where idassemblea=$idassemblea";
+$assq = "update tbl_assemblee set autorizzato=2, docenteautorizzante=$iddocente,note='Richiesta annullata!' where idassemblea=$idassemblea";
 mysqli_query($con, inspref($assq)) or die("Errore " . inspref($assq));
 if (mysqli_affected_rows($con) == 1)
     print "<br><br><center>ASSEMBLEA ANNULLATA";

@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -31,7 +33,7 @@ if ($tipoutente == "")
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 $titolo = "Invio SMS";
@@ -64,12 +66,27 @@ while ($rec = mysqli_fetch_array($ris))
 
     if ($aludainv == "on")
     {
-
-        $dest = array();
-        $destinatarialunno = array();
-        $destinatarialunno = explode(",", $rec['telcel']);
-        foreach ($destinatarialunno as $destalu)
+        if (strpos($rec['telcel'], "+") != FALSE)
         {
+            $dest = array();
+            $destinatarialunno = array();
+            $destinatarialunno = explode("+", $rec['telcel']);
+            foreach ($destinatarialunno as $destalu)
+            {
+                $dest['recipient'] = "39" . trim($destalu); // .$rec['telcel'];
+                $dest['nome'] = $rec['nome'] . " " . $rec['cognome'];
+                $iddest[] = $rec['idalunno'];
+
+                $destinatari[] = $dest;
+                $contasmsass++;
+                $invio = true;
+            }
+        } else
+        {
+            $dest = array();
+            $destinatarialunno = array();
+            $destinatarialunno = explode(",", $rec['telcel']);
+            $destalu = $destinatarialunno[0];
             $dest['recipient'] = "39" . trim($destalu); // .$rec['telcel'];
             $dest['nome'] = $rec['nome'] . " " . $rec['cognome'];
             $iddest[] = $rec['idalunno'];
@@ -79,14 +96,13 @@ while ($rec = mysqli_fetch_array($ris))
             $invio = true;
         }
     }
-
 }
 
 if ($invio)
 {
     $messaggio = '${nome} risulta assente oggi ' . $dataoggi;
     $result = skebbyGatewaySendSMSParam($utentesms, $passsms, $destinatari, $messaggio, SMS_TYPE_CLASSIC_PLUS, '', $testatasms, $_SESSION['suffisso']);
-    if ($result['status']== "success")
+    if ($result['status'] == "success")
     {
         $query = "insert into tbl_testisms(testo, idinvio, idutente)
 				  values ('$messaggio','" . $result['id'] . "','" . $_SESSION['idutente'] . "')";
@@ -99,9 +115,7 @@ if ($invio)
             mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
         }
         print "<br><br><center><b><font color='green'>$contasmsass SMS assenze correttamente inviati!</font></b>";
-
-    }
-    else
+    } else
     {
         print "<br><br><center><b><font color='red'>Problemi con l'invio degli SMS per le assenze!</font></b>";
         foreach ($result as $codice => $ris)
@@ -133,13 +147,31 @@ while ($rec = mysqli_fetch_array($ris))
 
     $aludainv = stringa_html($stralu);
 
+
     if ($aludainv == "on")
     {
-        $dest = array();
-        $destinatarialunno = array();
-        $destinatarialunno = explode(",", $rec['telcel']);
-        foreach ($destinatarialunno as $destalu)
+        if (strpos($rec['telcel'], "+") != FALSE)
         {
+            $dest = array();
+            $destinatarialunno = array();
+            $destinatarialunno = explode("+", $rec['telcel']);
+            foreach ($destinatarialunno as $destalu)
+            {
+                $dest['recipient'] = "39" . trim($destalu); // .$rec['telcel'];
+                $dest['nome'] = $rec['nome'] . " " . $rec['cognome'];
+                $iddest[] = $rec['idalunno'];
+
+                $destinatari[] = $dest;
+                $contasmsrit++;
+                $invio = true;
+            }
+        } else
+        {
+            $dest = array();
+            $destinatarialunno = array();
+            $destinatarialunno = explode(",", $rec['telcel']);
+            $destalu = $destinatarialunno[0];
+
             $dest['recipient'] = "39" . trim($destalu); // .$rec['telcel'];
             $dest['nome'] = $rec['nome'] . " " . $rec['cognome'];
             $iddest[] = $rec['idalunno'];
@@ -149,7 +181,6 @@ while ($rec = mysqli_fetch_array($ris))
             $invio = true;
         }
     }
-
 }
 
 if ($invio)
@@ -171,9 +202,7 @@ if ($invio)
             mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
         }
         print "<br><br><center><b><font color='green'>$contasmsrit SMS ritardi correttamente inviati!</font></b>";
-
-    }
-    else
+    } else
     {
         print "<br><br><center><b><font color='red'>Problemi con l'invio degli SMS per i ritardi!</font></b>";
         foreach ($result as $codice => $ris)
@@ -222,7 +251,6 @@ while ($rec = mysqli_fetch_array($ris))
             $invio = true;
         }
     }
-
 }
 
 if ($invio)
@@ -244,9 +272,7 @@ if ($invio)
             mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
         }
         print "<br><br><center><b><font color='green'>$contasmsrit SMS ritardi correttamente inviati!</font></b>";
-
-    }
-    else
+    } else
     {
         print "<br><br><center><b><font color='red'>Problemi con l'invio degli SMS per comunicazione ritardi!</font></b>";
         foreach ($result as $codice => $ris)

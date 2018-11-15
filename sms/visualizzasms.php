@@ -66,7 +66,7 @@ if ($selezione=="tut" | $selezione=="alu" | $selezione=="")
 	$query="select * from tbl_sms,tbl_testisms
 			  where tbl_sms.idtestosms=tbl_testisms.idtestosms
 			  and tipo in ('ass','rit','alu')
-			  order by dataora desc";
+			  order by dataora desc,iddestinatario";
 
 	$ris=mysqli_query($con,inspref($query)) or die ("Errore:".inspref($query));
 
@@ -91,7 +91,7 @@ if ($selezione=="tut" | $selezione=="alu" | $selezione=="")
 			print "<tr>";
 			print "<td>".$rec['tipo']."</td>";
 			print "<td>".$rec['dataora']."</td>";
-			print "<td>".decodifica_alunno($rec['iddestinatario'],$con)."</td>";
+			print "<td>".decodifica_alunno($rec['iddestinatario'],$con)." (". decodifica_classe(estrai_classe_alunno($rec['iddestinatario'], $con),$con).")</td>";
 			print "<td>".$rec['testo']."</td>";
 			print "<td>".$rec['celldestinatario']."</td>";
 			print "<td>".$rec['esito']."</td>";

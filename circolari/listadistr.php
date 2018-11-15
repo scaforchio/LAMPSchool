@@ -135,7 +135,7 @@ if ($idcircolare != "")
     {
 
         print ("<tr><td>" . $rec['cognome'] . "&nbsp;" . $rec['nome']);
-        if ($dest == 'A' | $dest == 'SA')
+        if ($dest == 'A' | $dest == 'SA' | $dest == 'L' | $dest == 'SL' )
         {
             print (" - " . decodifica_classe(estrai_classe_alunno($rec['idalunno'], $con), $con) . " - " . data_italiana($rec['datanascita']));
         }

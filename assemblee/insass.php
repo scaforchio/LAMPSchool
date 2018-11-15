@@ -112,7 +112,7 @@ stampa_piede("");
 function controlloAssemblee($idclasse,$dataassemblea,$con)
 {
     $meseassemblea=substr($dataassemblea,5,2);
-    $query="select count(*) as  numass from tbl_assemblee where idclasse=$idclasse and month(dataassemblea)=$meseassemblea and autorizzato<>2";
+    $query="select count(*) as  numass from tbl_assemblee where idclasse=$idclasse and month(dataassemblea)=$meseassemblea and autorizzato<>2 and concesso1<>2";
    // print inspref($query);
     $ris=mysqli_query($con,inspref($query)) or die("Errore ". inspref($query));
     $rec=mysqli_fetch_array($ris);

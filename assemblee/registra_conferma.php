@@ -38,7 +38,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='
 
 $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore: ".mysqli_error($con));
 
-$qmod = "UPDATE tbl_assemblee SET rappresentante2=$idstudente where idassemblea=$idassemblea";
+$qmod = "UPDATE tbl_assemblee SET rappresentante2=$idstudente, datarichiesta='".date('Y-m-d')."' where idassemblea=$idassemblea";
 
 $rismod = mysqli_query($con, inspref($qmod)) or die (mysqli_error($con). "<br/>". $qmod);             
 
