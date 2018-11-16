@@ -67,36 +67,7 @@ while ($rec = mysqli_fetch_array($ris))
     if ($aludainv == "on")
     {
         require '../lib/aggiungi_destinatari_sms.php';
-        
-       /* if (strpos($rec['telcel'], "+") != FALSE)
-        {
-            $dest = array();
-            $destinatarialunno = array();
-            $destinatarialunno = explode("+", $rec['telcel']);
-            foreach ($destinatarialunno as $destalu)
-            {
-                $dest['recipient'] = "39" . trim($destalu); // .$rec['telcel'];
-                $dest['nome'] = $rec['nome'] . " " . $rec['cognome'];
-                $iddest[] = $rec['idalunno'];
-
-                $destinatari[] = $dest;
-                $contasmsass++;
-                $invio = true;
-            }
-        } else
-        {
-            $dest = array();
-            $destinatarialunno = array();
-            $destinatarialunno = explode(",", $rec['telcel']);
-            $destalu = $destinatarialunno[0];
-            $dest['recipient'] = "39" . trim($destalu); // .$rec['telcel'];
-            $dest['nome'] = $rec['nome'] . " " . $rec['cognome'];
-            $iddest[] = $rec['idalunno'];
-
-            $destinatari[] = $dest;
-            $contasmsass++;
-            $invio = true;
-        } */
+    
     }
 }
 
