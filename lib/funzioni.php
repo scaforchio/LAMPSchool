@@ -75,8 +75,7 @@ function estrai_testo($tipotesto, $conn)
     if ($rec = mysqli_fetch_array($ris))
     {
         $dato = $rec['valore'];
-    }
-    else
+    } else
     {
         $dato = "";
     }
@@ -97,8 +96,7 @@ function estrai_testo_modificato($tipotesto, $parametro, $valore, $conn)
     if ($rec = mysqli_fetch_array($ris))
     {
         $dato = $rec['valore'];
-    }
-    else
+    } else
     {
         $dato = "";
     }
@@ -115,12 +113,10 @@ function getRealIpAddr()
     if (!empty($_SERVER['HTTP_CLIENT_IP'])) //check ip from share internet
     {
         $ip = $_SERVER['HTTP_CLIENT_IP'];
-    }
-    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) //to check ip is pass from proxy
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) //to check ip is pass from proxy
     {
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    }
-    else
+    } else
     {
         $ip = $_SERVER['REMOTE_ADDR'];
     }
@@ -141,8 +137,7 @@ function svuota_cartella($dirpath, $ext)
         {
             echo "Cancellato: " . $file . "<br/>";
             @unlink($dirpath . $file);
-        }
-        else
+        } else
         {
             echo "NON cancellato: " . $file . "<br/>";
         }
@@ -178,8 +173,7 @@ function Verifica_CodiceFiscale($cf)
         if ('0' <= $c and $c <= '9')
         {
             $s += ord($c) - ord('0');
-        }
-        else
+        } else
         {
             $s += ord($c) - ord('A');
         }
@@ -339,12 +333,10 @@ function IndirizzoIpReale()
     if (!empty($_SERVER['HTTP_CLIENT_IP']))
     {
         $ip = $_SERVER['HTTP_CLIENT_IP'];
-    }
-    elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
     {
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    }
-    else
+    } else
     {
         $ip = $_SERVER['REMOTE_ADDR'];
     }
@@ -404,21 +396,21 @@ function daily_cron($suffisso, $con, $lavori, $nomefilelog)
     // 2 - Invio SMS assenze
     // 3 - Cancellazione alunni da gruppi
     // 4 - Invio mail a preside per nuove richieste ferie
-    
-    
+
+
     if (substr($lavori, 0, 1) == '1')  //Pulizia buffer
     {
         pulisci_buffer();
         inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Pulizia buffer", $nomefilelog);
     }
-    
+
     if (substr($lavori, 1, 1) == '1')  //Cancellazione valutazioni anomale
     {
         $query = "DELETE FROM tbl_valutazioniintermedie WHERE voto>99";
         mysqli_query($con, inspref($query)) or die("Errore " . inspref($query));
         inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cancellazione voti anomali", $nomefilelog);
     }
-    
+
     if (substr($lavori, 2, 1) == '1')  //Invio SMS assenti
     {
 
@@ -433,8 +425,7 @@ function daily_cron($suffisso, $con, $lavori, $nomefilelog)
         if (mysqli_num_rows($ris) > 0)
         {
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Invio SMS assenze sospeso per la giornata odierna", $nomefilelog);
-        }
-        else
+        } else
         {
             $querytot = "SELECT count(*) as numalunni FROM tbl_alunni WHERE idclasse<>0";
             $ristotalunni = mysqli_query($con, inspref($querytot));
@@ -477,19 +468,36 @@ function daily_cron($suffisso, $con, $lavori, $nomefilelog)
 
                 if (!$asspre & $telcel != "")
                 {
-
-                    $dest = array();
-                    $destinatarialunno = array();
-                    $destinatarialunno = explode(",", $rec['telcel']);
-                    foreach ($destinatarialunno as $destalu)     // AGGIUNGE UN INVIO PER OGNI CELLULARE
+                    
+                    require 'aggiungi_destinatari_sms.php';
+                    /*if (strpos($rec['telcel'], "+") != FALSE)
                     {
+                        $dest = array();
+                        $destinatarialunno = array();
+                        $destinatarialunno = explode("+", $rec['telcel']);
+                        foreach ($destinatarialunno as $destalu)     // AGGIUNGE UN INVIO PER OGNI CELLULARE
+                        {
+                            $dest['recipient'] = "39" . trim($destalu); // .$rec['telcel'];
+                            $dest['nome'] = $rec['nome'] . " " . $rec['cognome'];
+                            $iddest[] = $rec['idalunno'];
+                            $destinatari[] = $dest;
+                            $contasmsass++;
+                            $invio = true;
+                        }
+                    } else
+                    {
+                        $dest = array();
+                        $destinatarialunno = array();
+                        $destinatarialunno = explode(",", $rec['telcel']);
+                        $destalu = $destinatarialunno[0];
                         $dest['recipient'] = "39" . trim($destalu); // .$rec['telcel'];
                         $dest['nome'] = $rec['nome'] . " " . $rec['cognome'];
                         $iddest[] = $rec['idalunno'];
+
                         $destinatari[] = $dest;
                         $contasmsass++;
                         $invio = true;
-                    }
+                    } */
                 }
             }
 
@@ -501,10 +509,6 @@ function daily_cron($suffisso, $con, $lavori, $nomefilelog)
                 {
                     $messaggio = '${nome} risulta assente oggi ' . data_italiana($dataoggi);
 
-                    // foreach ($destinatari as $d)
-                    //     foreach ($d as $a)
-                    //        print $a;
-                    // print ("$utentesms , $passsms , ". $destinatari. ", $messaggio , SMS_TYPE_CLASSIC_PLUS, '', $testatasms, $suffisso");
                     $result = skebbyGatewaySendSMSParam($utentesms, $passsms, $destinatari, $messaggio, SMS_TYPE_CLASSIC_PLUS, '', $testatasms, $suffisso);
                     if ($result['status'] == "success")
                     {
@@ -519,8 +523,7 @@ function daily_cron($suffisso, $con, $lavori, $nomefilelog)
                             mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
                         }
                         print "<br><br><center><b><font color='green'>$contasmsass SMS assenze correttamente inviati!</font></b>";
-                    }
-                    else
+                    } else
                     {
                         print "<br><br><center><b><font color='red'>Problemi con l'invio degli SMS per le assenze!</font></b>";
                         foreach ($result as $codice => $ris)
@@ -528,8 +531,7 @@ function daily_cron($suffisso, $con, $lavori, $nomefilelog)
                             print $codice . "=>" . $ris . "<br>";
                         }
                     }
-                }
-                else
+                } else
                 {
                     inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Invio automatico SMS assenze non effettuato per eccessivo numero di assenze!", $nomefilelog);
                 }
@@ -551,31 +553,30 @@ function daily_cron($suffisso, $con, $lavori, $nomefilelog)
 
 
         inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§INVIO MAIL RICHIESTE FERIE", $nomefilelog);
-        
+
         $query = "SELECT * FROM tbl_richiesteferie WHERE isnull(concessione)";
         $risferie = mysqli_query($con, inspref($query));
         if (mysqli_num_rows($risferie) > 0)
         {
-            
-            $query="select email from tbl_docenti where iddocente=1000000000";
-            $ris=mysqli_query($con,inspref($query));
-            $rec=mysqli_fetch_array($ris);
-            $mailpreside=$rec['email'];
-            $query="select valore from tbl_parametri where parametro='indirizzomailfrom'";
-            $ris=mysqli_query($con,inspref($query));
-            $rec=mysqli_fetch_array($ris);
-            $mailfrom=$rec['valore'];
-            $oggetto="Nuove richieste ferie per ".$_SESSION['suffisso'];
-            $testomail="Ci sono richieste per astensione dal lavoro non ancora esaminate:";
-            while($recferie=mysqli_fetch_array($risferie))
+
+            $query = "select email from tbl_docenti where iddocente=1000000000";
+            $ris = mysqli_query($con, inspref($query));
+            $rec = mysqli_fetch_array($ris);
+            $mailpreside = $rec['email'];
+            $query = "select valore from tbl_parametri where parametro='indirizzomailfrom'";
+            $ris = mysqli_query($con, inspref($query));
+            $rec = mysqli_fetch_array($ris);
+            $mailfrom = $rec['valore'];
+            $oggetto = "Nuove richieste ferie per " . $_SESSION['suffisso'];
+            $testomail = "Ci sono richieste per astensione dal lavoro non ancora esaminate:";
+            while ($recferie = mysqli_fetch_array($risferie))
             {
-                $ogg=$recferie['subject'];
-                $testomail.="<br>$ogg";
+                $ogg = $recferie['subject'];
+                $testomail .= "<br>$ogg";
             }
-            invia_mail($mailpreside, $oggetto, $testomail,$mailfrom);
-            
+            invia_mail($mailpreside, $oggetto, $testomail, $mailfrom);
         }
-    }    
+    }
 }
 
 function estrai_materia_lezione($idlezione, $conn)
@@ -589,21 +590,20 @@ function estrai_materia_lezione($idlezione, $conn)
 
 function invia_mail($to, $subject, $msg, $from = "", $reply = "")
 {
-    
-      if ($from=="")
-      $from=$_SESSION['indirizzomailfrom'];
-      if ($reply=="")
-      $reply=$from;
-      $intestazioni  = "MIME-Version: 1.0\r\n";
-      $intestazioni .= "Content-type: text/html; charset=utf8-general-ci\r\n";
-      $intestazioni .= "From: " .$from. "\r\n";
-      // $intestazioni .= "Reply-To: ".$reply."\r\n";
 
-      $inviata=mail($to,$subject,$msg,$intestazioni);
-      return $inviata;
-     
-    
+    if ($from == "")
+        $from = $_SESSION['indirizzomailfrom'];
+    if ($reply == "")
+        $reply = $from;
+    $intestazioni = "MIME-Version: 1.0\r\n";
+    $intestazioni .= "Content-type: text/html; charset=utf8-general-ci\r\n";
+    $intestazioni .= "From: " . $from . "\r\n";
+    // $intestazioni .= "Reply-To: ".$reply."\r\n";
+
+    $inviata = mail($to, $subject, $msg, $intestazioni);
+    return $inviata;
 }
+
 function decod_dest($tipodest)
 {
     //if ($tipodest=='O')

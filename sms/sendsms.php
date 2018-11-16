@@ -66,7 +66,9 @@ while ($rec = mysqli_fetch_array($ris))
 
     if ($aludainv == "on")
     {
-        if (strpos($rec['telcel'], "+") != FALSE)
+        require '../lib/aggiungi_destinatari_sms.php';
+        
+       /* if (strpos($rec['telcel'], "+") != FALSE)
         {
             $dest = array();
             $destinatarialunno = array();
@@ -94,7 +96,7 @@ while ($rec = mysqli_fetch_array($ris))
             $destinatari[] = $dest;
             $contasmsass++;
             $invio = true;
-        }
+        } */
     }
 }
 
