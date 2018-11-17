@@ -121,8 +121,8 @@ CREATE TABLE IF NOT EXISTS tbl_annotazioni (
   iddocente int(11),
   data date,
   testo text,
-  visibilitagenitori boolean,
-  visibilitaalunni boolean,
+  visibilitagenitori boolean DEFAULT 0,
+  visibilitaalunni boolean DEFAULT 0,
   oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

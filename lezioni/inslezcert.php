@@ -223,6 +223,13 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
             mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
             return 1;
         }
+        else
+        {
+            // TTTT 17/11/2018
+            $query = "update tbl_lezionicert set idlezionenorm=$idlezione
+                      where idlezione=$codlez";
+            mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+        }
         return 0;
     }
 

@@ -35,5 +35,3 @@ if (strpos($rec['telcel'], "+") != FALSE)
     $invio = true;
 }
 
-
-?>

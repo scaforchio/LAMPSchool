@@ -67,7 +67,6 @@ while ($rec = mysqli_fetch_array($ris))
     if ($aludainv == "on")
     {
         require '../lib/aggiungi_destinatari_sms.php';
-    
     }
 }
 
