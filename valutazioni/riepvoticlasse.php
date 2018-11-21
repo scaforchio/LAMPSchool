@@ -139,9 +139,6 @@ print('
 //
 if ($tipoutente=="S" | $tipoutente=="P")
    $query="select distinct tbl_classi.idclasse,anno,sezione,specializzazione from tbl_classi order by anno,sezione,specializzazione";
-else if($id_ut_doc==1000000030)  // MODIFICA PER PROF. FINI DA ELIMINARE
-   $query="select distinct tbl_classi.idclasse,anno,sezione,specializzazione from tbl_classi 
-           where anno='5' and specializzazione='Informatica' order by anno,sezione,specializzazione";    
 else
    $query="select distinct tbl_classi.idclasse,anno,sezione,specializzazione from tbl_classi 
            where idcoordinatore=".$_SESSION['idutente']. " order by anno,sezione,specializzazione";

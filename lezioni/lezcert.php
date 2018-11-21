@@ -91,7 +91,7 @@ $giornosettimana = "";
 // print "Id lez. $idlezione";
 
 
-print "ttttDATI RICEVUTI $cattedra $giorno $meseanno DAT $ms $anno";
+// print "ttttDATI RICEVUTI $cattedra $giorno $meseanno DAT $ms $anno";
 
 
 if ($idlezione != "")

@@ -34,7 +34,7 @@ if ($tipoutente == "") {
 
 $titolo = "Inserimento consigli orientativi";
 $script = "";
-stampa_head($titolo, "", $script, "SP");
+stampa_head($titolo, "", $script, "SPD");
 
 
 

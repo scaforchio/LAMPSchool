@@ -329,8 +329,8 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
         echo "<textarea cols=60 rows=10 name ='testo'>";
         echo "";
         echo "</textarea><br/><br>";
-        echo "<center>Visibile a tutti i genitori <input type='checkbox' name='visibile'></center>";
-        echo "<center>Visibile a tutti gli alunni <input type='checkbox' name='visibilealu'></center>";
+        echo "<center>Visibile a tutti i genitori della classe<input type='checkbox' name='visibile'></center>";
+        echo "<center>Visibile a tutti gli alunni della classe<input type='checkbox' name='visibilealu'></center>";
         echo "</td>";
 
 

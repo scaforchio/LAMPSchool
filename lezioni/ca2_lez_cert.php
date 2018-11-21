@@ -54,51 +54,83 @@ if (!$con)
 
 // ELIMINO FIRMA DA LEZIONE
 // Estraggo dati della lezione
-$query = "select idclasse,idmateria,orainizio,numeroore,iddocente,datalezione from tbl_lezionicert
+
+$query = "select idlezionenorm,iddocente from tbl_lezionicert
 	           where idlezione=$idlezione";
 $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
-
-
-
-// print ("tttt ".inspref($query));
 $rec = mysqli_fetch_array($ris);
 $iddocente = $rec['iddocente'];
-/*   $query="select tbl_lezioni.idlezione from tbl_lezioni
-  where tbl_lezioni.idclasse=".$rec['idclasse'].
-  " and tbl_lezioni.idmateria=".$rec['idmateria'].
-  " and tbl_lezioni.orainizio=".$rec['orainizio'].
-  " and tbl_lezioni.numeroore=".$rec['numeroore'].
-  " and tbl_lezioni.datalezione='".$rec['datalezione']."'"; */
-$query = "select idlezione from tbl_lezioni
-	           where idclasse=" . $rec['idclasse'] .
-        " and idmateria=" . $rec['idmateria'] .
-        " and orainizio>=" . $rec['orainizio'] .
-        " and (orainizio+numeroore-1)<=(" . $rec['orainizio'] . "+" . $rec['numeroore'] . "-1)" .
-        " and datalezione='" . $rec['datalezione'] . "'";
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
-// print ("tttt ".inspref($query));
-while ($rec = mysqli_fetch_array($ris))
+$idlezionenorm = $rec['idlezionenorm'];
+$queryricnum = "select idlezionenorm,iddocente from tbl_lezionicert
+	           where idlezionenorm=$idlezionenorm";
+$risricnum=mysqli_query($con, inspref($queryricnum)) or die("Errore: " . inspref($queryricnum));
+$numerolezionisost = mysqli_num_rows($risricnum);
+
+ 
+//die("NUMERO LEZIONI SOST".$numerolezionisost);
+
+if ($numerolezionisost == 1)
 {
-    $idleznorm = $rec['idlezione'];
+    
 
-    if ($idleznorm != "")
+    $query = "delete from tbl_firme where idlezione=$idlezionenorm and iddocente=$iddocente";
+    $ris1 = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+
+    // VERIFICO SE CI SONO ALTRE FIRME ALTRIMENTI CANCELLO LA LEZIONE
+    $query = "select * from tbl_firme where idlezione=$idlezionenorm";
+    $ris2 = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    if (mysqli_num_rows($ris2) == 0)
     {
-        $query = "delete from tbl_firme
-						  where idlezione=$idleznorm and iddocente=$iddocente";
-        $ris1 = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
-
-        // VERIFICO SE CI SONO ALTRE FIRME ALTRIMENTI CANCELLO LA LEZIONE
-        $query = "select * from tbl_firme
-						  where idlezione=$idleznorm";
-        $ris2 = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
-        if (mysqli_num_rows($ris2) == 0)
-        {
-            $query = "delete from tbl_lezioni
-								where idlezione=$idleznorm";
-            $ris3 = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
-        }
+        $query = "delete from tbl_lezioni where idlezione=$idlezionenorm";
+        $ris3 = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
     }
 }
+
+
+/*
+  $query = "select idclasse,idmateria,orainizio,numeroore,iddocente,datalezione from tbl_lezionicert
+  where idlezione=$idlezione";
+  $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+
+  // print ("tttt ".inspref($query));
+  $rec = mysqli_fetch_array($ris);
+  $iddocente = $rec['iddocente'];
+
+
+
+
+  $query = "select idlezione from tbl_lezioni
+  where idclasse=" . $rec['idclasse'] .
+  " and idmateria=" . $rec['idmateria'] .
+  " and orainizio>=" . $rec['orainizio'] .
+  " and (orainizio+numeroore-1)<=(" . $rec['orainizio'] . "+" . $rec['numeroore'] . "-1)" .
+  " and datalezione='" . $rec['datalezione'] . "'";
+  $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+  // print ("tttt ".inspref($query));
+  while ($rec = mysqli_fetch_array($ris))
+  {
+  $idleznorm = $rec['idlezione'];
+
+  if ($idleznorm != "")
+  {
+  $query = "delete from tbl_firme
+  where idlezione=$idleznorm and iddocente=$iddocente";
+  $ris1 = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+
+  // VERIFICO SE CI SONO ALTRE FIRME ALTRIMENTI CANCELLO LA LEZIONE
+  $query = "select * from tbl_firme
+  where idlezione=$idleznorm";
+  $ris2 = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+  if (mysqli_num_rows($ris2) == 0)
+  {
+  $query = "delete from tbl_lezioni
+  where idlezione=$idleznorm";
+  $ris3 = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+  }
+  }
+  }
+ * 
+ */
 $f = "DELETE FROM tbl_lezionicert WHERE idlezione='$idlezione'";
 $ris = mysqli_query($con, inspref($f)) or die("Cancellazione lezione fallita!");
 
