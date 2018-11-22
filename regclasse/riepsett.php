@@ -127,62 +127,10 @@ echo("</select>");
 
 echo('   <select name="meseanno" ONCHANGE="voti.submit()">');
 require '../lib/aggiungi_mesi_a_select.php';
-/*
-for  ($m = 9; $m <= 12; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = "0" . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscol</option>");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscol</option>");
-    }
-}
-$annoscolsucc = $annoscol + 1;
-for ($m = 1; $m <= 8; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = '0' . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscolsucc</option>");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscolsucc</option>");
-    }
-}
- * 
- */
+
 echo("</select>");
 
 
-/*
-    echo('   <select name="anno">');
-    for($a=$annoscol;$a<=($annoscol+1);$a++)
-    {
-      if ($a==$anno)
-         echo("<option selected>$a");
-      else
-         echo("<option>$a");
-    } 
-    echo("</select>");  
-*/
 //
 //  Fine visualizzazione della data
 //
@@ -206,56 +154,7 @@ print('
 //  Riempimento combobox delle classi
 //
 
-print "<optgroup label='Proprie classi'>";
-// $query="select idclasse, anno, sezione, specializzazione from tbl_classi order by anno, sezione, specializzazione";
-$query = "select idclasse, anno, sezione, specializzazione from tbl_classi
-        where idclasse in (select distinct idclasse from tbl_cattnosupp where iddocente=$iddocente) order by anno, sezione, specializzazione";
-
-
-$ris = mysqli_query($con, inspref($query));
-while ($nom = mysqli_fetch_array($ris))
-{
-    print "<option value='";
-    print ($nom["idclasse"]);
-    print "'";
-//  if ($cattedra==$nom["idcattedra"])
-    if ($idclasse == $nom["idclasse"])
-    {
-        print " selected";
-    }
-    print ">";
-    print ($nom["anno"]);
-    print "&nbsp;";
-    print($nom["sezione"]);
-    print "&nbsp;";
-    print($nom["specializzazione"]);
-    print "</option>";
-}
-print "</optgroup>";
-print "<optgroup label='Altre classi'>";
-$query = "select idclasse, anno, sezione, specializzazione from tbl_classi
-        where idclasse not in (select distinct idclasse from tbl_cattnosupp where iddocente=$iddocente) order by anno, sezione, specializzazione
-        ";
-$ris = mysqli_query($con, inspref($query));
-while ($nom = mysqli_fetch_array($ris))
-{
-    print "<option value='";
-    print ($nom["idclasse"]);
-    print "'";
-//  if ($cattedra==$nom["idcattedra"])
-    if ($idclasse == $nom["idclasse"])
-    {
-        print " selected";
-    }
-    print ">";
-    print ($nom["anno"]);
-    print "&nbsp;";
-    print($nom["sezione"]);
-    print "&nbsp;";
-    print($nom["specializzazione"]);
-    print "</option>";
-}
-print "</optgroup>";
+require '../lib/aggiungi_classi_a_select.php';
 echo('
       </SELECT>
       </td></tr>');
