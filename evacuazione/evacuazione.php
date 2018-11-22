@@ -133,7 +133,9 @@ print ('         <tr>
 
 echo('   <td width="50%">');
 echo('   <select name="gio" ONCHANGE="evacuazione.submit()">');
-for ($g = 1; $g <= 31; $g++)
+require '../lib/aggiungi_giorni_a_select.php';
+/*
+for  ($g = 1; $g <= 31; $g++)
 {
     if ($g < 10)
     {
@@ -152,6 +154,8 @@ for ($g = 1; $g <= 31; $g++)
         echo("<option>$gs</option>");
     }
 }
+ * 
+ */
 echo("</select>");
 
 echo('   <select name="meseanno" ONCHANGE="evacuazione.submit()">');

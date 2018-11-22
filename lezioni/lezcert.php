@@ -203,23 +203,29 @@ if ($provenienza == "" && $classeregistro == "")
     print ("<input type='hidden' name='gio' value='$giorno'>");
     echo('   <select name="gio"  disabled ONCHANGE="voti.submit()">');
 }
-for ($g = 1; $g <= 31; $g++)
+require '../lib/aggiungi_giorni_a_select.php';
+/*
+for  ($g = 1; $g <= 31; $g++)
 {
     if ($g < 10)
     {
         $gs = '0' . $g;
-    } else
+    }
+    else
     {
         $gs = '' . $g;
     }
     if ($gs == $giorno)
     {
-        echo("<option selected>$gs");
-    } else
+        echo("<option selected>$gs</option>");
+    }
+    else
     {
-        echo("<option>$gs");
+        echo("<option>$gs</option>");
     }
 }
+ * 
+ */
 echo("</select>");
 
 

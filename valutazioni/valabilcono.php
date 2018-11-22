@@ -182,71 +182,11 @@ print ("
 
 print("   <td width='50%'>");
 print("   <select name='gio'  ONCHANGE='valabil.submit()'>");
-for ($g = 1; $g <= 31; $g++)
-{
-    if ($g < 10)
-    {
-        $gs = '0' . $g;
-    }
-    else
-    {
-        $gs = '' . $g;
-    }
-    if ($gs == $giorno)
-    {
-        print("<option selected>$gs");
-    }
-    else
-    {
-        print("<option>$gs");
-    }
-}
-print("</select>");
+require '../lib/aggiungi_giorni_a_select.php';print("</select>");
 
 print("   <select name='mese' ONCHANGE='valabil.submit()'>");
 require '../lib/aggiungi_mesi_a_select.php';
-/* 
-for  ($m = 9; $m <= 12; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = '0' . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        print("<option selected>$ms - $annoscol");
-    }
-    else
-    {
-        print("<option>$ms - $annoscol");
-    }
-}
-$annoscolsucc = $annoscol + 1;
-for ($m = 1; $m <= 8; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = '0' . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        print("<option selected>$ms - $annoscolsucc");
-    }
-    else
-    {
-        print("<option>$ms - $annoscolsucc");
-    }
-}
- * 
- */
+
 print("</select>");
 
 

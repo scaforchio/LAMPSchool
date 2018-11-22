@@ -122,25 +122,7 @@ print ('         <tr>
 
 echo('   <td width="50%">');
 echo('   <select name="gio" ONCHANGE="voti.submit()">');
-for ($g = 1; $g <= 31; $g++)
-{
-    if ($g < 10)
-    {
-        $gs = '0' . $g;
-    }
-    else
-    {
-        $gs = '' . $g;
-    }
-    if ($gs == $giorno)
-    {
-        echo("<option selected>$gs</option>");
-    }
-    else
-    {
-        echo("<option>$gs</option>");
-    }
-}
+require '../lib/aggiungi_giorni_a_select.php';
 echo("</select>");
 
 echo('   <select name="meseanno" ONCHANGE="voti.submit()">');

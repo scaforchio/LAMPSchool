@@ -149,25 +149,8 @@ else
     print ("<input type='hidden' name='gio' value='$giorno'>");
     echo('   <select name="gio" disabled>');
 }
-for ($g = 1; $g <= 31; $g++)
-{
-    if ($g < 10)
-    {
-        $gs = '0' . $g;
-    }
-    else
-    {
-        $gs = '' . $g;
-    }
-    if ($gs == $giorno)
-    {
-        echo("<option selected>$gs");
-    }
-    else
-    {
-        echo("<option>$gs");
-    }
-}
+require '../lib/aggiungi_giorni_a_select.php';
+
 echo("</select>");
 
 if ($classeregistro == "")

@@ -201,7 +201,9 @@ if ($provenienza == "" && $classeregistro == "") {
     print ("<input type='hidden' name='gio' value='$giorno'>");
     echo('   <select name="gio" disabled>');
 }
-for ($g = 1; $g <= 31; $g++) {
+require '../lib/aggiungi_giorni_a_select.php';
+/*
+for  ($g = 1; $g <= 31; $g++) {
     if ($g < 10) {
         $gs = '0' . $g;
     } else {
@@ -213,6 +215,8 @@ for ($g = 1; $g <= 31; $g++) {
         echo("<option>$gs</option>");
     }
 }
+ * 
+ */
 echo("</select>");
 
 
@@ -222,8 +226,8 @@ if ($provenienza == "" && $classeregistro == "") {
     print ("<input type='hidden' name='meseanno' value='$meseanno'>");
     echo('   <select name="meseanno" disabled>');
 }
-//require '../lib/aggiungi_mesi_a_select.php';
-
+require '../lib/aggiungi_mesi_a_select.php';
+/*
 for ($m = 9; $m <= 12; $m++) {
     if ($m < 10) {
         $ms = "0" . $m;
@@ -249,7 +253,7 @@ for ($m = 1; $m <= 8; $m++) {
         echo("<option>$ms - $annoscolsucc</option>");
     }
 }
-
+*/
 echo("</select>");
 
 //

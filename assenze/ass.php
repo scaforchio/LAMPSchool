@@ -127,7 +127,9 @@ else
     print ("<input type='hidden' name='gio' value='$giorno'>");
     echo('   <select name="gio" disabled>');
 }
-for ($g = 1; $g <= 31; $g++)
+require '../lib/aggiungi_giorni_a_select.php';
+/*
+for  ($g = 1; $g <= 31; $g++)
 {
     if ($g < 10)
     {
@@ -146,6 +148,8 @@ for ($g = 1; $g <= 31; $g++)
         echo("<option>$gs</option>");
     }
 }
+ * 
+ */
 echo("</select>");
 
 

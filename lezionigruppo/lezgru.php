@@ -170,7 +170,9 @@ else
 {
     echo('   <select name="gio"  disabled ONCHANGE="voti.submit()">');
 }
-for ($g = 1; $g <= 31; $g++)
+require '../lib/aggiungi_giorni_a_select.php';
+/*
+for  ($g = 1; $g <= 31; $g++)
 {
     if ($g < 10)
     {
@@ -182,13 +184,16 @@ for ($g = 1; $g <= 31; $g++)
     }
     if ($gs == $giorno)
     {
-        echo("<option selected>$gs");
+        echo("<option selected>$gs</option>");
     }
     else
     {
-        echo("<option>$gs");
+        echo("<option>$gs</option>");
     }
 }
+ * 
+ */
+
 echo("</select>");
 
 

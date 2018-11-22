@@ -138,25 +138,7 @@ echo('
 
     echo('   <td width="50%">');
     echo('   <select name="gio" ONCHANGE="tbl_diariocl.submit()">');
-    for ($g = 1; $g <= 31; $g++)
-    {
-        if ($g < 10)
-        {
-            $gs = '0' . $g;
-        }
-        else
-        {
-            $gs = '' . $g;
-        }
-        if ($gs == $giorno)
-        {
-            echo("<option selected>$gs");
-        }
-        else
-        {
-            echo("<option>$gs");
-        }
-    }
+    require '../lib/aggiungi_giorni_a_select.php';
     echo("</select>");
 
     echo('   <select name="mese" ONCHANGE="tbl_diariocl.submit()">');

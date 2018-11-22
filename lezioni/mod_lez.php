@@ -76,25 +76,29 @@ else
          <td width="50%"><b>Data (gg/mm/aaaa)</b></td>');
     echo('   <td width="50%">');
     echo('   <select name="giorno">');
-    for ($g = 1; $g <= 31; $g++)
+    require '../lib/aggiungi_giorni_a_select.php';
+/*
+for  ($g = 1; $g <= 31; $g++)
+{
+    if ($g < 10)
     {
-        if ($g < 10)
-        {
-            $gs = '0' . $g;
-        }
-        else
-        {
-            $gs = '' . $g;
-        }
-        if ($gs == $giorno)
-        {
-            echo("<option selected>$gs");
-        }
-        else
-        {
-            echo("<option>$gs");
-        }
+        $gs = '0' . $g;
     }
+    else
+    {
+        $gs = '' . $g;
+    }
+    if ($gs == $giorno)
+    {
+        echo("<option selected>$gs</option>");
+    }
+    else
+    {
+        echo("<option>$gs</option>");
+    }
+}
+ * 
+ */
     echo("</select>");
 
     echo('<select name="meseanno">');
