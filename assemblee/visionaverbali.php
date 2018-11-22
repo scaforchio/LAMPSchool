@@ -46,7 +46,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 $iddocente = stringa_html('idutente');
 $idclasse = stringa_html('idclasse');
-$mese = stringa_html('mese');
+$mese = substr(stringa_html('mese'),0,2);
 
 
 
@@ -89,47 +89,8 @@ print "</select>";
 
 print " <center><b>Mese </b><SELECT NAME='mese' ONCHANGE='classi.submit()'><option value=''>&nbsp;";
 
+require '../lib/aggiungi_mesi_a_select.php';
 
-
-for ($m = 9; $m <= 12; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = "0" . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ("$ms - $annoscol" == $mese)
-    {
-        echo("<option selected>$ms - $annoscol</option>");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscol</option>");
-    }
-}
-$annoscolsucc = $annoscol + 1;
-for ($m = 1; $m <= 8; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = '0' . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ("$ms - $annoscolsucc"== $mese)
-    {
-        echo("<option selected>$ms - $annoscolsucc</option>");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscolsucc</option>");
-    }
-}
 echo("</select>");
 
 print ("</form>");

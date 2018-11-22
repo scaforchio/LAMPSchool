@@ -160,7 +160,9 @@ echo('
     echo("</select>");
 
     echo('   <select name="mese" ONCHANGE="tbl_diariocl.submit()">');
-    for ($m = 9; $m <= 12; $m++)
+    require '../lib/aggiungi_mesi_a_select.php';
+    /*
+    for  ($m = 9; $m <= 12; $m++)
     {
         if ($m < 10)
         {
@@ -199,6 +201,8 @@ echo('
             echo("<option>$ms - $annoscolsucc");
         }
     }
+     * 
+     */
     echo("</select></td></tr>");
 
 

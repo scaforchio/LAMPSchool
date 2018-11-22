@@ -119,7 +119,7 @@ $dataassemblea = stringa_html('data');
 print "<tr>
 		<td><b>Data assemblea</b></td>";
 		
-			print" <td><input type='text' id='data' class='datepicker' size='8' maxlength='10' name='data' required></td>";
+			print" <td><input type='text' id='data' class='datepicker' size='8' maxlength='10' name='data' min='".date('Y-m-d')."' required></td>";
 		
 print" </tr>";
 	   

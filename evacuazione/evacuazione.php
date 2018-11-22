@@ -155,7 +155,9 @@ for ($g = 1; $g <= 31; $g++)
 echo("</select>");
 
 echo('   <select name="meseanno" ONCHANGE="evacuazione.submit()">');
-for ($m = 9; $m <= 12; $m++)
+require '../lib/aggiungi_mesi_a_select.php';
+/*
+for  ($m = 9; $m <= 12; $m++)
 {
     if ($m < 10)
     {
@@ -194,6 +196,8 @@ for ($m = 1; $m <= 8; $m++)
         echo("<option>$ms - $annoscolsucc</option>");
     }
 }
+ * 
+ */
 echo("</select>");
 
 

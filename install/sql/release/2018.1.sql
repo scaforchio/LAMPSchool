@@ -156,6 +156,7 @@ CREATE TABLE tbl_assemblee (
   verbale text,
   visione_verbale tinyint(1) DEFAULT '0',
   commenti_verbale text,
+  rapportoperdirigente text,
   docente_visione int(11) DEFAULT '0',
   note text,
   consegna_verbale tinyint(1),

@@ -188,8 +188,9 @@ else
     echo('   <select name="mese" ONCHANGE="tbl_noteclasse.submit()" disabled>');
 
 }
-
-for ($m = 9; $m <= 12; $m++)
+require '../lib/aggiungi_mesi_a_select.php';
+/*
+for  ($m = 9; $m <= 12; $m++)
 {
     if ($m < 10)
     {
@@ -228,6 +229,8 @@ for ($m = 1; $m <= 8; $m++)
         echo("<option>$ms - $annoscolsucc");
     }
 }
+ * 
+ */
 echo("</select></td></tr>");
 
 

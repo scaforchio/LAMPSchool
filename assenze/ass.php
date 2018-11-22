@@ -158,7 +158,9 @@ else
     print ("<input type='hidden' name='meseanno' value='$mese'>");
     echo('   <select name="meseanno" disabled>');
 }
-for ($m = 9; $m <= 12; $m++)
+require '../lib/aggiungi_mesi_a_select.php';
+/*
+for  ($m = 9; $m <= 12; $m++)
 {
     if ($m < 10)
     {
@@ -197,6 +199,9 @@ for ($m = 1; $m <= 8; $m++)
         echo("<option>$ms - $annoscolsucc</option>");
     }
 }
+ * 
+ */
+
 echo("</select>");
 
 //

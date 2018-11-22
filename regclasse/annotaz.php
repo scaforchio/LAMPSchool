@@ -179,7 +179,9 @@ else
     print ("<input type='hidden' name='mese' value='$mese'>");
     echo('   <select name="mese" disabled>');
 }
-for ($m = 9; $m <= 12; $m++)
+require '../lib/aggiungi_mesi_a_select.php';
+/*
+for  ($m = 9; $m <= 12; $m++)
 {
     if ($m < 10)
     {
@@ -218,6 +220,8 @@ for ($m = 1; $m <= 8; $m++)
         echo("<option>$ms - $annoscolsucc");
     }
 }
+ * 
+ */
 echo("</select></td></tr>");
 
 
@@ -345,13 +349,13 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
         
         
         if ($c['visibilitagenitori']==true)
-            echo "<center>Visibile ai genitori <input type='checkbox' name='visibile' checked></center>";
+            echo "<center>Visibile a tutti i genitori della classe<input type='checkbox' name='visibile' checked></center>";
         else
-            echo "<center>Visibile ai genitori <input type='checkbox' name='visibile'></center>";
+            echo "<center>Visibile a tutti i genitori della classe<input type='checkbox' name='visibile'></center>";
         if ($c['visibilitaalunni']==true)
-            echo "<center>Visibile agli alunni <input type='checkbox' name='visibilealu' checked></center>";
+            echo "<center>Visibile a tutti gli alunni della classe<input type='checkbox' name='visibilealu' checked></center>";
         else
-            echo "<center>Visibile agli alunni <input type='checkbox' name='visibilealu'></center>";
+            echo "<center>Visibile a tutti gli alunni delal classe<input type='checkbox' name='visibilealu'></center>";
         echo "</td>";
 
     }

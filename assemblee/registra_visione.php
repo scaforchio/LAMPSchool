@@ -29,6 +29,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
        } 
 
 $commenti=stringa_html('commenti');
+$report=stringa_html('report');
 $idassemblea=stringa_html('idassemblea');
 $iddocente=stringa_html('iddocente');
 $idclasse = stringa_html('idclasse');
@@ -39,7 +40,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='
 
 $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore: ".mysqli_error($con));
 $query = "UPDATE tbl_assemblee
-          SET visione_verbale=1, docente_visione=$iddocente, commenti_verbale='".$commenti."'
+          SET visione_verbale=1, docente_visione=$iddocente, commenti_verbale='".$commenti."',rapportoperdirigente='".$report."'
           WHERE idassemblea=$idassemblea";                  
 $ris=mysqli_query($con,inspref($query)) or die ("Errore : ". inspref($query));
 

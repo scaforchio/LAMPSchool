@@ -98,7 +98,9 @@ else
     echo("</select>");
 
     echo('<select name="meseanno">');
-    for ($m = 9; $m <= 12; $m++)
+    require '../lib/aggiungi_mesi_a_select.php';
+    /*
+    for  ($m = 9; $m <= 12; $m++)
     {
         if ($m < 10)
         {
@@ -137,6 +139,8 @@ else
             echo("<option>$ms - $annoscolsucc");
         }
     }
+     * 
+     */
     echo("</select>");
     echo("</td></tr>");
 

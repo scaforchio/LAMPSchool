@@ -59,11 +59,11 @@ $ris = mysqli_query($con, inspref($query)) or die("Errore durante la connessione
 print "<br/><br/><center><table border ='1' cellpadding='5'>";
 
 print "<tr class='prima'>
-                                <td>Assemblea</td> 
-				<td>Docenti concedenti</td>
-				<td>Docente autorizzante</td>
-				<td>Verbale</td>
-				<td>Risposta a verbale</td>
+                                <td width=15%>Assemblea</td> 
+				<td width=30%>Verbale</td>
+                                <td width=20%>Risposta a verbale</td>
+                                <td width=20%>Report dirigente</td>
+                                <td width=15%>Registrazione</td>
 		   </tr>";
 if (mysqli_num_rows($ris) == 0)
 {
@@ -78,7 +78,7 @@ else
         // CLASSE
         print "<td align='center'>" . decodifica_classe($data['idclasse'],$con);
         //DATA RICHIESTA
-        print "<br>" . data_italiana($data['dataassemblea']) . "</td>";
+        print "<br>" . data_italiana($data['dataassemblea'])."<br>";
 
         //DOCENTI CONCEDENTI
         $doc = "SELECT cognome,nome FROM tbl_docenti WHERE iddocente=" . $data['docenteconcedente1'];
@@ -86,19 +86,18 @@ else
         {
             $doc .= " OR iddocente=" . $data['docenteconcedente2'] . " ORDER BY cognome";
         }
-        print "<td>";
+        print "<br> DOC. CON. ";
         $risdoc = mysqli_query($con, inspref($doc));
         while ($datadoc = mysqli_fetch_array($risdoc))
         {
             print ($datadoc['cognome'] . "&nbsp;" . $datadoc['nome'] . "<br/>");
         }
-        print "</td>";
-
+       
         //DOCENTE AUTORIZZANTE (se esiste)
         $doc = "SELECT cognome,nome FROM tbl_docenti WHERE iddocente=" . $data['docenteautorizzante'];
         $risdoc = mysqli_query($con, inspref($doc));
         $datadoc = mysqli_fetch_array($risdoc);
-        print "<td>" . $datadoc['cognome'] . "&nbsp;" . $datadoc['nome'] . "</td>";
+        print "<br>DOC. AUT. " . $datadoc['cognome'] . "&nbsp;" . $datadoc['nome'] . "</td>";
 
         //VERBALE
         if ($data['consegna_verbale'] == 0)
@@ -112,6 +111,9 @@ else
 
         //COMMENTI
         print "<td><p align='center'><textarea cols=20 rows=5 name='commenti' WRAP='PHYSICAL'></textarea></p></td>";
+
+        //COMMENTI
+        print "<td><p align='center'><textarea cols=20 rows=5 name='report' WRAP='PHYSICAL'></textarea></p></td>";
 
         //BOTTONE INVIO
         print "<td><input type='submit' value='Registra visione'>";

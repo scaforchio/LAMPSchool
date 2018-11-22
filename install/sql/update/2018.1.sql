@@ -44,6 +44,8 @@ ADD visibilitaalunni boolean DEFAULT 0;
 UPDATE tbl_annotazioni set visibilitagenitori=0 where isnull(visibilitagenitori);
 UPDATE tbl_annotazioni set visibilitaalunni=0 where isnull(visibilitaalunni);
 
+ALTER TABLE tbl_assemblee ADD rapportoperdirigente text AFTER commenti_verbale;
+
 --
 -- LASCIARE SEMPRE ALLA FINE
 UPDATE tbl_parametri set valore='2018.1' where parametro='versioneprecedente';

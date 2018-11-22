@@ -198,7 +198,9 @@ for ($g = 1; $g <= 31; $g++)
 print("</select>");
 
 print("   <select name='mese' ONCHANGE='valabil.submit()'>");
-for ($m = 9; $m <= 12; $m++)
+require '../lib/aggiungi_mesi_a_select.php';
+/*
+for  ($m = 9; $m <= 12; $m++)
 {
     if ($m < 10)
     {
@@ -237,6 +239,8 @@ for ($m = 1; $m <= 8; $m++)
         print("<option>$ms - $annoscolsucc");
     }
 }
+ * 
+ */
 print("</select>");
 
 
