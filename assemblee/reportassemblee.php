@@ -105,16 +105,16 @@ if ($mese != "")
         {
 
             //CLASSE
-            print "<td>" . decodifica_classe($data['idclasse'], $con) . "</td>";
+            print "<td width=5%>" . substr(decodifica_classe($data['idclasse'], $con),0,5) . "</td>";
             //Rappresentanti
-            print "<td>". estrai_dati_alunno_rid($data['rappresentante1'], $con)."<br>". estrai_dati_alunno_rid($data['rappresentante2'], $con)."</td>";
+            print "<td width=15%>". estrai_dati_alunno_rid($data['rappresentante1'], $con)."<br>". estrai_dati_alunno_rid($data['rappresentante2'], $con)."</td>";
             
-            print "<td>". data_italiana($data['dataassemblea'])."</td>";
-            print "<td>". estrai_dati_docente($data['docenteconcedente1'], $con)."</td>";
+            print "<td width=10%>". data_italiana($data['dataassemblea'])."</td>";
+            print "<td width=15%>". estrai_dati_docente($data['docenteconcedente1'], $con)."</td>";
             
             
             //COMMENTI
-            print "<td>" . nl2br($data['reportperdirigente']) . "</td>";
+            print "<td width=55%>" . nl2br($data['rapportoperdirigente']) . "</td>";
 
 
             print "</tr>";

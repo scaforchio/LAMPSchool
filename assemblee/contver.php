@@ -110,10 +110,10 @@ else
         }
 
         //COMMENTI
-        print "<td><p align='center'><textarea cols=20 rows=5 name='commenti' WRAP='PHYSICAL'></textarea></p></td>";
+        print "<td><p align='center'><textarea cols=20 rows=5 name='commenti' WRAP='PHYSICAL' required></textarea></p></td>";
 
         //COMMENTI
-        print "<td><p align='center'><textarea cols=20 rows=5 name='report' WRAP='PHYSICAL'></textarea></p></td>";
+        print "<td><p align='center'><textarea cols=20 rows=5 name='report' WRAP='PHYSICAL' required></textarea></p></td>";
 
         //BOTTONE INVIO
         print "<td><input type='submit' value='Registra visione'>";

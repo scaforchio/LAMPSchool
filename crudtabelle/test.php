@@ -38,7 +38,6 @@ $daticrud['campochiave'] = "idalunno";
 // Campi da visualizzare
 $daticrud['elencocampi'] = array("cognome", "nome","idcomres","idclasse");
 // Campi con chiave esterna (tabella esterna, chiave primaria nella tabella esterna, campi da visualizzare)
-$daticrud['fk']=array();
 $daticrud['fkidcomres'] = array(inspref("tbl_comuni"),"idcomune",array("denominazione"));
 $daticrud['fkidclasse'] = array(inspref("tbl_classi"),"idclasse",array("anno","sezione", "specializzazione"));
 // Campi in base ai quali ordinare
