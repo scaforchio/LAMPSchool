@@ -1,15 +1,10 @@
 <?php
 
 session_start();
-/**
- * Elenco degli indici del database
- *
- * @copyright  Copyright (C) 2014 Renato Tamilio
- * @license    GNU Affero General Public License versione 3 o successivi; vedete agpl-3.0.txt
- */
+
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
-require_once("../lib/crud/CRUD.php");
+
 //require_once '../lib/ db / query.php';
 //$lQuery = LQuery::getIstanza();
 // istruzioni per tornare alla pagina di login 
@@ -37,16 +32,34 @@ $daticrud['aliastabella'] = "Alunni";
 // Campo con l'id univoco per la tabella
 $daticrud['campochiave'] = "idalunno";
 // Campi da visualizzare senza chiave esterna
-$daticrud['elencocampi'] = ["fk_1","cognome", "nome","fk_0","telcell"];
-// Intestazioni da usare nella visualizzazione tabellare(una per ogni campo e per ogni fk), 
-// se vuota non verrà visualizzato nell'elenco
-$daticrud['intestazioni']=["Classe","Cognome","Nome","Comune nascita",""];
-// Etichette per maschere di modifica e inserimento.
-$daticrud['intcampi']=["Classe","Cognome","Nome","Comune nascita","Telefono cellulare"];
-// Campi con chiave esterna (tabella esterna, chiave primaria nella tabella esterna, campi da visualizzare,chiave esterna)
-$daticrud['fk']=array();
-$daticrud['fk'][] = [inspref("tbl_comuni"),"idcomune",array("denominazione"),"idcomres"];
-$daticrud['fk'][] = [inspref("tbl_classi"),"idclasse",array("anno","sezione", "specializzazione"),"idclasse"];
+
+
+
+/*
+// Significato valori
+ * 0 - nome campo tabella principale
+ * 1 - ordine di visualizzazione in tabella (0 non visualizzata)
+ * 2 - tabella esterna
+ * 3 - campo chiave nella tabella esterna
+ * 4 - campo o campi (separati da virgola) dei dati da visualizzare
+ * 5 - dimensione massima del campo per input (0 per chiavi esterne)
+ * 6 - Label per indicazione campo
+ * 7 - Ordine di visualizzazione in maschere di inserimento o modifica (0 non presenti)
+ * 8 - Tipo campo per inserimento o modifica (text, phone, date, time, number)
+ * 9 - spiegazione del contenuto
+ * 10 - obbligatorio (0 - no, 1 -sì)
+ * 11 - valore minimo ('' per non usarlo)
+ * 12 - valore massimo ('' per non usarlo)
+ */
+
+$daticrud['campi'] = [
+                      ['cognome','1','','','',30,'Cognome',1,'text','',1,'',''],
+                      ['nome','2','','','',30,'Nome',2,'text','',1,'',''],
+                      ['idcomres','3',inspref('tbl_comuni'),'idcomune','denominazione',0,'Comune di residenza',3,'','',1,'','' ],
+                      ['idclasse','4',inspref('tbl_classi'),'idclasse','anno,sezione,specializzazione',0,'Classe',4,'','',1,'',''],
+                      ['telcel',0,'','','',20,'Telefono cellulare',5,'date','Massimo numeri separati da , o da +.',0,'','']
+                     ];
+
 
 
 // Campi in base ai quali ordinare
@@ -55,12 +68,12 @@ $daticrud['campiordinamento']= array("cognome","nome");
 $daticrud['condizione']= inspref("tbl_alunni.idclasse<>0");
 $_SESSION['daticrud'] = $daticrud;
 
-$c = new CRUD($con);
+ordina_array_su_campo_sottoarray($daticrud['campi'], 1);
 
-$c->visualizza();
-
+require "CRUD.php";
 
 stampa_piede();
+
 
 /*
 // creaGruppoGlobaleMoodle($tokenservizimoodle,$urlmoodle, "5ainf2017", "5ainf2017");

@@ -612,3 +612,15 @@ function decod_dest($tipodest)
         return "Selezione alunni";
     }
 }
+
+function ordina_array_su_campo_sottoarray(&$arr,$nc)
+{
+    for ($i=0;$i<count($arr)-1;$i++)
+    for ($j=$i+1;$j<count($arr);$j++)
+       if ($arr[$i][$nc]>$arr[$j][$nc])
+       {
+           $t=$arr[$i];
+           $arr[$i]=$arr[$j];
+           $arr[$j]=$t;
+       }
+}

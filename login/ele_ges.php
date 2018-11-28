@@ -1330,7 +1330,7 @@ if ($cambiamentopassword)
         menu_item('../contr/vis_accessi.php', 'VISUALIZZA ACCESSI');
         menu_item('../rp/vistimbrature.php', 'VISUALIZZA TIMBRATURE');
         menu_item('../contr/visualizzalog.php', 'VISUALIZZA LOG');
-        menu_item('../contr/test.php', 'TEST ');
+        menu_item('../contr/CRUDtabella.php', 'TEST ');
         menu_title_end();
 
 
