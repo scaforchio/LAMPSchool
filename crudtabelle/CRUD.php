@@ -1,6 +1,5 @@
 <?php
 
-
 session_start();
 
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
@@ -24,7 +23,7 @@ stampa_head($titolo, "", $script, "PMSDA");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
-$daticrud=$_SESSION['daticrud'];
+$daticrud = $_SESSION['daticrud'];
 ordina_array_su_campo_sottoarray($daticrud['campi'], 1);
 
 $strcampi = "";
@@ -59,15 +58,16 @@ $strcampiordinamento = implode(",", $daticrud['campiordinamento']);
 $query = "select " . $daticrud['campochiave'] . ", $strcampi from " . $strtabelle . " where true " . $strconcat . " " . $strcondizione . " order by $strcampiordinamento";
 // print $query;
 $ris = mysqli_query($con, $query) or die("Errore " . $query . " ERR " . mysqli_error($con));
-
-print "<br><center><a href='CRUDinserimento.php'><b>INSERISCI NUOVO</b></a></center><br><br>";
+if ($daticrud['abilitazioneinserimento'] == 1)
+    print "<br><center><a href='CRUDmodifica.php?id=0'><b>INSERISCI NUOVO</b></a></center><br><br>";
 print "<table align='center' border='1'>";
 // Visualizzazione intestazioni
 print "<tr class='prima'>";
 foreach ($daticrud['campi'] as $c)
     if ($c[1] != 0)
         print "<td><b>$c[6]</b></td>";
-print "<td>Azioni</td>";
+if ($daticrud['abilitacancellazione'] == 1 | $daticrud['abilitamodifica'] == 1)
+    print "<td>Azioni</td>";
 print "</tr>";
 
 
@@ -82,18 +82,20 @@ while ($rec = mysqli_fetch_array($ris))
         {
             if ($c[2] == '')
             {
-                
-                $strvis = $rec[$c[0]];
+                if ($c[8] == 'boolean')
+                    $strvis = $rec[$c[0]] == 0 ? "No" : "S&igrave;";
+                else
+                    $strvis = $rec[$c[0]];
             } else
             {
                 $elcampitabesterna = explode(",", $c[4]);
-                //    $strvis = $rec[$campo];
+
                 $numerochiave = substr($campo, 3, 1);
                 $strvis = "";
-                
+
                 foreach ($elcampitabesterna as $ctb)
                 {
-                    //$nomecampo = $daticrud['fk'][$numerochiave][0].".".$ce;
+
 
                     $strvis .= $rec[$ctb] . " ";
                 }
@@ -102,15 +104,21 @@ while ($rec = mysqli_fetch_array($ris))
         }
     }
 
-    print "<td>";
-    if ($daticrud['abilitazionemodifica']==1)
-        print "<a href='CRUDmodifica.php?id=" . $rec[$daticrud['campochiave']] . "'><img src='../immagini/modifica.png'></a>&nbsp;";
-    if (controlloCanc($con,$daticrud['vincolicanc'],$rec[$daticrud['campochiave']]))
-        if ($daticrud['confermacancellazione'][0]!=1)
-            print "<a href='CRUDcancellazione.php?id=" . $rec[$daticrud['campochiave']] . "'><img src='../immagini/delete.png'></a>";
-        else
-            print "<a href='CRUDconfcanc.php?id=" . $rec[$daticrud['campochiave']] . "'><img src='../immagini/delete.png'></a>";
-    print "</td>";
+
+    if ($daticrud['abilitacancellazione'] == 1 | $daticrud['abilitamodifica'] == 1)
+    {
+        print "<td>";
+
+        if ($daticrud['abilitazionemodifica'] == 1)
+            print "<a href='CRUDmodifica.php?id=" . $rec[$daticrud['campochiave']] . "'><img src='../immagini/modifica.png'></a>&nbsp;";
+        if ($daticrud['abilitazionecancellazione'] == 1)
+            if (controlloCanc($con, $daticrud['vincolicanc'], $rec[$daticrud['campochiave']]))
+                if ($daticrud['confermacancellazione'][0] != 1)
+                    print "<a href='CRUDcancellazione.php?id=" . $rec[$daticrud['campochiave']] . "'><img src='../immagini/delete.png'></a>";
+                else
+                    print "<a href='CRUDconfcanc.php?id=" . $rec[$daticrud['campochiave']] . "'><img src='../immagini/delete.png'></a>";
+        print "</td>";
+    }
     print "</tr>";
 }
 print "</table><br>";
@@ -118,19 +126,17 @@ print "</table><br>";
 
 stampa_piede();
 
-
-function controlloCanc($con,$vincolicanc,$chiave)
+function controlloCanc($con, $vincolicanc, $chiave)
 {
-    $possibilecanc=true;
-    foreach($vincolicanc as $vincolo)
+    $possibilecanc = true;
+    foreach ($vincolicanc as $vincolo)
     {
-        $query="select * from ".$vincolo[0]." where ".$vincolo[1]." = '".$chiave."'";
-        //print $query;
-        $ris=mysqli_query($con,$query) or die("Errore: ".$query);
-        if (mysqli_num_rows($ris)>0)
+        $query = "select * from " . $vincolo[0] . " where " . $vincolo[1] . " = '" . $chiave . "'";
+
+        $ris = mysqli_query($con, $query) or die("Errore: " . $query);
+        if (mysqli_num_rows($ris) > 0)
         {
-            $possibilecanc=false;
-           //break;
+            $possibilecanc = false;
         }
     }
     return $possibilecanc;

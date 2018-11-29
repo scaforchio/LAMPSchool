@@ -47,11 +47,13 @@ ordina_array_su_campo_sottoarray($daticrud['campi'], 7);
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore connessione!");
 
 //Esecuzione query
-$query="select * from ".$daticrud['tabella']." where ".$daticrud['campochiave']." = '".$id."'";
-$risgen=mysqli_query($con,$query) or die("Errore:" . $query);
-$recgen=mysqli_fetch_array($risgen);
-
-print "<form name='form1' action='CRUDmodregistra.php' method='POST'>";
+$query = "select * from " . $daticrud['tabella'] . " where " . $daticrud['campochiave'] . " = '" . $id . "'";
+$risgen = mysqli_query($con, $query) or die("Errore:" . $query);
+$recgen = mysqli_fetch_array($risgen);
+if ($id != 0)
+    print "<form name='form1' action='CRUDmodregistra.php' method='POST'>";
+else
+    print "<form name='form1' action='CRUDinsregistra.php' method='POST'>";
 print "<CENTER><table border ='0'>";
 
 $posarr = 0;
@@ -63,18 +65,47 @@ foreach ($daticrud['campi'] as $c)
     {
 
         print "<tr><td>" . $c[6];
-        if ($c[9]!="")
-            print "<br><small><small>".$c[9]."<big><big>";
+        if ($c[9] != "")
+            print "<br><small><small>" . $c[9] . "<big><big>";
         print "</td>";
         if ($c[10] == 1)
             $richiesto = " required";
         else
             $richiesto = "";
         if ($c[2] == '')
-            print "<td><input type='" . $c[8] . "' value='".$recgen[$c[0]]."' name='campo[]" . $posarr . "' size='".$c[5]."' ". "' maxlength='".$c[5]."' min='".$c[11]."' ". "' max='".$c[12]."'$richiesto></td></tr>";
+        {
+            if ($c[8] == 'boolean')
+            {
+                $valore = $recgen[$c[0]];
+                print "<td><select name='campo[]" . $posarr . "'>";
+
+                if ($valore == 0)
+                    print "<option value=0 selected>No</option><option value=1>S&igrave;</option>";
+                else
+                    print "<option value=0>No</option><option value=1 selected>S&igrave;</option>";
+
+
+
+                print "</select></td></tr>";
+            } else if ($c[8] == 'testo')
+                {
+                $valore = $recgen[$c[0]];
+                print "<td><textarea name='campo[]" . $posarr . "'>$valore</textarea>";
+
+                
+
+
+
+                print "</td></tr>";
+                
+                
+                }
+                else
+                print "<td><input type='" . $c[8] . "' value='" . $recgen[$c[0]] . "' name='campo[]" . $posarr . "' size='" . $c[5] . "' " . "' maxlength='" . $c[5] . "' min='" . $c[11] . "' " . "' max='" . $c[12] . "'$richiesto></td></tr>";
+        }
         else
         {
-            $valore=$recgen[$c[0]];
+            $valore = $recgen[$c[0]];
             print "<td><select name='campo[]" . $posarr . "'$richiesto><option value=''>&nbsp</option>";
 
             $query = "select " . $c[3] . "," . $c[4] . " from " . $c[2] . " order by " . $c[4];
@@ -82,9 +113,9 @@ foreach ($daticrud['campi'] as $c)
             $ris = mysqli_query($con, $query);
             while ($rec = mysqli_fetch_array($ris))
             {
-                $selected="";
-                if ($valore==$rec[$c[3]])
-                    $selected=" selected";
+                $selected = "";
+                if ($valore == $rec[$c[3]])
+                    $selected = " selected";
                 $elcampitabesterna = explode(",", $c[4]);
                 $strvalori = "";
                 foreach ($elcampitabesterna as $ctb)

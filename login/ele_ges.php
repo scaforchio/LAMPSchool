@@ -960,6 +960,13 @@ if ($cambiamentopassword)
         menu_item('../cattedre/vis_cattedre.php', 'VISUALIZZA CATTEDRE');
         menu_title_end();
 
+        menu_title_begin('GESTIONE PERMESSI');
+        menu_item('../ferie/richferie.php', 'RICHIESTA ASTENSIONE DAL LAVORO');
+        menu_item('../ferie/esamerichferie.php', 'ESAME PROPRIE RICHIESTE FERIE');
+        menu_item('../ferie/visrichferie.php', 'VISIONA ASTENSIONI APPROVATE DAL D.S.');
+        menu_item('../ferie/visorepermesso.php', 'TOTALI ASTENSIONI DOCENTI');
+        menu_item('../ferie/CRUDrecuperi.php', 'GESTIONE RECUPERI');
+        menu_title_end();
 
         menu_title_begin('ALTRO');
         menu_item('../password/cambpwd.php', 'CAMBIAMENTO PROPRIA PASSWORD');
@@ -967,11 +974,7 @@ if ($cambiamentopassword)
         menu_item('../colloqui/visrichieste_doc.php', 'PRENOTAZIONI COLLOQUI');
         menu_item("../docenti/mod_contatto.php", 'AGGIORNA DATI DI CONTATTO');
         menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');
-        menu_item('../ferie/richferie.php', 'RICHIESTA ASTENSIONE DAL LAVORO');
-        menu_item('../ferie/esamerichferie.php', 'ESAMINA RICHIESTE FERIE');
-        menu_item('../ferie/visrichferie.php', 'VISIONA ASTENSIONI APPROVATE DAL D.S.');
-        menu_item('../ferie/visorepermesso.php', 'TOTALI ASTENSIONI DOCENTI');
-        menu_item('../ferie/CRUDrecuperi.php', 'GESTIONE RECUPERI');
+        
         menu_item('../docenti/visorario.php', 'VISUALIZZA ORARIO');
         menu_item('../docenti/visoraridocenti.php', 'VISUALIZZA ORARIO DOCENTE');
         menu_title_end();
@@ -1331,7 +1334,7 @@ if ($cambiamentopassword)
         menu_item('../contr/vis_accessi.php', 'VISUALIZZA ACCESSI');
         menu_item('../rp/vistimbrature.php', 'VISUALIZZA TIMBRATURE');
         menu_item('../contr/visualizzalog.php', 'VISUALIZZA LOG');
-        menu_item('../contr/CRUDtabella.php', 'TEST ');
+        menu_item('../crudtabelle/CRUD__modello_esempio.php', 'TEST ');
         menu_title_end();
 
 
