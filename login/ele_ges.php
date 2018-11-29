@@ -971,6 +971,7 @@ if ($cambiamentopassword)
         menu_item('../ferie/esamerichferie.php', 'ESAMINA RICHIESTE FERIE');
         menu_item('../ferie/visrichferie.php', 'VISIONA ASTENSIONI APPROVATE DAL D.S.');
         menu_item('../ferie/visorepermesso.php', 'TOTALI ASTENSIONI DOCENTI');
+        menu_item('../ferie/CRUDrecuperi.php', 'GESTIONE RECUPERI');
         menu_item('../docenti/visorario.php', 'VISUALIZZA ORARIO');
         menu_item('../docenti/visoraridocenti.php', 'VISUALIZZA ORARIO DOCENTE');
         menu_title_end();

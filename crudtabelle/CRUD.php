@@ -1,5 +1,32 @@
 <?php
 
+
+session_start();
+
+require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
+require_once '../lib/funzioni.php';
+
+//require_once '../lib/ db / query.php';
+//$lQuery = LQuery::getIstanza();
+// istruzioni per tornare alla pagina di login 
+////session_start();
+
+$tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
+
+if ($tipoutente == "")
+{
+    header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
+    die;
+}
+$titolo = "TEST CRUD";
+$script = "";
+stampa_head($titolo, "", $script, "PMSDA");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
+
+$daticrud=$_SESSION['daticrud'];
+ordina_array_su_campo_sottoarray($daticrud['campi'], 1);
+
 $strcampi = "";
 $strtabelle = $daticrud['tabella'] . ", ";
 $strconcat = "";
@@ -76,11 +103,35 @@ while ($rec = mysqli_fetch_array($ris))
     }
 
     print "<td>";
-    print "<a href='CRUDmodifica.php?id=" . $rec[$daticrud['campochiave']] . "'><img src='../immagini/modifica.png'></a>&nbsp;";
-    print "<a href='CRUDelimina.php?id=" . $rec[$daticrud['campochiave']] . "'><img src='../immagini/delete.png'></a>";
-
+    if ($daticrud['abilitazionemodifica']==1)
+        print "<a href='CRUDmodifica.php?id=" . $rec[$daticrud['campochiave']] . "'><img src='../immagini/modifica.png'></a>&nbsp;";
+    if (controlloCanc($con,$daticrud['vincolicanc'],$rec[$daticrud['campochiave']]))
+        if ($daticrud['confermacancellazione'][0]!=1)
+            print "<a href='CRUDcancellazione.php?id=" . $rec[$daticrud['campochiave']] . "'><img src='../immagini/delete.png'></a>";
+        else
+            print "<a href='CRUDconfcanc.php?id=" . $rec[$daticrud['campochiave']] . "'><img src='../immagini/delete.png'></a>";
     print "</td>";
     print "</tr>";
 }
 print "</table><br>";
 
+
+stampa_piede();
+
+
+function controlloCanc($con,$vincolicanc,$chiave)
+{
+    $possibilecanc=true;
+    foreach($vincolicanc as $vincolo)
+    {
+        $query="select * from ".$vincolo[0]." where ".$vincolo[1]." = '".$chiave."'";
+        //print $query;
+        $ris=mysqli_query($con,$query) or die("Errore: ".$query);
+        if (mysqli_num_rows($ris)>0)
+        {
+            $possibilecanc=false;
+           //break;
+        }
+    }
+    return $possibilecanc;
+}

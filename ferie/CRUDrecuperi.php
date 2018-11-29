@@ -1,38 +1,23 @@
 <?php
-
 session_start();
 
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
 
-//require_once '../lib/ db / query.php';
-//$lQuery = LQuery::getIstanza();
-// istruzioni per tornare alla pagina di login 
-////session_start();
-
-$tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-
-if ($tipoutente == "")
-{
-    header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
-    die;
-}
-$titolo = "TEST CRUD";
-$script = "";
-stampa_head($titolo, "", $script, "PMSDA");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
-
 
 
 $daticrud = array();
 // Tabella da modificare
-$daticrud['tabella'] = inspref("tbl_alunni");
-$daticrud['aliastabella'] = "Alunni";
+$daticrud['tabella'] = inspref("tbl_recuperipermessi");
+// Nome della tabella per visualizzazioni
+$daticrud['aliastabella'] = "Recuperi Permessi";
 // Campo con l'id univoco per la tabella
-$daticrud['campochiave'] = "idalunno";
-// Campi da visualizzare senza chiave esterna
+$daticrud['campochiave'] = "idrecupero";
 
+// Campi in base ai quali ordinare
+$daticrud['campiordinamento']= array("cognome,nome,datarecupero");
+// Condizione di selezione, specificare solo 'true' se non ce ne sono
+$daticrud['condizione']= inspref("true");// Campi in base ai quali ordinare
 
 
 /*
@@ -53,26 +38,38 @@ $daticrud['campochiave'] = "idalunno";
  */
 
 $daticrud['campi'] = [
-                      ['cognome','1','','','',30,'Cognome',1,'text','',1,'',''],
-                      ['nome','2','','','',30,'Nome',2,'text','',1,'',''],
-                      ['idcomres','3',inspref('tbl_comuni'),'idcomune','denominazione',0,'Comune di residenza',3,'','',1,'','' ],
-                      ['idclasse','4',inspref('tbl_classi'),'idclasse','anno,sezione,specializzazione',0,'Classe',4,'','',1,'',''],
-                      ['telcel',0,'','','',20,'Telefono cellulare',5,'date','Massimo numeri separati da , o da +.',0,'','']
+                      ['iddocente','1',inspref('tbl_docenti'),'iddocente','cognome,nome',0,'Docente',1,'','',1,'',''],
+                      ['datarecupero','2','','','',10,'Data recupero',2,'date','',1,'',''],
+                      ['numeroore','3','','','',1,'Numero ore',3,'number','',1,'1','9' ],
+                      ['motivo','4','','','',50,'Motivo recupero',4,'text','',1,'','' ]
+    
                      ];
 
+// Vincoli per possibilità di cancellazione. Non devono esserci riferimenti nelle seguenti tabelle nel campo
+// specificato
+//$daticrud['vincolicanc'] = [
+//                            
+//                            [inspref('tbl_noteindalu'),'idalunno'],
+//                            [inspref('tbl_assenze'),'idlaunno']
+//                            
+//                           ];
+$daticrud['vincolicanc'] = [
+                            
+                           
+                            
+                           ];
+
+$daticrud['abilitazionemodifica']=1;
+
+// Dati per conferma cancellazione (0 senza conferma, 1 con conferma ed elenco dei campi da visualizzare per conferma)
+
+$daticrud['confermacancellazione'] = [1,''];
 
 
-// Campi in base ai quali ordinare
-$daticrud['campiordinamento']= array("cognome","nome");
-// Condizione di selezione, specificare solo 'true' se non ce ne sono
-$daticrud['condizione']= inspref("tbl_alunni.idclasse<>0");
 $_SESSION['daticrud'] = $daticrud;
 
-ordina_array_su_campo_sottoarray($daticrud['campi'], 1);
+header("location: ../crudtabelle/CRUD.php?suffisso=".$_SESSION['suffisso']);
 
-require "CRUD.php";
-
-stampa_piede();
 
 
 /*

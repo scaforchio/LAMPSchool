@@ -1589,6 +1589,14 @@ CREATE TABLE IF NOT EXISTS tbl_valutazioniobcomp (
   oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+CREATE TABLE IF NOT EXISTS tbl_recuperipermessi (
+  idrecupero int(11),
+  iddocente int(11),
+  datarecupero date DEFAULT NULL,
+  numeroore int(1),
+  motivo varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 --
 -- Indexes for dumped tables
 --
@@ -1611,6 +1619,13 @@ ADD PRIMARY KEY (idabilita), ADD KEY idcompetenza (idcompetenza);
 ALTER TABLE tbl_abilscol
 ADD PRIMARY KEY (idabilita), ADD UNIQUE KEY idcompetenza (idcompetenza,numeroordine,abil_cono);
 
+
+
+ALTER TABLE tbl_recuperipermessi
+ADD PRIMARY KEY (idrecupero);
+
+ALTER TABLE tbl_recuperipermessi
+MODIFY idrecupero int(11) AUTO_INCREMENT;
 --
 -- Indexes for table tbl_alunni
 --

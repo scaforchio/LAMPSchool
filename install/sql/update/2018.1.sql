@@ -46,6 +46,20 @@ UPDATE tbl_annotazioni set visibilitaalunni=0 where isnull(visibilitaalunni);
 
 ALTER TABLE tbl_assemblee ADD rapportoperdirigente text AFTER commenti_verbale;
 
+
+CREATE TABLE IF NOT EXISTS tbl_recuperipermessi (
+  idrecupero int(11),
+  iddocente int(11),
+  datarecupero date DEFAULT NULL,
+  numeroore int(1),
+  motivo varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE tbl_recuperipermessi
+ADD PRIMARY KEY (idrecupero);
+
+ALTER TABLE tbl_recuperipermessi
+MODIFY idrecupero int(11) AUTO_INCREMENT;
 --
 -- LASCIARE SEMPRE ALLA FINE
 UPDATE tbl_parametri set valore='2018.1' where parametro='versioneprecedente';

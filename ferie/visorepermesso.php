@@ -63,6 +63,7 @@ while ($rec = mysqli_fetch_array($ris)) {
     $giorniperm = calcolaGiorniPermesso($iddoc,$con); */
     
     $totaleore = contaOrePermesso($iddoc,$con);
+    $totaleorerec = contaOreRecuperate($iddoc,$con);
     $giorniferie = contaGiorniFerie($iddoc,$con);
     $giorniperm = contaGiorniPermesso($iddoc,$con);
     
@@ -82,11 +83,16 @@ while ($rec = mysqli_fetch_array($ris)) {
 
         $totaleore += $oreperm;
     } */
+    if ($totaleorerec!='')
+        $recuperate="(Rec. $totaleorerec)";
+    else
+        $recuperate="";
     if ($totaleore > 0 | $giorniferie > 0 | $giorniperm>0)
-        print "<tr><td>$nominativo</td><td>$totaleore</td><td>$giorniferie</td><td>$giorniperm</td></tr>";
+        print "<tr><td>$nominativo</td><td>$totaleore $recuperate</td><td>$giorniferie</td><td>$giorniperm</td></tr>";
 }
 print "</table>";
 print "<br>";
+
 
 mysqli_close($con);
 stampa_piede("");

@@ -199,6 +199,16 @@ function calcolaGiorniFerie($iddoc,$con)
     return $totalegiorni;
 }
 
+
+function contaOreRecuperate($iddoc,$con)
+{
+    
+    $query = "select sum(numeroore) as recuperate from tbl_recuperipermessi where iddocente=$iddoc";
+    $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    $recperm = mysqli_fetch_array($risperm) ;
+    return $recperm['recuperate'];
+}
+        
 function contaOrePermesso($iddoc,$con)
 {
     $totaleore = 0;
