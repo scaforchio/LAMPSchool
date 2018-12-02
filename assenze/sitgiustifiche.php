@@ -107,7 +107,7 @@ if (mysqli_num_rows($ris) > 0)
     while ($val = mysqli_fetch_array($ris))
     {
         print "<tr><td>" .
-                estrai_dati_alunno($val['idalunno'], $con) . " - " . decodifica_classe(estrai_classe_alunno($val['idalunno'], $con), $con) .
+    estrai_dati_alunno($val['idalunno'], $con) . " (".$val['idalunno'].") - " . decodifica_classe(estrai_classe_alunno($val['idalunno'], $con), $con) .
                 "</td><td align='center'>" . $val['nang'] . "</td>";
         print "<td align='center'>";
         $dataammonizione = $val['dataammonizione'];
@@ -179,8 +179,7 @@ if (mysqli_num_rows($ris) > 0)
 		   ";
     while ($val = mysqli_fetch_array($ris))
     {
-        print "<tr><td>" . estrai_dati_alunno($val['idalunno'], $con)
-                . " - " .
+        print "<tr><td>" . estrai_dati_alunno($val['idalunno'], $con) . " (".$val['idalunno'].") - " .
                 decodifica_classe(estrai_classe_alunno($val['idalunno'], $con), $con) .
                 "</td><td align='center'>" . $val['nrng'] .
                 "</td>";

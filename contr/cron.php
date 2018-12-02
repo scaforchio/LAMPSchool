@@ -22,11 +22,7 @@ session_start();
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
-$sql = "SELECT parametro,valore FROM " . $prefisso_tabelle . "tbl_parametri where parametro<>'versione'";
-$result = mysqli_query($con, $sql);
-$variabili = "";
-while ($rec = mysqli_fetch_array($result))
-    $_SESSION[$rec['parametro']] = $rec['valore'];
+@require "../lib/assegna_parametri_a_sessione.php";
 
 $suffisso = stringa_html('suffisso');
 $_SESSION['suffisso'] = $suffisso;
@@ -44,10 +40,7 @@ $controllo = stringa_html('controllo');
 
 if ($controllo == md5($nomefilelog))
 {
-    $sql = "SELECT parametro,valore FROM " . $prefisso_tabelle . "tbl_parametri where parametro<>'versione'";
-    $result = mysqli_query($con, $sql);
-    while ($rec = mysqli_fetch_array($result))
-        $variabili = $variabili . "&" . $rec['parametro'] . "=" . $rec['valore'];
+    
     daily_cron($suffisso, $con, $lavori);
     //print "\nCron $lavori eseguito";
     inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cron eseguito con lavori $lavori!", $nomefilelog, $suffisso);
