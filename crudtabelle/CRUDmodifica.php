@@ -60,7 +60,9 @@ $posarr = 0;
 foreach ($daticrud['campi'] as $c)
 {
     $posarr++;
-
+    $disabilitato="";
+    if ($c[15]==1)
+        $disabilitato=" disabled";
     if ($c[7] != 0)
     {
 
@@ -77,37 +79,39 @@ foreach ($daticrud['campi'] as $c)
             if ($c[8] == 'boolean')
             {
                 $valore = $recgen[$c[0]];
-                print "<td><select name='campo[]" . $posarr . "'>";
-
+                print "<td><select name='campo[]" . $posarr . "'$disabilitato>";
+                
                 if ($valore == 0)
                     print "<option value=0 selected>No</option><option value=1>S&igrave;</option>";
                 else
                     print "<option value=0>No</option><option value=1 selected>S&igrave;</option>";
-
+                if ($c[15]==1)
+                    print "<input type='hidden' name='campo[]" . $posarr . "' value='$valore'>";
 
 
                 print "</select></td></tr>";
             } else if ($c[8] == 'testo')
-                {
+            {
                 $valore = $recgen[$c[0]];
-                print "<td><textarea name='campo[]" . $posarr . "'>$valore</textarea>";
-
-                
-
-
-
+                print "<td><textarea name='campo[]" . $posarr . "'$disabilitato>$valore</textarea>";
+                if ($c[15]==1)
+                    print "<input type='hidden' name='campo[]" . $posarr . "' value='$valore'>";
+                print "</td></tr>";
+            } else
+            {
+                print "<td>";
+                print "<input type='" . $c[8] . "' value='" . $recgen[$c[0]] . "' name='campo[]" . $posarr . "' size='" . $c[5] . "' " . "' maxlength='" . $c[5] . "' min='" . $c[11] . "' " . "' max='" . $c[12] . "'$richiesto$disabilitato>";
+                if ($c[15]==1)
+                    print "<input type='hidden' name='campo[]" . $posarr . "' value='$valore'>";
                 print "</td></tr>";
                 
-                
-                }
-                else
-                print "<td><input type='" . $c[8] . "' value='" . $recgen[$c[0]] . "' name='campo[]" . $posarr . "' size='" . $c[5] . "' " . "' maxlength='" . $c[5] . "' min='" . $c[11] . "' " . "' max='" . $c[12] . "'$richiesto></td></tr>";
+            }
         }
         else
         {
             $valore = $recgen[$c[0]];
-            print "<td><select name='campo[]" . $posarr . "'$richiesto><option value=''>&nbsp</option>";
-
+            print "<td><select name='campo[]" . $posarr . "'$richiesto$disabilitato><option value=''>&nbsp</option>";
+            // $query per selezione elementi della select
             $query = "select " . $c[3] . "," . $c[4] . " from " . $c[2] . " order by " . $c[4];
             print $query;
             $ris = mysqli_query($con, $query);
@@ -123,7 +127,10 @@ foreach ($daticrud['campi'] as $c)
                 print "<option value='" . $rec[$c[3]] . "'$selected>$strvalori</option>";
             }
 
-            print "</select></td></tr>";
+            print "</select>";
+            if ($c[15]==1)
+                    print "<input type='hidden' name='campo[]" . $posarr . "' value='$valore'>";
+            print "</td></tr>";
         }
     }
 }

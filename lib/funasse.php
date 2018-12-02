@@ -634,21 +634,105 @@ function calcola_ritardi_brevi($idalunno, $con, $ritardobreve, $rangedate='')
         {
             $numritardibrevi++;
         }
-
     }
     return $numritardibrevi;
 }
 
 function esiste_assenza_alunno($idalunno, $data, $con)
-{
-    
+{    
     $query = "select * from tbl_assenze where idalunno='$idalunno' and data='$data'";
     $ris = mysqli_query($con, inspref($query));
     if (mysqli_num_rows($ris)>0)
     {
         return true;
     }
-    
+   
     return false;
+}
+
+function inserisciAmmonizioneGiustRitardi($idalunno, $iddocente, $datalimiteinferiore, $con)
+{
+    $dataammoniz = date('Y-m-d');
+    $query = "SELECT idritardo,data FROM tbl_ritardi WHERE (isnull(giustifica) or giustifica=0) AND data< '$datalimiteinferiore'
+            AND dataammonizione IS NULL AND idalunno=$idalunno ORDER BY data";
+        $risass = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+        $elenco = "";
+        while ($recass = mysqli_fetch_array($risass))
+        {
+            $elenco .= substr(data_italiana($recass['data']), 0, 5) . ", ";
+        }
+
+        $query = "UPDATE tbl_ritardi SET dataammonizione='" . date('Y.-m-d') . "' WHERE (isnull(giustifica) or giustifica=0) AND data< '$datalimiteinferiore'
+            AND dataammonizione IS NULL AND idalunno=$idalunno";
+        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+        $elenco = substr($elenco, 0, strlen($elenco) - 1);
+        if (strlen($elenco) > 7)
+            $elenco = substr($elenco, 0, strlen($elenco) - 9) . " e " . substr($elenco, strlen($elenco) - 7, 6);
+
+        $idclasse = estrai_classe_alunno($idalunno, $con);
+        //$iddocente = $_SESSION['idutente'];
+        if (strlen($elenco) > 7)
+            $numero = "ai ritardi";
+        else
+            $numero = "al ritardo";
+        if ($sesso == 'F')
+        {
+            $oa = "a";
+            $testo = elimina_apici("Con riferimento $numero del $elenco l'alunna $datialunno non ha portato la giustifica nei termini consentiti.");
+        } else
+        {
+            $oa = "o";
+            $testo = elimina_apici("Con riferimento $numero del $elenco l'alunno $datialunno non ha portato la giustifica nei termini consentiti.");
+        }
+        $provvedimenti = str_replace("[oa]",$oa,elimina_apici(estrai_testo_modificato("ammonizmancgiust", "[alunno]", $datialunno, $con)));
+        $query = "INSERT INTO tbl_notealunno(idclasse,data,iddocente,testo,provvedimenti) values('$idclasse','$dataammoniz','$iddocente','$testo','$provvedimenti')";
+        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+        $numnota = mysqli_insert_id($con);
+        $query = "INSERT INTO tbl_noteindalu(idnotaalunno,idalunno) values('$numnota','$idalunno')";
+        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+    
+}
+
+function inserisciAmmonizioneGiustAssenze($idalunno, $iddocente, $datalimiteinferiore, $con)
+{
+    $dataammoniz = date('Y-m-d');
+    $query = "SELECT idassenza,data FROM tbl_assenze WHERE (isnull(giustifica) or giustifica=0) AND data< '$datalimiteinferiore'
+            AND dataammonizione IS NULL AND idalunno=$idalunno ORDER BY data";
+        $risass = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+
+        $elenco = "";
+        while ($recass = mysqli_fetch_array($risass))
+        {
+            $elenco .= substr(data_italiana($recass['data']), 0, 5) . ", ";
+        }
+        print $elenco;
+        if (strlen($elenco) > 7)
+            $elenco = substr($elenco, 0, strlen($elenco) - 9) . " e " . substr($elenco, strlen($elenco) - 7, 6);
+        $query = "UPDATE tbl_assenze SET dataammonizione='" . date('Y-m-d') . "' WHERE (isnull(giustifica) or giustifica=0) AND data< '$datalimiteinferiore'
+            AND dataammonizione IS NULL AND idalunno=$idalunno";
+        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+        $elenco = substr($elenco, 0, strlen($elenco) - 1);
+        $idclasse = estrai_classe_alunno($idalunno, $con);
+        //$iddocente = $_SESSION['idutente'];
+        if (strlen($elenco) > 7)
+            $numero = "alle assenze";
+        else
+            $numero = "all'assenza";
+
+        if ($sesso == 'F')
+        {
+            $testo = elimina_apici("Con riferimento $numero del $elenco l'alunna $datialunno non ha portato la giustifica nei termini consentiti.");
+            $oa = "a";
+        } else
+        {
+            $oa = "o";
+            $testo = elimina_apici("Con riferimento $numero del $elenco l'alunno $datialunno non ha portato la giustifica nei termini consentiti.");
+        }
+        $provvedimenti = str_replace("[oa]",$oa,elimina_apici(estrai_testo_modificato("ammonizmancgiust", "[alunno]", $datialunno, $con)));
+        $query = "INSERT INTO tbl_notealunno(idclasse,data,iddocente,testo,provvedimenti) values('$idclasse','$dataammoniz','$iddocente','$testo','$provvedimenti')";
+        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+        $numnota = mysqli_insert_id($con);
+        $query = "INSERT INTO tbl_noteindalu(idnotaalunno,idalunno) values('$numnota','$idalunno')";
+        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
 }
 

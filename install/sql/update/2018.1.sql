@@ -60,6 +60,9 @@ ADD PRIMARY KEY (idrecupero);
 
 ALTER TABLE tbl_recuperipermessi
 MODIFY idrecupero int(11) AUTO_INCREMENT;
+
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'codicevicario', '', 'Codice del docente con funzioni di vicario','');
+
 --
 -- LASCIARE SEMPRE ALLA FINE
 UPDATE tbl_parametri set valore='2018.1' where parametro='versioneprecedente';

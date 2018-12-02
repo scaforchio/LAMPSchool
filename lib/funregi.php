@@ -540,8 +540,11 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
 
 function esiste_lezione($data, $con)
 {
-    $query = "select datalezione from tbl_lezioni where datalezione='$data'";
+    
+    $query = "select idlezione from tbl_lezioni where datalezione='$data'";
+    
     $ris = mysqli_query($con, inspref($query)) or die("Errore" . inspref($query));
+    
     if (mysqli_num_rows($ris) > 0)
         return true;
     else

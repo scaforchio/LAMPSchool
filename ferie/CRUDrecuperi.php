@@ -19,6 +19,9 @@ $daticrud['campiordinamento']= array("cognome,nome,datarecupero");
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
 $daticrud['condizione']= inspref("true");// Campi in base ai quali ordinare
 
+$daticrud['abilitazionemodifica']=1;
+$daticrud['abilitazionecancellazione']=1;
+$daticrud['abilitazioneinserimento']=1;
 
 /*
 // Significato valori
@@ -37,6 +40,7 @@ $daticrud['condizione']= inspref("true");// Campi in base ai quali ordinare
  * 12 - valore massimo ('' per non usarlo)
  */
 
+$daticrud['titolo']='GESTIONE RECUPERI';
 $daticrud['campi'] = [
                       ['iddocente','1',inspref('tbl_docenti'),'iddocente','cognome,nome',0,'Docente',1,'','',1,'',''],
                       ['datarecupero','2','','','',10,'Data recupero',2,'date','',1,'',''],

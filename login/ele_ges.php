@@ -46,16 +46,25 @@ try
     print "<br><b><big><center>Rieffettuare il <a href='../pianif.php'>login</a>.</center></big></b>";
 }
 
-// istruzioni per tornare alla pagina di login se non c'è una sessione valida
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
-$_SESSION['log'] = $logcompleto;
-$_SESSION['sola_lettura'] = $sola_lettura;
-$_SESSION['gestcentrautorizz'] = $gestcentrautorizz;
-$_SESSION['nomefilelog'] = $nomefilelog;
+// Passaggio dei parametri nella sessione
+$sql = "SELECT parametro,valore FROM ". $prefisso_tabelle. "tbl_parametri where parametro<>'versione'";
+$result = mysqli_query($con, $sql);
+$variabili="";
+while ($rec = mysqli_fetch_array($result))
+   $_SESSION[$rec['parametro']] = $rec['valore'];
+
+
+//$_SESSION['log'] = $logcompleto;
+//$_SESSION['sola_lettura'] = $sola_lettura;
+//$_SESSION['gestcentrautorizz'] = $gestcentrautorizz;
+//$_SESSION['nomefilelog'] = $nomefilelog;
 $json = leggeFileJSON('../lampschool.json');
 $_SESSION['versione'] = $json['versione'];
-$_SESSION['indirizzomailfrom'] = $indirizzomailfrom;
+//$_SESSION['indirizzomailfrom'] = $indirizzomailfrom;
 
+/*
 $_SESSION['g02'] = $g02;
 $_SESSION['g03'] = $g03;
 $_SESSION['g04'] = $g04;
@@ -94,14 +103,14 @@ $_SESSION['giudcomp07'] = $giudcomp07;
 $_SESSION['giudcomp08'] = $giudcomp08;
 $_SESSION['giudcomp09'] = $giudcomp09;
 $_SESSION['giudcomp10'] = $giudcomp10;
-
+/*
 $_SESSION['classeregistro'] = "";  // Si riazzera quando si torna al menu così si capisce che non si è più in fase di registro
 
 /*
  * VARIABILI CHE SONO USATE NELLE FUNZIONI
  */
 
-$_SESSION['giustifica_ritardi'] = $giustifica_ritardi;
+//$_SESSION['giustifica_ritardi'] = $giustifica_ritardi;
 
 $indirizzoip = IndirizzoIpReale();
 $_SESSION['indirizzoip'] = $indirizzoip;
@@ -114,7 +123,7 @@ $ultimoaccesso = "";
 
 //  $_SESSION['versione']=$versione;
 //Connessione al server SQL
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
+
 
 if (!$con)
 {
@@ -314,7 +323,7 @@ if (count($_POST))
             //print $dataoggi;
             if ($dataoggi > $dataultimo)
             {
-                daily_cron($_SESSION['suffisso'], $con, '1101', $nomefilelog);
+                daily_cron($_SESSION['suffisso'], $con, '110100');
             }
         }
         //
@@ -684,6 +693,7 @@ if ($cambiamentopassword)
         menu_item('../assenze/rit.php', 'RITARDI');
         menu_item('../assenze/usc.php', 'USCITE ANTICIPATE');
         menu_item('../assenze/selealunniautuscita.php', 'AUTORIZZAZIONE USCITE');
+        menu_item('../assenze/CRUDautorizzazioniuscite.php', 'GESTIONE AUTORIZZAZIONI USCITE');
         menu_item('../rp/autorizzaritardo.php', 'AUTORIZZA ENTRATA IN RITARDO');
         menu_item('../rp/vis_ritcla.php', 'ENTRATE POSTICIPATE CLASSI');
 
@@ -705,8 +715,8 @@ if ($cambiamentopassword)
         menu_item('../assenze/visgiustifiche.php', 'ELIMINA GIUSTIFICHE');
         menu_item('../assenze/deroghe.php', 'DEROGHE ASSENZE');
         menu_item('../assenze/visderoghe.php', 'SITUAZIONE DEROGHE ASSENZE');
-        menu_separator("");
-        menu_item('../assenze/ricalcoloassenzesele.php', 'RICALCOLO ASSENZE');
+        //menu_separator("");
+        //menu_item('../assenze/ricalcoloassenzesele.php', 'RICALCOLO ASSENZE');
 
         menu_title_end();
 
@@ -1334,7 +1344,7 @@ if ($cambiamentopassword)
         menu_item('../contr/vis_accessi.php', 'VISUALIZZA ACCESSI');
         menu_item('../rp/vistimbrature.php', 'VISUALIZZA TIMBRATURE');
         menu_item('../contr/visualizzalog.php', 'VISUALIZZA LOG');
-        menu_item('../crudtabelle/CRUD__modello_esempio.php', 'TEST ');
+        menu_item('../contr/test.php', 'TEST ');
         menu_title_end();
 
 
