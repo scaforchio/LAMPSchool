@@ -708,6 +708,8 @@ function inserisci_log($testo, $nflog = "", $suff = "")
         }
         else $suff = "";
     }
+    else
+        $suff=$suff."/";
 
     // print "../lampschooldata/" . $suff . "00$nomefilelog.log";
     error_log($testo . "\n", 3, "../lampschooldata/" . $suff . "0000$nomefilelog". date("Ymd") .".log");

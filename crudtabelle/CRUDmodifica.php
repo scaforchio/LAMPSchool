@@ -56,11 +56,14 @@ else
     print "<form name='form1' action='CRUDinsregistra.php' method='POST'>";
 print "<CENTER><table border ='0'>";
 
+$chiaveprincipale=$recgen[$daticrud['campochiave']];
 $posarr = 0;
 foreach ($daticrud['campi'] as $c)
 {
     $posarr++;
     $disabilitato="";
+    if ($id==0)
+        $c[15]=0;
     if ($c[15]==1)
         $disabilitato=" disabled";
     if ($c[7] != 0)
@@ -99,6 +102,7 @@ foreach ($daticrud['campi'] as $c)
                 print "</td></tr>";
             } else
             {
+                $valore = $recgen[$c[0]];
                 print "<td>";
                 print "<input type='" . $c[8] . "' value='" . $recgen[$c[0]] . "' name='campo[]" . $posarr . "' size='" . $c[5] . "' " . "' maxlength='" . $c[5] . "' min='" . $c[11] . "' " . "' max='" . $c[12] . "'$richiesto$disabilitato>";
                 if ($c[15]==1)
@@ -112,7 +116,11 @@ foreach ($daticrud['campi'] as $c)
             $valore = $recgen[$c[0]];
             print "<td><select name='campo[]" . $posarr . "'$richiesto$disabilitato><option value=''>&nbsp</option>";
             // $query per selezione elementi della select
-            $query = "select " . $c[3] . "," . $c[4] . " from " . $c[2] . " order by " . $c[4];
+            if ($c[16]!='')
+                $subquery=" where ".$c[3]." in(".$c[16]."'$chiaveprincipale')";
+            else
+                $subquery='';
+            $query = "select " . $c[3] . "," . $c[4] . " from " . $c[2] . "$subquery order by " . $c[4];
             print $query;
             $ris = mysqli_query($con, $query);
             while ($rec = mysqli_fetch_array($ris))

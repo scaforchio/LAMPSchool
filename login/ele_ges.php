@@ -1273,7 +1273,7 @@ if ($cambiamentopassword)
             menu_item('../specializzazione/vis_spe.php', 'PLESSI');
         }
         menu_item('../sezioni/vis_sez.php', 'SEZIONI');
-        menu_item('../classi/vis_cla.php', 'CLASSI');
+        menu_item('../classi/CRUDclassi.php', 'CLASSI');
         menu_item('../materie/vis_mat.php', 'MATERIE');
         menu_item('../documenti/vis_tdoc.php', 'TIPI DOCUMENTO');
         menu_item('../materie/ordmaterie.php', 'ORDINAMENTO MATERIE');
