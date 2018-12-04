@@ -109,6 +109,9 @@ $_SESSION['classeregistro'] = "";  // Si riazzera quando si torna al menu così 
 
 //$_SESSION['giustifica_ritardi'] = $giustifica_ritardi;
 
+
+$_SESSION['classeregistro'] = ""; 
+
 $indirizzoip = IndirizzoIpReale();
 $_SESSION['indirizzoip'] = $indirizzoip;
 
@@ -1266,13 +1269,13 @@ if ($cambiamentopassword)
         menu_title_begin('TABELLE');
         if ($plesso_specializzazione == "Specializzazione")
         {
-            menu_item('../specializzazione/vis_spe.php', 'SPECIALIZZAZIONI');
+            menu_item('../classi/CRUDspecializzazioni.php', 'SPECIALIZZAZIONI');
         }
         if ($plesso_specializzazione == "Plesso")
         {
-            menu_item('../specializzazione/vis_spe.php', 'PLESSI');
+            menu_item('../classi/CRUDspecializzazioni.php', 'PLESSI');
         }
-        menu_item('../sezioni/vis_sez.php', 'SEZIONI');
+        menu_item('../classi/CRUDsezioni.php', 'SEZIONI');
         menu_item('../classi/CRUDclassi.php', 'CLASSI');
         menu_item('../materie/vis_mat.php', 'MATERIE');
         menu_item('../documenti/vis_tdoc.php', 'TIPI DOCUMENTO');
@@ -1384,14 +1387,14 @@ if ($cambiamentopassword)
         menu_title_begin('TABELLE');
         if ($plesso_specializzazione == "Specializzazione")
         {
-            menu_item('../specializzazione/vis_spe.php', 'SPECIALIZZAZIONI');
+            menu_item('../classi/CRUDspecializzazioni.php', 'SPECIALIZZAZIONI');
         }
         if ($plesso_specializzazione == "Plesso")
         {
-            menu_item('../specializzazione/vis_spe.php', 'PLESSI');
+            menu_item('../classi/CRUDspecializzazioni.php', 'PLESSI');
         }
-        menu_item('../sezioni/vis_sez.php', 'SEZIONI');
-        menu_item('../classi/vis_cla.php', 'CLASSI');
+        menu_item('../classi/CRUDsezioni.php', 'SEZIONI');
+        menu_item('../classi/CRUDclassi.php', 'CLASSI');
         menu_item('../materie/vis_mat.php', 'MATERIE');
         menu_item('../documenti/vis_tdoc.php', 'TIPI DOCUMENTO');
         menu_item('../materie/ordmaterie.php', 'ORDINAMENTO MATERIE');

@@ -37,7 +37,7 @@ $_SESSION['suffisso']=$suffisso;
 //}
  $_SESSION["annoscol"]=$annoscol; //prende la variabile presente nella sessione
  $_SESSION['versione']=$versioneprecedente;	
- $_SESSION['log']=$logcompleto;	
+ $_SESSION['logcompleto']=$logcompleto;	
 $titolo="Elenco alunni per classe";
 $script="<script type='text/javascript'>
          <!--

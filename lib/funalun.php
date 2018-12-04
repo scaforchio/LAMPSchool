@@ -40,6 +40,15 @@ function estrai_codicefiscale($idalunno, $conn)
     return $rec['codfiscale'];
 }
 
+function estrai_sesso_alunno($idalunno, $conn)
+{
+    $query = "select * from tbl_alunni where idalunno='$idalunno'";
+    $ris = mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+    $rec = mysqli_fetch_array($ris);
+    
+
+    return $rec['sesso'];
+}
 
 /**
  *

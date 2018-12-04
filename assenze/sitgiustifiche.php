@@ -160,7 +160,8 @@ $query = "SELECT count(*) as nrng,cognome, nome,tbl_alunni.idalunno,dataammonizi
             AND tbl_alunni.idclasse<>0
             AND tbl_ritardi.idalunno NOT IN (select idalunno from tbl_assenze where data='".date('y-m-d')."')
             GROUP BY tbl_alunni.idalunno,dataammonizione
-            ORDER BY anno,specializzazione,sezione,cognome, nome, tbl_alunni.idalunno, data desc";
+            ORDER BY cognome, nome, tbl_alunni.idalunno, data desc
+            ";
 $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query, false));
 if (mysqli_num_rows($ris) > 0)
 {

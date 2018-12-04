@@ -609,10 +609,13 @@ function inspref($comando, $log = true)
     $comando = str_replace("tbl_", $prefisso_tabelle . "tbl_", $comando);
     if ($log)
     {
-        if (isset($_SESSION['log']))
+        //print "LOG:".$_SESSION['logcompleto'];
+        if (isset($_SESSION['logcompleto']))
         {
-            if ($_SESSION['log'] == "yes")
+            
+            if ($_SESSION['logcompleto'] == "yes")
             {
+               // print "LOG:".$_SESSION['logcompleto'];
                 $comandoreg = $comando;
                 $cmd = strtolower(substr($comandoreg, 0, 4));
 
@@ -630,7 +633,8 @@ function inspref($comando, $log = true)
                     else $suff = "";
 
                     $comandoreg = elimina_spazi($comandoreg);
-                    inserisci_log($_SESSION['userid'] . "§" . date('m-d|H:i:s') . "§" . $_SESSION['indirizzoip'] . "§" . $comandoreg . "");
+                    
+                    inserisci_log($_SESSION['userid'] . "§" . date('m-d|H:i:s') . "§" . $_SESSION['indirizzoip'] . "§" . $comandoreg . "",$_SESSION['nomefilelog'],$_SESSION['suffisso']);
                     //$query = "insert into ". $prefisso_tabelle. "tbl_logacc(utente,dataacc,comando) values ('".
                     //           $_SESSION['userid']. "','". date('m/d - H:i:s'). "','". elimina_apici($comandoreg). "')";
                     //$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore di connessione");
@@ -639,7 +643,7 @@ function inspref($comando, $log = true)
                 }
             }
 
-            if ($_SESSION['log'] == "all")
+            if ($_SESSION['logcompleto'] == "all")
             {
                 $comandoreg = $comando;
                 $cmd = strtolower(substr($comandoreg, 0, 4));

@@ -32,56 +32,24 @@ $strconcat = "";
 // Campi senza chiave esterna
 
 
-
+$datidavisualizzare = array();
 
 foreach ($daticrud['campi'] as $c)
     if ($c[1] != 0)
-        if ($c[2] == '')
-            $strcampi .= $daticrud['tabella'] . "." . $c[0] . ", ";
-        else
-        {
-            $strtabelle .= $c[2] . ", ";
-            $strconcat .= "and " . $daticrud['tabella'] . "." . $c[0] . "=" . $c[2] . "." . $c[3] . " ";
-            $elcampitabesterna = explode(",", $c[4]);
-            if ($c[14] != '')
-            {
-                $elcampialias = explode(",", $c[14]);
-                $numeroalias = count($elcampialias);
-            } else
-                $numeroalias = 0;
-            $numerocampi = count($elcampitabesterna);
-
-            if ($numeroalias > 0 & ($numerocampi != $numeroalias))
-                die("Errore nel numero di campi alias!");
-            if ($numeroalias == 0)
-                foreach ($elcampitabesterna as $ctb)
-                    $strcampi .= $c[2] . "." . $ctb . ", ";
-            else
-            {
-
-                for ($nc = 0; $nc < $numerocampi; $nc++)
-                {
-                    $ctb = $elcampitabesterna[$nc];
-                    $atb = $elcampialias[$nc];
-
-                    $strcampi .= $c[2] . ".$ctb as $atb, ";
-                }
-            }
-        }
-
+        $strcampi .= $c[0] . ", ";
 $strcampi = substr($strcampi, 0, strlen($strcampi) - 2);
-$strtabelle = substr($strtabelle, 0, strlen($strtabelle) - 2);
 
 $strcondizione = " and " . $daticrud['condizione'];
 
 // Campi per ordinamento in visualizzazione
 $strcampiordinamento = implode(",", $daticrud['campiordinamento']);
 // Costruzione query
-$query = "select " . $daticrud['campochiave'] . ", $strcampi from " . $strtabelle . " where true " . $strconcat . " " . $strcondizione . " order by $strcampiordinamento";
+$query = "select " . $daticrud['campochiave'] . ", $strcampi from " . $daticrud['tabella'] . " where true " . $strcondizione;
 // print $query;
 $ris = mysqli_query($con, $query) or die("Errore " . $query . " ERR " . mysqli_error($con));
 if ($daticrud['abilitazioneinserimento'] == 1)
     print "<br><center><a href='CRUDmodifica.php?id=0'><b>INSERISCI NUOVO</b></a></center><br><br>";
+
 print "<table align='center' border='1'>";
 // Visualizzazione intestazioni
 print "<tr class='prima'>";
@@ -100,28 +68,69 @@ while ($rec = mysqli_fetch_array($ris))
     // 
     foreach ($daticrud['campi'] as $c)
     {
-        if ($c[1] != 0)
+        $queryesterna="";
+        $numeroalias=0;
+        if ($c[1] != 0)   // Campo da visualizzare nell'elenco
         {
-            if ($c[2] == '')
+            if ($c[2] == '')  // Campo in tabella principale
             {
                 if ($c[8] == 'boolean')
                     $strvis = $rec[$c[0]] == 0 ? "No" : "S&igrave;";
                 else
                     $strvis = $rec[$c[0]];
-            } else
+            }
+            else              // Campo in tabella esterna
             {
-                if ($c[14] != '')
-                    $elcampitabesterna = explode(",", $c[14]);
-                else
-                    $elcampitabesterna = explode(",", $c[4]);
-
-                $numerochiave = substr($campo, 3, 1);
+                
+                $strcampi = "";
                 $strvis = "";
-
-                foreach ($elcampitabesterna as $ctb)
+                $elcampitabesterna = explode(",", $c[4]);
+                
+                if ($c[14] != '')
                 {
-                    $strvis .= $rec[$ctb] . " ";
+                    $elcampialias = explode(",", $c[14]);
+                    $numeroalias = count($elcampialias);
+                } else
+                    $numeroalias = 0;
+                $numerocampi = count($elcampitabesterna);
+
+                if ($numeroalias > 0 & ($numerocampi != $numeroalias))
+                    die("Errore nel numero di campi alias!");
+                
+                if ($numeroalias == 0)
+                    foreach ($elcampitabesterna as $ctb)
+                        $strcampi .= $ctb . ", ";
+                else
+                {
+
+                    for ($nc = 0; $nc < $numerocampi; $nc++)
+                    {
+                        $ctb = $elcampitabesterna[$nc];
+                        $atb = $elcampialias[$nc];
+
+                        $strcampi .= "$ctb as $atb, ";
+                    }
                 }
+
+                $strcampi = substr($strcampi, 0, strlen($strcampi) - 2);
+                $queryesterna = "select ".$strcampi . " from " . $c[2] . " where true and " . $c[3] . " = '" . $rec[$c[0]] . "'";
+                $risest = mysqli_query($con, $queryesterna) or die("Errore: " . $queryesterna);
+                $recest = mysqli_fetch_array($risest);
+                
+                if ($numeroalias > 0)
+                {
+                    foreach ($elcampialias as $atb)
+                    {
+                        $strvis .= $recest[$atb] . " ";
+                    }
+                } else
+                {
+                    foreach ($elcampitabesterna as $ctb)
+                    {
+                        $strvis .= $recest[$ctb] . " ";
+                    }
+                }
+                
             }
             print "<td>$strvis</td>";
         }

@@ -24,20 +24,20 @@ require_once '../lib/funzioni.php';
 
 $daticrud = array();
 // Tabella da modificare
-$daticrud['titolo']='GESTIONE CLASSI';
+$daticrud['titolo']='GESTIONE '.$plesso_specializzazione;
 
 
-$daticrud['tabella'] = inspref("tbl_classi");
+$daticrud['tabella'] = inspref("tbl_specializzazioni");
 
 
 // Nome della tabella per visualizzazioni
-$daticrud['aliastabella'] = "classi";
+$daticrud['aliastabella'] = $plesso_specializzazione;
 // Campo con l'id univoco per la tabella
-$daticrud['campochiave'] = "idclasse";
+$daticrud['campochiave'] = "idspecializzazione";
 
 // Campi in base ai quali ordinare (specificare gli alias (14° valore nella descrizione del campo)
 // se ci sono campi con lo stesso nome)
-$daticrud['campiordinamento']= [inspref("anno,specializzazione,sezione")];
+$daticrud['campiordinamento']= [inspref("denominazione")];
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
 $daticrud['condizione']= inspref("true");
 
@@ -51,29 +51,6 @@ $daticrud['confermacancellazione'] = [1,''];
 // Vincoli per possibilità di cancellazione. Non devono esserci riferimenti nelle seguenti tabelle nel campo
 // specificato
 $daticrud['vincolicanc'] = [
-                            
-                            [inspref('tbl_alunni'),'idclasse'],
-                            [inspref('tbl_competalu'),'idclasse'],
-                            [inspref('tbl_competdoc'),'idclasse'],
-                            [inspref('tbl_documenti'),'idclasse'],
-                            [inspref('tbl_entrateclassi'),'idclasse'],
-                            [inspref('tbl_esiti'),'idclasse'],
-                            [inspref('tbl_esami3m'),'idclasse'],
-                            [inspref('tbl_esmaterie'),'idclasse'],
-                            [inspref('tbl_giudizi'),'idclasse'],
-                            [inspref('tbl_lezioni'),'idclasse'],
-                            [inspref('tbl_lezionicert'),'idclasse'],
-                            [inspref('tbl_notealunno'),'idclasse'],
-                            [inspref('tbl_noteclasse'),'idclasse'],
-                            [inspref('tbl_osssist'),'idclasse'],
-                            [inspref('tbl_scrutini'),'idclasse'],
-                            [inspref('tbl_valutazionicomp'),'idclasse'],
-                            [inspref('tbl_valutazioniintermedie'),'idclasse'],
-                            [inspref('tbl_annotazioni'),'idclasse'],
-                            [inspref('tbl_assemblee'),'idclasse'],
-                            [inspref('tbl_cambiamenticlasse'),'idclasse'],
-                            [inspref('tbl_cattnosupp'),'idclasse'],
-                            [inspref('tbl_cattsupp'),'idclasse']
                             
                            ];
 
@@ -101,13 +78,7 @@ $daticrud['vincolicanc'] = [
  */
 
 $daticrud['campi'] = [
-                      ['anno','1','','','',1,'Anno',1,'number','',1,'1',$numeroanni,0,'',1],
-                      ['sezione','2',inspref('tbl_sezioni'),'denominazione','denominazione',1,'Sezione',2,'','',1,'','',1,'sezione',1],
-                      ['specializzazione','3',inspref('tbl_specializzazioni'),'denominazione','denominazione',1,$plesso_specializzazione,3,'','',1,'','',1,'specializzazione',1],
-                      ['oresett',4,'','','',2,"Ore settimanali",4,'number','',1,'20','48',0,'',0],
-                      ['idcoordinatore',5,inspref('tbl_docenti'),'iddocente','cognome,nome',0,'Docente',5,'','',0,'','',1,'',0,inspref('select distinct(iddocente) from tbl_cattnosupp where idclasse=') ],
-                      ['rappresentante1',6,inspref('tbl_alunni'),'idalunno','cognome,nome',0,'Primo rappresentante',6,'','',0,'','',1,'cognalu1,nomealu1',0,inspref('select distinct(idalunno) from tbl_alunni where idclasse=') ],
-                      ['rappresentante2',7,inspref('tbl_alunni'),'idalunno','cognome,nome',0,'Secondo rappresentante',7,'','',0,'','',0,'cognalu2,nomealu2',0,inspref('select distinct(idalunno) from tbl_alunni where idclasse=')]
+                      ['denominazione','1','','','',50,$plesso_specializzazione,1,'text','',1,'','',0,'',0,''],
                      ];
 
 

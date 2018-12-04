@@ -14,18 +14,13 @@ function elimina_assenze_lezione($conn, $idalunno, $datalezione, $idclasse = "")
                       and not forzata ";
         mysqli_query($conn, inspref($query)) or die("Errore in cancellazione assenze" . $query);
         //  Eliminare tutte le assenze per la classe;
-    }
-    else
+    } else
     {
-        
+
         $query = "delete from tbl_asslezione where idalunno='$idalunno' and data='$datalezione' and not forzata ";
         mysqli_query($conn, inspref($query)) or die("Errore in cancellazione assenze" . $query);
-
     }
-
-
 }
-
 
 function inserisci_assenze_per_ritardi_uscite($conn, $idalunno, $data)
 {
@@ -45,187 +40,186 @@ function inserisci_assenze_per_ritardi_uscite($conn, $idalunno, $data)
         if ($numeroore > 0)
         {
             $query = "insert into tbl_asslezione(idalunno, idlezione, idmateria, data, oreassenza) values ($idalunno,$idlezione,$idmateria,'$data',$numeroore)";
-            mysqli_query($conn, inspref($query)) or die ("Errore inserimento assenza lezione" . inspref($query));
+            mysqli_query($conn, inspref($query)) or die("Errore inserimento assenza lezione" . inspref($query));
         }
     }
 }
-
 
 /*
  * RICALCOLA RITARDI PER INSERIMENTI DI RITARDI SENZA IL NUMERO DI ORE MA CON ORARIO CHE INCLUDE
  * LEZIONI SALTATE
  */
 /*
-function ricalcola_ritardi($conn, $idalunno, $data)
-{
+  function ricalcola_ritardi($conn, $idalunno, $data)
+  {
 
-    $query = "SELECT * FROM tbl_ritardi WHERE idalunno=$idalunno and data='$data'";
+  $query = "SELECT * FROM tbl_ritardi WHERE idalunno=$idalunno and data='$data'";
 
-    $ris = mysqli_query($conn, inspref($query)) or die ("Errore:". inspref($query, false));
-    if ($rec = mysqli_fetch_array($ris))
-    {
+  $ris = mysqli_query($conn, inspref($query)) or die ("Errore:". inspref($query, false));
+  if ($rec = mysqli_fetch_array($ris))
+  {
 
-        $idritardo = $rec['idritardo'];
+  $idritardo = $rec['idritardo'];
 
-        $classe = estrai_classe_alunno_data($idalunno, $data, $conn);
+  $classe = estrai_classe_alunno_data($idalunno, $data, $conn);
 
-        if ($classe != 0)
-        {
-            // ESTRAGGO L'ORA DI INIZIO GIORNATA DELLA CLASSE
-            $oraini = estrai_ora_inizio_giornata($data, $classe, $conn);
+  if ($classe != 0)
+  {
+  // ESTRAGGO L'ORA DI INIZIO GIORNATA DELLA CLASSE
+  $oraini = estrai_ora_inizio_giornata($data, $classe, $conn);
 
-            if ($oraini != '')
-            {
+  if ($oraini != '')
+  {
 
-                $gs = numdagiorno(giorno_settimana($data));
-                $orarioini = "";
-                $query = "select inizio from tbl_orario where giorno='$gs' and ora='$oraini' and valido";
-                // print inspref($query);
-                $risoraini = mysqli_query($conn, inspref($query));
-                if ($recoraini = mysqli_fetch_array($risoraini))
-                {
-                    $orarioini = $recoraini['inizio'];
-                }
+  $gs = numdagiorno(giorno_settimana($data));
+  $orarioini = "";
+  $query = "select inizio from tbl_orario where giorno='$gs' and ora='$oraini' and valido";
+  // print inspref($query);
+  $risoraini = mysqli_query($conn, inspref($query));
+  if ($recoraini = mysqli_fetch_array($risoraini))
+  {
+  $orarioini = $recoraini['inizio'];
+  }
 
-                $query = "select max(ora) as numore from tbl_orario where giorno='$gs' and valido";
-                // print inspref($query);
-                $risoretot = mysqli_query($conn, inspref($query));
-                if ($recoratot = mysqli_fetch_array($risoretot))
-                {
-                    $oretot = $recoratot['numore'];
-                }
-                else
-                {
-                    $oretot = 0;
-                }
+  $query = "select max(ora) as numore from tbl_orario where giorno='$gs' and valido";
+  // print inspref($query);
+  $risoretot = mysqli_query($conn, inspref($query));
+  if ($recoratot = mysqli_fetch_array($risoretot))
+  {
+  $oretot = $recoratot['numore'];
+  }
+  else
+  {
+  $oretot = 0;
+  }
 
-                // print "Ingresso: ".$rec['oraentrata']. " Ora entrata classe: $orarioini <br>";
+  // print "Ingresso: ".$rec['oraentrata']. " Ora entrata classe: $orarioini <br>";
 
-                $ingressoclasse = $orarioini;
-                $ingressoalunno = $rec['oraentrata'];
-                if ($ingressoalunno>$ingressoclasse)
-                {
-                    $differenza = date_diff(date_create($ingressoclasse), date_create($ingressoalunno));
+  $ingressoclasse = $orarioini;
+  $ingressoalunno = $rec['oraentrata'];
+  if ($ingressoalunno>$ingressoclasse)
+  {
+  $differenza = date_diff(date_create($ingressoclasse), date_create($ingressoalunno));
 
-                    // echo $differenza;
-                    $orediff = $differenza->format("%H");
-                    $mindiff = $differenza->format("%i");
-                    $minutidiff = $orediff * 60 + $mindiff;
+  // echo $differenza;
+  $orediff = $differenza->format("%H");
+  $mindiff = $differenza->format("%i");
+  $minutidiff = $orediff * 60 + $mindiff;
 
-                    $oreritardo = round($minutidiff / 60);
-                    // print "$minutidiff -> $oreritardo <br>";
+  $oreritardo = round($minutidiff / 60);
+  // print "$minutidiff -> $oreritardo <br>";
 
-                    if ($oreritardo > 0)
-                    {
-                        if ($oreritardo < $oretot)
-                        {
-                            $query = "update tbl_ritardi set numeroore=$oreritardo where idritardo=$idritardo";
-                            mysqli_query($conn, inspref($query));
+  if ($oreritardo > 0)
+  {
+  if ($oreritardo < $oretot)
+  {
+  $query = "update tbl_ritardi set numeroore=$oreritardo where idritardo=$idritardo";
+  mysqli_query($conn, inspref($query));
 
-                        }
-                        //    else
-                        //    {
-                        //        print "<span style=\"color: red; \">Verifica ritardo di " . $oreritardo . " ore per alunno " . decodifica_alunno($idalunno, $conn) . " (" . decodifica_classe(estrai_classe_alunno($idalunno, $conn), $conn) . ") in data " . data_italiana($dataritardo) . " </span><br>";
-                        //    }
+  }
+  //    else
+  //    {
+  //        print "<span style=\"color: red; \">Verifica ritardo di " . $oreritardo . " ore per alunno " . decodifica_alunno($idalunno, $conn) . " (" . decodifica_classe(estrai_classe_alunno($idalunno, $conn), $conn) . ") in data " . data_italiana($dataritardo) . " </span><br>";
+  //    }
 
-                    }
+  }
 
-                }
-            }
-        }
-    }
-}
-*/
+  }
+  }
+  }
+  }
+  }
+ */
 
 /*
  * RICALCOLA RITARDI PER INSERIMENTI DI RITARDI SENZA IL NUMERO DI ORE MA CON ORARIO CHE INCLUDE
  * LEZIONI SALTATE
  */
 /*
-function ricalcola_uscite($conn, $idalunno, $data)
-{
+  function ricalcola_uscite($conn, $idalunno, $data)
+  {
 
-    $query = "SELECT * FROM tbl_usciteanticipate WHERE data='$data' AND idalunno=$idalunno";
+  $query = "SELECT * FROM tbl_usciteanticipate WHERE data='$data' AND idalunno=$idalunno";
 
-    $ris = mysqli_query($conn, inspref($query)) or die ("Errore:" . inspref($query, false));
-    if ($rec = mysqli_fetch_array($ris))
-    {
+  $ris = mysqli_query($conn, inspref($query)) or die ("Errore:" . inspref($query, false));
+  if ($rec = mysqli_fetch_array($ris))
+  {
 
-        $iduscita = $rec['iduscita'];
+  $iduscita = $rec['iduscita'];
 
-        $classe = estrai_classe_alunno_data($idalunno, $data, $conn);
+  $classe = estrai_classe_alunno_data($idalunno, $data, $conn);
 
-        if ($classe != 0)
-        {
-            // ESTRAGGO L'ORA DI FINE GIORNATA DELLA CLASSE
-            $orafin = estrai_ora_fine_giornata($data, $classe, $conn);
+  if ($classe != 0)
+  {
+  // ESTRAGGO L'ORA DI FINE GIORNATA DELLA CLASSE
+  $orafin = estrai_ora_fine_giornata($data, $classe, $conn);
 
-           // inserisci_log("TTTT Orafine $orafin \n", 3, "../lampschooldata/demo/00$nomefilelog.log");
-            if ($orafin != '')
-            {
+  // inserisci_log("TTTT Orafine $orafin \n", 3, "../lampschooldata/demo/00$nomefilelog.log");
+  if ($orafin != '')
+  {
 
-                $gs = numdagiorno(giorno_settimana($data));
-                $orariofin = "";
-                $query = "select fine from tbl_orario where giorno='$gs' and ora='$orafin' and valido";
-                // print inspref($query);
-              //  inserisci_log("TTTT Query $query \n", 3, "../lampschooldata/demo/00$nomefilelog.log");
-                $risorafin = mysqli_query($conn, inspref($query)) or die ("Errore:".inspref($query,false));
-                if ($recorafin = mysqli_fetch_array($risorafin))
-                {
-                    $orariofin = $recorafin['fine'];
-                }
-              //  inserisci_log("TTTT Orariofine $orariofin \n", 3, "../lampschooldata/demo/00$nomefilelog.log");
-                $query = "select max(ora) as numore from tbl_orario where giorno='$gs' and valido";
-                // print inspref($query);
-                $risoretot = mysqli_query($conn, inspref($query));
-                if ($recoratot = mysqli_fetch_array($risoretot))
-                {
-                    $oretot = $recoratot['numore'];
-                }
-                else
-                {
-                    $oretot = 0;
-                }
+  $gs = numdagiorno(giorno_settimana($data));
+  $orariofin = "";
+  $query = "select fine from tbl_orario where giorno='$gs' and ora='$orafin' and valido";
+  // print inspref($query);
+  //  inserisci_log("TTTT Query $query \n", 3, "../lampschooldata/demo/00$nomefilelog.log");
+  $risorafin = mysqli_query($conn, inspref($query)) or die ("Errore:".inspref($query,false));
+  if ($recorafin = mysqli_fetch_array($risorafin))
+  {
+  $orariofin = $recorafin['fine'];
+  }
+  //  inserisci_log("TTTT Orariofine $orariofin \n", 3, "../lampschooldata/demo/00$nomefilelog.log");
+  $query = "select max(ora) as numore from tbl_orario where giorno='$gs' and valido";
+  // print inspref($query);
+  $risoretot = mysqli_query($conn, inspref($query));
+  if ($recoratot = mysqli_fetch_array($risoretot))
+  {
+  $oretot = $recoratot['numore'];
+  }
+  else
+  {
+  $oretot = 0;
+  }
 
-                // print "Ingresso: ".$rec['oraentrata']. " Ora entrata classe: $orarioini <br>";
+  // print "Ingresso: ".$rec['oraentrata']. " Ora entrata classe: $orarioini <br>";
 
-                $uscitaclasse = $orariofin;
-                $uscitaalunno = $rec['orauscita'];
-                if ($uscitaclasse > $uscitaalunno)
-                {
-                    $differenza = date_diff(date_create($uscitaclasse), date_create($uscitaalunno));
+  $uscitaclasse = $orariofin;
+  $uscitaalunno = $rec['orauscita'];
+  if ($uscitaclasse > $uscitaalunno)
+  {
+  $differenza = date_diff(date_create($uscitaclasse), date_create($uscitaalunno));
 
-                    // inserisci_log("TTTT Differenza $differenza \n", 3, "../lampschooldata/demo/00$nomefilelog.log");
-                    // echo $differenza;
-                    $orediff = $differenza->format("%H");
-                    $mindiff = $differenza->format("%i");
-                    $minutidiff = $orediff * 60 + $mindiff;
-                 //   inserisci_log("TTTT Differenza $minutidiff \n", 3, "../lampschooldata/demo/00$nomefilelog.log");
-                    $oreuscita = round($minutidiff / 60);
-                    // print "$minutidiff -> $oreritardo <br>";
+  // inserisci_log("TTTT Differenza $differenza \n", 3, "../lampschooldata/demo/00$nomefilelog.log");
+  // echo $differenza;
+  $orediff = $differenza->format("%H");
+  $mindiff = $differenza->format("%i");
+  $minutidiff = $orediff * 60 + $mindiff;
+  //   inserisci_log("TTTT Differenza $minutidiff \n", 3, "../lampschooldata/demo/00$nomefilelog.log");
+  $oreuscita = round($minutidiff / 60);
+  // print "$minutidiff -> $oreritardo <br>";
 
-                    if ($oreuscita > 0)
-                    {
-                        if ($oreuscita < $oretot)
-                        {
-                            $query = "update tbl_usciteanticipate set numeroore=$oreuscita where iduscita=$iduscita";
-                            mysqli_query($conn, inspref($query));
+  if ($oreuscita > 0)
+  {
+  if ($oreuscita < $oretot)
+  {
+  $query = "update tbl_usciteanticipate set numeroore=$oreuscita where iduscita=$iduscita";
+  mysqli_query($conn, inspref($query));
 
-                        }
-                        //   else
-                        //   {
-                        //       print "<span style=\"color: red; \">Verifica uscita di " . $oreuscita . " ore per alunno " . decodifica_alunno($idalunno, $conn) . " (" . decodifica_classe(estrai_classe_alunno($idalunno, $conn), $conn) . ") in data " . data_italiana($data) . " </span><br>";
-                        //   }
+  }
+  //   else
+  //   {
+  //       print "<span style=\"color: red; \">Verifica uscita di " . $oreuscita . " ore per alunno " . decodifica_alunno($idalunno, $conn) . " (" . decodifica_classe(estrai_classe_alunno($idalunno, $conn), $conn) . ") in data " . data_italiana($data) . " </span><br>";
+  //   }
 
-                    }
-                }
+  }
+  }
 
-            }
-        }
-    }
+  }
+  }
+  }
 
-}
-*/
+  }
+ */
 
 /**
  * RICALCOLA LE ORE DI ASSENZA NELLE LEZIONI PER ASSENZE INSERITE
@@ -249,107 +243,105 @@ function ricalcola_assenze_lezioni_classe($conn, $idclasse, $data)
         inserisci_assenze_per_ritardi_uscite($conn, $alu, $data);
         //ricalcola_uscite($conn, $alu, $data);
         //ricalcola_ritardi($conn, $alu, $data);
-
     }
-
 }
 
 /*
-function oreassenzaold($inizio, $durata, $idalunno, $data, $con)
-{
+  function oreassenzaold($inizio, $durata, $idalunno, $data, $con)
+  {
 
 
-    // SE ASSENTE RESTITUISCO TUTTE LE ORE
-    $queryass = "select * from tbl_assenze where idalunno=$idalunno and data='$data'";
-    $risass = mysqli_query($con, inspref($queryass)) or die ("Errore nella query: " . mysqli_error($con));
-    if (mysqli_num_rows($risass) > 0)
-    {
-        return $durata;
-    }
-    else
-    {
-        $iniziolezione = orainizio($inizio, numero_giorno_settimana($data), $con);
-        $finelezione = orafine($inizio + $durata - 1, numero_giorno_settimana($data), $con);
+  // SE ASSENTE RESTITUISCO TUTTE LE ORE
+  $queryass = "select * from tbl_assenze where idalunno=$idalunno and data='$data'";
+  $risass = mysqli_query($con, inspref($queryass)) or die ("Errore nella query: " . mysqli_error($con));
+  if (mysqli_num_rows($risass) > 0)
+  {
+  return $durata;
+  }
+  else
+  {
+  $iniziolezione = orainizio($inizio, numero_giorno_settimana($data), $con);
+  $finelezione = orafine($inizio + $durata - 1, numero_giorno_settimana($data), $con);
 
 
-        // print "<br>tttt inizio:$iniziolezione  fine:$finelezione";
-        $oreassenzatot = 0;
-        // VERIFICO LE ORE IN BASE A RITARDI
+  // print "<br>tttt inizio:$iniziolezione  fine:$finelezione";
+  $oreassenzatot = 0;
+  // VERIFICO LE ORE IN BASE A RITARDI
 
-        $query = "SELECT * FROM tbl_ritardi WHERE idalunno=$idalunno and data='$data'";
+  $query = "SELECT * FROM tbl_ritardi WHERE idalunno=$idalunno and data='$data'";
 
-        $ris = mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query, false));
-        if ($rec = mysqli_fetch_array($ris))
-        {
+  $ris = mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query, false));
+  if ($rec = mysqli_fetch_array($ris))
+  {
 
-            $ingressoalunno = $rec['oraentrata'];
+  $ingressoalunno = $rec['oraentrata'];
 
-            if ($ingressoalunno > $iniziolezione)
-            {
-                $differenza = date_diff(date_create($ingressoalunno), date_create($iniziolezione));
+  if ($ingressoalunno > $iniziolezione)
+  {
+  $differenza = date_diff(date_create($ingressoalunno), date_create($iniziolezione));
 
-                // echo $differenza;
-                $orediff = $differenza->format("%H");
-                $mindiff = $differenza->format("%i");
-                $minutidiff = $orediff * 60 + $mindiff;
+  // echo $differenza;
+  $orediff = $differenza->format("%H");
+  $mindiff = $differenza->format("%i");
+  $minutidiff = $orediff * 60 + $mindiff;
 
-                $oreritardo = round($minutidiff / 60);
-                // print "$minutidiff -> $oreritardo <br>";
-               // print "<br>tttt ingresso:$ingressoalunno  $minutidiff oreritardo: $oreritardo";
-                if ($oreritardo >= $durata)
-                {
-                    return $durata;
-                }
-                else
-                {
-                    $oreassenzatot += $oreritardo;
-                }
-            }
-        }
+  $oreritardo = round($minutidiff / 60);
+  // print "$minutidiff -> $oreritardo <br>";
+  // print "<br>tttt ingresso:$ingressoalunno  $minutidiff oreritardo: $oreritardo";
+  if ($oreritardo >= $durata)
+  {
+  return $durata;
+  }
+  else
+  {
+  $oreassenzatot += $oreritardo;
+  }
+  }
+  }
 
-        // VERIFICO LE ORE IN BASE A USCITE ANTICIPATE
+  // VERIFICO LE ORE IN BASE A USCITE ANTICIPATE
 
-        $query = "SELECT * FROM tbl_usciteanticipate WHERE idalunno=$idalunno and data='$data'";
+  $query = "SELECT * FROM tbl_usciteanticipate WHERE idalunno=$idalunno and data='$data'";
 
-        $ris = mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query, false));
-        if ($rec = mysqli_fetch_array($ris))
-        {
-            // print "<br>tttt qui";
-            $uscitaalunno = $rec['orauscita'];
-            // print "tttt <br> uscita $uscitaalunno";
-            if ($uscitaalunno < $finelezione)
-            {
-                $differenza = date_diff(date_create($uscitaalunno), date_create($finelezione));
-                // echo $differenza;
-                $orediff = $differenza->format("%H");
+  $ris = mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query, false));
+  if ($rec = mysqli_fetch_array($ris))
+  {
+  // print "<br>tttt qui";
+  $uscitaalunno = $rec['orauscita'];
+  // print "tttt <br> uscita $uscitaalunno";
+  if ($uscitaalunno < $finelezione)
+  {
+  $differenza = date_diff(date_create($uscitaalunno), date_create($finelezione));
+  // echo $differenza;
+  $orediff = $differenza->format("%H");
 
 
-                $mindiff = $differenza->format("%i");
-                $minutidiff = $orediff * 60 + $mindiff;
+  $mindiff = $differenza->format("%i");
+  $minutidiff = $orediff * 60 + $mindiff;
 
-                $oreanticipo = round($minutidiff / 60);
-                // print "$minutidiff -> $oreritardo <br>";
-               // print "<br>tttt uscita:$uscitaalunno  $minutidiff oreritardo: $oreanticipo";
-                if ($oreanticipo >= $durata)
-                {
-                    return $durata;
-                }
-                else
-                {
-                    $oreassenzatot += $oreanticipo;
-                }
-            }
-        }
-        return $oreassenzatot;
-    }
-}
-*/
+  $oreanticipo = round($minutidiff / 60);
+  // print "$minutidiff -> $oreritardo <br>";
+  // print "<br>tttt uscita:$uscitaalunno  $minutidiff oreritardo: $oreanticipo";
+  if ($oreanticipo >= $durata)
+  {
+  return $durata;
+  }
+  else
+  {
+  $oreassenzatot += $oreanticipo;
+  }
+  }
+  }
+  return $oreassenzatot;
+  }
+  }
+ */
 
 function oreassenza($inizio, $durata, $idalunno, $data, $con)
 {
     // echo "$inizio $durata";
     $queryass = "select * from tbl_assenze where idalunno='$idalunno' and data='$data'";
-    $risass = mysqli_query($con, inspref($queryass)) or die ("Errore nella query: " . mysqli_error($con));
+    $risass = mysqli_query($con, inspref($queryass)) or die("Errore nella query: " . mysqli_error($con));
     if (mysqli_num_rows($risass) > 0)
     {
         return $durata;
@@ -381,10 +373,10 @@ function oreassenza($inizio, $durata, $idalunno, $data, $con)
 
     // CALCOLO LE ORE DI ASSENZA PER LA LEZIONE
     sort($eventi);
-    $numeroeventi=count($eventi);
+    $numeroeventi = count($eventi);
     // print "Numero eventi $numeroeventi";
-     // foreach ($eventi as $evento)
-     //    print "Evento $evento <br>";
+    // foreach ($eventi as $evento)
+    //    print "Evento $evento <br>";
     $iniziogiornata = orainizio(1, numero_giorno_settimana($data), $con);
     $query = "SELECT fine FROM tbl_orario WHERE giorno=" . numero_giorno_settimana($data) . " AND ora=
             (SELECT max(ora) FROM tbl_orario WHERE giorno=" . numero_giorno_settimana($data) . " AND valido)
@@ -405,8 +397,7 @@ function oreassenza($inizio, $durata, $idalunno, $data, $con)
     if (substr($eventi[0], 5, 1) == 'R')
     {
         $pres_ass = false;
-    }
-    else
+    } else
     {
         $pres_ass = true;
     }
@@ -422,8 +413,7 @@ function oreassenza($inizio, $durata, $idalunno, $data, $con)
                 {
                     $pres_ass = false;
                 }
-            }
-            else
+            } else
             {
                 if (substr($eventi[$puntaevento], 5, 1) == 'R')
                 {
@@ -431,7 +421,7 @@ function oreassenza($inizio, $durata, $idalunno, $data, $con)
                 }
             }
 
-            if ($puntaevento<($numeroeventi-1))
+            if ($puntaevento < ($numeroeventi - 1))
                 $puntaevento++;
             $presenzaminutigiornata[date_format($puntaminuto, "H:i")] = $pres_ass;
         }
@@ -439,9 +429,8 @@ function oreassenza($inizio, $durata, $idalunno, $data, $con)
         {
             $presenzaminutigiornata[date_format($puntaminuto, "H:i")] = $pres_ass;
         }
-       //  print date_format($puntaminuto,"H:i")." ".$pres_ass. " <br>";
+        //  print date_format($puntaminuto,"H:i")." ".$pres_ass. " <br>";
         date_add($puntaminuto, date_interval_create_from_date_string("1 minutes"));
-
     }
 
 
@@ -471,10 +460,7 @@ function oreassenza($inizio, $durata, $idalunno, $data, $con)
     return $oreassarrot;
     // print " Ore ass:$oreassarrot";
     // print " Minuti assenza $numminutiassenza <br>";
-
-
 }
-
 
 /**
  *
@@ -484,7 +470,7 @@ function oreassenza($inizio, $durata, $idalunno, $data, $con)
  * @param object $conn Connessione al db
  * @return string
  */
-function calcola_ore_assenza($idalunno, $datainizio,$datafine,$conn)
+function calcola_ore_assenza($idalunno, $datainizio, $datafine, $conn)
 {
 
 
@@ -493,13 +479,11 @@ function calcola_ore_assenza($idalunno, $datainizio,$datafine,$conn)
     if ($datainizio != "")
     {
         $seledata = $seledata . " and data >= '" . data_to_db($datainizio) . "' ";
-
     }
 
     if ($datafine != "")
     {
         $seledata = $seledata . " and data <= '" . data_to_db($datafine) . "' ";
-
     }
 
     $arrayoreassenza = array();
@@ -522,10 +506,9 @@ function calcola_ore_assenza($idalunno, $datainizio,$datafine,$conn)
     $oreassenza = count($arrayoreassenza);
 
     return $oreassenza;
-
 }
 
-function calcola_ore_deroga($idalunno, $datainizio,$datafine,$conn)
+function calcola_ore_deroga($idalunno, $datainizio, $datafine, $conn)
 {
 
     $seledata = "";
@@ -533,13 +516,11 @@ function calcola_ore_deroga($idalunno, $datainizio,$datafine,$conn)
     if ($datainizio != "")
     {
         $seledata = $seledata . " and data >= '" . data_to_db($datainizio) . "' ";
-
     }
 
     if ($datafine != "")
     {
         $seledata = $seledata . " and data <= '" . data_to_db($datafine) . "' ";
-
     }
 
     $arrayoreassenza = array();
@@ -562,11 +543,9 @@ function calcola_ore_deroga($idalunno, $datainizio,$datafine,$conn)
     $oreassenzader = count($arrayoreassenza);
 
     return $oreassenzader;
-
 }
 
-
-function calcola_ore_deroga_oraria($idalunno, $datainizio,$datafine,$conn)
+function calcola_ore_deroga_oraria($idalunno, $datainizio, $datafine, $conn)
 {
 
     $seledata = "";
@@ -574,39 +553,35 @@ function calcola_ore_deroga_oraria($idalunno, $datainizio,$datafine,$conn)
     if ($datainizio != "")
     {
         $seledata = $seledata . " and data >= '" . data_to_db($datainizio) . "' ";
-
     }
 
     if ($datafine != "")
     {
         $seledata = $seledata . " and data <= '" . data_to_db($datafine) . "' ";
-
     }
 
     $oreassenzaperm = 0;
     $query = "select data, numeroore from tbl_deroghe where idalunno='$idalunno' and numeroore <> 0 $seledata";
-    $risder = mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query, false));
+    $risder = mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query, false));
     while ($recder = mysqli_fetch_array($risder))
     {
         $numorederoga = $recder['numeroore'];
         $data = data_italiana($recder['data']);
 
-        $numoreassenza = calcola_ore_assenza($idalunno,$data,$data,$conn);
+        $numoreassenza = calcola_ore_assenza($idalunno, $data, $data, $conn);
         if ($numoreassenza >= $numorederoga)
         {
             $oreassenzaperm += $numorederoga;
-        }
-        else
+        } else
         {
             $oreassenzaperm += $numoreassenza;
         }
     }
 
     return $oreassenzaperm;
-
 }
 
-function calcola_ritardi_brevi($idalunno, $con, $ritardobreve, $rangedate='')
+function calcola_ritardi_brevi($idalunno, $con, $ritardobreve, $rangedate = '')
 {
     $numritardibrevi = 0;
 
@@ -639,58 +614,59 @@ function calcola_ritardi_brevi($idalunno, $con, $ritardobreve, $rangedate='')
 }
 
 function esiste_assenza_alunno($idalunno, $data, $con)
-{    
+{
     $query = "select * from tbl_assenze where idalunno='$idalunno' and data='$data'";
     $ris = mysqli_query($con, inspref($query));
-    if (mysqli_num_rows($ris)>0)
+    if (mysqli_num_rows($ris) > 0)
     {
         return true;
     }
-   
+
     return false;
 }
 
 function inserisciAmmonizioneGiustRitardi($idalunno, $iddocente, $datalimiteinferiore, $con)
 {
+    
     $dataammoniz = date('Y-m-d');
     $query = "SELECT idritardo,data FROM tbl_ritardi WHERE (isnull(giustifica) or giustifica=0) AND data< '$datalimiteinferiore'
             AND dataammonizione IS NULL AND idalunno=$idalunno ORDER BY data";
-        $risass = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
-        $elenco = "";
-        while ($recass = mysqli_fetch_array($risass))
-        {
-            $elenco .= substr(data_italiana($recass['data']), 0, 5) . ", ";
-        }
+    $risass = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+    $elenco = "";
+    while ($recass = mysqli_fetch_array($risass))
+    {
+        $elenco .= substr(data_italiana($recass['data']), 0, 5) . ", ";
+    }
 
-        $query = "UPDATE tbl_ritardi SET dataammonizione='" . date('Y.-m-d') . "' WHERE (isnull(giustifica) or giustifica=0) AND data< '$datalimiteinferiore'
+    $query = "UPDATE tbl_ritardi SET dataammonizione='" . date('Y.-m-d') . "' WHERE (isnull(giustifica) or giustifica=0) AND data< '$datalimiteinferiore'
             AND dataammonizione IS NULL AND idalunno=$idalunno";
-        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
-        $elenco = substr($elenco, 0, strlen($elenco) - 1);
-        if (strlen($elenco) > 7)
-            $elenco = substr($elenco, 0, strlen($elenco) - 9) . " e " . substr($elenco, strlen($elenco) - 7, 6);
+    mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+    $elenco = substr($elenco, 0, strlen($elenco) - 1);
+    if (strlen($elenco) > 7)
+        $elenco = substr($elenco, 0, strlen($elenco) - 9) . " e " . substr($elenco, strlen($elenco) - 7, 6);
 
-        $idclasse = estrai_classe_alunno($idalunno, $con);
-        //$iddocente = $_SESSION['idutente'];
-        if (strlen($elenco) > 7)
-            $numero = "ai ritardi";
-        else
-            $numero = "al ritardo";
-        if ($sesso == 'F')
-        {
-            $oa = "a";
-            $testo = elimina_apici("Con riferimento $numero del $elenco l'alunna $datialunno non ha portato la giustifica nei termini consentiti.");
-        } else
-        {
-            $oa = "o";
-            $testo = elimina_apici("Con riferimento $numero del $elenco l'alunno $datialunno non ha portato la giustifica nei termini consentiti.");
-        }
-        $provvedimenti = str_replace("[oa]",$oa,elimina_apici(estrai_testo_modificato("ammonizmancgiust", "[alunno]", $datialunno, $con)));
-        $query = "INSERT INTO tbl_notealunno(idclasse,data,iddocente,testo,provvedimenti) values('$idclasse','$dataammoniz','$iddocente','$testo','$provvedimenti')";
-        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
-        $numnota = mysqli_insert_id($con);
-        $query = "INSERT INTO tbl_noteindalu(idnotaalunno,idalunno) values('$numnota','$idalunno')";
-        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
-    
+    $idclasse = estrai_classe_alunno($idalunno, $con);
+    $sesso = estrai_sesso_alunno($idalunno, $con);
+    //$iddocente = $_SESSION['idutente'];
+    if (strlen($elenco) > 7)
+        $numero = "ai ritardi";
+    else
+        $numero = "al ritardo";
+    if ($sesso == 'F')
+    {
+        $oa = "a";
+        $testo = elimina_apici("Con riferimento $numero del $elenco l'alunna $datialunno non ha portato la giustifica nei termini consentiti.");
+    } else
+    {
+        $oa = "o";
+        $testo = elimina_apici("Con riferimento $numero del $elenco l'alunno $datialunno non ha portato la giustifica nei termini consentiti.");
+    }
+    $provvedimenti = str_replace("[oa]", $oa, elimina_apici(estrai_testo_modificato("ammonizmancgiust", "[alunno]", $datialunno, $con)));
+    $query = "INSERT INTO tbl_notealunno(idclasse,data,iddocente,testo,provvedimenti) values('$idclasse','$dataammoniz','$iddocente','$testo','$provvedimenti')";
+    mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+    $numnota = mysqli_insert_id($con);
+    $query = "INSERT INTO tbl_noteindalu(idnotaalunno,idalunno) values('$numnota','$idalunno')";
+    mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
 }
 
 function inserisciAmmonizioneGiustAssenze($idalunno, $iddocente, $datalimiteinferiore, $con)
@@ -698,41 +674,40 @@ function inserisciAmmonizioneGiustAssenze($idalunno, $iddocente, $datalimiteinfe
     $dataammoniz = date('Y-m-d');
     $query = "SELECT idassenza,data FROM tbl_assenze WHERE (isnull(giustifica) or giustifica=0) AND data< '$datalimiteinferiore'
             AND dataammonizione IS NULL AND idalunno=$idalunno ORDER BY data";
-        $risass = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+    $risass = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
 
-        $elenco = "";
-        while ($recass = mysqli_fetch_array($risass))
-        {
-            $elenco .= substr(data_italiana($recass['data']), 0, 5) . ", ";
-        }
-        print $elenco;
-        if (strlen($elenco) > 7)
-            $elenco = substr($elenco, 0, strlen($elenco) - 9) . " e " . substr($elenco, strlen($elenco) - 7, 6);
-        $query = "UPDATE tbl_assenze SET dataammonizione='" . date('Y-m-d') . "' WHERE (isnull(giustifica) or giustifica=0) AND data< '$datalimiteinferiore'
+    $elenco = "";
+    while ($recass = mysqli_fetch_array($risass))
+    {
+        $elenco .= substr(data_italiana($recass['data']), 0, 5) . ", ";
+    }
+    print $elenco;
+    if (strlen($elenco) > 7)
+        $elenco = substr($elenco, 0, strlen($elenco) - 9) . " e " . substr($elenco, strlen($elenco) - 7, 6);
+    $query = "UPDATE tbl_assenze SET dataammonizione='" . date('Y-m-d') . "' WHERE (isnull(giustifica) or giustifica=0) AND data< '$datalimiteinferiore'
             AND dataammonizione IS NULL AND idalunno=$idalunno";
-        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
-        $elenco = substr($elenco, 0, strlen($elenco) - 1);
-        $idclasse = estrai_classe_alunno($idalunno, $con);
-        //$iddocente = $_SESSION['idutente'];
-        if (strlen($elenco) > 7)
-            $numero = "alle assenze";
-        else
-            $numero = "all'assenza";
+    mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+    $elenco = substr($elenco, 0, strlen($elenco) - 1);
+    $idclasse = estrai_classe_alunno($idalunno, $con);
+    //$iddocente = $_SESSION['idutente'];
+    if (strlen($elenco) > 7)
+        $numero = "alle assenze";
+    else
+        $numero = "all'assenza";
 
-        if ($sesso == 'F')
-        {
-            $testo = elimina_apici("Con riferimento $numero del $elenco l'alunna $datialunno non ha portato la giustifica nei termini consentiti.");
-            $oa = "a";
-        } else
-        {
-            $oa = "o";
-            $testo = elimina_apici("Con riferimento $numero del $elenco l'alunno $datialunno non ha portato la giustifica nei termini consentiti.");
-        }
-        $provvedimenti = str_replace("[oa]",$oa,elimina_apici(estrai_testo_modificato("ammonizmancgiust", "[alunno]", $datialunno, $con)));
-        $query = "INSERT INTO tbl_notealunno(idclasse,data,iddocente,testo,provvedimenti) values('$idclasse','$dataammoniz','$iddocente','$testo','$provvedimenti')";
-        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
-        $numnota = mysqli_insert_id($con);
-        $query = "INSERT INTO tbl_noteindalu(idnotaalunno,idalunno) values('$numnota','$idalunno')";
-        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+    if ($sesso == 'F')
+    {
+        $testo = elimina_apici("Con riferimento $numero del $elenco l'alunna $datialunno non ha portato la giustifica nei termini consentiti.");
+        $oa = "a";
+    } else
+    {
+        $oa = "o";
+        $testo = elimina_apici("Con riferimento $numero del $elenco l'alunno $datialunno non ha portato la giustifica nei termini consentiti.");
+    }
+    $provvedimenti = str_replace("[oa]", $oa, elimina_apici(estrai_testo_modificato("ammonizmancgiust", "[alunno]", $datialunno, $con)));
+    $query = "INSERT INTO tbl_notealunno(idclasse,data,iddocente,testo,provvedimenti) values('$idclasse','$dataammoniz','$iddocente','$testo','$provvedimenti')";
+    mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+    $numnota = mysqli_insert_id($con);
+    $query = "INSERT INTO tbl_noteindalu(idnotaalunno,idalunno) values('$numnota','$idalunno')";
+    mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
 }
-
