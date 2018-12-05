@@ -756,6 +756,7 @@ if ($cambiamentopassword)
             menu_item("../assemblee/contver.php", 'VERIFICA VERBALI');
             menu_item("../assemblee/visionaverbali.php", 'SITUAZIONE ASSEMBLEE');
             menu_item("../assemblee/reportassemblee.php", 'RAPPORTO PER DIRIGENTE');
+            menu_item("../classi/CRUDrappresentanti.php", 'GESTIONE RAPPRESENTANTI');
             menu_title_end();
         }
         menu_title_begin('OSSERVAZIONI E DIARIO DI CLASSE');

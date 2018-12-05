@@ -60,10 +60,12 @@ if ($daticrud['abilitazionecancellazione'] == 1 | $daticrud['abilitazionemodific
     print "<td>Azioni</td>";
 print "</tr>";
 
+$dativis=array();
 
 while ($rec = mysqli_fetch_array($ris))
 {
     //  print "Numero elementi ".count($daticrud['fk']);
+    $rigavis=array();
     print "<tr>";
     // 
     foreach ($daticrud['campi'] as $c)
@@ -132,8 +134,11 @@ while ($rec = mysqli_fetch_array($ris))
                 }
                 
             }
-            print "<td>$strvis</td>";
+            //
+             print "<td>$strvis</td>";
+            $rigavis[]=$strvis;
         }
+        $dativis[]=$rigavis[];
     }
 
 
