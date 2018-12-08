@@ -106,14 +106,13 @@ $iddocente = $_SESSION['idutente'];
 if ($tipoutente!='S' && $tipoutente != 'P')
     $query = "select distinct tbl_classi.idclasse,anno,sezione,specializzazione
         from tbl_classi,tbl_cattnosupp
-        where tbl_classi.idclasse=tbl_cattnosupp.idclasse
-        and tbl_cattnosupp.iddocente=$iddocente
+        where tbl_classi.idcoordinatore=$iddocente
         order by specializzazione, sezione, anno";
 else
     $query = "select idclasse,anno,sezione,specializzazione
         from tbl_classi
         order by specializzazione, sezione, anno";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -222,7 +221,7 @@ if ($idclasse != "")
         print "<td><input type='text' maxlength='255' size='30' name='descrizione'></td>";
         print "<td><select name='idtipodocumento'>";
         $query = "SELECT idtipodocumento,descrizione FROM tbl_tipidocumenti";
-        $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+        $ris = eseguiQuery($con, $query);
         while ($rec = mysqli_fetch_array($ris))
         {
 

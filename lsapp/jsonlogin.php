@@ -53,18 +53,21 @@ if (!$val = mysqli_fetch_array($result))  // ALUNNO NON TROVATO
     die("Alunno non trovato!");
 } else
 {
-    // if (time() - $val['ultimoaccessoapp'] > 60) 
-    if (true)// RICHIESTA OK
+    if (((time() - $val['ultimoaccessoapp']) > 60) | ($sorgente != 2))
+    //if (true)// RICHIESTA OK
     {
+        inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§TIME ".time(). " ULTIMO ".$val['ultimoaccessoapp'], $nomefilelog . "ap", $suff);
+        
         $idutente = $val['idutente'];
         if ($idutente > 2100000000)
             $alunno = $idutente - 2100000000;
         else
             $alunno = $idutente;
         // AGGIORNO ULTIMO ACCESSO
-        //$sql = "UPDATE tbl_utenti SET ultimoaccessoapp=" . time() . " where idutente=$idutente";
-        //mysqli_query($con, inspref($sql)) or die(inspref($sql, false));
-
+        $sql = "UPDATE tbl_utenti SET ultimoaccessoapp=" . time() . " where idutente=$idutente";
+        mysqli_query($con, inspref($sql)) or die(inspref($sql, false));
+        inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Aggiornato ultimo accesso ", $nomefilelog . "ap", $suff);
+        
         $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . $alunno . "'";
         $ris2 = mysqli_query($con, inspref($sql)) or die(inspref($sql, false));
 
@@ -77,9 +80,9 @@ if (!$val = mysqli_fetch_array($result))  // ALUNNO NON TROVATO
         }
     } else   // RICHIESTA DEGLI STESSI DATI EFFETTUATA PRIMA DI UN MINUTO
     {
-        // inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Tempo basso ", $nomefilelog . "ap", $suff);
-        sleep(10);
-        // inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Sbloccato ", $nomefilelog . "ap", $suff);
+        inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Tempo basso ", $nomefilelog . "ap", $suff);
+        sleep(60);
+        inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Sbloccato ", $nomefilelog . "ap", $suff);
         die("Tempo basso");
     }
 }
@@ -87,7 +90,7 @@ if (!$val = mysqli_fetch_array($result))  // ALUNNO NON TROVATO
 session_start();
 $_SESSION['idutente'] = $idutente;
 
-// inserisci_log($utente . "§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Accesso da App Android", $nomefilelog . "ap", $suff);
+inserisci_log($utente . "§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Accesso da App Android", $nomefilelog . "ap", $suff);
 
 $q = "select data,tipo,voto,giudizio,denominazione from tbl_valutazioniintermedie,tbl_materie where idalunno='$alunno' and tbl_valutazioniintermedie.idmateria=tbl_materie.idmateria order by data desc, denominazione";
 

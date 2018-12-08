@@ -32,8 +32,6 @@ $strconcat = "";
 // Campi senza chiave esterna
 
 
-$datidavisualizzare = array();
-
 foreach ($daticrud['campi'] as $c)
     if ($c[1] != 0)
         $strcampi .= $c[0] . ", ";
@@ -60,20 +58,22 @@ if ($daticrud['abilitazionecancellazione'] == 1 | $daticrud['abilitazionemodific
     print "<td>Azioni</td>";
 print "</tr>";
 
-$dativis=array();
+$dativis = array();
 
 while ($rec = mysqli_fetch_array($ris))
 {
     //  print "Numero elementi ".count($daticrud['fk']);
-    $rigavis=array();
-    print "<tr>";
+    $datirigavis = array();
+    $dati = array();
     // 
     foreach ($daticrud['campi'] as $c)
     {
-        $queryesterna="";
-        $numeroalias=0;
+        $queryesterna = "";
+        $numeroalias = 0;
+
         if ($c[1] != 0)   // Campo da visualizzare nell'elenco
         {
+
             if ($c[2] == '')  // Campo in tabella principale
             {
                 if ($c[8] == 'boolean')
@@ -83,11 +83,11 @@ while ($rec = mysqli_fetch_array($ris))
             }
             else              // Campo in tabella esterna
             {
-                
+
                 $strcampi = "";
                 $strvis = "";
                 $elcampitabesterna = explode(",", $c[4]);
-                
+
                 if ($c[14] != '')
                 {
                     $elcampialias = explode(",", $c[14]);
@@ -98,7 +98,7 @@ while ($rec = mysqli_fetch_array($ris))
 
                 if ($numeroalias > 0 & ($numerocampi != $numeroalias))
                     die("Errore nel numero di campi alias!");
-                
+
                 if ($numeroalias == 0)
                     foreach ($elcampitabesterna as $ctb)
                         $strcampi .= $ctb . ", ";
@@ -115,10 +115,10 @@ while ($rec = mysqli_fetch_array($ris))
                 }
 
                 $strcampi = substr($strcampi, 0, strlen($strcampi) - 2);
-                $queryesterna = "select ".$strcampi . " from " . $c[2] . " where true and " . $c[3] . " = '" . $rec[$c[0]] . "'";
+                $queryesterna = "select " . $strcampi . " from " . $c[2] . " where true and " . $c[3] . " = '" . $rec[$c[0]] . "'";
                 $risest = mysqli_query($con, $queryesterna) or die("Errore: " . $queryesterna);
                 $recest = mysqli_fetch_array($risest);
-                
+
                 if ($numeroalias > 0)
                 {
                     foreach ($elcampialias as $atb)
@@ -132,13 +132,30 @@ while ($rec = mysqli_fetch_array($ris))
                         $strvis .= $recest[$ctb] . " ";
                     }
                 }
-                
             }
             //
-             print "<td>$strvis</td>";
-            $rigavis[]=$strvis;
+            //print "<td>$strvis</td>";
+            $dati[] = $strvis;
         }
-        $dativis[]=$rigavis[];
+        $abilcanc = controlloCanc($con, $daticrud['vincolicanc'], $rec[$daticrud['campochiave']]);
+        $id = $rec[$daticrud['campochiave']];
+    }
+    $datirigavis['dati'] = $dati;
+    $datirigavis['abilcanc'] = $abilcanc;
+    $datirigavis['id'] = $id;
+    $dativis[] = $datirigavis;
+}
+
+foreach ($dativis as $riga)
+{
+
+    print "<tr>";
+    // 
+    $rigadati = $riga['dati'];
+    foreach ($rigadati as $d)
+    {
+
+        print "<td>$d</td>";
     }
 
 
@@ -147,13 +164,13 @@ while ($rec = mysqli_fetch_array($ris))
         print "<td>";
 
         if ($daticrud['abilitazionemodifica'] == 1)
-            print "<a href='CRUDmodifica.php?id=" . $rec[$daticrud['campochiave']] . "'><img src='../immagini/modifica.png'></a>&nbsp;";
+            print "<a href='CRUDmodifica.php?id=" . $riga['id'] . "'><img src='../immagini/modifica.png'></a>&nbsp;";
         if ($daticrud['abilitazionecancellazione'] == 1)
-            if (controlloCanc($con, $daticrud['vincolicanc'], $rec[$daticrud['campochiave']]))
+            if ($riga['abilcanc'])
                 if ($daticrud['confermacancellazione'][0] != 1)
-                    print "<a href='CRUDcancellazione.php?id=" . $rec[$daticrud['campochiave']] . "'><img src='../immagini/delete.png'></a>";
+                    print "<a href='CRUDcancellazione.php?id=" . $riga['id'] . "'><img src='../immagini/delete.png'></a>";
                 else
-                    print "<a href='CRUDconfcanc.php?id=" . $rec[$daticrud['campochiave']] . "'><img src='../immagini/delete.png'></a>";
+                    print "<a href='CRUDconfcanc.php?id=" . $riga['id'] . "'><img src='../immagini/delete.png'></a>";
         print "</td>";
     }
     print "</tr>";

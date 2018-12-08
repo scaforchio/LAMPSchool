@@ -403,21 +403,21 @@ function daily_cron($suffisso, $con, $lavori)
     if (substr($lavori, 0, 1) == '1')  //Pulizia buffer
     {
         pulisci_buffer();
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Pulizia buffer", $nomefilelog,$suffisso);
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Pulizia buffer", $nomefilelog, $suffisso);
     }
 
     if (substr($lavori, 1, 1) == '1')  //Cancellazione valutazioni anomale
     {
         $query = "DELETE FROM tbl_valutazioniintermedie WHERE voto>99";
         mysqli_query($con, inspref($query)) or die("Errore " . inspref($query));
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cancellazione voti anomali", $nomefilelog,$suffisso);
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cancellazione voti anomali", $nomefilelog, $suffisso);
     }
 
     if (substr($lavori, 2, 1) == '1')  //Invio SMS assenti
     {
 
 
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§INVIO SMS ASSENZE", $nomefilelog,$suffisso);
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§INVIO SMS ASSENZE", $nomefilelog, $suffisso);
 // preparazione variabili
         $dataoggi = date("Y-m-d");
 
@@ -426,7 +426,7 @@ function daily_cron($suffisso, $con, $lavori)
         $ris = mysqli_query($con, inspref($query));
         if (mysqli_num_rows($ris) > 0)
         {
-            inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Invio SMS assenze sospeso per la giornata odierna", $nomefilelog,$suffisso);
+            inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Invio SMS assenze sospeso per la giornata odierna", $nomefilelog, $suffisso);
         } else
         {
             $querytot = "SELECT count(*) as numalunni FROM tbl_alunni WHERE idclasse<>0";
@@ -506,7 +506,7 @@ function daily_cron($suffisso, $con, $lavori)
                     }
                 } else
                 {
-                    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Invio automatico SMS assenze non effettuato per eccessivo numero di assenze!", $nomefilelog,$suffisso);
+                    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Invio automatico SMS assenze non effettuato per eccessivo numero di assenze!", $nomefilelog, $suffisso);
                 }
             }
         }
@@ -519,13 +519,13 @@ function daily_cron($suffisso, $con, $lavori)
                   OR
                   idalunno not in (select idalunno from tbl_alunni)";
         mysqli_query($con, inspref($query)) or die("Errore " . inspref($query));
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cancellazione alunni non più presenti da gruppi", $nomefilelog,$suffisso);
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cancellazione alunni non più presenti da gruppi", $nomefilelog, $suffisso);
     }
     if (substr($lavori, 4, 1) == '1')  //Invio mail presenza nuove richieste ferie
     {
 
 
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§INVIO MAIL RICHIESTE FERIE", $nomefilelog,$suffisso);
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§INVIO MAIL RICHIESTE FERIE", $nomefilelog, $suffisso);
 
         $query = "SELECT * FROM tbl_richiesteferie WHERE isnull(concessione)";
         $risferie = mysqli_query($con, inspref($query));
@@ -552,13 +552,13 @@ function daily_cron($suffisso, $con, $lavori)
     }
     if (substr($lavori, 5, 1) == '1')  //Inserimento ammonizioni per mancata giustifica
     {
-        $maxritardogiust=$_SESSION['maxritardogiust'];
-        
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§AMMONIZIONI PER MANCANZA GIUSTIFICA", $nomefilelog,$suffisso);
+        $maxritardogiust = $_SESSION['maxritardogiust'];
+
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§AMMONIZIONI PER MANCANZA GIUSTIFICA", $nomefilelog, $suffisso);
         $datalimiteinferiore = giorno_lezione_passata(date('Y-m-d'), $maxritardogiust, $con);
-        $codicevicario=$_SESSION['codicevicario'];
-        $codicevicario=1000000000+$codicevicario;
-        
+        $codicevicario = $_SESSION['codicevicario'];
+        $codicevicario = 1000000000 + $codicevicario;
+
         if (esiste_lezione(date('Y-m-d'), $con))
         {
             $query = "SELECT DISTINCT idalunno FROM tbl_ritardi
@@ -566,11 +566,11 @@ function daily_cron($suffisso, $con, $lavori)
             AND isnull(dataammonizione)    
             AND idalunno NOT IN (select idalunno from tbl_assenze where data='" . date('Y-m-d') . "')
             ";
-            
+
             $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query, false));
             while ($rec = mysqli_fetch_array($ris))
             {
-                inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§ASSENZE ALUNNO ".$rec['idalunno'], $nomefilelog,$suffisso);
+                inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§ASSENZE ALUNNO " . $rec['idalunno'], $nomefilelog, $suffisso);
                 inserisciAmmonizioneGiustRitardi($rec['idalunno'], $codicevicario, $datalimiteinferiore, $con);
             }
 
@@ -580,11 +580,11 @@ function daily_cron($suffisso, $con, $lavori)
             AND data< '$datalimiteinferiore'
             AND idalunno NOT IN (select idalunno from tbl_assenze where data>='$datalimiteinferiore')
             ";
-            
+
             $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query, false));
             while ($rec = mysqli_fetch_array($ris))
             {
-                inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§RITARDI ALUNNO ".$rec['idalunno'], $nomefilelog,$suffisso);
+                inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§RITARDI ALUNNO " . $rec['idalunno'], $nomefilelog, $suffisso);
                 inserisciAmmonizioneGiustAssenze($rec['idalunno'], $codicevicario, $datalimiteinferiore, $con);
             }
         }
@@ -664,4 +664,13 @@ function ordina_array_su_campo_sottoarray(&$arr, $nc)
                 $arr[$i] = $arr[$j];
                 $arr[$j] = $t;
             }
+}
+
+function eseguiQuery($con, $query, $inspref = true)
+{
+    if ($inspref)
+        $ris = mysqli_query($con, inspref($query)) or die("<br>Errore: " . mysqli_error($con) . " <br> Query: " . inspref($query, false));
+    else
+        $ris = mysqli_query($con, $query) or die("<br>Errore: " . mysqli_error($con) . " <br> Query: " . $query);
+    return $ris;
 }
