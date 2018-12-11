@@ -70,7 +70,7 @@ $query="select tbl_classi.idclasse, anno, sezione, specializzazione,
         and idtipodocumento=1000000003
         order by anno, sezione, specializzazione, denominazione,cognome,nome";
 // print $query;          
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
     

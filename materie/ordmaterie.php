@@ -49,7 +49,7 @@ if(!$con)
 //Esecuzione query
 $query="SELECT * FROM tbl_materie WHERE idmateria>0 ORDER BY progrpag,denominazione";  // 0=supplenza, -1=comportamento
 
-if (!($ris=mysqli_query($con,inspref($query))))
+if (!($ris=eseguiQuery($con,$query)))
 {
     print "Query fallita";
 }

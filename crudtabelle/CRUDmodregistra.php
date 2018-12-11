@@ -61,7 +61,7 @@ print $queryupd;
 
 
  
-mysqli_query($con,$queryupd) or die("Errore: ".$queryupd);
+eseguiQuery($con,$queryupd);
 inserisci_log($_SESSION['userid'] . "§" . date('m-d|H:i:s') . "§" . $_SESSION['indirizzoip'] . "§" . $queryupd . "");
    
 header("location: ../crudtabelle/CRUD.php?suffisso=".$_SESSION['suffisso']);

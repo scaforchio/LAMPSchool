@@ -42,11 +42,11 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
   
  
  $query="select idclasse,idmateria from tbl_cattnosupp where idcattedra=$cattedra";
- $ris=mysqli_query($con,inspref($query)) or die(mysqli_error($con));
+ $ris=eseguiQuery($con,$query);
  $val=mysqli_fetch_array($ris);
  $idmateria=$val['idmateria'];
  $idclasse=$val['idclasse'];
- //$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+ //$ris=eseguiQuery($con,$query);
 
  for ($no=1;$no<=20;$no++)
  {
@@ -59,27 +59,27 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 		  if ($posins!=0)
 		  {    
 		     $query="update tbl_competdoc set numeroordine = numeroordine+1 where idclasse=$idclasse and idmateria=$idmateria and numeroordine>=$posins";
-		     $risupd=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+		     $risupd=eseguiQuery($con,$query); 
 		     $query="insert into tbl_competdoc(idclasse, idmateria, numeroordine, sintcomp, competenza) values($idclasse,$idmateria,$posins,'$sintcomp', '$competenza')";
-           $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+           $ris2=eseguiQuery($con,$query); 
 		  }
 		  else
 		  {   
 		     $query="insert into tbl_competdoc(idclasse, idmateria, numeroordine, sintcomp, competenza) values($idclasse,$idmateria,$no,'$sintcomp', '$competenza')";
-           $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+           $ris2=eseguiQuery($con,$query); 
 	     }
     }
     if ($sintcomp!="" & $idcompetenza!="")
     {    
 		  
 		  $query="update tbl_competdoc set sintcomp='$sintcomp',competenza='$competenza' where idcompetenza=$idcompetenza";
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+        $ris2=eseguiQuery($con,$query); 
     }
     if ($sintcomp=="" & $idcompetenza!="")
     {    
 		  
 		  $query="delete from tbl_competdoc where idcompetenza=$idcompetenza";
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+        $ris2=eseguiQuery($con,$query); 
     }
  }
     

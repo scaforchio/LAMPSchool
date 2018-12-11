@@ -24,7 +24,7 @@ function scrutinio_completo($idclasse, $periodo, $numvalutazioni, $conn)
 	                or (votoorale>0 and votoorale<21)
 	                or (votopratico>0 and votopratico<21)
 	                or (votounico>0 and votounico<21))";
-    $risalu = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $risalu = eseguiQuery($conn,$query);
     $recalu = mysqli_fetch_array($risalu);
     $numvoti = $recalu['numvotifin'];
 
@@ -59,7 +59,7 @@ function scrutinio_aperto($idclasse, $periodo, $conn)
 function estrai_firma_scrutinio($idclasse, $periodo, $conn)
 {
     $query = "select firmadirigente from tbl_scrutini where periodo='$periodo' and idclasse='$idclasse'";
-    $ris = mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query, false));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $firma = $rec['firmadirigente'];
     if (strlen($firma)>5)
@@ -117,7 +117,7 @@ function decod_passaggio($val)
 function estrai_datascrutinio($idclasse, $periodo, $conn)
 {
     $query = "SELECT datascrutinio FROM tbl_scrutini WHERE periodo='$periodo' and idclasse='$idclasse'";
-    $ris = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $val = mysqli_fetch_array($ris);
 
     return $val['datascrutinio'];
@@ -212,7 +212,7 @@ function validita_anno($idalunno, $conn1)
 function calcola_media($idmateria, $conn)
 {
     $query = "select * from tbl_materie where idmateria='$idmateria'";
-    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $datimateria = $rec['media'];
 

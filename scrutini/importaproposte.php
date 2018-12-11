@@ -39,13 +39,13 @@ stampa_testata("$titolo","","$nome_scuola","$comune_scuola");
  $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
   
  $query="SELECT idclasse,periodo FROM tbl_scrutini WHERE idscrutinio=$idscrutinio";
- $ris=mysqli_query($con,inspref($query));
+ $ris=eseguiQuery($con,$query);
  $rec=mysqli_fetch_array($ris);
  $idclasse=$rec['idclasse'];
  $periodo=$rec['periodo'];
  
  $query="delete from tbl_valutazionifinali where idclasse=$idclasse and periodo=$periodo";
- $ris=mysqli_query($con,inspref($query));
+ $ris=eseguiQuery($con,$query);
  
  $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,votoscritto,votoorale,votopratico,assenze,periodo, note)
 							  SELECT tbl_proposte.idalunno,idmateria,unico,scritto,orale,pratico,assenze,periodo,tbl_proposte.note from tbl_proposte,tbl_alunni 

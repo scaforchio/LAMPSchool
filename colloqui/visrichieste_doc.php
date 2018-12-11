@@ -59,7 +59,7 @@ $query = "select tbl_prenotazioni.idoraricevimento as idoraric,cognome, nome,dat
         and iddocente=$iddocente
         
         order by data desc";
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 print "<table border=1 align=center>
        <tr class='prima'>
            <td>Alunno</td>
@@ -140,7 +140,7 @@ stampa_piede("");
 function proponi_orario($inizio, $fine, $iddocente, $sequenzaudienza, $conn)
 {
     $query = "select nummaxcolloqui from tbl_docenti where iddocente=$iddocente";
-    $ris = mysqli_query($conn, inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $nummaxcolloqui = $rec['nummaxcolloqui'];
    // print "Inizio $inizio Fine $fine";

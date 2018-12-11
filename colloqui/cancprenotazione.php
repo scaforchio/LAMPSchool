@@ -43,7 +43,7 @@ $idclasse=stringa_html('idclasse');
 $query="update tbl_prenotazioni
         set valido=0
         where idprenotazione=$idprenotazione";
-$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+$ris=eseguiQuery($con,$query);
 
 print ("
 

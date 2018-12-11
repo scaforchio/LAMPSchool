@@ -74,7 +74,7 @@ function decodifica_classe_no_spec($idclasse, $conn, $normalizzazione = 0)
     // Se normalizzazione = 1 toglie 5 alle classi >5
 
     $query = "select * from tbl_classi where idclasse='$idclasse'";
-    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     if ($normalizzazione == 1)
     {
@@ -102,7 +102,7 @@ function decodifica_classe_no_spec($idclasse, $conn, $normalizzazione = 0)
 function decodifica_classe_spec($idclasse, $conn)
 {
     $query = "select specializzazione from tbl_classi where idclasse='$idclasse'";
-    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $daticlasse = $rec['specializzazione'];
 
@@ -112,7 +112,7 @@ function decodifica_classe_spec($idclasse, $conn)
 function decodifica_classe_sezione($idclasse, $conn)
 {
     $query = "select sezione from tbl_classi where idclasse='$idclasse'";
-    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $daticlasse = $rec['sezione'];
 
@@ -122,7 +122,7 @@ function decodifica_classe_sezione($idclasse, $conn)
 function estrai_ore_lezione_classe($idclasse, $conn)
 {
     $query = "select oresett from tbl_classi where idclasse='$idclasse'";
-    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $daticlasse = $rec['oresett'];
 
@@ -132,7 +132,7 @@ function estrai_ore_lezione_classe($idclasse, $conn)
 function estrai_classe_lezione($idlezione, $conn)
 {
     $query = "select * from tbl_lezioni where idlezione='$idlezione'";
-    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
 
 

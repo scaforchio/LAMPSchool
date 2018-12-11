@@ -54,7 +54,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 
 	//Esecuzione query
     $sql="select * from tbl_circolari where idcircolare=". stringa_html('idcircolare');
-	if (!($ris=mysqli_query($con,inspref($sql))))
+	if (!($ris=eseguiQuery($con,$sql)))
 	{  
 	    print("\n<h1> Query fallita </h1>");
 		exit;

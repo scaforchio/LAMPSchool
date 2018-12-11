@@ -153,7 +153,7 @@ if ($tipoass == 'A' | $tipoass == 'T')
         and tbl_assenze.idalunno
         order by anno,sezione,specializzazione,cognome, nome";
 
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris))
     {
         $idalunno = $rec['idalunno'];
@@ -177,7 +177,7 @@ if ($tipoass == 'A' | $tipoass == 'T')
                     and iddestinatario=$idalunno
                     and substr(tbl_testisms.testo,1,7)='\${nome}'
                     and substr(tbl_testisms.dataora,1,10)='$dataoggi'";
-            $rissms= mysqli_query($con,inspref($sql));
+            $rissms= eseguiQuery($con,$sql);
             $giainviato=false;
             if (mysqli_num_rows($rissms)>0)
                 $giainviato=true;
@@ -213,7 +213,7 @@ if ($tipoass == 'R' | $tipoass == 'T')
                     and tbl_alunni.idclasse=tbl_classi.idclasse
                     and data='$dataoggi'
                     order by anno,sezione,specializzazione,cognome, nome";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = eseguiQuery($con,$query);
         while ($rec = mysqli_fetch_array($ris))
         {
             // CONTROLLO CHE NON SIA GIA' STATO INVIATO UN SMS
@@ -224,7 +224,7 @@ if ($tipoass == 'R' | $tipoass == 'T')
                     and iddestinatario=$idalunno
                     and substr(tbl_testisms.testo,1,7)='\${nome}'
                     and substr(tbl_testisms.dataora,1,10)='$dataoggi'";
-            $rissms = mysqli_query($con, inspref($sql));
+            $rissms = eseguiQuery($con,$sql);
             $giainviato = false;
             if (mysqli_num_rows($rissms) > 0)
             {
@@ -236,7 +236,7 @@ if ($tipoass == 'R' | $tipoass == 'T')
             // CONTO I RITARDI
             $query = "SELECT count(*) AS numritardi FROM tbl_ritardi WHERE idalunno=" . $rec['idalunno'];
 
-            $risnumrit = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+            $risnumrit = eseguiQuery($con,$query);
             $recnumrit = mysqli_fetch_array($risnumrit);
             $numritardi = $recnumrit['numritardi'];
 
@@ -275,7 +275,7 @@ if ($tipoass == 'R' | $tipoass == 'T')
                     and tbl_alunni.idclasse=tbl_classi.idclasse
                     and data='$dataoggi'
                     order by anno,sezione,specializzazione,cognome, nome";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = eseguiQuery($con,$query);
         while ($rec = mysqli_fetch_array($ris))
         {
             // CONTROLLO CHE NON SIA GIA' STATO INVIATO UN SMS
@@ -304,7 +304,7 @@ if ($tipoass == 'R' | $tipoass == 'T')
                       WHERE data<='$fineprimo'
                       AND idalunno=" . $rec['idalunno'];
 
-            $risnumrit = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+            $risnumrit = eseguiQuery($con,$query);
             $recnumrit = mysqli_fetch_array($risnumrit);
             $numritardiprimo = $recnumrit['numritardi'];
 
@@ -312,7 +312,7 @@ if ($tipoass == 'R' | $tipoass == 'T')
                       WHERE data>'$fineprimo'
                       AND idalunno=" . $rec['idalunno'];
 
-            $risnumrit = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+            $risnumrit = eseguiQuery($con,$query);
             $recnumrit = mysqli_fetch_array($risnumrit);
             $numritardisec = $recnumrit['numritardi'];
 

@@ -51,16 +51,16 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 $query = "select idalunno from tbl_alunni where idclasse=$idclasse";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 while ($rec = mysqli_fetch_array($ris)) {
     $idalunno=$rec['idalunno'];
     $nomecampo="co_$idalunno";
     $coalunno=stringa_html($nomecampo);
     $query="delete from tbl_consorientativi where idalunno=$idalunno";
-    mysqli_query($con,inspref($query)) or die("Errore".inspref($query));
+    eseguiQuery($con,$query);
     $query="insert into tbl_consorientativi (idalunno, consiglioorientativo) values ($idalunno,'$coalunno')";
-    mysqli_query($con,inspref($query)) or die("Errore".inspref($query));
+    eseguiQuery($con,$query);
     
 }
 

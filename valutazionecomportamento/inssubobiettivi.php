@@ -55,20 +55,20 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 		  
 		   $query="insert into tbl_compsubob(idobiettivo, numeroordine, sintsubob, subob)
 		           values($idobiettivo,$no,'$sintsubob', '$subob')";
-           $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". inspref($query));
+           $ris2=eseguiQuery($con,$query);
 	     
     }
     if ($sintsubob!="" & $idsubob!="")
     {    
 		  
 		  $query="update tbl_compsubob set sintsubob='$sintsubob',subob='$subob' where idsubob=$idsubob";
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+        $ris2=eseguiQuery($con,$query); 
     }
     if ($sintsubob=="" & $idsubob!="")
     {    
 		  
 		  $query="delete from tbl_compsubob where idsubob=$idsubob";
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+        $ris2=eseguiQuery($con,$query); 
     }
  } 
   

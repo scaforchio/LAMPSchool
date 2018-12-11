@@ -45,7 +45,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 
 $sql = "DELETE FROM tbl_cattnosupp WHERE iddocente = '" . stringa_html('docente') . "' AND idalunno<>0";
-$ris = mysqli_query($con, inspref($sql));
+$ris = eseguiQuery($con,$sql);
 if (mysqli_affected_rows($con) == 0)
 {
     print("\n<FONT SIZE='+2'> <CENTER>Vecchi dati non presenti! </CENTER></FONT>");
@@ -77,7 +77,7 @@ if ($doc != "")
                 foreach ($tbl_materie as $mat)
                 {
                     $sql = "INSERT INTO tbl_cattnosupp(iddocente, idmateria, idclasse,idalunno) values ('$doc','$mat','" . estrai_classe_alunno($alu, $con) . "','$alu')";
-                    if ($ris = mysqli_query($con, inspref($sql)))
+                    if ($ris = eseguiQuery($con,$sql))
                     {
                         print("Inserita materia " . decodifica_materia($mat, $con) . " per alunno " . estrai_alunno_data($alu, $con) . ".<br/>");
                     }
@@ -101,7 +101,7 @@ else
 
 // INSERISCO LE CATTEDRE PER LE SUPPLENZE
 $querydel = "DELETE FROM tbl_cattsupp WHERE 1=1";
-mysqli_query($con, inspref($querydel)) or die (inspref($querydel));
+eseguiQuery($con,$querydel);
 // print inspref($querydel);
 $querysupp = "INSERT INTO tbl_cattsupp(iddocente,idmateria,idclasse)
 SELECT iddocente, 0, idclasse

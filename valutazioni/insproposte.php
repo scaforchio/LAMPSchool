@@ -58,7 +58,7 @@ else
            and idclasse=$idclasse";
 }
 
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 
 while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
@@ -82,7 +82,7 @@ while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
 
     $query = 'DELETE FROM tbl_proposte WHERE idalunno=' . $id['al'] . ' AND periodo="' . $periodo . '" AND idmateria="' . $materia . '"';
     // print $query;
-    $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris2 = eseguiQuery($con,$query);
     if ($scritto != 99 | $orale != 99 | $pratico != 99 | $unico != 99 | $condotta != 99)
     {
         if ($periodo < $numeroperiodi)
@@ -96,7 +96,7 @@ while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
                   VALUES(" . $id["al"] . "," . $materia . ",'" . $periodo . "','" . $unico . "','" . $condotta . "','" . $assenze . "','" . $note . "')";
         }
 
-        $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $ris2 = eseguiQuery($con,$query);
     }
 }
 

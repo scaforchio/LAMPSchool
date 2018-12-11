@@ -57,7 +57,7 @@ if (!$DB)
 else
 {
     $sql = "SELECT idclasseesame FROM tbl_alunni ";
-    $result = mysqli_query($con, inspref($sql));
+    $result = eseguiQuery($con,$sql);
     if (!($res = mysqli_fetch_array($result)))
     {
         print("Attenzione campo nome mancante.");
@@ -77,7 +77,7 @@ else
     print ("<td> <input type='text'  name='gg' size='2'  maxlength='2' value=''> / <input type='text'  name='mm' size='2'  maxlength='2' value=''> / <input type='text' name='aa' size='4'  maxlength='4' value=''>(gg/mm/aaaa) </td> </tr>");
     print   ("<tr> <td> <i>Comune o stato estero di nascita<font color='#cc0000'></font></i> </td> <td> <select name='idcomn'>");
     $sqla = "SELECT * FROM tbl_comuni WHERE statoestero='N' ORDER BY denominazione ";
-    $resa = mysqli_query($con, inspref($sqla)) or die ("Errore:" . inspref($sqla));
+    $resa = eseguiQuery($con,$sqla);
     if (!$resa)
     {
         print ("<br/> <br/> <br/> <h2>a Impossibile visualizzare i dati </h2>");
@@ -104,7 +104,7 @@ else
     }
 
     $sqlb = "SELECT * FROM tbl_comuni WHERE statoestero='S' ORDER BY denominazione";
-    $resb = mysqli_query($con, inspref($sqlb));
+    $resb = eseguiQuery($con,$sqlb);
     if (!$resb)
     {
         print ("<br/> <br/> <br/> <h2>a Impossibile visualizzare i dati </h2>");
@@ -132,7 +132,7 @@ else
     print  ("<tr> <td> <i> Indirizzo</i></td>");
     print("<td> <input type='text' name='indirizzo' size='30' maxlength='30' value=''> </td> </tr>");
     mysqli_data_seek($resa, 0); // Ritorna all'inizio del resultset
-    $resb = $resa; // Evita di rifare la query sui comuni : mysqli_query($con,inspref($sqlb));
+    $resb = $resa; // Evita di rifare la query sui comuni : eseguiQuery($con,$sqlb);
     if (!$resb)
     {
         print ("<br/> <br/> <br/> <h2><b> Impossibile visualizzare i dati </b></h2>");
@@ -176,7 +176,7 @@ else
 
 
 
-    $resc = mysqli_query($con, inspref($sqlc));
+    $resc = eseguiQuery($con,$sqlc);
     if (!$resc)
     {
         print ("<br/> <br/> <br/> <h2>Impossibile visualizzare i dati </h2>");

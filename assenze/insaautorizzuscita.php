@@ -49,7 +49,7 @@ $query = "SELECT idalunno,cognome, nome
         FROM tbl_alunni
         where idclasse=$idclasse";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 $motivo = stringa_html('motivo');
 $datainizio = data_to_db(stringa_html('datainizio'));
 $datafine = data_to_db(stringa_html('datafine'));
@@ -80,7 +80,7 @@ while ($rec = mysqli_fetch_array($ris))
             $data=date('Y-m-d');
 
             $sql="insert into tbl_usciteanticipate(idalunno,data,orauscita,giustifica) values ($idalunno,'$data','$ora',true)";
-            mysqli_query($con,inspref($sql)) or die ("Errore".inspref($sql,false));
+            eseguiQuery($con,$sql);
             //ricalcola_uscite($con, $idalunno, $data, $data);
             elimina_assenze_lezione($con, $idalunno, $data);
             inserisci_assenze_per_ritardi_uscite($con, $idalunno, $data);
@@ -115,14 +115,14 @@ if ($pos>0)
     $annotazionepergenitori="Uscito alle ".$ora." $richiedentecompleto per $fine";
 
     $sql="insert into tbl_annotazioni(idclasse,iddocente,data,testo) values ($idclasse,".$_SESSION['idutente'].",'".date('Y-m-d')."','$annotazione')";
-    mysqli_query($con,inspref($sql)) or die ("Errore".inspref($sql,false));
+    eseguiQuery($con,$sql);
 
     print "<br><br><center><b><font color='green'>Inserimento effettuato!</font></b>";
     foreach ($codicialunni as $codalunno)
     {
         $sql="insert into tbl_autorizzazioniuscite(idalunno,data,orauscita,iddocenteautorizzante,testoautorizzazione) "
                 . "values ($codalunno,'".date('Y-m-d')."','$ora','".$_SESSION['idutente']."','$annotazionepergenitori')";
-        mysqli_query($con,inspref($sql)) or die ("Errore".inspref($sql,false));
+        eseguiQuery($con,$sql);
 
     }
 }

@@ -63,7 +63,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 $query = "SELECT idalunno as al,cognome, nome, datanascita FROM tbl_alunni WHERE idclasse = $idclasse order by cognome, nome";
 
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 print "<center><br><b><big>Password Moodle alunni della Classe: ".decodifica_classe($idclasse,$con)."</big></b></center><br>";
 print "<table border='1' align='center'>";
 print "<tr class='prima'><td>Alunno</td><td>Username</td><td>Password</td></tr>";
@@ -91,7 +91,7 @@ while ($id = mysqli_fetch_array($ris))
         $cambiamento=true;
         
         $query = "UPDATE tbl_utenti SET password = md5(md5('" . $nuovapassword . "')),passprecedenti=concat(passprecedenti,md5('" . $pwd . "'),'|') WHERE userid='" . $username . "'";
-        $result = mysqli_query($con, inspref($query)) or die("Errore $query");
+        $result = eseguiQuery($con,$query);
             
         print "<tr><td>".$id['cognome']." ".$id['nome']." (".data_italiana($id['datanascita']).")</td>";
         print "<td>$username</td><td> $nuovapassword</td></tr>";

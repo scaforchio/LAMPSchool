@@ -55,7 +55,7 @@ $idclasse = stringa_html('idclasse');
 //STAMPO TABELLA IN BASE ALLA CLASSE
 
 $query = "SELECT * FROM tbl_assemblee WHERE consegna_verbale=1 and visione_verbale=0";
-$ris = mysqli_query($con, inspref($query)) or die("Errore durante la connessione: " . mysqli_error($con) . "<br/>" . $query);
+$ris = eseguiQuery($con,$query);
 print "<br/><br/><center><table border ='1' cellpadding='5'>";
 
 print "<tr class='prima'>
@@ -87,7 +87,7 @@ else
             $doc .= " OR iddocente=" . $data['docenteconcedente2'] . " ORDER BY cognome";
         }
         print "<br> DOC. CON. ";
-        $risdoc = mysqli_query($con, inspref($doc));
+        $risdoc = eseguiQuery($con,$doc);
         while ($datadoc = mysqli_fetch_array($risdoc))
         {
             print ($datadoc['cognome'] . "&nbsp;" . $datadoc['nome'] . "<br/>");
@@ -95,7 +95,7 @@ else
        
         //DOCENTE AUTORIZZANTE (se esiste)
         $doc = "SELECT cognome,nome FROM tbl_docenti WHERE iddocente=" . $data['docenteautorizzante'];
-        $risdoc = mysqli_query($con, inspref($doc));
+        $risdoc = eseguiQuery($con,$doc);
         $datadoc = mysqli_fetch_array($risdoc);
         print "<br>DOC. AUT. " . $datadoc['cognome'] . "&nbsp;" . $datadoc['nome'] . "</td>";
 

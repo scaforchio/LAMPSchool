@@ -48,7 +48,7 @@ case "view" :
 
    $query = "select docbin, docnome, doctype,docmd5 from tbl_documenti where iddocumento = '". $_GET["Id"] . "'";
    
-   $select = mysqli_query($con,inspref($query)) or die("Query fallita !");
+   $select = eseguiQuery($con,$query);
 
    $result = mysqli_fetch_array($select);
 
@@ -89,7 +89,7 @@ case "download" :
 
    $query = "select docbin, docnome, doctype, docmd5 from tbl_documenti where iddocumento = '" . $_GET["Id"] . "'";
    
-   $select = mysqli_query($con,inspref($query)) or die("Query fallita !");
+   $select = eseguiQuery($con,$query);
 
    $result = mysqli_fetch_array($select);
 

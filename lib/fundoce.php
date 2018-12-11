@@ -16,7 +16,7 @@
 function estrai_dati_docente($iddocente, $conn)
 {
     $query = "select * from tbl_docenti where iddocente='$iddocente'";
-    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $datidocente = $rec['cognome'] . " " . $rec['nome'];
 
@@ -32,7 +32,7 @@ function estrai_dati_docente($iddocente, $conn)
 function estrai_mail_docente($iddocente, $conn)
 {
     $query = "select * from tbl_docenti where iddocente='$iddocente'";
-    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $maildocente = $rec['email'];
 
@@ -49,7 +49,7 @@ function estrai_mail_docente($iddocente, $conn)
 function estrai_dati_amministrativo($idamministrativo, $conn)
 {
     $query = "select * from tbl_amministrativi where idamministrativo='$idamministrativo'";
-    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $datiamm = $rec['cognome'] . " " . $rec['nome'];
 
@@ -66,7 +66,7 @@ function estrai_dati_amministrativo($idamministrativo, $conn)
 function docente_sostegno($iddocente, $conn)
 {
     $query = "select * from tbl_docenti where iddocente='$iddocente'";
-    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $datidocente = $rec['sostegno'];
 
@@ -83,7 +83,7 @@ function docente_sostegno($iddocente, $conn)
 function estrai_docente_coordinatore($iddocente, $conn)
 {
     $query = "select * from tbl_classi where idcoordinatore='$iddocente'";
-    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     if (mysqli_num_rows($ris) > 0)
     {
         return true;
@@ -98,7 +98,7 @@ function estrai_docente_coordinatore($iddocente, $conn)
 function verifica_classe_coordinata($iddocente, $idclasse, $conn)
 {
     $query = "select * from tbl_classi where idcoordinatore='$iddocente' and idclasse='$idclasse'";
-    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     if (mysqli_num_rows($ris) > 0)
     {
         return true;
@@ -119,7 +119,7 @@ function verifica_classe_coordinata($iddocente, $idclasse, $conn)
 function estrai_dirigente($conn)
 {
     $query = "SELECT nome,cognome FROM tbl_docenti WHERE iddocente=1000000000";
-    $ris = mysqli_query($conn, inspref($query)) or die ("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $datidirigente = $rec['nome'] . " " . $rec['cognome'];
 
@@ -143,7 +143,7 @@ function calcolaOrePermesso($iddoc,$con)
 {
     $totaleore = 0;
     $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and subject LIKE '%permesso breve%'";
-    $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    $risperm = eseguiQuery($con,$query);
     while ($recperm = mysqli_fetch_array($risperm)) {
 
         $mail = $recperm['testomail'];
@@ -163,7 +163,7 @@ function calcolaGiorniPermesso($iddoc,$con)
 {
     $totalegiorni = 0;
     $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Permesso retribuito%'";
-    $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    $risperm = eseguiQuery($con,$query);
     while ($recperm = mysqli_fetch_array($risperm)) {
 
         $mail = $recperm['testomail'];
@@ -183,7 +183,7 @@ function calcolaGiorniFerie($iddoc,$con)
 {
     $totalegiorni = 0;
     $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Ferie%'";
-    $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    $risperm = eseguiQuery($con,$query);
     while ($recperm = mysqli_fetch_array($risperm)) {
 
         $mail = $recperm['testomail'];
@@ -204,7 +204,7 @@ function contaOreRecuperate($iddoc,$con)
 {
     
     $query = "select sum(numeroore) as recuperate from tbl_recuperipermessi where iddocente=$iddoc";
-    $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    $risperm = eseguiQuery($con,$query);
     $recperm = mysqli_fetch_array($risperm) ;
     return $recperm['recuperate'];
 }
@@ -213,7 +213,7 @@ function contaOrePermesso($iddoc,$con)
 {
     $totaleore = 0;
     $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and subject LIKE '%permesso breve%'";
-    $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    $risperm = eseguiQuery($con,$query);
     while ($recperm = mysqli_fetch_array($risperm)) {
 
         $oreperm = $recperm['orepermessobreve'];
@@ -228,7 +228,7 @@ function contaGiorniPermesso($iddoc,$con)
 {
     $totalegiorni = 0;
     $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Permesso retribuito%'";
-    $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    $risperm = eseguiQuery($con,$query);
     while ($recperm = mysqli_fetch_array($risperm)) {
 
         
@@ -243,7 +243,7 @@ function contaGiorniFerie($iddoc,$con)
 {
     $totalegiorni = 0;
     $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Ferie%'";
-    $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    $risperm = eseguiQuery($con,$query);
     while ($recperm = mysqli_fetch_array($risperm)) {
 
         

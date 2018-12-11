@@ -27,19 +27,20 @@ $daticrud = array();
 $daticrud['titolo']='GESTIONE '.$plesso_specializzazione;
 
 
-$daticrud['tabella'] = inspref("tbl_specializzazioni");
+$daticrud['tabella'] = ("tbl_specializzazioni");
 
 
 // Nome della tabella per visualizzazioni
 $daticrud['aliastabella'] = $plesso_specializzazione;
+$daticrud['larghezzatabella']= "60%";
 // Campo con l'id univoco per la tabella
 $daticrud['campochiave'] = "idspecializzazione";
 
 // Campi in base ai quali ordinare (specificare gli alias (14° valore nella descrizione del campo)
 // se ci sono campi con lo stesso nome)
-$daticrud['campiordinamento']= [inspref("denominazione")];
+$daticrud['campiordinamento']= "denominazione";
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
-$daticrud['condizione']= inspref("true");
+$daticrud['condizione']= ("true");
 
 $daticrud['abilitazionemodifica']=1;
 $daticrud['abilitazionecancellazione']=1;

@@ -75,7 +75,7 @@ $query = "SELECT tbl_lezioni.idclasse, anno, sezione, specializzazione, tbl_firm
          idlezionegruppo IS NULL
         ORDER BY anno,sezione,specializzazione, datalezione, orainizio";
 
-$ris = mysqli_query($con, inspref($query)) or die (mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 if (mysqli_num_rows($ris) > 0)
 {
     print "<br><br><center><b>Sovrapposizioni nelle classi!</b></center><br><br>";
@@ -160,7 +160,7 @@ $query = "SELECT tbl_lezioni.idclasse, anno, sezione, specializzazione, tbl_firm
          tbl_firme.iddocente=tbl_docenti.iddocente AND
          idlezionegruppo IS NULL
         ORDER BY cognome,nome, datalezione, orainizio";
-$ris = mysqli_query($con, inspref($query)) or die (mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 if (mysqli_num_rows($ris) > 0)
 {
     print "<br><br><center><b>Sovrapposizioni firme docenti!</b></center><br><br>";

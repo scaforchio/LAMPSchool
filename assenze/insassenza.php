@@ -46,7 +46,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 
 $query = "SELECT idalunno AS al FROM tbl_alunni WHERE idalunno in (".estrai_alunni_classe_data($idclasse,$data,$con).")";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 
 while ($id = mysqli_fetch_array($ris))
@@ -56,11 +56,11 @@ while ($id = mysqli_fetch_array($ris))
     if ($idal == "off")
     {
         $query = 'SELECT * FROM tbl_assenze WHERE idalunno=' . $id['al'] . ' AND data="' . $data . '"';
-        $rissel = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $rissel = eseguiQuery($con,$query);
         if (mysqli_num_rows($rissel) > 0)
         {
             $query = 'DELETE FROM tbl_assenze WHERE idalunno=' . $id['al'] . ' AND data="' . $data . '"';
-            $risdel = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $risdel = eseguiQuery($con,$query);
             // elimina_assenze_lezione($con,$id['al'],$data);
             $cambiamento=true;
         }
@@ -68,11 +68,11 @@ while ($id = mysqli_fetch_array($ris))
     if ($idal == "on")
     {
         $query = 'SELECT * FROM tbl_assenze WHERE idalunno=' . $id['al'] . ' AND data="' . $data . '"';
-        $riscer = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $riscer = eseguiQuery($con,$query);
         if (mysqli_num_rows($riscer) == 0)
         {
             $query = 'INSERT INTO tbl_assenze(idalunno,data) VALUES(' . $id['al'] . ',"' . $data . '")';
-            $risins = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $risins = eseguiQuery($con,$query);
             $cambiamento=true;
         }
 

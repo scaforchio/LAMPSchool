@@ -73,7 +73,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 $query = "SELECT iddocente AS al,cognome, nome FROM tbl_docenti order by cognome, nome";
 //print inspref($query);
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 
 
 

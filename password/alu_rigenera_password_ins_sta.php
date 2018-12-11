@@ -53,7 +53,7 @@ $annoscolastico = $annoscol . "/" . ($annoscol + 1);
   if ($idclasse != 0)
   {
   $query = "select idclasse,anno,sezione,specializzazione from tbl_classi where idclasse=$idclasse";
-  $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+  $ris = eseguiQuery($con,$query);
 
   $val = mysqli_fetch_array($ris);
 
@@ -67,7 +67,7 @@ $annoscolastico = $annoscol . "/" . ($annoscol + 1);
   $query = "SELECT * FROM tbl_alunni,tbl_utenti
   WHERE (tbl_alunni.idalunno+2100000000)=tbl_utenti.idutente
   AND idclasse='" . $idclasse . "' ORDER BY cognome,nome,datanascita";
-  $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+  $ris = eseguiQuery($con,$query);
 
   $nf = session_id() . ".csv";
   $nomefile = "$cartellabuffer/" . $nf;
@@ -108,7 +108,7 @@ $annoscolastico = $annoscol . "/" . ($annoscol + 1);
   $query = "select * from tbl_alunni,tbl_utenti
   where (tbl_alunni.idalunno+2100000000)=tbl_utenti.idutente
   and idalunno=$idalu";
-  $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+  $ris = eseguiQuery($con,$query);
 
   $val = mysqli_fetch_array($ris);
 
@@ -178,7 +178,7 @@ $annoscolastico = $annoscol . "/" . ($annoscol + 1);
 if ($idclasse != 0)
 {
     $query = "select idclasse,anno,sezione,specializzazione from tbl_classi where idclasse=$idclasse";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+    $ris = eseguiQuery($con,$query);
 
     $val = mysqli_fetch_array($ris);
 
@@ -194,14 +194,14 @@ if ($idclasse != 0)
     $query = "SELECT * FROM tbl_alunni
 			  WHERE idclasse='" . $idclasse . "' ORDER BY cognome,nome,datanascita";
    // print $query;
-    //$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+    //$ris = eseguiQuery($con,$query);
 } else
 {
 
     $query = "SELECT * FROM tbl_alunni
         WHERE idalunno='$idalu'";
   //  print $query;
-    //$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+    //$ris = eseguiQuery($con,$query);
 }
 
 
@@ -214,7 +214,7 @@ $numpass = 0;
 $arr_id = "";
 $arr_ut = "";
 $arr_pw = "";
-$risalunni = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+$risalunni = eseguiQuery($con,$query);
 //print ("Righe ".mysqli_num_rows($risalunni));
 while ($valalunni = mysqli_fetch_array($risalunni))
 {
@@ -224,14 +224,14 @@ while ($valalunni = mysqli_fetch_array($risalunni))
     $idalu=$valalunni['idalunno'];
     $query = "SELECT * FROM tbl_utenti
         WHERE idutente='" . ($idalu + 2100000000) . "'";
-    $risute = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+    $risute = eseguiQuery($con,$query);
     $utente = "al" . $_SESSION['suffisso'] . $idalu;
     if (mysqli_num_rows($risute) == 0)
     {
         $idutente = $idalu + 2100000000;
 
         $query = "insert into tbl_utenti(idutente,userid, tipo) values ($idutente,'$utente','L')";
-        mysqli_query($con, inspref($query)) or die("Errore" . inspref($query, false));
+        eseguiQuery($con,$query);
     }
 
     print ("
@@ -246,7 +246,7 @@ while ($valalunni = mysqli_fetch_array($risalunni))
     $arr_pw .= "$pass|";
     print ("<td>$utente</td><td>$pass</td></tr>");
     $qupd = "update tbl_utenti set password=md5('" . md5($pass) . "') where idutente=($idalunno+2100000000)";
-    mysqli_query($con, inspref($qupd)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+    eseguiQuery($con,$qupd);
 
     if ($tokenservizimoodle != '')
     {

@@ -263,7 +263,7 @@ $query = "select idcircolare,tbl_circolari.iddocumento,ricevuta,tbl_circolari.de
 			  $dest
 			  order by datainserimento desc";
 
-$ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query) . mysqli_error($ris));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
 

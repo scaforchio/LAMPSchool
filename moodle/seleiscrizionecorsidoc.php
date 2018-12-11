@@ -104,7 +104,7 @@ print "
     $query="select iddocente,cognome, nome
             from tbl_docenti
             order by cognome,nome";
-$ris=mysqli_query($con,inspref($query)) or die ("Errore: ".inspref($query));
+$ris=eseguiQuery($con,$query);
 while ($rec=mysqli_fetch_array($ris))
 {
    

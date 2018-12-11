@@ -62,7 +62,7 @@ print ("
 
 //  $sqld= "SELECT * FROM tbl_docenti WHERE NOT sostegno ORDER BY cognome, nome";
 $sqld = "SELECT * FROM tbl_docenti ORDER BY cognome, nome";
-$resd = mysqli_query($con, inspref($sqld));
+$resd = eseguiQuery($con,$sqld);
 if (!$resd)
 {
     print ("<br/> <br/> <br/> <h2>Impossibile visualizzare i dati </h2>");
@@ -98,7 +98,7 @@ if ($docente != '')
                 where iddocente=$docente
                 and idalunno=0
                 ";
-    $rismat = mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+    $rismat = eseguiQuery($con,$query);
     $arrmat = array();
     while ($recmat = mysqli_fetch_array($rismat))
     {
@@ -124,7 +124,7 @@ if ($docente != '')
                       and idmateria=" . $arrmat[$i - 1] . "
                       and idalunno=0";
             // print "tttt $query";
-            $riscla = mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+            $riscla = eseguiQuery($con,$query);
 
             while ($reccla = mysqli_fetch_array($riscla))
             {
@@ -137,7 +137,7 @@ if ($docente != '')
         print("<option>");
         print("<option value='ALL'>TUTTE");
         $query = "SELECT idmateria,denominazione FROM tbl_materie WHERE idmateria>0 ORDER BY denominazione";
-        $ris = mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+        $ris = eseguiQuery($con,$query);
         while ($nom = mysqli_fetch_array($ris))
         {
             print "<option value=";
@@ -157,7 +157,7 @@ if ($docente != '')
         //   Selezione tbl_classi
         print ("<select multiple size=8 name='classe" . $i . "[]'>");
         $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY specializzazione,anno,sezione";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = eseguiQuery($con,$query);
         while ($nom = mysqli_fetch_array($ris))
         {
             print "<option value='";

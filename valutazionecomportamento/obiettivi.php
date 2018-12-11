@@ -50,7 +50,7 @@ $query = "SELECT count(*) AS numerovoti FROM tbl_valutazioniobcomp, tbl_valutazi
          WHERE tbl_valutazioniobcomp.idvalcomp = tbl_valutazionicomp.idvalcomp";
 
 
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 $nom = mysqli_fetch_array($ris);
 $votipresenti = false;
@@ -64,7 +64,7 @@ if ($nom['numerovoti'] > 0)
 
 
 $query = "SELECT * FROM tbl_compob ORDER BY numeroordine";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 print "<p align='center'>
           <font size=4 color='black'>Obiettivo </font>
           <form method='post' action='insobiettivi.php'>
@@ -86,7 +86,7 @@ while ($val = mysqli_fetch_array($ris))
                  tbl_valutazioniobcomp.idsubob = tbl_compsubob.idsubob
                  and tbl_compsubob.idobiettivo=tbl_compob.idobiettivo
                  and tbl_compob.idobiettivo=$idobiettivo";
-    $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . inspref($query));
+    $ris2 = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris2) > 0)
     {
         $votipresenti = true;

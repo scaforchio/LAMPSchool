@@ -57,7 +57,7 @@ if ($tipoutente=="D")
                                        where idcoordinatore=".$_SESSION['idutente'].")
          ORDER BY cognome,nome,anno, sezione, specializzazione
          ";
-$ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 
 print "<form name='selealu' action='visderoghe.php' method='post'>";
 print "<table align='center'>";
@@ -106,7 +106,7 @@ if ($tipoutente=='D')
               AND tbl_alunni.idclasse IN (select distinct tbl_classi.idclasse from tbl_classi
                                        where idcoordinatore=".$_SESSION['idutente'].")
               ORDER BY cognome,nome,anno,sezione,specializzazione,data";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 
 print "<CENTER><TABLE BORDER='1'>";
 print "<TR class='prima'><TD ALIGN='CENTER'><B>Alunno</B></TD><TD ALIGN='CENTER'><B>Data (ore)</B></TD><TD ALIGN='CENTER'><B>Motivo</B></TD></TD><TD COLSPAN='2' ALIGN='CENTER'><B>Azioni</B></TD></TR>";

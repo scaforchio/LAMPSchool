@@ -111,7 +111,7 @@ if ($idclasse != "" && $idmateria != "")
             and tbl_abildoc.idcompetenza=tbl_competdoc.idcompetenza
             and tbl_competdoc.idcompetenza in
             (select idcompetenza from tbl_competdoc where idmateria=$idmateria and idclasse=$idclasse)";
-        $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+        $ris = eseguiQuery($con,$query);
         if (mysqli_num_rows($ris) > 0)
         {
             print "<center><br><b>Ci sono valutazioni associate alla vecchia programmazione non è possibile apportare modifiche!</b>";
@@ -122,7 +122,7 @@ if ($idclasse != "" && $idmateria != "")
     {
         // TTTT SE C'E' GIA' UNA PROGRAMMAZIONE MESSAGGIO
         $query = "select * from tbl_competdoc where idclasse=$idclasse and idmateria=$idmateria";
-        $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+        $ris = eseguiQuery($con,$query);
         if (mysqli_num_rows($ris) > 0)
         {
             print "<center><br><b>C'è già una programmazione per la classe e la materia. Confermare sovrascrittura in fase di selezione!</b>";
@@ -170,7 +170,7 @@ if ($idclasse != "" && $idmateria != "")
             $numordcono = 1;
             $idcompetenza = 0;
             $query = "delete from tbl_competdoc where idclasse=$idclasse and idmateria=$idmateria";
-            mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+            eseguiQuery($con,$query);
             while (($riga_tmp = fgetcsv($handle, 1000, $sep, $del)) !== FALSE)
             {
                 if ($riga_tmp[0] == 'COMP')
@@ -180,7 +180,7 @@ if ($idclasse != "" && $idmateria != "")
                     $numordcono = 1;
                     $query = "insert into tbl_competdoc(idclasse,idmateria,numeroordine,sintcomp,competenza) VALUES
                             ($idclasse,$idmateria,$numordcomp,'$riga_tmp[1]','$riga_tmp[2]')";
-                    mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+                    eseguiQuery($con,$query);
                     $idcompetenza = mysqli_insert_id($con);
 
                     $numordcomp++;
@@ -202,7 +202,7 @@ if ($idclasse != "" && $idmateria != "")
                         // INSERISCO ABILITA' CON ID DELLA COMPETENZA SE C'E' IMPOSTO LO STATO AD "A"
                         $query = "insert into tbl_abildoc(idcompetenza,numeroordine,sintabilcono,abilcono,obminimi,abil_cono) VALUES
                             ($idcompetenza,$numordabil,'$riga_tmp[1]','$riga_tmp[2]',$obmin,'A')";
-                        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+                        eseguiQuery($con,$query);
                         $numordabil++;
                     }
                     else
@@ -220,7 +220,7 @@ if ($idclasse != "" && $idmateria != "")
                             // INSERISCO ABILITA' CON ID DELLA COMPETENZA SE C'E' IMPOSTO LO STATO AD "A"
                             $query = "insert into tbl_abildoc(idcompetenza,numeroordine,sintabilcono,abilcono,obminimi,abil_cono) VALUES
                             ($idcompetenza,$numordcono,'$riga_tmp[1]','$riga_tmp[2]',$obmin,'C')";
-                            mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+                            eseguiQuery($con,$query);
                             $numordcono++;
 
                         }

@@ -52,7 +52,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 // prelevamento dati alunno
 
 $query = "select * from tbl_alunni where idalunno=$idalunno";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 if ($val = mysqli_fetch_array($ris))
 {
@@ -66,7 +66,7 @@ $query = "select * from tbl_valutazioniintermedie, tbl_materie
           where tbl_valutazioniintermedie.idmateria=tbl_materie.idmateria
           and idalunno=$idalunno
           order by denominazione, data desc";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 // print $query;
 if (mysqli_num_rows($ris) > 0)
 {
@@ -127,7 +127,7 @@ if (mysqli_num_rows($ris) > 0)
     if ($visvotocomp=='yes')
     {
         $query = "select avg(voto) as votomedio from tbl_valutazionicomp where idalunno=$idalunno";
-        $rismedio = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+        $rismedio = eseguiQuery($con,$query);
         $recmedio = mysqli_fetch_array($rismedio);
 
         $votomedio = $recmedio['votomedio'];

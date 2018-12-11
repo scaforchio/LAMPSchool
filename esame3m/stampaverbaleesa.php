@@ -51,7 +51,7 @@ $query = "select * from tbl_esami3m,tbl_escommissioni where
           tbl_esami3m.idcommissione=tbl_escommissioni.idescommissione
           and idclasse=$idclasse";
 // print inspref($query);
-$ris = mysqli_query($con, inspref($query))  or die("Errore: ".inspref($query,false));
+$ris = eseguiQuery($con,$query);
 $rec = mysqli_fetch_array($ris);
 
 
@@ -106,7 +106,7 @@ $query = "select distinct tbl_cattnosupp.iddocente, cognome, nome from tbl_cattn
         where tbl_cattnosupp.iddocente=tbl_docenti.iddocente
         and idclasse=$idclasse and tbl_cattnosupp.iddocente<>1000000000
         order by cognome, nome";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 $elencodocentititolari = array();
 while ($rec = mysqli_fetch_array($ris))
 {
@@ -246,14 +246,14 @@ else
     $conddebito = "";
 
 $query = "select * from tbl_alunni where idclasseesame=$idclasse $conddebito order by cognome, nome, datanascita";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($rec = mysqli_fetch_array($ris))
 {
     $idalunno = $rec['idalunno'];
     $datialunno = estrai_dati_alunno($idalunno, $con) . "\n";
     $annotazionialunno = "";
     $query = "select * from tbl_giudizi where idalunno=$idalunno and periodo=$numeroperiodi and giudizio<>''";
-    $risgiu = mysqli_query($con, inspref($query));
+    $risgiu = eseguiQuery($con,$query);
     if ($recgiu = mysqli_fetch_array($risgiu))
     {
         $annotazionialunno .= $recgiu['giudizio'] . "\n";
@@ -262,7 +262,7 @@ while ($rec = mysqli_fetch_array($ris))
 	        where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
 	        and idalunno=$idalunno and periodo=$numeroperiodi and note<>''
 	        order by tbl_materie.progrpag, denominazione";
-    $risnot = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query));
+    $risnot = eseguiQuery($con,$query);
     while ($recnot = mysqli_fetch_array($risnot))
     {
         $annotazionialunno .= $recnot['denominazione'] . ": ";
@@ -294,7 +294,7 @@ $query = "select * from tbl_esesiti,tbl_alunni
         and tbl_alunni.idclasseesame = $idclasse
         and tbl_esesiti.votofinale>=6
         order by idclasse DESC, cognome, nome, datanascita";
-$risesi = mysqli_query($con, inspref($query));
+$risesi = eseguiQuery($con,$query);
 $numdalic = mysqli_num_rows($risesi);
 if ($numdalic > 0)
 {
@@ -345,7 +345,7 @@ $query = "select * from tbl_esesiti,tbl_alunni
         and tbl_alunni.idclasseesame = $idclasse
         and tbl_esesiti.votofinale<6
         order by idclasse DESC, cognome, nome, datanascita";
-$risesi = mysqli_query($con, inspref($query));
+$risesi = eseguiQuery($con,$query);
 $numnondalic = mysqli_num_rows($risesi);
 if ($numnondalic > 0)
 {
@@ -384,7 +384,7 @@ $query = "select * from tbl_esesiti,tbl_alunni
         and tbl_esesiti.votofinale<=6
         and tbl_esesiti.ammissioneterza
         order by cognome, nome, datanascita";
-$risesi = mysqli_query($con, inspref($query));
+$risesi = eseguiQuery($con,$query);
 $numterza = mysqli_num_rows($risesi);
 if ($numterza > 0)
 {

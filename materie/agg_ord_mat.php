@@ -58,7 +58,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
     //Esecuzione query finale
     $sql="UPDATE tbl_materie SET progrpag='$progrpag',media='$media' WHERE idmateria=$idmateria";
 
-    if (!($ris=mysqli_query($con,inspref($sql))))
+    if (!($ris=eseguiQuery($con,$sql)))
     {
         die("\n<FONT SIZE='+2'> <CENTER>Modifica non eseguita</CENTER> </FONT>");
     }

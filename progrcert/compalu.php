@@ -61,7 +61,7 @@ $query="select idcattedra, tbl_cattnosupp.idmateria, tbl_cattnosupp.idclasse, tb
           
            
          
-          $ris=mysqli_query($con,inspref($query));
+          $ris=eseguiQuery($con,$query);
       if (mysqli_num_rows($ris)>0)
       {   
 			
@@ -109,7 +109,7 @@ $query="select idcattedra, tbl_cattnosupp.idmateria, tbl_cattnosupp.idclasse, tb
     $query="select count(*) as numerocomp from tbl_competalu
             where idmateria=$idmateria 
 	         and idalunno=$idalunno";
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
           
     $nom=mysqli_fetch_array($ris);
   
@@ -135,7 +135,7 @@ $query="select idcattedra, tbl_cattnosupp.idmateria, tbl_cattnosupp.idclasse, tb
 	      and tbl_valutazioniintermedie.idalunno=$idalunno";
              
 	              
-     $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+     $ris=eseguiQuery($con,$query);
           
      $nom=mysqli_fetch_array($ris);
   
@@ -149,7 +149,7 @@ $query="select idcattedra, tbl_cattnosupp.idmateria, tbl_cattnosupp.idclasse, tb
      {
      
        $query="select * from tbl_competalu where idmateria=$idmateria and idalunno=$idalunno  order by numeroordine";
-       $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+       $ris=eseguiQuery($con,$query);
        print "<p align='center'>
               <font size=4 color='black'>Competenze </font>
               <form method='post' action='inscompalu.php'>

@@ -76,7 +76,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
 
 // Riempimento combo box tbl_classi
 $query="select idclasse,anno,sezione,specializzazione from tbl_classi order by specializzazione, sezione, anno";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
    print "<option value='";
@@ -156,7 +156,7 @@ echo('      <tr>
 // Riempimento combo box tbl_docenti
 print "<tr><td width='50%'><p align='center'><b>Docente</b></p></td><td>";
 $query="select iddocente,cognome,nome from tbl_docenti order by cognome, nome";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 echo ("<select name='iddocente' ONCHANGE='tbl_noteclasse.submit()'><option value=''>&nbsp");
 while($nom=mysqli_fetch_array($ris))
 {
@@ -231,7 +231,7 @@ echo('     </form></td>
             and $stringaricerca 
             order by tbl_classi.specializzazione, tbl_classi.sezione, tbl_classi.anno, tbl_docenti.cognome, tbl_docenti.nome, tbl_annotazioni.data";
    // print $query."<br/>";
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query di selezione nota: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
 
     $c=mysqli_num_rows($ris);
    

@@ -148,7 +148,7 @@ if ($periodo!="")
 //Esecuzione query
     $query = "SELECT * FROM tbl_scrutini,tbl_classi WHERE tbl_scrutini.idclasse=tbl_classi.idclasse and periodo=$periodo ORDER BY anno, sezione, specializzazione";  // 0=supplenza, -1=comportamento
 
-    if (!($ris = mysqli_query($con, inspref($query))))
+    if (!($ris = eseguiQuery($con,$query)))
     {
         print "Query fallita";
     }

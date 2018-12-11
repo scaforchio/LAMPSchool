@@ -55,7 +55,7 @@ riceve in ingresso iddocente*/
 	      where tbl_lezioni.idmateria=tbl_materie.idmateria 
 	      and tbl_lezioni.idclasse=tbl_classi.idclasse
 	      and idlezione=$a ";
-	$result=mysqli_query($con,inspref($sql));
+	$result=eseguiQuery($con,$sql);
 	$Data=mysqli_fetch_array($result);
 	if(!($result))
 		print("Query fallita");

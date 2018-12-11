@@ -63,12 +63,12 @@ print ('<body class="stampa" onLoad="printPage()">');
      
    
     $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
     if($val=mysqli_fetch_array($ris))
        $classe=$val["anno"]." ".$val["sezione"]." ".$val["specializzazione"];
 
     $query='select * from tbl_alunni where idclasse="'.$idclasse.'" order by cognome,nome,datanascita';
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
 
     $c=mysqli_fetch_array($ris);
     if ($c==NULL) {echo '
@@ -92,7 +92,7 @@ print ('<body class="stampa" onLoad="printPage()">');
      
  
     $query='select * from tbl_alunni where idclasse="'.$idclasse.'" order by cognome,nome,datanascita';
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
     while($val=mysqli_fetch_array($ris))
     {
       echo ' 
@@ -114,9 +114,9 @@ print ('<body class="stampa" onLoad="printPage()">');
       $queryrit='select count(*) as numrit from tbl_ritardi where idalunno = '.$val["idalunno"].$seledata;
       $queryusc='select count(*) as numusc from tbl_usciteanticipate where idalunno = '.$val["idalunno"].$seledata;
  
-      $risass=mysqli_query($con,inspref($queryass)) or die ("Errore nella query: ". mysqli_error($con));
-      $risrit=mysqli_query($con,inspref($queryrit)) or die ("Errore nella query: ". mysqli_error($con));      
-      $risusc=mysqli_query($con,inspref($queryusc)) or die ("Errore nella query: ". mysqli_error($con));   
+      $risass=eseguiQuery($con,$queryass);
+      $risrit=eseguiQuery($con,$queryrit);      
+      $risusc=eseguiQuery($con,$queryusc);   
       while ($ass=mysqli_fetch_array($risass))
       {
        

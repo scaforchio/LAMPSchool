@@ -27,19 +27,20 @@ $daticrud = array();
 $daticrud['titolo']='GESTIONE SEZIONI';
 
 
-$daticrud['tabella'] = inspref("tbl_sezioni");
+$daticrud['tabella'] = ("tbl_sezioni");
 
 
 // Nome della tabella per visualizzazioni
 $daticrud['aliastabella'] = "sezioni";
+$daticrud['larghezzatabella']= "40%";
 // Campo con l'id univoco per la tabella
 $daticrud['campochiave'] = "idsezione";
 
 // Campi in base ai quali ordinare (specificare gli alias (14° valore nella descrizione del campo)
 // se ci sono campi con lo stesso nome)
-$daticrud['campiordinamento']= [inspref("denominazione")];
+$daticrud['campiordinamento']= "denominazione";
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
-$daticrud['condizione']= inspref("true");
+$daticrud['condizione']= ("true");
 
 $daticrud['abilitazionemodifica']=1;
 $daticrud['abilitazionecancellazione']=1;

@@ -59,7 +59,7 @@ print ("
            
          $query="select idcattedra,tbl_classi.idclasse, anno, sezione, specializzazione, denominazione,tbl_materie.idmateria from tbl_cattnosupp, tbl_classi, tbl_materie where iddocente=$iddocente and tbl_cattnosupp.idclasse=tbl_classi.idclasse and tbl_cattnosupp.idmateria = tbl_materie.idmateria and idalunno=0 order by anno, sezione, specializzazione, denominazione";
           
-          $ris=mysqli_query($con,inspref($query));
+          $ris=eseguiQuery($con,$query);
           while($nom=mysqli_fetch_array($ris))
 	      {
             print "<option value='";
@@ -103,7 +103,7 @@ print ("
  
     
 	              
-     $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+     $ris=eseguiQuery($con,$query);
           
      $nom=mysqli_fetch_array($ris);
   $votipresenti=false;
@@ -119,7 +119,7 @@ print ("
     
    
     $query="select * from tbl_competdoc where idmateria=$idmateria and idclasse=$idclasse order by numeroordine";
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
     print "<p align='center'>
           <font size=4 color='black'>Competenze </font>
           <form method='post' action='inscompdo.php'>
@@ -141,7 +141,7 @@ print ("
                  and tbl_valutazioniabilcono.idabilita = tbl_abildoc.idabilita
                  and tbl_abildoc.idcompetenza=tbl_competdoc.idcompetenza
                  and tbl_competdoc.idcompetenza=$idcompetenza";
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". inspref($query));
+        $ris2=eseguiQuery($con,$query);
         if (mysqli_num_rows($ris2)>0)
            $votipresenti=true;
                

@@ -71,7 +71,7 @@ else
 	        and tbl_cattnosupp.iddocente!=1000000000
 	        order by cognome,nome" ; 	
    
-	$ris=mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query)); 
+	$ris=eseguiQuery($con,$query); 
 	print "<table border=1 align=center><tr class='prima'><td><font size=4>Docente</font></td><td><font size=4>Ricevimento</font></td></tr>";
 	while($nom=mysqli_fetch_array($ris))
 	{
@@ -85,7 +85,7 @@ else
 			         where idclasse=$idclasse and iddocente=".$nom['iddocente'].
 			         " and idalunno=0";
 			// print inspref($query);        
-			 $rismat=mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query));
+			 $rismat=eseguiQuery($con,$query);
 			 print "<small>";
 			 while ($recmat=mysqli_fetch_array($rismat))
 			 {
@@ -100,7 +100,7 @@ else
 		         and tbl_orericevimento.valido
 		         and iddocente=".$nom['iddocente'];
 		  
-		 $ris2=mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query)); 
+		 $ris2=eseguiQuery($con,$query); 
 	    while($nom2=mysqli_fetch_array($ris2))
 	    {        
 		    print giornodanum($nom2['giorno'])." ".substr($nom2['inizio'],0,5)."-".substr($nom2["fine"],0,5)."  ".$nom2['note']."<br>";

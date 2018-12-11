@@ -44,7 +44,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Attribuzi
 
  
  $query="select idalunno as al from tbl_alunni where idclasse='0'";
- $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+ $ris=eseguiQuery($con,$query);
 
  
     while($id=mysqli_fetch_array($ris))
@@ -55,7 +55,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Attribuzi
        {
           $query="update tbl_alunni set idclasse=$idclasse where idalunno=".$id['al'];
           
-          $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+          $ris2=eseguiQuery($con,$query); 
        }
     }
     echo '

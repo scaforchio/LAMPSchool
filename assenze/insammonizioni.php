@@ -46,7 +46,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 
 $query = "SELECT idalunno,nome,cognome, sesso FROM tbl_alunni WHERE idclasse<>0";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 
 
 while ($rec = mysqli_fetch_array($ris))

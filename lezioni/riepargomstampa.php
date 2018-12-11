@@ -70,7 +70,7 @@ if ($catt != "")
     if ($catt <> "")
     {
         $query = "select idclasse, idmateria from tbl_cattnosupp where idcattedra=$catt";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = eseguiQuery($con,$query);
         if ($nom = mysqli_fetch_array($ris))
         {
             $idmateria = $nom['idmateria'];
@@ -88,7 +88,7 @@ $id_ut_doc = $_SESSION["idutente"];
 /*
   $query="select iddocente, cognome, nome from tbl_docenti where idutente=$id_ut_doc";
 
-  $ris=mysqli_query($con,inspref($query));
+  $ris=eseguiQuery($con,$query);
   if($nom=mysqli_fetch_array($ris))
   {
   $iddocente=$nom["iddocente"];
@@ -101,12 +101,12 @@ $classe = "";
 
 
 $query = 'select * from tbl_classi where idclasse="' . $idclasse . '" ';
-$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 if ($val = mysqli_fetch_array($ris))
     $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
 
 $query = 'select * from tbl_materie where idmateria="' . $idmateria . '" ';
-$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 if ($val = mysqli_fetch_array($ris))
     $nomemateria = $val["denominazione"];
 
@@ -121,7 +121,7 @@ print ("<font size=2><center><br/>A.S. <i>$annoscolastico</i> <br/>Argomenti e a
 $strdocenti = "";
 $query = "select iddocente from tbl_cattnosupp where idmateria=$idmateria and idclasse=$idclasse and iddocente<>1000000000";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 if (mysqli_num_rows($ris) > 1)
 {
     $strdocenti = "Docenti:<i> ";
@@ -159,7 +159,7 @@ if ($idclasse != "")
           <td width=10%>Data</td>
           <td width=90%>Argomenti e attivit&agrave;</td></tr>';
     $query = "select * from tbl_lezioni where idclasse=$idclasse and idmateria=$idmateria order by datalezione";
-    $rislez = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $rislez = eseguiQuery($con,$query);
 
 
 

@@ -122,7 +122,7 @@ $query = "select distinct tbl_classi.idclasse,anno,sezione,specializzazione
         and tbl_cattnosupp.iddocente=$iddocente
         $selecert     
         order by specializzazione, sezione, anno";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -163,7 +163,7 @@ if ($idclasse != "")
         $query = "select idalunno,cognome,nome,datanascita from tbl_alunni where idclasse=$idclasse and certificato=1 $selealucert order by cognome, nome, datanascita";
     }
 
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     echo("<select name='idalunno' ONCHANGE='documenti.submit()'><option value=''>&nbsp;");
     while ($nom = mysqli_fetch_array($ris))
     {
@@ -224,7 +224,7 @@ if ($idalunno != "")
 			  
 			  order by datadocumento";
 
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query) . mysqli_error($ris));
+    $ris = eseguiQuery($con,$query);
     while ($nom = mysqli_fetch_array($ris))
     {
 
@@ -296,7 +296,7 @@ if ($idalunno != "")
     print "<td><input type='text' maxlength='255' size='30' name='descrizione'></td>";
     print "<td><select name='idtipodocumento'>";
     $query = "SELECT idtipodocumento,descrizione FROM tbl_tipidocumenti";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris))
     {
 
@@ -333,7 +333,7 @@ if ($idalunno != "")
 				  where idclasse='$idclasse'
 				  and iddocente='$iddocente'
 				  $selecert";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris))
     {
 

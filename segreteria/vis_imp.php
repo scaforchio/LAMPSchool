@@ -50,7 +50,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 	$sql="SELECT * FROM tbl_amministrativi ,tbl_utenti
        WHERE tbl_amministrativi.idamministrativo=tbl_utenti.idutente 
        ORDER BY cognome,nome";
-	$result=mysqli_query($con,inspref($sql));
+	$result=eseguiQuery($con,$sql);
 	if(!($result))
 		print("query fallita".mysqli_error($con));
 	else {

@@ -130,7 +130,7 @@ else
 					OR idalunno=" . $dataass['rappresentante2'] . "
 					ORDER BY cognome";
 
-            $risalu = mysqli_query($con, inspref($alu));
+            $risalu = eseguiQuery($con,$alu);
             print "<td>";
             while ($dataalu = mysqli_fetch_array($risalu))
             {

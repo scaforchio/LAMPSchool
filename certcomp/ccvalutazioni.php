@@ -76,7 +76,7 @@ print('
 
 $query = "select idclasse, anno, sezione, specializzazione from tbl_classi where $annocomp order by anno, sezione, specializzazione";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris)) {
     print "<option value='";
     print ($nom["idclasse"]);
@@ -111,7 +111,7 @@ if ($idclasse != '') {
 
     $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
 
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     while ($nom = mysqli_fetch_array($ris)) {
         print "<option value='";
         print ($nom["idalunno"]);
@@ -156,7 +156,7 @@ if ($annoclasse == 5)
 if ($idalunno != '') {
 
     $query = "select * from tbl_certcompvalutazioni where idalunno='$idalunno'";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris) == 0) {
         if (importa_proposte($con, $idalunno, $livscuola))
             print "<center><font color='green'><big>Proposte importate!</big></font></center>";
@@ -172,7 +172,7 @@ if ($idalunno != '') {
 
 
     $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris)) {
         print "<tr>";
         print "<td valign='middle' width=5%>" . $rec['numprogressivo'] . "</td>";

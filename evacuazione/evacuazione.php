@@ -90,7 +90,7 @@ if ($idlezione!="" & $giorno!="" & $meseanno!="" )
 
     $query="select idclasse, idmateria from tbl_cattnosupp where idcattedra=$cattedra";
 
-       $ris=mysqli_query($con,inspref($query));
+       $ris=eseguiQuery($con,$query);
        if($nom=mysqli_fetch_array($ris))
        {
            $materia=$nom['idmateria'];
@@ -243,7 +243,7 @@ $query = "select idclasse, anno, sezione, specializzazione from tbl_classi
         order by anno, sezione, specializzazione";
 
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -325,7 +325,7 @@ $giornosettimana = giorno_settimana($anno . "-" . $mese . "-" . $giorno);
 //{
 //   $query="select * from tbl_cattnosupp where iddocente='$iddocente' and idclasse='$idclasse' and idmateria='$materia'";
 //   // print inspref($query);
-//   $ris=mysqli_query($con,inspref($query));
+//   $ris=eseguiQuery($con,$query);
 //   $numerorighe=mysqli_num_rows($ris);
 //}
 
@@ -355,7 +355,7 @@ else
        WHERE tbl_alunni.idalunno=tbl_utenti.idutente
        AND idclasse='$idclasse'ORDER BY cognome,nome";
 
-      $ris = mysqli_query($con, inspref($query));
+      $ris = eseguiQuery($con,$query);
       $num_alunni = mysqli_num_rows($ris);
       echo('<tr><td><input type="hidden" name="numeroalunni" value="' . $num_alunni . '"</tr></td>');
       if(!$idclasse)

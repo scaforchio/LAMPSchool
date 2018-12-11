@@ -179,7 +179,7 @@ else
 //  Riempimento combobox delle tbl_classi
 //
 $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY anno,sezione,specializzazione";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -208,7 +208,7 @@ if ($nome != "")
 {
     print "<tr><td><b>Alunno</b></td><td>";
     $query = "select idalunno,cognome,nome,datanascita from tbl_alunni where idclasse=$idclasse order by cognome, nome, datanascita";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     if ($provenienza == 'tab')
         echo("<select name='idalunno' ONCHANGE='voti.submit()' disabled><option value=''>&nbsp");
     else
@@ -253,7 +253,7 @@ if ($nome != "" & $idalunno != "")
               and tbl_cattnosupp.iddocente <> 1000000000
               and tbl_materie.progrpag<100
               order by progrpag,sigla";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: ".inspref($query));
+    $ris = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris) > 0)
     {
         //print ("<table align='center' border='1'><tr class='prima' align='center'><td>Alunno</td>");
@@ -271,7 +271,7 @@ if ($nome != "" & $idalunno != "")
                 and tbl_gruppi.idmateria=" . $nom['idmateria'] . "
                 ";
 
-            $risgru = mysqli_query($con, inspref($query));
+            $risgru = eseguiQuery($con,$query);
             if ($recgru = mysqli_fetch_array($risgru))
             {
                 $idgruppo = $recgru['idgruppo'];
@@ -283,7 +283,7 @@ if ($nome != "" & $idalunno != "")
                 and tbl_alunni.idclasse=$idclasse
                 and tbl_gruppi.idmateria=" . $nom['idmateria'] . ")";
 
-                $risgrualu = mysqli_query($con, inspref($query));
+                $risgrualu = eseguiQuery($con,$query);
                 if (mysqli_num_rows($risgrualu) == 0)
                 {
                     $aggiungi = false;
@@ -362,7 +362,7 @@ if ($nome != "" & $idalunno != "")
                         WHERE idalunno=$idalunno
                         and idmateria=$cm 
                         and periodo='$periodo'";
-            $rismedia = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+            $rismedia = eseguiQuery($con,$query);
             if ($valmedia = mysqli_fetch_array($rismedia))
             {
                 $votounico = $valmedia['votounico'];
@@ -443,7 +443,7 @@ if ($nome != "" & $idalunno != "")
            WHERE idalunno=$idalunno
            and idclasse=$idclasse 
            and periodo='$periodo'";
-        $risgiud = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+        $risgiud = eseguiQuery($con,$query);
         if ($valgiud = mysqli_fetch_array($risgiud))
         {
             $giudizio = $valgiud['giudizio'];
@@ -470,7 +470,7 @@ if ($nome != "" & $idalunno != "")
     $query = "SELECT * FROM tbl_esiti
            WHERE idalunno=$idalunno
            ";
-    $risesito = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $risesito = eseguiQuery($con,$query);
     if ($valesito = mysqli_fetch_array($risesito))
     {
         $esito = $valesito['esito'];
@@ -557,7 +557,7 @@ if ($nome != "" & $idalunno != "")
         }
 
 // print inspref($query);   
-        $ris = mysqli_query($con, inspref($query));
+        $ris = eseguiQuery($con,$query);
 
         while ($nom = mysqli_fetch_array($ris))
         {
@@ -590,7 +590,7 @@ if ($nome != "" & $idalunno != "")
         {
             print "<SELECT ID='esitoint' NAME='esitoint'><option value='0'></option>  ";
             $query = "SELECT * FROM tbl_tipiesiti  WHERE passaggio<>2 ORDER BY idtipoesito";
-            $ris = mysqli_query($con, inspref($query));
+            $ris = eseguiQuery($con,$query);
             while ($nom = mysqli_fetch_array($ris))
             {
                 print "<option value='";

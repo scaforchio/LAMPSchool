@@ -178,7 +178,7 @@ if (count($_POST))
     }
 
 
-    $result = mysqli_query($con, inspref($sql)) or die("Errore nella query: " . mysqli_error($con) . inspref($sql));
+    $result = eseguiQuery($con,$sql);
 
     if (mysqli_num_rows($result) <= 0)
     {
@@ -232,7 +232,7 @@ if (count($_POST))
         {
             //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
             $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . $_SESSION['idutente'] . "'";
-            $ris = mysqli_query($con, inspref($sql)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+            $ris = eseguiQuery($con,$sql);
 
             if ($val = mysqli_fetch_array($ris))
             {
@@ -248,7 +248,7 @@ if (count($_POST))
             //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
             $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . ($_SESSION['idutente'] - 2100000000) . "'";
 
-            $ris = mysqli_query($con, inspref($sql)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+            $ris = eseguiQuery($con,$sql);
 
             if ($val = mysqli_fetch_array($ris))
             {
@@ -269,7 +269,7 @@ if (count($_POST))
         if ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P')
         {
             $sql = "SELECT * FROM tbl_docenti WHERE idutente='" . $_SESSION['idutente'] . "'";
-            $ris = mysqli_query($con, inspref($sql)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+            $ris = eseguiQuery($con,$sql);
 
             if ($val = mysqli_fetch_array($ris))
             {
@@ -278,7 +278,7 @@ if (count($_POST))
             }
             // VERIFICO SE C'E' UNA DEROGA PER IL LIMITE DI INSERIMENTO
             $sql = "SELECT * FROM tbl_derogheinserimento WHERE iddocente='" . $_SESSION['idutente'] . "' AND DATA='" . date('Y-m-d') . "'";
-            $ris = mysqli_query($con, inspref($sql)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+            $ris = eseguiQuery($con,$sql);
 
             if (mysqli_num_rows($ris) > 0)
             {
@@ -292,7 +292,7 @@ if (count($_POST))
         if ($_SESSION['tipoutente'] == 'A')
         {
             $sql = "SELECT * FROM tbl_amministrativi WHERE idutente='" . $_SESSION['idutente'] . "'";
-            $ris = mysqli_query($con, inspref($sql)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+            $ris = eseguiQuery($con,$sql);
 
             if ($val = mysqli_fetch_array($ris))
             {
@@ -314,7 +314,7 @@ if (count($_POST))
         {
             $query = "SELECT dataacc FROM tbl_logacc
                    WHERE idlog = (SELECT max(idlog) FROM tbl_logacc)";
-            $ris = mysqli_query($con, inspref($query)) or die("Errore " . inspref($query));
+            $ris = eseguiQuery($con,$query);
             $rec = mysqli_fetch_array($ris);
             $dataultimoaccesso = $rec['dataacc'];
             $dataultimo = substr($dataultimoaccesso, 0, 10);
@@ -341,7 +341,7 @@ if (count($_POST))
 
         // Ricerca ultimo accesso
         $query = "select dataacc from " . $_SESSION["prefisso"] . "tbl_logacc where idlog=(select max(idlog) from " . $_SESSION["prefisso"] . "tbl_logacc where utente='$username' and comando='Accesso')";
-        $ris = mysqli_query($con, $query) or die("Errore " . $query);
+        $ris = eseguiQuery($con,$query,false);
         if (mysqli_num_rows($ris) == 0)
         {
             $ultimoaccesso = "";
@@ -365,7 +365,8 @@ if (count($_POST))
             $sql = "INSERT INTO " . $_SESSION["prefisso"] . "tbl_logacc( utente , dataacc, comando,indirizzo) values('$username','" . date('Y/m/d - H:i') . "','Chiave universale','$indirizzoip')";
         }
         // print $sql;
-        mysqli_query($con, $sql) or die("Errore in inserimento log!");
+        //.mysqli_query($con, $sql) or die("Errore in inserimento log!");
+        eseguiQuery($con, $sql,false);
     }
 }
 
@@ -375,7 +376,7 @@ if ($_SESSION['tipoutente'] != 'E')
     if ($password != md5(md5($chiaveuniversale) . $seme) && !$accessouniversale)
     {
         $sql = "SELECT unix_timestamp(ultimamodifica) AS ultmod FROM " . $_SESSION['prefisso'] . "tbl_utenti WHERE userid='" . $_SESSION['userid'] . "'";
-        $data = mysqli_fetch_array(mysqli_query($con, $sql));
+        $data = mysqli_fetch_array(eseguiQuery($con, $sql,false));
         $dataultimamodifica = $data['ultmod'];
         $dataodierna = time();
         $giornidiff = differenza_giorni($dataultimamodifica, $dataodierna);
@@ -1469,7 +1470,7 @@ if ($cambiamentopassword)
 
         //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
         $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . $_SESSION['idutente'] . "'";
-        $ris = mysqli_query($con, inspref($sql)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+        $ris = eseguiQuery($con,$sql);
         if ($val = mysqli_fetch_array($ris))
         {
             $idstudente = $val["idalunno"];
@@ -1477,7 +1478,7 @@ if ($cambiamentopassword)
 
 
         $sql = "select * from tbl_alunni where idalunno='$idstudente'";
-        $ris = mysqli_query($con, inspref($sql)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+        $ris = eseguiQuery($con,$sql);
         if ($val = mysqli_fetch_array($ris))
         {
             $cognome = $val["cognome"];
@@ -1548,7 +1549,7 @@ if ($cambiamentopassword)
 
         //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
         $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . ($_SESSION['idutente'] - 2100000000) . "'";
-        $ris = mysqli_query($con, inspref($sql)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+        $ris = eseguiQuery($con,$sql);
         if ($val = mysqli_fetch_array($ris))
         {
             $idstudente = $val["idalunno"];
@@ -1556,7 +1557,7 @@ if ($cambiamentopassword)
 
 
         $sql = "select * from tbl_alunni where idalunno='$idstudente'";
-        $ris = mysqli_query($con, inspref($sql)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+        $ris = eseguiQuery($con,$sql);
         if ($val = mysqli_fetch_array($ris))
         {
             $cognome = $val["cognome"];
@@ -1579,7 +1580,7 @@ if ($cambiamentopassword)
             if ($livello_scuola == '4')
             {
                 // $query = "select * from tbl_classi where rappresentante1=$idstudente or rappresentante2=$idstudente";
-                // $riscontr = mysqli_query($con, inspref($query)) or die("Errore" . inspref($query));
+                // $riscontr = eseguiQuery($con,$query);
                 // if (mysqli_num_rows($riscontr) != 0)
                 // {
                 menu_title_begin("ASSEMBLEE DI CLASSE");
@@ -1632,7 +1633,7 @@ if ($cambiamentopassword)
                 $query = "SELECT DISTINCT * FROM tbl_assemblee 
 				  WHERE (autorizzato=0) 
 				  AND ((docenteconcedente1!=0 AND concesso1=1) AND (docenteconcedente2=0) OR (docenteconcedente2!=0 AND concesso2=1))";
-                $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+                $ris = eseguiQuery($con, $query);
                 if (mysqli_num_rows($ris) > 0)
                 {
                     print ("<center><br><i><b><font color='red'><big><big>Ci sono assemblee da autorizzare! <a href='../assemblee/assstaff.php'>Esamina ora!</a></big></big></font></b></i><br/></center>");
@@ -1647,7 +1648,7 @@ if ($cambiamentopassword)
 		  WHERE ((docenteconcedente1=$idutente AND concesso1=0)
                         OR (docenteconcedente2=$idutente AND concesso2=0))
                         AND (rappresentante1<>0 and rappresentante2<>0)";
-                $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+                $ris = eseguiQuery($con, $query);
                 if (mysqli_num_rows($ris) > 0)
                 {
                     print ("<center><br><i><b><font color='red'><big><big>Ci sono richieste di assemblee da visionare! <a href='../assemblee/assdoc.php'>Esamina ora!</a></big></big></font></b></i><br/></center>");
@@ -1665,7 +1666,7 @@ if ($cambiamentopassword)
 							  and (isnull(datalettura) or datalettura='0000-00-00')
 							  and datainserimento<='$dataoggi'";
         // print "tttt ".inspref($query);
-        $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+        $ris = eseguiQuery($con, $query);
         if (mysqli_num_rows($ris) > 0)
         {
             print ("<center><br><i><b><font color='red'><big><big>Ci sono circolari non lette! <a href='../circolari/viscircolari.php'>Leggi ora!</a></big></big></font></b></i><br/></center>");
@@ -1694,7 +1695,7 @@ if ($cambiamentopassword)
 
 
             // print "tttt ".inspref($query);
-            $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+            $ris = eseguiQuery($con, $query);
             if (mysqli_num_rows($ris) > 0)
             {
 
@@ -1714,7 +1715,7 @@ if ($cambiamentopassword)
 								  and tbl_prenotazioni.valido
 								  and conferma=2";
 
-            $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+            $ris = eseguiQuery($con, $query);
             if (mysqli_num_rows($ris) > 0)
             {
                 while ($rec = mysqli_fetch_array($ris))
@@ -1748,7 +1749,7 @@ if ($cambiamentopassword)
 								  and tbl_prenotazioni.valido
 								  and conferma=2";
 
-            $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+            $ris = eseguiQuery($con, $query);
             if (mysqli_num_rows($ris) > 0)
             {
                 while ($rec = mysqli_fetch_array($ris))
@@ -1773,7 +1774,7 @@ if ($cambiamentopassword)
                     and data>'$datalimiteinferiore'
                     and visibilitagenitori=true";
 
-            $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+            $ris = eseguiQuery($con, $query);
             if (mysqli_num_rows($ris) > 0)
             {
                 while ($rec = mysqli_fetch_array($ris))
@@ -1801,7 +1802,7 @@ if ($cambiamentopassword)
                     and data>'$datalimiteinferiore'
                     and visibilitaalunni=true";
 
-            $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+            $ris = eseguiQuery($con, $query);
             if (mysqli_num_rows($ris) > 0)
             {
                 while ($rec = mysqli_fetch_array($ris))
@@ -1818,7 +1819,7 @@ if ($cambiamentopassword)
         // VERIFICO PRESENZA AVVISI
         //
         $query = "select * from tbl_avvisi where inizio<='$dataoggi' and fine>='$dataoggi' and LOCATE('$tipoutente',destinatari)<>0 order by inizio desc";
-        $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+        $ris = eseguiQuery($con, $query);
         while ($val = mysqli_fetch_array($ris))
         {
             $inizio = data_italiana($val["inizio"]);
@@ -1881,7 +1882,7 @@ if ($cambiamentopassword)
         }
         //inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "2");
         $query = "select * from tbl_avvisi where inizio<='$dataoggi' and fine>='$dataoggi' order by inizio desc";
-        $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+        $ris = eseguiQuery($con, $query);
         //inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§3");
         while ($val = mysqli_fetch_array($ris))
         {

@@ -114,7 +114,7 @@ else
 					OR idalunno=" . $dataass['rappresentante2'] . "
 					ORDER BY cognome";
 
-            $risalu = mysqli_query($con, inspref($alu));
+            $risalu = eseguiQuery($con,$alu);
             print "<td>";
             while ($dataalu = mysqli_fetch_array($risalu))
             {
@@ -197,7 +197,7 @@ else
 					OR idalunno=" . $dataass['rappresentante2'] . "
 					ORDER BY cognome";
 
-            $risalu = mysqli_query($con, inspref($alu));
+            $risalu = eseguiQuery($con,$alu);
             print "<td>";
             while ($dataalu = mysqli_fetch_array($risalu))
             {
@@ -269,7 +269,7 @@ else
 				OR idalunno=" . $dataass['rappresentante2'] . "
 				ORDER BY cognome";
 
-        $risalu = mysqli_query($con, inspref($alu));
+        $risalu = eseguiQuery($con,$alu);
         print "<td>";
         while ($dataalu = mysqli_fetch_array($risalu))
         {
@@ -281,7 +281,7 @@ else
         $alu = "SELECT cognome,nome FROM tbl_alunni
 				WHERE idalunno=" . $dataass['alunnopresidente'];
 
-        $risalu = mysqli_query($con, inspref($alu));
+        $risalu = eseguiQuery($con,$alu);
         $dataalu = mysqli_fetch_array($risalu);
         print "<td>" . $dataalu['cognome'] . "&nbsp;" . $dataalu['nome'] . "</td>";
 
@@ -289,7 +289,7 @@ else
         $alu = "SELECT cognome,nome FROM tbl_alunni
 				WHERE idalunno=" . $dataass['alunnosegretario'];
 
-        $risalu = mysqli_query($con, inspref($alu));
+        $risalu = eseguiQuery($con,$alu);
         $dataalu = mysqli_fetch_array($risalu);
         print "<td>" . $dataalu['cognome'] . "&nbsp;" . $dataalu['nome'] . "</td>";
 

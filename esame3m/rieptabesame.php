@@ -264,7 +264,7 @@ $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM
               ORDER BY anno,sezione,specializzazione";
 
 //print inspref($query);
-$ris = mysqli_query($con, inspref($query))  or die("Errore:".inspref($query,false)." ".mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -289,13 +289,13 @@ if ($idclasse != "")
 
     // Se non esistono i dati dell'esame relativi alla classe li inserisco
     $query = "select * from tbl_esami3m where idclasse=$idclasse";
-    $ris = mysqli_query($con, inspref($query))  or die("Errore:".inspref($query,false)." ".mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris) == 0)
     {
         $query = "insert into tbl_esami3m(idclasse,stato) values ('$idclasse','A')";
-        mysqli_query($con, inspref($query))  or die("Errore:".inspref($query,false)." ".mysqli_error($con));
+        eseguiQuery($con,$query);
         $query = "select * from tbl_esami3m where idclasse=$idclasse";
-        $ris = mysqli_query($con, inspref($query))  or die("Errore:".inspref($query,false)." ".mysqli_error($con));
+        $ris = eseguiQuery($con,$query);
         $rec = mysqli_fetch_array($ris);
     }
     else
@@ -347,7 +347,7 @@ if ($idclasse != "")
 
         $query = "SELECT * FROM tbl_alunni
                       where tbl_alunni.idclasseesame=$idclasse";
-        $risalu = mysqli_query($con, inspref($query));
+        $risalu = eseguiQuery($con,$query);
 
         while ($recalu = mysqli_fetch_array($risalu))
         {
@@ -355,7 +355,7 @@ if ($idclasse != "")
             // Verifico se è già presente l'id dell'alunno negli esiti esami
             $query = "SELECT * FROM tbl_esesiti
                       where idalunno=$idalunno";
-            $risesame = mysqli_query($con, inspref($query));
+            $risesame = eseguiQuery($con,$query);
             if (!$recesame = mysqli_fetch_array($risesame))
             {
                 // Se c'è un esito positivo o non c'è un esito inserisco i dati nella tabella degli esiti esami
@@ -398,7 +398,7 @@ if ($idclasse != "")
     // SELEZIONO LE MATERIE
     $query = "SELECT * from tbl_esmaterie
 	              WHERE idclasse=$idclasse";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris) > 0)
     {
 
@@ -482,7 +482,7 @@ if ($idclasse != "")
                       WHERE tbl_alunni.idclasseesame=$idclasse
                       ORDER BY idclasse DESC,cognome,nome,datanascita"; */
         // TTTT
-        $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $ris = eseguiQuery($con,$query);
         while ($val = mysqli_fetch_array($ris))
         {
             $listavoti = array();
@@ -689,7 +689,7 @@ function creaFileCSV($idclasse, &$datitabella, $conn)
     global $annoscol;
 
     $query = "select * from tbl_esmaterie where idclasse=$idclasse";
-    $rismat = mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query, false));
+    $rismat = eseguiQuery($conn,$query);
     $recmat = mysqli_fetch_array($rismat);
     $nf = "esami_" . decodifica_classe($idclasse, $conn) . ".csv";
     $nf = str_replace(" ", "_", $nf);
@@ -769,7 +769,7 @@ function creaFileCSV($idclasse, &$datitabella, $conn)
 	          AND tbl_alunni.idclasseesame=$idclasse
 	          order by cognome, nome, datanascita";
     //print inspref($query);
-    $risvalu = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn));
+    $risvalu = eseguiQuery($conn,$query);
     while ($recval = mysqli_fetch_array($risvalu))
     {
         $alunno = array();
@@ -814,7 +814,7 @@ function creaFileCSV($idclasse, &$datitabella, $conn)
         $alunno[] = "Inglese"; // prima lingua straniera
 
         $query="select * from tbl_esmaterie where idclasse=$idclasse";
-        $ris=mysqli_query($conn,inspref($query));
+        $ris=eseguiQuery($conn,$query);
         $rec=mysqli_fetch_array($ris);
         $campo2l="m".$rec['num2lin']."e";
         $alunno[] = $rec[$campo2l]; // seconda lingua straniera

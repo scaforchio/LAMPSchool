@@ -56,7 +56,7 @@ print "<table align='center'>
 // Conto competenze, abilità e conoscenze per dimensionare la select multiple
 $query = "SELECT count(*) AS numobiettivi FROM tbl_compob";
 // print $query;
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 $nomcomp = mysqli_fetch_array($ris);
 $numobiettivi = $nomcomp['numobiettivi'];
 
@@ -65,7 +65,7 @@ $totalerighe = $numobiettivi;
 print "<select name='idobiettivo' size='$totalerighe'>";
 $query = "SELECT * FROM tbl_compob
 	              ORDER BY numeroordine";
-$riscomp = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$riscomp = eseguiQuery($con,$query);
 
 while ($nomcomp = mysqli_fetch_array($riscomp))
 {

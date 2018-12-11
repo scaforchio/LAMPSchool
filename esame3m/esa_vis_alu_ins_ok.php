@@ -210,16 +210,16 @@ else
 
             // INSERISCO ANCHE IL RECORD NELLA TABELLA DEI tbl_tutori;
             $sqlt = "insert into tbl_tutori(idtutore,cognome,nome,idalunno,idutente) values ('$idalunnoinserito','$cognome','$nome','$idalunnoinserito','$idalunnoinserito')";
-            $res = mysqli_query($con, inspref($sqlt));
+            $res = eseguiQuery($con,$sqlt);
             // INSERISCO ANCHE IL RECORD NELLA TABELLA DEI tbl_tutori;
             $utente = "gen" . $idalunnoinserito;
             $password = creapassword();
             $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idalunnoinserito','$utente',md5('" . md5($password) . "'),'T')";
-            $res = mysqli_query($con, inspref($sqlt));
+            $res = eseguiQuery($con,$sqlt);
             // AGGIORNO IL RECORD DELL'ALUNNO CON l'ID DEL TUTORE
             $sqlt = "update tbl_alunni set idtutore=$idalunnoinserito,idutente=$idalunnoinserito where idalunno=$idalunnoinserito";
 
-            $res = mysqli_query($con, inspref($sqlt));
+            $res = eseguiQuery($con,$sqlt);
 
             // print "risultato inserimento $idalunnoinserito<br/>"; */
             print("L'alunno &egrave; stato inserito<br/>");

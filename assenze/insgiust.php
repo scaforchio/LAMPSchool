@@ -55,7 +55,7 @@ $data = stringa_html('data');
     $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
      
     $query='select * from tbl_assenze where idalunno="'.$idalunno.'" and (isnull(giustifica) or giustifica=0) order by data ';
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
 	if (mysqli_num_rows($ris)>0)
 	{
 	   while($val=mysqli_fetch_array($ris))
@@ -64,7 +64,7 @@ $data = stringa_html('data');
           if ($idgiu=="on")
           {
              $query="update tbl_assenze set giustifica=1, datagiustifica='".date("Y-m-d")."', iddocentegiust=".$_SESSION['idutente']." where idassenza=".$val['idassenza']."";
-             $risupd=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+             $risupd=eseguiQuery($con,$query); 
           } 
 		   
 	      

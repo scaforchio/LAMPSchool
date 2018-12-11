@@ -89,7 +89,7 @@ $strnome = stringa_html('strnome');
 $sql = "SELECT * FROM tbl_alunni WHERE idalunno='$c'";
 $sqlpass = "SELECT dischpwd FROM tbl_utenti WHERE idutente='$c'";
 //esecuzione query
-$res = mysqli_query($con, inspref($sql));
+$res = eseguiQuery($con,$sql);
 if (!$res)
 {
     print ("<br/> <br/> <br/> <h2> Impossibile visualizzare i dati </h2>");
@@ -98,7 +98,7 @@ else
 {
     if ($dato = mysqli_fetch_array($res))
     {
-        $respass=mysqli_query($con, inspref($sqlpass));
+        $respass=eseguiQuery($con,$sqlpass);
         $recpass=mysqli_fetch_array($respass);
         $bloccopassword=$recpass['dischpwd'];
         print("<form action='vis_alu_mod_ok.php' method='POST'>");
@@ -142,7 +142,7 @@ else
         print ("<tr> <td> <i> Data di nascita <span style=\"color: #cc0000; \"> <b> * </b> </span></i> </td> <td align='left'> <input type='text' value='$gg' name='gg' size='1'  maxlength='2'> / <input type='text' value='$mm' name='mm' size='1'  maxlength='2'> / <input type='text' value='$aa' name='aa' size='3'  maxlength='4'> (gg/mm/aaaa) </td> </tr>");
         print   ("<tr> <td> <i>Comune o stato estero di nascita<span style=\"color: #cc0000; \"></span></i> </td> <td align='left'> <select name='idcomn'>");
         $sqla = "SELECT * FROM tbl_comuni WHERE statoestero='N' ORDER BY denominazione ";
-        $resa = mysqli_query($con, inspref($sqla)) or die ("Errore:" . inspref($sqla));
+        $resa = eseguiQuery($con,$sqla);
         if (!$resa)
         {
             print ("<br/> <br/> <br/> <h2>a Impossibile visualizzare i dati </h2>");
@@ -169,7 +169,7 @@ else
         }
 
         $sqlb = "SELECT * FROM tbl_comuni WHERE statoestero='S' ORDER BY denominazione";
-        $resb = mysqli_query($con, inspref($sqlb));
+        $resb = eseguiQuery($con,$sqlb);
         if (!$resb)
         {
             print ("<br/> <br/> <br/> <h2>a Impossibile visualizzare i dati </h2>");
@@ -197,7 +197,7 @@ else
         print  ("<tr> <td> <i> Indirizzo <span style=\"color: #cc0000; \"></span></i> </td> <td align='left'> <input type='text' value='$indirizzo' name='indirizzo' size='30' maxlength='30'> </td> </tr>");
         //$sqlb="SELECT * FROM tbl_comuni ORDER BY denominazione";
         mysqli_data_seek($resa, 0); // Ritorna all'inizio del resultset
-        $resb = $resa; // Evita di rifare la query sui comuni : mysqli_query($con,inspref($sqlb));
+        $resb = $resa; // Evita di rifare la query sui comuni : eseguiQuery($con,$sqlb);
         if (!$resb)
         {
             print ("<br/> <br/> <br/> <h2><b> Impossibile visualizzare i dati </b></h2>");
@@ -291,7 +291,7 @@ else
 
 
         $sqlc = "SELECT * FROM tbl_classi ORDER BY specializzazione,sezione,anno";
-        $resc = mysqli_query($con, inspref($sqlc)) or die("Errore:" . inspref($sqlc, false));
+        $resc = eseguiQuery($con,$sqlc);
 
         print ("<tr bgcolor='lightgrey'> <td><i>Classe </i>");
 
@@ -315,7 +315,7 @@ else
         // CERCO CAMBIAMENTI DI CLASSE
         $query = "select * from tbl_cambiamenticlasse where idalunno=$c order by datafine";
         print "<small>";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = eseguiQuery($con,$query);
         while ($rec = mysqli_fetch_array($ris))
         {
             if ($rec['idclasse'] != 0)

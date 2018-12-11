@@ -65,7 +65,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
  // SELEZIONE CLASSE
  
  $sql="SELECT * FROM tbl_classi ORDER BY anno,specializzazione, sezione";
-	if (!($res=mysqli_query($con,inspref($sql))))
+	if (!($res=eseguiQuery($con,$sql)))
 	{
 	 print ("Query fallita"); 
 	}
@@ -99,7 +99,7 @@ if ($idcla!="")
  
   $sq="SELECT * FROM tbl_classi
        WHERE idclasse='$idcla' " ;
- $res=mysqli_query($con,inspref($sq));
+ $res=eseguiQuery($con,$sq);
  $dati1=mysqli_fetch_array($res);
  
 //imposta la tabella del titolo
@@ -111,7 +111,7 @@ if ($idcla!="")
  $sql="SELECT * FROM tbl_alunni,tbl_utenti
        WHERE tbl_alunni.idalunno=tbl_utenti.idutente 
        AND idclasse='$idcla' ORDER BY cognome,nome";
- $result=mysqli_query($con,inspref($sql));
+ $result=eseguiQuery($con,$sql);
  print"<center>";
  print("<table border=1>");
  print("<tr class='prima'>");

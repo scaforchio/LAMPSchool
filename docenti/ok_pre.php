@@ -138,7 +138,7 @@ else
     }
     else
     {
-        $res = mysqli_query($con, inspref($query));
+        $res = eseguiQuery($con,$query);
         if (!$res)
         {
             print("<h2>Il preside non &egrave; stato inserito</h2>$query");
@@ -151,7 +151,7 @@ else
             $utente = "preside";
             $password = creapassword();
             $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('1000000000','$utente',md5('" . md5($password) . "'),'P')";
-            $res = mysqli_query($con, inspref($sqlt));
+            $res = eseguiQuery($con,$sqlt);
 
 
             print("<b><br/><center>Utente: <i>$utente</i><br/>Password: <i>$password</i> </b><br/>");

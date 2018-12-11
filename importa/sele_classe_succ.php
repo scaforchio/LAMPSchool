@@ -44,7 +44,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 $errore = 0;
 $query = "select * from tbl_classiold where anno<>$numeroanni order by anno, specializzazione, sezione";
-$ris = mysqli_query($con, inspref($query)) or $errore = mysqli_errno($con);
+$ris = eseguiQuery($con,$query);
 if ($errore == 1146)   // Tabella non esistente
 {
     echo "<center><br><br><b><big>Importazione non effettuata o trasferimento alunni già avvenuto!</big></b></center>";
@@ -74,7 +74,7 @@ else
             // 17/08/2015 Non utilizzato per dare la possibilità di separare la gestione negli IC
             //  $query2 = "SELECT * FROM tbl_classi WHERE anno>".$rec['anno']." ORDER BY anno, specializzazione, sezione";
             $query2 = "SELECT * FROM tbl_classi WHERE anno>1 ORDER BY anno, specializzazione, sezione";
-            $ris2 = mysqli_query($con, inspref($query2)) or die ("Errore nella selezione delle classi di destinazione!");
+            $ris2 = eseguiQuery($con,$query2);
             while ($rec2 = mysqli_fetch_array($ris2))
             {
                 echo "<option value='" . $rec2['idclasse'] . "'";

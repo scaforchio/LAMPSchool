@@ -61,7 +61,7 @@ $query="select count(*) as numerovoti
 
 
            
-$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+$ris=eseguiQuery($con,$query);
 $nom=mysqli_fetch_array($ris);
 if ($nom['numerovoti']>0)
 {
@@ -72,7 +72,7 @@ if ($nom['numerovoti']>0)
 else
 {
 	$query="select * from tbl_cattnosupp,tbl_classi where tbl_cattnosupp.idclasse=tbl_classi.idclasse and iddocente=$iddocente and tbl_cattnosupp.idalunno=0 ";
-	$ris=mysqli_query($con,inspref($query));
+	$ris=eseguiQuery($con,$query);
 
 	while($nom=mysqli_fetch_array($ris))
 	{
@@ -86,12 +86,12 @@ else
 		 //
 			  
 		 $query="select idcompetenza from tbl_competdoc where idmateria=$idmateria and idclasse=$idclasse";
-		 $riscompdoc=mysqli_query($con,inspref($query));
+		 $riscompdoc=eseguiQuery($con,$query);
 		 while($nomcompdoc=mysqli_fetch_array($riscompdoc))
 		 {
 			$idcompdoc=$nomcompdoc["idcompetenza"];
 			$query="delete from tbl_abildoc where idcompetenza=$idcompdoc";
-			mysqli_query($con,inspref($query));
+			eseguiQuery($con,$query);
 		}
 	 //   print "<center><b>Eliminate abilit&aacute; e conoscenze per cattedra $idcattedra</b></center>";
 		 //
@@ -99,7 +99,7 @@ else
 		 //
 		 
 		 $query="delete from tbl_competdoc where idmateria=$idmateria and idclasse=$idclasse";
-		 mysqli_query($con,inspref($query));
+		 eseguiQuery($con,$query);
 	  //  print "<center><b>Eliminate competenze per cattedra $idcattedra</b></center>";
 		 
 		 //
@@ -107,7 +107,7 @@ else
 		 //
 		 
 		 $query="select * from tbl_competscol where anno=$anno and idmateria=$idmateria";
-		 $riscomp=mysqli_query($con,inspref($query));
+		 $riscomp=eseguiQuery($con,$query);
 		 while($nomcomp=mysqli_fetch_array($riscomp))
 		 {
 			$sintcomp=$nomcomp["sintcomp"];
@@ -115,14 +115,14 @@ else
 			$competenza=$nomcomp["competenza"];
 			$idcompetenza=$nomcomp["idcompetenza"]; 
 			$query="insert into tbl_competdoc(idmateria, idclasse, numeroordine, sintcomp, competenza) values ($idmateria, $idclasse, $numordcomp,'$sintcomp','$competenza')";    
-			  mysqli_query($con,inspref($query));
+			  eseguiQuery($con,$query);
 			  // Rilevo l'id dell'inserimento effettuato
 				print "<center><b>Importata competenza $sintcomp classe $idclasse materia $idmateria</b></center>";
 			  $ultimoidcompetenza=mysqli_insert_id ($con);
 			  
 			  $query="select * from tbl_abilscol where idcompetenza=$idcompetenza";
 			 
-			  $risabil=mysqli_query($con,inspref($query));
+			  $risabil=eseguiQuery($con,$query);
 			  while($nomabil=mysqli_fetch_array($risabil))
 			  {
 				$sintabil=$nomabil["sintabilcono"];
@@ -133,7 +133,7 @@ else
 					
 					$query="insert into tbl_abildoc(idcompetenza, numeroordine, sintabilcono, abilcono, obminimi, abil_cono)
 							  values ($ultimoidcompetenza,$numordabil,'$sintabil','$abilcono',$obminimi,'$abil_cono')";
-					mysqli_query($con,inspref($query));
+					eseguiQuery($con,$query);
 					print "<center><b>Importata abilit&aacute; e/o conoscenza $sintabil per classe $idclasse materia $idmateria</b></center>";
 			}        
 		 }

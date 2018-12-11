@@ -72,7 +72,7 @@ I dati di name e idnumber sono composti da suffisso_anno_sezione_substr(speciali
 
 $query = "SELECT * FROM tbl_classi
 	        ORDER BY anno, sezione,specializzazione";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 
 $nfgru = "gruppi_" . $annoscol . $_SESSION['suffisso'] . ".txt";
@@ -103,7 +103,7 @@ fclose($fp);
 $query = "SELECT * FROM tbl_alunni,tbl_classi
 	        WHERE tbl_alunni.idclasse=tbl_classi.idclasse
 	        ORDER BY anno, sezione,specializzazione,cognome,nome";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 
 $nf = "alunni_" . $annoscol . $_SESSION['suffisso'] . ".csv";
@@ -132,7 +132,7 @@ fclose($fp);
 //
 $query = "SELECT * FROM tbl_docenti
 	        ORDER BY cognome,nome";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 
 $nfdoc = "docenti_" . $annoscol . $_SESSION['suffisso'] . ".csv";

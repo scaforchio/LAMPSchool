@@ -44,7 +44,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 $query = "select * from tbl_utenti where  userid='$nuovoutente'";
 
-$ris=mysqli_query($con,inspref($query)) or die("Errore: ". inspref($query,false));
+$ris=eseguiQuery($con,$query);
 
 if (mysqli_num_rows($ris)==1)
 
@@ -71,7 +71,7 @@ if (mysqli_num_rows($ris)==1)
     {
        // $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
         $sql = "SELECT * FROM tbl_alunni WHERE idutente='" . $_SESSION['idutente'] . "'";
-        $ris = mysqli_query($con, inspref($sql)) or die ("Errore nella query: " . mysqli_error($con) . inspref($query));
+        $ris = eseguiQuery($con,$sql);
 
         if ($val = mysqli_fetch_array($ris))
         {
@@ -84,7 +84,7 @@ if (mysqli_num_rows($ris)==1)
     if ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P')
     {
         $sql = "SELECT * FROM tbl_docenti WHERE idutente='" . $_SESSION['idutente'] . "'";
-        $ris = mysqli_query($con, inspref($sql)) or die ("Errore nella query: " . mysqli_error($con) . inspref($query));
+        $ris = eseguiQuery($con,$sql);
 
         if ($val = mysqli_fetch_array($ris))
         {
@@ -96,7 +96,7 @@ if (mysqli_num_rows($ris)==1)
     if ($_SESSION['tipoutente'] == 'A')
     {
         $sql = "SELECT * FROM tbl_amministrativi WHERE idutente='" . $_SESSION['idutente'] . "'";
-        $ris = mysqli_query($con, inspref($sql)) or die ("Errore nella query: " . mysqli_error($con) . inspref($query));
+        $ris = eseguiQuery($con,$sql);
 
         if ($val = mysqli_fetch_array($ris))
         {

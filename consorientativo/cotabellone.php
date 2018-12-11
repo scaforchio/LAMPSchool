@@ -92,7 +92,7 @@ else
     $query = "select idclasse, anno, sezione, specializzazione from tbl_classi where $annocomp "
             . " and idcoordinatore = " . $_SESSION['idutente'] . " order by anno, sezione, specializzazione";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -125,7 +125,7 @@ if ($idclasse != '')
 
     $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
 
-    $ris = mysqli_query($con, inspref($query)) or die("Error " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     $numeroalunni = mysqli_num_rows($ris);
 
     print "<form action='coinserimento.php' method='post'>";
@@ -145,7 +145,7 @@ if ($idclasse != '')
             print "<td>" . $nom['cognome'] . " " . $nom['nome'] . " (" . data_italiana($nom['datanascita']) . ")</td>";
 
             $query = "select * from tbl_consorientativi where idalunno='$idalunno'";
-            $ris2 = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
+            $ris2 = eseguiQuery($con,$query);
             if ($recco = mysqli_fetch_array($ris2))
             {
                 $consorientativo = $recco['consiglioorientativo'];

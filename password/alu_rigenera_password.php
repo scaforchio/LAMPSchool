@@ -51,7 +51,7 @@ print "<center><br/>";
 print("<form action='alu_rigenera_password_ins_sta.php' method='POST'><SELECT name='idclasse'><option value='-1'>&nbsp;</option><option value='0'>Tutte</option>");
 // Riempimento combo box tbl_classi
 $query="select idclasse,anno,sezione,specializzazione from tbl_classi order by specializzazione, sezione, anno";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
    print "<option value='";

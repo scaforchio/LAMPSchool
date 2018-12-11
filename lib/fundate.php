@@ -322,7 +322,7 @@ function orainizio($h, $g, $conn)
 function orafine($h, $g, $conn)
 {
     $query = "select fine from tbl_orario where giorno=$g and ora=$h and valido";
-    $ris = mysqli_query($conn, inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     return $rec['fine'];
 }
@@ -375,7 +375,7 @@ function calcola_numero_ore($data, $idclasse, $conn)
 {
     $numore = 0;
     $query = "select sum(numeroore) as totore from tbl_lezioni where datalezione='$data' and idclasse='$idclasse' order by orainizio";
-    $ris = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
 
     return $rec['totore'];
@@ -550,7 +550,7 @@ function estrai_ora_inizio_giornata($data, $idclasse, $conn)
 function estrai_ora_fine_giornata($data, $idclasse, $conn)
 {
     $query = "select max(orainizio+numeroore-1) as orafin from tbl_lezioni where datalezione='$data' and idclasse='$idclasse'";
-    $risora = mysqli_query($conn, inspref($query));
+    $risora = eseguiQuery($conn,$query);
     if ($recora = mysqli_fetch_array($risora))
     {
         $orafin = $recora['orafin'];
@@ -562,13 +562,13 @@ function aggiorna_data_firma_scrutinio($datastampa, $firmadirigente, $periodo, $
 {
     $query = "update tbl_scrutini set datastampa='" . data_to_db($datastampa) . "',firmadirigente='$firmadirigente' where periodo='$periodo' and idclasse='$classe'";
     // print $query;
-    mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query, false));
+    eseguiQuery($conn,$query);
 }
 
 function estrai_data_stampa($idclasse, $periodo, $conn)
 {
     $query = "select datastampa from tbl_scrutini where periodo='$periodo' and idclasse='$idclasse'";
-    $ris = mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query, false));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $data = $rec['datastampa'];
     if ($data != "0000-00-00")

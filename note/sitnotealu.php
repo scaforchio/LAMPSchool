@@ -50,14 +50,14 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
  
 
 $query="select idclasse from tbl_alunni where idalunno=$codalunno";
-$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+$ris=eseguiQuery($con,$query);
 $rec=mysqli_fetch_array($ris);
 $codclasse=$rec['idclasse'];  
 
 // prelevamento dati alunno
 
 $query="select * from tbl_alunni,tbl_classi where tbl_alunni.idclasse=tbl_classi.idclasse and idalunno='$codalunno'";
-$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+$ris=eseguiQuery($con,$query);
   
 echo '<table border=1 align="center" width="800"  >';
   
@@ -81,7 +81,7 @@ $query="select tbl_notealunno.idnotaalunno, data, tbl_alunni.cognome as cognalun
             and tbl_noteindalu.idalunno=$codalunno 
             order by tbl_notealunno.data desc";
   // print inspref($query);
-$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query di selezione nota: ". mysqli_error($con));
+$ris=eseguiQuery($con,$query);
 
 $c=mysqli_num_rows($ris);
 
@@ -129,7 +129,7 @@ $query="select idnotaclasse, data, tbl_docenti.cognome as cogndocente, tbl_docen
             and data not in (select data from tbl_assenze where idalunno = $codalunno)
             order by tbl_noteclasse.data desc";
    // print $query."<br/>";
-$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query di selezione nota: ". mysqli_error($con));
+$ris=eseguiQuery($con,$query);
 
 $c=mysqli_num_rows($ris);
 

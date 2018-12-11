@@ -42,7 +42,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
   
  
  $querycanc="delete from tbl_noteindalu where idalunno=$idalunno and idnotaalunno=$idnota";
- $riscanc=mysqli_query($con,inspref($querycanc)) or die ("Errore nella query di cancellazione: ". mysqli_error($con));  
+ $riscanc=eseguiQuery($con,$querycanc);  
         	 
  // verifico se ci sono ancora alunni altrimenti cancello la nota       	 
   

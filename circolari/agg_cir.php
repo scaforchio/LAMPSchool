@@ -60,7 +60,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 		//Esecuzione query finale
     	$sql  = "UPDATE tbl_circolari SET descrizione='$descrizione'
     	         WHERE idcircolare=$idcircolare";
-        if (!($ris=mysqli_query($con,inspref($sql))))
+        if (!($ris=eseguiQuery($con,$sql)))
 		{  
 	   	 	print("\n<FONT SIZE='+2'> <CENTER>Modifica non eseguita</CENTER> </FONT>");
     	}

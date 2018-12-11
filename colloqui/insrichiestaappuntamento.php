@@ -48,7 +48,7 @@ if ($data!="")
 {  
    $query="insert into tbl_prenotazioni(idalunno,data,idoraricevimento,conferma)
         values ($idalunno,'$data',$idoraricevimento,1)";
-   $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+   $ris=eseguiQuery($con,$query);
 }
 
 print ("<form method='post' action='../colloqui/richiestaappuntamento.php' id='formdisp'>

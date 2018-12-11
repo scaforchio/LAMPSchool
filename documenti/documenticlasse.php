@@ -41,7 +41,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 $idclasse = stringa_html('idclasse');
 $idalunno = stringa_html('idalunno');
 
-$titolo = "Carica documenti classe";
+$titolo = "Carica documenti della classe";
 
 $script = "";
 $script .= "<script>
@@ -108,6 +108,7 @@ if ($tipoutente!='S' && $tipoutente != 'P')
         from tbl_classi,tbl_cattnosupp
         where tbl_classi.idcoordinatore=$iddocente
         order by specializzazione, sezione, anno";
+
 else
     $query = "select idclasse,anno,sezione,specializzazione
         from tbl_classi
@@ -160,7 +161,7 @@ if ($idclasse != "")
 			  AND idclasse=$idclasse AND (idalunno=0 or isnull(idalunno))
 			  ORDER BY datadocumento";
 
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query) . mysqli_error($ris));
+    $ris = eseguiQuery($con, $query);
     while ($nom = mysqli_fetch_array($ris))
     {
 
@@ -196,7 +197,7 @@ if ($idclasse != "")
     //
 
     $querytd = "select * from tbl_tipidocumenti where idtipodocumento<1000000000";
-    $ristd=mysqli_query($con,inspref($querytd));
+    $ristd=eseguiQuery($con,$querytd);
     if (mysqli_num_rows($ristd)>0)
     {
 

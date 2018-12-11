@@ -110,7 +110,7 @@ print "   <tr>
 
 // Riempimento combo box tbl_classi
 $query = "SELECT * FROM tbl_classi ORDER BY anno, sezione, specializzazione";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -147,7 +147,7 @@ if ($idclasse != "")
                  or testo like '%può uscire alle%')
                  and data = '" . date('Y-m-d') . "'
                  and idclasse=$idclasse";
-    $res = mysqli_query($con, inspref($query)) or die(mysqli_error($conn) . inspref($query));
+    $res = eseguiQuery($con,$query);
 
     print "<br><fieldset value='Autorizzazioni già concesse'><legend>Autorizzazioni gi&agrave; concesse</legend><small>";
     while ($rec = mysqli_fetch_array($res))
@@ -202,7 +202,7 @@ if ($idclasse != "")
 
             order by cognome, nome, datanascita";
     
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris))
     {
         print "<tr>";
@@ -222,7 +222,7 @@ if ($idclasse != "")
         $seledata = " data <= '" . $fineprimo . "' ";
         $queryusc = "select count(*) as numusc from tbl_usciteanticipate where idalunno = '" . $rec["idalunno"] . "' and" . $seledata;
         //print inspref($queryusc);
-        $risusc = mysqli_query($con, inspref($queryusc)) or die("Errore nella query: " . mysqli_error($con));
+        $risusc = eseguiQuery($con,$queryusc);
 
         while ($ass = mysqli_fetch_array($risusc))
         {
@@ -233,7 +233,7 @@ if ($idclasse != "")
         $seledata = " data > '" . $fineprimo . "' ";
         $queryusc = "select count(*) as numusc from tbl_usciteanticipate where idalunno = '" . $rec["idalunno"] . "' and" . $seledata;
         //print inspref($queryusc);
-        $risusc = mysqli_query($con, inspref($queryusc)) or die("Errore nella query: " . mysqli_error($con));
+        $risusc = eseguiQuery($con,$queryusc);
         while ($ass = mysqli_fetch_array($risusc))
         {
             $numuscprimo = $ass['numusc'];

@@ -147,7 +147,7 @@ if ($tipoutente == 'D')
                                        where idcoordinatore=" . $_SESSION['idutente'] . ")
          ORDER BY cognome,nome,anno, sezione, specializzazione
          ";
-$ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 
 print "<form name='selealu' action='deroghe.php' method='post'>";
 print "<table align='center'>";

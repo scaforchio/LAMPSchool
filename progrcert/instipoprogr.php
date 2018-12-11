@@ -53,9 +53,9 @@ for ($i=1;$i<=$numeromaterie;$i++)
    $tipoprogr=stringa_html($strtipo);
    $idmateria=stringa_html($strmat);
    $query="delete from tbl_tipoprog where idalunno='$idalunno' and idmateria='$idmateria'";
-   mysqli_query($con,inspref($query));
+   eseguiQuery($con,$query);
    $query="insert into tbl_tipoprog(idalunno,idmateria,tipoprogr) values ('$idalunno','$idmateria','$tipoprogr')";
-   mysqli_query($con,inspref($query));
+   eseguiQuery($con,$query);
   
 
 }

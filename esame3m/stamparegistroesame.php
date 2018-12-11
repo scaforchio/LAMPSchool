@@ -52,7 +52,7 @@ $query = "select * from tbl_esami3m,tbl_escommissioni where
           tbl_esami3m.idcommissione=tbl_escommissioni.idescommissione";
 //       and idclasse=$idclasse";
 //print inspref($query);
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 $rec = mysqli_fetch_array($ris);
 
 
@@ -74,7 +74,7 @@ $query = "SELECT distinct cognome,nome,tbl_docenti.iddocente FROM tbl_escompcomm
         WHERE tbl_escompcommissioni.iddocente = tbl_docenti.iddocente
         AND idcommissione<>0
         ORDER BY cognome, nome";
-$risdoc = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+$risdoc = eseguiQuery($con,$query);
 //$elencodocenti = "";
 $arrdocenti = array();
 // print inspref($query);
@@ -94,7 +94,7 @@ while ($recdoc = mysqli_fetch_array($risdoc)) {
             . "and anno=$ultimoanno "
             . "and tbl_cattnosupp.iddocente=$iddocentecomm "
             . "and idalunno=0";
-    $rismat = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+    $rismat = eseguiQuery($con,$query);
     while ($recmat = mysqli_fetch_array($rismat)) {
         $materie .= $recmat['denominazione'] . " ";
     }
@@ -152,7 +152,7 @@ $query = "select *,tbl_alunni.idclasse as idclassealunno from tbl_esesiti, tbl_a
               where tbl_esesiti.idalunno = tbl_alunni.idalunno
               and tbl_alunni.idclasseesame = tbl_classi.idclasse
               and tbl_alunni.idclasseesame <> 0";
-$risesi = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+$risesi = eseguiQuery($con,$query);
 // print inspref($query);
 
 while ($recesa = mysqli_fetch_array($risesi)) {
@@ -224,7 +224,7 @@ $numalu = 0;
 $query = "select distinct idclasseesame,anno, sezione, specializzazione from tbl_alunni,tbl_classi
           where tbl_alunni.idclasseesame = tbl_classi.idclasse
           order by specializzazione, sezione";
-$riscla = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+$riscla = eseguiQuery($con,$query);
 while ($reccla = mysqli_fetch_array($riscla)) {
     $idclasseesame = $reccla['idclasseesame'];
     $query = "select * from tbl_esesiti, tbl_alunni, tbl_classi
@@ -232,7 +232,7 @@ while ($reccla = mysqli_fetch_array($riscla)) {
               and tbl_alunni.idclasseesame = tbl_classi.idclasse
               and tbl_alunni.idclasseesame = $idclasseesame
               order by tbl_alunni.idclasse desc, cognome, nome, datanascita";
-    $risesi = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+    $risesi = eseguiQuery($con,$query);
 
     $progrclasse = 0;
     $posYiniz = 0;
@@ -273,7 +273,7 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
     $schede->Cell(50, 10, "N. $numalunno", 0, 0, "C");
     $query = "SELECT * FROM tbl_alunni,tbl_esesiti
               WHERE tbl_alunni.idalunno=tbl_esesiti.idalunno and tbl_alunni.idalunno=$idalunno";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     if ($val = mysqli_fetch_array($ris)) {
         $datanascita = data_italiana($val['datanascita']);
         $codfiscale = $val['codfiscale'];
@@ -341,7 +341,7 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
         }
     }
     $query = "select * from tbl_esmaterie where idclasse=$idclasse";
-    $rismat = mysqli_query($con, inspref($query));
+    $rismat = eseguiQuery($con,$query);
     $recmat = mysqli_fetch_array($rismat);
     $secondalingua = converti_utf8($recmat['m' . $recmat['num2lin'] . 'e']);
 

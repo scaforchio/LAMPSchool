@@ -48,7 +48,7 @@ $schede = new FPDFPAG();
 // Estraggo tutti i valori per sostituzione parametri di stampa
 //
 $query = "select * from tbl_scrutini where idclasse=$idclasse and periodo=$periodo";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 $rec = mysqli_fetch_array($ris);
 
 $dataverbale = data_italiana($rec['dataverbale']);

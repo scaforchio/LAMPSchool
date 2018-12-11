@@ -34,7 +34,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
  $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("connessione non riuscita"); 
    $db=true or die ("connessione al db fallita"); 
 $sql='select * from tbl_comuni where idcomune='.$idcom;
-if(!($result=mysqli_query($con,inspref($sql))))
+if(!($result=eseguiQuery($con,$sql)))
    print("query fallita $sql");
  else
   {

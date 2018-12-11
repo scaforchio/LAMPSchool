@@ -50,7 +50,7 @@ riceve in ingresso i valori del docente*/
 	// VERIFICO SE ESISTE GIA' il PRESIDE
 	
 	$que="select * from tbl_docenti where iddocente=1000000000";
-	$res=mysqli_query($con,inspref($que));
+	$res= eseguiQuery($con,$que);
 	if (mysqli_num_rows ($res) == 0)
 	{
 	   print("<br><CENTER>Preside non inserito!</CENTER>");
@@ -60,7 +60,7 @@ riceve in ingresso i valori del docente*/
 	{    
 	    
 	    $query="delete from tbl_docenti where iddocente=1000000000";
-        $res=mysqli_query($con,inspref($query));
+        $res=eseguiQuery($con,$query);
 	    if(!$res)
 	  	   print("<h2>Errore nella cancellazione del preside</h2>");
         else	
@@ -68,7 +68,7 @@ riceve in ingresso i valori del docente*/
 		   // CANCELLO ANCHE IL RECORD NELLA TABELLA DEGLI UTENTI
 		   
 		   $query="delete from tbl_utenti where idutente=1000000000";
-		   if (!$res=mysqli_query($con,inspref($query))) die ("Errore nella cancellazione utenza preside");
+		   eseguiQuery($con,$query);
 		   echo "<br><b><center>Utenza preside cancellata!</center></b>";
 	   }
 	 }

@@ -86,7 +86,7 @@ print "   <tr>
   
 // Riempimento combo box tbl_classi
 $query="select distinct anno from tbl_classi order by anno";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
    print "<option value='";
@@ -109,7 +109,7 @@ print "   <tr>
       <td width='50%'>
       <SELECT ID='cl' NAME='sezione' ONCHANGE='selealu.submit()'><option value=''>&nbsp;</option>"; 
 $query="select distinct sezione from tbl_classi order by sezione";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
    print "<option value='";
@@ -132,7 +132,7 @@ print "   <tr>
       <td width='50%'>
       <SELECT NAME='specializzazione' ONCHANGE='selealu.submit()'><option value=''>&nbsp;</option>"; 
 $query="select distinct specializzazione from tbl_classi order by specializzazione";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
    print "<option value='";
@@ -194,7 +194,7 @@ print "
             where tbl_alunni.idclasse=tbl_classi.idclasse
             $sele
             order by cognome,nome";
-$ris=mysqli_query($con,inspref($query)) or die ("Errore: ".inspref($query));
+$ris=eseguiQuery($con,$query);
 while ($rec=mysqli_fetch_array($ris))
 {
    

@@ -55,7 +55,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Cancellaz
  $sql="SELECT * FROM tbl_alunni WHERE idalunno='$c'";
  
  //esecuzione query
- $res=mysqli_query($con,inspref($sql));
+ $res=eseguiQuery($con,$sql);
  if(!$res)
  {
   	print ("<br/> <br/> <br/> <h2> Impossibile visualizzare i dati </h2>");
@@ -81,7 +81,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Cancellaz
 		$idtut=$dato['idtutore'];
    		print ("<tr> <td align='right'> <i> Data di nascita: </i> </td> <td align='left'><b> ".$gg."/" .$mm."/".$aa." </b></td> </tr>");
    		$sqlc="SELECT * FROM tbl_classi ORDER BY idclasse";
-   		$resc=mysqli_query($con,inspref($sqlc));
+   		$resc=eseguiQuery($con,$sqlc);
    		if(!$resc)
    		{
     		print ("<br/> <br/> <br/> <h2> c Impossibile visualizzare i dati </h2>");

@@ -62,7 +62,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
 print ("");
 
 $query = "select * from tbl_classi where idclasse= $idclasse";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 $cla=mysqli_fetch_array($ris); 
 
 print ("<center><b><br>Note&nbsp;della&nbsp;classe&nbsp;".$cla['anno']."&nbsp;".$cla['sezione']."&nbsp;".$cla['specializzazione']."<br/><br/>");
@@ -112,7 +112,7 @@ print ("<center><b><br>Note&nbsp;della&nbsp;classe&nbsp;".$cla['anno']."&nbsp;".
 
 
 
- $ris=mysqli_query($con,inspref($query));
+ $ris=eseguiQuery($con,$query);
  
  
  $c=mysqli_num_rows($ris);
@@ -184,7 +184,7 @@ print ("<center><b><br>Note&nbsp;della&nbsp;classe&nbsp;".$cla['anno']."&nbsp;".
                 order by data,idnotaalunno";
 
 
-    $ris=mysqli_query($con,inspref($query));
+    $ris=eseguiQuery($con,$query);
 
  
     $c=mysqli_num_rows($ris);
@@ -209,7 +209,7 @@ print ("<center><b><br>Note&nbsp;della&nbsp;classe&nbsp;".$cla['anno']."&nbsp;".
               $queryalu="select tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno, tbl_alunni.datanascita as dataalunno                  from tbl_noteindalu, tbl_alunni
                 where tbl_noteindalu.idnotaalunno=".$rec['idnotaalunno'].
                 " and tbl_noteindalu.idalunno=tbl_alunni.idalunno";
-              $risalu=mysqli_query($con,inspref($queryalu)) or die ("Errore: ".inspref($queryalu));
+              $risalu=eseguiQuery($con,$queryalu);
               $elencoalunni="";
               if (mysqli_num_rows($risalu)>1)
                   $elencoalunni="Alunni: ";

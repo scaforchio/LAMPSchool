@@ -56,7 +56,7 @@ if ($idclasse != "")
     else
         $conddebito = "";
     $query = "select idalunno from tbl_alunni where idclasse=$idclasse $conddebito order by cognome,nome";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     while ($val = mysqli_fetch_array($ris))
     {
         $alunni[] = $val['idalunno'];
@@ -67,7 +67,7 @@ else
 
     $alunni[] = $idalunno;
     $query = "select idclasse from tbl_alunni where idalunno=$idalunno";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     if ($val = mysqli_fetch_array($ris))
     {
         $idclasse = $val['idclasse'];
@@ -222,7 +222,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
         $query = "SELECT * FROM tbl_alunni,tbl_comuni
                 WHERE tbl_alunni.idcomnasc=tbl_comuni.idcomune
                 AND idalunno=$alu";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = eseguiQuery($con,$query);
         if ($val = mysqli_fetch_array($ris))
         {
             $datanascita = data_italiana($val['datanascita']);
@@ -530,7 +530,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                   AND tbl_materie.progrpag<99 AND tbl_materie.idmateria>0
                   AND idalunno=$alu
                   ORDER BY tbl_materie.progrpag,denominazione";
-            $risvoti = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query, false));
+            $risvoti = eseguiQuery($con,$query);
             while ($recvoti = mysqli_fetch_array($risvoti))
             {
                 $idmat[] = $recvoti['idmateria'];
@@ -543,7 +543,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                           WHERE idalunno=$alu
                           AND periodo='1'
                           AND idmateria=" . $recvoti['idmateria'];
-                $risvotipre = mysqli_query($con, inspref($query));
+                $risvotipre = eseguiQuery($con,$query);
                 if ($recvotipre = mysqli_fetch_array($risvotipre))
                 {
                     $votu1[] = $recvotipre['votounico'];
@@ -684,7 +684,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
               WHERE idalunno=$alu
               AND periodo='1'
               AND idmateria=-1";
-            $risvoti = mysqli_query($con, inspref($query));
+            $risvoti = eseguiQuery($con,$query);
             $giudiziocomp1="";
             $votocomp1="";
             if ($recvoti = mysqli_fetch_array($risvoti))
@@ -697,7 +697,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
               WHERE idalunno=$alu
               AND periodo='$numeroperiodi'
               AND idmateria=-1";
-            $risvoti = mysqli_query($con, inspref($query));
+            $risvoti = eseguiQuery($con,$query);
 
             if ($recvoti = mysqli_fetch_array($risvoti))
             {
@@ -844,7 +844,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                           AND periodo='1'
                           AND tbl_materie.progrpag<99 AND tbl_materie.idmateria>0
                           ORDER BY tbl_materie.progrpag, denominazione";
-            $risvoti = mysqli_query($con, inspref($query));
+            $risvoti = eseguiQuery($con,$query);
             while ($recvoti = mysqli_fetch_array($risvoti))
             {
                 $votu = $recvoti['votounico'];
@@ -916,7 +916,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
               WHERE idalunno=$alu
               AND periodo='1'
               AND idmateria=-1";
-            $risvoti = mysqli_query($con, inspref($query));
+            $risvoti = eseguiQuery($con,$query);
 
             if ($recvoti = mysqli_fetch_array($risvoti))
             {
@@ -984,7 +984,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $schede->Cell(172, $alt, "ANNOTAZIONI (4)", "TBLR", 0, "C");
             $posY += $alt;
             $query = "select giudizio from tbl_giudizi where periodo='1' and idalunno=$alu";
-            $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query, false));
+            $ris = eseguiQuery($con,$query);
             $schede->SetFont("Arial", '', 9);
             if ($rec = mysqli_fetch_array($ris))
             {
@@ -1051,7 +1051,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                           AND periodo='$numeroperiodi'
                           AND tbl_materie.progrpag<99 AND tbl_materie.idmateria>0
                           ORDER BY tbl_materie.progrpag, denominazione";
-            $risvoti = mysqli_query($con, inspref($query));
+            $risvoti = eseguiQuery($con,$query);
             $numvoti = 0;
             while ($recvoti = mysqli_fetch_array($risvoti))
             {
@@ -1110,7 +1110,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
               WHERE idalunno=$alu
               AND periodo='$numeroperiodi'
               AND idmateria=-1";
-            $risvoti = mysqli_query($con, inspref($query));
+            $risvoti = eseguiQuery($con,$query);
 
             if ($recvoti = mysqli_fetch_array($risvoti))
             {
@@ -1144,7 +1144,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $posY += $alt;
             $schede->SetFont("Arial", '', 9);
             $query = "select giudizio from tbl_giudizi where periodo='$numeroperiodi' and idalunno=$alu";
-            $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query, false));
+            $ris = eseguiQuery($con,$query);
             if ($rec = mysqli_fetch_array($ris))
             {
                 $annotaz = $rec['giudizio'];
@@ -1166,7 +1166,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $esito = "";
             $decesito = "";
             $query = "SELECT * from tbl_esiti where idalunno=$alu";
-            $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query, false));
+            $ris = eseguiQuery($con,$query);
             if ($rec = mysqli_fetch_array($ris))
             {
                 $votoammissione = $rec['votoammissione'];

@@ -49,7 +49,7 @@ $descrizione = stringa_html("descrizione");
     
    $query="update tbl_compsubob set sintsubob='".$sintesi."', subob='".$descrizione."' where idsubob=$idabil";
    // print inspref($query);
-   if ($ris=mysqli_query($con,inspref($query)))
+   if ($ris=eseguiQuery($con,$query))
       // header("location: modivoceprog.php?cattedra=$cattedra");
       print "
         <form method='post' id='formvoce' action='modisubobiettivo.php'>

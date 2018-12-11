@@ -59,7 +59,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 
 	//Esecuzione query
     $sql="select descrizione,pei from tbl_documenti where iddocumento=". $iddocumento;
-	if (!($ris=mysqli_query($con,inspref($sql))))
+	if (!($ris=eseguiQuery($con,$sql)))
 	{  
 	    print("\n<h1> Query fallita </h1>");
 		exit;

@@ -68,12 +68,12 @@ do {
 
     if ((!giorno_festa($data, $con)) && ($vergiornosett == "on")) {
         $query = "insert into tbl_deroghe(idalunno,data,motivo,numeroore) values ($idalunno,'$data','$motivo',0)";
-        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query));
+        eseguiQuery($con,$query);
     } else
 
     if ((!giorno_festa($data, $con)) && (giorno_settimana($data) != "Dom") && ($numeroore > 0)) {
         $query = "insert into tbl_deroghe(idalunno,data,motivo,numeroore) values ($idalunno,'$data','$motivo','$numeroore')";
-        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query));
+        eseguiQuery($con,$query);
     } 
     $data = aggiungi_giorni($data, 1);
 } while ($data <= $datafine);

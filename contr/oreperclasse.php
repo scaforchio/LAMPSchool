@@ -47,7 +47,7 @@ print ("
 //
 
 $query = "SELECT diddocente, cognome, nome FROM tbl_docenti ORDER BY cognome, nome";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 
 
 while ($nom = mysqli_fetch_array($ris))
@@ -68,7 +68,7 @@ while ($nom = mysqli_fetch_array($ris))
                   WHERE tbl_valutazioniintermedie.idalunno = tbl_alunni.idalunno
                   AND tbl_alunni.idclasse = tbl_classi.idclasse
                   AND iddocente = $iddocente;";
-        $ris4 = mysqli_query($con, inspref($query));
+        $ris4 = eseguiQuery($con,$query);
         $nom4 = mysqli_fetch_array($ris4);
         $numerovotidoc = $nom4["numerovoti"];
         if ($numerovotidoc == "") $numerovotidoc = 0;
@@ -80,7 +80,7 @@ while ($nom = mysqli_fetch_array($ris))
         $query = "SELECT count( idlezione ) AS numerolezioni
                   FROM tbl_lezioni
                   WHERE iddocente = $iddocente;";
-        $ris5 = mysqli_query($con, inspref($query));
+        $ris5 = eseguiQuery($con,$query);
         $nom5 = mysqli_fetch_array($ris5);
         $numerolezionidoc = $nom5["numerolezioni"];
         if ($numerolezionidoc == "") $numerolezionidoc = 0;
@@ -95,7 +95,7 @@ while ($nom = mysqli_fetch_array($ris))
 
         $query = "select tbl_cattnosupp.idmateria, tbl_cattnosupp.idclasse,anno,sezione,specializzazione,denominazione
       from tbl_cattnosupp,tbl_classi,tbl_materie where iddocente=$iddocente and tbl_cattnosupp.idclasse=tbl_classi.idclasse and tbl_cattnosupp.idmateria=tbl_materie.idmateria order by anno, sezione, specializzazione";
-        $ris1 = mysqli_query($con, inspref($query));
+        $ris1 = eseguiQuery($con,$query);
         while ($nom1 = mysqli_fetch_array($ris1))
         {
             $idclasse = $nom1["idclasse"];
@@ -115,7 +115,7 @@ while ($nom = mysqli_fetch_array($ris))
                   AND tbl_alunni.idclasse = tbl_classi.idclasse
                   AND tbl_classi.idclasse = $idclasse
                   AND tbl_valutazioniintermedie.idmateria = $idmateria;";
-            $ris2 = mysqli_query($con, inspref($query)) or die (mysqli_error($con));
+            $ris2 = eseguiQuery($con,$query);
             $nom2 = mysqli_fetch_array($ris2);
             $numerovoti = $nom2["numerovoti"];
             if ($numerovoti == "") $numerovoti = 0;
@@ -129,7 +129,7 @@ while ($nom = mysqli_fetch_array($ris))
             $query = "SELECT count( * ) AS numerolezioni
           FROM tbl_lezioni
           WHERE idclasse = $idclasse AND idmateria = $idmateria;";
-            $ris3 = mysqli_query($con, inspref($query)) or die (mysqli_error($con));
+            $ris3 = eseguiQuery($con,$query);
             $nom3 = mysqli_fetch_array($ris3);
             $numerolezioni = $nom3["numerolezioni"];
             if ($numerolezioni == "") $numerolezioni = 0;
@@ -148,12 +148,12 @@ print ("</td></tr>");
 print ("</table>");
 
 $query = "SELECT count( * ) AS numerovoti FROM tbl_valutazioniintermedie";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 $nom = mysqli_fetch_array($ris);
 $numerovotitot = $nom["numerovoti"];
 
 $query = "SELECT count( * ) AS numerolezioni FROM tbl_lezioni";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 $nom = mysqli_fetch_array($ris);
 $numerolezionitot = $nom["numerolezioni"];
 

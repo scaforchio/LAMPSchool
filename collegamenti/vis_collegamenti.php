@@ -48,7 +48,7 @@ if (!$DB)
     exit;
 }
 $sql = "SELECT * FROM tbl_collegamenti ORDER BY destinatari, descrizione";
-$result = mysqli_query($con, inspref($sql)) or die("Errore:" . inspref($sql, false));
+$result = eseguiQuery($con,$sql);
 
 
 print("<CENTER><table border=1>");

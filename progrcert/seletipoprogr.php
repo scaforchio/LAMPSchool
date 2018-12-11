@@ -65,7 +65,7 @@ else
             where certificato
             and idalunno in (select idalunno from tbl_cattnosupp where iddocente=$iddocente)
             order by cognome, nome,datanascita";         
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
    print "<option value='";
@@ -107,7 +107,7 @@ if ($idalunno!="")
            where tbl_cattnosupp.idmateria=tbl_materie.idmateria
            and idclasse=$idclasse order by denominazione";
          //  >>> and iddocente=$iddocente <<<      DA AGGIUNGERE SE DOCENTE DI SOSTEGNO PUO' INTERVENIRE SOLO SU MATERIE DELLA SUA CATTEDRA
-   $ris=mysqli_query($con,inspref($query));
+   $ris=eseguiQuery($con,$query);
    
    print "<form method='post' action='instipoprogr.php' name='instipoprogr'>";
    print "<table border=1 align=center>

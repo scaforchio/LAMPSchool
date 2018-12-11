@@ -49,7 +49,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
     //Esecuzione query
     $query="SELECT * FROM tbl_materie WHERE idmateria>0 ORDER BY denominazione";  // 0=supplenza, -1=comportamento
     
-    if (!($ris=mysqli_query($con,inspref($query)))) 
+    if (!($ris=eseguiQuery($con,$query))) 
     {
         print "Query fallita";
     }

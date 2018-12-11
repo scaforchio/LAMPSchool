@@ -100,14 +100,14 @@ if ($filedainserire['tmp_name']!="")
                $queryins = "insert into tbl_documenti
                                (descrizione,   idclasse,   iddocente,   idtipodocumento, datadocumento,   docbin,     docmd5,          docnome,    docsize,                       doctype)
                         values ('$descrizione','$idclasse','$iddocente','$idtipodocumento','$datadocumento','".$data."','".$md5data."','".$nome."','".$filedainserire['size'] ."','$tipofile')";
-               $result = mysqli_query($con,inspref($queryins)) or die("Errore:".inspref($queryins));
+               $result = eseguiQuery($con,$queryins);
            }
            else
            {
 				  $queryins = "insert into tbl_documenti
                                (descrizione,   idclasse,  iddocente,   idtipodocumento, datadocumento,     docmd5,          docnome,    docsize,                       doctype)
                         values ('$descrizione','$idclasse','$iddocente','$idtipodocumento','$datadocumento','".$md5data."','".$nome."','".$filedainserire['size'] ."','$tipofile')";
-               $result = mysqli_query($con,inspref($queryins)) or die("Errore:".inspref($queryins));
+               $result = eseguiQuery($con,$queryins);
            
                crea_file($filedainserire,$md5data);
            }    
@@ -149,7 +149,6 @@ stampa_piede();
 
         
 function crea_file($filedainserire,$hashmd5)
-
 {
    try
    {

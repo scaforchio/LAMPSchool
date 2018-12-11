@@ -44,7 +44,7 @@ inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$m1\n", 3, "../lampschoold
 $query = "select count(*) as numtimbrature from tbl_timbrature where datatimbratura='$dataoggi' and idalunno in(select idalunno from tbl_alunni where idclasse<>0)";
 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
 
-if (!$ris = mysqli_query($con, inspref($query, false)))
+if (!$ris = eseguiQuery($con,$query))
 {
     inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
     die("errore query " . inspref($query, false));
@@ -113,7 +113,7 @@ foreach ($arrtimb as $m2)
                       order by idalunno";
 
         inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
-        if (!$ris = mysqli_query($con, inspref($query, false)))
+        if (!$ris = eseguiQuery($con,$query))
         {
             inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
             die("errore query " . inspref($query, false));
@@ -125,7 +125,7 @@ foreach ($arrtimb as $m2)
 
     $query = "insert into tbl_timbrature(idalunno,tipotimbratura,datatimbratura,oratimbratura) values ('$matricola','$tipo','$anno-$mes-$gio','$ora:$min')";
     inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
-    if (!$ris = mysqli_query($con, inspref($query, false)))
+    if (!$ris = eseguiQuery($con,$query))
     {
         inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
         die("errore query " . inspref($query, false));
@@ -143,7 +143,7 @@ foreach ($arrtimb as $m2)
         {
             $query = "delete from tbl_assenze where idalunno='$matricola' and data='$anno-$mes-$gio'";
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
-            if (!$ris = mysqli_query($con, inspref($query, false)))
+            if (!$ris = eseguiQuery($con,$query))
             {
                 inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
                 die("errore query " . inspref($query, false));
@@ -156,7 +156,7 @@ foreach ($arrtimb as $m2)
             $orausc = "$ora:$min";
             $query = "insert into tbl_usciteanticipate(idalunno,data,orauscita) values ('$matricola', '$datausc', '$orausc')";
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
-            if (!$ris = mysqli_query($con, inspref($query, false)))
+            if (!$ris = eseguiQuery($con,$query))
             {
                 inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
                 die("errore query " . inspref($query, false));
@@ -172,14 +172,14 @@ foreach ($arrtimb as $m2)
             $oraent = "$ora:$min";
             $query = "insert into tbl_ritardi(idalunno,data,oraentrata) values ('$matricola', '$dataent', '$oraent')";
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
-            if (!$ris = mysqli_query($con, inspref($query, false)))
+            if (!$ris = eseguiQuery($con,$query))
             {
                 inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
                 die("errore query " . inspref($query, false));
             }
             $query = "delete from tbl_assenze where idalunno='$matricola' and data='$anno-$mes-$gio'";
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
-            if (!$ris = mysqli_query($con, inspref($query, false)))
+            if (!$ris = eseguiQuery($con,$query))
             {
                 inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
                 die("errore query " . inspref($query, false));

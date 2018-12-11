@@ -54,7 +54,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
     //Esecuzione query
     $idsp = stringa_html('idspe');
     $sql="select * from tbl_tipidocumenti where idtipodocumento=$idsp";
-    if (!($ris=mysqli_query($con,inspref($sql))))
+    if (!($ris=eseguiQuery($con,$sql)))
     {  
         print("\n<h1> Query fallita </h1>");
         exit;

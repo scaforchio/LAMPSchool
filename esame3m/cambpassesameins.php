@@ -84,7 +84,7 @@ else
 
         $query = "UPDATE tbl_parametri SET valore = md5('" . $npass . "') WHERE parametro='passwordesame'";
 
-        $result = mysqli_query($con, inspref($query));
+        $result = eseguiQuery($con,$query);
 
         if (mysqli_affected_rows($con) == 1)
         {

@@ -41,25 +41,25 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
 
 // ELIMINO LA PRECEDENTE LISTA DI DISTRIBUZIONE
 // $query="delete from tbl_diffusionecircolari where idcircolare=$idcircolare";
-// mysqli_query($con,inspref($query)) or die("ERRORE: ".inspref($query)."-".mysqli_error($con)); 
+// eseguiQuery($con,$query); 
 
 // VERIFICO PER OGNI ALUNNO SE E' DA INSERIRE NEL GRUPPO
 $query="select idalunno from tbl_alunni";
-$ris=mysqli_query($con,inspref($query)) or die("ERRORE: ".inspref($query)."-".mysqli_error($con)); 
+$ris=eseguiQuery($con,$query); 
 while ($rec=mysqli_fetch_array($ris))
 {
 	$nomecb="cb".$rec['idalunno'];
 	$ins=stringa_html($nomecb);
 	// print "tttt ".$nomecb." - ".$ins;
    $query="select * from tbl_gruppialunni where idgruppo=$idgruppo and idalunno=".$rec['idalunno'];
-   $ris2= mysqli_query($con,inspref($query)) or die("ERRORE: ".inspref($query)."-".mysqli_error($con)); 
+   $ris2= eseguiQuery($con,$query); 
    if (mysqli_num_rows($ris2)==0)
    { 
       if ($ins=='yes')
       {
 		   $query="insert into tbl_gruppialunni(idalunno,idgruppo) 
 		        values (".$rec['idalunno'].",$idgruppo)";
-         mysqli_query($con,inspref($query)) or die("ERRORE: ".inspref($query)."-".mysqli_error($con)); 
+         eseguiQuery($con,$query); 
 	   }
 	}
 	else
@@ -67,7 +67,7 @@ while ($rec=mysqli_fetch_array($ris))
 		if ($ins!='yes')
       {
 		   $query="delete from tbl_gruppialunni where idgruppo=$idgruppo and idalunno=".$rec['idalunno'];
-         mysqli_query($con,inspref($query)) or die("ERRORE: ".inspref($query)."-".mysqli_error($con)); 
+         eseguiQuery($con,$query); 
 	   }
 	}
 }

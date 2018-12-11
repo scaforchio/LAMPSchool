@@ -70,7 +70,7 @@ print("<tr>
                               where tbl_abildoc.idcompetenza=tbl_competdoc.idcompetenza
                               and tbl_competdoc.idmateria = tbl_cattnosupp.idmateria and  tbl_competdoc.idclasse = tbl_cattnosupp.idclasse)
                  ORDER BY anno, sezione, specializzazione, denominazione"; 
-          $ris=mysqli_query($con,inspref($query));
+          $ris=eseguiQuery($con,$query);
           while($nom=mysqli_fetch_array($ris))
 	      {
 			
@@ -112,7 +112,7 @@ print("<tr>
                                 )
                   ORDER BY anno, sezione, specializzazione, denominazione";
           
-      $ris=mysqli_query($con,inspref($query));
+      $ris=eseguiQuery($con,$query);
       $numerocattedre=mysqli_num_rows($ris);
       
       

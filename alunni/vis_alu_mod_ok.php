@@ -78,7 +78,7 @@ $datacambio = stringa_html('datacambioclasse');
 $datacambio = $datacambio != "" ? data_to_db($datacambio) : "";
 
 $sql = "SELECT * FROM tbl_alunni WHERE idalunno='$c'";
-$resw = mysqli_query($con, inspref($sql));
+$resw = eseguiQuery($con,$sql);
 if ($dato = mysqli_fetch_array($resw))
 {
     $idclasseold = $dato['idclasse'];
@@ -253,12 +253,12 @@ if ($err == 0)
             $datafine = aggiungi_giorni($datacambio, -1);
             // print "ttt $datafine";
             $querycambioclasse = "insert into tbl_cambiamenticlasse(idalunno,idclasse,datafine) values ($c,$idclasseold,'$datafine')";
-            mysqli_query($con, inspref($querycambioclasse)) or die("Errore:" . inspref($querycambioclasse, false));
+            eseguiQuery($con,$querycambioclasse);
         }
         else
         {
             $querycambioclasse = "delete from tbl_cambiamenticlasse where idalunno='$c'";
-            mysqli_query($con, inspref($querycambioclasse)) or die("Errore:" . inspref($querycambioclasse, false));
+            eseguiQuery($con,$querycambioclasse);
         }
     }
     if ($strcogn != "" | $strnome != "")

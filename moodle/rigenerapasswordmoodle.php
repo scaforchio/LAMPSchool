@@ -84,7 +84,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY specializzazione, sezione, anno";
 print "<option value=''>&nbsp;";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 
 while ($nom = mysqli_fetch_array($ris))
 {
@@ -118,7 +118,7 @@ if ($nome != "")
 
     $query = "SELECT idalunno AS al,cognome, nome, datanascita FROM tbl_alunni WHERE idclasse = $idclasse  ORDER BY cognome, nome, datanascita";
     //print inspref($query);
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+    $ris = eseguiQuery($con,$query);
 
 
 

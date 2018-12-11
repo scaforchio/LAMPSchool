@@ -61,7 +61,7 @@ $idcomr = stringa_html('idcomr');
 $sidi = stringa_html('sidi');
 
 $sql = "SELECT * FROM tbl_alunni WHERE idalunno='$c'";
-$resw = mysqli_query($con, inspref($sql));
+$resw = eseguiQuery($con,$sql);
 if ($dato = mysqli_fetch_array($resw))
 {
     $idclasseold = $dato['idclasseesame'];

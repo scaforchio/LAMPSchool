@@ -67,7 +67,7 @@ if ($idabil!="")
        
       $query="select * from tbl_abildoc where idabilita=$idabil";
    
-      $ris=mysqli_query($con,inspref($query));
+      $ris=eseguiQuery($con,$query);
    
    
    

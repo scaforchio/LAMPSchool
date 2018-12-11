@@ -84,7 +84,7 @@ print('
        order by anno, sezione, specializzazione";
         
          
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 { 
   print "<option value='";

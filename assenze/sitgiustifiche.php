@@ -82,7 +82,7 @@ $query = "SELECT count(*) as nang,cognome, nome,tbl_alunni.idalunno,dataammonizi
             ORDER BY cognome, nome, tbl_alunni.idalunno, data desc";
 
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 //print inspref($query,false);
 print "<form name='listaammoniz' action='insammonizioni.php' method='post'>";
 print "<center><input type='submit' value='Inserisci ammonizioni'></center><br><br>";
@@ -120,7 +120,7 @@ if (mysqli_num_rows($ris) > 0)
             $query = "SELECT * from tbl_assenze where idalunno=" . $val['idalunno'] . " AND dataammonizione ='$dataammonizione' AND (isnull(giustifica) or giustifica=0) "
                     . "AND idalunno NOT IN (select idalunno from tbl_assenze where data>='$datalimiteinferiore')"
                     . "order by data desc";
-        $risasse = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+        $risasse = eseguiQuery($con,$query);
         while ($recasse = mysqli_fetch_array($risasse))
         {
             if ($recasse['data'] < $datalimiteinferiore)
@@ -162,7 +162,7 @@ $query = "SELECT count(*) as nrng,cognome, nome,tbl_alunni.idalunno,dataammonizi
             GROUP BY tbl_alunni.idalunno,dataammonizione
             ORDER BY cognome, nome, tbl_alunni.idalunno, data desc
             ";
-$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 if (mysqli_num_rows($ris) > 0)
 {
 
@@ -205,7 +205,7 @@ if (mysqli_num_rows($ris) > 0)
             $query = "SELECT * from tbl_ritardi where idalunno=" . $val['idalunno'] . " AND dataammonizione ='$dataammonizione' AND (isnull(giustifica) or giustifica=0) "
                     . "AND data< '$datalimiteinferiore' AND idalunno NOT IN (select idalunno from tbl_assenze where data='".date('y-m-d')."')"
                     . "order by data desc";
-        $risasse = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+        $risasse = eseguiQuery($con,$query);
         while ($recasse = mysqli_fetch_array($risasse))
         {
             if ($recasse['data'] < $datalimiteinferiore)

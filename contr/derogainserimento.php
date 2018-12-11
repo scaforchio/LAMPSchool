@@ -62,7 +62,7 @@ print ("
 
 //  $sqld= "SELECT * FROM tbl_docenti WHERE NOT sostegno ORDER BY cognome, nome";
 $sqld = "SELECT * FROM tbl_docenti where iddocente<>1000000000 ORDER BY cognome, nome ";
-$resd = mysqli_query($con, inspref($sqld));
+$resd = eseguiQuery($con,$sqld);
 if (!$resd)
 {
     print ("<br/> <br/> <br/> <h2>a Impossibile visualizzare i dati </h2>");

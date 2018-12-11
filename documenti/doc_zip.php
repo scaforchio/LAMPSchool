@@ -56,7 +56,7 @@ $query="select * from tbl_documenti
         where true 
         $stringa_where"; // doctype='application/pdf'";
         
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 
 
 $posifiles=array();

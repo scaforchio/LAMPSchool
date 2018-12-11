@@ -48,7 +48,7 @@ print "<center><B>".decodifica_classe($idclasse,$con)."</B><br></center>";
 // $rs = $lQuery->selectstar('tbl_alunni', 'idalunno=?', array($codalunno));
 $query = "select * from tbl_alunni where idclasse=$idclasse and not autorizzazioni is null
 and (autorizzazioni <> '' or autentrata<>'' or autuscita<>'') order by cognome, nome, datanascita";
-$rs = mysqli_query($con, inspref($query));
+$rs = eseguiQuery($con,$query);
 $esistono=false;
 while ($rec = mysqli_fetch_array($rs))
 {

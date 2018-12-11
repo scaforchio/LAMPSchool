@@ -53,7 +53,7 @@ if (!$DB)
     exit;
 }
 $sql = "SELECT * from tbl_collegamenti where idcollegamento=$idcollegamento";
-$result = mysqli_query($con, inspref($sql)) or die("errore:".inspref($sql));
+$result = eseguiQuery($con,$sql);
 $data = mysqli_fetch_array($result);
 if (!($result))
 {

@@ -50,14 +50,14 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 
 $query = "delete from tbl_diariocl where iddocente=$iddocente and data='$data' and idclasse=$idclasse";
-$ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query di cancellazione: " . mysqli_error($con));
+$ris2 = eseguiQuery($con,$query);
 $numerorighe = mysqli_affected_rows($con);
 
 if (($notacl != ""))
 {
     $ins = true;
     $query = "insert into tbl_diariocl(data,idclasse,iddocente,testo) values ('$data',$idclasse,$iddocente,'" . elimina_apici($notacl) . "')";
-    $ris3 = mysqli_query($con, inspref($query)) or die ("Errore nella query di inserimento: " . mysqli_error($con));
+    $ris3 = eseguiQuery($con,$query);
     $idoss = mysqli_insert_id($con);
 }
 if ($ins)

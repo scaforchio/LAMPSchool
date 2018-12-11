@@ -207,7 +207,7 @@ if (!$DB)
 
     if ($err == 0)
     { // print inspref($query);
-        $res = mysqli_query($con, inspref($query)) or die(mysqli_error($con) . " - " . inspref($query, false));
+        $res = eseguiQuery($con, $query);
         if (!$res)
         {
             print("Il nuovo alunno non &egrave; stato inserito<br/>");
@@ -217,7 +217,7 @@ if (!$DB)
 
             // INSERISCO ANCHE IL RECORD NELLA TABELLA DEI tbl_tutori;
             //   $sqlt = "insert into tbl_tutori(idtutore,cognome,nome,idalunno,idutente) values ('$idalunnoinserito','$cognome','$nome','$idalunnoinserito','$idalunnoinserito')";
-            //   $res = mysqli_query($con, inspref($sqlt));
+            //   $res = eseguiQuery($con,$sqlt);
             // INSERISCO ANCHE IL RECORD NELLA TABELLA DEI tbl_tutori;
 
             if ($datacambio != "")
@@ -225,7 +225,7 @@ if (!$DB)
                 $datafine = aggiungi_giorni($datacambio, -1);
                 // print "ttt $datafine";
                 $querycambioclasse = "insert into tbl_cambiamenticlasse(idalunno,idclasse,datafine) values ($idalunnoinserito,0,'$datafine')";
-                mysqli_query($con, inspref($querycambioclasse)) or die("Errore:" . inspref($querycambioclasse, false));
+                eseguiQuery($con,$querycambioclasse);
             }
 
             $utente = "gen" . $idalunnoinserito;
@@ -237,15 +237,15 @@ if (!$DB)
                 $passwordalunno = creapassword();
             }
             $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idalunnoinserito','$utente',md5('" . md5($password) . "'),'T')";
-            $res = mysqli_query($con, inspref($sqlt)) or die("Errore:" . inspref($sqlt, false));
+            $res = eseguiQuery($con,$sqlt);
             $sqlt = "update tbl_alunni set idtutore=$idalunnoinserito,idutente=$idalunnoinserito where idalunno=$idalunnoinserito";
-            $res = mysqli_query($con, inspref($sqlt)) or die("Errore:" . inspref($sqlt, false));
+            $res = eseguiQuery($con,$sqlt);
 
             if ($livello_scuola == 4)
             {
                 $idutentealunno = $idalunnoinserito + 2100000000;
                 $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idutentealunno','$utentealunno',md5('" . md5($passwordalunno) . "'),'L')";
-                $res = mysqli_query($con, inspref($sqlt)) or die("Errore:" . inspref($sqlt, false));
+                $res = eseguiQuery($con,$sqlt);
             }
 
             // print "risultato inserimento $idalunnoinserito<br/>";

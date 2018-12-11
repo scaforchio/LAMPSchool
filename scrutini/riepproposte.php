@@ -158,7 +158,7 @@ else
     $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM tbl_classi
            WHERE idcoordinatore=" . $_SESSION['idutente'] . " ORDER BY anno,sezione,specializzazione";
 }
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -192,7 +192,7 @@ WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
 and tbl_cattnosupp.idclasse=$idclasse
 and tbl_cattnosupp.iddocente <> 1000000000
 order by tbl_materie.sigla";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris) > 0)
     {
         print ("<table align='center' border='1'><tr class='prima' align='center'><td>Alunno</td>");
@@ -240,7 +240,7 @@ order by tbl_materie.sigla";
         $elencoalunni = estrai_alunni_classe_data($idclasse, $datarif, $con);
 
         $query = "select * from tbl_alunni where idalunno in ($elencoalunni) order by cognome,nome,datanascita";
-        $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $ris = eseguiQuery($con,$query);
         while ($val = mysqli_fetch_array($ris))
         {
             $listavoti = array();
@@ -282,7 +282,7 @@ order by tbl_materie.sigla";
                       WHERE idalunno=$idalunno
                       and idmateria=$cm
                       and periodo='$per'";
-                $rismedia = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+                $rismedia = eseguiQuery($con,$query);
                 if ($valmedia = mysqli_fetch_array($rismedia))
                 {
                     $outuni = $valmedia["unico"];

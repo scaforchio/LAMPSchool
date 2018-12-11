@@ -219,7 +219,7 @@ if ($perclim != '')
 
     /*
      $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
-     $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+     $ris=eseguiQuery($con,$query);
      if($val=mysqli_fetch_array($ris))
      {
         $classe=$val["anno"]." ".$val["sezione"]." ".$val["specializzazione"];
@@ -245,11 +245,11 @@ if ($perclim != '')
 
     $query = "SELECT * FROM tbl_alunni,tbl_classi WHERE
             tbl_alunni.idclasse=tbl_classi.idclasse AND tbl_alunni.idclasse<>'' ORDER BY specializzazione,anno,sezione,cognome,nome,datanascita";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     while ($val = mysqli_fetch_array($ris))
     {
         $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $val['idclasse'] . '" ';
-        $riscla = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $riscla = eseguiQuery($con,$query);
         if ($valcla = mysqli_fetch_array($riscla))
         {
             $classe = $valcla["anno"] . " " . $valcla["sezione"] . " " . $valcla["specializzazione"];
@@ -310,7 +310,7 @@ if ($perclim != '')
 
         $oreassenza = calcola_ore_assenza($idalunno,$datainizio,$datafine,$con);
    /*     $query = "select sum(oreassenza) as numerooreassenza from tbl_asslezione where idalunno='$idalunno' $seledata";
-        $risass = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+        $risass = eseguiQuery($con,$query);
         $recass = mysqli_fetch_array($risass);
         $oreassenza = $recass['numerooreassenza'];
 */
@@ -318,7 +318,7 @@ if ($perclim != '')
         // deroghe per intera giornata
     /*    $query = "select sum(oreassenza) as numeroorederoga from tbl_asslezione where idalunno='$idalunno' $seledata
         and data in (select distinct data from tbl_deroghe where idalunno=$idalunno and numeroore=0)";
-        $risass = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+        $risass = eseguiQuery($con,$query);
         $recass = mysqli_fetch_array($risass);
         $orederogaass = $recass['numeroorederoga'];
         $oreassenzader -= $orederogaass;  */
@@ -327,13 +327,13 @@ if ($perclim != '')
         // deroghe per permessi orari
         $oreassenzaperm=calcola_ore_deroga_oraria($idalunno,$datainizio,$datafine,$con);
     /*    $query = "select data, numeroore from tbl_deroghe where idalunno=$idalunno and numeroore <> 0";
-        $risder = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query, false));
+        $risder = eseguiQuery($con,$query);
         while ($recder = mysqli_fetch_array($risder))
         {
             $numorederoga = $recder['numeroore'];
             $data = $recder['data'];
             $query = "select sum(oreassenza) as numoreassenza from tbl_asslezione where idalunno=$idalunno and data='$data'";
-            $risass = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query, false));
+            $risass = eseguiQuery($con,$query);
             $recass = mysqli_fetch_array($risass);
             $numoreassenza = $recass['numoreassenza'];
             if ($numoreassenza >= $numorederoga)

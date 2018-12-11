@@ -52,7 +52,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
  if ($idannotazione!="")
  {
      $query = "delete from tbl_annotazioni where idannotazione=$idannotazione";
-     $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query di cancellazione: " . inspref($query,false));
+     $ris2 = eseguiQuery($con,$query);
      $numerorighe = mysqli_affected_rows($con);
  }
   if (($testo != ""))
@@ -67,7 +67,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
         $visibilitaalunni='false';
     $ins=true;  
     $query="insert into tbl_annotazioni(data,idclasse,iddocente,testo,visibilitagenitori,visibilitaalunni) values ('$data',$idclasse,$iddocente,'".elimina_apici($testo)."',$visibilitagenitori,$visibilitaalunni)";
-    $ris3=mysqli_query($con,inspref($query)) or die ("Errore nella query di inserimento: ". inspref($query,false));
+    $ris3=eseguiQuery($con,$query);
     $idannotazione=mysqli_insert_id($con);
  }
  if ($ins)

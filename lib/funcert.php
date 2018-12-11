@@ -3,7 +3,7 @@
 function importa_proposte($con, $idalunno, $livscuola) {
     $inserimentoeffettuato = false;
     $query = "select * from tbl_certcompcompetenze where livscuola=$livscuola";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris)) {
         $tipo = 'media';
         $tipocomp = $rec['idccc'];
@@ -51,7 +51,7 @@ function importa_proposte($con, $idalunno, $livscuola) {
 
 function cerca_livello_da_valore($con, $valore, $livello) {
     $query = "select idccl from tbl_certcomplivelli where livscuola=$livello and indicatorenumerico=$valore";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris) > 0) {
         $rec = mysqli_fetch_array($ris);
         return $rec['idccl'];
@@ -61,7 +61,7 @@ function cerca_livello_da_valore($con, $valore, $livello) {
 function cerca_competenza_ch_europea($con,$codcomp)
         {
     $query = "select * from tbl_certcompcompetenze where idccc=$codcomp";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     $rec=mysqli_fetch_array($ris);
         return $rec['compcheuropea'];
    
@@ -69,7 +69,7 @@ function cerca_competenza_ch_europea($con,$codcomp)
 function decodifica_livello_certcomp($con,$codlivello)
 {
     $query = "select livello from tbl_certcomplivelli where idccl='$codlivello'";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris) > 0) {
         $rec = mysqli_fetch_array($ris);
         return $rec['livello'];
@@ -82,7 +82,7 @@ function cerca_livello_comp($con, $idalunno, $idcompetenza) {
     $query = "select * from tbl_certcompvalutazioni
             where idalunno=$idalunno and idccc=$idcompetenza";
     // print inspref($query);
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris) > 0) {
         $rec = mysqli_fetch_array($ris);
         return $rec['idccl'];
@@ -96,7 +96,7 @@ function cerca_giudizio_comp($con, $idalunno, $idcompetenza) {
     $query = "select * from tbl_certcompvalutazioni
             where idalunno=$idalunno and idccc=$idcompetenza";
     // print inspref($query);
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris) > 0) {
         $rec = mysqli_fetch_array($ris);
         return $rec['giud'];
@@ -108,7 +108,7 @@ function cerca_livello_prop($con, $idalunno,$iddocente, $idcompetenza) {
     $query = "select * from tbl_certcompproposte
             where idalunno=$idalunno and iddocente=$iddocente and idccc=$idcompetenza";
     // print inspref($query);
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris) > 0) {
         $rec = mysqli_fetch_array($ris);
         return $rec['idccl'];
@@ -122,7 +122,7 @@ function cerca_giudizio_prop($con, $idalunno,$iddocente, $idcompetenza) {
     $query = "select * from tbl_certcompproposte
             where idalunno=$idalunno and iddocente=$iddocente and idccc=$idcompetenza";
     // print inspref($query);
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris) > 0) {
         $rec = mysqli_fetch_array($ris);
         return $rec['giud'];
@@ -135,7 +135,7 @@ function cerca_livello_da_classe($con, $annoclasse, $livello_scuola) {
     $query = "select * from tbl_certcompvalutazioni
             where idalunno=$idalunno and idccc=$idcompetenza";
     // print inspref($query);
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris) > 0) {
         $rec = mysqli_fetch_array($ris);
         return $rec['giud'];

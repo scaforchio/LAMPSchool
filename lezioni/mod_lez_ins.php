@@ -77,7 +77,7 @@ $numeroore = $finlez - $inilez + 1;
 $query = "select idclasse,idmateria from tbl_lezioni
          where idlezione='$idlezione'";
 // print inspref($query);
-$ris = mysqli_query($con, inspref($query)) or die (mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 $val = mysqli_fetch_array($ris);
 $idclasse = $val['idclasse'];
 $idmateria = $val['idclasse'];
@@ -92,7 +92,7 @@ $query = "select orainizio,numeroore from tbl_lezioni
 	        and idclasse='$idclasse'
 	        and idlezione<>'$idlezione'";
 // print inspref($query);
-$rislezcla = mysqli_query($con, inspref($query)) or die (mysqli_error($con));
+$rislezcla = eseguiQuery($con,$query);
 while ($vallezcla = mysqli_fetch_array($rislezcla))
 {
     $inizio = $vallezcla['orainizio'];
@@ -116,7 +116,7 @@ while ($vallezcla = mysqli_fetch_array($rislezcla))
 $query="select iddocente from tbl_firme 
          where idlezione='$idlezione' and iddocente";
         // print inspref($query);
-$ris=mysqli_query($con,inspref($query)) or die (mysqli_error($con));
+$ris=eseguiQuery($con,$query) or die (mysqli_error($con));
 while ($val=mysqli_fetch_array($ris))
 {
 	$iddoc=$val['iddocente'];
@@ -132,7 +132,7 @@ while ($val=mysqli_fetch_array($ris))
 	        and tbl_firme.iddocente='$iddoc'
 	        and tbl_firme.idlezione<>$idlezione";
 	// print inspref($query);        
-	$rislezdoc=mysqli_query($con,inspref($query)) or die (mysqli_error($con));
+	$rislezdoc=eseguiQuery($con,$query) or die (mysqli_error($con));
 	while ($vallezdoc=mysqli_fetch_array($rislezdoc))
 	{  // Creo un array per verificare le ore già impegnate da lezioni
       
@@ -173,13 +173,13 @@ else
 	            numeroore='$numeroore',
 	            orainizio='$inilez'
 	        where idlezione=$idlezione";
-        mysqli_query($con, inspref($query)) or die(mysqli_error($con));
+        eseguiQuery($con,$query);
         $query = "update tbl_asslezione
 	        set oreassenza='$numeroore'
 	        where oreassenza>'$numeroore'
 	        and idlezione=$idlezione";
 
-        mysqli_query($con, inspref($query)) or die(mysqli_error($con));
+        eseguiQuery($con,$query);
 
     }
 }

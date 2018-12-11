@@ -42,7 +42,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
 
 // VERIFICO PER OGNI IMPIEGATO SE E' DA INSERIRE NELLA LISTA DI DISTRIBUZIONE
 $query="select idamministrativo from tbl_amministrativi";
-$ris=mysqli_query($con,inspref($query)) or die("ERRORE: ".inspref($query)."-".mysqli_error($con)); 
+$ris=eseguiQuery($con,$query); 
 while ($rec=mysqli_fetch_array($ris))
 {
 	$nomecb="cb".$rec['idamministrativo'];
@@ -51,14 +51,14 @@ while ($rec=mysqli_fetch_array($ris))
 	
 	// VERIFICO SE GIA' presente nella lista
 	$query="select * from tbl_diffusionecircolari where idcircolare=$idcircolare and idutente=".$rec['idamministrativo'];
-   $ris2= mysqli_query($con,inspref($query)) or die("ERRORE: ".inspref($query)."-".mysqli_error($con)); 
+   $ris2= eseguiQuery($con,$query); 
    if (mysqli_num_rows($ris2)==0)
    { 
       if ($ins=='yes')
       {
 		   $query="insert into tbl_diffusionecircolari(idutente,idcircolare) 
 		        values (".$rec['idamministrativo'].",$idcircolare)";
-         mysqli_query($con,inspref($query)) or die("ERRORE: ".inspref($query)."-".mysqli_error($con)); 
+         eseguiQuery($con,$query); 
 	   }
 	}
 	else
@@ -66,7 +66,7 @@ while ($rec=mysqli_fetch_array($ris))
 		if ($ins!='yes')
       {
 		   $query="delete from tbl_diffusionecircolari where idcircolare=$idcircolare and idutente=".$rec['idamministrativo'];
-         mysqli_query($con,inspref($query)) or die("ERRORE: ".inspref($query)."-".mysqli_error($con)); 
+         eseguiQuery($con,$query); 
 	   }
 	}
 }

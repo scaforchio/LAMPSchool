@@ -45,7 +45,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 
 $query = "SELECT idalunno AS al FROM tbl_alunni WHERE idalunno IN (" . estrai_alunni_classe_data($idclasse, $data, $con) . ")";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)." " .inspref($query,false));
+$ris = eseguiQuery($con,$query);
 
 while ($id = mysqli_fetch_array($ris))
 {
@@ -58,7 +58,7 @@ while ($id = mysqli_fetch_array($ris))
     $numeroore = stringa_html('numeroore' . $id['al']);
     $oraentrata = stringa_html('oraentrata' . $id['al']);
     $query = 'SELECT * FROM tbl_ritardi WHERE idalunno=' . $id['al'] . ' AND data="' . $data . '"';
-    $rissel = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)." " .inspref($query,false));
+    $rissel = eseguiQuery($con,$query);
     if (mysqli_num_rows($rissel) > 0)
     {
         $ritardopresente=true;
@@ -74,14 +74,14 @@ while ($id = mysqli_fetch_array($ris))
                 $query = "insert into tbl_ritardi(idalunno,data,oraentrata,numeroore) values('$idalunno','$data','$oraentrata','$numeroore')";
             if ($tipoutente=='P' | $tipoutente=='S')
                 $query = "insert into tbl_ritardi(idalunno,data,oraentrata,numeroore,autorizzato) values('$idalunno','$data','$oraentrata','$numeroore',true)";
-            $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query inserimento: " . mysqli_error($con) . " " . inspref($query, false));
+            $ris2 = eseguiQuery($con,$query);
             $query = "delete from tbl_assenze where idalunno='$idalunno' and data='$data'";
-            $ris3 = mysqli_query($con, inspref($query)) or die ("Errore nella query canc. ass.: " . mysqli_error($con) . " " . inspref($query, false));
+            $ris3 = eseguiQuery($con,$query);
         }
         else
         {
             $query = "update tbl_ritardi set oraentrata='$oraentrata', numeroore='$numeroore' where idritardo=$idritardo";
-            mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query,false));
+            eseguiQuery($con,$query);
         }
         $cambiamento=true;
         // inserisci_assenze_per_ritardi($con,$idalunno,$data,$numeroore);
@@ -96,7 +96,7 @@ while ($id = mysqli_fetch_array($ris))
         if ($ritardopresente)
         {
             $query = "DELETE FROM tbl_ritardi WHERE idritardo=$idritardo";
-            $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)." " .inspref($query,false));
+            $ris2 = eseguiQuery($con,$query);
             $cambiamento=true;
         }
     }

@@ -61,7 +61,7 @@ $query="select idcattedra, tbl_cattnosupp.idmateria, tbl_cattnosupp.idclasse, tb
           
            
          
-          $ris=mysqli_query($con,inspref($query));
+          $ris=eseguiQuery($con,$query);
           while($nom=mysqli_fetch_array($ris))
 	       {
              print "<option value='";

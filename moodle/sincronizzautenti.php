@@ -43,7 +43,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
 
 print "<br><br><b>Alunni aggiunti:</b><br>";
 $query="select * from tbl_alunni where idclasse<>0 order by idalunno";
-$ris=mysqli_query($con,inspref($query)) or die("Errore ".inspref($query,false));
+$ris=eseguiQuery($con,$query);
 
 while ($rec=mysqli_fetch_array($ris))
 {
@@ -72,7 +72,7 @@ while ($rec=mysqli_fetch_array($ris))
 
 print "<br><br><b>Docenti aggiunti:</b><br>";
 $query="select * from tbl_docenti where iddocente>1000000000 order by iddocente";
-$ris=mysqli_query($con,inspref($query)) or die("Errore ".inspref($query,false));
+$ris=eseguiQuery($con,$query);
 
 while ($rec=mysqli_fetch_array($ris))
 {

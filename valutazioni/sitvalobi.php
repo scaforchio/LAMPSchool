@@ -69,7 +69,7 @@ print ("
     
    $query="select iddocente, cognome, nome from tbl_docenti where iddocente=$iddocente";
    
-   $ris=mysqli_query($con,inspref($query));
+   $ris=eseguiQuery($con,$query);
    
    
    
@@ -101,7 +101,7 @@ print ("
  
            
          $query="select idcattedra,tbl_classi.idclasse,tbl_materie.idmateria, anno, sezione, specializzazione, denominazione from tbl_cattnosupp, tbl_classi, tbl_materie where iddocente=$iddocente and tbl_cattnosupp.idalunno=0 and tbl_cattnosupp.idclasse=tbl_classi.idclasse and tbl_cattnosupp.idmateria = tbl_materie.idmateria order by anno, sezione, specializzazione, denominazione";
-          $ris=mysqli_query($con,inspref($query));
+          $ris=eseguiQuery($con,$query);
           while($nom=mysqli_fetch_array($ris))
 	      {
             print "<option value='";
@@ -151,7 +151,7 @@ if ($idclasse!="")
 	              and tbl_competdoc.idclasse=$idclasse
 	              order by numeroordine"; 
 
-          $riscomp=mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query));
+          $riscomp=eseguiQuery($con,$query);
           
 	      while ($nomcomp=mysqli_fetch_array($riscomp))
 	      {
@@ -166,7 +166,7 @@ if ($idclasse!="")
 	              and abil_cono = 'C'
 	              order by numeroordine"; 
 	      
-              $risabil=mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query));
+              $risabil=eseguiQuery($con,$query);
 		
 			  while ($nomabil=mysqli_fetch_array($risabil))
 	          {
@@ -188,7 +188,7 @@ if ($idclasse!="")
 	              and abil_cono = 'A'
 	              order by numeroordine"; 
 	      
-              $risabil=mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query));
+              $risabil=eseguiQuery($con,$query);
 		
 			  while ($nomabil=mysqli_fetch_array($risabil))
 	        {
@@ -272,7 +272,7 @@ if ($obiettivo != "" & $cattedra!= "")
 			  and tbl_alunni.idclasse=$idcl
 			  and tbl_gruppi.idmateria=$idmat
 			  and tbl_gruppi.iddocente=$iddocente";
-	$ris=mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query));
+	$ris=eseguiQuery($con,$query);
 	if ($rec=mysqli_fetch_array($ris))
 		$idgruppo=$rec['idgruppo'];
 	//
@@ -321,7 +321,7 @@ if ($obiettivo != "" & $cattedra!= "")
 	              $perioquery
 	              order by data" ;
 	
-	$ris=mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query));
+	$ris=eseguiQuery($con,$query);
 	while($nomdat=mysqli_fetch_array($ris))
 	{
 		$datelez[]=$nomdat["data"];
@@ -338,7 +338,7 @@ if ($obiettivo != "" & $cattedra!= "")
 	              and tbl_valutazioniabilcono.idabilita=$obiettivo
 	              $perioquery" ;
 	         
-	$ris=mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query));
+	$ris=eseguiQuery($con,$query);
 	while($nomval=mysqli_fetch_array($ris))
 	{
 		$date[]=$nomval["data"];
@@ -381,7 +381,7 @@ if ($obiettivo != "" & $cattedra!= "")
                        and tbl_alunni.idclasse=$idclasse
                        and tbl_gruppi.idgruppo in (select idgruppo from tbl_gruppi where idmateria=$idmateria and iddocente=$iddocente)";//=$idgruppo";    
  
-   $ris=mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query));
+   $ris=eseguiQuery($con,$query);
     
    while($nom=mysqli_fetch_array($ris))
    {

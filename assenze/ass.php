@@ -89,7 +89,7 @@ if ($classeregistro == "")
 }
 else
     $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi where idclasse=$classeregistro ORDER BY specializzazione, sezione, anno";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 
 while ($nom = mysqli_fetch_array($ris))
 {
@@ -254,14 +254,14 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
 
     $elencoalunni=estrai_alunni_classe_data($idclasse, $data, $con);
     $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     if ($val = mysqli_fetch_array($ris))
     {
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
     }
     $query = "SELECT idalunno AS al FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
 
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
     $c = mysqli_fetch_array($ris);
 
@@ -293,7 +293,7 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
 
     // $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
     $query = "SELECT * FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     $cont = 0;
     while ($val = mysqli_fetch_array($ris))
     {
@@ -350,7 +350,7 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
                 where idalunno=" . $val['idalunno'] . "
                 and data< '$a-$m-$g'
                 and (isnull(giustifica) or giustifica=0)";
-        $risassing = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+        $risassing = eseguiQuery($con,$query);
         $valassing = mysqli_fetch_array($risassing);
         $numero_assenze_ing = $valassing['numassingiust'];
         if ($numero_assenze_ing > 0)

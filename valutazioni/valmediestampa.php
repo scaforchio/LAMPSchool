@@ -70,7 +70,7 @@ $materia="";
 $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
     
 $query="select iddocente, cognome, nome from tbl_docenti where idutente=$id_ut_doc";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 if($nom=mysqli_fetch_array($ris))
 {
    $iddocente=$nom["iddocente"];
@@ -82,7 +82,7 @@ if($nom=mysqli_fetch_array($ris))
 print("<font size=2><center><b>Docente:&nbsp;$nominativo&nbsp;&nbsp;Classe:&nbsp;"); 
       
 $query="select anno,sezione,specializzazione from tbl_classi where tbl_classi.idclasse=$idclasse";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 { 
   $classe=$nom["anno"]." ".$nom["sezione"]." ".$nom["specializzazione"];
@@ -108,7 +108,7 @@ print "Materia:&nbsp;";
 
 
 $query="select * from tbl_materie where idmateria=$idmateria";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
    $materia=$nom["denominazione"];
@@ -132,7 +132,7 @@ while($nom=mysqli_fetch_array($ris))
     if ($periodo=="Tutti")
         $querylez='select sum(numeroore) as orelez from tbl_lezioni where idmateria="'.$idmateria.'" and idclasse="'.$idclasse.'" ';
    
-    $rislez=mysqli_query($con,inspref($querylez));
+    $rislez=eseguiQuery($con,$querylez);
     $vallez=mysqli_fetch_array($rislez);
     print ('<br/>Ore totale lezione:'.$vallez['orelez'].'<br/><br/>'); 
       
@@ -152,7 +152,7 @@ echo "<table border=1 width=98%>";
  
 
 $query='select * from tbl_alunni where idclasse="'.$idclasse.'" order by cognome,nome,datanascita';
-$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+$ris=eseguiQuery($con,$query);
 while($val=mysqli_fetch_array($ris))
 {
     // $esiste_voto=false;
@@ -186,7 +186,7 @@ while($val=mysqli_fetch_array($ris))
     if ($periodo=="Tutti")
         $queryval='select * from tbl_valutazioniintermedie where idalunno = '.$val["idalunno"].' and idmateria="'.$idmateria.'" and tipo="O" order by data';
    
-    if ($risval=mysqli_query($con,inspref($queryval)))
+    if ($risval=eseguiQuery($con,$queryval))
        
     {
       if (mysqli_num_rows($risval)>0)
@@ -236,7 +236,7 @@ while($val=mysqli_fetch_array($ris))
     if ($periodo=="Tutti")
         $queryval='select * from tbl_valutazioniintermedie where idalunno = '.$val["idalunno"].' and idmateria="'.$idmateria.'" and tipo="S" order by data';
     
-    if ($risval=mysqli_query($con,inspref($queryval)))
+    if ($risval=eseguiQuery($con,$queryval))
        
     {
        if (mysqli_num_rows($risval)>0)
@@ -286,7 +286,7 @@ while($val=mysqli_fetch_array($ris))
     if ($periodo=="Tutti")
         $queryval='select * from tbl_valutazioniintermedie where idalunno = '.$val["idalunno"].' and idmateria="'.$idmateria.'" and tipo="P" order by data';
     
-    if ($risval=mysqli_query($con,inspref($queryval)))
+    if ($risval=eseguiQuery($con,$queryval))
        
     { 
     
@@ -359,7 +359,7 @@ while($val=mysqli_fetch_array($ris))
         $queryass='select sum(oreassenza) as oreass from tbl_asslezione where idalunno = '.$val["idalunno"].' and idmateria="'.$idmateria.'"';
 
    
-    $risval=mysqli_query($con,inspref($queryass));
+    $risval=eseguiQuery($con,$queryass);
     
     $valass=mysqli_fetch_array($risval);
     print ('<br/>Ore assenza: '.$valass['oreass']); 

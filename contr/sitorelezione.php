@@ -201,7 +201,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 /*
  $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
- $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+ $ris=eseguiQuery($con,$query);
  if($val=mysqli_fetch_array($ris))
  {
     $classe=$val["anno"]." ".$val["sezione"]." ".$val["specializzazione"];
@@ -224,7 +224,7 @@ print ("<td><font size=1><center>Ore totali</td></tr>");
 
 
 $query = "SELECT * FROM tbl_docenti order by cognome,nome";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 while ($val = mysqli_fetch_array($ris))
 {
 

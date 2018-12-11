@@ -49,7 +49,7 @@ $schede->AliasNbPages();
 // Estraggo tutti i valori per sostituzione parametri di stampa
 //
 $query = "select * from tbl_scrutini where idclasse=$idclasse and periodo=$periodo";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 $rec = mysqli_fetch_array($ris);
 
 $dataverbale = data_italiana($rec['dataverbale']);
@@ -132,7 +132,7 @@ $query = "select distinct tbl_cattnosupp.iddocente, cognome, nome from tbl_cattn
         where tbl_cattnosupp.iddocente=tbl_docenti.iddocente
         and idclasse=$idclasse and tbl_cattnosupp.iddocente<>1000000000
         order by cognome, nome";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 $elencodocentititolari = array();
 while ($rec = mysqli_fetch_array($ris))
 {
@@ -277,14 +277,14 @@ else
     $conddebito = "";
 
 $query = "select * from tbl_alunni where idclasse=$idclasse $conddebito order by cognome, nome, datanascita";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($rec = mysqli_fetch_array($ris))
 {
     $idalunno = $rec['idalunno'];
     $datialunno = estrai_dati_alunno($idalunno, $con) . "\n";
     $annotazionialunno = "";
     $query = "select * from tbl_giudizi where idalunno=$idalunno and periodo=$numeroperiodi and giudizio<>''";
-    $risgiu = mysqli_query($con, inspref($query));
+    $risgiu = eseguiQuery($con,$query);
     if ($recgiu = mysqli_fetch_array($risgiu))
     {
         $annotazionialunno .= $recgiu['giudizio'] . "\n";
@@ -293,7 +293,7 @@ while ($rec = mysqli_fetch_array($ris))
 	        where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
 	        and idalunno=$idalunno and periodo=$numeroperiodi and note<>''
 	        order by tbl_materie.progrpag, denominazione";
-    $risnot = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query));
+    $risnot = eseguiQuery($con,$query);
     while ($recnot = mysqli_fetch_array($risnot))
     {
         $annotazionialunno .= $recnot['denominazione'] . ": ";

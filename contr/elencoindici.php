@@ -36,7 +36,7 @@ FROM information_schema.statistics
 WHERE table_schema = '$db_nome'
 GROUP BY 1,2";
 
-$rs = mysqli_query($con, inspref($query)); //$lQuery->query($query);
+$rs = eseguiQuery($con,$query); //$lQuery->query($query);
 
 if ($rs)
 {
@@ -70,7 +70,7 @@ LEFT JOIN information_schema.KEY_COLUMN_USAGE k ON i.CONSTRAINT_NAME = k.CONSTRA
 WHERE i.CONSTRAINT_TYPE = 'FOREIGN KEY' 
 AND i.TABLE_SCHEMA = '$db_nome'";
 
-$rs = mysqli_query($con, inspref($query));//$rs = $lQuery->query($query);
+$rs = eseguiQuery($con,$query);//$rs = $lQuery->query($query);
 
 if ($rs)
 {

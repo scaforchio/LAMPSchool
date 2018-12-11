@@ -48,7 +48,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 //Esecuzione query
 $query = "select * from " . $daticrud['tabella'] . " where " . $daticrud['campochiave'] . " = '" . $id . "'";
-$risgen = mysqli_query($con, $query) or die("Errore:" . $query);
+$risgen = eseguiQuery($con, $query);
 $recgen = mysqli_fetch_array($risgen);
 if ($id != 0)
     print "<form name='form1' action='CRUDmodregistra.php' method='POST'>";
@@ -122,7 +122,7 @@ foreach ($daticrud['campi'] as $c)
                 $subquery='';
             $query = "select " . $c[3] . "," . $c[4] . " from " . $c[2] . "$subquery order by " . $c[4];
             print $query;
-            $ris = mysqli_query($con, $query);
+            $ris = eseguiQuery($con, $query);
             while ($rec = mysqli_fetch_array($ris))
             {
                 $selected = "";

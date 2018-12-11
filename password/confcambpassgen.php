@@ -63,7 +63,7 @@ if (!$DB)
 //Esecuzione query
 $sql = "select * from tbl_utenti where userid='$ute'";
 
-$result = mysqli_query($con, inspref($sql));
+$result = eseguiQuery($con,$sql);
 // prelevo l'id dell'utente che coincide con quello del tutore
 $val = mysqli_fetch_array($result);
 $idutente = $val["idutente"];
@@ -113,7 +113,7 @@ else
             $descrizioneUtente = "l'alunno";
         }
         // PRELEVO il nome e cognome
-        $result = mysqli_query($con, inspref($sql));
+        $result = eseguiQuery($con,$sql);
         $val = mysqli_fetch_array($result);
         $cognome = $val["cognome"];
         $nome = $val["nome"];

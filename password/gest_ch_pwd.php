@@ -67,7 +67,7 @@ if (!$DB)
 //Esecuzione query
 $sql = "select * from tbl_utenti where userid='$ute'";
 // print inspref($sql);
-$result = mysqli_query($con, inspref($sql));
+$result = eseguiQuery($con,$sql);
 
 if (mysqli_num_rows($result) <= 0)
 {
@@ -91,7 +91,7 @@ else
         print "PASSWORD $pas";
         $query = "update tbl_utenti set passprecedenti=concat(passprecedenti,password,'|'),password = md5(md5('" . $pas . "')) where userid='" . $ute . "'";
         // print $query;
-        $result = mysqli_query($con, inspref($query));
+        $result = eseguiQuery($con,$query);
         if (mysqli_affected_rows($con) == 1)
         {
             print ("<center><br/>Password cambiata correttamente.<br/></center>");

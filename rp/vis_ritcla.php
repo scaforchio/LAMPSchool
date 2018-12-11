@@ -53,7 +53,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 	$query="SELECT * FROM tbl_entrateclassi,tbl_classi
             WHERE tbl_entrateclassi.idclasse=tbl_classi.idclasse
             ORDER BY data desc,ora desc,anno, sezione, specializzazione";
-	if (!($ris=mysqli_query($con,inspref($query)))) 
+	if (!($ris=eseguiQuery($con,$query))) 
 	{
 		print "\nQuery fallita";
 	}	

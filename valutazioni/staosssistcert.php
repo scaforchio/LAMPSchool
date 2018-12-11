@@ -110,7 +110,7 @@ $idmateria = estrai_id_materia($idcattedra,$con);
 
   
 
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore: ".inspref($query));
+    $ris=eseguiQuery($con,$query);
 
  
     $c=mysqli_num_rows($ris);

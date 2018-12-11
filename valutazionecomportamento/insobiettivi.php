@@ -37,7 +37,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 
 //$query="delete from tbl_competscol where idmateria=$materia and anno=$anno";
-//$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+//$ris=eseguiQuery($con,$query);
 
 for ($no = 1; $no <= 20; $no++)
 {
@@ -51,16 +51,16 @@ for ($no = 1; $no <= 20; $no++)
         if ($posins != 0)
         {
             $query = "update tbl_compob set numeroordine = numeroordine+1 where numeroordine>=$posins";
-            $risupd = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $risupd = eseguiQuery($con,$query);
 
             $query = "insert into tbl_compob(numeroordine, sintob, obiettivo) values($posins,'$sintob', '$obiettivo')";
-            $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $ris2 = eseguiQuery($con,$query);
 
         }
         else
         {
             $query = "insert into tbl_compob(numeroordine, sintob, obiettivo) values($no,'$sintob', '$obiettivo')";
-            $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $ris2 = eseguiQuery($con,$query);
 
         }
 
@@ -69,14 +69,14 @@ for ($no = 1; $no <= 20; $no++)
     {
 
         $query = "update tbl_compob set sintob='$sintob',obiettivo='$obiettivo' where idobiettivo=$idobiettivo";
-        $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $ris2 = eseguiQuery($con,$query);
 
     }
     if ($sintob == "" & $idobiettivo != "")
     {
 
         $query = "delete from tbl_compob where idobiettivo=$idobiettivo";
-        $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $ris2 = eseguiQuery($con,$query);
 
     }
 }

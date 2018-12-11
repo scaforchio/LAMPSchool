@@ -38,7 +38,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='
 
 $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore: ".mysqli_error($con));
 $query = "SELECT * FROM tbl_assemblee WHERE idassemblea=$idassemblea";
-$ris = mysqli_query($con, inspref($query)) or die (mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 $data = mysqli_fetch_array($ris);
 $qmod = "UPDATE tbl_assemblee SET ";
 if($concesso==1)
@@ -79,8 +79,8 @@ else
 	
 }
 $qmod .= " WHERE idassemblea=$idassemblea";
-$rismod = mysqli_query($con, inspref($qmod)) or die (mysqli_error($con). "<br/>". $qmod);             
-$ris=mysqli_query($con,inspref($query)) or die ("Errore : ". inspref($query));
+$rismod = eseguiQuery($con, $qmod);             
+$ris=eseguiQuery($con,$query);
 
 print ("<form method='post' action='assdoc.php' id='formdisp'>
 			<input type='hidden' name='iddocente' value='".$iddocente."'>

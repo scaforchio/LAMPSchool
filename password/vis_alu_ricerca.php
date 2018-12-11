@@ -70,7 +70,7 @@ if (strlen($strcogn)>1 | strlen($strnome)>1)
        
        AND cognome LIKE '%$strcogn%' AND nome LIKE '%$strnome%'
        ORDER BY cognome,nome";
- $result=mysqli_query($con,inspref($sql));
+ $result=eseguiQuery($con,$sql);
  print"<center>";
  print("<table border=1>");
  print("<tr class='prima'>");

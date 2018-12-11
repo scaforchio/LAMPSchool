@@ -77,7 +77,7 @@ print ("
               
           // print inspref($query); // TTTT
           
-          $ris=mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query));
+          $ris=eseguiQuery($con,$query);
 	
 	if (mysqli_num_rows($ris)>0)
       {   
@@ -128,7 +128,7 @@ print ("
 					 
 				
 					 
-					 $riscomp=mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query));
+					 $riscomp=eseguiQuery($con,$query);
 					 if (mysqli_num_rows($riscomp)>0)
 					 {
 						 $trovato=false;
@@ -176,7 +176,7 @@ if ($idcompetenza!="")
 	     
 	              
 	              
-     $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+     $ris=eseguiQuery($con,$query);
           
      $nom=mysqli_fetch_array($ris);
   
@@ -203,7 +203,7 @@ if ($idcompetenza!="")
 			  
 			
 			 $query="select * from tbl_abilalu where idcompetenza=$idcompetenza and abil_cono='A' order by numeroordine";
-			 $ris=mysqli_query($con,inspref($query)) or die ("Errore: ".inspref($query));
+			 $ris=eseguiQuery($con,$query);
 			 print "<form method='post' action='insabcoalu.php'>
 					  <p align='center'>
 					 <font size=4 color='black'>Abilit&agrave;</font>
@@ -240,7 +240,7 @@ if ($idcompetenza!="")
 			  
 			
 			 $query="select * from tbl_abilalu where idcompetenza=$idcompetenza and abil_cono='C' order by numeroordine";
-			 $ris=mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query));
+			 $ris=eseguiQuery($con,$query);
 			 
 			 print "<p align='center'>
 					 <font size=4 color='black'>Conoscenze</font><br/>

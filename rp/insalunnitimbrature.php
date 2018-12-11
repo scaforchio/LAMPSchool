@@ -58,7 +58,7 @@ if ($datatimbratura == $dataoggi)   // PER EVIATRE CHE SI ATTIVI IN CASO DI INSE
     $query = "select count(*) as numtimbrature from tbl_timbrature where datatimbratura='$dataoggi' and idalunno in(select idalunno from tbl_alunni where idclasse<>0)";
 
 
-    if (!$ris = mysqli_query($con, inspref($query, false)))
+    if (!$ris = eseguiQuery($con,$query))
     {
 
         die("errore query " . inspref($query, false));
@@ -79,7 +79,7 @@ if ($datatimbratura == $dataoggi)   // PER EVIATRE CHE SI ATTIVI IN CASO DI INSE
                       and idalunno NOT IN (select idalunno from tbl_presenzeforzate where data = '$dataoggi')
                       order by idalunno";
 
-        if (!$ris = mysqli_query($con, inspref($query, false)))
+        if (!$ris = eseguiQuery($con,$query))
         {
 
             die("errore query " . inspref($query, false));
@@ -91,18 +91,18 @@ if ($datatimbratura == $dataoggi)   // PER EVIATRE CHE SI ATTIVI IN CASO DI INSE
 
 // Inserisco la timbratura forzata per l'alunno se non è già presente
 $query = "select * from tbl_timbrature where idalunno=$idalunno and tipotimbratura='$tipotimbratura' and datatimbratura='$datatimbratura' and oratimbratura='$oratimbratura'";
-$ris=mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query, false));
+$ris=eseguiQuery($con,$query);
 if (mysqli_num_rows($ris)==0)
 {
 
     $query = "insert into tbl_timbrature(idalunno,tipotimbratura,datatimbratura,oratimbratura,forzata) values ($idalunno,'$tipotimbratura','$datatimbratura','$oratimbratura',true)";
-    mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query, false));
+    eseguiQuery($con,$query);
 
 
     if ($tipotimbratura == 'I')
     {
         $query = "delete from tbl_assenze where idalunno='$idalunno' and data='$datatimbratura'";
-        mysqli_query($con, inspref($query)) or die("errore query " . inspref($query, false));
+        eseguiQuery($con,$query);
         elimina_assenze_lezione($con, $idalunno, $datatimbratura);
     }
 
@@ -117,7 +117,7 @@ if (mysqli_num_rows($ris)==0)
             $valgiust = 'true';
         }
         $query = "insert into tbl_usciteanticipate(idalunno,data,orauscita,giustifica) values ('$idalunno', '$datatimbratura', '$oratimbratura',$valgiust)";
-        mysqli_query($con, inspref($query)) or die("errore query " . inspref($query, false));
+        eseguiQuery($con,$query);
         //ricalcola_uscite($con, $idalunno, $datatimbratura);
         elimina_assenze_lezione($con, $idalunno, $datatimbratura);
         inserisci_assenze_per_ritardi_uscite($con, $idalunno, $datatimbratura);
@@ -126,9 +126,9 @@ if (mysqli_num_rows($ris)==0)
     if ($tipotimbratura == 'R')
     {
         $query = "insert into tbl_ritardi(idalunno,data,oraentrata,autorizzato) values ('$idalunno', '$datatimbratura', '$oratimbratura',true)";
-        mysqli_query($con, inspref($query)) or die("errore query " . inspref($query, false));
+        eseguiQuery($con,$query);
         $query = "delete from tbl_assenze where idalunno='$idalunno' and data='$datatimbratura'";
-        mysqli_query($con, inspref($query)) or die("errore query " . inspref($query, false));
+        eseguiQuery($con,$query);
         //ricalcola_ritardi($con, $idalunno, $datatimbratura);
         elimina_assenze_lezione($con, $idalunno, $datatimbratura);
         inserisci_assenze_per_ritardi_uscite($con, $idalunno, $datatimbratura);

@@ -56,13 +56,13 @@ print "<table align='center'>
 						 <td valign='top'> <center><b>Sub-obiettivi di comportamento:</b><br/></center>";
 // Conto competenze, abilità e conoscenze per dimensionare la select multiple
 $query = "select count(*) as numob from tbl_compob";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 $nomcomp = mysqli_fetch_array($ris);
 $numob = $nomcomp['numob'];
 
 $query = "select count(*) as numsubob from tbl_compsubob,tbl_compob
 	              where tbl_compsubob.idobiettivo=tbl_compob.idobiettivo";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 $nomabil = mysqli_fetch_array($ris);
 $numsubob = $nomabil['numsubob'];
 
@@ -72,7 +72,7 @@ print "<select name='abil' size='$totalerighe'>";
 $query = "select * from tbl_compob
 	              
 	              order by numeroordine";
-$riscomp = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$riscomp = eseguiQuery($con,$query);
 
 while ($nomcomp = mysqli_fetch_array($riscomp))
 {
@@ -86,7 +86,7 @@ while ($nomcomp = mysqli_fetch_array($riscomp))
 	              where idobiettivo=$idobiettivo
 	              order by numeroordine";
 
-    $risabil = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $risabil = eseguiQuery($con,$query);
 
     while ($nomabil = mysqli_fetch_array($risabil))
     {

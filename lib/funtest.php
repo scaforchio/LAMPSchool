@@ -541,7 +541,7 @@ function goBackRiepilogoRegistro($conn = null, $label = 'Riepilogo registro', $s
             if ($sost == '')
             {
                 $query = "SELECT idclasse,datalezione FROM tbl_lezioni WHERE idlezione=" . stringa_html('idlezione');
-                $ris = mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query, false));
+                $ris = eseguiQuery($conn,$query);
                 $rec = mysqli_fetch_array($ris);
                 $gbIdclasse = $rec['idclasse'];
                 $gbGiorno = substr($rec['datalezione'], 8, 2);
@@ -550,7 +550,7 @@ function goBackRiepilogoRegistro($conn = null, $label = 'Riepilogo registro', $s
             else
             {
                 $query = "SELECT idclasse,datalezione FROM tbl_lezionicert WHERE idlezione=" . stringa_html('idlezione');
-                $ris = mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query, false));
+                $ris = eseguiQuery($conn,$query);
                 $rec = mysqli_fetch_array($ris);
                 $gbIdclasse = $rec['idclasse'];
                 $gbGiorno = substr($rec['datalezione'], 8, 2);
@@ -766,7 +766,7 @@ function controlloNuovaVersione()
 function current_version($conn)
 {
     $query = "SELECT * FROM tbl_parametri WHERE parametro='versioneprecedente'";
-    $resp = mysqli_query($conn, inspref($query));
+    $resp = eseguiQuery($conn,$query);
     if ($resp == false || mysqli_num_rows($resp) == 0)
     {
         return false;

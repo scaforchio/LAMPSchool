@@ -58,7 +58,7 @@ print("<br/><br/>");
 
     //Esecuzione query
     $query="SELECT * FROM tbl_tipidocumenti ORDER BY descrizione";
-    if (!($ris=mysqli_query($con,inspref($query)))) 
+    if (!($ris=eseguiQuery($con,$query))) 
     {
         print "\nQuery fallita";
     }   

@@ -86,7 +86,7 @@ print "   <tr>
   
 // Riempimento combo box tbl_classi
 $query="select distinct anno from tbl_classi order by anno";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
    print "<option value='";
@@ -109,7 +109,7 @@ print "   <tr>
       <td width='50%'>
       <SELECT ID='cl' NAME='sezione' ONCHANGE='seledoc.submit()'><option value=''>&nbsp;</option>"; 
 $query="select distinct sezione from tbl_classi order by sezione";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
    print "<option value='";
@@ -131,7 +131,7 @@ print "   <tr>
       <td width='50%'>
       <SELECT NAME='specializzazione' ONCHANGE='seledoc.submit()'><option value=''>&nbsp;</option>"; 
 $query="select distinct specializzazione from tbl_classi order by specializzazione";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
    print "<option value='";
@@ -154,7 +154,7 @@ print "   <tr>
       <td width='50%'>
       <SELECT NAME='idmateria' ONCHANGE='seledoc.submit()'><option value=''>&nbsp;</option>"; 
 $query="select distinct idmateria,denominazione from tbl_materie order by denominazione";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
    print "<option value='";
@@ -213,7 +213,7 @@ print ("
             and tbl_docenti.iddocente<>1000000000
             $sele
             order by cognome,nome";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while ($rec=mysqli_fetch_array($ris))
 {
    
@@ -237,7 +237,7 @@ stampa_piede("");
 function inLista($iddoc,$idcirc,$conn)
 {
 	$query="select * from tbl_diffusionecircolari where idutente=$iddoc and idcircolare=$idcirc";
-	$ris=mysqli_query($conn,inspref($query)) or die("Errore: ".inspref($query)." - ".mysqli_error($ris));
+	$ris=eseguiQuery($conn,$query);
 	if (mysqli_num_rows($ris)==0)
 	   return false;
 	else

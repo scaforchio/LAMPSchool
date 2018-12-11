@@ -71,7 +71,7 @@ $query="update tbl_esami3m set
         orafine='$orafine',
         idcommissione='$idcommissione'
         where idclasse=$idclasse";
-mysqli_query($con,inspref($query));
+eseguiQuery($con,$query);
 
 
 

@@ -104,7 +104,7 @@ if ($iddocente!='')
           AND tbl_firme.iddocente=$iddocente
           AND tbl_lezioni.idlezionegruppo IS NOT NULL
           ORDER BY tbl_lezioni.datalezione,tbl_lezioni.orainizio";
-	$result=mysqli_query($con,inspref($sql));
+	$result=eseguiQuery($con,$sql);
 	if(!($result))
 		print("query fallita");
 	else {

@@ -239,7 +239,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                 
                 // ESTRAGGO L'ULTIMO ID DEI DOCENTI
                 $query="select max(iddocente) as maxid from tbl_docenti";
-                $ris=mysqli_query($con,inspref($query));
+                $ris=eseguiQuery($con,$query);
                 $rec=mysqli_fetch_array($ris);
                // print $rec['maxid'];
                 $nextid=$rec['maxid']+1;

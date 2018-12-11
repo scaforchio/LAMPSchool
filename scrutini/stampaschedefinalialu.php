@@ -54,7 +54,7 @@ if ($idclasse != "")
     else
         $conddebito = "";
     $query = "select idalunno from tbl_alunni where idclasse=$idclasse $conddebito order by cognome,nome";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     while ($val = mysqli_fetch_array($ris))
     {
         $alunni[] = $val['idalunno'];
@@ -64,7 +64,7 @@ else
 {
     $alunni[] = $idalunno;
     $query = "select idclasse from tbl_alunni where idalunno=$idalunno";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     if ($val = mysqli_fetch_array($ris))
     {
         $idclasse = $val['idclasse'];
@@ -145,7 +145,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         $query = "SELECT datanascita, codfiscale, denominazione FROM tbl_alunni,tbl_comuni
               WHERE tbl_alunni.idcomnasc=tbl_comuni.idcomune 
               AND idalunno=$alu";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = eseguiQuery($con,$query);
         if ($val = mysqli_fetch_array($ris))
         {
             $datanascita = data_italiana($val['datanascita']);
@@ -212,7 +212,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
 
         $query = "select * from tbl_esiti where idalunno='$alu'";
 
-        $risesi = mysqli_query($con, inspref($query));
+        $risesi = eseguiQuery($con,$query);
 
         if ($recesi = mysqli_fetch_array($risesi))
         {
@@ -338,7 +338,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         $query = "SELECT datanascita, codfiscale, denominazione FROM tbl_alunni,tbl_comuni
               WHERE tbl_alunni.idcomnasc=tbl_comuni.idcomune
               AND idalunno=$alu";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = eseguiQuery($con,$query);
         if ($val = mysqli_fetch_array($ris))
         {
             $datanascita = data_italiana($val['datanascita']);
@@ -407,7 +407,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
            and tbl_cattnosupp.iddocente <> 1000000000
            and tbl_materie.progrpag < 99
            order by tbl_materie.progrpag,tbl_materie.sigla";
-        $rismat = mysqli_query($con, inspref($query));
+        $rismat = eseguiQuery($con,$query);
         while ($valmat = mysqli_fetch_array($rismat))
 
         {
@@ -425,7 +425,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
               AND periodo='$numeroperiodi'
               AND idmateria=$idmateria";
 
-            $risvoti = mysqli_query($con, inspref($query));
+            $risvoti = eseguiQuery($con,$query);
 
             if ($recvoti = mysqli_fetch_array($risvoti))
             {
@@ -472,7 +472,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
               AND periodo='$numeroperiodi'
               AND tbl_valutazionifinali.idmateria=-1
               ORDER BY denominazione";
-        $risvoti = mysqli_query($con, inspref($query));
+        $risvoti = eseguiQuery($con,$query);
 
         if ($recvoti = mysqli_fetch_array($risvoti))
         {
@@ -512,7 +512,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         if ($gioass=='yes')
         {
             $query = "select count(*) as numassenze from tbl_assenze where idalunno=$alu";
-            $risasse = mysqli_query($con, inspref($query));
+            $risasse = eseguiQuery($con,$query);
 
             if ($recasse = mysqli_fetch_array($risasse))
             {
@@ -530,7 +530,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
             $query = "SELECT giudizio from tbl_giudizi
 						WHERE idalunno=$alu
 						AND periodo='$numeroperiodi'";
-            $risgiud = mysqli_query($con, inspref($query));
+            $risgiud = eseguiQuery($con,$query);
             if ($recgiud = mysqli_fetch_array($risgiud))
             {
 

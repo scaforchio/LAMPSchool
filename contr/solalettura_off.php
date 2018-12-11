@@ -40,32 +40,21 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
 
 $query = "SELECT * FROM tbl_parametri WHERE parametro='sola_lettura'";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 if (mysqli_num_rows($ris) > 0)
 {
     $query = "UPDATE tbl_parametri SET valore='no' WHERE parametro='sola_lettura'";
     $query = str_replace("tbl_", $prefisso_tabelle . "tbl_", $query); // NECESSARIO IN QUANTO NON FUNZIONA inspref in modalità solalettura
-    mysqli_query($con, $query) or die ("Errore:" . mysqli_error($con));
+    eseguiQuery($con,$query);
 }
 else
 {
     $query = "INSERT INTO tbl_parametri(parametro,valore) VALUES ('sola_lettura','no')";
     $query = str_replace("tbl_", $prefisso_tabelle . "tbl_", $query); // NECESSARIO IN QUANTO NON FUNZIONA inspref in modalità solalettura
-    mysqli_query($con, $query) or die ("Errore:" . mysqli_error($con));
+    eseguiQuery($con,$query);
 }
 
 
-/*
-  $query="update tbl_parametri set valore='no' where parametro='sola_lettura'";
-  $query=str_replace("tbl_", $prefisso_tabelle. "tbl_", $query);
-  mysqli_query($con,$query) or die ("Errore:".mysqli_error($con));
-  if(mysqli_affected_rows($con)==0)
-  {
-      $query="insert into tbl_parametri(parametro,valore) values ('sola_lettura','no')";
-      $query=str_replace("tbl_", $prefisso_tabelle. "tbl_", $query);
-      mysqli_query($con,$query) or die ("Errore:".mysqli_error($con));
-  }
-*/
 print "<br><center><b>Registro in modalità normale!</b></center>";
 
 mysqli_close($con);

@@ -37,8 +37,8 @@ if (!$DB)
 	print("<h2>database non selezionato</h2>");
 $sql="SELECT * FROM tbl_comuni WHERE idcomune=". stringa_html('idcom');
 
-$Res=mysqli_query($con,inspref($sql));
-if (!($Res=mysqli_query($con,inspref($sql))))
+$Res=eseguiQuery($con,$sql);
+if (!($Res=eseguiQuery($con,$sql)))
 	print("Query fallita");
 ($dato=mysqli_fetch_array($Res));
 print" <html>

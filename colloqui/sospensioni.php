@@ -77,7 +77,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
    print "<center>Sospensione colloqui:</center>";
    $query="select * from tbl_sospensionicolloqui 
            order by data";
-   $ris=mysqli_query($con,inspref($query)) or die ("Errore: ".inspref($query));
+   $ris=eseguiQuery($con,$query);
    print "<table border=1 align=center><tr class='prima'><td>Giorno</td><td>Note</td><td>Canc.</td></tr>";
    while ($rec=mysqli_fetch_array($ris))
    {

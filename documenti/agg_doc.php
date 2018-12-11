@@ -65,7 +65,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 		//Esecuzione query finale
     	$sql  = "UPDATE tbl_documenti SET descrizione='$descrizione', pei=$pei
     	         WHERE iddocumento=$iddocumento";
-    	$ris= mysqli_query($con,inspref($sql)) or die("Errore: ".inspref($sql));        
+    	$ris= eseguiQuery($con,$sql);        
       
 	   	//	print("\n<FONT SIZE='+2'> <CENTER>Modifica eseguita</CENTER> </FONT>");
 	   print "

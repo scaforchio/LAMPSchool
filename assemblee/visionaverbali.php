@@ -60,7 +60,7 @@ print " <center><b>Classe </b><SELECT NAME='idclasse' ONCHANGE='classi.submit()'
 $query = "select idclasse, anno, sezione, specializzazione from tbl_classi
           order by anno, specializzazione, sezione";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -109,7 +109,7 @@ if ($mese != "")
 }
 $query.=" order by dataassemblea DESC";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore durante la connessione: " . mysqli_error($con) . "<br/>" . $query);
+$ris = eseguiQuery($con,$query);
 print "<br/><br/><center><table border ='1' cellpadding='5' class='smallchar'>";
 
 print "<tr class='prima'>

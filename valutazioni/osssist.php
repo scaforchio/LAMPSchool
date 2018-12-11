@@ -43,7 +43,7 @@ if ($idnota!="")   // se si arriva dalla pagina della ricerca
 
     
     $query="select * from tbl_osssist where idosssist=".$idnota."";
-    $ris=mysqli_query($con,inspref($query));
+    $ris=eseguiQuery($con,$query);
     $nom=mysqli_fetch_array($ris);
     $nome=$nom['idclasse'];
     // $but = stringa_html('visass');
@@ -101,7 +101,7 @@ $query="select distinct tbl_classi.idclasse,anno,sezione,specializzazione
         where tbl_classi.idclasse=tbl_cattnosupp.idclasse
         and tbl_cattnosupp.iddocente=$iddocente
         order by specializzazione, sezione, anno";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
    print "<option value='";
@@ -182,7 +182,7 @@ echo('      <tr>
 // Riempimento combo box tbl_docenti
 print "<tr><td width='50%'><p align='center'><b>Docente</b></p></td><td>";
 $query="select iddocente,cognome,nome from tbl_docenti order by cognome, nome";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 if ($tipoutente=='P') 
    echo ("<select name='iddocente' ONCHANGE='tbl_osssist.submit()'>");
 else
@@ -205,7 +205,7 @@ while($nom=mysqli_fetch_array($ris))
 // Riempimento combo box tbl_alunni
 print "<tr><td width='50%'><p align='center'><b>Alunno</b></p></td><td>";
 $query="select idalunno,cognome,nome,datanascita from tbl_alunni where idclasse=$nome order by cognome, nome, datanascita";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 echo ("<select name='idalunno' ONCHANGE='tbl_osssist.submit()'><option value=''>&nbsp;");
 while($nom=mysqli_fetch_array($ris))
 {
@@ -266,13 +266,13 @@ echo('     </form></td>
      
    
  //   $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
- //   $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+ //   $ris=eseguiQuery($con,$query);
  //   if($val=mysqli_fetch_array($ris))
  //      $classe=$val["anno"]." ".$val["sezione"]." ".$val["specializzazione"];
   //  print $iddocente;
     $query="select * from tbl_osssist where idclasse=$idclasse and data='$data' and iddocente=$iddocente and idalunno=$idalunno";
   //  print $query;
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query di selezione nota: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
 
     $c=mysqli_fetch_array($ris);
 

@@ -60,7 +60,7 @@ print ('
           $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
            
           $query="select idclasse,anno,sezione,specializzazione from tbl_classi order by specializzazione, sezione, anno";
-          $ris=mysqli_query($con,inspref($query));
+          $ris=eseguiQuery($con,$query);
           while($nom=mysqli_fetch_array($ris))
 	  {
             print "<option value='";
@@ -103,7 +103,7 @@ echo('     </form></td>
      
    
     $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
     if($val=mysqli_fetch_array($ris))
        {
            $classe=$val["anno"]." ".$val["sezione"]." ".$val["specializzazione"];
@@ -111,7 +111,7 @@ echo('     </form></td>
        }  
 
     $query='select * from tbl_alunni where idclasse="'.$idclasse.'" order by cognome,nome,datanascita';
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
 
     $c=mysqli_fetch_array($ris);
     if ($c==NULL) {echo '
@@ -137,7 +137,7 @@ echo('     </form></td>
              WHERE oreassenza.idmateria = tbl_materie.idmateria
              AND idclasse =".$idclasse." AND DATA = '2011-03-31'
              ORDER BY tbl_materie.denominazione";
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
     while($val=mysqli_fetch_array($ris))
     { 
         print"<td width=50 align='center'><font size='1'>".$val['denominazione']."</font></td>";
@@ -146,7 +146,7 @@ echo('     </form></td>
        
  
     $query='select * from tbl_alunni where idclasse="'.$idclasse.'" order by cognome,nome,datanascita';
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
     while($val=mysqli_fetch_array($ris))
     {
       echo ' 

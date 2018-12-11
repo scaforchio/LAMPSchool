@@ -49,7 +49,7 @@ riceve in ingresso iddocente*/
 		}
 	
 	$sql="SELECT * from tbl_lezionicert where (idlezione='$a')";
-	$result=mysqli_query($con,inspref($sql));
+	$result=eseguiQuery($con,$sql);
 	$reclez=mysqli_fetch_array($result);
 	if(!($result))
 		print("Query fallita");

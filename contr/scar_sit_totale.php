@@ -60,7 +60,7 @@ $query = "SELECT idcattedra, cognome, nome, tbl_cattnosupp.idmateria, tbl_classi
     AND tbl_cattnosupp.iddocente<>1000000000
     ORDER BY cognome, nome, denominazione, anno, specializzazione, sezione";
 // print inspref($query);
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 
 print "<form name='espreg' action='scar_sit_totale_esport.php' method='POST'>";
 print "<center>";

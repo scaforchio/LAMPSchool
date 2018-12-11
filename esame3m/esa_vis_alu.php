@@ -88,7 +88,7 @@ print("<table width='100%'>
 $sql = "SELECT * FROM tbl_alunni
        WHERE 1=1
        AND idclasseesame='$n' ORDER BY idclasse DESC,cognome,nome";
-$result = mysqli_query($con, inspref($sql));
+$result = eseguiQuery($con,$sql);
 
 
 

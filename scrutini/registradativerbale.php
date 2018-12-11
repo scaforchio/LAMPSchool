@@ -51,7 +51,7 @@ $segretario = stringa_html('segretario');
 $sostituzioni = "";
 
 $query = "SELECT idclasse,periodo FROM tbl_scrutini WHERE idscrutinio=$idscrutinio";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 $rec = mysqli_fetch_array($ris);
 $idclasse = $rec['idclasse'];
 $periodo = $rec['periodo'];
@@ -97,7 +97,7 @@ $query = "UPDATE tbl_scrutini SET dataverbale='" . data_to_db($dataverbale) . "'
          segretario='$segretario' 
          WHERE idscrutinio=$idscrutinio";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 
 if ($periodo < $numeroperiodi)
 {

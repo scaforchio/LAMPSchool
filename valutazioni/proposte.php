@@ -69,7 +69,7 @@ if ($cattedra <> "")
 {
     $query = "select idclasse, idmateria from tbl_cattnosupp where idcattedra=$cattedra";
     // print inspref($query);
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     if ($nom = mysqli_fetch_array($ris))
     {
         $materia = $nom['idmateria'];
@@ -144,7 +144,7 @@ echo("</td></tr>");
 //
 
 $query = "select iddocente, cognome, nome from tbl_docenti where idutente=$id_ut_doc";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 if ($nom = mysqli_fetch_array($ris))
 {
     $iddocente = $nom["iddocente"];
@@ -180,7 +180,7 @@ $tipoval = "";
 $query = "select idcattedra,tbl_classi.idclasse, anno, sezione, specializzazione, denominazione, tipovalutazione from tbl_cattnosupp, tbl_classi, tbl_materie where iddocente=$iddocente and tbl_cattnosupp.idclasse=tbl_classi.idclasse and tbl_cattnosupp.idmateria = tbl_materie.idmateria order by anno, sezione, specializzazione, denominazione";
 
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -215,7 +215,7 @@ $numerorighe = 0;
 if ($cattedra != "")
 {
     $query = "select * from tbl_cattnosupp where iddocente=$iddocente and idclasse=$idclasse and idmateria=$materia";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     $numerorighe = mysqli_num_rows($ris);
 }
 
@@ -234,7 +234,7 @@ if (($cattedra != "") & ($numerorighe > 0))
              and tbl_gruppi.idmateria=$idmat
              and tbl_gruppi.iddocente=$iddocente";
     //print inspref($query);
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     // CREO UNA LISTA DEI GRUPPI
     // TTTT 04/02/2017 MODIFICA EFFETTUATA PER RISOLVERE PROBLEMA IN CASO DI PIU GRUPPI CON STESSA MATERIA IN STESSA CLASSE
     while ($rec = mysqli_fetch_array($ris))
@@ -259,7 +259,7 @@ if (($cattedra != "") & ($numerorighe > 0))
 //    
 
     $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     if ($val = mysqli_fetch_array($ris))
     {
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
@@ -300,7 +300,7 @@ if (($cattedra != "") & ($numerorighe > 0))
           order by cognome, nome, datanascita";
     }
 
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
 
 
     $c = mysqli_fetch_array($ris);
@@ -401,7 +401,7 @@ if (($cattedra != "") & ($numerorighe > 0))
     }
     // $query='select * from tbl_alunni where idclasse="'.$idclasse.'" order by cognome,nome';
 
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     while ($val = mysqli_fetch_array($ris))
     {
         $esiste_voto = false;
@@ -919,7 +919,7 @@ if (($cattedra != "") & ($numerorighe > 0))
         }
 
         //print inspref($queryass);
-        $risval = mysqli_query($con, inspref($queryass));
+        $risval = eseguiQuery($con,$queryass);
         $valass = mysqli_fetch_array($risval);
         echo "<font face='courier' size=1 color='black'>";
         print "<center><u><b>ASSENZE</b></u></center>";
@@ -934,7 +934,7 @@ if (($cattedra != "") & ($numerorighe > 0))
 
 
         //print inspref($queryass);
-        $risval = mysqli_query($con, inspref($queryass));
+        $risval = eseguiQuery($con,$queryass);
         $valass = mysqli_fetch_array($risval);
         print ("TOTALI:  " . $valass['oreass'] . "<br>");
 
@@ -952,7 +952,7 @@ if (($cattedra != "") & ($numerorighe > 0))
                   and idmateria=$idmat $queryper
                   order by data";
 
-        $riscomp = mysqli_query($con, inspref($query)) or die("Errore " . inspref($query, false));
+        $riscomp = eseguiQuery($con,$query);
         while ($reccomp = mysqli_fetch_array($riscomp))
         {
             $totvotocomp += $reccomp['voto'];

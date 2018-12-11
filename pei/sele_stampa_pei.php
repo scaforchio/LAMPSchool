@@ -86,7 +86,7 @@ else
         where
         tbl_alunni.idclasse=tbl_classi.idclasse
         and certificato";
-$ris=mysqli_query($con,inspref($query)) or die("Errore: ". inspref($query));
+$ris=eseguiQuery($con,$query);
 //print inspref($query);
 while ($rec=mysqli_fetch_array($ris))
 {

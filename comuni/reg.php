@@ -161,7 +161,7 @@ $sql .= "'". stringa_html('siglaprovincia'). "',";
 $sql .= "'". stringa_html('regione'). "',";
 $sql .= "'". stringa_html('statoestero'). "')";
     
-           if (!($result=mysqli_query($con,inspref($sql))))
+           if (!($result=eseguiQuery($con,$sql)))
 		   {
                print"<center>COMUNE NON INSERITO ALLA LISTA";
 		   }

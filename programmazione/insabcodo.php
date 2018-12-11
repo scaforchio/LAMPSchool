@@ -58,20 +58,20 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 		  
 		     $query="insert into tbl_abildoc(idcompetenza, numeroordine, sintabilcono, abilcono,obminimi,abil_cono) 
 		                              values($competenza,$no,'$sintabil', '$abilita',$abobmin,'A')";
-           $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+           $ris2=eseguiQuery($con,$query); 
 	     
     }
     if ($sintabil!="" & $idabilita!="")
     {    
 		  
 		  $query="update tbl_abildoc set sintabilcono='$sintabil',abilcono='$abilita',obminimi=$abobmin where idabilita=$idabilita";
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+        $ris2=eseguiQuery($con,$query); 
     }
     if ($sintabil=="" & $idabilita!="")
     {    
 		  
 		  $query="delete from tbl_abildoc where idabilita=$idabilita";
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+        $ris2=eseguiQuery($con,$query); 
     }
  } 
   
@@ -89,25 +89,25 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 		  
 		     $query="insert into tbl_abildoc(idcompetenza, numeroordine, sintabilcono, abilcono,obminimi,abil_cono) 
 		                              values($competenza,$no,'$sintcono', '$conoscenza',$coobmin,'C')";
-           $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+           $ris2=eseguiQuery($con,$query); 
 	     
     }
     if ($sintcono!="" & $idabilita!="")
     {    
 		  
 		  $query="update tbl_abildoc set sintabilcono='$sintcono',abilcono='$conoscenza',obminimi=$coobmin where idabilita=$idabilita";
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+        $ris2=eseguiQuery($con,$query); 
     }
     if ($sintcono=="" & $idabilita!="")
     {    
 		  
 		  $query="delete from tbl_abildoc where idabilita=$idabilita";
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+        $ris2=eseguiQuery($con,$query); 
     }
  }  
 /* 
  $query="delete from tbl_abildoc where idcompetenza=$competenza";
- $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+ $ris=eseguiQuery($con,$query);
 
  for ($no=1;$no<=$maxabil;$no++)
  {
@@ -125,7 +125,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
         $query="insert into tbl_abildoc(idcompetenza, numeroordine, sintabilcono, abilcono, obminimi, abil_cono) 
                 values($competenza,$no,'$sintabilcono', '$abilita', $abobmin, 'A')";
               
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+        $ris2=eseguiQuery($con,$query); 
     }
  }
     
@@ -145,7 +145,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
       
        $query="insert into tbl_abildoc(idcompetenza, numeroordine, sintabilcono, abilcono, obminimi, abil_cono) 
                 values($competenza,$no,'$sintabilcono', '$conoscenza', $abobmin, 'C')";
-       $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+       $ris2=eseguiQuery($con,$query); 
     }
  }
  */

@@ -79,7 +79,7 @@ print ("
    <tr class='prima'><td>Cognome</td><td>Nome</td><td>Invio</td></tr>");
 
 $query="select * from tbl_amministrativi order by cognome,nome";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while ($rec=mysqli_fetch_array($ris))
 {
    
@@ -103,7 +103,7 @@ stampa_piede("");
 function inLista($idamm,$idcirc,$conn)
 {
 	$query="select * from tbl_diffusionecircolari where idutente=$idamm and idcircolare=$idcirc";
-	$ris=mysqli_query($conn,inspref($query)) or die("Errore: ".inspref($query)." - ".mysqli_error($ris));
+	$ris=eseguiQuery($conn,$query);
 	if (mysqli_num_rows($ris)==0)
 	   return false;
 	else

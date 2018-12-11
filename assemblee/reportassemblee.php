@@ -86,7 +86,7 @@ if ($mese != "")
 
     $query .= " order by anno, specializzazione, sezione";
 
-    $ris = mysqli_query($con, inspref($query)) or die("Errore durante la connessione: " . mysqli_error($con) . "<br/>" . $query);
+    $ris = eseguiQuery($con,$query);
     print "<br/><br/><center><table border ='1' cellpadding='5' class='smallchar'>";
 
     print "<tr class='prima'>

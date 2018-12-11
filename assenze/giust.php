@@ -53,7 +53,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 $elencoalunni=estrai_alunni_classe_data($idclasse, $data, $con);
 //PRINT "TTTT ELENCO: $elencoalunni";
 $query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN ($elencoalunni)  ORDER BY cognome, nome, datanascita";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 print "<form name='giustass' method='post' action='giustass.php'>";
 
 if ($giustificauscite == 'no')
@@ -71,7 +71,7 @@ while ($recalu = mysqli_fetch_array($ris))
     $idalunno = $recalu['al'];
     $firmapropria = $recalu['firmapropria'];
     $query = "select * from tbl_assenze where idalunno=$idalunno and data < '" . $data . "' and (isnull(giustifica) or giustifica=0) order by data ";
-    $risass = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $risass = eseguiQuery($con,$query);
     if (mysqli_num_rows($risass) > 0)
     {
         $datialunno = estrai_dati_alunno($idalunno, $con);
@@ -98,14 +98,14 @@ print ("</td>");
 
 print ("<td valign='top'>");
 $query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 while ($recalu = mysqli_fetch_array($ris))
 {
 
     $idalunno = $recalu['al'];
     $firmapropria = $recalu['firmapropria'];
     $query = "select * from tbl_ritardi where idalunno=$idalunno and data <= '" . $data . "' and (isnull(giustifica) or giustifica=0) order by data ";
-    $risass = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $risass = eseguiQuery($con,$query);
     if (mysqli_num_rows($risass) > 0)
     {
         $datialunno = estrai_dati_alunno($idalunno, $con);
@@ -144,14 +144,14 @@ if ($giustificauscite == 'yes')
 {
     print ("<td valign='top'>");
     $query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     while ($recalu = mysqli_fetch_array($ris))
     {
 
         $idalunno = $recalu['al'];
         $firmapropria = $recalu['firmapropria'];
         $query = "select * from tbl_usciteanticipate where idalunno=$idalunno and data <= '" . $data . "' and (isnull(giustifica) or giustifica=0) order by data ";
-        $risass = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $risass = eseguiQuery($con,$query);
         if (mysqli_num_rows($risass) > 0)
         {
             $datialunno = estrai_dati_alunno($idalunno, $con);

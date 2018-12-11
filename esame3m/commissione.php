@@ -58,7 +58,7 @@ print("   <tr>
       <td width='50%'><SELECT NAME='idescommissione' ONCHANGE='commissione.submit()'><option value=''>&nbsp;</option>");
 
 $query = "SELECT * FROM tbl_escommissioni ORDER BY denominazione";
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($rec = mysqli_fetch_array($ris)) {
     print "<option value='" . $rec['idescommissione'] . "' ";
     if ($idescommissione == $rec['idescommissione']) {
@@ -87,7 +87,7 @@ if ($idescommissione != '') {
     $idsegretario = "";
     if ($idescommissione != '1000000000') {
         $query = "select * from tbl_escommissioni where idescommissione=$idescommissione";
-        $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+        $ris = eseguiQuery($con,$query);
         $rec = mysqli_fetch_array($ris);
 
         $denominazione = $rec['denominazione'];
@@ -96,7 +96,7 @@ if ($idescommissione != '') {
         $idsegretario = $rec['idsegretario'];
     } else {
         $query = "select * from tbl_escommissioni LIMIT 1";
-        $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+        $ris = eseguiQuery($con,$query);
         if ($rec = mysqli_fetch_array($ris)) {
             $nomepresidente = $rec['nomepresidente'];
             $cognomepresidente = $rec['cognomepresidente'];

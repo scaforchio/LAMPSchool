@@ -42,10 +42,10 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 // ELIMINO LA PRECEDENTE LISTA DI DISTRIBUZIONE
 // $query="delete from tbl_diffusionecircolari where idcircolare=$idcircolare";
-// mysqli_query($con,inspref($query)) or die("ERRORE: ".inspref($query)."-".mysqli_error($con)); 
+// eseguiQuery($con,$query); 
 // VERIFICO PER OGNI ALUNNO SE E' DA INSERIRE NELLA LISTA DI DISTRIBUZIONE
 $query = "select idalunno from tbl_alunni";
-$ris = mysqli_query($con, inspref($query)) or die("ERRORE: " . inspref($query) . "-" . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 while ($rec = mysqli_fetch_array($ris))
 {
     $nomecb = "cb" . $rec['idalunno'];
@@ -56,7 +56,7 @@ while ($rec = mysqli_fetch_array($ris))
     else
         $query = "select * from tbl_diffusionecircolari where idcircolare=$idcircolare and idutente=" . ($rec['idalunno']+2100000000);
     
-    $ris2 = mysqli_query($con, inspref($query)) or die("ERRORE: " . inspref($query) . "-" . mysqli_error($con));
+    $ris2 = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris2) == 0)
     {
         if ($ins == 'yes')
@@ -67,7 +67,7 @@ while ($rec = mysqli_fetch_array($ris))
             else
             $query = "insert into tbl_diffusionecircolari(idutente,idcircolare,datalettura,dataconfermalettura) 
 		        values (" . $rec['idalunno'] . ",$idcircolare,'','')";
-            mysqli_query($con, inspref($query)) or die("ERRORE: " . inspref($query) . "-" . mysqli_error($con));
+            eseguiQuery($con,$query);
         }
     }
     else
@@ -78,7 +78,7 @@ while ($rec = mysqli_fetch_array($ris))
             $query = "delete from tbl_diffusionecircolari where idcircolare=$idcircolare and idutente=" . ($rec['idalunno']+2100000000);
             else
                 $query = "delete from tbl_diffusionecircolari where idcircolare=$idcircolare and idutente=" . $rec['idalunno'];
-            mysqli_query($con, inspref($query)) or die("ERRORE: " . inspref($query) . "-" . mysqli_error($con));
+            eseguiQuery($con,$query);
         }
     }
 }

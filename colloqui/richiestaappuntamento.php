@@ -70,7 +70,7 @@ if ($iddocente != "")
            and iddocente='$iddocente'
            and idalunno=" . $_SESSION['idutente'] . "
            and tbl_prenotazioni.data>'$dataoggi'";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
 
 
     while ($rec = mysqli_fetch_array($ris))
@@ -87,7 +87,7 @@ if ($iddocente != "")
            where tbl_orericevimento.idorario=tbl_orario.idorario
            and tbl_orericevimento.valido=1 
            and iddocente='$iddocente'";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
 
     while ($rec = mysqli_fetch_array($ris))
     {
@@ -176,7 +176,7 @@ function esiste_prenotazione($data, $idoraric, $conn)
 	        and valido
 	        and idalunno=" . $_SESSION['idutente'] . "
 	        and idoraricevimento=$idoraric";
-    $ris = mysqli_query($conn, inspref($query));
+    $ris = eseguiQuery($conn,$query);
     if (mysqli_num_rows($ris) > 0)
     {
         $rec = mysqli_fetch_array($ris);
@@ -197,7 +197,7 @@ function id_prenotazione($data, $idoraric, $conn)
 	        and valido
 	        and idalunno=" . $_SESSION['idutente'] . "
 	        and idoraricevimento=$idoraric";
-    $ris = mysqli_query($conn, inspref($query));
+    $ris = eseguiQuery($conn,$query);
     if (mysqli_num_rows($ris) > 0)
     {
         $rec = mysqli_fetch_array($ris);
@@ -211,7 +211,7 @@ function id_prenotazione($data, $idoraric, $conn)
 function giorno_sospensione_colloqui($data, $conn)
 {
     $query = "select data from tbl_sospensionicolloqui where data='$data'";
-    $ris = mysqli_query($conn, inspref($query));
+    $ris = eseguiQuery($conn,$query);
     if (mysqli_num_rows($ris) > 0)
         return true;
     // if ($data=="2017-11-21")

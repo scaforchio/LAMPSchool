@@ -159,7 +159,7 @@ if ($idavviso == '')
 else
 {
     $query = "select * from tbl_avvisi where idavviso=$idavviso";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     if ($val = mysqli_fetch_array($ris))
     {
         $inizio = $val['inizio'];

@@ -95,7 +95,7 @@ function generatabellone($catt, $file, $con)
     and tbl_cattnosupp.idmateria=tbl_materie.idmateria 
     and tbl_cattnosupp.iddocente=tbl_docenti.iddocente
     and tbl_cattnosupp.idcattedra=$catt";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     if ($val = mysqli_fetch_array($ris))
     {
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
@@ -116,7 +116,7 @@ function generatabellone($catt, $file, $con)
         $query = "select sum(numeroore) as numtotore from tbl_firme,tbl_lezioni
                where tbl_firme.idlezione=tbl_lezioni.idlezione
                and tbl_lezioni.idclasse='$idclasse' and tbl_firme.iddocente='$iddocente' and idmateria='$idmateria' " . $perioquery;
-        $risore = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $risore = eseguiQuery($con,$query);
         if ($valore = mysqli_fetch_array($risore))
         {
 
@@ -132,7 +132,7 @@ function generatabellone($catt, $file, $con)
         $query = "select tbl_firme.idlezione,datalezione, numeroore,orainizio from tbl_firme, tbl_lezioni
        where tbl_firme.idlezione=tbl_lezioni.idlezione
        and tbl_lezioni.idclasse='$idclasse' and tbl_firme.iddocente='$iddocente' and idmateria='$idmateria' " . $perioquery . " order by datalezione";
-        $rislez = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $rislez = eseguiQuery($con,$query);
         while ($reclez = mysqli_fetch_array($rislez))
         {
             $gio = substr($reclez['datalezione'], 8, 2);
@@ -143,7 +143,7 @@ function generatabellone($catt, $file, $con)
         }
         /*     // AGGIUNGO AI GIORNI DI LEZIONE LE GIORNATE IN CUI SONO PRESENTI VALUTAZIONI
              $query="select distinct data from tbl_valutazioniintermedie,tbl_alunni where tbl_valutazioniintermedie.idalunno=tbl_alunni.idalunno and idclasse='".$idclasse."' and iddocente='$iddocente' and idmateria='".$idmateria."' ".$perioquery." order by data";
-             $risvot=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+             $risvot=eseguiQuery($con,$query);
              while ($recvot=mysqli_fetch_array($risvot))
              {
                 $presente=false;
@@ -213,7 +213,7 @@ function generatabellone($catt, $file, $con)
 
 
         $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
-        $risalu = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $risalu = eseguiQuery($con,$query);
 
         while ($valalu = mysqli_fetch_array($risalu))
         {
@@ -315,7 +315,7 @@ function generaargomenti($catt, $file, $con)
     and tbl_cattnosupp.idmateria=tbl_materie.idmateria 
     and tbl_cattnosupp.iddocente=tbl_docenti.iddocente
     and tbl_cattnosupp.idcattedra=$catt";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     if ($val = mysqli_fetch_array($ris))
     {
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
@@ -334,7 +334,7 @@ function generaargomenti($catt, $file, $con)
         //   $lista[]=$materia;
 
         $query = "select sum(numeroore) as numtotore from tbl_lezioni where idclasse='" . $idclasse . "' and iddocente='$iddocente' and idmateria='" . $idmateria . "' " . $perioquery;
-        $risore = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $risore = eseguiQuery($con,$query);
         if ($valore = mysqli_fetch_array($risore))
         {
 
@@ -349,7 +349,7 @@ function generaargomenti($catt, $file, $con)
 
         $query = "select * from tbl_lezioni where idclasse=$idclasse and idmateria=$idmateria order by datalezione";
 
-        $risarg = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $risarg = eseguiQuery($con,$query);
         while ($recarg = mysqli_fetch_array($risarg))
         {
             $arrarg = array();
@@ -377,7 +377,7 @@ function generanote($catt, $file, $con)
     $lista = array();
 
     $query = "SELECT * FROM tbl_classi ORDER BY anno, sezione, specializzazione";
-    $riscla = mysqli_query($con, inspref($query));
+    $riscla = eseguiQuery($con,$query);
     while ($valcla = mysqli_fetch_array($riscla))
     {
 

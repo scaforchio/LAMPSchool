@@ -105,7 +105,7 @@ print "<tr class='prima'><td>Docente</td><td>Invio</td></tr>";
 $query="select distinct tbl_docenti.iddocente,cognome,nome,telcel from tbl_cattnosupp,tbl_docenti 
 	  where tbl_cattnosupp.iddocente=tbl_docenti.iddocente
 	  order by cognome, nome";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while ($rec=mysqli_fetch_array($ris))
 {
 	 $iddocente=$rec['iddocente'];

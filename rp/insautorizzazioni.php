@@ -50,7 +50,7 @@ $pos = 0;
 $query = "SELECT idalunno
           FROM tbl_alunni where idclasse<>'0'";
 //print inspref($query);
-$ris = mysqli_query($con, inspref($query)) or die("Errore query " . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 while ($rec = mysqli_fetch_array($ris))
 {
 
@@ -76,7 +76,7 @@ while ($rec = mysqli_fetch_array($ris))
                   where idritardo=$idritardo";
 
 
-        mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query,false));
+        eseguiQuery($con,$query);
 
 
 

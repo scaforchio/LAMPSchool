@@ -380,7 +380,7 @@ function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle
 {
 
     $query = "select * from tbl_classi where idclasse=$idclasse";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore " . inspref($query, false));
+    $ris = eseguiQuery($con,$query);
     $rec = mysqli_fetch_array($ris);
     $siglacategoria = $rec['idmoodle'];
     $anno = $rec['anno'];
@@ -389,7 +389,7 @@ function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle
     $specsigla = substr($specializzazione, 0, 3);
     $annoinizio = $annoscol;
     $query = "select * from tbl_materie where idmateria=$idmateria";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore " . inspref($query, false));
+    $ris = eseguiQuery($con,$query);
     $rec = mysqli_fetch_array($ris);
     $nomemateria = $rec['denominazione'];
     $siglamateria = $rec['sigla'];
@@ -454,7 +454,7 @@ function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle
 // Iscrizione nuovi alunni e docenti al corso
 
     $query = "select * from tbl_cattnosupp where idmateria = $idmateria and idclasse = $idclasse and idalunno=0 and iddocente<>1000000000";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore " . inspref($query, false));
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris))
     {
         // $usernamedocente="doc".$_SESSION['suffisso'].($rec["iddocente"]-1000000000);
@@ -466,7 +466,7 @@ function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle
     }
 
     $query = "select * from tbl_alunni where idclasse = $idclasse";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore " . inspref($query, false));
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris))
     {
         // $usernamealunno="al".$_SESSION['suffisso'].($rec["idalunno"]);

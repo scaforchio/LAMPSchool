@@ -58,7 +58,7 @@ $valore = stringa_html('valore');
 $valore = str_replace("\r", "", $valore);
 $sql = "UPDATE tbl_testi SET valore='" . stringa_html('valore') . "' WHERE idtesto=" . stringa_html('idpar');
 // print "tttt".inspref($sql);
-if (!($ris = mysqli_query($con, inspref($sql))))
+if (!($ris = eseguiQuery($con,$sql)))
 {
     print("\n<FONT SIZE='+2'> <CENTER>Modifica non eseguita</CENTER> </FONT>");
 }

@@ -42,7 +42,7 @@ $idoraricevimento=stringa_html('idoraricevimento');
   
 $query="update tbl_orericevimento set valido=0
         where idoraricevimento=$idoraricevimento";
-$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+$ris=eseguiQuery($con,$query);
 
 print ("
 

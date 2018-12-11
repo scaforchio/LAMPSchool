@@ -51,7 +51,7 @@ print ('<form method="POST" action="statinser.php" name="stat">
 //
 
 $query = "SELECT iddocente, cognome, nome FROM tbl_docenti";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 
 
 print("    

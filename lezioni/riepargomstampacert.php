@@ -68,7 +68,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
        if ($catt<>"")
        {
            $query="select idalunno, idmateria from tbl_cattnosupp where idcattedra=$catt"; 
-           $ris=mysqli_query($con,inspref($query));
+           $ris=eseguiQuery($con,$query);
            if($nom=mysqli_fetch_array($ris))
            {
               $idmateria=$nom['idmateria'];
@@ -87,7 +87,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
 
 $query="select iddocente, cognome, nome from tbl_docenti where idutente=$id_ut_doc";
 
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 if($nom=mysqli_fetch_array($ris))
 {
    $iddocente=$nom["iddocente"];
@@ -125,7 +125,7 @@ print ("</font>");
           <td width=10%>Data</td>
           <td width=90%>Argomenti e attivit&agrave;</td></tr>';
       $query="select * from tbl_lezionicert where idalunno=$idalunno and idmateria=$idmateria order by datalezione";
-      $rislez=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+      $rislez=eseguiQuery($con,$query);
     
 	  
 				   

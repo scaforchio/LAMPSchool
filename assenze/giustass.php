@@ -55,13 +55,13 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 $elencoalunni= estrai_alunni_classe_data($idclasse, $data, $con);
 //print "ELENCO: $elencoalunni";
 $query = "SELECT idalunno FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)."".inspref($query,false));
+$ris = eseguiQuery($con,$query);
 
 while ($recalu = mysqli_fetch_array($ris))
 {
     $idalunno = $recalu['idalunno'];
     $query = 'SELECT * FROM tbl_assenze WHERE idalunno="' . $idalunno . '" AND (isnull(giustifica) or giustifica=0) ORDER BY data ';
-    $risass = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)."".inspref($query,false));
+    $risass = eseguiQuery($con,$query);
     
     if (mysqli_num_rows($risass) > 0)
     {
@@ -71,7 +71,7 @@ while ($recalu = mysqli_fetch_array($ris))
             if ($idgiu == "on")
             {
                 $query = "UPDATE tbl_assenze SET giustifica=1, datagiustifica='" . $data . "', iddocentegiust=" . $_SESSION['idutente'] . " WHERE idassenza=" . $val['idassenza'] . "";
-                mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)."".inspref($query,false));
+                eseguiQuery($con,$query);
             }
         }
     }
@@ -82,14 +82,14 @@ while ($recalu = mysqli_fetch_array($ris))
 
 
 $query = "SELECT idalunno FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)."".inspref($query,false));
+$ris = eseguiQuery($con,$query);
 
 while ($recalu = mysqli_fetch_array($ris))
 {
     $idalunno = $recalu['idalunno'];
     $query = 'SELECT * FROM tbl_ritardi WHERE idalunno="' . $idalunno . '" AND (isnull(giustifica) or giustifica=0) ORDER BY data ';
 
-    $risass = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)."".inspref($query,false));
+    $risass = eseguiQuery($con,$query);
     if (mysqli_num_rows($risass) > 0)
     {
 
@@ -101,7 +101,7 @@ while ($recalu = mysqli_fetch_array($ris))
             {
                 $query = "UPDATE tbl_ritardi SET giustifica=1, datagiustifica='" . $data . "', iddocentegiust=" . $_SESSION['idutente'] . " WHERE idritardo=" . $val['idritardo'] . "";
                 // die ("$query");
-                mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)."".inspref($query,false));
+                eseguiQuery($con,$query);
             }
         }
     }
@@ -114,14 +114,14 @@ while ($recalu = mysqli_fetch_array($ris))
 if ($giustificauscite=='yes')
 {
     $query = "SELECT idalunno FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)."".inspref($query,false));
+    $ris = eseguiQuery($con,$query);
 
     while ($recalu = mysqli_fetch_array($ris))
     {
         $idalunno = $recalu['idalunno'];
         $query = 'SELECT * FROM tbl_usciteanticipate WHERE idalunno="' . $idalunno . '" AND (isnull(giustifica) or giustifica=0) ORDER BY data ';
 
-        $risass = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)."".inspref($query,false));
+        $risass = eseguiQuery($con,$query);
         if (mysqli_num_rows($risass) > 0)
         {
 
@@ -133,7 +133,7 @@ if ($giustificauscite=='yes')
                 {
                     $query = "UPDATE tbl_usciteanticipate SET giustifica=1, datagiustifica='" . $data . "', iddocentegiust=" . $_SESSION['idutente'] . " WHERE iduscita=" . $val['iduscita'] . "";
                     // die ("$query");
-                    mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)."".inspref($query,false));
+                    eseguiQuery($con,$query);
                 }
             }
         }

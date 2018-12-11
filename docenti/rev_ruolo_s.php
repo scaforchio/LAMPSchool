@@ -57,7 +57,7 @@ riceve in ingresso i valori del docente*/
 	   $query="update tbl_utenti set tipo='D' where userid='$userid'";
 	
   	  
-	   $res=mysqli_query($con,inspref($query));
+	   $res=eseguiQuery($con,$query);
      
 	   print "<center>Variazione effettuata!";
 	}

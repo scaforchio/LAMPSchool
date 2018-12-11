@@ -130,7 +130,7 @@ if ($err == 1)
     print("</form></center>");
 } else
 {
-    $res = mysqli_query($con, inspref($query));
+    $res = eseguiQuery($con,$query);
 
     if (!$res)
     {
@@ -140,14 +140,14 @@ if ($err == 1)
         $iddocenteinserito = mysqli_insert_id($con);
         // Aggiorno l'idutente del docente
         $query = "update tbl_docenti set idutente=$iddocenteinserito where iddocente=$iddocenteinserito";
-        if (!$res = mysqli_query($con, inspref($query)))
+        if (!$res = eseguiQuery($con,$query))
             die("Errore aggiornamento id utente del docente!");
         // INSERISCO ANCHE IL RECORD NELLA TABELLA DEGLI tbl_utenti
         $utente = "doc" . ($iddocenteinserito - 1000000000);
         $utentemoodle = "doc" . $_SESSION['suffisso'] . ($iddocenteinserito - 1000000000);
         $password = creapassword();
         $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$iddocenteinserito','$utente',md5('" . md5($password) . "'),'D')";
-        $res = mysqli_query($con, inspref($sqlt));
+        $res = eseguiQuery($con,$sqlt);
         if ($tokenservizimoodle != '')
         {
             

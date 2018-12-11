@@ -53,7 +53,7 @@ $verbale = stringa_html('verbale');
 $oratermine= stringa_html('oratermine');
 
 $query = "UPDATE tbl_assemblee SET verbale='" . $verbale . "', alunnosegretario=$segretario, oratermine='$oratermine' WHERE idassemblea=$idassemblea";
-$ris2 = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+$ris2 = eseguiQuery($con,$query);
 
 header("Location: assricgen.php?idclasse=$idclasse");
 

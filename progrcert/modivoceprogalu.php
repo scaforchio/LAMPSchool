@@ -77,7 +77,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
                  and tbl_tipoprog.tipoprogr='P'
                  order by cognome,nome,datanascita,denominazione";  
       
-          $ris=mysqli_query($con,inspref($query));
+          $ris=eseguiQuery($con,$query);
           
           if (mysqli_num_rows($ris)>0)
           {            
@@ -95,7 +95,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
 					 
 					$query="select iddocente, cognome, nome from tbl_docenti where iddocente=$iddocente";
 					
-					$risdoc=mysqli_query($con,inspref($query));
+					$risdoc=eseguiQuery($con,$query);
 					
 					
 					
@@ -172,14 +172,14 @@ else
 	      // Conto competenze, abilità e conoscenze per dimensionare la select multiple
 	      $query="select count(*) as numcomp from tbl_competalu
 	              where idmateria = $idmateria and  idalunno = $idalunno";
-	      $ris= mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+	      $ris= eseguiQuery($con,$query);
 	      $nomcomp=mysqli_fetch_array($ris);
 	      $numcomp=$nomcomp['numcomp'];     
 	       
 	      $query="select count(*) as numabil from tbl_abilalu,tbl_competalu
 	              where tbl_abilalu.idcompetenza=tbl_competalu.idcompetenza 
 	              and idmateria = $idmateria and  idalunno = $idalunno";
-	      $ris= mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+	      $ris= eseguiQuery($con,$query);
 	      $nomabil=mysqli_fetch_array($ris);
 	      $numabil=$nomabil['numabil'];   
 	      
@@ -189,7 +189,7 @@ else
 	      $query="select * from tbl_competalu
 	              where idmateria = $idmateria and  idalunno = $idalunno
 	              order by numeroordine"; 
-          $riscomp=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+          $riscomp=eseguiQuery($con,$query);
           
 	      while ($nomcomp=mysqli_fetch_array($riscomp))
 	      {
@@ -204,7 +204,7 @@ else
 	              and abil_cono = 'C'
 	              order by numeroordine"; 
 	      
-              $risabil=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+              $risabil=eseguiQuery($con,$query);
 		
 			  while ($nomabil=mysqli_fetch_array($risabil))
 	          {
@@ -220,7 +220,7 @@ else
 	              and abil_cono = 'A'
 	              order by numeroordine"; 
 	      
-              $risabil=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+              $risabil=eseguiQuery($con,$query);
 		
 			  while ($nomabil=mysqli_fetch_array($risabil))
 	          {

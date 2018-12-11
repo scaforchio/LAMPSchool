@@ -61,7 +61,7 @@ print ("
       <td colspan='2' align='center'><b>Docente</b>");
 
 $sqld = "SELECT * FROM tbl_docenti WHERE sostegno ORDER BY cognome, nome";
-$resd = mysqli_query($con, inspref($sqld));
+$resd = eseguiQuery($con,$sqld);
 if (!$resd)
 {
     print ("<br/> <br/> <br/> <h2>a Impossibile visualizzare i dati </h2>");
@@ -99,7 +99,7 @@ if ($docente != '')
     $query = "select distinct idalunno from tbl_cattnosupp
                 where iddocente=$docente
                 and idalunno<>0";
-    $risalu = mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+    $risalu = eseguiQuery($con,$query);
     $arralu = array();
 
     print("<tr class='prima'><td width='50%' align=center><b>Alunno</b></td>
@@ -122,7 +122,7 @@ if ($docente != '')
                       where iddocente=$docente
                       and idalunno=" . $arralu[$i - 1];
             // print "tttt $query";
-            $rismat = mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+            $rismat = eseguiQuery($con,$query);
 
             while ($recmat = mysqli_fetch_array($rismat))
             {
@@ -135,7 +135,7 @@ if ($docente != '')
         print("<select name='alu$i'><option value='0'>&nbsp;</option>");
 
         $query = "SELECT idalunno,cognome,nome,datanascita FROM tbl_alunni WHERE certificato ORDER BY cognome,nome";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = eseguiQuery($con,$query);
         while ($nom = mysqli_fetch_array($ris))
         {
             print "<option value='";
@@ -158,7 +158,7 @@ if ($docente != '')
         print("<td>");
         print ("<select multiple size=8 name='materie" . $i . "[]'>");
         $query = "SELECT idmateria,denominazione FROM tbl_materie WHERE idmateria>0 ORDER BY denominazione";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = eseguiQuery($con,$query);
         while ($nom = mysqli_fetch_array($ris))
         {
             print "<option value='";

@@ -64,7 +64,7 @@ riceve in ingresso idamministrativo*/
 	print(" <td><input type ='text' size='2'maxlength='2' name='datadinascg'> / <input type ='text' size='2' maxlength='2'name='datadinascm'> / <input type ='text' size='4' maxlength='4'name='datadinasca'></td></tr>");
 	
 	$sqla= "SELECT * FROM tbl_comuni ORDER BY denominazione";
-   $resa=mysqli_query($con,inspref($sqla));
+   $resa=eseguiQuery($con,$sqla);
    if(!$resa)
    {
    	print ("<br/> <br/> <br/> <h2>a Impossibile visualizzare i dati </h2>");
@@ -84,7 +84,7 @@ riceve in ingresso idamministrativo*/
 		print(" <td><input type ='text' size='20' name='indirizzo'> </td></tr>");
 	
 		$sqlb="SELECT * FROM tbl_comuni ORDER BY denominazione";
-   		$resb=mysqli_query($con,inspref($sqlb));
+   		$resb=eseguiQuery($con,$sqlb);
    		if(!$resb)
    		{
     		print ("<br/> <br/> <br/> <h2> b Impossibile visualizzare i dati </h2>");

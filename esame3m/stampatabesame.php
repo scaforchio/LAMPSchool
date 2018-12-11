@@ -76,7 +76,7 @@ $query = "SELECT * FROM tbl_esesiti,tbl_alunni,tbl_esami3m,tbl_esmaterie
 	          AND tbl_alunni.idclasseesame=$idclasse
 	          order by tbl_alunni.idclasse DESC, cognome, nome, datanascita";
 
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con) . $query);
+$ris = eseguiQuery($con,$query);
 
 $recesi = mysqli_fetch_array($ris);
 $idcommissione=$recesi['idcommissione'];
@@ -152,7 +152,7 @@ $numeroalunno = 0;
 
 $query = "select * from tbl_alunni
                 where idclasseesame= $idclasse order by idclasse DESC, cognome,nome,datanascita";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con) . $query);
+$ris = eseguiQuery($con,$query);
 */
 do
 {
@@ -224,7 +224,7 @@ $query = "select * from tbl_escompcommissioni,tbl_docenti,tbl_escommissioni
                 where tbl_escompcommissioni.idcommissione=tbl_escommissioni.idescommissione
                 and tbl_escompcommissioni.iddocente=tbl_docenti.iddocente
                 and tbl_escompcommissioni.idcommissione=$idcommissione";
-$riscom = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+$riscom = eseguiQuery($con,$query);
 $cont = 0;
 $posYiniz=$schede->GetY()+10;
 while ($reccom = mysqli_fetch_array($riscom))

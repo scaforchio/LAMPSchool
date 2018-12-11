@@ -45,7 +45,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 $query = "update tbl_compob set sintob='" . $sintesi. "', obiettivo='" . $descrizione . "'
            where idobiettivo=$idob";
 
-if ($ris = mysqli_query($con, inspref($query)))
+if ($ris = eseguiQuery($con,$query))
 {
     print "
         <form method='post' id='formcomp' action='modiobiettivo.php'>

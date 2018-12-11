@@ -55,7 +55,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 
 	//Esecuzione query
 	$query="SELECT * FROM tbl_gruppi WHERE idgruppo=". stringa_html('idgruppo');	
-	if (!($ris=mysqli_query($con,inspref($query)))) 
+	if (!($ris=eseguiQuery($con,$query))) 
 	{
 		print "\nQuery fallita";
 	}	

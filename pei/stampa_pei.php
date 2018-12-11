@@ -73,7 +73,7 @@ $idclasse = "";
 $query = "SELECT datanascita, codfiscale, denominazione, idclasse FROM tbl_alunni,tbl_comuni
 			  WHERE tbl_alunni.idcomnasc=tbl_comuni.idcomune 
 			  AND idalunno=$idalunno";
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 // print inspref($query);
 if ($val = mysqli_fetch_array($ris))
 {
@@ -150,7 +150,7 @@ $query = "select * from tbl_tipoprog,tbl_materie
         where tbl_tipoprog.idmateria=tbl_materie.idmateria
         and idalunno=$idalunno
         order by denominazione";
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($rec = mysqli_fetch_array($ris))
 {
     $pei->setXY(50, $posY);
@@ -186,7 +186,7 @@ if (count($matpers) > 0)
         //$posY+=10;
 
         $query = "select * from tbl_competalu where idmateria=" . $matpers[$i] . " and idalunno=$idalunno order by numeroordine";
-        $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+        $ris = eseguiQuery($con,$query);
 
         if (mysqli_num_rows($ris) > 0)
         {
@@ -213,7 +213,7 @@ if (count($matpers) > 0)
 
 
                 $query = "select * from tbl_abilalu where idcompetenza=$idcompetenza and abil_cono='C' order by numeroordine";
-                $risabil = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+                $risabil = eseguiQuery($con,$query);
                 if (mysqli_num_rows($risabil) > 0)
                 {
                     $pei->setX(20);
@@ -243,7 +243,7 @@ if (count($matpers) > 0)
                 }
 
                 $query = "select * from tbl_abilalu where idcompetenza=$idcompetenza and abil_cono='A' order by numeroordine";
-                $risabil = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+                $risabil = eseguiQuery($con,$query);
                 if (mysqli_num_rows($risabil) > 0)
                 {
                     $pei->setX(20);
@@ -300,7 +300,7 @@ for ($i = 0; $i < count($matall); $i++)
 	         and idmateria=" . $matall[$i] . "
 	         order by datalezione";
 
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
 
     if (mysqli_num_rows($ris) > 0)
     {
@@ -362,7 +362,7 @@ for ($i = 0; $i < count($matall); $i++)
 	         and idmateria=" . $matall[$i] . "
 	         order by numeroordine, data";
     }
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris) > 0)
     {
         $pei->AddPage();
@@ -409,7 +409,7 @@ for ($i = 0; $i < count($matall); $i++)
 	         and idmateria=" . $matall[$i] . "
 	         order by data";
 
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
 
     if (mysqli_num_rows($ris) > 0)
     {
@@ -457,7 +457,7 @@ $query = "select tbl_notealunno.idnotaalunno, data, tbl_alunni.cognome as cognal
             and tbl_noteindalu.idalunno=$idalunno 
             order by tbl_classi.specializzazione, tbl_classi.sezione, tbl_classi.anno, tbl_notealunno.data, tbl_docenti.cognome, tbl_docenti.nome, tbl_alunni.cognome, tbl_alunni.nome, tbl_alunni.datanascita";
 
-$ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 if (mysqli_num_rows($ris) > 0)
 {
     while ($rec = mysqli_fetch_array($ris))
@@ -494,7 +494,7 @@ $query = "select idnotaclasse, data, tbl_docenti.cognome as cogndocente, tbl_doc
             and tbl_noteclasse.idclasse=$idclasse 
             order by tbl_classi.specializzazione, tbl_classi.sezione, tbl_classi.anno, tbl_docenti.cognome, tbl_docenti.nome, tbl_noteclasse.data";
 
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query di selezione nota: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 if (mysqli_num_rows($ris) > 0)
 {
     while ($rec = mysqli_fetch_array($ris))
@@ -539,7 +539,7 @@ for ($i = 0; $i < count($matall); $i++)
 	         and pei
 	         order by datadocumento";
 
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
 
     if (mysqli_num_rows($ris) > 0)
     {
@@ -573,7 +573,7 @@ $query = "select descrizione,datadocumento,pei,docnome from tbl_documenti
 	         and pei
 	         order by datadocumento";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 
 if (mysqli_num_rows($ris) > 0)
 {

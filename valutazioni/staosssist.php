@@ -64,7 +64,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
 print ("");
 
 $query = "select * from tbl_classi where idclasse = $classe";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 $cla=mysqli_fetch_array($ris); 
 
 
@@ -99,7 +99,7 @@ $cla=mysqli_fetch_array($ris);
              order by tbl_docenti.cognome,tbl_docenti.nome,cognalunno,nomealunno,data"; 
     
 
-    $ris=mysqli_query($con,inspref($query));
+    $ris=eseguiQuery($con,$query);
 
  
     $c=mysqli_num_rows($ris);

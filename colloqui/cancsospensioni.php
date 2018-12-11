@@ -42,7 +42,7 @@ $idsospensione=stringa_html('idsospensionecolloqui');
   
 $query="delete from tbl_sospensionicolloqui
         where idsospensionecolloqui=$idsospensione";
-$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". inspref($query,false));
+$ris=eseguiQuery($con,$query);
 
 print ("
 

@@ -51,7 +51,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 $querydel = "delete from ".$daticrud['tabella']." where ".$daticrud['campochiave']." = '$id'";
 print $querydel;
-mysqli_query($con,$querydel) or die("Errore: ".$querydel);
+eseguiQuery($con,$querydel);
 inserisci_log($_SESSION['userid'] . "§" . date('m-d|H:i:s') . "§" . $_SESSION['indirizzoip'] . "§" . $querydel . "");
                     
 // TTTT Aggiungere al log

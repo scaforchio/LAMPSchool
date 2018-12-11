@@ -67,7 +67,7 @@ if ($idobiettivo!="")
    
       $query="select * from tbl_compob where idobiettivo=$idobiettivo";
    
-      $ris=mysqli_query($con,inspref($query));
+      $ris=eseguiQuery($con,$query);
    
    
    

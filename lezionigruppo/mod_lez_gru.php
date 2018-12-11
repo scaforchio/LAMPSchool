@@ -52,7 +52,7 @@ if (!$DB)
 }
 
 $sql = "SELECT * from tbl_lezioni where (idlezionegruppo='$a')";
-$result = mysqli_query($con, inspref($sql));
+$result = eseguiQuery($con,$sql);
 $reclez = mysqli_fetch_array($result);
 if (!($result))
 {

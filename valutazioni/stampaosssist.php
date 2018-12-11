@@ -64,7 +64,7 @@ else
    $query="select tbl_classi.idclasse,anno,sezione,specializzazione 
            from tbl_classi
            order by specializzazione, sezione, anno";       
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
    print "<option value='";

@@ -25,7 +25,7 @@ $querynorm=inspref($query);
 
 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Eseguita query $querynorm", $nomefilelog . "rp", $suff);
 
-$ris = mysqli_query($con, inspref($query)) or die("errore query " . inspref($query));
+$ris = eseguiQuery($con,$query);
 
 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Richiesto aggiornamento alunni da $dataultagg $oraultagg", $nomefilelog . "rp", $suff);
 
@@ -53,7 +53,7 @@ $query = "SELECT * FROM tbl_alunni
               AND (idclasse=0)
          ";
 
-$ris = mysqli_query($con, inspref($query)) or die("errore query " . inspref($query));
+$ris = eseguiQuery($con,$query);
 
 
 

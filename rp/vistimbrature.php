@@ -84,7 +84,7 @@ print ("
   //  Riempimento combobox delle tbl_classi
   //
   $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY anno,sezione,specializzazione";
-  $ris = mysqli_query($con, inspref($query));
+  $ris = eseguiQuery($con,$query);
   while ($nom = mysqli_fetch_array($ris))
   {
   print "<option value='";
@@ -123,7 +123,7 @@ $query = "select idalunno,cognome,nome,datanascita,tbl_alunni.idclasse from tbl_
         . "where tbl_alunni.idclasse=tbl_classi.idclasse "
         . "and tbl_alunni.idclasse<>0 "
         . "order by cognome, nome, datanascita";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 echo("<select name='idalunno' ONCHANGE='timbrature.submit()'><option value=''>&nbsp");
 while ($nom = mysqli_fetch_array($ris))
 {
@@ -160,7 +160,7 @@ if ($idalunno != "")
 	        where idalunno=$idalunno
 	        order by datatimbratura desc, oratimbratura desc";
 
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query));
+    $ris = eseguiQuery($con,$query);
 
 
     if (mysqli_num_rows($ris) > 0)

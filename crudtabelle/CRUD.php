@@ -10,6 +10,7 @@ require_once '../lib/funzioni.php';
 // istruzioni per tornare alla pagina di login 
 ////session_start();
 
+
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 
 if ($tipoutente == "")
@@ -19,7 +20,58 @@ if ($tipoutente == "")
 }
 $daticrud = $_SESSION['daticrud'];
 $titolo = $daticrud['titolo'];
-$script = "";
+
+// PREPARAZIONE OPZIONE ORDINAMENTO INIZIALE
+$stringaopzioniord = "";
+//print $daticrud['campiordinamento'];
+$campiordinamento = explode(",", $daticrud['campiordinamento']);
+foreach ($campiordinamento as $campoord)
+{
+    $indicecampo = 0;
+    foreach ($daticrud['campi'] as $campo)
+    {
+        //print "DATI $campoord ".$campo[0];
+        if ($campoord == $campo[0])
+            $stringaopzioniord .= "[$indicecampo,'asc'],";
+        $indicecampo++;
+    }
+}
+//print "Stringa $stringaopzioniord";
+$stringaopzioniord = substr($stringaopzioniord, 0, strlen($stringaopzioniord) - 1);
+
+$stringaopzioniord = "[".$stringaopzioniord."]";
+//$strcampiordinamento = implode(",", $daticrud['campiordinamento']);
+
+
+
+
+$script = "<link rel='stylesheet' type='text/css' href='../lib/js/datatables/datatables.min.css'/>
+ 
+           <script type='text/javascript' src='../lib/js/datatables/datatables.min.js'></script>
+           <script> 
+           $(document).ready( function () {
+                 $('#tabelladati').DataTable({
+                     'order':".$stringaopzioniord.",
+                     'pageLength': 100,
+                     'language': {
+                                   'search': 'Filtra risultati:',
+                                   'zeroRecords': 'Nessun dato da visualizzare',
+                                   'info': 'Mostrate righe da _START_ a _END_ di _TOTAL_',
+                                    'lengthMenu': 'Visualizzate _MENU_ righe',
+                                    
+                                            'paginate': {
+                                                        'first':    'Prima',
+                                                        'previous': 'Prec.',
+                                                        'next':     'Succ.',
+                                                        'last':     'Ultima'
+                                                        }
+                                   
+                                            
+                                }
+                 });
+            } );
+            
+            </script>";
 stampa_head($titolo, "", $script, "PMSDA");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
@@ -40,23 +92,23 @@ $strcampi = substr($strcampi, 0, strlen($strcampi) - 2);
 $strcondizione = " and " . $daticrud['condizione'];
 
 // Campi per ordinamento in visualizzazione
-$strcampiordinamento = implode(",", $daticrud['campiordinamento']);
+
 // Costruzione query
 $query = "select " . $daticrud['campochiave'] . ", $strcampi from " . $daticrud['tabella'] . " where true " . $strcondizione;
 // print $query;
-$ris = mysqli_query($con, $query) or die("Errore " . $query . " ERR " . mysqli_error($con));
+$ris = eseguiQuery($con, $query);
 if ($daticrud['abilitazioneinserimento'] == 1)
     print "<br><center><a href='CRUDmodifica.php?id=0'><b>INSERISCI NUOVO</b></a></center><br><br>";
 
-print "<table align='center' border='1'>";
+print "<table id='tabelladati' class='display' width='" . $daticrud['larghezzatabella'] . "'>";
 // Visualizzazione intestazioni
-print "<tr class='prima'>";
+print "<thead><tr class='prima'>";
 foreach ($daticrud['campi'] as $c)
     if ($c[1] != 0)
-        print "<td><b>$c[6]</b></td>";
+        print "<th>$c[6]</th>";
 if ($daticrud['abilitazionecancellazione'] == 1 | $daticrud['abilitazionemodifica'] == 1)
-    print "<td>Azioni</td>";
-print "</tr>";
+    print "<th>Azioni</th>";
+print "</tr></thead>";
 
 $dativis = array();
 
@@ -116,7 +168,7 @@ while ($rec = mysqli_fetch_array($ris))
 
                 $strcampi = substr($strcampi, 0, strlen($strcampi) - 2);
                 $queryesterna = "select " . $strcampi . " from " . $c[2] . " where true and " . $c[3] . " = '" . $rec[$c[0]] . "'";
-                $risest = mysqli_query($con, $queryesterna) or die("Errore: " . $queryesterna);
+                $risest = eseguiQuery($con, $queryesterna);
                 $recest = mysqli_fetch_array($risest);
 
                 if ($numeroalias > 0)
@@ -145,7 +197,7 @@ while ($rec = mysqli_fetch_array($ris))
     $datirigavis['id'] = $id;
     $dativis[] = $datirigavis;
 }
-
+print "<tbody>";
 foreach ($dativis as $riga)
 {
 
@@ -175,7 +227,9 @@ foreach ($dativis as $riga)
     }
     print "</tr>";
 }
+print "</tbody>";
 print "</table><br>";
+
 
 
 stampa_piede();
@@ -187,7 +241,7 @@ function controlloCanc($con, $vincolicanc, $chiave)
     {
         $query = "select * from " . $vincolo[0] . " where " . $vincolo[1] . " = '" . $chiave . "'";
 
-        $ris = mysqli_query($con, $query) or die("Errore: " . $query);
+        $ris = eseguiQuery($con, $query);
         if (mysqli_num_rows($ris) > 0)
         {
             $possibilecanc = false;

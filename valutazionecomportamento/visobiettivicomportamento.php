@@ -54,7 +54,7 @@ print "</center>";
 
 $query = "select * from tbl_compob order by numeroordine";
 // print inspref($query);
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 print "<font size=2>";
 while ($val = mysqli_fetch_array($ris))
@@ -66,7 +66,7 @@ while ($val = mysqli_fetch_array($ris))
     print "<br/><br/><b>$numord. $sintob</b><br>  $obiettivo";
 
     $query = "select * from tbl_compsubob where idobiettivo=$idobiettivo order by numeroordine";
-    $risabil = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $risabil = eseguiQuery($con,$query);
     print "<font size=1>";
     while ($valabil = mysqli_fetch_array($risabil))
     {

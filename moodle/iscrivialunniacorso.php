@@ -46,7 +46,7 @@ $idcorso=stringa_html("corso");
 $query="select idalunno,cognome, nome, telcel
         from tbl_alunni";
         
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 
 while ($rec=mysqli_fetch_array($ris))
 {

@@ -69,7 +69,7 @@ print ("
       <SELECT NAME='idcircolare' ONCHANGE='listadistr.submit()'>
       <option value=''>&nbsp;</option>");
 $query = "SELECT * FROM tbl_circolari ORDER BY datainserimento DESC";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($rec = mysqli_fetch_array($ris))
 {
 
@@ -130,7 +130,7 @@ if ($idcircolare != "")
     }
     // print "tttt $dest";
     // print inspref($query);
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query) . " " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris))
     {
 

@@ -50,7 +50,7 @@ if (!$con)
 
 //Esecuzione query
 $sql = "SELECT * FROM tbl_testi WHERE idtesto=" . stringa_html('idpar');
-if (!($ris = mysqli_query($con, inspref($sql))))
+if (!($ris = eseguiQuery($con,$sql)))
 {
     print("\n<h1> Query fallita </h1>");
     exit;

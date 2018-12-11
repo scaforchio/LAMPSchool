@@ -56,7 +56,7 @@ $idalunno = $_SESSION['idstudente'];
 $idclasse = estrai_classe_alunno($idalunno, $con);
 
 $query = "select * from tbl_classi where rappresentante1=$idalunno or rappresentante2=$idalunno";
-$riscontr = mysqli_query($con, inspref($query)) or die("Errore" . inspref($query));
+$riscontr = eseguiQuery($con,$query);
 if (mysqli_num_rows($riscontr) != 0)
 {
     $alurapp = true;
@@ -69,7 +69,7 @@ else
 $queryass = "SELECT * FROM tbl_assemblee 
 			 WHERE idclasse = $idclasse
 			 ORDER BY idassemblea DESC";
-$risass = mysqli_query($con, inspref($queryass));
+$risass = eseguiQuery($con,$queryass);
 if (mysqli_num_rows($risass) == 0)
 {
     print "<br/><CENTER><b>Non hai richiesto/effettuato ancora nessuna assemblea</b>";
@@ -118,7 +118,7 @@ else
 		        OR idalunno=" . $dataass['rappresentante2'] . "
 		        ORDER BY cognome";
 
-        $risalu = mysqli_query($con, inspref($alu));
+        $risalu = eseguiQuery($con,$alu);
         print "<td>";
         $numerorappresentantirichiedenti = 0;
         while ($dataalu = mysqli_fetch_array($risalu))
@@ -144,7 +144,7 @@ else
             $doc .= " OR iddocente=" . $dataass['docenteconcedente2'] . " ORDER BY cognome";
         }
         print "<td>";
-        $risdoc = mysqli_query($con, inspref($doc));
+        $risdoc = eseguiQuery($con,$doc);
         $cont = 1;
         while ($datadoc = mysqli_fetch_array($risdoc))
         {
@@ -245,7 +245,7 @@ else
                         $alu = "SELECT cognome,nome FROM tbl_alunni
 				WHERE idalunno=" . $dataass['alunnosegretario'];
 
-                        $risalu = mysqli_query($con, inspref($alu));
+                        $risalu = eseguiQuery($con,$alu);
                         $dataalu = mysqli_fetch_array($risalu);
                         print "<center>SEGRETARIO<br>" . $dataalu['cognome'] . "&nbsp;" . $dataalu['nome'] . "</center><br>";
 

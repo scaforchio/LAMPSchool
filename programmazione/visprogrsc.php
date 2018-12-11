@@ -72,7 +72,7 @@ print ("
                       ORDER BY anno, denominazione
                       ";
                       
-          $ris=mysqli_query($con,inspref($query));
+          $ris=eseguiQuery($con,$query);
           while($nom=mysqli_fetch_array($ris))
 	      {
             print "<option value='";
@@ -116,7 +116,7 @@ print ("
     $idmateria=substr($tipocattedra,2);   
     $query="select * from tbl_competscol where idmateria=$idmateria and anno=$anno order by numeroordine";
     // print inspref($query);
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
     
     print "<font size=2>";
     while($val=mysqli_fetch_array($ris))
@@ -130,7 +130,7 @@ print ("
         print "<br/><br/><b>$numord. $sintcomp</b><br>  $competenza";
         
         $query="select * from tbl_abilscol where idcompetenza=$idcompetenza and abil_cono='C' order by numeroordine";
-        $risabil=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+        $risabil=eseguiQuery($con,$query);
         print "<font size=1>";
         while($valabil=mysqli_fetch_array($risabil))
         { 
@@ -147,7 +147,7 @@ print ("
         }
         
         $query="select * from tbl_abilscol where idcompetenza=$idcompetenza and abil_cono='A' order by numeroordine";
-        $risabil=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+        $risabil=eseguiQuery($con,$query);
         
         while($valabil=mysqli_fetch_array($risabil))
         { 

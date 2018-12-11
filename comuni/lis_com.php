@@ -37,7 +37,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
     $db=true; 
     $sql='SELECT * from tbl_comuni ORDER BY denominazione';
 
-    if (!($result=mysqli_query($con,inspref($sql))))
+    if (!($result=eseguiQuery($con,$sql)))
 	{
         print ("Query fallita");
 	}      

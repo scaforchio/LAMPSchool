@@ -85,7 +85,7 @@ and tbl_cattnosupp.iddocente <> 1000000000";
 
 $votiinseriti = false;
 // print inspref($query);
-$rismat = mysqli_query($con, inspref($query));
+$rismat = eseguiQuery($con,$query);
 while ($val = mysqli_fetch_array($rismat))
 {
     $idmateria = $val['idmateria'];
@@ -100,7 +100,7 @@ while ($val = mysqli_fetch_array($rismat))
     {
         $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,assenze,note,periodo, codsissi)
 	                 VALUES ('$idalunno','$idmateria','$votounico','$ass','" . elimina_apici($note) . "','$periodo',0)";
-        $risins = mysqli_query($con, inspref($queryins)) or die("Errore:".inspref($queryins,false)." ".mysqli_error($con));
+        $risins = eseguiQuery($con,$queryins);
         $votiinseriti = true;
     }
 }
@@ -116,7 +116,7 @@ if ($votiinseriti)
 
     $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,periodo,note, codsissi)
 	                 VALUES ('$idalunno','$idmateria','$voto','$periodo','$note',0)";
-    $risins = mysqli_query($con, inspref($queryins)) or die("Errore:".inspref($queryins,false)." ".mysqli_error($con));
+    $risins = eseguiQuery($con,$queryins);
 }
 
 // INSERISCO GIUDIZIO GENERALE
@@ -133,7 +133,7 @@ $ris = mysqli_query($con, inspref($querydel)) or die(mysqli_error($con));
 $giudizio = $_POST['giudizio'];
 $queryins = "INSERT into tbl_giudizi(idclasse,idalunno,periodo,giudizio)
 	                 VALUES ('$cl','$idalunno','$periodo','" . elimina_apici($giudizio) . "')";
-$risins = mysqli_query($con, inspref($queryins)) or die("Errore:".inspref($queryins,false)." ".mysqli_error($con));
+$risins = eseguiQuery($con,$queryins);
 
 // INSERISCO ESITO SCRUTINIO
 
@@ -148,7 +148,7 @@ $ris = mysqli_query($con, inspref($querydel)) or die("Errore:".inspref($querydel
 $giudizio = $_POST['giudizio'];
 $queryins = "INSERT into tbl_esiti(idclasse,idalunno,esito, integrativo, media,creditotot, credito,votoammissione,validita)
 	                 VALUES ('$cl','$idalunno','$esito','$integrativo','$media','$creditotot','$credito','$votoammissione','$validita')";
-$risins = mysqli_query($con, inspref($queryins)) or die("Errore:".inspref($queryins,false)." ".mysqli_error($con));
+$risins = eseguiQuery($con,$queryins);
 
 
 if ($provenienza == 'tab')

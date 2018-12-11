@@ -166,7 +166,7 @@ $sqld = "SELECT DISTINCT tbl_docenti.cognome AS cognome, tbl_docenti.nome AS nom
 			 WHERE (tbl_docenti.iddocente=tbl_cattnosupp.iddocente) AND (tbl_cattnosupp.iddocente!=1000000000) AND (idclasse=$idclasse) ORDER BY cognome, nome";
 print "<b>Docente concedente (prima ora)</b>";
 print "</td><td>";	
-$resd = mysqli_query($con, inspref($sqld));
+$resd = eseguiQuery($con,$sqld);
 if (!$resd)
 {
 	print ("<br/> <br/> <br/> <h2>Impossibile visualizzare i dati </h2>");
@@ -199,7 +199,7 @@ print("<tr><td>");
 
 	print "<b>Docente concedente (seconda ora)</b>";
 	print "</td><td>";
-	$resd = mysqli_query($con, inspref($sqld));
+	$resd = eseguiQuery($con,$sqld);
 	if (!$resd)
 	{
 		print ("<br/> <br/> <br/> <h2>Impossibile visualizzare i dati </h2>");

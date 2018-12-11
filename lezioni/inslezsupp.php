@@ -84,7 +84,7 @@ else
 }
 if ($ope=='I')
 {
-    $ris3=mysqli_query($con,inspref($query)) or die ("Errore nella query di inserimento: ". mysqli_error($con)); 
+    $ris3=eseguiQuery($con,$sql);
     $codlez=mysqli_insert_id($con); 
    
     // Inserimento firma
@@ -95,7 +95,7 @@ if ($ope=='I')
 if ($ope=='U')
 {
 	
-	$ris3=mysqli_query($con,inspref($query)) or die ("Errore nella query di aggiornamento: ". mysqli_error($con)); 
+	$ris3=eseguiQuery($con,$query);
    
    $querycercafirma="select * from tbl_firme where idlezione='$codlez' and iddocente='$iddocente'";
    // print inspref($querycercafirma);
@@ -118,7 +118,7 @@ if ($ope=='U')
 }
 if ($ope=='D')
 {
-	$ris3=mysqli_query($con,inspref($query)) or die ("Errore nella query di cancellazione: ". mysqli_error($con)); 
+	$ris3=eseguiQuery($con,$query); 
     print "<center><b>Cancellazione effettuata!</b></center>";
 }
 

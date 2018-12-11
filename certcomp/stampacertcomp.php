@@ -60,7 +60,7 @@ if ($classe != "")
 {
 
     $query = "select idalunno from tbl_alunni where idalunno in ($elencoalunni) order by cognome,nome";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     while ($val = mysqli_fetch_array($ris))
     {
         $alunni[] = $val['idalunno'];
@@ -228,7 +228,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
 
 // Cerco tutte le competenze previste per la classe
     $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
 
     while ($rec = mysqli_fetch_array($ris))
     {
@@ -265,7 +265,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
                     . "where tbl_certcompvalutazioni.idccl=tbl_certcomplivelli.idccl "
                     . "and idccc=$idccc "
                     . "and idalunno=$alu";
-            $risliv = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+            $risliv = eseguiQuery($con,$query);
 
             if ($recliv = mysqli_fetch_array($risliv))
             {
@@ -289,7 +289,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
             $query = "select * from tbl_certcompvalutazioni "
                     . "where idccc=$idccc "
                     . "and idalunno=$alu";
-            $risliv = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+            $risliv = eseguiQuery($con,$query);
 
             if ($recliv = mysqli_fetch_array($risliv))
                 $giud = $recliv['giud'];
@@ -341,7 +341,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
     $posy += 5;
 
     $query = "select * from tbl_certcomplivelli where livscuola = '$livscuola' and valido order by livello";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
 
     while ($rec = mysqli_fetch_array($ris))
     {

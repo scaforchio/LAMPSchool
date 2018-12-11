@@ -48,7 +48,7 @@ $nominativo = estrai_dati_docente($_SESSION['idutente'], $con);
     print "<tr class='prima'><td>Prot.</td><td>Docente</td><td>Periodo</td></tr>";
     // TTTT
     $query = "select * from tbl_richiesteferie where concessione=1 order by idrichiestaferie desc";
-      $ris = mysqli_query($con, inspref($query)) or die("Errore: $query");
+      $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris))
     {
         print "<tr>";

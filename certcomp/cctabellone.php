@@ -87,7 +87,7 @@ print('
 
 $query = "select idclasse, anno, sezione, specializzazione from tbl_classi where $annocomp order by anno, sezione, specializzazione";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -129,7 +129,7 @@ if ($idclasse != '')
         if ($annoclasse == 5)
             $livscuola = $livello_scuola;
         $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
-        $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
+        $ris = eseguiQuery($con,$query);
         while ($rec = mysqli_fetch_array($ris))
         {
             $competenzedes[] = $rec['compcheuropea'];
@@ -137,7 +137,7 @@ if ($idclasse != '')
         }
         $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
 
-        $ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+        $ris = eseguiQuery($con,$query);
         $numeroalunni = mysqli_num_rows($ris);
 
         if ($numeroalunni > 0)
@@ -157,7 +157,7 @@ if ($idclasse != '')
                 $proposteimportate = false;
                 $idalunno = $nom['idalunno'];
                 $query = "select * from tbl_certcompvalutazioni where idalunno='$idalunno'";
-                $ris2 = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
+                $ris2 = eseguiQuery($con,$query);
                 if (mysqli_num_rows($ris2) == 0)
                 {
                     if (importa_proposte($con, $idalunno, $livscuola))
@@ -226,7 +226,7 @@ if ($idclasse != '')
         if ($annoclasse == 5)
             $livscuola = $livello_scuola;
         $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
-        $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
+        $ris = eseguiQuery($con,$query);
         while ($rec = mysqli_fetch_array($ris))
         {
             $competenzedes[] = $rec['compcheuropea'];
@@ -239,7 +239,7 @@ if ($idclasse != '')
 
         $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
 
-        $ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+        $ris = eseguiQuery($con,$query);
         $numeroalunni = mysqli_num_rows($ris);
 
         if ($numeroalunni > 0)

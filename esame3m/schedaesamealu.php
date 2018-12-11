@@ -236,7 +236,7 @@ $query = "select * from tbl_esesiti,tbl_alunni,tbl_classi,tbl_esami3m
               and tbl_classi.idclasse=tbl_esami3m.idclasse
               and tbl_esesiti.idalunno=$idalunno";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 $val = mysqli_fetch_array($ris);
 
 
@@ -244,7 +244,7 @@ $val = mysqli_fetch_array($ris);
 $query = "select * from tbl_esmaterie where idclasse=$idclasse";
 
 
-$rismat = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+$rismat = eseguiQuery($con,$query);
 $recmat = mysqli_fetch_array($rismat);
 
 if ($val['stato'] == 'C') {
@@ -255,7 +255,7 @@ if ($val['stato'] == 'C') {
 // VERIFICA PRESENZA SCRUTINIO PER VOTO AMMISSIONE
 
 $query = "select * from tbl_esiti where idalunno=$idalunno";
-$risva = mysqli_query($con, inspref($query));
+$risva = eseguiQuery($con,$query);
 if (mysqli_num_rows($risva) == 0) {
     $presenteva = false;
 } else {
@@ -418,7 +418,7 @@ stampa_piede("");
 
 function privatista($idalunno, $con) {
     $query = "select idclasse,idclasseesame from tbl_alunni where idalunno=$idalunno";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore " . inspref($query, false));
+    $ris = eseguiQuery($con,$query);
     $rec = mysqli_fetch_array($ris);
     if ($rec['idclasse'] == '0') {
         return true;

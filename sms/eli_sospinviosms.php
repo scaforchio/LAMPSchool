@@ -56,7 +56,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 	//Esecuzione query
 	$query="SELECT * FROM tbl_sospinviosms WHERE
             idsospinviosms=". stringa_html('idsospinviosms');
-	if (!($ris=mysqli_query($con,inspref($query)))) 
+	if (!($ris=eseguiQuery($con,$query))) 
 	{
 		print "\nQuery fallita";
 	}	

@@ -87,7 +87,7 @@ else
               WHERE idclasse in (select distinct idclasse from tbl_cattnosupp where iddocente=$idutente)
               ORDER BY specializzazione, sezione, anno";
 }
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -198,7 +198,7 @@ echo("</select></td></tr>");
 // Riempimento combo box tbl_docenti
 print "<tr><td width='50%'><p align='center'><b>Docente</b></p></td><td>";
 $query = "SELECT iddocente,cognome,nome FROM tbl_docenti ORDER BY cognome, nome";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 echo("<select name='iddocente' ONCHANGE='tbl_notealunno.submit()'><option value=''>&nbsp");
 while ($nom = mysqli_fetch_array($ris))
 {
@@ -221,7 +221,7 @@ if ($idclasse != "" & $idclasse != "all")
 {
     print "<tr><td width='50%'><p align='center'><b>Alunno</b></p></td><td>";
     $query = "select idalunno,cognome,nome,datanascita from tbl_alunni where idclasse=$idclasse order by cognome, nome, datanascita";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     echo("<select name='idalunno' ONCHANGE='tbl_notealunno.submit()'><option value=''>&nbsp");
     while ($nom = mysqli_fetch_array($ris))
     {
@@ -319,7 +319,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 
 //   $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
-//   $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+//   $ris=eseguiQuery($con,$query);
 //   if($val=mysqli_fetch_array($ris))
 //      $classe=$val["anno"]." ".$val["sezione"]." ".$val["specializzazione"];
 //  print $iddocente;
@@ -332,7 +332,7 @@ $query = "select tbl_notealunno.idnotaalunno, data, tbl_alunni.cognome as cognal
             and $stringaricerca 
             order by tbl_notealunno.data desc, tbl_classi.specializzazione, tbl_classi.sezione, tbl_classi.anno, tbl_notealunno.data, tbl_docenti.cognome, tbl_docenti.nome, tbl_alunni.cognome, tbl_alunni.nome, tbl_alunni.datanascita";
 // print $query."<br/>";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query di selezione nota: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 $c = mysqli_num_rows($ris);
 

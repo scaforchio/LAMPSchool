@@ -97,7 +97,7 @@ and tbl_cattnosupp.iddocente<>1000000000
  ORDER BY 
 anno,specializzazione,sezione,denominazione,cognome,nome";
 
-$ris = mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query));
+$ris = eseguiQuery($con,$query);
 
 if (mysqli_num_rows($ris)>0) 
 {    

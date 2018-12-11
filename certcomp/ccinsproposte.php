@@ -49,13 +49,13 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='
 
 $querydel = "delete from tbl_certcompproposte where idalunno=$idalunno and iddocente=$iddocente";
 
-mysqli_query($con, inspref($querydel)) or die("Errore nella query: " . mysqli_error($con));
+eseguiQuery($con,$querydel);
 
 // Inserisco le nuove proposte per ogni competenza presente
 
 $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 while ($rec = mysqli_fetch_array($ris)) {
     $queryins = "";

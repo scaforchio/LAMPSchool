@@ -83,7 +83,7 @@ if (!$DB)
 $sql = "SELECT * FROM tbl_docenti ,tbl_utenti
        WHERE tbl_docenti.iddocente=tbl_utenti.idutente 
        ORDER BY cognome,nome";
-$result = mysqli_query($con, inspref($sql));
+$result = eseguiQuery($con,$sql);
 if (!($result))
 {
     print("query fallita");

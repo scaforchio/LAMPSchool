@@ -54,7 +54,7 @@ $destinatari = array();
 $query = "SELECT idalunno,cognome, nome, telcel
         FROM tbl_alunni";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 $invio = false;
 $iddest = array();
 $contasmsass = 0;
@@ -78,13 +78,13 @@ if ($invio)
     {
         $query = "insert into tbl_testisms(testo, idinvio, idutente)
 				  values ('$messaggio','" . $result['id'] . "','" . $_SESSION['idutente'] . "')";
-        mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+        eseguiQuery($con,$query);
         $idtestosms = mysqli_insert_id($con);
         for ($i = 0; $i < count($destinatari); $i++)
         {
             $query = "insert into tbl_sms(tipo,iddestinatario,idinvio,celldestinatario, idtestosms)
 					  values ('ass'," . $iddest[$i] . ",'" . $result['id'] . "','" . $destinatari[$i]['recipient'] . "',$idtestosms)";
-            mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+            eseguiQuery($con,$query);
         }
         print "<br><br><center><b><font color='green'>$contasmsass SMS assenze correttamente inviati!</font></b>";
     } else
@@ -109,7 +109,7 @@ $iddest = array();
 $query = "SELECT idalunno,cognome, nome, telcel
         FROM tbl_alunni";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 $testosms = stringa_html('testosms');
 $contasmsrit = 0;
 $invio = false;
@@ -165,13 +165,13 @@ if ($invio)
     {
         $query = "insert into tbl_testisms(testo, idinvio, idutente)
 				  values ('$messaggio','" . $result['id'] . "','" . $_SESSION['idutente'] . "')";
-        mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+        eseguiQuery($con,$query);
         $idtestosms = mysqli_insert_id($con);
         for ($i = 0; $i < count($destinatari); $i++)
         {
             $query = "insert into tbl_sms(tipo,iddestinatario,idinvio,celldestinatario, idtestosms)
 					  values ('rit'," . $iddest[$i] . ",'" . $result['id'] . "','" . $destinatari[$i]['recipient'] . "',$idtestosms)";
-            mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+            eseguiQuery($con,$query);
         }
         print "<br><br><center><b><font color='green'>$contasmsrit SMS ritardi correttamente inviati!</font></b>";
     } else
@@ -197,7 +197,7 @@ $iddest = array();
 $query = "SELECT idalunno,cognome, nome, telcel
         FROM tbl_alunni";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 $testosms = stringa_html('testosms');
 $contasmsrit = 0;
 $invio = false;
@@ -235,13 +235,13 @@ if ($invio)
     {
         $query = "insert into tbl_testisms(testo, idinvio, idutente)
 				  values ('$messaggio','" . $result['id'] . "','" . $_SESSION['idutente'] . "')";
-        mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+        eseguiQuery($con,$query);
         $idtestosms = mysqli_insert_id($con);
         for ($i = 0; $i < count($destinatari); $i++)
         {
             $query = "insert into tbl_sms(tipo,iddestinatario,idinvio,celldestinatario, idtestosms)
 					  values ('rit'," . $iddest[$i] . ",'" . $result['id'] . "','" . $destinatari[$i]['recipient'] . "',$idtestosms)";
-            mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+            eseguiQuery($con,$query);
         }
         print "<br><br><center><b><font color='green'>$contasmsrit SMS ritardi correttamente inviati!</font></b>";
     } else

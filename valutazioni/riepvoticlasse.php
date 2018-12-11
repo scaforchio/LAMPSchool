@@ -142,7 +142,7 @@ if ($tipoutente=="S" | $tipoutente=="P")
 else
    $query="select distinct tbl_classi.idclasse,anno,sezione,specializzazione from tbl_classi 
            where idcoordinatore=".$_SESSION['idutente']. " order by anno,sezione,specializzazione";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 { 
   print "<option value='";
@@ -168,7 +168,7 @@ WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
 and tbl_cattnosupp.idclasse=$idclasse
 and tbl_cattnosupp.iddocente <> 1000000000
 order by tbl_materie.sigla";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
       print ("<td>"); 
@@ -197,7 +197,7 @@ if ($periodo=="Tutti")
 $numeroalunno=0;
 
 $query='select * from tbl_alunni where idclasse="'.$idclasse.'" order by cognome,nome,datanascita';
-$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+$ris=eseguiQuery($con,$query);
 while($val=mysqli_fetch_array($ris))
 {
     // $esiste_voto=false;
@@ -223,7 +223,7 @@ while($val=mysqli_fetch_array($ris))
                and idmateria=$cm 
                and voto<>99 
                and $per";
-       $rismedia=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+       $rismedia=eseguiQuery($con,$query);
        if($valmedia=mysqli_fetch_array($rismedia))
           {
              $outvoto=number_format ( $valmedia["votomedio"],2);

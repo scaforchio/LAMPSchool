@@ -58,7 +58,7 @@ $query = "SELECT * FROM tbl_alunni LEFT JOIN tbl_classi
          ON tbl_alunni.idclasse=tbl_classi.idclasse
          ORDER BY cognome,nome,anno, sezione, specializzazione";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 //print "tttt ".inspref($query);
 print "<form name='selealu' action='visvalpre.php' method='post'>";
 print "<table align='center'>";
@@ -112,7 +112,7 @@ if ($periodo == 'secondo')
 if ($idalunno != '')
 {
     $query = "select * from tbl_alunni where idalunno=$idalunno";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
     if ($val = mysqli_fetch_array($ris))
     {
@@ -123,7 +123,7 @@ if ($idalunno != '')
 
     // prelevamento voti
     $query = "select * from tbl_valutazioniintermedie, tbl_materie where tbl_valutazioniintermedie.idmateria=tbl_materie.idmateria and idalunno=$idalunno $seledata order by denominazione, data desc";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     // print $query;
     if (mysqli_num_rows($ris) > 0)
     {
@@ -283,7 +283,7 @@ if ($idalunno != '')
             $data = $val7["data"];
             echo ' ' . data_italiana($data) . ' ' . giorno_settimana($data) . '<br/> ';
             $query="select * from tbl_autorizzazioniuscite where idalunno=$idalunno and data='$data'";
-        $ris=mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query,false));
+        $ris=eseguiQuery($con,$query);
         if ($rec = mysqli_fetch_array($ris))
             print "<small>".$rec['testoautorizzazione']."</small><br>";
         }
@@ -305,14 +305,14 @@ if ($idalunno != '')
     //
 
     $query = "select idclasse from tbl_alunni where idalunno=$idalunno";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     $rec = mysqli_fetch_array($ris);
     $codclasse = $rec['idclasse'];
 
     // prelevamento dati alunno
 
     $query = "select * from tbl_alunni,tbl_classi where tbl_alunni.idclasse=tbl_classi.idclasse and idalunno='$idalunno'";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
     echo '<table border=1 align="center" width="800"  >';
 

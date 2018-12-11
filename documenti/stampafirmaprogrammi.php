@@ -47,7 +47,7 @@ if ($docente != "")
 {
     $strclassi="";
     $query="select idclasse from tbl_classi where idcoordinatore=$docente";
-    $ris=mysqli_query($con,inspref($query));
+    $ris=eseguiQuery($con,$query);
     while ($rec=mysqli_fetch_array($ris))
     {
         $strclassi.= $rec['idclasse'].",";
@@ -99,7 +99,7 @@ while ($reccla = mysqli_fetch_array($riscla))
                order by denominazione";
 
 
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     $posY = 68;
     while ($nom = mysqli_fetch_array($ris))
     {
@@ -118,7 +118,7 @@ while ($reccla = mysqli_fetch_array($riscla))
                         where idclasse=$idclasse and idmateria=" . $nom['idmateria'] .
                 " and idalunno=0 and tbl_cattnosupp.iddocente<>1000000000 and tbl_cattnosupp.iddocente=tbl_docenti.iddocente order by cognome";
             // print inspref($query);
-            $rismat = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+            $rismat = eseguiQuery($con,$query);
             $docenti = "";
             while ($recmat = mysqli_fetch_array($rismat))
             {

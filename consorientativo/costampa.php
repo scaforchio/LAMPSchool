@@ -60,7 +60,7 @@ if ($idclasse != "")
 {
 
     $query = "select idalunno from tbl_alunni where idalunno in ($elencoalunni) order by cognome,nome";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     while ($val = mysqli_fetch_array($ris))
     {
         $alunni[] = $val['idalunno'];
@@ -159,7 +159,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $con, 
 
 
     $query = "select consiglioorientativo from tbl_consorientativi where idalunno=$alu";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     $rec = mysqli_fetch_array($ris);
     $consorientativo = $rec['consiglioorientativo'];
 

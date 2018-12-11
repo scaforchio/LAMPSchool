@@ -100,7 +100,7 @@ if ($ope == 'I')
 	         where tbl_gruppialunni.idalunno=tbl_alunni.idalunno
 	         and idgruppo=$idgruppo";
     //print inspref($query);
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query di inserimento: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     //print mysqli_num_rows($ris);
     while ($rec = mysqli_fetch_array($ris))
     {
@@ -149,7 +149,7 @@ if ($ope == 'D')
 
 
 $query = "SELECT idalunno AS al FROM tbl_gruppialunni WHERE idgruppo=" . $idgruppo;
-$ris = mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+$ris = eseguiQuery($con,$query);
 
 while ($id = mysqli_fetch_array($ris))
 {
@@ -159,7 +159,7 @@ while ($id = mysqli_fetch_array($ris))
     $idclasse = estrai_classe_alunno($id['al'], $con);
     // ricavo id lezione       // FARE IN MODO CHE TENGA CONTO DI EVENTUALI LEZIONI CANCELLATE TTTTTT
     $query = "select idlezione from tbl_lezioni where idlezionegruppo=$idlezionegruppo and idclasse=$idclasse";
-    $rislez = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+    $rislez = eseguiQuery($con,$query);
     if ($rec = mysqli_fetch_array($rislez))  // SE LA LEZIONE PER LA CLASSE NON C'E' Si REINSERISCE
     {
         $idlezione = $rec['idlezione'];
@@ -178,11 +178,11 @@ while ($id = mysqli_fetch_array($ris))
 
 /*
     $query = 'SELECT * FROM tbl_asslezione WHERE idalunno=' . $id['al'] . ' AND idlezione="' . $idlezione . '"';
-    $rissel = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+    $rissel = eseguiQuery($con,$query);
     if (mysqli_num_rows($rissel) > 0)
     {
         $query = "DELETE FROM tbl_asslezione WHERE idalunno='" . $id['al'] . "' AND idlezione='" . $idlezione . "'";
-        $ris2 = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+        $ris2 = eseguiQuery($con,$query);
     }
     if ($ope == 'U' | $ope == 'I')
     {
@@ -193,14 +193,14 @@ while ($id = mysqli_fetch_array($ris))
                 $query = "INSERT INTO tbl_asslezione(idalunno,idmateria,data,oreassenza,idlezione)
 						VALUES(" . $id['al'] . "," . $idmateria . ",'" . $data . "','" . $assal . "','" . $idlezione . "')";
 
-                $ris3 = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+                $ris3 = eseguiQuery($con,$query);
             }
             else
             {
                 $query = "INSERT INTO tbl_asslezione(idalunno,idmateria,data,oreassenza,idlezione)
 					   VALUES(" . $id['al'] . "," . $materia . ",'" . $data . "','" . $numeroore . "','" . $idlezione . "')";
 
-                $ris4 = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+                $ris4 = eseguiQuery($con,$query);
                 print "Ore di assenza cambiate per alunno " . $id['al'];
             }
         }
@@ -222,11 +222,11 @@ while ($id = mysqli_fetch_array($ris))
     {
         $query = 'SELECT * FROM tbl_valutazioniintermedie WHERE idalunno=' . $idal . ' AND idlezione="' . $idlezione . '" AND tipo="S"';
         //	 print inspref($query);
-        $rissel = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+        $rissel = eseguiQuery($con,$query);
         if (mysqli_num_rows($rissel) > 0)
         {
             $query = "delete from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$idlezione' and tipo='S'";
-            $risd = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+            $risd = eseguiQuery($con,$query);
         }
     }
     else
@@ -235,7 +235,7 @@ while ($id = mysqli_fetch_array($ris))
         // Verifico se il voto già c'è
         $query = "select idvalint from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$idlezione' and tipo='S'";
         // print inspref($query)."<br/>TTTT";
-        $risric = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+        $risric = eseguiQuery($con,$query);
         if ($rec = mysqli_fetch_array($risric))
         {
             $idvalint = $rec['idvalint'];
@@ -249,12 +249,12 @@ while ($id = mysqli_fetch_array($ris))
             if ($votoal != 999)
             {
                 $query = "update tbl_valutazioniintermedie set voto=$votoal, giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$idlezione' and tipo='S'";
-                $risup = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+                $risup = eseguiQuery($con,$query);
             }
             else
             {
                 $query = "update tbl_valutazioniintermedie set giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$idlezione' and tipo='S'";
-                $risup = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+                $risup = eseguiQuery($con,$query);
             }
         }
         else
@@ -262,7 +262,7 @@ while ($id = mysqli_fetch_array($ris))
             // Inserisco voti non già esistenti
             $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
 				  values(" . $idal . ",$idmateria,$iddocente,$idclasse,'$idlezione','$data','S',$votoal,'$giudal')";
-            $risins = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+            $risins = eseguiQuery($con,$query);
         }
     }
 
@@ -281,11 +281,11 @@ while ($id = mysqli_fetch_array($ris))
     if ($votoal == 99 && $giudal == '')
     {
         $query = 'SELECT * FROM tbl_valutazioniintermedie WHERE idalunno=' . $idal . ' AND idlezione="' . $idlezione . '" AND tipo="O"';
-        $rissel = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+        $rissel = eseguiQuery($con,$query);
         if (mysqli_num_rows($rissel) > 0)
         {
             $query = "delete from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$idlezione' and tipo='O'";
-            $risd = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+            $risd = eseguiQuery($con,$query);
         }
     }
     else
@@ -294,7 +294,7 @@ while ($id = mysqli_fetch_array($ris))
         // Verifico se il voto già c'è
         $query = "select idvalint from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$idlezione' and tipo='O'";
         // print inspref($query)."<br/>TTTT";
-        $risric = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+        $risric = eseguiQuery($con,$query);
         if ($rec = mysqli_fetch_array($risric))
         {
             $idvalint = $rec['idvalint'];
@@ -308,12 +308,12 @@ while ($id = mysqli_fetch_array($ris))
             if ($votoal != 999)
             {
                 $query = "update tbl_valutazioniintermedie set voto=$votoal, giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$idlezione' and tipo='O'";
-                $risup = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+                $risup = eseguiQuery($con,$query);
             }
             else
             {
                 $query = "update tbl_valutazioniintermedie set giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$idlezione' and tipo='O'";
-                $risup = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+                $risup = eseguiQuery($con,$query);
             }
         }
         else
@@ -321,7 +321,7 @@ while ($id = mysqli_fetch_array($ris))
             // Inserisco voti non già esistenti
             $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
 				  values(" . $idal . ",$idmateria,$iddocente,$idclasse,'$idlezione','$data','O',$votoal,'$giudal')";
-            $risins = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+            $risins = eseguiQuery($con,$query);
         }
 
     }
@@ -340,11 +340,11 @@ while ($id = mysqli_fetch_array($ris))
     if ($votoal == 99 && $giudal == '')
     {
         $query = 'SELECT * FROM tbl_valutazioniintermedie WHERE idalunno=' . $idal . ' AND idlezione="' . $idlezione . '" AND tipo="P"';
-        $rissel = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+        $rissel = eseguiQuery($con,$query);
         if (mysqli_num_rows($rissel) > 0)
         {
             $query = "delete from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$idlezione' and tipo='P'";
-            $risd = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+            $risd = eseguiQuery($con,$query);
         }
     }
     else
@@ -352,7 +352,7 @@ while ($id = mysqli_fetch_array($ris))
         // Verifico se il voto già c'è
         $query = "select idvalint from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$idlezione' and tipo='P'";
         // print inspref($query)."<br/>TTTT";
-        $risric = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+        $risric = eseguiQuery($con,$query);
         if ($rec = mysqli_fetch_array($risric))
         {
             $idvalint = $rec['idvalint'];
@@ -366,12 +366,12 @@ while ($id = mysqli_fetch_array($ris))
             if ($votoal != 999)
             {
                 $query = "update tbl_valutazioniintermedie set voto=$votoal, giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$idlezione' and tipo='P'";
-                $risup = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+                $risup = eseguiQuery($con,$query);
             }
             else
             {
                 $query = "update tbl_valutazioniintermedie set giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$idlezione' and tipo='P'";
-                $risup = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+                $risup = eseguiQuery($con,$query);
             }
         }
         else
@@ -379,7 +379,7 @@ while ($id = mysqli_fetch_array($ris))
             // Inserisco voti non già esistenti
             $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
 				  values(" . $idal . ",$idmateria,$iddocente,$idclasse,'$idlezione','$data','P',$votoal,'$giudal')";
-            $risins = mysqli_query($con, inspref($query)) or die ("Errore : " . inspref($query));
+            $risins = eseguiQuery($con,$query);
         }
     }
 

@@ -117,7 +117,7 @@ function estrai_sigla_provincia($idcomune, $conn)
 {
     
     $query = "select codiceistat from tbl_comuni where idcomune='$idcomune'";
-    $ris = mysqli_query($conn, inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $codiceistat = $rec['codiceistat'];
     

@@ -40,14 +40,14 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 
 $query="SELECT idalunno from tbl_alunni where idclasse<>0";
-$ris=mysqli_query($con,inspref($query)) or die ("Errore:".inspref($query));
+$ris=eseguiQuery($con,$query);
 $cont=0;
 while ($rec=mysqli_fetch_array($ris))
 {
     if (!esiste_assenza_alunno($rec['idalunno'],date('Y-m-d'),$con))
     {
         $query="insert into tbl_assenze(idalunno,data) values (".$rec['idalunno'].",'".date('Y-m-d')."')";
-        mysqli_query($con,inspref($query)) or die ("Errore:".inspref($query,false));
+        eseguiQuery($con,$query);
         elimina_assenze_lezione($con, $rec['idalunno'], date('Y-m-d'));
         inserisci_assenze_per_ritardi_uscite($con, $rec['idalunno'], date('Y-m-d'));
         $cont++;

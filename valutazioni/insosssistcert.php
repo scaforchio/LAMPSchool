@@ -52,14 +52,14 @@ $ins=false;
  
 
  $query="delete from tbl_osssist where iddocente=$iddocente and data='$data' and idmateria=$idmateria and idalunno=$idalunno";
- $ris2=mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query));  
+ $ris2=eseguiQuery($con,$query);  
  $numerorighe=mysqli_affected_rows($con); 
  
  if (($osssist != ""))
  { 
     $ins=true;  
     $query="insert into tbl_osssist(data,idclasse,iddocente,testo,idalunno,idmateria) values ('$data',$idclasse,$iddocente,'".elimina_apici($osssist)."',$idalunno,$idmateria)";
-    $ris3=mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query));
+    $ris3=eseguiQuery($con,$query);
     $idoss=mysqli_insert_id($con);
  }
  if ($ins)

@@ -271,7 +271,7 @@ else
 }
 
 // $query="select distinct tbl_classi.idclasse,anno,sezione,specializzazione from tbl_classi order by anno,sezione,specializzazione";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -306,14 +306,14 @@ if ($idclasse != "")
 			and idclasse=$idclasse
 			and periodo=$periodo";
         //print inspref($query);
-        $ris = mysqli_query($con, inspref($query));
+        $ris = eseguiQuery($con,$query);
         $numproposte = mysqli_num_rows($ris);
 
         $query = "SELECT * FROM tbl_valutazionifinali,tbl_alunni
 			where tbl_valutazionifinali.idalunno=tbl_alunni.idalunno
 			and idclasse=$idclasse
 			and periodo=$periodo";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = eseguiQuery($con,$query);
         $numvalutazioni = mysqli_num_rows($ris);
         //print inspref($query);
 
@@ -370,18 +370,18 @@ if ($idclasse != "")
 								  where tbl_proposte.idalunno=tbl_alunni.idalunno
 								  and idclasse=$idclasse and periodo=$periodo";
 
-            $risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con));
+            $risins = eseguiQuery($con,$queryins);
             print "<br><div style=\"text-align: center;\"><b>Voti importati dalle proposte di voto!</b></div><br>";
             // CALCOLO IL VOTO DI CONDOTTA PER TUTTI GLI ALUNNI
             //$query = "SELECT idalunno FROM tbl_alunni WHERE idclasse=$idclasse";
             $query = "SELECT idalunno FROM tbl_alunni WHERE idalunno in ($elencoalunni)";
-            $ris = mysqli_query($con, inspref($query)) or die(mysqli_error($con));
+            $ris = eseguiQuery($con,$query);
             while ($nom = mysqli_fetch_array($ris))
             {
                 $idal = $nom['idalunno'];
                 $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,periodo)
 							 VALUES ($idal,-1," . calcola_media_condotta($idal, $periodo, $con) . ",$periodo)";
-                $risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con));
+                $risins = eseguiQuery($con,$queryins);
             }
 
         }
@@ -399,7 +399,7 @@ if ($idclasse != "")
                           and tbl_materie.progrpag<100
                           and tbl_cattnosupp.iddocente <> 1000000000
 		          order by tbl_materie.progrpag,tbl_materie.sigla";
-        $ris = mysqli_query($con, inspref($query)) or die("Errore nella query!".inspref($query));
+        $ris = eseguiQuery($con,$query);
         if (mysqli_num_rows($ris) > 0)
         {
             print ("<table align='center' border='1'><tr class='prima' align='center'><td>Alunno</td><td>Scrut.</td>");
@@ -459,7 +459,7 @@ if ($idclasse != "")
             //	$query='select * from tbl_alunni where idclasse="'.$idclasse.'" order by cognome,nome,datanascita';
 
             $query = "select * from tbl_alunni where idalunno in ($elencoalunni) order by cognome,nome,datanascita";
-            $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $ris = eseguiQuery($con,$query);
             while ($val = mysqli_fetch_array($ris))
             {
                 $listavoti = array();
@@ -797,7 +797,7 @@ if ($idclasse != "")
             //	$query='select * from tbl_alunni where idclasse="'.$idclasse.'" order by cognome,nome,datanascita';
 
             $query = "select * from tbl_alunni where idalunno in ($elencoalunni) order by cognome,nome,datanascita";
-            $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $ris = eseguiQuery($con,$query);
             while ($val = mysqli_fetch_array($ris))
             {
                 $listavoti = array();
@@ -930,7 +930,7 @@ function creaFileCSV($idclasse, $periodo, $elencoalunni, &$alu, &$mattipo, &$val
 	          AND periodo='$periodo'
 	          ORDER BY idmateria";
     // print inspref($query);
-    $risvalu = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn));
+    $risvalu = eseguiQuery($conn,$query);
     // print "Numero record:".mysqli_num_rows($risvalu);
     while ($recval = mysqli_fetch_array($risvalu))
     {
@@ -984,7 +984,7 @@ function creaFileCSV($idclasse, $periodo, $elencoalunni, &$alu, &$mattipo, &$val
            and tbl_cattnosupp.idclasse=$idclasse
            and tbl_cattnosupp.iddocente <> 1000000000
            order by tbl_materie.progrpag,tbl_materie.sigla";
-    $ris = mysqli_query($conn, inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $intestazione = array();
     $codmat = array();
     $tipoval = array();
@@ -1056,7 +1056,7 @@ function creaFileCSV($idclasse, $periodo, $elencoalunni, &$alu, &$mattipo, &$val
 
     $query = "SELECT idalunno, cognome, nome, datanascita,idcomnasc,codfiscale from tbl_alunni
              where idalunno in ($elencoalunni) ORDER BY cognome, nome, datanascita";
-    $ris = mysqli_query($conn, inspref($query));
+    $ris = eseguiQuery($conn,$query);
 
     while ($rec = mysqli_fetch_array($ris))
     {
@@ -1142,7 +1142,7 @@ function creaFileCSV($idclasse, $periodo, $elencoalunni, &$alu, &$mattipo, &$val
 
         $query = "SELECT COUNT(*) as numassenze from tbl_assenze where idalunno=$idalunno $perioquery";
 
-        $risasse = mysqli_query($conn, inspref($query));
+        $risasse = eseguiQuery($conn,$query);
 
         if ($recasse = mysqli_fetch_array($risasse))
         {
@@ -1158,7 +1158,7 @@ function creaFileCSV($idclasse, $periodo, $elencoalunni, &$alu, &$mattipo, &$val
                WHERE idalunno=$idalunno
                AND periodo='$periodo'";
 
-        $risgiud = mysqli_query($conn, inspref($query));
+        $risgiud = eseguiQuery($conn,$query);
         if ($recgiud = mysqli_fetch_array($risgiud))
         {
 

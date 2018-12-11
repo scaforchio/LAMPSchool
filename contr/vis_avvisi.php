@@ -48,7 +48,7 @@ if (!$DB)
     exit;
 }
 $sql = "SELECT * FROM tbl_avvisi ORDER BY inizio";
-$result = mysqli_query($con, inspref($sql));
+$result = eseguiQuery($con,$sql);
 if (!($result))
 {
     print("query fallita");

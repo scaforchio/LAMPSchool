@@ -43,7 +43,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore: 
                   set conferma=$risposta,note='$note'
                   where idprenotazione=$idprenotazione";
                   
-   $ris=mysqli_query($con,inspref($query)) or die ("Errore : ". inspref($query));
+   $ris=eseguiQuery($con,$query);
 
 
 print ("<form method='post' action='../colloqui/visrichieste_doc.php' id='formdisp'>

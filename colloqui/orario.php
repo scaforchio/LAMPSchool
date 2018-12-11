@@ -57,7 +57,7 @@ for ($g=1;$g<=$giornilezsett;$g++)
 	{
 		$query="select * from tbl_orario where giorno=$g and ora=$h and valido";
 		
-		if ($ris=mysqli_query($con,inspref($query)))
+		if ($ris=eseguiQuery($con,$query))
 		{
 			$rec=mysqli_fetch_array($ris);
 			$valini=substr($rec['inizio'],0,5);

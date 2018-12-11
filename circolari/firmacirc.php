@@ -48,7 +48,7 @@ $querylett="update tbl_diffusionecircolari
             where idcircolare=$idcircolare
             and idutente=$idutente";
         //    print "tttt".inspref($querylett);
-mysqli_query($con,inspref($querylett)) or die ("Errore:".inspref($querylett));
+eseguiQuery($con,$querylett);
 
 $querylett="update tbl_diffusionecircolari
             set datalettura='$dataoggi'
@@ -56,7 +56,7 @@ $querylett="update tbl_diffusionecircolari
             and idutente=$idutente
             and isnull(datalettura)";
         //    print "tttt".inspref($querylett);
-mysqli_query($con,inspref($querylett)) or die ("Errore:".inspref($querylett));
+eseguiQuery($con,$querylett);
 
 print "
                  <form method='post' id='formcancdoc' action='../circolari/viscircolari.php'>

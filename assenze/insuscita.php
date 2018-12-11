@@ -45,7 +45,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 
 $query = "SELECT idalunno AS al FROM tbl_alunni WHERE idalunno in (".estrai_alunni_classe_data($idclasse,$data,$con).")";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 
 while ($id = mysqli_fetch_array($ris))
@@ -56,17 +56,17 @@ while ($id = mysqli_fetch_array($ris))
     $numeroore = stringa_html('numeroore' . $id['al']);
     $orauscita = stringa_html('orauscita' . $id['al']);
     $query = 'SELECT * FROM tbl_usciteanticipate WHERE idalunno=' . $id['al'] . ' AND data="' . $data . '"';
-    $rissel = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)." " .inspref($query,false));
+    $rissel = eseguiQuery($con,$query);
     if (mysqli_num_rows($rissel) > 0)
     {
         $query = 'DELETE FROM tbl_usciteanticipate WHERE idalunno=' . $id['al'] . ' AND data="' . $data . '"';
-        $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)." " .inspref($query,false));
+        $ris2 = eseguiQuery($con,$query);
         $cambiamento=true;
     }
     if ($numeroore != 0 | checktime($orauscita))
     {
         $query = "insert into tbl_usciteanticipate(idalunno,data,orauscita,numeroore) values('$idalunno','$data','$orauscita','$numeroore')";
-        $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)." " .inspref($query,false));
+        $ris2 = eseguiQuery($con,$query);
         $cambiamento=true;
 
     }
@@ -83,7 +83,7 @@ while ($id = mysqli_fetch_array($ris))
     $numeroore = stringa_html('numeroore' . $id['al']);
     $orauscita = stringa_html('orauscita' . $id['al']);
     $query = 'SELECT * FROM tbl_usciteanticipate WHERE idalunno=' . $id['al'] . ' AND data="' . $data . '"';
-    $rissel = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)." " .inspref($query,false));
+    $rissel = eseguiQuery($con,$query);
     if (mysqli_num_rows($rissel) > 0)
     {
         $uscitapresente=true;
@@ -98,14 +98,14 @@ while ($id = mysqli_fetch_array($ris))
                 $query = "insert into tbl_usciteanticipate(idalunno,data,orauscita,numeroore,giustifica) values('$idalunno','$data','$orauscita','$numeroore',false)";
             else
                 $query = "insert into tbl_usciteanticipate(idalunno,data,orauscita,numeroore,giustifica) values('$idalunno','$data','$orauscita','$numeroore',true)";
-            $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query inserimento: " . mysqli_error($con) . " " . inspref($query, false));
+            $ris2 = eseguiQuery($con,$query);
             $query = "delete from tbl_assenze where idalunno='$idalunno' and data='$data'";
-            $ris3 = mysqli_query($con, inspref($query)) or die ("Errore nella query canc. ass.: " . mysqli_error($con) . " " . inspref($query, false));
+            $ris3 = eseguiQuery($con,$query);
         }
         else
         {
             $query = "update tbl_usciteanticipate set orauscita='$orauscita', numeroore='$numeroore' where iduscita=$iduscita";
-            mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query,false));
+            eseguiQuery($con,$query);
         }
         $cambiamento=true;
 
@@ -120,7 +120,7 @@ while ($id = mysqli_fetch_array($ris))
         if ($uscitapresente)
         {
             $query = "DELETE FROM tbl_usciteanticipate WHERE iduscita=$iduscita";
-            $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con)." " .inspref($query,false));
+            $ris2 = eseguiQuery($con,$query);
             $cambiamento=true;
         }
     }

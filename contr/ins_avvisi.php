@@ -116,7 +116,7 @@ else
     if ($idavviso == '')
     {
         $sqlt = "insert into tbl_avvisi(inizio, fine, oggetto, testo, destinatari) values ('" . data_to_db($inizio) . "','" . data_to_db($fine) . "','$oggetto','$testo','$destin')";
-        $res = mysqli_query($con, inspref($sqlt));
+        $res = eseguiQuery($con,$sqlt);
 
         print("<center><h2>Avviso inserito correttamente</h2>");
 
@@ -124,7 +124,7 @@ else
     else
     {
         $sqlt = "update tbl_avvisi set inizio='" . data_to_db($inizio) . "',fine='" . data_to_db($fine) . "',oggetto='$oggetto',testo='$testo',destinatari='$destin' where idavviso=$idavviso";
-        $res = mysqli_query($con, inspref($sqlt));
+        $res = eseguiQuery($con,$sqlt);
 
         print("<center><h2>Avviso modificato correttamente</h2>");
 

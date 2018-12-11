@@ -61,7 +61,7 @@ $data = stringa_html('data');
 //Esecuzione query finale
 $sql = "INSERT INTO tbl_sospinviosms (datasosp) VALUES ('".data_to_db($data)."')";
 
-if (!($ris = mysqli_query($con, inspref($sql))))
+if (!($ris = eseguiQuery($con,$sql)))
 {
     print("\n<FONT SIZE='+2'> <CENTER>Inserimento non eseguito </CENTER></FONT>");
 }

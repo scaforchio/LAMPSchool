@@ -89,7 +89,7 @@ if (mysqli_num_rows($ris) != 0)
               m9s='$m9s', m9e='$m9e', m9m='$m9m',
               num2lin='$secondalingua', numpni='0'
               where idclasse=$idclasse";
-    mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+    eseguiQuery($con,$query);
 }
 else
 {

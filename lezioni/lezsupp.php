@@ -95,7 +95,7 @@ $giornosettimana = "";
 if ($idlezione != "")
 {
     $query = "select * from tbl_lezioni where idlezione=$idlezione";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     $lez = mysqli_fetch_array($ris);
     $materia = $lez['idmateria'];
     $idclasse = $lez['idclasse'];
@@ -107,7 +107,7 @@ if ($idlezione != "")
 
     $query = "select idcattedra from tbl_cattsupp where idclasse=$idclasse and idmateria=$materia and iddocente=$iddocente";
     
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     if ($nom = mysqli_fetch_array($ris))
     {
         $cattedra = $nom['idcattedra'];
@@ -135,7 +135,7 @@ else
 
         $query = "select idclasse, idmateria from tbl_cattsupp where idcattedra=$cattedra";
          
-        $ris = mysqli_query($con, inspref($query));
+        $ris = eseguiQuery($con,$query);
         if ($nom = mysqli_fetch_array($ris))
         {
             $materia = $nom['idmateria'];
@@ -334,7 +334,7 @@ else
 }
 
 // print $query;
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 if ($nom = mysqli_fetch_array($ris))
 {
     $iddocente = $nom["iddocente"];
@@ -387,7 +387,7 @@ else
     
 }
 
-$ris = mysqli_query($con, inspref($query)) or die ("Errore:".inspref($query,false));
+$ris = eseguiQuery($con,$query);
 if (mysqli_num_rows($ris) == 1)
 {
     $nom = mysqli_fetch_array($ris);
@@ -442,7 +442,7 @@ if ($idclasse != '' & $materia != '' & $giorno != '' & $mese != '')
     $query = "select idlezione, orainizio, numeroore from tbl_lezioni
            where idclasse='$idclasse' and idmateria='$materia' and datalezione='$anno-$mese-$giorno'";
     // print inspref($query);
-    $reslezpres = mysqli_query($con, inspref($query)) or die(mysqli_error);
+    $reslezpres = eseguiQuery($con,$query);
 
     if (mysqli_num_rows($reslezpres) > 0)
     {
@@ -569,7 +569,7 @@ $giornosettimana = giorno_settimana($anno . "-" . $mese . "-" . $giorno);
 //{
 //   $query="select * from tbl_cattsupp where iddocente='$iddocente' and idclasse='$idclasse' and idmateria='$materia'";
 //   // print inspref($query);
-//   $ris=mysqli_query($con,inspref($query));
+//   $ris=eseguiQuery($con,$query);
 //   $numerorighe=mysqli_num_rows($ris);
 //}
 
@@ -594,7 +594,7 @@ else
             $classe = "";
 
             $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-            $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $ris = eseguiQuery($con,$query);
             if ($val = mysqli_fetch_array($ris))
             {
                 $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
@@ -629,7 +629,7 @@ else
             }
             // print $query."<br/>";
 
-            $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $ris = eseguiQuery($con,$query);
             $l = mysqli_fetch_array($ris);
 
             if ($l != NULL)

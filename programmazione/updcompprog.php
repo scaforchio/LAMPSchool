@@ -66,7 +66,7 @@ if ($idcomp!="")
        
       $query="select * from tbl_competdoc where idcompetenza=$idcomp";
    
-      $ris=mysqli_query($con,inspref($query));
+      $ris=eseguiQuery($con,$query);
    
    
    

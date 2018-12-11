@@ -42,7 +42,7 @@ $note=stringa_html('note');
   
 $query="insert into tbl_festivita(data,note)
         values ('".data_to_db($data)."','$note')";
-$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+$ris=eseguiQuery($con,$query);
 
 print ("
 

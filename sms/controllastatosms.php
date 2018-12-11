@@ -35,6 +35,6 @@ $query = "update tbl_sms set esito='$stato'
          where idinvio='$idspedizione'
          and celldestinatario='$cell'";
 //print inspref($query);
-mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+eseguiQuery($con,$query);
 
 mysqli_close($con);

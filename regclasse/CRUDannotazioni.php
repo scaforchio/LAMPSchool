@@ -31,7 +31,7 @@ $daticrud['aliastabella'] = "Annotazioni su registro";
 $daticrud['campochiave'] = "idannotazione";
 
 // Campi in base ai quali ordinare
-$daticrud['campiordinamento']= array("anno,sezione,specializzazione,data");
+$daticrud['campiordinamento']= "anno,sezione,specializzazione,data";
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
 $daticrud['condizione']= inspref("true");// Campi in base ai quali ordinare
 

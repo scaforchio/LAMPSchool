@@ -18,7 +18,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 $query = "SELECT * FROM tbl_entrateclassi,tbl_classi
           WHERE tbl_entrateclassi.idclasse=tbl_classi.idclasse
           and data>='".date('Y-m-d')."' ORDER BY data,ora";
-$ris = mysqli_query($con, inspref($query)) or die("errore query " . inspref($query));
+$ris = eseguiQuery($con,$query);
 
 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Richiesto elenco classi con entrata posticipata", $nomefilelog . "rp", $suff);
 

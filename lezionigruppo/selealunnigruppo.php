@@ -95,7 +95,7 @@ print ("
             (select distinct idclasse from tbl_cattnosupp
              where iddocente=$iddocente and idmateria=$idmateria)
             order by anno,sezione,specializzazione,cognome,nome";
-$ris=mysqli_query($con,inspref($query)) or die ("Errore: ".inspref($query));
+$ris=eseguiQuery($con,$query);
 while ($rec=mysqli_fetch_array($ris))
 {
    
@@ -118,7 +118,7 @@ stampa_piede("");
 function inLista($idalu,$idgruppo,$conn)
 {
 	$query="select * from tbl_gruppialunni where idalunno=$idalu and idgruppo=$idgruppo";
-	$ris=mysqli_query($conn,inspref($query)) or die("Errore: ".inspref($query)." - ".mysqli_error($ris));
+	$ris=eseguiQuery($conn,$query);
 	if (mysqli_num_rows($ris)==0)
 	   return false;
 	else

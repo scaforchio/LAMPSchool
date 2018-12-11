@@ -97,7 +97,7 @@ $query = "select tbl_diffusionecircolari.idcircolare,tbl_circolari.iddocumento,r
 			  and tbl_circolari.datainserimento<='$dataoggi'
 			  order by datainserimento desc";
 
-$ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query) . mysqli_error($ris));
+$ris = eseguiQuery($con,$query);
 
 while ($nom = mysqli_fetch_array($ris))
 {

@@ -69,7 +69,7 @@ $query = "SELECT DISTINCT tbl_materie.idmateria as idmateria, tbl_alunni.idclass
 // print inspref($query);   
 print "<select name='idmateria' ONCHANGE='argomenti.submit()'><option value=''>&nbsp;</option>";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 
 while ($nom = mysqli_fetch_array($ris))
 {
@@ -111,7 +111,7 @@ print("</table></form>");
 if ($idmateria != "")
 {
     $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
     if ($val = mysqli_fetch_array($ris))
     {
@@ -127,7 +127,7 @@ if ($idmateria != "")
     {
         $query = "select * from tbl_lezioni where idclasse='$idclasse' and idmateria='$idmateria' and (argomenti<>'' or attivita<>'') order by datalezione";
 
-        $rislez = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $rislez = eseguiQuery($con,$query);
 
         if (mysqli_num_rows($rislez) == 0)
         {
@@ -153,7 +153,7 @@ if ($idmateria != "")
             {
                 $query = "select * from tbl_lezionicert where idclasse='$idclasse' and idmateria='$idmateria' and idalunno='$id_ut_doc' order by datalezione";
 
-                $rislez = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+                $rislez = eseguiQuery($con,$query);
 
                 if (mysqli_num_rows($rislez) == 0)
                 {

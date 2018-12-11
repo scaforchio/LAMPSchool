@@ -60,11 +60,11 @@ $titolo="Copia programmazione tra classi";
 	  
 	  
 	  $query="delete from tbl_competdoc where tbl_competdoc.idmateria = $idmateriad and  tbl_competdoc.idclasse = $idclassed";
-     $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+     $ris=eseguiQuery($con,$query);
 
      // Estraggo tutte le competenze della cattedra origine
      $query="select * from tbl_competdoc where tbl_competdoc.idmateria = $idmateriao and  tbl_competdoc.idclasse = $idclasseo"; 
-     $riscomp=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+     $riscomp=eseguiQuery($con,$query);
      while($comp=mysqli_fetch_array($riscomp))            //    <-----------  ttttttt
      {
 		  
@@ -76,12 +76,12 @@ $titolo="Copia programmazione tra classi";
         $query="insert into tbl_competdoc(idmateria,idclasse,numeroordine, sintcomp, competenza)
                 values ($idmateriad,$idclassed,$numord,'$sintcomp','$competenza')";
         
-        $ris=mysqli_query($con,inspref($query)) or die(mysqli_error($con));
+        $ris=eseguiQuery($con,$query);
         $numcomp=mysqli_insert_id($con);
         
         // Estraggo tutti gli obiettivi per la competenza
         $query="select * from tbl_abildoc where idcompetenza=$idcompetenza"; 
-        $risobiet=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+        $risobiet=eseguiQuery($con,$query);
         while($obiet=mysqli_fetch_array($risobiet))            //    <-----------  ttttttt
         {
 			   $numordob=$obiet['numeroordine'];

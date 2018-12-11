@@ -57,7 +57,7 @@ $nuovostato = stringa_html('nuovostato');
 //Esecuzione query finale
 $sql="UPDATE tbl_esami3m SET stato='$nuovostato' WHERE idesame=$idesame";
 
-if (!($ris=mysqli_query($con,inspref($sql))))
+if (!($ris=eseguiQuery($con,$sql)))
 {
     die("\n<FONT SIZE='+2'> <CENTER>Modifica non eseguita</CENTER> </FONT> $sql");
 }

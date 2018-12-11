@@ -256,7 +256,7 @@ riceve in ingresso i valori del amministrativo*/
 	}
 	else
 	{
-        $res=mysqli_query($con,inspref($query));
+        $res=eseguiQuery($con,$query);
 	
         if (!$res)
         {
@@ -272,7 +272,7 @@ riceve in ingresso i valori del amministrativo*/
             $utente="amm".($idamministrativoinserito-2000000000);
             $password=creapassword();
             $sqlt="insert into tbl_utenti(idutente,userid,password,tipo) values ('$idamministrativoinserito','$utente',md5('".md5($password)."'),'A')";
-            $res=mysqli_query($con,inspref($sqlt));
+            $res=eseguiQuery($con,$sqlt);
 
             // print "risultato inserimento $idamministrativoinserito<br/>"; 
             print "<FONT SIZE='+2'><CENTER>Inserimento eseguito</CENTER></FONT>";

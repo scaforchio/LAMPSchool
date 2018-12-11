@@ -72,7 +72,7 @@ $rnpass = stringa_html('rnpass');
 //Esecuzione query
 $sql = "SELECT * FROM tbl_utenti WHERE userid='" . $ute . "' AND  password=md5('" . $pwd . "')";
 
-$result = mysqli_query($con, inspref($sql));
+$result = eseguiQuery($con,$sql);
 if (mysqli_num_rows($result) <= 0)
 {
     print "<center>Nome utente e password non risultano presenti: verificare.</center>";
@@ -96,7 +96,7 @@ else
         {
             $query = "UPDATE tbl_utenti SET password = '".md5(md5($npass))."',passprecedenti=concat(passprecedenti,md5('" . $pwd . "'),'|') WHERE userid='" . $ute . "'";
 
-            $result = mysqli_query($con, inspref($query)) or die("Errore:".inspref($query));
+            $result = eseguiQuery($con,$query);
 
             if (mysqli_affected_rows($con) == 1)
             {

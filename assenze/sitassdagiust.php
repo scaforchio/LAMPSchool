@@ -56,7 +56,7 @@ $data = stringa_html('data');
     $datialunno = estrai_dati_alunno($idalunno, $con);
     print "<center>Assenze dell'alunno $datialunno</center>";
     $query='select * from tbl_assenze where idalunno="'.$idalunno.'" and (isnull(giustifica) or giustifica=0) order by data ';
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
 	if (mysqli_num_rows($ris)>0)
 	{
 	   print "<form name='giustass' method='post' action='insgiust.php'>";

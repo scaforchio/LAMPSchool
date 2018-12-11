@@ -71,7 +71,7 @@ print("
 //  Riempimento combobox delle tbl_classi
 //
 $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY anno,sezione,specializzazione";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -117,7 +117,7 @@ if ($classe != "")
 			  and tbl_classi.idclasse = $classe
 			  order by anno, specializzazione,sezione, denominazione";
     //print inspref($query);
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     while ($nom = mysqli_fetch_array($ris))
     {
 

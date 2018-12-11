@@ -54,7 +54,7 @@ parametri di uscita: codice dell'alunno, codice della classe*/
  $sql="SELECT * FROM tbl_alunni WHERE idalunno='$c'";
  
  //esecuzione query
- $res=mysqli_query($con,inspref($sql));
+ $res=eseguiQuery($con,$sql);
  if(!$res)
  {
   	print ("<br/> <br/> <br/> <h2> Impossibile visualizzare i dati </h2>");
@@ -79,7 +79,7 @@ parametri di uscita: codice dell'alunno, codice della classe*/
 		$idtut=$dato['idtutore'];
    		print ("<tr> <td> <i> Data di nascita </i> </td> <td> <input type='text' value='$g' name='gg' size='1'  maxlength='2'> / <input type='text' value='$m' name='mm' size='1'  maxlength='2'> / <input type='text' value='$a' name='aa' size='3'  maxlength='4'> </td> </tr>");
    		$sqa= "SELECT * FROM tbl_comuni ORDER BY denominazione";
-   		$resa=mysqli_query($con,inspref($sqla));
+   		$resa=eseguiQuery($con,$sqla);
    		if(!$resa)
    		{
     			print ("<br/> <br/> <br/> <h2>Impossibile visualizzare i dati </h2>");
@@ -99,7 +99,7 @@ parametri di uscita: codice dell'alunno, codice della classe*/
    		}
 		print  ("<tr> <td> <i> Indirizzo </i> </td> <td> <input type='text' value='".$dato['indirizzo']."' name='indirizzo' size='30' maxlength='30'> </td> </tr>");		
 		$sqb="SELECT * FROM tbl_comuni ORDER BY denominazione";
-   		$resb=mysqli_query($con,inspref($sqlb));
+   		$resb=eseguiQuery($con,$sqlb);
    		if(!$resb)
    		{
     		print ("<br/> <br/> <br/> <h2> b Impossibile visualizzare i dati </h2>");
@@ -121,7 +121,7 @@ parametri di uscita: codice dell'alunno, codice della classe*/
    		print ("<tr> <td> <i> Numero cellulare </i> </td> <td> <input type='text' value='".$dato['telcel']."' name='cel' size='30' maxlength='15'> </td> </tr>");		
 		print ("<tr> <td><i>Indirizzo E-mail</i> </td> <td> <input type='text' value='".$dato['email']."' name='mail' size='30' maxlength='30'> </td> </tr>");
    		$sqc="SELECT * FROM tbl_classi ORDER BY idclasse";
-   		$resc=mysqli_query($con,inspref($sqlc));
+   		$resc=eseguiQuery($con,$sqlc);
    		if(!$resc)
    		{
     		print ("<br/> <br/> <br/> <h2>Impossibile visualizzare i dati </h2>");
@@ -139,26 +139,7 @@ parametri di uscita: codice dell'alunno, codice della classe*/
 			} 
     		print("</td> </tr>"); 
    		}
-   /*		$sqd="SELECT * FROM tbl_tutori ORDER BY cognome,nome";
-   		$resd=mysqli_query($con,inspref($sqld));
-   		if(!$resd)
-   		{
-    		print ("<br/> <br/> <br/> <h2>d Impossibile visualizzare i dati </h2>");
-   		}
-   		else
-   		{
-    		print ("<tr> <td> <i>Tutore legale</i> </td>");
-    		while ($datd=mysqli_fetch_array($resd))
-    		{
-				
-				if ($idtut==($datd['idtutore']))
-				{
-    				print("<td> <input value='".$datd['cognome']." ".$datd['nome']."' name='idtut' size='30' maxlength='30'");
-    			}
-		      
-			 }
-			 print ("</td> </tr>"); 
-   		} */
+   
 		print  ("</table> </td> </tr>");
    		print  ("<tr> <td> <input type='submit' value='Cancella'> </form> </td> <td>");
 	    print  ("</table>");

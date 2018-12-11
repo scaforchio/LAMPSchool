@@ -46,7 +46,7 @@ $destinatari=array();
 $query="select idalunno,cognome, nome, telcel
         from tbl_alunni";
         
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 $testosms=stringa_html('testosms');
 $pos=0;
 while ($rec=mysqli_fetch_array($ris))
@@ -82,13 +82,13 @@ if ($result['status']=="success")
 {
 	$query="insert into tbl_testisms(testo, idinvio, idutente) 
 	        values ('$testosms','".$result['id']."','".$_SESSION['idutente']."')";
-	mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query));
+	eseguiQuery($con,$query);
 	$idtestosms=mysqli_insert_id($con);
 	for ($i=0;$i<count($dest);$i++)
 	{
 	   $query="insert into tbl_sms(tipo,iddestinatario,idinvio,celldestinatario, idtestosms) 
 	           values ('alu',".$dest[$i].",'".$result['id']."','".$destinatari[$i]."',$idtestosms)";
-	    mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query));
+	    eseguiQuery($con,$query);
 	}
 	print "<br><br><center><b><font color='green'>SMS correttamente inviati!</font></b>";
 	        

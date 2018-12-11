@@ -53,7 +53,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
     $idmateria = stringa_get_html('idmat');
 
     $sql="select * from tbl_materie where idmateria=$idmateria";
-    if (!($ris=mysqli_query($con,inspref($sql))))
+    if (!($ris=eseguiQuery($con,$sql)))
     {
         die("\n<h1> Query fallita </h1>");
     }

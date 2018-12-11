@@ -47,7 +47,7 @@ print "<center><B>Elenco alunni della ".decodifica_classe($idclasse,$con)."</B><
 // prelevamento dati alunno
 // $rs = $lQuery->selectstar('tbl_alunni', 'idalunno=?', array($codalunno));
 $query = "select * from tbl_alunni where idclasse=$idclasse order by cognome, nome, datanascita";
-$rs = mysqli_query($con, inspref($query));
+$rs = eseguiQuery($con,$query);
 $esistono=false;
 if (mysqli_num_rows($rs)>0)
 {

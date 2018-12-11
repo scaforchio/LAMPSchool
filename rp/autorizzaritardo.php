@@ -80,7 +80,7 @@ $query = "SELECT * FROM tbl_ritardi, tbl_alunni, tbl_classi
 	        AND NOT autorizzato
 	        ORDER BY cognome,nome";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query));
+$ris = eseguiQuery($con,$query);
 
 
 
@@ -104,7 +104,7 @@ if (mysqli_num_rows($ris) > 0)
                       WHERE data<='$fineprimo'
                       AND idalunno=" . $rec['idalunno'];
 
-        $risnumrit = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+        $risnumrit = eseguiQuery($con,$query);
         $recnumrit = mysqli_fetch_array($risnumrit);
         $numritardiprimo = $recnumrit['numritardi'];
 
@@ -112,7 +112,7 @@ if (mysqli_num_rows($ris) > 0)
                       WHERE data>'$fineprimo'
                       AND idalunno=" . $rec['idalunno'];
 
-        $risnumrit = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+        $risnumrit = eseguiQuery($con,$query);
         $recnumrit = mysqli_fetch_array($risnumrit);
         $numritardisec = $recnumrit['numritardi'];
 

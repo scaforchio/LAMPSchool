@@ -51,7 +51,7 @@ if ($tipoutente!="P")
     $sql = "SELECT * FROM tbl_collegamenti WHERE LOCATE('$tipoutente',destinatari)<>0 ORDER BY descrizione";
 else
     $sql = "SELECT * FROM tbl_collegamenti ORDER BY descrizione";
-$result = mysqli_query($con, inspref($sql)) or die("Errore:" . inspref($sql, false));
+$result = eseguiQuery($con,$sql);
 
 
 print("<CENTER><br>");

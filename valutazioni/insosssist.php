@@ -51,14 +51,14 @@ $ins=false;
  
 
  $query="delete from tbl_osssist where iddocente=$iddocente and data='$data' and idclasse=$idclasse and idalunno=$idalunno";
- $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query di cancellazione: ". mysqli_error($con));  
+ $ris2=eseguiQuery($con,$query);  
  $numerorighe=mysqli_affected_rows($con); 
  
  if (($notacl != ""))
  { 
     $ins=true;  
     $query="insert into tbl_osssist(data,idclasse,iddocente,testo,idalunno) values ('$data',$idclasse,$iddocente,'".elimina_apici($notacl)."',$idalunno)";
-    $ris3=mysqli_query($con,inspref($query)) or die ("Errore nella query di inserimento: ". mysqli_error($con));  
+    $ris3=eseguiQuery($con,$sql); 
     $idoss=mysqli_insert_id($con);
  }
  if ($ins)

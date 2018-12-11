@@ -48,7 +48,7 @@ if ($idosssist!="")   // se si arriva dalla pagina della ricerca
 {
     
     $query="select * from tbl_osssist where idosssist=".$idosssist."";
-    $ris=mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query));
+    $ris=eseguiQuery($con,$query);
     $nom=mysqli_fetch_array($ris);
     
     
@@ -111,7 +111,7 @@ $query="select idcattedra, tbl_cattnosupp.idmateria, tbl_cattnosupp.idclasse, tb
                  where iddocente=$iddocente 
                  and tbl_cattnosupp.idalunno = tbl_alunni.idalunno
                  order by cognome, nome, datanascita";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -222,7 +222,7 @@ $data=$anno."-".$mese."-".$giorno;
    
      $query="select * from tbl_osssist where idmateria=$idmateria and data='$data' and iddocente=$iddocente and idalunno=$idalunno";
      // print $query;
-     $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query di selezione nota: ". mysqli_error($con));
+     $ris=eseguiQuery($con,$query);
 
      $c=mysqli_fetch_array($ris);
 

@@ -41,21 +41,21 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='
  $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
  // LEGGO l'id del documento 
  $query="select iddocumento from tbl_circolari where idcircolare=$idcircolare";
- $ris=mysqli_query($con,inspref($query)) or die ("Errore: ".inspref($query));
+ $ris=eseguiQuery($con,$query);
  $rec=mysqli_fetch_array($ris);
  $iddocumento=$rec['iddocumento'];
  
  // CANCELLO IL DOCUMENTO
  $querycanc="delete from tbl_documenti where iddocumento=$iddocumento";
- $riscanc=mysqli_query($con,inspref($querycanc)) or die ("Errore nella query di cancellazione: ". mysqli_error($con));  
+ $riscanc=eseguiQuery($con,$querycanc);  
         	 
  // CANCELLO LA LISTA DI DISTRIBUZIONE
  $querycanc="delete from tbl_diffusionecircolari where idcircolare=$idcircolare";
- $riscanc=mysqli_query($con,inspref($querycanc)) or die ("Errore nella query di cancellazione: ". mysqli_error($con));  
+ $riscanc=eseguiQuery($con,$querycanc);  
         	 
  // CANCELLO LA CIRCOLARE
  $querycanc="delete from tbl_circolari where idcircolare=$idcircolare";
- $riscanc=mysqli_query($con,inspref($querycanc)) or die ("Errore nella query di cancellazione: ". mysqli_error($con));  
+ $riscanc=eseguiQuery($con,$querycanc);  
         	 
  
  // print "<center><b><br>Cancellazione effettuata!<br></b></center> ";   

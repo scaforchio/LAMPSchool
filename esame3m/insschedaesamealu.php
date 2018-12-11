@@ -153,7 +153,7 @@ $query .= "tracciacolloquio='$tracciacolloquio',
         unanimita='$unanimita',
         ammissioneterza='$ammissioneterza'
         where idalunno=$idalunno";
-mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false) . " " . mysqli_error($con));
+eseguiQuery($con,$query);
 
 
 

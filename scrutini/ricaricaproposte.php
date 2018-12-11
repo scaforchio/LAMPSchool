@@ -39,18 +39,18 @@ $idscrutinio = stringa_html('idscrutinio');
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
 
 $query = "SELECT idclasse,periodo FROM tbl_scrutini WHERE idscrutinio=$idscrutinio";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 $rec = mysqli_fetch_array($ris);
 $idclasse = $rec['idclasse'];
 $periodo = $rec['periodo'];
 
 $query = "SELECT idalunno FROM tbl_alunni WHERE idclasse=$idclasse";
-$ris = mysqli_query($con, inspref($query)) or die(mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 while ($recalu = mysqli_fetch_array($ris))
 {
     $query = "DELETE FROM tbl_valutazionifinali WHERE idalunno=" . $recalu['idalunno'] . " and periodo=$periodo";
-    $risdel = mysqli_query($con, inspref($query)) or die(mysqli_error($con));
+    $risdel = eseguiQuery($con,$query);
     
 }
 
@@ -60,11 +60,11 @@ $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,voto
 							  where tbl_proposte.idalunno=tbl_alunni.idalunno
 							  and idclasse=$idclasse and periodo=$periodo";
 
-$risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con));
+$risins = eseguiQuery($con,$queryins);
 // print ("Valutazioni!");
 // CALCOLO IL VOTO DI CONDOTTA PER TUTTI GLI ALUNNI(codice aggiunto per ricaricare voto comportamento)
 $query = "SELECT idalunno FROM tbl_alunni WHERE idclasse=$idclasse";
-$ris = mysqli_query($con, inspref($query)) or die(mysqli_error());
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     $idal = $nom['idalunno'];

@@ -62,7 +62,7 @@ $ora = stringa_html('ora');
 $sql = "INSERT INTO tbl_entrateclassi (idclasse, data, ora) VALUES ";
 $sql .= "('$idclasse','".data_to_db($data)."','$ora')";
 
-if (!($ris = mysqli_query($con, inspref($sql))))
+if (!($ris = eseguiQuery($con,$sql)))
 {
     print("\n<FONT SIZE='+2'> <CENTER>Inserimento non eseguito </CENTER></FONT>");
 }

@@ -51,7 +51,7 @@ riceve in ingresso iddocente*/
 		 exit;
 		}
 	$sql="SELECT * from tbl_docenti where iddocente=$a";
-	$result=mysqli_query($con,inspref($sql));
+	$result=eseguiQuery($con,$sql);
 	$Data=mysqli_fetch_array($result);
 	if(!($result))
 		print("Query fallita");

@@ -47,7 +47,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
   
  
  $query="delete from tbl_abilalu where idcompetenza=$idcompetenza";
- $ris=mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query));
+ $ris=eseguiQuery($con,$query);
 
 
  
@@ -68,7 +68,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
         $query="insert into tbl_abilalu(idcompetenza, numeroordine, sintabilcono, abilcono, obminimi, abil_cono) 
                 values($idcompetenza,$no,'$sintabilcono', '$abilita', $abobmin, 'A')";
               
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query)); 
+        $ris2=eseguiQuery($con,$query); 
     }
  }
     
@@ -88,7 +88,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
       
         $query="insert into tbl_abilalu(idcompetenza, numeroordine, sintabilcono, abilcono, obminimi, abil_cono) 
                 values($idcompetenza,$no,'$sintabilcono', '$conoscenza', $abobmin, 'C')";
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query)); 
+        $ris2=eseguiQuery($con,$query); 
     }
  }
  

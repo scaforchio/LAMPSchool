@@ -86,7 +86,7 @@ $query="select idalunno,cognome, nome, datanascita,anno,sezione,specializzazione
         where
         tbl_alunni.idclasse=tbl_classi.idclasse
         and certificato";
-$ris=mysqli_query($con,inspref($query)) or die("Errore: ". inspref($query));
+$ris=eseguiQuery($con,$query);
 //print inspref($query);
 while ($rec=mysqli_fetch_array($ris))
 {
@@ -116,7 +116,7 @@ if ($idalunno!="")
 	$query="select iddocumento from tbl_documenti
 	        where idalunno=$idalunno
 	        and pei";
-	$ris=mysqli_query($con,inspref($query));
+	$ris=eseguiQuery($con,$query);
 	if (mysqli_num_rows($ris)>0)
 	{         
 		print "<form action ='../documenti/doc_zip.php' method='post' target='_blank'>";

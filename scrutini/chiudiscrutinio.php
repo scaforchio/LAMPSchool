@@ -42,9 +42,9 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 
  
  $query="UPDATE tbl_scrutini SET stato='C',datascrutinio='".date("Y-m-d")."' WHERE idscrutinio=$idscrutinio";
- $ris=mysqli_query($con,inspref($query));
+ $ris=eseguiQuery($con,$query);
  $query="SELECT idclasse,periodo FROM tbl_scrutini WHERE idscrutinio=$idscrutinio";
- $ris=mysqli_query($con,inspref($query));
+ $ris=eseguiQuery($con,$query);
  $rec=mysqli_fetch_array($ris);
  $idclasse=$rec['idclasse'];
  $periodo=$rec['periodo'];

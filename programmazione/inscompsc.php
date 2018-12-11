@@ -43,7 +43,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
   
  
  //$query="delete from tbl_competscol where idmateria=$materia and anno=$anno";
- //$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+ //$ris=eseguiQuery($con,$query);
 
  for ($no=1;$no<=20;$no++)
  {
@@ -57,14 +57,14 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 		  if ($posins!=0)
 		  {    
 		     $query="update tbl_competscol set numeroordine = numeroordine+1 where idmateria=$materia and anno=$anno and numeroordine>=$posins";
-		     $risupd=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+		     $risupd=eseguiQuery($con,$query); 
 		     $query="insert into tbl_competscol(idmateria, anno, numeroordine, sintcomp, competenza) values($materia,$anno,$posins,'$sintcomp', '$competenza')";
-           $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+           $ris2=eseguiQuery($con,$query); 
 		  }
 		  else
 		  {   
 		     $query="insert into tbl_competscol(idmateria, anno, numeroordine, sintcomp, competenza) values($materia,$anno,$no,'$sintcomp', '$competenza')";
-           $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+           $ris2=eseguiQuery($con,$query); 
         }   
 		  
     }
@@ -72,13 +72,13 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
     {    
 		  
 		  $query="update tbl_competscol set sintcomp='$sintcomp',competenza='$competenza' where idcompetenza=$idcompetenza";
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+        $ris2=eseguiQuery($con,$query); 
     }
     if ($sintcomp=="" & $idcompetenza!="")
     {    
 		  
 		  $query="delete from tbl_competscol where idcompetenza=$idcompetenza";
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+        $ris2=eseguiQuery($con,$query); 
     }
  }
 

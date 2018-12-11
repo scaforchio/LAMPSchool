@@ -53,7 +53,7 @@ if (!$DB)
     exit;
 }
 $sql = "SELECT * from tbl_avvisi where idavviso=$idavviso";
-$result = mysqli_query($con, inspref($sql));
+$result = eseguiQuery($con,$sql);
 $data = mysqli_fetch_array($result);
 if (!($result))
 {

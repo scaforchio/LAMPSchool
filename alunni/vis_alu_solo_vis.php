@@ -46,7 +46,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
        WHERE tbl_alunni.idalunno=tbl_utenti.idutente
        AND tbl_alunni.idclasse=tbl_classi.idclasse
        ORDER by specializzazione,anno,sezione,cognome,nome,datanascita";
- $result=mysqli_query($con,inspref($sql));
+ $result=eseguiQuery($con,$sql);
  print"<center>";
  print("<table border=1>");
  print("<tr class='prima'>");

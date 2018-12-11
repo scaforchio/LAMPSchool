@@ -56,7 +56,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 	//Esecuzione query
 	$query="SELECT * FROM tbl_entrateclassi,tbl_classi WHERE
             tbl_entrateclassi.idclasse=tbl_classi.idclasse AND identrataclasse=". stringa_html('idritcla');
-	if (!($ris=mysqli_query($con,inspref($query)))) 
+	if (!($ris=eseguiQuery($con,$query))) 
 	{
 		print "\nQuery fallita";
 	}	

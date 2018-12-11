@@ -125,10 +125,10 @@ if (!($a == 1)) {
     $sql .= "statoestero='" . stringa_html('stato') . "',";
     $sql .= " WHERE idcomune=" . stringa_html('idtbl_comuni');
 
-    $res = mysqli_query($con, inspref($sql));
-    if (!($res = mysqli_query($con, inspref($sql))))
+    $res = eseguiQuery($con,$sql);
+    if (!($res = eseguiQuery($con,$sql)))
         print("Query fallita");
-    if (!($result = mysqli_query($con, inspref($sql))))
+    if (!($result = eseguiQuery($con,$sql)))
         print"AGGIORNAMENTO FALLITO";
     else {
         print"AGGIORNAMENTO RIUSCITO";

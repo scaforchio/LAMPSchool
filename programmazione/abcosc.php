@@ -65,7 +65,7 @@ print("<tr>
                   where tbl_competscol.idmateria = tbl_materie.idmateria
                    order by anno, denominazione, numeroordine";
           
-          $riscomp=mysqli_query($con,inspref($query));
+          $riscomp=eseguiQuery($con,$query);
            while($nom=mysqli_fetch_array($riscomp))
 	       {
             print "<option value='";
@@ -100,7 +100,7 @@ print("</form>");
      
    
     $query="select * from tbl_abilscol where idcompetenza=$competenza and abil_cono='A' order by numeroordine";
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
     print "<p align='center'>
           <font size=4 color='black'>Abilit&agrave;</font>
           <form method='post' action='insabcosc.php'>
@@ -134,7 +134,7 @@ print("</form>");
      
    
     $query="select * from tbl_abilscol where idcompetenza=$competenza and abil_cono='C' order by numeroordine";
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
       
     print "
            <p align='center'>

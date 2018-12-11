@@ -58,7 +58,7 @@ $query = "SELECT * FROM tbl_assenze,tbl_alunni,tbl_classi
               AND tbl_alunni.idclasse = tbl_classi.idclasse
               AND iddocentegiust=$idutente
               ORDER BY datagiustifica desc";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 
 print "<CENTER><b>ASSENZE</b><TABLE BORDER='1'>";
 print "<TR class='prima'><TD ALIGN='CENTER'><B>Alunno</B></TD><TD ALIGN='CENTER'><B>Data assenza</B></TD><TD ALIGN='CENTER'><B>Data giustifica</B></TD><TD COLSPAN='2' ALIGN='CENTER'><B>Azioni</B></TD></TR>";
@@ -84,7 +84,7 @@ $query = "SELECT * FROM tbl_ritardi,tbl_alunni,tbl_classi
               AND tbl_alunni.idclasse = tbl_classi.idclasse
               AND iddocentegiust=$idutente
               ORDER BY datagiustifica desc";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 
 print "<CENTER><b>RITARDI</b><TABLE BORDER='1'>";
 print "<TR class='prima'><TD ALIGN='CENTER'><B>Alunno</B></TD><TD ALIGN='CENTER'><B>Data ritardo</B></TD><TD ALIGN='CENTER'><B>Data giustifica</B></TD><TD COLSPAN='2' ALIGN='CENTER'><B>Azioni</B></TD></TR>";
@@ -111,7 +111,7 @@ if ($giustificauscite=='yes')
               AND tbl_alunni.idclasse = tbl_classi.idclasse
               AND iddocentegiust=$idutente
               ORDER BY datagiustifica desc";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query, false));
+    $ris = eseguiQuery($con,$query);
 
     print "<CENTER><b>USCITE ANTICIPATE</b><TABLE BORDER='1'>";
     print "<TR class='prima'><TD ALIGN='CENTER'><B>Alunno</B></TD><TD ALIGN='CENTER'><B>Data uscita</B></TD><TD ALIGN='CENTER'><B>Data giustifica</B></TD><TD COLSPAN='2' ALIGN='CENTER'><B>Azioni</B></TD></TR>";

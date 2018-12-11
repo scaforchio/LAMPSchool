@@ -30,7 +30,7 @@ $id = stringa_html('id');
 // istruzioni per tornare alla pagina di login 
 ////session_start();
 $daticrud = $_SESSION['daticrud'];
-$titolo = "ConfermaCancellazione docente " . $daticrud['aliastabella'];
+$titolo = "Conferma Cancellazione " . $daticrud['aliastabella'];
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='CRUD.php'>ELENCO</a> - $titolo", "", "$nome_scuola", "$comune_scuola");

@@ -91,7 +91,7 @@ $flagsovrapposizione = false;
 if ($ope == 'I')
 {
 
-    if ($ris3 = mysqli_query($con, inspref($query))) // or die ("Errore nella query di inserimento: ". mysqli_error($con));
+    if ($ris3 = eseguiQuery($con, $query)) 
     {
         $codlez = mysqli_insert_id($con);
     }
@@ -110,7 +110,7 @@ if ($ope == 'I')
 			          datalezione='$data' and
 			          orainizio=$orainizio and
 			          numeroore=$numeroore";
-        $rislez = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+        $rislez = eseguiQuery($con,$query);
         $rec = mysqli_fetch_array($rislez);
         $codlez = $rec['idlezione'];
     }
@@ -150,7 +150,7 @@ if ($ope == 'U')
     else
     {
     
-    $ris3 = mysqli_query($con, inspref($query)) or die ("Errore nella query di aggiornamento: " . mysqli_error($con));
+    $ris3 = eseguiQuery($con,$query);
 
     // Aggiorno il timestamp della firma
     $queryinsfirma = "delete from tbl_firme where iddocente=$iddocente and idlezione=$codlez";
@@ -163,7 +163,7 @@ if ($ope == 'U')
 }
 if ($ope == 'D')
 {
-    $ris3 = mysqli_query($con, inspref($query)) or die ("Errore nella query di cancellazione: " . mysqli_error($con));
+    $ris3 = eseguiQuery($con,$query);
     print "<div style=\"text-align: center;\"><b>Cancellazione effettuata!</b></div>";
 }
 
@@ -207,7 +207,7 @@ if (!$flagsovrapposizione)
                  and idgruppo=$idgruppo
                  and idclasse=$idclasse";
     }
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
 
     while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
@@ -228,11 +228,11 @@ if (!$flagsovrapposizione)
         {
             $query = 'SELECT * FROM tbl_valutazioniintermedie WHERE idalunno=' . $idal . ' AND idlezione="' . $codlez . '" AND tipo="S"';
 
-            $rissel = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $rissel = eseguiQuery($con,$query);
             if (mysqli_num_rows($rissel) > 0)
             {
                 $query = "delete from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$codlez' and tipo='S'";
-                $risd = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+                $risd = eseguiQuery($con,$query);
             }
         }
         else
@@ -241,7 +241,7 @@ if (!$flagsovrapposizione)
             // Verifico se il voto già c'è
             $query = "select idvalint from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$codlez' and tipo='S'";
 
-            $risric = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $risric = eseguiQuery($con,$query);
             if ($rec = mysqli_fetch_array($risric))
             {
                 $idvalint = $rec['idvalint'];
@@ -255,12 +255,12 @@ if (!$flagsovrapposizione)
                 if ($votoal != 999)
                 {
                     $query = "update tbl_valutazioniintermedie set voto=$votoal, giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$codlez' and tipo='S'";
-                    $risup = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+                    $risup = eseguiQuery($con,$query);
                 }
                 else
                 {
                     $query = "update tbl_valutazioniintermedie set giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$codlez' and tipo='S'";
-                    $risup = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+                    $risup = eseguiQuery($con,$query);
                 }
             }
             else
@@ -268,7 +268,7 @@ if (!$flagsovrapposizione)
                 // Inserisco voti non già esistenti
                 $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
 							values(" . $idal . ",$materia,$iddocente,$idclasse,'$codlez','$data','S',$votoal,'$giudal')";
-                $risins = mysqli_query($con, inspref($query));
+                $risins = eseguiQuery($con,$query);
             }
         }
 
@@ -287,11 +287,11 @@ if (!$flagsovrapposizione)
         if ($votoal == 99 && $giudal == '')
         {
             $query = "SELECT * FROM tbl_valutazioniintermedie WHERE idalunno=" . $idal . " AND idlezione=" . $codlez . " AND tipo='O'";
-            $rissel = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $rissel = eseguiQuery($con,$query);
             if (mysqli_num_rows($rissel) > 0)
             {
                 $query = "delete from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$codlez' and tipo='O'";
-                $risd = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+                $risd = eseguiQuery($con,$query);
             }
         }
         else
@@ -300,7 +300,7 @@ if (!$flagsovrapposizione)
             // Verifico se il voto già c'è
             $query = "select idvalint from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$codlez' and tipo='O'";
 
-            $risric = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $risric = eseguiQuery($con,$query);
             if ($rec = mysqli_fetch_array($risric))
             {
                 $idvalint = $rec['idvalint'];
@@ -314,12 +314,12 @@ if (!$flagsovrapposizione)
                 if ($votoal != 999)
                 {
                     $query = "update tbl_valutazioniintermedie set voto=$votoal, giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$codlez' and tipo='O'";
-                    $risup = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+                    $risup = eseguiQuery($con,$query);
                 }
                 else
                 {
                     $query = "update tbl_valutazioniintermedie set giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$codlez' and tipo='O'";
-                    $risup = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+                    $risup = eseguiQuery($con,$query);
                 }
             }
             else
@@ -327,7 +327,7 @@ if (!$flagsovrapposizione)
                 // Inserisco voti non già esistenti
                 $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
 							values(" . $idal . ",$materia,$iddocente,$idclasse,'$codlez','$data','O',$votoal,'$giudal')";
-                $risins = mysqli_query($con, inspref($query));
+                $risins = eseguiQuery($con,$query);
             }
         }
 
@@ -346,11 +346,11 @@ if (!$flagsovrapposizione)
         if ($votoal == 99 && $giudal == '')
         {
             $query = 'SELECT * FROM tbl_valutazioniintermedie WHERE idalunno=' . $idal . ' AND idlezione="' . $codlez . '" AND tipo="P"';
-            $rissel = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $rissel = eseguiQuery($con,$query);
             if (mysqli_num_rows($rissel) > 0)
             {
                 $query = "delete from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$codlez' and tipo='P'";
-                $risd = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+                $risd = eseguiQuery($con,$query);
             }
         }
         else
@@ -358,7 +358,7 @@ if (!$flagsovrapposizione)
             // Verifico se il voto già c'è
             $query = "select idvalint from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$codlez' and tipo='P'";
 
-            $risric = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $risric = eseguiQuery($con,$query);
             if ($rec = mysqli_fetch_array($risric))
             {
                 $idvalint = $rec['idvalint'];
@@ -372,12 +372,12 @@ if (!$flagsovrapposizione)
                 if ($votoal != 999)
                 {
                     $query = "update tbl_valutazioniintermedie set voto=$votoal, giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$codlez' and tipo='P'";
-                    $risup = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+                    $risup = eseguiQuery($con,$query);
                 }
                 else
                 {
                     $query = "update tbl_valutazioniintermedie set giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$codlez' and tipo='P'";
-                    $risup = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+                    $risup = eseguiQuery($con,$query);
                 }
             }
             else
@@ -385,7 +385,7 @@ if (!$flagsovrapposizione)
                 // Inserisco voti non già esistenti
                 $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
 							values(" . $idal . ",$materia,$iddocente,$idclasse,'$codlez','$data','P',$votoal,'$giudal')";
-                $risins = mysqli_query($con, inspref($query));
+                $risins = eseguiQuery($con,$query);
             }
         }
 

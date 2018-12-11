@@ -47,7 +47,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='
  
  $querycanc="delete from tbl_documenti where iddocumento=$iddocumento";
  
- $riscanc=mysqli_query($con,inspref($querycanc)) or die ("Errore nella query di cancellazione: ". mysqli_error($con));  
+ $riscanc=eseguiQuery($con,$querycanc);  
         	 
  
  // print "<center><b><br>Cancellazione effettuata!<br></b></center> ";   

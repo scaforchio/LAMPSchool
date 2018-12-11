@@ -51,7 +51,7 @@ $query = "SELECT * FROM tbl_alunni LEFT JOIN tbl_classi
          ON tbl_alunni.idclasse=tbl_classi.idclasse
          ORDER BY cognome,nome,anno, sezione, specializzazione";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 
 print "<form name='selealu' action='vispresenzeforzate.php' method='post'>";
 print "<table align='center'>";
@@ -92,7 +92,7 @@ $query = "SELECT * FROM tbl_presenzeforzate,tbl_alunni,tbl_classi
               AND tbl_alunni.idclasse = tbl_classi.idclasse
               $selealunno
               ORDER BY data desc,cognome,nome,anno,sezione,specializzazione,data";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 
 print "<CENTER><TABLE BORDER='1'>";
 print "<TR class='prima'><TD ALIGN='CENTER'><B>Alunno</B></TD><TD ALIGN='CENTER'><B>Data</B></TD><TD ALIGN='CENTER'><B>Motivo</B></TD></TD><TD COLSPAN='2' ALIGN='CENTER'><B>Azioni</B></TD></TR>";

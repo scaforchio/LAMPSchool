@@ -97,7 +97,7 @@ $giornosettimana = "";
 if ($idlezionegruppo != "")
 {
     $query = "select * from tbl_lezionigruppi where idlezionegruppo=$idlezionegruppo";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     $lez = mysqli_fetch_array($ris);
     $idgruppo = $lez['idgruppo'];
 
@@ -120,7 +120,7 @@ if ($idgruppo != "" & $giorno != "" & $meseanno != "") // & $orainizio!="")
 
     $query = "select iddocente, idmateria from tbl_gruppi where idgruppo=$idgruppo";
 
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     if ($nom = mysqli_fetch_array($ris))
     {
         $materia = $nom['idmateria'];
@@ -284,7 +284,7 @@ else
 }
 
 // print $query;
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 if ($nom = mysqli_fetch_array($ris))
 {
     $iddocente = $nom["iddocente"];
@@ -330,7 +330,7 @@ $query = "select idgruppo,descrizione
         where iddocente=$iddocente 
         order by descrizione";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     $strvis = $nom['descrizione'];
@@ -362,7 +362,7 @@ if ($idgruppo != '' & $giorno != '' & $mese != '')
     $query = "select idlezionegruppo, orainizio, numeroore from tbl_lezionigruppi
            where idgruppo='$idgruppo' and datalezione='$anno-$mese-$giorno'";
 
-    $reslezpres = mysqli_query($con, inspref($query)) or die(mysqli_error);
+    $reslezpres = eseguiQuery($con,$query);
 
     if (mysqli_num_rows($reslezpres) > 0)
     {
@@ -508,7 +508,7 @@ else
             $classe = "";
 
             $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-            $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $ris = eseguiQuery($con,$query);
             if ($val = mysqli_fetch_array($ris))
             {
                 $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
@@ -539,7 +539,7 @@ else
             }
 
 
-            $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $ris = eseguiQuery($con,$query);
             $l = mysqli_fetch_array($ris);
 
             if ($l != NULL)
@@ -664,7 +664,7 @@ else
             $query = "select * from tbl_valutazioniintermedie
           where idlezione
           in (select idlezione from tbl_lezioni where idlezionegruppo='$idlezionegruppo')";
-            $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $ris = eseguiQuery($con,$query);
             while ($rec = mysqli_fetch_array($ris))
             {
                 $idaluvoti[] = $rec['idalunno'];
@@ -678,7 +678,7 @@ else
             $query = "select * from tbl_asslezione
           where idlezione in
           (select idlezione from tbl_lezioni where idlezionegruppo='$idlezionegruppo')";
-            $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $ris = eseguiQuery($con,$query);
             while ($rec = mysqli_fetch_array($ris))
             {
                 $idaluasse[] = $rec['idalunno'];
@@ -691,7 +691,7 @@ else
              where tbl_gruppialunni.idalunno=tbl_alunni.idalunno
              and idgruppo=$idgruppo
              order by cognome, nome, datanascita";
-            $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $ris = eseguiQuery($con,$query);
 
 
             $numreg = 0;
@@ -1174,7 +1174,7 @@ function ricerca_assenza($idalunno, $arridal, $arrass)
 function voto_combinato($idvoto, $con)
 {
     $query = "select * from tbl_valutazioniabilcono where idvalint=$idvoto";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris) > 0)
     {
         return true;

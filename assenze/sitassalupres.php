@@ -50,7 +50,7 @@ $idalunno = stringa_html('idalunno');
          on tbl_alunni.idclasse=tbl_classi.idclasse
          order by cognome,nome,anno, sezione, specializzazione";      
          
- $ris=mysqli_query($con,inspref($query));   
+ $ris=eseguiQuery($con,$query);   
  //print "tttt ".inspref($query);     
  print "<form name='selealu' action='visvalpre.php' method='post'>";
  print "<table align='center'>";

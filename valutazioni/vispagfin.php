@@ -47,7 +47,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 // prelevamento dati alunno
 
 $query = "select * from tbl_alunni where idalunno=$codalunno";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con). inspref($query));
+$ris = eseguiQuery($con,$query);
 
 // echo '<table border=1 align="center" width="800"  >';
 
@@ -81,7 +81,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
           where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
           and idalunno=$codalunno and tbl_materie.progrpag<>100 and periodo = $numeroperiodi order by tbl_materie.progrpag";
 
-        $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con). inspref($query));
+        $ris = eseguiQuery($con,$query);
         // print $query;
         if (mysqli_num_rows($ris) > 0)
         {
@@ -90,7 +90,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
             while ($val = mysqli_fetch_array($ris))
             {
                 $query = "SELECT * FROM tbl_materie WHERE idmateria = " . $val['idmateria'];
-                $rismat = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con). inspref($query));
+                $rismat = eseguiQuery($con,$query);
                 $recmat = mysqli_fetch_array($rismat);
                 $materia = $recmat['denominazione'];
 
@@ -122,7 +122,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
             // Cerco il giudizio
 
             $query = "select * from tbl_giudizi where idalunno = $codalunno and periodo = '$numeroperiodi'";
-            $risgiu = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con). inspref($query));
+            $risgiu = eseguiQuery($con,$query);
             if ($recgiu = mysqli_fetch_array($risgiu))
             {
                 print "<tr class='prima'><td colspan=7 align=center><b>Giudizio complessivo</b></td></tr>";
@@ -159,7 +159,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
           where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
           and idalunno=$codalunno and tbl_materie.progrpag<>100 and periodo = $numeroperiodi order by tbl_materie.progrpag";
 
-        $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con). inspref($query));
+        $ris = eseguiQuery($con,$query);
         // print $query;
         if (mysqli_num_rows($ris) > 0)
         {
@@ -168,7 +168,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
             while ($val = mysqli_fetch_array($ris))
             {
                 $query = "SELECT * FROM tbl_materie WHERE idmateria = " . $val['idmateria'];
-                $rismat = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con). inspref($query));
+                $rismat = eseguiQuery($con,$query);
                 $recmat = mysqli_fetch_array($rismat);
                 $materia = $recmat['denominazione'];
 
@@ -200,7 +200,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
             // Cerco il giudizio
 
             $query = "select * from tbl_giudizi where idalunno = $codalunno and periodo = '$numeroperiodi'";
-            $risgiu = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con). inspref($query));
+            $risgiu = eseguiQuery($con,$query);
             if ($recgiu = mysqli_fetch_array($risgiu))
             {
                 print "<tr class='prima'><td colspan=7 align=center><b>Giudizio complessivo</b></td></tr>";

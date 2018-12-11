@@ -68,7 +68,7 @@ if ($tipoutente == 'P')
     }
     $query = "select * from tbl_richiesteferie where concessione=0 or concessione=1 order by idrichiestaferie desc";
    
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris))
     {
         print "<tr>";
@@ -87,7 +87,7 @@ else
     print "<table border='1' align='center'>";
     print "<tr class='prima'><td>Prot.</td><td>Docente</td><td>Richiesta</td><td>Concessione</td></tr>";
     $query = "select * from tbl_richiesteferie where iddocente=$iddocente and (concessione<>9 or isnull(concessione)) order by idrichiestaferie desc";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris))
     {
         print "<tr>";

@@ -12,7 +12,7 @@ $query = "select idclasse, anno, sezione, specializzazione from tbl_classi
         where idclasse in (select distinct idclasse from tbl_cattnosupp where iddocente=$iddocente) order by anno, sezione, specializzazione";
 
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -36,7 +36,7 @@ print "<optgroup label='Altre classi'>";
 $query = "select idclasse, anno, sezione, specializzazione from tbl_classi
         where idclasse not in (select distinct idclasse from tbl_cattnosupp where iddocente=$iddocente) order by anno, sezione, specializzazione
         ";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";

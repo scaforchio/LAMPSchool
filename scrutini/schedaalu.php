@@ -153,7 +153,7 @@ else
 }
 
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -182,7 +182,7 @@ if ($nome != "")
 {
     print "<tr><td><b>Alunno</b></td><td>";
     $query = "select idalunno,cognome,nome,datanascita from tbl_alunni where idclasse=$idclasse order by cognome, nome, datanascita";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     echo("<select name='idalunno' ONCHANGE='voti.submit()'><option value=''>&nbsp");
     while ($nom = mysqli_fetch_array($ris))
     {
@@ -225,13 +225,13 @@ if ($nome != "" & $idalunno != "")
       where idalunno=$idalunno
       and periodo=$periodo";
       //print inspref($query);
-      $ris=mysqli_query($con,inspref($query));
+      $ris=eseguiQuery($con,$query);
       $numproposte=mysqli_num_rows($ris);
 
       $query="SELECT * FROM tbl_valutazionifinali
       where idalunno=$idalunno
       and periodo=$periodo";
-      $ris=mysqli_query($con,inspref($query));
+      $ris=eseguiQuery($con,$query);
       $numvalutazioni=mysqli_num_rows($ris);
       //print inspref($query);
 
@@ -265,7 +265,7 @@ if ($nome != "" & $idalunno != "")
               and tbl_materie.progrpag<100
               order by progrpag,tbl_materie.sigla";
  // print inspref($query);
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris) > 0)
     {
         //print ("<table align='center' border='1'><tr class='prima' align='center'><td>Alunno</td>");
@@ -286,7 +286,7 @@ if ($nome != "" & $idalunno != "")
                       and tbl_alunni.idclasse=$idclasse
                       and tbl_gruppi.idmateria=" . $nom['idmateria'];
            // print inspref($query);
-            $risgru = mysqli_query($con, inspref($query));
+            $risgru = eseguiQuery($con,$query);
            // print "Numero record ".mysqli_num_rows($risgru);
             if ($recgru = mysqli_fetch_array($risgru))
             {
@@ -302,7 +302,7 @@ if ($nome != "" & $idalunno != "")
                     and tbl_alunni.idclasse=$idclasse
                     and tbl_gruppi.idmateria=" . $nom['idmateria'] . ")";
 
-                $risgrualu = mysqli_query($con, inspref($query));
+                $risgrualu = eseguiQuery($con,$query);
                 if (mysqli_num_rows($risgrualu) == 0)
                 {
                     $aggiungi = false;
@@ -401,7 +401,7 @@ if ($nome != "" & $idalunno != "")
                       WHERE idalunno=$idalunno
                       and idmateria=$cm
                       and periodo='$periodo'";
-            $rismedia = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+            $rismedia = eseguiQuery($con,$query);
             if ($valmedia = mysqli_fetch_array($rismedia))
             {
                 $votounico = $valmedia['votounico'];
@@ -631,7 +631,7 @@ if ($nome != "" & $idalunno != "")
            WHERE idalunno=$idalunno
            and idclasse=$idclasse 
            and periodo='$periodo'";
-        $risgiud = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+        $risgiud = eseguiQuery($con,$query);
         if ($valgiud = mysqli_fetch_array($risgiud))
         {
             $giudizio = $valgiud['giudizio'];

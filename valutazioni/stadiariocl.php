@@ -94,7 +94,7 @@ print "<center><b>".decodifica_classe($classe,$con)."</b><br>";
              order by data,tbl_diariocl.oraultmod";
     
 
-    $ris=mysqli_query($con,inspref($query));
+    $ris=eseguiQuery($con,$query);
 
  
     $c=mysqli_num_rows($ris);

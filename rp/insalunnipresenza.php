@@ -46,7 +46,7 @@ $destinatari = array();
 $query = "SELECT idalunno,cognome, nome
         FROM tbl_alunni";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 $motivo = stringa_html('motivo');
 $datainizio = data_to_db(stringa_html('datainizio'));
 $datafine = data_to_db(stringa_html('datafine'));
@@ -67,9 +67,9 @@ while ($rec = mysqli_fetch_array($ris))
             if ((!giorno_festa($data,$con)) && (giorno_settimana($data)!="Dom"))
             {
                 $query = "insert into tbl_presenzeforzate(idalunno,data,motivo) values ($idalunno,'$data','$motivo')";
-                mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+                eseguiQuery($con,$query);
                 $query = "delete from tbl_assenze where idalunno=$idalunno and data='$data'";
-                mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+                eseguiQuery($con,$query);
             }
             $data=aggiungi_giorni($data,1);
         }

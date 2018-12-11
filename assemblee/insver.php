@@ -49,7 +49,7 @@ $ver='';
 $orat='';
 $data='';
     $query = "SELECT * FROM tbl_assemblee WHERE idassemblea=$idassemblea";
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query)); 
+    $ris=eseguiQuery($con,$query); 
     
     $d = mysqli_fetch_array($ris);
     $ver=$d['verbale'];

@@ -56,7 +56,7 @@ print ('<body class="stampa" onLoad="printPage()">');
    print"<h1>Connessione nel database fallita</h1>";
   $sq="SELECT * FROM tbl_classi
        WHERE idclasse='$n' " ;
- $res=mysqli_query($con,inspref($sq));
+ $res=eseguiQuery($con,$sq);
  $dati1=mysqli_fetch_array($res);
  
 //imposta la tabella del titolo
@@ -64,7 +64,7 @@ print ('<body class="stampa" onLoad="printPage()">');
  $sql="SELECT * FROM tbl_alunni,tbl_utenti
        WHERE tbl_alunni.idalunno=tbl_utenti.idutente 
        AND idclasse='$n' ORDER BY cognome,nome";
- $result=mysqli_query($con,inspref($sql));
+ $result=eseguiQuery($con,$sql);
 
  print("<table border=1 align='center'>");
  print("<tr>");

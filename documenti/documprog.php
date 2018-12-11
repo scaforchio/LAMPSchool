@@ -72,7 +72,7 @@ print ("
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
 $query = "select idcattedra,tbl_classi.idclasse, anno, sezione, specializzazione, denominazione,tbl_materie.idmateria,tbl_cattnosupp.idalunno from tbl_cattnosupp, tbl_classi, tbl_materie where iddocente=$iddocente and tbl_cattnosupp.idclasse=tbl_classi.idclasse and tbl_cattnosupp.idmateria = tbl_materie.idmateria order by anno, sezione, specializzazione, denominazione";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
 
@@ -80,7 +80,7 @@ while ($nom = mysqli_fetch_array($ris))
     print "<tr><td>" . decodifica_materia($nom['idmateria'], $con) . " " . decodifica_classe($nom['idclasse'], $con) . "</td>";
     $query = "select iddocumento,idmateria,idclasse,docnome,docsize,doctype from tbl_documenti where idmateria=" . $nom['idmateria'] . " and idclasse=" . $nom['idclasse'] . " and idtipodocumento=$tipodocumento";
 
-    $risdoc = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $risdoc = eseguiQuery($con,$query);
     if ($val = mysqli_fetch_array($risdoc))
     {
         if ($nom['idalunno']==0)

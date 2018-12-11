@@ -120,7 +120,7 @@ else
            order by specializzazione, sezione, anno";
 }
 //print inspref($query);        
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -233,7 +233,7 @@ if ($testo != "")
 
 
 //   $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
-//   $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+//   $ris=eseguiQuery($con,$query);
 //   if($val=mysqli_fetch_array($ris))
 //      $classe=$val["anno"]." ".$val["sezione"]." ".$val["specializzazione"];
 //  print $iddocente;
@@ -247,7 +247,7 @@ if ($idclasse != "")
             order by data desc,tbl_diariocl.oraultmod desc";
 
     // print inspref($query);
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query di selezione osservazione: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
     $c = mysqli_num_rows($ris);
 

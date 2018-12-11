@@ -55,7 +55,7 @@ if ($_SESSION['alias'])
     if ( $_SESSION['tipoutente'] == 'P')
     {
         $sql = "SELECT * FROM tbl_docenti WHERE idutente='" . $_SESSION['idutente'] . "'";
-        $ris = mysqli_query($con, inspref($sql)) or die ("Errore nella query: " . mysqli_error($con) . inspref($query));
+        $ris = eseguiQuery($con,$sql);
 
         if ($val = mysqli_fetch_array($ris))
         {

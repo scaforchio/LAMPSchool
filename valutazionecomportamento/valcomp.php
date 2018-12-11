@@ -109,7 +109,7 @@ print ("
 
 $query = "select iddocente, cognome, nome from tbl_docenti where iddocente='$iddocente'";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 
 
 if ($nom = mysqli_fetch_array($ris))
@@ -139,7 +139,7 @@ print("
 
 
 $query = "select idcattedra,tbl_classi.idclasse,tbl_materie.idmateria, anno, sezione, specializzazione, denominazione from tbl_cattnosupp, tbl_classi, tbl_materie where iddocente='$iddocente' and tbl_cattnosupp.idalunno=0 and tbl_cattnosupp.idclasse=tbl_classi.idclasse and tbl_cattnosupp.idmateria = tbl_materie.idmateria order by anno, sezione, specializzazione, denominazione";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -200,7 +200,7 @@ if ($idclasse != '' & $iddocente != '' & $idmateria != '' & $giorno != '' & $mes
              and tbl_alunni.idclasse=$idclasse
              and tbl_gruppi.idmateria=$idmateria
              and tbl_gruppi.iddocente=$iddocente";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     if ($rec = mysqli_fetch_array($ris))
     {
         $idgruppo = $rec['idgruppo'];
@@ -280,7 +280,7 @@ else
              and tbl_gruppi.idgruppo= $idgruppo";
     }
 
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     while ($val = mysqli_fetch_array($ris))
     {
 
@@ -388,7 +388,7 @@ print "</center>";
 
 $query = "select * from tbl_compob order by numeroordine";
 // print inspref($query);
-$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 print "<font size=1>";
 print "<table border='1'>";
@@ -401,7 +401,7 @@ while ($val = mysqli_fetch_array($ris))
     print "<tr valign='top'><td><b>$numord. $sintob</b><br> <small> $obiettivo</small></td>";
 
     $query = "select * from tbl_compsubob where idobiettivo=$idobiettivo order by numeroordine";
-    $risabil = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $risabil = eseguiQuery($con,$query);
     print "<font size=1>";
     while ($valabil = mysqli_fetch_array($risabil))
     {
@@ -457,7 +457,7 @@ function riempi_array_codici_valsubob($conn)
 		        ORDER BY noob, nosubob";
 
 
-    $res = mysqli_query($conn, inspref($query)) or die(mysqli_error($conn));
+    $res = eseguiQuery($conn,$query);
 
     while ($val = mysqli_fetch_array($res))
     {

@@ -50,7 +50,7 @@ if ($idclasse != "")
     }
 
     $query = "select idalunno from tbl_alunni where idclasse=$idclasse $conddebito order by cognome,nome";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     while ($val = mysqli_fetch_array($ris))
     {
         $alunni[] = $val['idalunno'];
@@ -61,7 +61,7 @@ else
 
     $alunni[] = $idalunno;
     $query = "select idclasse from tbl_alunni where idalunno=$idalunno";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     if ($val = mysqli_fetch_array($ris))
     {
         $idclasse = $val['idclasse'];
@@ -110,7 +110,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
            and tbl_cattnosupp.iddocente <> 1000000000
            and tbl_materie.progrpag = 99
            order by tbl_materie.progrpag,tbl_materie.sigla";
-        $rismat = mysqli_query($con, inspref($query));
+        $rismat = eseguiQuery($con,$query);
         while ($valmat = mysqli_fetch_array($rismat))
         {
 
@@ -124,7 +124,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
               AND periodo='1'
               AND idmateria=$codmateria";
             // print inspref($query);
-            $risvoti = mysqli_query($con, inspref($query));
+            $risvoti = eseguiQuery($con,$query);
 
             if ($recvoti = mysqli_fetch_array($risvoti))
             {
@@ -143,7 +143,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
               AND periodo='$numeroperiodi'
               AND idmateria=$codmateria";
             //   print inspref($query)."<br>";
-            $risvoti = mysqli_query($con, inspref($query));
+            $risvoti = eseguiQuery($con,$query);
 
             if ($recvoti = mysqli_fetch_array($risvoti))
             {
@@ -186,7 +186,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 $query = "SELECT datanascita, codfiscale, denominazione FROM tbl_alunni,tbl_comuni
 					  WHERE tbl_alunni.idcomnasc=tbl_comuni.idcomune 
 					  AND idalunno=$alu";
-                $ris = mysqli_query($con, inspref($query));
+                $ris = eseguiQuery($con,$query);
                 if ($val = mysqli_fetch_array($ris))
                 {
                     $datanascita = data_italiana($val['datanascita']);

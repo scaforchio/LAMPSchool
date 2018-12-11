@@ -43,13 +43,13 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 // Esclusione alunni con esito negativo agli scrutini
 
 $query = "SELECT * FROM tbl_alunni WHERE idclasseesame<>'0' AND idclasse<>'0'";
-$ris = mysqli_query($con, inspref($query)) or die("Errroe: " . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 while ($rec = mysqli_fetch_array($ris)) {
     $idtipoesito = estrai_idtipoesito($rec['idalunno'], $con);
     if ($idtipoesito > 0) {
         if (passaggio($idtipoesito, $con) != 0) {
             $query = "UPDATE tbl_alunni SET idclasseesame=0 WHERE idalunno=" . $rec['idalunno'];
-            mysqli_query($con, inspref($query)) or die("Errore: ") . inspref($query, false);
+            eseguiQuery($con,$query);
         }
     }
 }
@@ -61,7 +61,7 @@ while ($rec = mysqli_fetch_array($ris)) {
 
 $query = "SELECT * FROM tbl_alunni
                       where tbl_alunni.idclasseesame=$idclasse";
-$risalu = mysqli_query($con, inspref($query));
+$risalu = eseguiQuery($con,$query);
 
 while ($recalu = mysqli_fetch_array($risalu)) {
     $idalunno = $recalu['idalunno'];
@@ -70,7 +70,7 @@ while ($recalu = mysqli_fetch_array($risalu)) {
     $inserimento = false;
     $query = "SELECT * FROM tbl_esiti
                       where idalunno=$idalunno";
-    $risesito = mysqli_query($con, inspref($query));
+    $risesito = eseguiQuery($con,$query);
     if ($recesito = mysqli_fetch_array($risesito)) {
 
         $votoammissione = $recesito['votoammissione'];
@@ -80,13 +80,13 @@ while ($recalu = mysqli_fetch_array($risalu)) {
 
 
     $query = "select * from tbl_esesiti where idalunno=$idalunno";
-    $risric = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+    $risric = eseguiQuery($con,$query);
     if (mysqli_num_rows($risric) > 0) {
         $query = "update tbl_esesiti set votoammissione='$votoammissione' where idalunno=$idalunno";
-        mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+        eseguiQuery($con,$query);
     } else {
         $query = "insert into tbl_esesiti(idalunno,votoammissione) values ($idalunno,$votoammissione)";
-        mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+        eseguiQuery($con,$query);
     }
 }
 

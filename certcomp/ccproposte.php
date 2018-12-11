@@ -76,7 +76,7 @@ print ('
 //
 
 $query = "select cognome, nome from tbl_docenti where idutente='$id_ut_doc'";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 if ($nom = mysqli_fetch_array($ris)) {
     $cognomedoc = $nom["cognome"];
     $nomedoc = $nom["nome"];
@@ -105,7 +105,7 @@ print('
 
 $query = "select distinct tbl_cattnosupp.idclasse, anno, sezione, specializzazione from tbl_cattnosupp, tbl_classi where tbl_cattnosupp.idclasse=tbl_classi.idclasse and iddocente='$id_ut_doc' and ($annocomp) order by anno, sezione, specializzazione";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris)) {
     print "<option value='";
     print ($nom["idclasse"]);
@@ -141,7 +141,7 @@ if ($idclasse != '') {
 
         $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
 
-        $ris = mysqli_query($con, inspref($query)) or die("Errore: " . mysqli_error($con));
+        $ris = eseguiQuery($con,$query);
         while ($nom = mysqli_fetch_array($ris)) {
             print "<option value='";
             print ($nom["idalunno"]);
@@ -194,7 +194,7 @@ if ($idalunno != '') {
 
     print "<table border=1>";
     $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . mysqli_error($con) . " " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris)) {
         print "<tr>";
         print "<td valign='middle' width=5%>" . $rec['numprogressivo'] . "</td>";

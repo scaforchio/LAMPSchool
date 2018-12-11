@@ -61,7 +61,7 @@ if (!$DB)
 $query = "SELECT * FROM tbl_parametri
 	        WHERE parametro NOT IN ('versioneprecedente','editorhtml','numeroperiodi','finesecondo','sola_lettura','passwordesame')
 	        ORDER BY gruppo,parametro";
-if (!($ris = mysqli_query($con, inspref($query))))
+if (!($ris = eseguiQuery($con,$query)))
 {
     print "\nQuery fallita";
 }

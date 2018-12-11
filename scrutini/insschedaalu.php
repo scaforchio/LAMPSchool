@@ -82,7 +82,7 @@ and tbl_cattnosupp.iddocente <> 1000000000";
 
 $votiinseriti = false;
 // print inspref($query);
-$rismat = mysqli_query($con, inspref($query)) or die("Errore:".inspref($query));
+$rismat = eseguiQuery($con,$query);
 while ($val = mysqli_fetch_array($rismat))
 {
     $idmateria = $val['idmateria'];
@@ -108,7 +108,7 @@ while ($val = mysqli_fetch_array($rismat))
     {
         $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,codsissi,votoscritto,votoorale,votopratico,assenze,note,periodo)
 						 VALUES ('$idalunno','$idmateria','$votounico','','$votoscritto','$votoorale','$votopratico','$ass','" . elimina_apici($note) . "','$periodo')";
-        $risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con).inspref($queryins));
+        $risins = eseguiQuery($con,$queryins);
         $votiinseriti = true;
     }
 }
@@ -124,7 +124,7 @@ $note = stringa_html($schenote);
 
 $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,codsissi,votounico,periodo,note)
 	                 VALUES ('$idalunno','$idmateria','','$voto','$periodo','$note')";
-$risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con).inspref($queryins));
+$risins = eseguiQuery($con,$queryins);
 //}
 // INSERISCO GIUDIZIO GENERALE
 
@@ -140,7 +140,7 @@ $ris = mysqli_query($con, inspref($querydel)) or die(mysqli_error($con).inspref(
 $giudizio = $_POST['giudizio'];
 $queryins = "INSERT into tbl_giudizi(idclasse,idalunno,periodo,giudizio)
 	                 VALUES ('$cl','$idalunno','$periodo','" . elimina_apici($giudizio) . "')";
-$risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error($con).inspref($queryins));
+$risins = eseguiQuery($con,$queryins);
 
 if ($provenienza == 'tab')
 {

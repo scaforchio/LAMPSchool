@@ -304,7 +304,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                 // ALUNNO
                 // PRIMA SI CANCELLA L'ALUNNO, IL TUTORE E L'UTENTE CON LO STESSO IDTUTORE O IDUTENTE
                 $sqlt = "select idutente,idtutore from tbl_alunni where codfiscale='$codfiscale'";
-                $res = mysqli_query($con, inspref($sqlt));
+                $res = eseguiQuery($con,$sqlt);
 
                 if ($res)
                 {
@@ -326,12 +326,12 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                         if ($idutente > 0)
                         { // IMPORTANTE per non eliminare l'utente adminlamp
                             $sqlt = "delete from tbl_alunni $where";
-                            mysqli_query($con, inspref($sqlt));
+                            eseguiQuery($con,$sqlt);
                             //  $sqlt = "delete from tbl_tutori $where";
-                            //  mysqli_query($con, inspref($sqlt));
+                            //  eseguiQuery($con,$sqlt);
                             // $sqlt = "delete from tbl_utenti where idutente=$idutente";
                             $sqlt = "delete from tbl_utenti $where";
-                            mysqli_query($con, inspref($sqlt));
+                            eseguiQuery($con,$sqlt);
                         }
                         mysqli_free_result($res);
                     }
@@ -343,7 +343,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                             VALUES ('$cognome','$nome','$dataNascita','$codfiscale','$comuneNascita','$comuneResidenza','$sesso','$codmeccanografico','$indirizzo','$telefono','$cellulare','$email')";
 
                 //print "<br/>" . inspref($res);
-                mysqli_query($con, inspref($res)) or die("Errore in iserimento alunno" . inspref($query, false));
+                eseguiQuery($con,$res);
 
                 $idalunnoinserito = mysqli_insert_id($con);
 
@@ -351,14 +351,14 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                 // TUTORE
                 // PRIMA SI CANCELLA IL TUTORE ESISTENTE
                 // $sqlt = "delete from tbl_tutori where idtutore=$idalunnoinserito";
-                // mysqli_query($con, inspref($sqlt)) or die("Errore in iserimento alunno" . inspref($sqlt, false));
+                // eseguiQuery($con,$sqlt);
                 // POI SI INSERISCE IL RECORD NELLA TABELLA tbl_tutori;
                 // $sqlt = "insert into tbl_tutori(idtutore,cognome,nome,idalunno,idutente) values ('$idalunnoinserito','$cognome','$nome','$idalunnoinserito','$idalunnoinserito')";
-                // mysqli_query($con, inspref($sqlt)) or die("Errore in iserimento alunno" . inspref($sqlt, false));
+                // eseguiQuery($con,$sqlt);
                 // UTENTE
                 // PRIMA SI CANCELLA L'UTENTE ESISTENTE
                 $sqlt = "delete from tbl_utenti where idutente=$idalunnoinserito";
-                mysqli_query($con, inspref($sqlt)) or die("Errore in iserimento alunno" . inspref($sqlt, false));
+                eseguiQuery($con,$sqlt);
 
                 // POI SI INSERISCE IL RECORD NELLA TABELLA tbl_utenti;
                 $utente = "gen" . $idalunnoinserito;
@@ -377,15 +377,15 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                     print "<td align=center>$passwordalunno</td>";
                 }
                 $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idalunnoinserito','$utente',md5('" . md5($password) . "'),'T')";
-                mysqli_query($con, inspref($sqlt)) or die("Errore in iserimento alunno" . inspref($sqlt, false));
+                eseguiQuery($con,$sqlt);
                 $sqlt = "update tbl_alunni set idtutore=$idalunnoinserito,idutente=$idalunnoinserito where idalunno=$idalunnoinserito";
-                mysqli_query($con, inspref($sqlt)) or die("Errore in iserimento alunno" . inspref($sqlt, false));
+                eseguiQuery($con,$sqlt);
 
                 if ($livello_scuola == 4)
                 {
                     $idutentealunno=$idalunnoinserito+2100000000;
                 $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idutentealunno','$utentealunno',md5('" . md5($passwordalunno) . "'),'L')";
-                $res = mysqli_query($con, inspref($sqlt)) or die("Errore:" . inspref($sqlt, false));
+                $res = eseguiQuery($con,$sqlt);
            
                 }
                 // Inseriamo nel file csv

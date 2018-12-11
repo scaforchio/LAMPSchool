@@ -47,7 +47,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
   
  
  $query="delete from tbl_abilscol where idcompetenza=$idobiettivo";
- $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+ $ris=eseguiQuery($con,$query);
 
 
  
@@ -68,7 +68,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
         $query="insert into tbl_abilscol(idcompetenza, numeroordine, sintabilcono, abilcono, obminimi, abil_cono) 
                 values('$idobiettivo','$no','$sintabilcono', '$abilita', '$abobmin', 'A')";
               
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+        $ris2=eseguiQuery($con,$query); 
     }
  }
     
@@ -89,7 +89,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
         $query="insert into tbl_abilscol(idcompetenza, numeroordine, sintabilcono, abilcono, obminimi, abil_cono) 
                 values('$idobiettivo','$no','$sintabilcono', '$conoscenza', '$abobmin', 'C')";
         
-        $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con)); 
+        $ris2=eseguiQuery($con,$query); 
     }
  }
  

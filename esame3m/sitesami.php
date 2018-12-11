@@ -91,7 +91,7 @@ if (!$con)
 //Esecuzione query
 $query = "SELECT * FROM tbl_esami3m,tbl_classi WHERE tbl_esami3m.idclasse=tbl_classi.idclasse ORDER BY anno, sezione, specializzazione";  // 0=supplenza, -1=comportamento
 
-if (!($ris = mysqli_query($con, inspref($query))))
+if (!($ris = eseguiQuery($con,$query)))
 {
     print "Query fallita";
 }

@@ -70,7 +70,7 @@ if ($idcircolare != "")
 {
 
     $query = "select * from tbl_circolari where idcircolare=$idcircolare";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     $rec = mysqli_fetch_array($ris);
 
     print "<center><b>Lista di distribuzione circolare:</b><br><br>";
@@ -108,7 +108,7 @@ if ($idcircolare != "")
                order by anno, sezione, specializzazione, cognome,nome";
     // print "tttt $dest";
     // print inspref($query);
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query) . " " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris))
     {
 

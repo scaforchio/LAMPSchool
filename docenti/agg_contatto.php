@@ -42,7 +42,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 	$con=mysqli_connect($db_server,$db_user,$db_password,$db_nome);
 	
     $sql  = "update tbl_docenti SET email='$email', telcel='$telcel',nummaxcolloqui='$nummaxcolloqui' WHERE iddocente=".$_SESSION['idutente'];
-	$ris=mysqli_query($con,inspref($sql)) or die("errore:".inspref($sql));
+	$ris=eseguiQuery($con,$sql);
 	print "
 		
 		  <center><b>Aggiornamento effettuato!</b></center> 

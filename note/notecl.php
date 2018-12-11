@@ -46,7 +46,7 @@ if ($idnota != "")   // se si arriva dalla pagina della ricerca
     //$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
 
     $query = "SELECT * FROM tbl_noteclasse WHERE idnotaclasse=" . $idnota . "";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
     $nom = mysqli_fetch_array($ris);
     $nome = $nom['idclasse'];
     // $but = stringa_html('visass');
@@ -118,7 +118,7 @@ else
     $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi where idclasse=$classeregistro ORDER BY specializzazione, sezione, anno";
 }
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -245,7 +245,7 @@ echo("</select></td></tr>");
 // Riempimento combo box tbl_docenti
 print "<tr><td width='50%'><p align='center'><b>Docente</b></p></td><td>";
 $query = "SELECT iddocente,cognome,nome FROM tbl_docenti ORDER BY cognome, nome";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 if ($tipoutente == 'P' | $tipoutente == 'S')
 {
     echo("<select name='iddocente' ONCHANGE='tbl_noteclasse.submit()'><option value=''>&nbsp;");
@@ -325,13 +325,13 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
 
 
     //   $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
-    //   $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    //   $ris=eseguiQuery($con,$query);
     //   if($val=mysqli_fetch_array($ris))
     //      $classe=$val["anno"]." ".$val["sezione"]." ".$val["specializzazione"];
     //  print $iddocente;
     $query = "select * from tbl_noteclasse where idclasse=$idclasse and data='$data' and iddocente='$iddocente'";
     //  print $query;
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query di selezione nota: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
     $c = mysqli_fetch_array($ris);
 

@@ -59,7 +59,7 @@ $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM
               ORDER BY anno,sezione,specializzazione";
 
 
-if (!($res = mysqli_query($con, inspref($query))))
+if (!($res = eseguiQuery($con,$query)))
 {
     print ("Query fallita");
 }

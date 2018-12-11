@@ -60,7 +60,7 @@ print ('
 $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
  
 $query="select idclasse,anno,sezione,specializzazione from tbl_classi order by specializzazione, sezione, anno";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
    while($nom=mysqli_fetch_array($ris))
    {
             print "<option value='";
@@ -81,7 +81,7 @@ $ris=mysqli_query($con,inspref($query));
       </table>');
       
     $query='select * from tbl_alunni where idclasse=0 order by cognome,nome,datanascita';
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
     if (mysqli_num_rows($ris)==0)
     {
 	   echo "<p align='center'>

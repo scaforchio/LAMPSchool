@@ -80,7 +80,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 	{
 		//Prelevamento del testo delle tbl_sezioni e delle tbl_specializzazioni
 		$query1="SELECT * FROM tbl_sezioni WHERE $sezione=idsezione";		
-		$a1=mysqli_query($con,inspref($query1));
+		$a1=eseguiQuery($con,$query1);
 		$d1=mysqli_fetch_array($a1);
 		
 		$query2="SELECT * FROM tbl_specializzazioni	WHERE $spec=idspecializzazione";
@@ -106,7 +106,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
     			$sql  = "INSERT INTO tbl_classi (anno,sezione,specializzazione,oresett) VALUES ";
                 $sql .= "('$anno','".$d1['denominazione']."','".$d2['denominazione']."','$ore')";
 
-				if (!($ris=mysqli_query($con,inspref($sql))))
+				if (!($ris=eseguiQuery($con,$sql)))
 				{  
 	   	 			print("\n<FONT SIZE='+2'> <CENTER>Inserimento non eseguito </CENTER></FONT>");
     			}

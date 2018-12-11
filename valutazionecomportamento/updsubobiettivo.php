@@ -67,7 +67,7 @@ if ($idsubob!="")
        
       $query="select * from tbl_compsubob where idsubob=$idsubob";
    
-      $ris=mysqli_query($con,inspref($query));
+      $ris=eseguiQuery($con,$query);
    
    
    

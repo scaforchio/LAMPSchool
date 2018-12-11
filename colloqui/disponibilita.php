@@ -43,7 +43,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
 
 $query="select iddocente,cognome,nome from tbl_docenti order by cognome,nome";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 
 print "<form action='disponibilita.php' method='post' name='dispo'>";
 print "<table border=1 align='center'>";
@@ -53,7 +53,7 @@ print "      <tr class='prima'>
       
     //  $sqld= "SELECT * FROM tbl_docenti WHERE NOT sostegno ORDER BY cognome, nome";
       $query="select iddocente,cognome,nome from tbl_docenti order by cognome,nome";
-      $ris=mysqli_query($con,inspref($query));
+      $ris=eseguiQuery($con,$query);
       
 	      print ("<select name='iddocente' ONCHANGE='dispo.submit()'>");
          print ("<option>");
@@ -83,7 +83,7 @@ if ($iddocente!="")
            where tbl_orericevimento.idorario=tbl_orario.idorario
            and tbl_orericevimento.valido
            and iddocente=$iddocente";
-   $ris=mysqli_query($con,inspref($query)) or die ("Errore: ".inspref($query));
+   $ris=eseguiQuery($con,$query);
    print "<table border=1 align=center><tr class='prima'><td>Orario</td><td>Note</td><td>Canc.</td></tr>";
    while ($rec=mysqli_fetch_array($ris))
    {
@@ -100,7 +100,7 @@ if ($iddocente!="")
 	          (select idorario from tbl_orericevimento where iddocente='$iddocente' and valido)
 	          and valido 
 	          order by giorno, ora";
-	$ris = mysqli_query($con,inspref($query)) or die ("Errore: ".inspref($query));
+	$ris = eseguiQuery($con,$query);
 	while ($rec=mysqli_fetch_array($ris))
 	{
 		print "<option value='".$rec['idorario']."'>";

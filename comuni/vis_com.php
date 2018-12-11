@@ -32,7 +32,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
    $db=true or die ("connessione al db fallita"); 
    $idcom = stringa_html('idcom');
 $sql='select * from tbl_comuni where idcomune='.$idcom;
-if(!($result=mysqli_query($con,inspref($sql))))
+if(!($result=eseguiQuery($con,$sql)))
    print("query fallita $sql");
  else
   {

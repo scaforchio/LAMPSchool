@@ -101,7 +101,7 @@ if ($iddocente!='')
        AND tbl_lezionicert.idmateria=tbl_materie.idmateria
        AND tbl_lezionicert.iddocente=$iddocente 
        ORDER BY datalezione";
-	$result=mysqli_query($con,inspref($sql));
+	$result=eseguiQuery($con,$sql);
 	if(!($result))
 		print("query fallita");
 	else {

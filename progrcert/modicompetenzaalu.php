@@ -72,7 +72,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
                  and tbl_cattnosupp.idalunno = tbl_tipoprog.idalunno
                  and tbl_tipoprog.tipoprogr='P'
                  order by cognome,nome,datanascita,denominazione";
-          $ris=mysqli_query($con,inspref($query))  or die ("Errore: ". inspref($query));
+          $ris=eseguiQuery($con,$query);
          
        if (mysqli_num_rows($ris)>0)
       {  
@@ -91,7 +91,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
      
                $query="select iddocente, cognome, nome from tbl_docenti where iddocente=$iddocente";
    
-               $risalu=mysqli_query($con,inspref($query));
+               $risalu=eseguiQuery($con,$query);
    
    
    
@@ -169,7 +169,7 @@ else
          $query="select count(*) as numcomp from tbl_competalu
                  where idmateria = $idmateria and idalunno = $idalunno";
          // print $query;        
-         $ris= mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query));
+         $ris= eseguiQuery($con,$query);
          $nomcomp=mysqli_fetch_array($ris);
          $numcomp=$nomcomp['numcomp'];     
           
@@ -179,7 +179,7 @@ else
          $query="select * from tbl_competalu
                  where idmateria = $idmateria and  idalunno = $idalunno
                  order by numeroordine"; 
-          $riscomp=mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query));
+          $riscomp=eseguiQuery($con,$query);
           
          while ($nomcomp=mysqli_fetch_array($riscomp))
          {

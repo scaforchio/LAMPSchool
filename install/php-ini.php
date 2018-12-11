@@ -25,11 +25,10 @@ mysqli_query($con,$sql);
 $sql = "SET SESSION sql_mode = 'NO_ENGINE_SUBSTITUTION'";
 mysqli_query($con,$sql);
 $sql = "SELECT parametro,valore FROM ". $prefisso_tabelle. "tbl_parametri where parametro<>'versione'";
-$result = mysqli_query($con, $sql) or die (mysqli_error($con));
+$result = mysqli_query($con,$sql);
 $variabili="";
 while ($rec = mysqli_fetch_array($result))
    $variabili = $variabili. "&". $rec['parametro']. "=". $rec['valore'];
 parse_str($variabili);
 
 mysqli_close($con); 
-

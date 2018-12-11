@@ -54,13 +54,13 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Cancellaz
  $idcla= stringa_html('idcla');
  //$sql="DELETE FROM tbl_tutori WHERE idtutore='$c'";
  //esecuzione query
- //$res=mysqli_query($con,inspref($sql));
+ //$res=eseguiQuery($con,$sql);
  $sql="DELETE FROM tbl_utenti WHERE idutente='$c'";
  //esecuzione query
- $res=mysqli_query($con,inspref($sql));
+ $res=eseguiQuery($con,$sql);
  $sql="DELETE FROM tbl_alunni WHERE idalunno='$c'";
  //esecuzione query
- $res=mysqli_query($con,inspref($sql));
+ $res=eseguiQuery($con,$sql);
  
  if(!$res)
  {

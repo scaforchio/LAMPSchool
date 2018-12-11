@@ -41,7 +41,7 @@ $schede = new FPDF('P', 'mm', 'A4');
 $schede->AddFont('palacescript', '', 'palacescript.php'); // Font del Ministero
 
 $sql = "SELECT * FROM tbl_classi order by anno, specializzazione, sezione";
-$risclassi = mysqli_query($con, inspref($sql));
+$risclassi = eseguiQuery($con,$sql);
 
 $altriga=9;
 while ($recclasse = mysqli_fetch_array($risclassi))

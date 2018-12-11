@@ -87,7 +87,7 @@ else
            and tbl_cattnosupp.iddocente='$iddocente'
            order by specializzazione, sezione, anno";      
 //print inspref($query);        
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
    print "<option value='";
@@ -167,7 +167,7 @@ echo('      <tr>
 // Riempimento combo box tbl_docenti
 print "<tr><td width='50%'><p align='center'><b>Docente</b></p></td><td>";
 $query="select iddocente,cognome,nome from tbl_docenti order by cognome, nome";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 
 if ($tipoutente=='P') 
    echo ("<select name='iddocente' ONCHANGE='tbl_osssist.submit()'><option value=''>&nbsp");
@@ -194,7 +194,7 @@ if ($idclasse!="")
 {
   print "<tr><td width='50%'><p align='center'><b>Alunno</b></p></td><td>";
   $query="select idalunno,cognome,nome,datanascita from tbl_alunni where idclasse=$idclasse order by cognome, nome, datanascita";
-  $ris=mysqli_query($con,inspref($query));
+  $ris=eseguiQuery($con,$query);
   echo ("<select name='idalunno' ONCHANGE='tbl_osssist.submit()'><option value=''>&nbsp");
   while($nom=mysqli_fetch_array($ris)) 
   {
@@ -277,7 +277,7 @@ echo('</form></td>
      
    
  //   $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
- //   $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+ //   $ris=eseguiQuery($con,$query);
  //   if($val=mysqli_fetch_array($ris))
  //      $classe=$val["anno"]." ".$val["sezione"]." ".$val["specializzazione"];
   //  print $iddocente;
@@ -287,7 +287,7 @@ echo('</form></td>
             and $stringaricerca 
             order by tbl_classi.specializzazione, tbl_classi.sezione, tbl_classi.anno, tbl_docenti.cognome, tbl_docenti.nome, tbl_alunni.cognome, tbl_alunni.nome, tbl_alunni.datanascita, tbl_osssist.data";
    // print $query."<br/>";
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query di selezione osservazione: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
 
     $c=mysqli_num_rows($ris);
    

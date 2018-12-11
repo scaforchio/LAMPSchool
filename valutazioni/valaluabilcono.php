@@ -108,7 +108,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 $query = "select iddocente, cognome, nome from tbl_docenti where iddocente=$iddocente";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 
 
 if ($nom = mysqli_fetch_array($ris))
@@ -145,7 +145,7 @@ else
 {
     $query = "select idcattedra,tbl_classi.idclasse,tbl_materie.idmateria,idalunno, anno, sezione, specializzazione, denominazione from tbl_cattnosupp, tbl_classi, tbl_materie where iddocente=$iddocente and tbl_cattnosupp.idalunno<>0 and tbl_cattnosupp.idclasse=tbl_classi.idclasse and tbl_cattnosupp.idmateria = tbl_materie.idmateria order by idalunno, denominazione";
 }
-$ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -219,7 +219,7 @@ if ($cattedra != '')
 			  and tbl_alunni.idclasse=$idcl
 			  and tbl_gruppi.idmateria=$idmat
 			  and tbl_gruppi.iddocente=$iddocente";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     if ($rec = mysqli_fetch_array($ris))
     {
         $idgruppo = $rec['idgruppo'];
@@ -258,7 +258,7 @@ if ($modo == 'norm')
         }//=$idgruppo";
 
 
-        $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+        $ris = eseguiQuery($con,$query);
         while ($nom = mysqli_fetch_array($ris))
         {
             if (!alunno_certificato($nom['idalunno'], $con))
@@ -327,7 +327,7 @@ if ($idclasse != '' & $idmateria != '' & $giorno != '' & $mese != '')
     $query = "select idlezione, orainizio, numeroore from tbl_lezioni
            where idclasse='$idclasse' and idmateria='$idmateria' and datalezione='$anno-$mese-$giorno'";
     // print inspref($query);
-    $reslezpres = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $reslezpres = eseguiQuery($con,$query);
     if (mysqli_num_rows($reslezpres) == 0)
     {
         echo("<tr><td colspan=2><font color='red'><center><b>Non ci sono lezioni per la giornata scelta!</b></center></font></td></tr>");
@@ -425,7 +425,7 @@ else
     //              and tipo='$tipo'" ;
 
 
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
 
     while ($nom = mysqli_fetch_array($ris))
     {
@@ -460,7 +460,7 @@ else
 	                 order by numeroordine";
     }
 
-    $riscomp = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $riscomp = eseguiQuery($con,$query);
 
     while ($nomcomp = mysqli_fetch_array($riscomp))
     {
@@ -485,7 +485,7 @@ else
 	              order by numeroordine";
         }
 
-        $risabil = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+        $risabil = eseguiQuery($con,$query);
 
         while ($nomabil = mysqli_fetch_array($risabil))
         {
@@ -550,7 +550,7 @@ else
 									and (data <> '$anno-$mese-$giorno')
 									order by data";
 
-                $risvotiprec = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+                $risvotiprec = eseguiQuery($con,$query);
                 $numvoti = 0;
                 $totvoti = 0;
                 while ($nomvotiprec = mysqli_fetch_array($risvotiprec))
@@ -605,7 +605,7 @@ else
 	              order by numeroordine";
         }
 
-        $risabil = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+        $risabil = eseguiQuery($con,$query);
 
         while ($nomabil = mysqli_fetch_array($risabil))
         {
@@ -671,7 +671,7 @@ else
 										and (data <> '$anno-$mese-$giorno')
 										order by data";
 
-                $risvotiprec = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+                $risvotiprec = eseguiQuery($con,$query);
                 $numvoti = 0;
                 $totvoti = 0;
                 while ($nomvotiprec = mysqli_fetch_array($risvotiprec))
@@ -755,14 +755,14 @@ function CercaAltroVoto($tipo, $alunno, $lezione, $con)
 	        and voto<>99";
 
 
-    $risvotiprec = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $risvotiprec = eseguiQuery($con,$query);
     if (mysqli_num_rows($risvotiprec) > 0)
     {
         $vot = mysqli_fetch_array($risvotiprec);
         $codvoto = $vot['idvalint'];
         $query2 = "select * from tbl_valutazioniabilcono
 	        where idvalint='$codvoto'";
-        $risvotiabprec = mysqli_query($con, inspref($query2)) or die("Errore: " . inspref($query2));
+        $risvotiabprec = eseguiQuery($con,$query2);
         if (mysqli_num_rows($risvotiabprec) == 0)
         {
             return true;
@@ -782,11 +782,11 @@ function VerificaAlunnoGruppo($alunno, $idlezione, $con1)
 {
     $idlezionegruppo = estrai_lezione_gruppo($idlezione, $con1);
     $query = "select idgruppo from tbl_lezionigruppi where idlezionegruppo='$idlezionegruppo'";
-    $ris = mysqli_query($con1, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con1,$query);
     $rec = mysqli_fetch_array($ris);
     $idgruppo = $rec['idgruppo'];
     $query = "select idgruppoalunno from tbl_gruppialunni where idgruppo='$idgruppo' and idalunno='$alunno'";
-    $ris = mysqli_query($con1, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con1,$query);
     if (mysqli_num_rows($ris) > 0)
     {
         return true;

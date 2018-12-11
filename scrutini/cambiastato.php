@@ -58,7 +58,7 @@ $periodo=stringa_html('periodo');
 //Esecuzione query finale
 $sql="UPDATE tbl_scrutini SET stato='$nuovostato' WHERE idscrutinio=$idscrutinio";
 
-if (!($ris=mysqli_query($con,inspref($sql))))
+if (!($ris=eseguiQuery($con,$sql)))
 {
     die("\n<FONT SIZE='+2'> <CENTER>Modifica non eseguita</CENTER> </FONT> $sql");
 }

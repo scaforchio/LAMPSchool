@@ -8,16 +8,18 @@ require_once '../lib/funzioni.php';
 
 $daticrud = array();
 // Tabella da modificare
-$daticrud['tabella'] = inspref("tbl_recuperipermessi");
+$daticrud['tabella'] = ("tbl_recuperipermessi");
+
 // Nome della tabella per visualizzazioni
 $daticrud['aliastabella'] = "Recuperi Permessi";
+$daticrud['larghezzatabella']= "80%";
 // Campo con l'id univoco per la tabella
 $daticrud['campochiave'] = "idrecupero";
 
 // Campi in base ai quali ordinare
-$daticrud['campiordinamento']= array("cognome,nome,datarecupero");
+$daticrud['campiordinamento']= "cognome,nome,datarecupero";
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
-$daticrud['condizione']= inspref("true");// Campi in base ai quali ordinare
+$daticrud['condizione']= ("true");// Campi in base ai quali ordinare
 
 $daticrud['abilitazionemodifica']=1;
 $daticrud['abilitazionecancellazione']=1;
@@ -42,7 +44,7 @@ $daticrud['abilitazioneinserimento']=1;
 
 $daticrud['titolo']='GESTIONE RECUPERI';
 $daticrud['campi'] = [
-                      ['iddocente','1',inspref('tbl_docenti'),'iddocente','cognome,nome',0,'Docente',1,'','',1,'',''],
+                      ['iddocente','1',('tbl_docenti'),'iddocente','cognome,nome',0,'Docente',1,'','',1,'',''],
                       ['datarecupero','2','','','',10,'Data recupero',2,'date','',1,'',''],
                       ['numeroore','3','','','',1,'Numero ore',3,'number','',1,'1','9' ],
                       ['motivo','4','','','',50,'Motivo recupero',4,'text','',1,'','' ]
@@ -53,8 +55,8 @@ $daticrud['campi'] = [
 // specificato
 //$daticrud['vincolicanc'] = [
 //                            
-//                            [inspref('tbl_noteindalu'),'idalunno'],
-//                            [inspref('tbl_assenze'),'idlaunno']
+//                            [('tbl_noteindalu'),'idalunno'],
+//                            [('tbl_assenze'),'idlaunno']
 //                            
 //                           ];
 $daticrud['vincolicanc'] = [
@@ -95,7 +97,7 @@ function AggiungiGruppoClasse($con,$token,$urlmoodle,$idclasse,$annoscol)
     $speccl= substr(decodifica_classe_spec($idclasse, $con),0,3);
     $identgruppo= strtolower($annocl.$sezicl.$speccl.$annoscol);
     $queryalunni="select idalunno from tbl_alunni where idclasse='$idclasse'";
-    $res=mysqli_query($con, inspref($queryalunni)) or die("Errore $queryalunni");
+    $res=mysqli_query($con, ($queryalunni)) or die("Errore $queryalunni");
     while ($rec=mysqli_fetch_array($res))
     {
         $idalunno=$rec['idalunno'];

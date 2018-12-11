@@ -85,7 +85,7 @@ $query = "SELECT tbl_valutazionifinali.*,tbl_materie.tipovalutazione FROM tbl_va
 	          AND periodo='$numeroperiodi'";
 
 //print inspref($query);
-$risvalu = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con) . $query);
+$risvalu = eseguiQuery($con,$query);
 while ($recval = mysqli_fetch_array($risvalu))
 {
     $codalunni[] = $recval['idalunno'];
@@ -133,7 +133,7 @@ $query = "SELECT distinct tbl_materie.idmateria,tbl_materie.progrpag,sigla,tipov
 	              and tbl_materie.progrpag<>100
 	              order by tbl_materie.progrpag,tbl_materie.sigla";
 
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con) . $query);
+$ris = eseguiQuery($con,$query);
 
 $codmat = array();
 
@@ -215,7 +215,7 @@ if ($nummaterie > 0)
 
     $query = "select * from tbl_alunni
                 where idclasse= $idclasse $conddebito order by cognome,nome,datanascita";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con) . $query);
+    $ris = eseguiQuery($con,$query);
 
     while ($val = mysqli_fetch_array($ris))
     {
@@ -232,7 +232,7 @@ if ($nummaterie > 0)
         $media = "";
         $stampavoti=true;
         $query = "select * from tbl_esiti where idalunno='$idalunno'";
-        $risesi = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con) . $query);
+        $risesi = eseguiQuery($con,$query);
 
         if ($recesi = mysqli_fetch_array($risesi))
         {

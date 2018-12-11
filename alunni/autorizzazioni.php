@@ -53,7 +53,7 @@ print "</form>";
 // prelevamento dati alunno
 // $rs = $lQuery->selectstar('tbl_alunni', 'idalunno=?', array($codalunno));
 $query = "select * from tbl_alunni where not autorizzazioni is null and autorizzazioni <> '' and autorizzazioni like '%$filtro%' order by cognome, nome, datanascita";
-$rs = mysqli_query($con, inspref($query));
+$rs = eseguiQuery($con,$query);
 if (mysqli_num_rows($rs)>0)
 {
     print "<table border=1 align='center'><tr class='prima'><td>Alunno</td><td>Autorizz. o deroga</td></tr>";

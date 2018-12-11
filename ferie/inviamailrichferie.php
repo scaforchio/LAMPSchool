@@ -53,7 +53,7 @@ $orepermessobreve=stringa_html('orepermessobreve');
 if ($numerogiorni=='') $numerogiorni=0;
 if ($orepermessobreve=='') $orepermessobreve=0;
 $query="insert into tbl_richiesteferie(iddocente, subject, testomail,numerogiorni,orepermessobreve) values ('$iddocente','$subject','$testomail',$numerogiorni,$orepermessobreve)";
-mysqli_query($con,inspref($query)) or die("Errore $query");
+eseguiQuery($con,$query);
 $idrichiesta=mysqli_insert_id($con);
 
 print "RICHIESTA CORRETTAMENTE REGISTRATA! <br><br>";
@@ -68,17 +68,17 @@ print "<big><b>NUMERO RICEVUTA: ".$_SESSION['suffisso'].$idrichiesta."</b><small
 {
     print "OK! Mail correttamente inviata alla scuola.<br><br>";
     $query="update tbl_richiesteferie set erroremail=false where idrichiestaferie=$idrichiesta";
-    mysqli_query($con,inspref($query)) or die("Errore $query");
+    eseguiQuery($con,$query);
     print "<big><b>NUMERO RICEVUTA: ".$_SESSION['suffisso'].$idrichiesta."</b><small>";
 }
 else
 {
     print "Errore nell'invio della mail!";
     $query="update tbl_richiesteferie set erroremail=true where idrichiestaferie=$idrichiesta";
-    mysqli_query($con,inspref($query)) or die("Errore $query");
+    eseguiQuery($con,$query);
     print "<big><b>NUMERO RICEVUTA: ".$_SESSION['suffisso'].$idrichiesta."</b><small>";
 }
-mysqli_query($con,inspref($query)) or die("Errore $query");
+eseguiQuery($con,$query);
 
 */
 

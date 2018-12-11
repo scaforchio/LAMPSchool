@@ -42,7 +42,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore: 
 $query = "UPDATE tbl_assemblee
           SET visione_verbale=1, docente_visione=$iddocente, commenti_verbale='".$commenti."',rapportoperdirigente='".$report."'
           WHERE idassemblea=$idassemblea";                  
-$ris=mysqli_query($con,inspref($query)) or die ("Errore : ". inspref($query));
+$ris=eseguiQuery($con,$query);
 
 if($ris)
 {

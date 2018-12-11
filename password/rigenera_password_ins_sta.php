@@ -52,7 +52,7 @@ $annoscolastico = $annoscol . "/" . ($annoscol + 1);
 if ($idclasse != 0)
 {
     $query = "select idclasse,anno,sezione,specializzazione from tbl_classi where idclasse=$idclasse";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
     $val = mysqli_fetch_array($ris);
 
@@ -66,7 +66,7 @@ if ($idclasse != 0)
     $query = "SELECT * FROM tbl_alunni,tbl_utenti
 			  WHERE tbl_alunni.idalunno=tbl_utenti.idutente
 			  AND idclasse='" . $idclasse . "' ORDER BY cognome,nome,datanascita";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
     $nf = session_id() . ".csv";
     $nomefile = "$cartellabuffer/" . $nf;
@@ -91,7 +91,7 @@ if ($idclasse != 0)
         $arr_pw .= "$pass|";
         print ("<td>$utente</td><td>$pass</td></tr>");
         $qupd = "update tbl_utenti set password=md5('" . md5($pass) . "') where idutente=$idalunno";
-        $resupd = mysqli_query($con, inspref($qupd)) or die ("Errore nella query: " . mysqli_error($con));
+        $resupd = eseguiQuery($con,$qupd);
 
         fputcsv($fp, array($val['cognome'], $val['nome'], data_italiana($val['datanascita']), $utente, $pass), ";");
     }
@@ -102,7 +102,7 @@ elseif ($idalu != "")
     $query = "select * from tbl_alunni,tbl_utenti
 			  where tbl_alunni.idalunno=tbl_utenti.idutente 
 			  and idalunno=$idalu";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
     $val = mysqli_fetch_array($ris);
 
@@ -133,7 +133,7 @@ elseif ($idalu != "")
     $arr_pw .= "$pass|";
     print ("<td>$utente</td><td>$pass</td></tr>");
     $qupd = "update tbl_utenti set password=md5('" . md5($pass) . "') where idutente=$idalunno";
-    $resupd = mysqli_query($con, inspref($qupd)) or die ("Errore nella query: " . mysqli_error($con));
+    $resupd = eseguiQuery($con,$qupd);
 
     fputcsv($fp, array($val['cognome'], $val['nome'], data_italiana($val['datanascita']), $utente, $pass), ";");
 
@@ -154,7 +154,7 @@ elseif($idclasse!=-1)
 			  WHERE tbl_alunni.idalunno=tbl_utenti.idutente
 			  AND tbl_alunni.idclasse=tbl_classi.idclasse
 			  ORDER BY anno,sezione,specializzazione,cognome,nome,datanascita";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
 
     $nf = session_id() . ".csv";
@@ -183,7 +183,7 @@ elseif($idclasse!=-1)
         $arr_pw .= "$pass|";
         print ("<td>$utente</td><td>$pass</td></tr>");
         $qupd = "update tbl_utenti set password=md5('" . md5($pass) . "') where idutente=$idalunno";
-        $resupd = mysqli_query($con, inspref($qupd)) or die ("Errore nella query: " . mysqli_error($con));
+        $resupd = eseguiQuery($con,$qupd);
 
         fputcsv($fp, array(decodifica_classe($val['idclasse'], $con), $val['cognome'], $val['nome'], data_italiana($val['datanascita']), $utente, $pass), ";");
     }

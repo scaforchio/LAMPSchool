@@ -140,13 +140,13 @@ print ("
 
 $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY specializzazione, sezione, anno";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     $classe=$nom['idclasse'];
 
     $query="select count(*) as numeroalunni from tbl_alunni where idclasse=$classe";
-    $risal=mysqli_query($con,inspref($query));
+    $risal=eseguiQuery($con,$query);
     $rec=mysqli_fetch_array($risal);
     $numeroalunni=$rec['numeroalunni'];
 
@@ -156,7 +156,7 @@ while ($nom = mysqli_fetch_array($ris))
             and data='$dataoggi'
             and idclasse=$classe";
 
-    $risas=mysqli_query($con,inspref($query));
+    $risas=eseguiQuery($con,$query);
     $rec=mysqli_fetch_array($risas);
     $numeroassenti=$rec['numeroassenti'];
 

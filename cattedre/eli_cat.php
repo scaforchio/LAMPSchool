@@ -45,7 +45,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
   
  
 $sql="DELETE FROM tbl_cattnosupp WHERE idcattedra = '$idcattedra'";
-$ris=mysqli_query($con,inspref($sql));
+$ris=eseguiQuery($con,$sql);
 
  print "
         <form method='post' id='formcat' action='../cattedre/vis_cattedre.php'>

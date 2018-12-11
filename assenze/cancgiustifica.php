@@ -54,19 +54,19 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 if ($idassenza!='')
 {
     $query = "UPDATE tbl_assenze SET giustifica=0, datagiustifica=NULL, iddocentegiust=0 WHERE idassenza=$idassenza";
-    $risupd = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $risupd = eseguiQuery($con,$query);
 
 }
 if ($idritardo!='')
 {
     $query = "UPDATE tbl_ritardi SET giustifica=0, datagiustifica=NULL, iddocentegiust=0 WHERE idritardo=$idritardo";
-    $risupd = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $risupd = eseguiQuery($con,$query);
 
 }
 if ($iduscita!='')
 {
     $query = "UPDATE tbl_usciteanticipate SET giustifica=0, datagiustifica=NULL, iddocentegiust=0 WHERE iduscita=$iduscita";
-    $risupd = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $risupd = eseguiQuery($con,$query);
 
 }
 

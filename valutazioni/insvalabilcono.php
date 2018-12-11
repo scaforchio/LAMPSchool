@@ -56,7 +56,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 
  
  $query="select idalunno,cognome,nome from tbl_alunni where idclasse=".$idclasse."";
- $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+ $ris=eseguiQuery($con,$query);
 
  
 while($id=mysqli_fetch_array($ris))            //    <-----------  ttttttt
@@ -67,7 +67,7 @@ while($id=mysqli_fetch_array($ris))            //    <-----------  ttttttt
 		 $presentevoto=false;
 		 $idal=$id['idalunno'];
        $query="select idvalint,voto from tbl_valutazioniintermedie where idalunno=".$idal." and idlezione='".$idlezione."' and tipo='$tipo'";
-       $ris2=mysqli_query($con,inspref($query)) or die (mysqli_error);
+       $ris2=eseguiQuery($con,$query);
        if (mysqli_num_rows($ris2)>0)
        {
 			 
@@ -90,7 +90,7 @@ while($id=mysqli_fetch_array($ris))            //    <-----------  ttttttt
           // con il voto medio risultante
           $query="insert into tbl_valutazioniintermedie(idalunno,idmateria,idlezione,iddocente,idclasse,data,tipo,voto,giudizio)
           values('$idal','$materia','$idlezione','$iddocente','$idclasse','$data','$tipo','0','')";
-          $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+          $ris2=eseguiQuery($con,$query);
           $idvalint=mysqli_insert_id($con);
 		 }
        
@@ -100,14 +100,14 @@ while($id=mysqli_fetch_array($ris))            //    <-----------  ttttttt
        $idclasse=estrai_id_classe($cattedra, $con);
        $query="select idcompetenza from tbl_competdoc where idmateria='$idmateria' and idclasse='$idclasse'";
  
-       $ris3=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));        
+       $ris3=eseguiQuery($con,$query);        
        $numvoti=0;
        $totvoti=0;
        while($nom=mysqli_fetch_array($ris3))
        {
 	      	$idcompetenza=$nom['idcompetenza'];
 		      $query="select idabilita from tbl_abildoc where idcompetenza=".$idcompetenza."";
-		      $risab=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));    
+		      $risab=eseguiQuery($con,$query);    
 		      while($nomab=mysqli_fetch_array($risab))
             { 
 			      $idabilita=$nomab['idabilita'];
@@ -120,7 +120,7 @@ while($id=mysqli_fetch_array($ris))            //    <-----------  ttttttt
 				      $query="insert into tbl_valutazioniabilcono(voto,idvalint,idabilita)
                            values('$votoab','$idvalint','$idabilita')";    
                        
-                  $risins=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+                  $risins=eseguiQuery($con,$query);
 			     }
 		     }	
        }
@@ -136,7 +136,7 @@ while($id=mysqli_fetch_array($ris))            //    <-----------  ttttttt
 			  {  
 				  $votomedio=round($totvoti*4/$numvoti)/4;		
 				  $query="update tbl_valutazioniintermedie set voto=$votomedio where idvalint=$idvalint";
-				  $risupd=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+				  $risupd=eseguiQuery($con,$query);
 				  echo "
 					  <center>
 					  <font size=4><br>

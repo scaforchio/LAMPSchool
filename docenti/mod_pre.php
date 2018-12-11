@@ -45,7 +45,7 @@ riceve in ingresso iddocente*/
 		 exit;
 		}
 	$sql="SELECT * from tbl_docenti where iddocente=1000000000";
-	$result=mysqli_query($con,inspref($sql));
+	$result=eseguiQuery($con,$sql);
 	$Data=mysqli_fetch_array($result);
 	if(mysqli_num_rows ($result) == 0)
 		print("<center><b>L'utenza preside non è stata ancora inserita!</b></center>");
@@ -75,7 +75,7 @@ riceve in ingresso iddocente*/
 		print(" <td><input type ='text' size='2'maxlength='2' name='datadinascg' value=$g> / <input type ='text' size='2' maxlength='2'name='datadinascm' value=$m> / <input type ='text' size='4' maxlength='4'name='datadinasca' value=$a></td>\n</tr>\n");
 		$idcomn=$Data['idcomnasc'];
 		$sqla= "SELECT * FROM tbl_comuni ORDER BY denominazione";
-   		$resa=mysqli_query($con,inspref($sqla)); 
+   		$resa=eseguiQuery($con,$sqla); 
    		if(!$resa)
    		{
     		print ("<br/> <br/> <br/> <h2>a Impossibile visualizzare i dati </h2>");
@@ -103,7 +103,7 @@ riceve in ingresso iddocente*/
 		$idcomr=$Data['idcomres'];
 		//$sqlb="SELECT * FROM tbl_comuni ORDER BY denominazione";
         mysqli_data_seek ($resa, 0); // Ritorna all'inizio del resultset, query già eseguita
-   		$resb = $resa; //mysqli_query($con,inspref($sqlb));
+   		$resb = $resa; //eseguiQuery($con,$sqlb);
    		if(!$resb)
    		{
     		print ("<br/> <br/> <br/> <h2> b Impossibile visualizzare i dati </h2>");

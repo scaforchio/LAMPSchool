@@ -46,7 +46,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
 
 $queryins = "insert into tbl_gruppi(descrizione, iddocente, idmateria)  values ('$descrizione','$iddocente','$idmateria')";
-$result = mysqli_query($con, inspref($queryins)) or die("Errore:" . inspref($queryins));
+$result = eseguiQuery($con,$queryins);
 
 $idgruppo = mysqli_insert_id($con);
 

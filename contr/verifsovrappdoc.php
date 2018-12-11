@@ -59,7 +59,7 @@ $query = "SELECT idclasse, tbl_firme.iddocente, idmateria, datalezione, orainizi
         WHERE tbl_firme.idlezione=tbl_lezioni.idlezione 
         AND idlezionegruppo IS NULL
         ORDER BY idclasse, datalezione, orainizio";
-$ris = mysqli_query($con, inspref($query)) or die (mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 if (mysqli_num_rows($ris) > 0)
 {
     print "<br><br><center><b>Sovrapposizioni nella stessa classe!</b></center><br><br>";
@@ -125,7 +125,7 @@ $query = "SELECT idclasse, tbl_firme.iddocente, idmateria, datalezione, orainizi
         WHERE tbl_firme.idlezione=tbl_lezioni.idlezione 
         AND idlezionegruppo IS NULL
         ORDER BY iddocente, datalezione, orainizio";
-$ris = mysqli_query($con, inspref($query)) or die (mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 if (mysqli_num_rows($ris) > 0)
 {
     print "<br><br><center><b>Sovrapposizioni in classi diverse!</b></center><br><br>";

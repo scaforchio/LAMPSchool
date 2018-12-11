@@ -57,7 +57,7 @@ print("   <tr>
 print ("<SELECT NAME='iddocente' ONCHANGE='gruppo.submit()'><option values=''>&nbsp;</option>");
 
 $query = "SELECT * FROM tbl_docenti WHERE iddocente<>1000000000 ORDER BY cognome, nome";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($rec = mysqli_fetch_array($ris))
 {
     print "<option value='" . $rec['iddocente'] . "' ";
@@ -85,7 +85,7 @@ if ($iddocente != "")
 			  and iddocente=$iddocente
 			  and idalunno=0
 			  order by denominazione";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     $trovato = false;  // Gestisce la situazione di cambio docente
     while ($rec = mysqli_fetch_array($ris))
     {

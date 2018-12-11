@@ -64,7 +64,7 @@ if ($iddoc=="")
 
 
 	$query="select * from tbl_docenti where iddocente>1000000000 order by cognome,nome,datanascita";
-	$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+	$ris=eseguiQuery($con,$query);
 	$numpass=0;
 				
 	while($val=mysqli_fetch_array($ris)) 
@@ -82,7 +82,7 @@ if ($iddoc=="")
 							 <input type='hidden' name='utdoc".$numpass."' value='$utente'> 
 							 <input type='hidden' name='pwdoc".$numpass."' value='$pass'></td></tr>");
 			$qupd ="update tbl_utenti set password=md5('".md5($pass)."') where idutente=$iddocente";
-			$resupd=mysqli_query($con,inspref($qupd)) or die ("Errore nella query: ". mysqli_error($con));
+			$resupd=eseguiQuery($con,$qupd);
 			
                         if ($tokenservizimoodle != '')
                         {
@@ -102,7 +102,7 @@ else
 
 
 	$query="select * from tbl_docenti where iddocente=$iddoc";
-	$ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+	$ris=eseguiQuery($con,$query);
 
 
 	$numpass=0;
@@ -129,7 +129,7 @@ else
 							 <input type='hidden' name='pwdoc".$numpass."' value='$pass'>");
 			$qupd ="update tbl_utenti set password = md5('".md5($pass)."') where idutente=$iddocente";
                         //print inspref($qupd);
-			$resupd=mysqli_query($con,inspref($qupd)) or die ("Errore nella query: ". mysqli_error($con));
+			$resupd=eseguiQuery($con,$qupd);
 			
                         if ($tokenservizimoodle != '')
                         {

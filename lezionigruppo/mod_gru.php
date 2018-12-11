@@ -54,7 +54,7 @@ if (!$DB)
 
 //Esecuzione query
 $sql = "SELECT * FROM tbl_gruppi WHERE idgruppo=" . stringa_html('idgruppo');
-if (!($ris = mysqli_query($con, inspref($sql))))
+if (!($ris = eseguiQuery($con,$sql)))
 {
     print("\n<h1> Query fallita </h1>");
     exit;

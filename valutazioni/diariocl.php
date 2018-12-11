@@ -105,7 +105,7 @@ $query = "select distinct tbl_classi.idclasse,anno,sezione,specializzazione
         where tbl_classi.idclasse=tbl_cattnosupp.idclasse
         and tbl_cattnosupp.iddocente=$iddocente
         order by specializzazione, sezione, anno";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -242,7 +242,7 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
 
 
     //   $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
-    //   $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    //   $ris=eseguiQuery($con,$query);
     //   if($val=mysqli_fetch_array($ris))
     //      $classe=$val["anno"]." ".$val["sezione"]." ".$val["specializzazione"];
     //  print $iddocente;
@@ -274,7 +274,7 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
     // VISUALIZZO EVENTUALI ANNOTAZIONI GIA' PRESENTI
 
     $query="select * from tbl_diariocl where idclasse=$idclasse and data='$data' order by oraultmod desc";
-    $risprec=mysqli_query($con,inspref($query));
+    $risprec=eseguiQuery($con,$query);
     if (mysqli_num_rows($risprec)>0)
     {
 

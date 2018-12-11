@@ -52,7 +52,7 @@ tbl_oooclassilezioni.idlezione=tbl_ooolezioni.idlezione AND
 tbl_oooclassilezioni.idclasse=tbl_oooclassi.idclasse AND
 emaildocente='$maildocente'";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore: ". inspref($query));
+$ris = eseguiQuery($con,$query);
 if (mysqli_num_rows($ris) == 0)
     print "<br><center><b>ORARIO NON PRESENTE PER DOCENTE CON MAIL $maildocente</b></center><br><br>";
 else
@@ -79,7 +79,7 @@ else
             idgiorno='$g' AND
             (idora='$o' OR (idora='$oraprec' AND durata>60))";
             
-        $ris=mysqli_query($con, inspref($query)) or die("Errore: ".inspref($query));
+        $ris=eseguiQuery($con,$query);
         if($rec=mysqli_fetch_array($ris))
             print ("<td align='center'>".$rec['nomeclasse']."<br>".$rec['nomemateria']."<br>".$rec['nomeaula']."</td>");
         else
@@ -94,7 +94,7 @@ else
     print "<tr class='prima'><td>Prot.</td><td>Docente</td><td>Periodo</td></tr>";
 // TTTT
     $query = "select * from tbl_richiesteferie where concessione=1 order by idrichiestaferie desc";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris))
     {
         print "<tr>";

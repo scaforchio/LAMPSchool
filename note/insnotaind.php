@@ -68,15 +68,15 @@ else
         $query = "update tbl_notealunno set testo='$notacl',provvedimenti='$provvedimenti',
 		          iddocente=$iddocente, data='$data' 
 		           where idnotaalunno=$idnota";
-        $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query di aggiornamento: " . mysqli_error($con));
+        $ris2 = eseguiQuery($con,$query);
 
         $query = "delete from tbl_noteindalu where idnotaalunno=$idnota";
-        $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query di aggiornamento: " . mysqli_error($con));
+        $ris2 = eseguiQuery($con,$query);
 
         foreach ($idalunni as $idalunno)
         {
             $query = "insert into tbl_noteindalu(idalunno,idnotaalunno) values ($idalunno,$idnota)";
-            $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query di aggiornamento: " . mysqli_error($con));
+            $ris2 = eseguiQuery($con,$query);
         }
         print "<br><center><b>Modifica effettuata!</b></center>";
     }
@@ -85,13 +85,13 @@ else
         $query = "insert into tbl_notealunno(testo,provvedimenti,iddocente,idclasse,data)
 		          values('$notacl','$provvedimenti',$iddocente,$idclasse,'$data')";
         //   print inspref($query);
-        $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query di inserimento: " . mysqli_error($con));
+        $ris2 = eseguiQuery($con,$query);
         $idnota = mysqli_insert_id($con);
 
         foreach ($idalunni as $idalunno)
         {
             $query = "insert into tbl_noteindalu(idalunno,idnotaalunno) values ($idalunno,$idnota)";
-            $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query di inserimento: " . mysqli_error($con));
+            $ris2 = eseguiQuery($con,$query);
         }
         print "<br><center><b>Inserimento effettuato!</b></center>";
     }

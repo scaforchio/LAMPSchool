@@ -57,7 +57,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 		//Prelevamento del testo delle tbl_sezioni e delle tbl_specializzazioni
 		$query1="SELECT * FROM tbl_sezioni
 					WHERE ". stringa_html('tbl_sezioni'). "=idsezione";		
-		$a1=mysqli_query($con,inspref($query1));
+		$a1=eseguiQuery($con,$query1);
 		$d1=mysqli_fetch_array($a1);
 		
 		$query2="SELECT * FROM tbl_specializzazioni	
@@ -71,7 +71,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
         $sql .= "', oresett='". stringa_html('ore'). "', idcoordinatore=".stringa_html('coord');
         $sql .= " WHERE idclasse=". stringa_html('idclasse');
 		
-        if (!($ris=mysqli_query($con,inspref($sql))))
+        if (!($ris=eseguiQuery($con,$sql)))
 		  {  
 	   	 	print("\n<FONT SIZE='+2'> <CENTER>".inspref($sql)."</CENTER> </FONT>");
     	  }

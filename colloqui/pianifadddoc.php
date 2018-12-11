@@ -11,7 +11,7 @@
 	//CONTROLLO NUMERO MASSIMO DOCENTI PER AULA
     $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
     $query = "SELECT capienza from tbl_aule where idaula=$idaula";
-    $ris=mysqli_query($con,inspref($query));
+    $ris=eseguiQuery($con,$query);
     $rec=mysqli_fetch_array($ris);
     $capienza=$rec['capienza'];
 	$qas = "SELECT * FROM tbl_assocauledoc WHERE idaula=$idaula";

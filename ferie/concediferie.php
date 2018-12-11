@@ -60,10 +60,10 @@ if (!$senzaconteggio)
    $query = "update tbl_richiesteferie set concessione=$conc, testomail=concat(testomail,'" . $esito . "') where idrichiestaferie=$prot";
 else
    $query = "update tbl_richiesteferie set concessione=$conc, numerogiorni=0, orepermessobreve=0, testomail=concat(testomail,'" . $esito . "') where idrichiestaferie=$prot"; 
-mysqli_query($con, inspref($query)) or die("Errore $query");
+eseguiQuery($con,$query);
 
 $query = "select * from tbl_richiesteferie where idrichiestaferie=$prot";
-$ris = mysqli_query($con, inspref($query)) or die("Errore $query");
+$ris = eseguiQuery($con,$query);
 $rec = mysqli_fetch_array($ris);
 
 $iddocente = $rec['iddocente'];
@@ -71,7 +71,7 @@ $subject = $rec['subject'];
 $testomail = $rec['testomail'];
 
 $query = "select email from tbl_docenti where iddocente=$iddocente";
-$risemail = mysqli_query($con, inspref($query)) or die("Errore $query");
+$risemail = eseguiQuery($con,$query);
 $recemail = mysqli_fetch_array($risemail);
 $indirizzomaildocente = $recemail['email'];
 

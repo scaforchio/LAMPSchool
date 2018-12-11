@@ -58,7 +58,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
   // prelevamento dati alunno
 
   $query="select * from tbl_alunni where idalunno=$codalunno"; 
-  $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+  $ris=eseguiQuery($con,$query);
   
   // echo '<table border=1 align="center" width="800"  >';
   
@@ -76,7 +76,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
           where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
           and idalunno=$codalunno and periodo = $per order by tbl_materie.progrpag";
   
-  $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+  $ris=eseguiQuery($con,$query);
   // print $query;
   if (mysqli_num_rows($ris)>0)
   {
@@ -85,7 +85,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
      while($val=mysqli_fetch_array($ris))
      {
        $query="select * from tbl_materie where idmateria = ".$val['idmateria'];
-       $rismat=mysqli_query($con,inspref($query));
+       $rismat=eseguiQuery($con,$query);
        $recmat=mysqli_fetch_array($rismat);
        $materia=$recmat['denominazione'];
        
@@ -133,7 +133,7 @@ $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore d
     // Cerco il giudizio
     
     $query="select * from tbl_giudizi where idalunno = $codalunno and periodo = '$per'";
-    $risgiu=mysqli_query($con,inspref($query));
+    $risgiu=eseguiQuery($con,$query);
     if ($recgiu=mysqli_fetch_array($risgiu))
     {   
 		 print "<tr class='prima'><td colspan=7 align=center><b>Giudizio complessivo</b></td></tr>";

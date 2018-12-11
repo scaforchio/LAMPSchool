@@ -48,7 +48,7 @@ $descrizione = stringa_html("descrizione");
    $query="update tbl_competalu set sintcomp='".elimina_apici($sintesi)."', competenza='".elimina_apici($descrizione)."'
            where idcompetenza=$idcomp";
 
-   if ($ris=mysqli_query($con,inspref($query)))
+   if ($ris=eseguiQuery($con,$query))
        print "
         <form method='post' id='formcomp' action='modicompetenzaalu.php'>
         <input type='hidden' name='cattedra' value='$cattedra'>

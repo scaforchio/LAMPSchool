@@ -127,7 +127,7 @@ switch ($ordinamento)
         break;
 }
 // print $query;          
-$ris = mysqli_query($con, inspref($query)) or die ("errore:" . inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
 
@@ -140,7 +140,7 @@ while ($nom = mysqli_fetch_array($ris))
         WHERE " . $nom['idmateria'] . " = tbl_documenti.idmateria
         AND " . $nom['idclasse'] . " = tbl_documenti.idclasse
         AND idtipodocumento=$tipodocumento";
-    $rispl = mysqli_query($con, inspref($query)) or die ("errore:" . inspref($query));
+    $rispl = eseguiQuery($con,$query);
     if ($recpl = mysqli_fetch_array($rispl))
     {
         print ("<td>");

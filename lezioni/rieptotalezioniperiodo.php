@@ -109,7 +109,7 @@ $query = "select distinct tbl_gruppi.idgruppo from tbl_gruppialunni,tbl_alunni,t
              and tbl_alunni.idclasse=$idcl
              and tbl_gruppi.idmateria=$idmat
              and tbl_gruppi.iddocente=$iddocente";
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 if ($rec = mysqli_fetch_array($ris))
 {
     $idgruppo = $rec['idgruppo'];
@@ -119,7 +119,7 @@ if ($rec = mysqli_fetch_array($ris))
 
 
 $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 if ($val = mysqli_fetch_array($ris))
 {
     $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
@@ -150,7 +150,7 @@ if ($per == "Terzo")
 }
 
 $query = "SELECT sum(numeroore) AS numtotore FROM tbl_lezioni WHERE idclasse='" . $idclasse . "' AND idmateria='" . $idmateria . "' " . $perioquery;
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 if ($val = mysqli_fetch_array($ris))
 {
     $oretotalilezione = $val["numtotore"];
@@ -205,7 +205,7 @@ $giornilezione = array();
 
 $query = "SELECT idlezione,datalezione, numeroore, orainizio FROM tbl_lezioni WHERE idclasse='" . $idclasse . "' AND idmateria='" . $idmateria . "' " . $perioquery . " ORDER BY datalezione,orainizio";
 
-$rislez = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$rislez = eseguiQuery($con,$query);
 
 while ($reclez = mysqli_fetch_array($rislez))
 
@@ -304,7 +304,7 @@ else
                where idclasse='$idclasse' 
                      and idalunno in (select idalunno from tbl_cattnosupp where iddocente='$id_ut_doc' and idmateria='$idmateria' and idclasse='$idclasse') order by cognome, nome, datanascita";
 }
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 $numeroalunno = 0;
 while ($val = mysqli_fetch_array($ris))
 {
@@ -365,7 +365,7 @@ while ($val = mysqli_fetch_array($ris))
               where tbl_asslezione.idlezione=tbl_lezioni.idlezione
               and tbl_lezioni.idmateria=$idmateria and idclasse=$idclasse and idalunno=" . $val['idalunno'] . $perioquery . " order by idlezione";
     //print inspref($query);
-    $risass = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $risass = eseguiQuery($con,$query);
     $ass = array();
     $leza = array();
     while ($recass = mysqli_fetch_array($risass))
@@ -379,7 +379,7 @@ while ($val = mysqli_fetch_array($ris))
               and idmateria=$idmateria " . $perioquery . " order by idlezione";
 
     // print inspref($query);
-    $risvot = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $risvot = eseguiQuery($con,$query);
     $vot = array();   // Voti da visualizzare
     $lezv = array();  // Idlezioni
 

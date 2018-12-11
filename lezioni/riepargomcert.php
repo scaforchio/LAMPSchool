@@ -59,7 +59,7 @@ $idmateria="";
 if ($codlez!="")
 {
     $query="select * from tbl_lezionicert where idlezione=$codlez";
-    $ris=mysqli_query($con,inspref($query));
+    $ris=eseguiQuery($con,$query);
     $lez=mysqli_fetch_array($ris);
     
 //
@@ -71,7 +71,7 @@ if ($codlez!="")
    
       $query="select idcattedra from tbl_cattnosupp where idalunno=$idalunno and idmateria=$idmateria"; 
           
-      $ris=mysqli_query($con,inspref($query));
+      $ris=eseguiQuery($con,$query);
       if($nom=mysqli_fetch_array($ris))
       {
           $catt=$nom['idcattedra'];
@@ -102,7 +102,7 @@ else
        if ($catt<>"")
        {
            $query="select idalunno, idmateria from tbl_cattnosupp where idcattedra=$catt"; 
-           $ris=mysqli_query($con,inspref($query));
+           $ris=eseguiQuery($con,$query);
            if($nom=mysqli_fetch_array($ris))
            {
               $idmateria=$nom['idmateria'];
@@ -140,7 +140,7 @@ print ('
 
 $query="select iddocente, cognome, nome from tbl_docenti where idutente=$id_ut_doc";
 
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 if($nom=mysqli_fetch_array($ris))
 {
    $iddocente=$nom["iddocente"];
@@ -180,7 +180,7 @@ else
 					order by tbl_cattnosupp.idalunno, denominazione";  
 // print "tttt: ".inspref($query);
 
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 { 
   print "<option value='";
@@ -251,7 +251,7 @@ if ($idalunno!="")
 
        $query="select * from tbl_lezionicert where idalunno=$idalunno and idmateria=$idmateria order by datalezione";
    
-       $rislez=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+       $rislez=eseguiQuery($con,$query);
     
        while ($reclez=mysqli_fetch_array($rislez))
   		 {

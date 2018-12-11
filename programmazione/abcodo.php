@@ -73,7 +73,7 @@ print("<tr>
           
           // print inspref($query); // TTTT
           
-          $riscomp=mysqli_query($con,inspref($query));
+          $riscomp=eseguiQuery($con,$query);
           
            while($nom=mysqli_fetch_array($riscomp))
 	       {
@@ -120,7 +120,7 @@ if ($competenza!="")
           
 	              
 	              
-     $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". inspref($query));
+     $ris=eseguiQuery($con,$query);
      
   
      if (mysqli_num_rows($ris)>0)
@@ -146,7 +146,7 @@ if ($competenza!="")
 			  
 			
 			 $query="select * from tbl_abildoc where idcompetenza=$competenza and abil_cono='A' order by numeroordine";
-			 $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+			 $ris=eseguiQuery($con,$query);
 			 print "<form method='post' action='insabcodo.php'>
 					  <p align='center'>
 					 <font size=4 color='black'>Abilit&agrave;</font>
@@ -163,7 +163,7 @@ if ($competenza!="")
 				  $query="select * from tbl_valutazioniabilcono
                       where idabilita=$idabilcono
                       and pei=0" ;
-				  $ris2=mysqli_query($con,inspref($query)) or die ("Errore: ".inspref($query));
+				  $ris2=eseguiQuery($con,$query);
 				  if (mysqli_num_rows($ris2)>0)
 				     $votipresenti=true;
 				  
@@ -210,7 +210,7 @@ if ($competenza!="")
 			  
 			
 			 $query="select * from tbl_abildoc where idcompetenza=$competenza and abil_cono='C' order by numeroordine";
-			 $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+			 $ris=eseguiQuery($con,$query);
 			 
 			 print "<p align='center'>
 					 <font size=4 color='black'>Conoscenze</font><br/>
@@ -227,7 +227,7 @@ if ($competenza!="")
 				  $query="select * from tbl_valutazioniabilcono
                       where idabilita=$idabilcono
                       and pei=0" ;
-				  $ris2=mysqli_query($con,inspref($query)) or die ("Errore: ".inspref($query));
+				  $ris2=eseguiQuery($con,$query);
 				  
 				  if (mysqli_num_rows($ris2)>0)
 				     $votipresenti=true;

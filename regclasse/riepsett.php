@@ -79,7 +79,7 @@ if ($idlezione!="" & $giorno!="" & $meseanno!="" )
        
     $query="select idclasse, idmateria from tbl_cattnosupp where idcattedra=$cattedra";
        
-       $ris=mysqli_query($con,inspref($query));
+       $ris=eseguiQuery($con,$query);
        if($nom=mysqli_fetch_array($ris))
        {
            $materia=$nom['idmateria'];
@@ -254,7 +254,7 @@ $giornosettimana = giorno_settimana($anno . "-" . $mese . "-" . $giorno);
 //{
 //   $query="select * from tbl_cattnosupp where iddocente='$iddocente' and idclasse='$idclasse' and idmateria='$materia'";
 //   // print inspref($query);
-//   $ris=mysqli_query($con,inspref($query));
+//   $ris=eseguiQuery($con,$query);
 //   $numerorighe=mysqli_num_rows($ris);
 //}
 

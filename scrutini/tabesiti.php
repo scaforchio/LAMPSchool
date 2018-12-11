@@ -49,7 +49,7 @@ if(!$con)
 //Esecuzione query
 $query="SELECT * FROM tbl_tipiesiti ORDER BY passaggio";  // 0=supplenza, -1=comportamento
 
-if (!($ris=mysqli_query($con,inspref($query))))
+if (!($ris=eseguiQuery($con,$query)))
 {
     print "Query fallita";
 }
@@ -64,7 +64,7 @@ else
         print "<TD><A HREF='mod_tipoesito.php?idtipoesito=". $dati['idtipoesito']. "'><img src='../immagini/edit.png' title='Modifica'></A>";
         /*  ELIMINAZIONE TIPO ESITO
         $query="select * from tbl_esiti where esito=".$dati['idtipoesito'];
-        $ris2=mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query,false));
+        $ris2=eseguiQuery($con,$query);
         if (mysqli_num_rows($ris2)==0)
             print "<A HREF='del_tipoesito.php?idtipoesito=". $dati['idtipoesito']. "'><img src='../immagini/delete.png' title='Elimina'></A>";
         else

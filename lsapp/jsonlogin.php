@@ -165,7 +165,7 @@ if (substr($utente, 0, 2) != "al")
 {
     $data = date('Y-m-d');
     $query = "select oggetto,testo,inizio  from tbl_avvisi where destinatari like '%T%' and '$data' between inizio and fine ";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
 
     while ($row = mysqli_fetch_array($ris))
@@ -179,7 +179,7 @@ if (substr($utente, 0, 2) != "al")
 {
     $data = date('Y-m-d');
     $query = "select oggetto,testo,inizio  from tbl_avvisi where destinatari like '%L%' and '$data' between inizio and fine ";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
 
     while ($row = mysqli_fetch_array($ris))
@@ -210,7 +210,7 @@ else
   and visibilitagenitori=true";
  */
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . inspref($query));
+$ris = eseguiQuery($con,$query);
 if (mysqli_num_rows($ris) > 0)
 {
     while ($rec = mysqli_fetch_array($ris))
@@ -230,7 +230,7 @@ $query = "select tbl_notealunno.testo,nome,cognome,data
 			where idalunno='$alunno' and tbl_notealunno.idnotaalunno = tbl_noteindalu.idnotaalunno and tbl_notealunno.iddocente=tbl_docenti.iddocente
 			order by data, cognome, nome, testo ";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 $notealunno = array();
 $nomed = array();
@@ -252,7 +252,7 @@ $query = "select tbl_noteclasse.testo,nome,cognome,data
 			where tbl_noteclasse.idclasse='$idclasse' and tbl_noteclasse.iddocente=tbl_docenti.iddocente
 			order by data, cognome, nome, testo";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 $noteclasse = array();
 $nomedc = array();
@@ -291,7 +291,7 @@ if (date("H:i") > "08:30")
 {
     $query = "select data,giustifica from tbl_assenze where idalunno='$alunno' and data<'" . date("Y-m-d") . "' order by data desc";
 }
-$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 while ($row = mysqli_fetch_array($ris))
 {
@@ -309,7 +309,7 @@ while ($row = mysqli_fetch_array($ris))
 }
 
 $query = "select data,oraentrata,giustifica,numeroore from tbl_ritardi where idalunno='$alunno' order by data desc";
-$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 while ($row = mysqli_fetch_array($ris))
 {
@@ -326,7 +326,7 @@ while ($row = mysqli_fetch_array($ris))
 }
 
 $query = "select data,orauscita,numeroore from tbl_usciteanticipate where idalunno='$alunno' order by data desc";
-$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 while ($row = mysqli_fetch_array($ris))
 {

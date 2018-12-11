@@ -113,7 +113,7 @@ $query = "SELECT * FROM tbl_alunni, tbl_classi
          AND tbl_alunni.idclasse<>0
          ORDER BY cognome,nome,anno, sezione, specializzazione";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 
 print "<form name='selealu' action='selealunnitimbraturaforzata.php' method='post'>";
 print "<table align='center'>";

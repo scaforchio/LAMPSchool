@@ -36,7 +36,7 @@ WHERE table_schema = '$db_nome'
 GROUP BY 1,2";
 
 //$rs = $lQuery->query($query);
-$rs = mysqli_query($con, $query) or die ("Errore:" . $query);
+$rs = eseguiQuery($con,$query, false);
 
 if ($rs)
 {
@@ -66,7 +66,7 @@ if ($rs)
                 //
                 // NON USO inspref PER EVITARE CHE VENGA INSERITO NUOVAMENTE IL PREFISSO
                 //
-                mysqli_query($con, $query) or die ("Errore:" . $query);
+                eseguiQuery($con,$query, false);
 
             }
         }
@@ -80,35 +80,35 @@ else
 
 
 $query = "ALTER TABLE tbl_lezioni ADD INDEX datalezione(datalezione)";
-mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+eseguiQuery($con,$query);
 $query = "ALTER TABLE tbl_lezioni ADD INDEX idclasse(idclasse)";
-mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+eseguiQuery($con,$query);
 $query = "ALTER TABLE tbl_lezioni ADD UNIQUE uk_principale (idclasse, idmateria, datalezione, orainizio, numeroore) COMMENT 'Evita doppi inserimenti'";
 mysqli_query($con, inspref($query)) or print ("<b><center>Non è stato possibile ricostruire l'indice univoco sulle lezioni! Ci sono lezioni duplicate: verificare, risolvere e ritentare!</center></b>");
 $query = "ALTER TABLE tbl_proposte ADD INDEX idmateria(idmateria)";
-mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+eseguiQuery($con,$query);
 $query = "ALTER TABLE tbl_proposte ADD INDEX periodo(periodo)";
-mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+eseguiQuery($con,$query);
 $query = "ALTER TABLE tbl_proposte ADD INDEX idalunno(idalunno)";
-mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+eseguiQuery($con,$query);
 $query = "ALTER TABLE tbl_asslezione ADD INDEX idalunno(idalunno)";
-mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+eseguiQuery($con,$query);
 $query = "ALTER TABLE tbl_asslezione ADD INDEX idlezione(idlezione)";
-mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+eseguiQuery($con,$query);
 $query = "ALTER TABLE tbl_valutazioniintermedie ADD INDEX idalunno(idalunno)";
-mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+eseguiQuery($con,$query);
 $query = "ALTER TABLE tbl_valutazioniintermedie ADD INDEX idlezione(idlezione)";
-mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+eseguiQuery($con,$query);
 $query = "ALTER TABLE tbl_alunni ADD INDEX idclasse(idclasse)";
-mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+eseguiQuery($con,$query);
 $query = "ALTER TABLE tbl_cattnosupp ADD INDEX idclasse(idclasse)";
-mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+eseguiQuery($con,$query);
 $query = "ALTER TABLE tbl_cattnosupp ADD INDEX iddocente(iddocente)";
-mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+eseguiQuery($con,$query);
 $query = "ALTER TABLE tbl_cattnosupp ADD INDEX idmateria(idmateria)";
-mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+eseguiQuery($con,$query);
 $query = "ALTER TABLE tbl_esiti ADD INDEX idalunno(idalunno)";
-mysqli_query($con, inspref($query)) or die ("Errore:" . inspref($query));
+eseguiQuery($con,$query);
 print "<br/>";
 
 stampa_piede("");

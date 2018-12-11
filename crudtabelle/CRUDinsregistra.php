@@ -63,7 +63,7 @@ $elencovalori = substr($elencovalori, 0, strlen($elencovalori) - 2);
 
 $queryins = "insert into ".$daticrud['tabella']."($elencocampi) values ($elencovalori)";
 print $queryins;
-mysqli_query($con,$queryins) or die("Errore: ".$queryins);
+eseguiQuery($con,$queryins);
 inserisci_log($_SESSION['userid'] . "§" . date('m-d|H:i:s') . "§" . $_SESSION['indirizzoip'] . "§" . $queryins . "");
                     
 // TTTT Aggiungere al log

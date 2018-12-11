@@ -79,7 +79,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 if ($catt<>"")
 {
    $query="select idclasse, idmateria from tbl_cattnosupp where idcattedra=$catt"; 
-   $ris=mysqli_query($con,inspref($query));
+   $ris=eseguiQuery($con,$query);
    if($nom=mysqli_fetch_array($ris))
     {
         $mat=$nom['idmateria'];
@@ -97,7 +97,7 @@ $query = "select distinct tbl_gruppi.idgruppo from tbl_gruppialunni,tbl_alunni,t
              and tbl_alunni.idclasse=$idclasse
              and tbl_gruppi.idmateria=$idmateria
              and tbl_gruppi.iddocente=$iddocente";
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 if ($rec = mysqli_fetch_array($ris))
 {
     $idgruppo = $rec['idgruppo'];
@@ -115,7 +115,7 @@ $id_ut_doc = $_SESSION["idutente"];
 // Estraggo nome della classe
 
 $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 if ($val = mysqli_fetch_array($ris))
 {
     $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
@@ -125,7 +125,7 @@ if ($val = mysqli_fetch_array($ris))
 // Estraggo nome della materia
 
 $query = 'SELECT * FROM tbl_materie WHERE idmateria="' . $idmateria . '" ';
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 if ($val = mysqli_fetch_array($ris))
 {
     $nomemateria = $val["denominazione"];
@@ -134,7 +134,7 @@ if ($val = mysqli_fetch_array($ris))
 // Estraggo il nominativo del docente
 $query = "select iddocente, cognome, nome from tbl_docenti where idutente=$id_ut_doc";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 if ($nom = mysqli_fetch_array($ris))
 {
 
@@ -169,7 +169,7 @@ if ($per == "Terzo")
 
 
 $query = "SELECT sum(numeroore) AS numtotore FROM tbl_lezioni WHERE idclasse='" . $idclasse . "' AND idmateria='" . $idmateria . "' " . $perioquery;
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 if ($val = mysqli_fetch_array($ris))
 {
     $oretotalilezione = $val["numtotore"];
@@ -178,7 +178,7 @@ if ($val = mysqli_fetch_array($ris))
 
 $query = "SELECT idlezione,datalezione, numeroore,orainizio FROM tbl_lezioni WHERE idclasse='" . $idclasse . "' AND idmateria='" . $idmateria . "' " . $perioquery . " ORDER BY datalezione";
 
-$rislez = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+$rislez = eseguiQuery($con,$query);
 
 while ($reclez = mysqli_fetch_array($rislez))
 
@@ -218,7 +218,7 @@ if ($per == "Terzo")
 // Estraggo tutte le valutazioni registrate per la classe, materia e periodo in esame per aggiungerle alle tbl_lezioni se non sono state registrate
 /*    $query="select distinct data from tbl_valutazioniintermedie,tbl_alunni where tbl_valutazioniintermedie.idalunno=tbl_alunni.idalunno and idclasse='".$idclasse."' and         idmateria='".$idmateria."' ".$perioquery." order by data";
     
-    $risvot=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $risvot=eseguiQuery($con,$query);
     
     while ($recvot=mysqli_fetch_array($risvot))
   
@@ -388,7 +388,7 @@ for ($np = 1; $np <= $numeropagine; $np++)
     }
 
 
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
     while ($val = mysqli_fetch_array($ris))
     {
         echo '
@@ -458,7 +458,7 @@ for ($np = 1; $np <= $numeropagine; $np++)
 
             $query = "SELECT oreassenza FROM tbl_asslezione WHERE idalunno=" . $val['idalunno'] . " AND idlezione='" . substr($gg, 20, 11) . "'";
 
-            $risass = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+            $risass = eseguiQuery($con,$query);
             if (mysqli_num_rows($risass) > 0)
             {
                 $ass = mysqli_fetch_array($risass);
@@ -471,7 +471,7 @@ for ($np = 1; $np <= $numeropagine; $np++)
 
             $query = "SELECT voto, giudizio, tipo FROM tbl_valutazioniintermedie WHERE idalunno=" . $val['idalunno'] . " AND idlezione='" . substr($gg, 20, 11) . "'";
 
-            $risvot = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query));
+            $risvot = eseguiQuery($con,$query);
             if (mysqli_num_rows($risvot) > 0)
             {
                 while ($vot = mysqli_fetch_array($risvot))

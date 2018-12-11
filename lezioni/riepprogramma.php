@@ -65,7 +65,7 @@ if ($catt != "")
     if ($catt <> "")
     {
         $query = "select idclasse, idmateria from tbl_cattnosupp where idcattedra=$catt";
-        $ris = mysqli_query($con, inspref($query));
+        $ris = eseguiQuery($con,$query);
         if ($nom = mysqli_fetch_array($ris))
         {
             $idmateria = $nom['idmateria'];
@@ -79,7 +79,7 @@ $id_ut_doc = $_SESSION["idutente"];
 $strdocenti="";
 $query = "select iddocente from tbl_cattnosupp where idmateria=$idmateria and idclasse=$idclasse and iddocente<>1000000000";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 if (mysqli_num_rows($ris)>1)
 {
     $strdocenti = "Docenti:<i> ";
@@ -100,7 +100,7 @@ $strdocenti.="</i>";
 /*
 $query = "select iddocente, cognome, nome from tbl_docenti where idutente=$id_ut_doc";
 
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 if ($nom = mysqli_fetch_array($ris))
 {
     $iddocente = $nom["iddocente"];
@@ -113,14 +113,14 @@ $classe = "";
 
 
 $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 if ($val = mysqli_fetch_array($ris))
 {
     $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
 }
 
 $query = 'SELECT * FROM tbl_materie WHERE idmateria="' . $idmateria . '" ';
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 if ($val = mysqli_fetch_array($ris))
 {
     $nomemateria = $val["denominazione"];
@@ -147,7 +147,7 @@ if ($idclasse != "")
 {
 
     $query = "select distinct argomenti from tbl_lezioni where idclasse=$idclasse and idmateria=$idmateria and argomenti <> '' order by datalezione";
-    $rislez = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $rislez = eseguiQuery($con,$query);
 
 
     print "<ul>";

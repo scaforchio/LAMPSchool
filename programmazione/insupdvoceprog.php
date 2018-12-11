@@ -55,7 +55,7 @@ else
    $query="update tbl_abildoc set sintabilcono='".elimina_apici($sintesi)."', abilcono='".elimina_apici($descrizione)."', obminimi=$obminimi
            where idabilita=$idabil";
    // print inspref($query);
-   if ($ris=mysqli_query($con,inspref($query)))
+   if ($ris=eseguiQuery($con,$query))
       // header("location: modivoceprog.php?cattedra=$cattedra");
       print "
         <form method='post' id='formvoce' action='modivoceprog.php'>

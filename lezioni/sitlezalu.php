@@ -61,7 +61,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 
 $query = 'SELECT * FROM tbl_alunni WHERE idalunno="' . $codalu . '"';
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 $val = mysqli_fetch_array($ris);
 $nominativo = $val["cognome"] . ' ' . $val["nome"];
 
@@ -79,7 +79,7 @@ $titolo = "Situazione alunno: $nominativo";
 $id_ut_doc = $_SESSION["idutente"];
 
 $query = "select anno,sezione,specializzazione from tbl_classi where tbl_classi.idclasse=$idclasse";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     $classe = $nom["anno"] . " " . $nom["sezione"] . " " . $nom["specializzazione"];
@@ -96,7 +96,7 @@ print "<b><center>Materia:&nbsp;";
 
 
 $query = "select * from tbl_materie where idmateria=$idmateria";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     $materia = $nom["denominazione"];
@@ -144,7 +144,7 @@ echo "<table border=1 width=98%>";
 
 
 $query = 'SELECT * FROM tbl_alunni WHERE idalunno="' . $codalu . '"';
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 while ($val = mysqli_fetch_array($ris))
 {
     // $esiste_voto=false;
@@ -426,7 +426,7 @@ while ($val = mysqli_fetch_array($ris))
     }
 
 
-    $risval = mysqli_query($con, inspref($queryass));
+    $risval = eseguiQuery($con,$queryass);
 
     $valass = mysqli_fetch_array($risval);
     print ('<br/>Ore assenza: ' . $valass['oreass']);
@@ -580,7 +580,7 @@ $query = "select tbl_notealunno.idnotaalunno, data, tbl_alunni.cognome as cognal
             and tbl_noteindalu.idalunno=$codalu 
             order by tbl_notealunno.data desc";
 // print inspref($query);
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query di selezione nota: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 $c = mysqli_num_rows($ris);
 
@@ -627,7 +627,7 @@ $query = "select idosssist, data, testo
             and tbl_osssist.idalunno=$codalu  
             order by tbl_osssist.data";
 // print $query."<br/>";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query di selezione osservazione: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 $c = mysqli_num_rows($ris);
 
@@ -666,7 +666,7 @@ else
 $query = "select count(*) as numeroaccessi,max(dataacc) as ultimoaccesso from tbl_logacc
         where utente = 'gen$codalu'";
 // print $query."<br/>";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query di selezione osservazione: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 $rec = mysqli_fetch_array($ris);
 $numacc = $rec['numeroaccessi'];

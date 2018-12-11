@@ -55,7 +55,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 
 $passwordesame = creapassword();
 $query = "update tbl_parametri set valore=md5(md5('$passwordesame')) where parametro='passwordesame' ";
-mysqli_query($con, inspref($query));
+eseguiQuery($con,$query);
 //
 //   IMPOSTAZIONE CLASSE D'ESAME PER TUTTI GLI ALUNNI DELLE CLASSI TERMINALI
 //
@@ -75,7 +75,7 @@ else
 $query = "select * from tbl_classi "
         . "where true $ricercaterze";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 
 $classiterzemedie = mysqli_num_rows($ris);
 
@@ -85,7 +85,7 @@ $query = "select * from tbl_scrutini,tbl_classi "
         . "and tbl_scrutini.stato='C' "
         . $ricercaterze;
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 
 $classiconscrutiniochiuso = mysqli_num_rows($ris);
 
@@ -95,20 +95,20 @@ if ($classiconscrutiniochiuso == $classiterzemedie)
     // ELIMINO EVENTUALI ALUNNI CON IMPOSTATA CLASSE ESAME DELL'ANNO PRECEDENTE
     $query = "UPDATE tbl_alunni SET idclasseesame=0 WHERE 1=1";
 
-    mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+    eseguiQuery($con,$query);
     
     $query = "UPDATE tbl_alunni SET idclasseesame=idclasse where idclasse in
              (SELECT DISTINCT tbl_classi.idclasse FROM tbl_classi
               WHERE 1=1 $ricercaterze
               ORDER BY idclasse)";
 
-    mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+    eseguiQuery($con,$query);
 
 
 // Esclusione alunni con esito negativo agli scrutini
 
     $query = "SELECT * FROM tbl_alunni WHERE idclasseesame<>'0' AND idclasse<>'0'";
-    $ris = mysqli_query($con, inspref($query)) or die("Errroe: " . inspref($query, false));
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris))
     {
         $idtipoesito = estrai_idtipoesito($rec['idalunno'], $con);
@@ -117,7 +117,7 @@ if ($classiconscrutiniochiuso == $classiterzemedie)
             if (passaggio($idtipoesito, $con) != 0)
             {
                 $query = "UPDATE tbl_alunni SET idclasseesame=0 WHERE idalunno=" . $rec['idalunno'];
-                mysqli_query($con, inspref($query)) or die("Errore: ") . inspref($query, false);
+                eseguiQuery($con,$query);
             }
         }
     }

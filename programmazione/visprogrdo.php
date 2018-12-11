@@ -77,7 +77,7 @@ print ("
                                    WHERE tbl_competdoc.idmateria = tbl_cattnosupp.idmateria and  tbl_competdoc.idclasse = tbl_cattnosupp.idclasse
                                  )
                       ORDER BY anno, sezione, specializzazione, denominazione";  */
-          $ris=mysqli_query($con,inspref($query));
+          $ris=eseguiQuery($con,$query);
           while($nom=mysqli_fetch_array($ris))
 	      {
             print "<option value='";
@@ -109,7 +109,7 @@ print ("
 	  {
 	      $query = "select iddocente from tbl_cattnosupp where idcattedra=$cattedra";
 	     
-	      $risdoc=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+	      $risdoc=eseguiQuery($con,$query);
 	      $val=mysqli_fetch_array($risdoc);
 	      $iddocprog=$val['iddocente'];
 	      
@@ -123,14 +123,14 @@ print ("
         $query="select * from tbl_docenti where iddocente=$iddocprog";
     else
         $query="select * from tbl_docenti where iddocente=$iddocente";
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
     if ($val=mysqli_fetch_array($ris))
     {
 		$cognome=$val["cognome"];
 		$nome=$val["nome"];
 	}
 	$query="select idcattedra,tbl_classi.idclasse, anno, sezione, specializzazione, denominazione from tbl_cattnosupp, tbl_classi, tbl_materie where idcattedra=$cattedra and tbl_cattnosupp.idclasse=tbl_classi.idclasse and tbl_cattnosupp.idmateria = tbl_materie.idmateria order by anno, sezione, specializzazione, denominazione";
-    $ris=mysqli_query($con,inspref($query));
+    $ris=eseguiQuery($con,$query);
     if($val=mysqli_fetch_array($ris))
 	{
 		$materia=($val["denominazione"]);
@@ -149,7 +149,7 @@ print ("
     
     
     $query="select * from tbl_competdoc where idmateria=$idmateria and idclasse=$idclasse order by numeroordine";
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
     
     print "<font size=2>";
     while($val=mysqli_fetch_array($ris))
@@ -163,7 +163,7 @@ print ("
         print "<br/><br/><b>$numord. $sintcomp</b><br>  $competenza";
         
         $query="select * from tbl_abildoc where idcompetenza=$idcompetenza and abil_cono='C' order by numeroordine";
-        $risabil=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+        $risabil=eseguiQuery($con,$query);
         print "<font size=1>";
         while($valabil=mysqli_fetch_array($risabil))
         { 
@@ -179,7 +179,7 @@ print ("
         }
         
         $query="select * from tbl_abildoc where idcompetenza=$idcompetenza and abil_cono='A' order by numeroordine";
-        $risabil=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+        $risabil=eseguiQuery($con,$query);
         
         while($valabil=mysqli_fetch_array($risabil))
         { 

@@ -90,7 +90,7 @@ else
     if ($idavviso == '')
     {
         $sqlt = "insert into tbl_collegamenti(descrizione, link, destinatari) values ('$oggetto','$testo','$destin')";
-        $res = mysqli_query($con, inspref($sqlt)) or die("Errore:".inspref($sqlt));
+        $res = eseguiQuery($con,$sqlt);
 
         print("<center><h2>Collegamento inserito correttamente</h2>");
 
@@ -98,7 +98,7 @@ else
     else
     {
         $sqlt = "update tbl_collegamenti set descrizione='$oggetto',link='$testo',destinatari='$destin' where idcollegamento=$idavviso";
-        $res = mysqli_query($con, inspref($sqlt)) or die("Errore:".inspref($sqlt));
+        $res = eseguiQuery($con,$sqlt);
 
         print("<center><h2>Collegamento modificato correttamente</h2>");
 

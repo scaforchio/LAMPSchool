@@ -57,7 +57,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
  
  $esistenti=false;
  $query="select idvalint from tbl_valutazioniintermedie where idalunno=".$idal." and idlezione='".$idlezione."' and tipo='$tipo'";
- $ris2=mysqli_query($con,inspref($query)) or die (mysqli_error);
+ $ris2=eseguiQuery($con,$query);
  if (mysqli_num_rows($ris2)>0)
  {
     // Si preleva l'idvalutazione e si cancellano le valutazioni singole
@@ -77,7 +77,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
      $query="insert into tbl_valutazioniintermedie(idalunno,idmateria,idlezione,iddocente,idclasse,data,tipo,voto,giudizio)
              values('$idal','$materia','$idlezione','$iddocente','$idclasse','$data','$tipo','0','')";
    //  print inspref($query);        
-     $ris2=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+     $ris2=eseguiQuery($con,$query);
      $idvalint=mysqli_insert_id($con);
  }
        
@@ -90,7 +90,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
     $query="select idcompetenza from tbl_competdoc where idmateria = $idmateria and idclasse = $idclasse";
  else
     $query="select idcompetenza from tbl_competalu where idmateria = $idmateria and idalunno = $idal";
- $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));        
+ $ris=eseguiQuery($con,$query);        
  $numvoti=0;
  $totvoti=0;
  while($nom=mysqli_fetch_array($ris))
@@ -105,7 +105,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 		else
 		   $query="select idabilita from tbl_abilalu where idcompetenza=".$idcompetenza."";
 		// print "tttt ".inspref($query);
-		$risab=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));    
+		$risab=eseguiQuery($con,$query);    
 		while($nomab=mysqli_fetch_array($risab))
         { 
 			   $idabilita=$nomab['idabilita'];
@@ -124,7 +124,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
                else
                    $query="insert into tbl_valutazioniabilcono(voto,idvalint,idabilita,pei)
                            values('$votoab','$idvalint','$idabilita',1)";        
-               $risins=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+               $risins=eseguiQuery($con,$query);
 			  }
 		  }	
      }
@@ -136,7 +136,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 	      $query="update tbl_valutazioniintermedie set voto=$votomedio where idvalint=$idvalint";
       else
          $query="update tbl_valutazioniintermedie set voto=$votomedio, pei=1 where idvalint=$idvalint";
-      $risupd=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+      $risupd=eseguiQuery($con,$query);
       echo '
            <p align="center">
            <font size=4 color="black">I dati sono stati inseriti correttamente<br><br>

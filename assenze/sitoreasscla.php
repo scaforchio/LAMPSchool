@@ -60,7 +60,7 @@ print ('
           $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
            
           $query="select idclasse,anno,sezione,specializzazione from tbl_classi order by specializzazione, sezione, anno";
-          $ris=mysqli_query($con,inspref($query));
+          $ris=eseguiQuery($con,$query);
           while($nom=mysqli_fetch_array($ris))
 	  {
             print "<option value='";
@@ -103,7 +103,7 @@ echo('     </form></td>
      
    
     $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
     if($val=mysqli_fetch_array($ris))
        {
            $classe=$val["anno"]." ".$val["sezione"]." ".$val["specializzazione"];
@@ -111,7 +111,7 @@ echo('     </form></td>
        }  
 
     $query='select * from tbl_alunni where idclasse="'.$idclasse.'" order by cognome,nome,datanascita';
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
 
     $c=mysqli_fetch_array($ris);
     if ($c==NULL) {echo '
@@ -137,7 +137,7 @@ echo('     </form></td>
             
  
     $query='select * from tbl_alunni where idclasse="'.$idclasse.'" order by cognome,nome,datanascita';
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
     while($val=mysqli_fetch_array($ris))
     {
       echo ' 
@@ -155,9 +155,9 @@ echo('     </form></td>
       $queryusc="select count(*) as numusc from tbl_usciteanticipate where idalunno = '".$val["idalunno"]."' and data <=  '".$dataassora."'";
       
       $risoreass=mysqli_query($con,inspref($queryoreass)) or die ("Errore nella query: ". mysqli_error($con));
-      $risass=mysqli_query($con,inspref($queryass)) or die ("Errore nella query: ". mysqli_error($con));
-      $risrit=mysqli_query($con,inspref($queryrit)) or die ("Errore nella query: ". mysqli_error($con));      
-      $risusc=mysqli_query($con,inspref($queryusc)) or die ("Errore nella query: ". mysqli_error($con));   
+      $risass=eseguiQuery($con,$queryass);
+      $risrit=eseguiQuery($con,$queryrit);      
+      $risusc=eseguiQuery($con,$queryusc);   
       
       $oreass=mysqli_fetch_array($risoreass);
       $oass=$oreass['totore'];

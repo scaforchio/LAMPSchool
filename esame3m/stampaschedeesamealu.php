@@ -49,7 +49,7 @@ if ($idalunno != $_SESSION['idutente'] && $tipoutente == 'T')
 if ($idclasse != "")
 {
     $query = "select idalunno from tbl_alunni where idclasseesame=$idclasse order by idclasse DESC, cognome,nome";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));;
+    $ris = eseguiQuery($con,$query);;
     while ($val = mysqli_fetch_array($ris))
     {
         $alunni[] = $val['idalunno'];
@@ -60,7 +60,7 @@ else
 
     $alunni[] = $idalunno;
     $query = "select idclasseesame from tbl_alunni where idalunno=$idalunno";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));;
+    $ris = eseguiQuery($con,$query);;
     if ($val = mysqli_fetch_array($ris))
     {
         $idclasse = $val['idclasseesame'];
@@ -100,12 +100,12 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
 
 
     $query = "select * from tbl_esami3m where idclasse=$idclasse";
-    $risesa = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));;
+    $risesa = eseguiQuery($con,$query);;
     $recesa = mysqli_fetch_array($risesa);
 
 
     $query = "select * from tbl_esmaterie where idclasse=$idclasse";
-    $rismat = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));;
+    $rismat = eseguiQuery($con,$query);;
     $recmat = mysqli_fetch_array($rismat);
 
 
@@ -116,7 +116,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
     foreach ($alunni as $alu)
     {
         $query = "select * from tbl_esesiti where idalunno=$alu";
-        $ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));;
+        $ris = eseguiQuery($con,$query);;
         $rec = mysqli_fetch_array($ris);
 
 
@@ -164,7 +164,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
         $query = "SELECT datanascita, codfiscale, denominazione,idcomnasc FROM tbl_alunni,tbl_comuni
               WHERE tbl_alunni.idcomnasc=tbl_comuni.idcomune 
               AND idalunno=$alu";
-        $ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));;
+        $ris = eseguiQuery($con,$query);;
         if ($val = mysqli_fetch_array($ris))
         {
             $datanascita = data_italiana($val['datanascita']);
@@ -464,7 +464,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
                 where tbl_escompcommissioni.idcommissione=tbl_escommissioni.idescommissione
                 and tbl_escompcommissioni.iddocente=tbl_docenti.iddocente
                 and tbl_escompcommissioni.idcommissione=$idcommissione";
-        $riscom = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+        $riscom = eseguiQuery($con,$query);
         $cont = 0;
         $posYiniz=$schede->GetY();
         while ($reccom = mysqli_fetch_array($riscom))

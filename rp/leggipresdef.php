@@ -48,6 +48,7 @@ inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Chiave gene
 if ($chiavegenerata != $chiavericevuta) {
     inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §MD5 Errato!", $nomefilelog . "rp", $suff);
     die("Errore MD5!");
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$m1", $nomefilelog . "rp", $suff);
 } else {
     if (trim($m1) == '') {
         inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §STRINGA M1 VUOTA!", $nomefilelog . "rp", $suff);
@@ -68,11 +69,12 @@ if ($chiavegenerata != $chiavericevuta) {
 // TIMBRATURA VALIDA OCCORRE INSERIRE LE ASSENZE
 // PER TUTTI NELLA GIORNATA 
 
+    
 
     $query = "select count(*) as numtimbrature from tbl_timbrature where datatimbratura='$dataoggi' and idalunno in(select idalunno from tbl_alunni where idclasse<>0)";
 //inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "", $nomefilelog."rp",$suff);
 
-    if (!$ris = mysqli_query($con, inspref($query, false))) {
+    if (!$ris = eseguiQuery($con, $query)) {
         inserisci_log("Errore esecuzione query", $nomefilelog . "rp", $suff);
         die("errore query " . inspref($query, false));
     }
@@ -81,7 +83,6 @@ if ($chiavegenerata != $chiavericevuta) {
     $numtimbrature = $val['numtimbrature'];
 
     $esiste_assenza = esiste_assenza($dataoggi, $con, $nomefilelog, $suff);
-
 
     $arrtimb = array();
 
@@ -141,7 +142,7 @@ if ($chiavegenerata != $chiavericevuta) {
                       order by idalunno";
 
                 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "", $nomefilelog . "rp", $suff);
-                if (!$ris = mysqli_query($con, inspref($query, false))) {
+                if (!$ris = eseguiQuery($con, $query)) {
                     inserisci_log("Errore esecuzione query", $nomefilelog . "rp", $suff);
                     die("errore query " . inspref($query, false));
                 }
@@ -159,7 +160,7 @@ if ($chiavegenerata != $chiavericevuta) {
             and forzata
             and (tipotimbratura='I' or tipotimbratura='R')
             and oratimbratura<'$ora:$min'";
-                $ris = mysqli_query($con, inspref($query));
+                $ris = eseguiQuery($con,$query);
                 $rec = mysqli_fetch_array($ris);
                 if ($rec['numforzate'] > 0) {
                     $tipo = 'U';
@@ -169,12 +170,12 @@ if ($chiavegenerata != $chiavericevuta) {
             // INSERISCO TIMBRATURA SE NON E' GIA' PRESENTE LA STESSA TIMBRATURA
 
             $query = "select * from tbl_timbrature where idalunno=$matricola and tipotimbratura='$tipo' and datatimbratura='$anno-$mes-$gio' and oratimbratura='$ora:$min'";
-            $ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+            $ris = eseguiQuery($con, $query);
             if (mysqli_num_rows($ris) == 0) {
 
                 $query = "insert into tbl_timbrature(idalunno,tipotimbratura,datatimbratura,oratimbratura) values ('$matricola','$tipo','$anno-$mes-$gio','$ora:$min')";
                 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "", $nomefilelog . "rp", $suff);
-                if (!$ris = mysqli_query($con, inspref($query, false))) {
+                if (!$ris = eseguiQuery($con, $query)) {
                     inserisci_log("Errore esecuzione query" . inspref($query, false), $nomefilelog . "rp", $suff);
                     //die("errore query " . inspref($query, false));
                 }
@@ -189,7 +190,7 @@ if ($chiavegenerata != $chiavericevuta) {
                     if ($tipo == 'I' | $tipo == 'E') { // Errore nella registrazione sul badge della timbratura
                         $query = "delete from tbl_assenze where idalunno='$matricola' and data='$anno-$mes-$gio'";
                         inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "", $nomefilelog . "rp", $suff);
-                        if (!$ris = mysqli_query($con, inspref($query, false))) {
+                        if (!$ris = eseguiQuery($con, $query)) {
                             inserisci_log("Errore esecuzione query" . inspref($query, false), $nomefilelog . "rp", $suff);
                             //die("errore query " . inspref($query, false));
                         }
@@ -209,7 +210,7 @@ if ($chiavegenerata != $chiavericevuta) {
                         }
                         $query = "insert into tbl_usciteanticipate(idalunno,data,orauscita,giustifica) values ('$matricola', '$datausc', '$orausc',$valgiust)";
 
-                        if (!$ris = mysqli_query($con, inspref($query, false))) {
+                        if (!$ris = eseguiQuery($con, $query)) {
                             inserisci_log("Errore esecuzione query" . inspref($query, false), $nomefilelog . "rp", $suff);
                             // die("errore query " . inspref($query, false));
                         } else {
@@ -224,7 +225,7 @@ if ($chiavegenerata != $chiavericevuta) {
                         $oraent = "$ora:$min";
                         $query = "insert into tbl_ritardi(idalunno,data,oraentrata) values ('$matricola', '$dataent', '$oraent')";
 
-                        if (!$ris = mysqli_query($con, inspref($query, false))) {
+                        if (!$ris = eseguiQuery($con, $query)) {
                             inserisci_log("Errore esecuzione query" . inspref($query, false), $nomefilelog . "rp", $suff);
                             //die("errore query " . inspref($query, false));
                         } else {
@@ -232,7 +233,7 @@ if ($chiavegenerata != $chiavericevuta) {
                         }
                         $query = "delete from tbl_assenze where idalunno='$matricola' and data='$anno-$mes-$gio'";
                         inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "", $nomefilelog . "rp", $suff);
-                        if (!$ris = mysqli_query($con, inspref($query, false))) {
+                        if (!$ris = eseguiQuery($con, $query)) {
                             inserisci_log("Errore esecuzione query" . inspref($query, false), $nomefilelog . "rp", $suff);
                             //die("errore query " . inspref($query, false));
                         }
@@ -258,7 +259,7 @@ if ($chiavegenerata != $chiavericevuta) {
 function esiste_alunno($matricola, $conn, $nomefilelog, $suff) {
     $query = "select * from tbl_alunni where idalunno='$matricola' and idclasse<>0";
     //inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "", $nomefilelog."rp",$suff);
-    if (!$ris = mysqli_query($conn, inspref($query, false))) {
+    if (!$ris = eseguiQuery($con, $query)) {
         inserisci_log("Errore esecuzione query" . inspref($query, false), $nomefilelog . "rp", $suff);
         //die("errore query " . inspref($query, false));
     }
@@ -273,7 +274,7 @@ function esiste_assenza($dataodierna, $conn, $nomefilelog, $suff) {
     $query = "select * from tbl_assenze where data='$dataodierna'";
     //inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "", $nomefilelog."rp",$suff);
 
-    if (!$ris = mysqli_query($conn, inspref($query, false))) {
+    if (!$ris = eseguiQuery($conn, $query)) {
         inserisci_log("Errore esecuzione query" . inspref($query, false), $nomefilelog . "rp", $suff);
         // die("errore query " . inspref($query, false));
     }

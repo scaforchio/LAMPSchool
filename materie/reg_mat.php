@@ -60,7 +60,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
         //Esecuzione query finale
         $sql="INSERT INTO tbl_materie (denominazione, sigla, tipovalutazione, progrpag) VALUES ('$denominazione','$sigla','$tipovalutazione',20)";
         
-        if (!($ris=mysqli_query($con,inspref($sql))))
+        if (!($ris=eseguiQuery($con,$sql)))
         {
             print("\n<FONT SIZE='+2'> <CENTER>Inserimento non eseguito </CENTER></FONT>");
         }

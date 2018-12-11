@@ -142,7 +142,7 @@ if ($anno != "" && $idmateria != "")
             $numordcono = 1;
             $idcompetenza = 0;
             $query = "delete from tbl_competscol where anno=$anno and idmateria=$idmateria";
-            mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+            eseguiQuery($con,$query);
             while (($riga_tmp = fgetcsv($handle, 1000, $sep, $del)) !== FALSE)
             {
                 if ($riga_tmp[0] == 'COMP')
@@ -152,7 +152,7 @@ if ($anno != "" && $idmateria != "")
                     $numordcono = 1;
                     $query = "insert into tbl_competscol(anno,idmateria,numeroordine,sintcomp,competenza) VALUES
                             ($anno,$idmateria,$numordcomp,'$riga_tmp[1]','$riga_tmp[2]')";
-                    mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+                    eseguiQuery($con,$query);
                     $idcompetenza = mysqli_insert_id($con);
 
                     $numordcomp++;
@@ -174,7 +174,7 @@ if ($anno != "" && $idmateria != "")
                         // INSERISCO ABILITA' CON ID DELLA COMPETENZA SE C'E' IMPOSTO LO STATO AD "A"
                         $query = "insert into tbl_abilscol(idcompetenza,numeroordine,sintabilcono,abilcono,obminimi,abil_cono) VALUES
                             ($idcompetenza,$numordabil,'$riga_tmp[1]','$riga_tmp[2]',$obmin,'A')";
-                        mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+                        eseguiQuery($con,$query);
                         $numordabil++;
                     }
                     else
@@ -192,7 +192,7 @@ if ($anno != "" && $idmateria != "")
                             // INSERISCO ABILITA' CON ID DELLA COMPETENZA SE C'E' IMPOSTO LO STATO AD "A"
                             $query = "insert into tbl_abilscol(idcompetenza,numeroordine,sintabilcono,abilcono,obminimi,abil_cono) VALUES
                             ($idcompetenza,$numordcono,'$riga_tmp[1]','$riga_tmp[2]',$obmin,'C')";
-                            mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+                            eseguiQuery($con,$query);
                             $numordcono++;
 
                         }
@@ -213,7 +213,7 @@ if ($anno != "" && $idmateria != "")
     {
         // TTTT SE C'E' GIA' UNA PROGRAMMAZIONE MESSAGGIO
         $query = "select * from tbl_competscol where anno=$anno and idmateria=$idmateria";
-        $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+        $ris = eseguiQuery($con,$query);
         if (mysqli_num_rows($ris) > 0)
         {
             print "<center><br><b>C'è già una programmazione per l'anno e la materia. Confermare sovrascrittura in fase di selezione!</b>";

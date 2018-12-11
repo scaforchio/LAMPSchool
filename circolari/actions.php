@@ -55,7 +55,7 @@ $querylett = "update tbl_diffusionecircolari
 					and idutente=$Ute
 					and (isnull(datalettura) or datalettura='0000-00-00')";
     //  die("tttt".inspref($querylett));
-    mysqli_query($con, inspref($querylett)) or die("Errore:" . inspref($querylett));
+    eseguiQuery($con,$querylett);
 }
 
 if (!isset($_GET))
@@ -66,7 +66,7 @@ if ($_GET["action"] && $_GET["Id"] && is_numeric($_GET["Id"]))
 
     $query = "select docbin, docnome, doctype,docmd5 from tbl_documenti where iddocumento = '$Id'";
 
-    $select = mysqli_query($con, inspref($query)) or die("Query fallita !");
+    $select = eseguiQuery($con,$query);
 
     $result = mysqli_fetch_array($select);
 

@@ -65,7 +65,7 @@ print("
 //  Riempimento combobox delle tbl_classi
 //
 $query = "SELECT * FROM tbl_tipidocumenti ORDER BY descrizione";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -107,7 +107,7 @@ else
 
 }
 //print inspref($query);
-$ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 if (mysqli_num_rows($ris)>0)
 {
     print ("

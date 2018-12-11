@@ -27,19 +27,20 @@ $daticrud = array();
 $daticrud['titolo']='GESTIONE AUTORIZZAZIONI USCITE';
 
 
-$daticrud['tabella'] = inspref("tbl_autorizzazioniuscite");
+$daticrud['tabella'] = "tbl_autorizzazioniuscite";
 
 
 // Nome della tabella per visualizzazioni
 $daticrud['aliastabella'] = "Autorizzazioni uscite";
+$daticrud['larghezzatabella']= "80%";
 // Campo con l'id univoco per la tabella
 $daticrud['campochiave'] = "idautorizzazioneuscita";
 
 // Campi in base ai quali ordinare (specificare gli alias (14° valore nella descrizione del campo)
 // se ci sono campi con lo stesso nome)
-$daticrud['campiordinamento']= [inspref("cognalu,nomealu,data")];
+$daticrud['campiordinamento']= "cognalu,nomealu,data";
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
-$daticrud['condizione']= inspref("true");// Campi in base ai quali ordinare
+$daticrud['condizione']= "true";// Campi in base ai quali ordinare
 
 $daticrud['abilitazionemodifica']=1;
 $daticrud['abilitazionecancellazione']=1;
@@ -80,10 +81,10 @@ $daticrud['confermacancellazione'] = [1,''];
 
 
 $daticrud['campi'] = [
-                      ['idalunno','1',inspref('tbl_alunni'),'idalunno','cognome,nome',0,'Alunno',1,'','',1,'','',1,'cognalu,nomealu',1],
+                      ['idalunno','1','tbl_alunni','idalunno','cognome,nome',0,'Alunno',1,'','',1,'','',1,'cognalu,nomealu',1],
                       ['data','2','','','',10,'Data',2,'date','',1,'','',1,'',1],
                       ['orauscita','3','','','',10,'Ora uscita',3,'time','',1,'','',1,'',1],
-                      ['iddocenteautorizzante','4',inspref('tbl_docenti'),'iddocente','cognome,nome',0,'Docente',4,'','',1,'','',1,'',1 ],
+                      ['iddocenteautorizzante','4','tbl_docenti','iddocente','cognome,nome',0,'Docente',4,'','',1,'','',1,'',1 ],
                       ['testoautorizzazione','5','','','',100,'Autorizzazione',5,'text','',1,'','',0,'',0 ],
                      ];
 

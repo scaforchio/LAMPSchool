@@ -117,7 +117,7 @@ $query = "SELECT tbl_timbrature.idalunno,cognome,nome,datanascita,count(*) as nu
          GROUP BY idalunno
          ORDER BY numforzature desc,cognome,nome ";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query, false));
+$ris = eseguiQuery($con,$query);
 
 print "<table border='1' align='center'>";
 

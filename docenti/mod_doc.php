@@ -48,7 +48,7 @@ riceve in ingresso iddocente*/
 		}
 	$a = stringa_html('a');
 	$sql="SELECT * from tbl_docenti where (iddocente='$a')";
-	$result=mysqli_query($con,inspref($sql));
+	$result=eseguiQuery($con,$sql);
 	$Data=mysqli_fetch_array($result);
 	if(!($result))
 		print("Query fallita");
@@ -78,7 +78,7 @@ riceve in ingresso iddocente*/
 		print(" <td><input type ='text' size='2'maxlength='2' name='datadinascg' value=$g> / <input type ='text' size='2' maxlength='2'name='datadinascm' value=$m> / <input type ='text' size='4' maxlength='4'name='datadinasca' value=$a></td>\n</tr>\n");
 		$idcomn=$Data['idcomnasc'];
 		$sqla= "SELECT * FROM tbl_comuni ORDER BY denominazione";
-   		$resa=mysqli_query($con,inspref($sqla));
+   		$resa=eseguiQuery($con,$sqla);
    		if(!$resa)
    		{
     		print ("<br/> <br/> <br/> <h2>a Impossibile visualizzare i dati </h2>");
@@ -105,7 +105,7 @@ riceve in ingresso iddocente*/
 		print(" <td><input type ='text' size='20' name='indirizzo' value= '".$Data['indirizzo']."'> </td>\n</tr>\n");
 		$idcomr=$Data['idcomres'];
 		$sqlb="SELECT * FROM tbl_comuni ORDER BY denominazione";
-   		$resb=mysqli_query($con,inspref($sqlb));
+   		$resb=eseguiQuery($con,$sqlb);
    		if(!$resb)
    		{
     		print ("<br/> <br/> <br/> <h2> b Impossibile visualizzare i dati </h2>");

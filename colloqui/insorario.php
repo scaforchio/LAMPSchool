@@ -36,7 +36,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
 
 $query = "UPDATE tbl_orario SET valido=0 WHERE 1=1";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 for ($g = 1; $g <= $giornilezsett; $g++)
 {
@@ -52,7 +52,7 @@ for ($g = 1; $g <= $giornilezsett; $g++)
         {
             $query = "insert into tbl_orario(giorno,ora,inizio,fine)
 			        values ($g,$h,'$valini','$valfin')";
-            mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+            eseguiQuery($con,$query);
         }
 
     }

@@ -50,7 +50,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
 	
 	//Esecuzione query
    $sql="select * from tbl_alunni where idalunno=". $_SESSION['idutente'];
-	$ris=mysqli_query($con,inspref($sql)) or die("Errore: ".inspref($sql));
+	$ris=eseguiQuery($con,$sql);
 	 $dati = mysqli_fetch_array($ris) ;
 	   
 	   $email = $dati['email'];

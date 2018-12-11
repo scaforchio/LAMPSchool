@@ -68,7 +68,7 @@ if ($selezione=="tut" | $selezione=="alu" | $selezione=="")
 			  and tipo in ('ass','rit','alu')
 			  order by dataora desc,iddestinatario";
 
-	$ris=mysqli_query($con,inspref($query)) or die ("Errore:".inspref($query));
+	$ris=eseguiQuery($con,$query);
 
 
 	if (mysqli_num_rows($ris)>0)
@@ -111,7 +111,7 @@ if ($selezione=="tut" | $selezione=="doc" | $selezione=="")
 			  order by dataora desc";
 
 
-	$ris=mysqli_query($con,inspref($query)) or die ("Errore:".inspref($query));
+	$ris=eseguiQuery($con,$query);
 
 	if (mysqli_num_rows($ris)>0)
 	{

@@ -494,7 +494,7 @@ function calcola_media_condotta($idalunno, $periodo, $conn) {
 function estrai_voto_ammissione($idalunno, $conn) {
     $query = "SELECT votoammissione FROM tbl_esiti WHERE idalunno='$idalunno'";
 
-    $risesito = mysqli_query($conn, inspref($query));
+    $risesito = eseguiQuery($conn,$query);
     $votoamm = "--";
     if ($recesito = mysqli_fetch_array($risesito)) {
         $votoamm = $recesito['votoammissione'];
@@ -512,7 +512,7 @@ function estrai_voto_ammissione($idalunno, $conn) {
 function estrai_giudizio($idalunno, $periodo, $conn) {
     $query = "SELECT giudizio FROM tbl_giudizi WHERE idalunno='$idalunno' and periodo='$periodo'";
 
-    $risgiudizio = mysqli_query($conn, inspref($query));
+    $risgiudizio = eseguiQuery($conn,$query);
     $giud = "--";
     if ($recgiudizio = mysqli_fetch_array($risgiudizio)) {
         $giud = $recgiudizio['giudizio'];
@@ -530,7 +530,7 @@ function estrai_giudizio($idalunno, $periodo, $conn) {
 function estrai_esito($idalunno, $conn, $integrativo = false) {
     $query = "SELECT validita,esito,integrativo FROM tbl_esiti WHERE idalunno='$idalunno'";
 
-    $risesito = mysqli_query($conn, inspref($query));
+    $risesito = eseguiQuery($conn,$query);
     $esito = "--";
     if ($recesito = mysqli_fetch_array($risesito)) {
         /* if (!$integrativo)
@@ -553,7 +553,7 @@ function estrai_esito($idalunno, $conn, $integrativo = false) {
 function estrai_idtipoesito($idalunno, $conn, $integrativo = false) {
     $query = "SELECT esito FROM tbl_esiti WHERE idalunno='$idalunno'";
 
-    $risesito = mysqli_query($conn, inspref($query));
+    $risesito = eseguiQuery($conn,$query);
     $esito = "-1";
     if ($recesito = mysqli_fetch_array($risesito)) {
 

@@ -40,18 +40,18 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
 
 $query = "SELECT * FROM tbl_parametri WHERE parametro='sola_lettura'";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 if (mysqli_num_rows($ris) > 0)
 {
     $query = "UPDATE tbl_parametri SET valore='yes' WHERE parametro='sola_lettura'";
     //$query=str_replace("tbl_", $prefisso_tabelle. "tbl_", $query);
-    mysqli_query($con, inspref($query)) or die ("Errore:" . mysqli_error($con));
+    eseguiQuery($con,$querylett);
 }
 else
 {
     $query = "INSERT INTO tbl_parametri(parametro,valore) VALUES ('sola_lettura','yes')";
     //$query=str_replace("tbl_", $prefisso_tabelle. "tbl_", $query);
-    mysqli_query($con, inspref($query)) or die ("Errore:" . mysqli_error($con));
+    eseguiQuery($con,$querylett);
 }
 
 print "<br><center><b>Registro in modalità sola lettura!</b></center>";

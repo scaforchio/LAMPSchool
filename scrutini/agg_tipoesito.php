@@ -55,7 +55,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
     $passaggio = stringa_html('passaggio');
     $query="UPDATE tbl_tipiesiti SET descrizione='$descrizione', passaggio=$passaggio
             WHERE idtipoesito=$idtipoesito";
-    mysqli_query($con,inspref($query)) or die ("Errore: ".inspref($query,false));
+    eseguiQuery($con,$query);
 
 
 

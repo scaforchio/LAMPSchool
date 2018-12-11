@@ -132,7 +132,7 @@ print "   <tr>
 
 // Riempimento combo box tbl_classi
 $query = "SELECT DISTINCT anno FROM tbl_classi ORDER BY anno";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -157,7 +157,7 @@ print "   <tr>
       <td width='50%'>
       <SELECT ID='cl' NAME='sezione' ONCHANGE='selealu.submit()'><option value=''>&nbsp;</option>";
 $query = "SELECT DISTINCT sezione FROM tbl_classi ORDER BY sezione";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -182,7 +182,7 @@ print "   <tr>
       <td width='50%'>
       <SELECT NAME='specializzazione' ONCHANGE='selealu.submit()'><option value=''>&nbsp;</option>";
 $query = "SELECT DISTINCT specializzazione FROM tbl_classi ORDER BY specializzazione";
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -243,7 +243,7 @@ $query = "select distinct tbl_alunni.idalunno,cognome, nome, datanascita, anno, 
             where tbl_alunni.idclasse=tbl_classi.idclasse
             $sele
             order by anno,sezione,specializzazione,cognome,nome";
-$ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($rec = mysqli_fetch_array($ris))
 {
 

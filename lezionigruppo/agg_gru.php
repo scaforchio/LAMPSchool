@@ -58,7 +58,7 @@ if (!$DB)
 //Esecuzione query finale
 $sql = "UPDATE tbl_gruppi SET descrizione='$descrizione'
     	         WHERE idgruppo=$idgruppo";
-if (!($ris = mysqli_query($con, inspref($sql))))
+if (!($ris = eseguiQuery($con,$sql)))
 {
     print("\n<FONT SIZE='+2'> <CENTER>Modifica non eseguita</CENTER> </FONT>");
 }

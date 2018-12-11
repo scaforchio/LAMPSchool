@@ -52,7 +52,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 //$dataassemblea = $aaaa."-".$mm."-".$gg;
 
 $assq = "select * from tbl_assemblee where idassemblea=$idassemblea";
-$ris = mysqli_query($con, inspref($assq)) or die("Errore " . inspref($assq));
+$ris = eseguiQuery($con,$assq);
 $rec = mysqli_fetch_array($ris);
 
 $idclasse = $rec['idclasse'];
@@ -61,7 +61,7 @@ $dataass = $rec['dataassemblea'];
 // INSERIMENTO ASSEMBLEA NON AUTORIZZATA CON MOTIVAZIONE "Richiesta spostameto"
 
 $assq = "update tbl_assemblee set autorizzato=2, docenteautorizzante=$iddocente,note='Richiesta annullata!' where idassemblea=$idassemblea";
-mysqli_query($con, inspref($assq)) or die("Errore " . inspref($assq));
+eseguiQuery($con,$assq);
 if (mysqli_affected_rows($con) == 1)
     print "<br><br><center>ASSEMBLEA ANNULLATA";
 
@@ -69,7 +69,7 @@ if (mysqli_affected_rows($con) == 1)
 
 $assq = "delete from tbl_annotazioni where idclasse=$idclasse and data='$dataass' and testo LIKE '%si autorizza assemblea%'";
 // print inspref($assq);
-mysqli_query($con, inspref($assq)) or die("Errore " . inspref($assq));
+eseguiQuery($con,$assq);
 if (mysqli_affected_rows($con) == 1)
     print "<br><br><center>ANNOTAZIONE CANCELLATA";
 

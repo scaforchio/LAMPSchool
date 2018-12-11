@@ -43,12 +43,12 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 
 $query = "SELECT idalunno FROM tbl_alunni WHERE idclasse=$idclasse";
-$ris = mysqli_query($con, inspref($query)) or die(mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 while ($recalu = mysqli_fetch_array($ris))
 {
     $query = "DELETE FROM tbl_certcompvalutazioni WHERE idalunno=" . $recalu['idalunno'];
-    $risdel = mysqli_query($con, inspref($query)) or die(mysqli_error($con));
+    $risdel = eseguiQuery($con,$query);
     
     importa_proposte($con, $recalu['idalunno'], $livscuola);
     

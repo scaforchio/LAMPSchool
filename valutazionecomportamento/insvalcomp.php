@@ -51,7 +51,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 if ($idgruppo == "")
 {
     $query = "SELECT idalunno,cognome,nome FROM tbl_alunni WHERE idclasse=" . $idclasse;
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 }
 else
 {
@@ -60,7 +60,7 @@ else
             and idgruppo=$idgruppo";
 }
 
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
 {
 
@@ -68,7 +68,7 @@ while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
     $presentevoto = false;
     $idal = $id['idalunno'];
     $query = "select idvalcomp,voto from tbl_valutazionicomp where idalunno=" . $idal . " and data='$data' and idmateria='$idmateria' and iddocente='$iddocente'";
-    $ris2 = mysqli_query($con, inspref($query)) or die (mysqli_error);
+    $ris2 = eseguiQuery($con,$query);
     if (mysqli_num_rows($ris2) > 0)
     {
 
@@ -94,7 +94,7 @@ while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
         // con il voto medio risultante
         $query = "insert into tbl_valutazionicomp(idalunno,idmateria,iddocente,idclasse,data,giudizio)
           values('$idal','$idmateria','$iddocente','" . estrai_classe_alunno_data($idal, $data, $con) . "','$data','')";
-        $ris2 = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $ris2 = eseguiQuery($con,$query);
         $idvalcomp = mysqli_insert_id($con);
     }
 
@@ -105,7 +105,7 @@ while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
     $numvoti=0;
     $totvoti=0;
     $query = "SELECT idsubob FROM tbl_compsubob";
-    $risab = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $risab = eseguiQuery($con,$query);
     while ($nomab = mysqli_fetch_array($risab))
     {
         $idsubob = $nomab['idsubob'];
@@ -118,7 +118,7 @@ while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
             $query = "insert into tbl_valutazioniobcomp(voto,idvalcomp,idsubob)
                            values('$votocomp','$idvalcomp','$idsubob')";
 
-            $risins = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+            $risins = eseguiQuery($con,$query);
         }
     }
 
@@ -134,7 +134,7 @@ while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
           {*/
         $votomedio = round($totvoti * 4 / $numvoti) / 4;
         $query = "update tbl_valutazionicomp set voto=$votomedio where idvalcomp=$idvalcomp";
-        $risupd = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+        $risupd = eseguiQuery($con,$query);
         echo "
 					  <center>
 					  <font size=4><br>

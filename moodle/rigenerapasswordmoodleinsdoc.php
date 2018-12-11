@@ -57,7 +57,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 $query = "SELECT iddocente as al,cognome, nome FROM tbl_docenti order by cognome, nome";
 
-$ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 print "<center><br><b><big>Password Moodle Docenti</big></b></center><br>";
 print "<table border='1' align='center'>";
 print "<tr class='prima'><td>Docente</td><td>Username</td><td>Password</td></tr>";

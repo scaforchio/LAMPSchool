@@ -44,7 +44,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 $query = "UPDATE tbl_assemblee
           SET autorizzato=$autorizza, docenteautorizzante=$iddocente, note='$note'
           WHERE idassemblea=$idassemblea";
-$ris = mysqli_query($con, inspref($query)) or die("Errore : " . inspref($query));
+$ris = eseguiQuery($con,$query);
 
 if ($autorizza == 1)
 {

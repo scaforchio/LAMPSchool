@@ -52,7 +52,7 @@ print "<tr class='prima'><td>Docente</td><td>Ore perm.</td><td>Giorni ferie</td>
 
 $query = "select * from tbl_docenti order by cognome, nome";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore: $query");
+$ris = eseguiQuery($con,$query);
 while ($rec = mysqli_fetch_array($ris)) {
 
     $iddoc = $rec['iddocente'];
@@ -70,7 +70,7 @@ while ($rec = mysqli_fetch_array($ris)) {
     
   /*  $totaleore = 0;
     $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and subject LIKE '%permesso breve%'";
-    $risperm = mysqli_query($con, inspref($query)) or die("Errore: $query");
+    $risperm = eseguiQuery($con,$query);
     while ($recperm = mysqli_fetch_array($risperm)) {
 
         $mail = $recperm['testomail'];

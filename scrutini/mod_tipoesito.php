@@ -53,7 +53,7 @@ in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses
     $idtipoesito = stringa_html('idtipoesito');
 
     $sql="select * from tbl_tipiesiti where idtipoesito=$idtipoesito";
-    if (!($ris=mysqli_query($con,inspref($sql))))
+    if (!($ris=eseguiQuery($con,$sql)))
     {
         die("\n<h1> Query fallita </h1>");
     }

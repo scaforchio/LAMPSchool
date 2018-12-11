@@ -66,7 +66,7 @@ $query = "SELECT numeroordine, idobiettivo, obiettivo, sintob FROM tbl_compob
 
 // print inspref($query); // TTTT
 
-$riscomp = mysqli_query($con, inspref($query));
+$riscomp = eseguiQuery($con,$query);
 
 while ($nom = mysqli_fetch_array($riscomp))
 {
@@ -109,7 +109,7 @@ if ($idobiettivo != "")
                  and tbl_compob.idobiettivo=$idobiettivo";
 
 
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . inspref($query));
+    $ris = eseguiQuery($con,$query);
 
 
     if (mysqli_num_rows($ris) > 0)
@@ -134,7 +134,7 @@ if ($idobiettivo != "")
 
 
     $query = "select * from tbl_compsubob where idobiettivo=$idobiettivo order by numeroordine";
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     print "<form method='post' action='inssubobiettivi.php'>
 					  <p align='center'>
 					 <font size=4 color='black'>Abilit&agrave;</font>
@@ -150,7 +150,7 @@ if ($idobiettivo != "")
         $votipresenti = false;
         $query = "select * from tbl_valutazioniobcomp
                       where idsubob=$idsubob";
-        $ris2 = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query));
+        $ris2 = eseguiQuery($con,$query);
         if (mysqli_num_rows($ris2) > 0)
         {
             $votipresenti = true;

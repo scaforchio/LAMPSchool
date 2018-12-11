@@ -109,7 +109,7 @@ print ("<tr>
 $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
 
 $query="select idmateria, denominazione from tbl_materie order by denominazione";
-$ris=mysqli_query($con,inspref($query));
+$ris=eseguiQuery($con,$query);
 while($nom=mysqli_fetch_array($ris))
 {
     print "<option value='";

@@ -58,7 +58,7 @@ GROUP BY tbl_cattnosupp.idmateria,tbl_classi.idclasse
  ORDER BY 
     anno,specializzazione,sezione,denominazione";
 
-$ris = mysqli_query($con,inspref($query)) or die("Errore: ".inspref($query));
+$ris = eseguiQuery($con,$query);
 $corsi=getCorsiMoodle($tokenservizimoodle,$urlmoodle);
 // print "Corsi: $corsi";
 if (mysqli_num_rows($ris)>0) 

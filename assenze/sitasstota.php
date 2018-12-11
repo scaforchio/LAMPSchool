@@ -138,7 +138,7 @@ if ($tipoutente == 'D') {
     $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM tbl_classi
            WHERE idcoordinatore=" . $_SESSION['idutente'] . " ORDER BY anno,sezione,specializzazione";
 }
-$ris = mysqli_query($con, inspref($query));
+$ris = eseguiQuery($con,$query);
 while ($nom = mysqli_fetch_array($ris)) {
     print "<option value='";
     print ($nom["idclasse"]);
@@ -238,14 +238,14 @@ if ($nome != "") {
 
 
     $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     if ($val = mysqli_fetch_array($ris)) {
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
         $oresettimanali = $val["oresett"];
         $numoretot = round(33.333 * $oresettimanali);  // 33 = numero settimane di lezione convenzionale
     }
     $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
     $c = mysqli_fetch_array($ris);
     if ($c == NULL) {
@@ -271,7 +271,7 @@ if ($nome != "") {
 
 
     $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     while ($val = mysqli_fetch_array($ris)) {
         $idalunno = $val["idalunno"];
         echo '
@@ -288,7 +288,7 @@ if ($nome != "") {
         $risass = mysqli_query($con, inspref($queryass)) or die("Errore nella query: " . mysqli_error($con));
         $risrit = mysqli_query($con, inspref($queryrit)) or die("Errore nella query: " . mysqli_error($con));
         $numritardibrevi = calcola_ritardi_brevi($val['idalunno'], $con, $ritardobreve, $seledata);
-        $risusc = mysqli_query($con, inspref($queryusc)) or die("Errore nella query: " . mysqli_error($con));
+        $risusc = eseguiQuery($con,$queryusc);
         while ($ass = mysqli_fetch_array($risass)) {
 
             $numass = $ass['numass'];

@@ -52,7 +52,7 @@ if ($livello_scuola == '2') {
         $sql = "SELECT * FROM tbl_classi WHERE anno = '8' ORDER BY specializzazione, sezione, anno ";
     }
 }
-if (!($res = mysqli_query($con, inspref($sql)))) {
+if (!($res = eseguiQuery($con,$sql))) {
     print ("Query fallita");
 } else {
 
@@ -84,7 +84,7 @@ if ($idclasse != '') {
     print "<br><br><table border=1><tr class='prima'><td>Sigla</td><td>Denominazione</td><td>Media</td><td>Lingue straniere</td></tr>";
     // Leggo i dati della classe se già inseriti
     $query = "SELECT * FROM tbl_esmaterie where idclasse='$idclasse'";
-    $ris = mysqli_query($con, inspref($query));
+    $ris = eseguiQuery($con,$query);
 
     if (mysqli_num_rows($ris) != 0) {
         $registrazione = 'U';
@@ -172,7 +172,7 @@ if ($idclasse != '') {
         $query = "select * from tbl_esesiti,tbl_alunni
                 where tbl_esesiti.idalunno=tbl_alunni.idalunno
                 and idclasse=$idclasse";
-        $ris = mysqli_query($con, inspref($query)) or die("Errore: " . inspref($query, false));
+        $ris = eseguiQuery($con,$query);
         if (mysqli_num_rows($ris) > 0)
             print "<br><b><font color='red'>ATTENZIONE! Non modificare l'ordine delle materie: ci sono valutazioni già registrate.</font></b>";
         print "<br><br><input type='submit' value='Aggiorna materie'>";

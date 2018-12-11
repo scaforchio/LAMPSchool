@@ -85,11 +85,11 @@ else
     $ope = 'I';
     $query = "insert into tbl_lezionicert(idclasse,datalezione,iddocente,idmateria,idalunno,numeroore,orainizio,argomenti,attivita) values ('$idclasse','$data','$iddocente','$materia','$idalunno','$numeroore','$orainizio','" . elimina_apici($argomenti) . "','" . elimina_apici($attivita) . "')";
 }
-//mysqli_query($con,inspref($query)) or die ("Errore: ". inspref($query)); 
+//eseguiQuery($con,$query); 
 
 if ($ope == 'I')
 {
-    $ris3 = mysqli_query($con, inspref($query)) or die ("Errore nella query di inserimento: " . mysqli_error($con));
+    $ris3 = eseguiQuery($con,$query);
     $codlez = mysqli_insert_id($con);
 
     $verlez = verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numeroore, $orainizio, $con, $codlez, $idalunno);
@@ -126,13 +126,13 @@ if ($ope == 'I')
 if ($ope == 'U')
 {
 
-    $ris3 = mysqli_query($con, inspref($query)) or die ("Errore nella query di aggiornamento: " . mysqli_error($con));
+    $ris3 = eseguiQuery($con,$query);
 
     print "<center><b>Aggiornamento effettuato!</b></center>";
 }
 if ($ope == 'D')
 {
-    $ris3 = mysqli_query($con, inspref($query)) or die ("Errore nella query di cancellazione: " . mysqli_error($con));
+    $ris3 = eseguiQuery($con,$query);
     print "<center><b>Cancellazione effettuata!</b></center>";
 }
 
@@ -211,16 +211,16 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
         $query = "select * from tbl_firme
 	        where idlezione=$idlezione
 	        and iddocente=$iddocente";
-        $ris = mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+        $ris = eseguiQuery($conn,$query);
 
         if (mysqli_num_rows($ris) == 0)
         {
             // INSERISCO LA FIRMA E MEMORIZZO ID LEZIONE NORM SE NON ESISTE
             $query = "insert into tbl_firme(idlezione,iddocente) values ($idlezione,$iddocente)";
-            mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+            eseguiQuery($conn,$query);
             $query = "update tbl_lezionicert set idlezionenorm=$idlezione
                       where idlezione=$codlez";
-            mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+            eseguiQuery($conn,$query);
             return 1;
         }
         else
@@ -228,7 +228,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
             // TTTT 17/11/2018
             $query = "update tbl_lezionicert set idlezionenorm=$idlezione
                       where idlezione=$codlez";
-            mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+            eseguiQuery($conn,$query);
         }
         return 0;
     }
@@ -261,17 +261,17 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
         {
             // cambio numero di ore a lezione originale
             $query = "update tbl_lezioni set numeroore=$numeroore where idlezione=$idlezioneorig";
-            mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+            eseguiQuery($conn,$query);
             $query = "update tbl_lezionicert set idlezionenorm=$idlezioneorig
                       where idlezione=$codlez";
-            mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+            eseguiQuery($conn,$query);
 
             // inserisco lezione senza docente sostegno
             $numorenuo = $numeroorenorm - $numeroore;
             $orainizionuo = $orainizionorm + $numeroore;
             $query = "insert into tbl_lezioni(idclasse,datalezione,iddocente,idmateria,numeroore,orainizio)
 	                           values ($idclasseorig,'$datalezioneorig',$iddocenteorig,$idmateriaorig,$numorenuo,$orainizionuo)";
-            mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+            eseguiQuery($conn,$query);
             $idnuovalezione = mysqli_insert_id($conn);
 
 
@@ -279,7 +279,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
             // estraggo le firme della lezione originale
 
             $query = "select * from tbl_firme where idlezione=$idlezioneorig";
-            $ris = mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+            $ris = eseguiQuery($conn,$query);
             $codfirme = array();
             while ($rec = mysqli_fetch_array($ris))
             {
@@ -290,14 +290,14 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
             {
                 $query = "insert into tbl_firme(idlezione,iddocente)
 				 	                             values($idnuovalezione," . $codfirme[$i] . ")";
-                mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+                eseguiQuery($conn,$query);
 
 
             }
 
             // INSERISCO LA FIRMA DEL DOCENTE DI SOSTEGNO PER LA LEZIONE INIZIALE
             $query = "insert into tbl_firme(idlezione,iddocente) values ($idlezioneorig,$iddocente)";
-            mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+            eseguiQuery($conn,$query);
 
 
 
@@ -313,7 +313,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
             {
                 // cambio numero di ore a lezione originale
                 $query = "update tbl_lezioni set numeroore=" . ($numeroorenorm - $numeroore) . " where idlezione=$idlezioneorig";
-                mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+                eseguiQuery($conn,$query);
 
 
                 // inserisco lezione con docente di sostegno
@@ -321,14 +321,14 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
                 $orainizionuo = $orainizio;
                 $query = "insert into tbl_lezioni(idclasse,datalezione,iddocente,idmateria,numeroore,orainizio)
 	                           values ($idclasseorig,'$datalezioneorig',$iddocenteorig,$idmateriaorig,$numorenuo,$orainizionuo)";
-                mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+                eseguiQuery($conn,$query);
                 $idnuovalezione = mysqli_insert_id($conn);
                 $query = "update tbl_lezionicert set idlezionenorm=$idnuovalezione
                       where idlezione=$codlez";
-                mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+                eseguiQuery($conn,$query);
                 // estraggo i codici degli alunni con assenze lezione
                 $query = "select * from tbl_asslezione where idlezione=$idlezioneorig";
-                $ris = mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+                $ris = eseguiQuery($conn,$query);
                 $codalunni = array();
                 $oreass = array();
                 while ($rec = mysqli_fetch_array($ris))
@@ -340,7 +340,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
                 // estraggo le firme della lezione originale
 
                 $query = "select * from tbl_firme where idlezione=$idlezioneorig";
-                $ris = mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+                $ris = eseguiQuery($conn,$query);
                 $codfirme = array();
                 while ($rec = mysqli_fetch_array($ris))
                 {
@@ -351,14 +351,14 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
                 {
                     $query = "insert into tbl_firme(idlezione,iddocente)
 				 	                             values($idnuovalezione," . $codfirme[$i] . ")";
-                    mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+                    eseguiQuery($conn,$query);
 
 
                 }
 
                 // INSERISCO LA FIRMA DEL DOCENTE DI SOSTEGNO PER LA NUOVA LEZIONE
                 $query = "insert into tbl_firme(idlezione,iddocente) values ($idnuovalezione,$iddocente)";
-                mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+                eseguiQuery($conn,$query);
 
 
             }
@@ -371,7 +371,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
             {
                 // cambio numero di ore a lezione originale
                 $query = "update tbl_lezioni set numeroore=" . ($orainizio - $orainizionorm) . " where idlezione=$idlezioneorig";
-                mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+                eseguiQuery($conn,$query);
 
 
                 // inserisco lezione con docente di sostegno
@@ -379,16 +379,16 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
                 $orainizionuo = $orainizio;
                 $query = "insert into tbl_lezioni(idclasse,datalezione,iddocente,idmateria,numeroore,orainizio)
 	                           values ($idclasseorig,'$datalezioneorig',$iddocenteorig,$idmateriaorig,$numorenuo,$orainizionuo)";
-                mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+                eseguiQuery($conn,$query);
                 $idnuovalezione = mysqli_insert_id($conn);
                 $query = "update tbl_lezionicert set idlezionenorm=$idnuovalezione
                       where idlezione=$codlez";
-                mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+                eseguiQuery($conn,$query);
 
                 // estraggo le firme della lezione originale
 
                 $query = "select * from tbl_firme where idlezione=$idlezioneorig";
-                $ris = mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+                $ris = eseguiQuery($conn,$query);
                 $codfirme = array();
                 while ($rec = mysqli_fetch_array($ris))
                 {
@@ -399,13 +399,13 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
                 {
                     $query = "insert into tbl_firme(idlezione,iddocente)
 				 	                             values($idnuovalezione," . $codfirme[$i] . ")";
-                    mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+                    eseguiQuery($conn,$query);
 
                 }
 
                 // INSERISCO LA FIRMA DEL DOCENTE DI SOSTEGNO PER LA NUOVA LEZIONE
                 $query = "insert into tbl_firme(idlezione,iddocente) values ($idnuovalezione,$iddocente)";
-                mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+                eseguiQuery($conn,$query);
 
                 // CREO LA TERZA LEZIONE (DOPO IL SOSTEGNO)
 
@@ -413,7 +413,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
                 $orainizionuo = $orainizio + $numeroore;
                 $query = "insert into tbl_lezioni(idclasse,datalezione,iddocente,idmateria,numeroore,orainizio)
 	                           values ($idclasseorig,'$datalezioneorig',$iddocenteorig,$idmateriaorig,$numorenuo,$orainizionuo)";
-                mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+                eseguiQuery($conn,$query);
                 $idnuovalezione = mysqli_insert_id($conn);
 
                 // inserisco le firme per la nuova lezione
@@ -421,7 +421,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
                 {
                     $query = "insert into tbl_firme(idlezione,iddocente)
 				 	                             values($idnuovalezione," . $codfirme[$i] . ")";
-                    mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+                    eseguiQuery($conn,$query);
 
                 }
 
@@ -445,7 +445,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
 	            where idclasse=$idclasse
 	            and datalezione='$data'
 	            and idmateria=$materia";
-        $ris = mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+        $ris = eseguiQuery($conn,$query);
 
         if (mysqli_num_rows($ris) == 0)
         {
@@ -453,13 +453,13 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
             // NON CI SONO ANCORA LEZIONI DELLA MATERIA
             $query = "insert into tbl_lezioni(iddocente,idmateria,idclasse,datalezione,orainizio,numeroore)
                                    values ($iddocente,$materia,$idclasse,'$data',$orainizio,$numeroore)";
-            mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+            eseguiQuery($conn,$query);
             $idlezione = mysqli_insert_id($conn);
             $query = "insert into tbl_firme(idlezione,iddocente) values ($idlezione,$iddocente)";
-            mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+            eseguiQuery($conn,$query);
             $query = "update tbl_lezionicert set idlezionenorm=$idlezione
                       where idlezione=$codlez";
-            mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+            eseguiQuery($conn,$query);
             return 2;
         }
         else
@@ -474,7 +474,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
 	                 and idmateria=$materia
 	                 and orainizio>=$orainizio
 	                 and (orainizio+numeroore-1)<=($orainizio+$numeroore-1)";
-            $ris = mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+            $ris = eseguiQuery($conn,$query);
             if (mysqli_num_rows($ris) > 0)
             {
 
@@ -486,7 +486,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
                 $numeroore = $rec['numeroore'];
                 $query = "insert into tbl_firme(idlezione,iddocente)
 				 	                             values($idlezfirma,$iddocente)";
-                mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+                eseguiQuery($conn,$query);
                 // Modifico la lezione di sostegno originale
                 $query="update tbl_lezionicert
                         set idlezionenorm=$idlezfirma,
@@ -506,11 +506,11 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
 				 	                             values($idlezfirma,$iddocente)";
                     // print ("tttt ".inspref($query));
                     // Inserisco la sottolezione di sostegno
-                    mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+                    eseguiQuery($conn,$query);
                     $query = "insert into tbl_lezionicert(iddocente,datalezione,orainizio,numeroore,idmateria,idlezionenorm,idalunno)
 				 	                             values($iddocente,'$datalezione',$orainizio,$numeroore,$idmateria,$idlezfirma,$idalunno)";
                     // print ("tttt ".inspref($query));
-                    mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query));
+                    eseguiQuery($conn,$query);
 
 
                 }
@@ -518,13 +518,13 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
             }
             $query = "insert into tbl_lezioni(iddocente,idmateria,idclasse,datalezione,orainizio,numeroore)
                                    values ($iddocente,$materia,$idclasse,'$data',$orainizio,$numeroore)";
-            mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+            eseguiQuery($conn,$query);
             $idlezione = mysqli_insert_id($conn);
             $query = "insert into tbl_firme(idlezione,iddocente) values ($idlezione,$iddocente)";
-            mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+            eseguiQuery($conn,$query);
             $query = "update tbl_lezionicert set idlezionenorm=$idlezione
                       where idlezione=$codlez";
-            mysqli_query($conn, inspref($query)) or die ("Errore: " . inspref($query));
+            eseguiQuery($conn,$query);
             return 5;
 
         }

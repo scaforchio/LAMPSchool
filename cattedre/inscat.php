@@ -44,7 +44,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Err
 
 
 $sql = "DELETE FROM tbl_cattnosupp WHERE iddocente = '" . stringa_html('docente') . "' AND idalunno=0";
-$ris = mysqli_query($con, inspref($sql));
+$ris = eseguiQuery($con,$sql);
 if (mysqli_affected_rows($con) == 0)
 {
     print("\n<FONT SIZE='+2'> <CENTER>Vecchi dati non presenti! </CENTER></FONT>");
@@ -72,7 +72,7 @@ if ($doc != "")
             if ($mat == "ALL")
             {
                 $sql = "SELECT idmateria FROM tbl_materie WHERE idmateria>0 ORDER BY idmateria";
-                $ris = mysqli_query($con, inspref($sql));
+                $ris = eseguiQuery($con,$sql);
                 while ($materia = mysqli_fetch_array($ris))
                 {
 
@@ -82,7 +82,7 @@ if ($doc != "")
                         foreach ($tbl_classi as $cla)
                         {
                             $sql = "INSERT INTO tbl_cattnosupp(iddocente, idmateria, idclasse) values ('$doc','" . $materia["idmateria"] . "','$cla')";
-                            if ($ris2 = mysqli_query($con, inspref($sql)))
+                            if ($ris2 = eseguiQuery($con,$sql))
                             {
                                 print("Inserita materia " . decodifica_materia($materia["idmateria"], $con) . " per classe " . decodifica_classe($cla, $con) . ".<br/>");
                             }
@@ -102,7 +102,7 @@ if ($doc != "")
                     foreach ($tbl_classi as $cla)
                     {
                         $sql = "INSERT INTO tbl_cattnosupp(iddocente, idmateria, idclasse) values ('$doc','$mat','$cla')";
-                        if ($ris = mysqli_query($con, inspref($sql)))
+                        if ($ris = eseguiQuery($con,$sql))
                         {
                             print("Inserita materia " . decodifica_materia($mat, $con) . " per classe " . decodifica_classe($cla, $con) . ".<br/>");
                         }
@@ -130,16 +130,16 @@ else
 $cont=0; 
 
 $sql="DELETE FROM tbl_cattnosupp WHERE iddocente = 1000000000 and idalunno=0";
- $ris=mysqli_query($con,inspref($sql));
+ $ris=eseguiQuery($con,$sql);
  
  
 $sql="select distinct idmateria, idclasse from tbl_cattnosupp";
-$ris=mysqli_query($con,inspref($sql));
+$ris=eseguiQuery($con,$sql);
 while ($catt=mysqli_fetch_array($ris))
 {
 	 $cont++;
      $sql="INSERT INTO tbl_cattnosupp(iddocente, idmateria, idclasse) values (1000000000,'".$catt["idmateria"]."','".$catt["idclasse"]."')";
-     if(!$ris2=mysqli_query($con,inspref($sql)))
+     if(!$ris2=eseguiQuery($con,$sql);)
      {
           print("Errore in inserimento cattedre preside!");
      }
@@ -148,7 +148,7 @@ while ($catt=mysqli_fetch_array($ris))
 */
 
 $querydel = "DELETE FROM tbl_cattnosupp WHERE iddocente = 1000000000 AND idalunno=0";
-mysqli_query($con, inspref($querydel)) or die (inspref($querydel));
+eseguiQuery($con,$querydel);
 
 $querypres = "INSERT INTO tbl_cattnosupp(iddocente,idmateria,idclasse)
 SELECT DISTINCT 1000000000, idmateria, idclasse
@@ -159,7 +159,7 @@ mysqli_query($con, inspref($querypres)) or die (inspref($querypres));
 
 // INSERISCO LE CATTEDRE PER LE SUPPLENZE
 $querydel = "DELETE FROM tbl_cattsupp WHERE 1=1";
-mysqli_query($con, inspref($querydel)) or die (inspref($querydel));
+eseguiQuery($con,$querydel);
 // print inspref($querydel);
 $querysupp = "INSERT INTO tbl_cattsupp(iddocente,idmateria,idclasse)
 SELECT iddocente, 0, idclasse

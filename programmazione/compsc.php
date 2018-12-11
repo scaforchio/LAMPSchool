@@ -58,7 +58,7 @@ print ("
           $con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
            
           $query="select idmateria, denominazione from tbl_materie order by denominazione";
-          $ris=mysqli_query($con,inspref($query));
+          $ris=eseguiQuery($con,$query);
           while($nom=mysqli_fetch_array($ris))
 	  {
             print "<option value='";
@@ -111,7 +111,7 @@ print("    </form></td>
      
    
     $query="select * from tbl_competscol where idmateria=$materia and anno=$anno order by numeroordine";
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore nella query: ". mysqli_error($con));
+    $ris=eseguiQuery($con,$query);
     print "<p align='center'>
           <font size=4 color='black'>Competenze </font>
           <form method='post' action='inscompsc.php'>
