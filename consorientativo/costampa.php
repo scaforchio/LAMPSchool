@@ -60,7 +60,7 @@ if ($idclasse != "")
 {
 
     $query = "select idalunno from tbl_alunni where idalunno in ($elencoalunni) order by cognome,nome";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($val = mysqli_fetch_array($ris))
     {
         $alunni[] = $val['idalunno'];
@@ -159,7 +159,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $con, 
 
 
     $query = "select consiglioorientativo from tbl_consorientativi where idalunno=$alu";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     $rec = mysqli_fetch_array($ris);
     $consorientativo = $rec['consiglioorientativo'];
 
@@ -177,7 +177,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $con, 
     $schede->SetXY(140, $posy + 10);
     $schede->Cell(60, 8, converti_utf8("Il Dirigente Scolastico"), 0, 0, "C");
     $schede->SetXY(140, $posy + 17);
-    $schede->Cell(60, 8, "(".converti_utf8($firmadir).")", "0", 0, "C");
+    $schede->Cell(60, 8, "(" . converti_utf8($firmadir) . ")", "0", 0, "C");
     if ($_SESSION['suffisso'] != "")
     {
         $suff = $_SESSION['suffisso'] . "/";

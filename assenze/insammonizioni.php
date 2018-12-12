@@ -46,7 +46,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 
 $query = "SELECT idalunno,nome,cognome, sesso FROM tbl_alunni WHERE idclasse<>0";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 
 while ($rec = mysqli_fetch_array($ris))
@@ -60,7 +60,6 @@ while ($rec = mysqli_fetch_array($ris))
     if ($aludaamm == "on")
     {
         inserisciAmmonizioneGiustAssenze($idalunno, $_SESSION['idutente'], $datalimiteinferiore, $con);
-        
     }
 
 
@@ -70,7 +69,6 @@ while ($rec = mysqli_fetch_array($ris))
     {
 
         inserisciAmmonizioneGiustRitardi($idalunno, $_SESSION['idutente'], $datalimiteinferiore, $con);
-        
     }
 }
 

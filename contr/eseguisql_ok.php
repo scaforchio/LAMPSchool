@@ -44,12 +44,8 @@ $querydaeseguire = $_POST["que"];
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 esecuzioneSQL($querydaeseguire, $con);
-/*
-  $ris = mysqli_query($con,inspref($querydaeseguire)) or die("Errore: ".mysqli_error($con)." <br> Query: ".inspref($querydaeseguire,false));
 
-  $numrec=mysqli_affected_rows($con);
 
-  print "<br><center><b>Query eseguita correttamente, righe influenzate: $numrec !</b></center>"; */
 print "<form action='eseguisql.php' method='POST'>";
 
 print "<CENTER><br><table border='0'>";
@@ -156,7 +152,7 @@ function esecuzioneSQL($comandisql, $con)
     foreach ($sql_query as $sql)
     {
 
-        $ris = mysqli_query($con, inspref($sql)) or die("Errore: " . mysqli_error($con) . " <br> Query: " . inspref($sql, false));
+        $ris = eseguiQuery($con,$sql);
 
         print "<br><b>Eseguito: " . inspref($sql, false) . "</b><br><br>";
         $numrecinfl = mysqli_affected_rows($con);
@@ -192,6 +188,5 @@ function esecuzioneSQL($comandisql, $con)
         {
             print "Righe influenzate dalla query: $numrecinfl";
         }
-
     }
 }

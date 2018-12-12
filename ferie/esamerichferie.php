@@ -49,26 +49,25 @@ if ($tipoutente == 'P')
     print "<tr class='prima'><td>Prot.</td><td>Docente</td><td>Richiesta</td><td>Concessione</td></tr>";
     // TTTT
     $query = "select * from tbl_richiesteferie where isnull(concessione) or concessione=2 order by idrichiestaferie desc";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore: $query <br>".mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
     while ($rec = mysqli_fetch_array($ris))
     {
         print "<tr>";
         $prot = $rec['idrichiestaferie'];
         print "<td>$prot</td>";
-        
-        $totaleore=calcolaOrePermesso($rec['iddocente'],$con);
-        $giorniferie = calcolaGiorniFerie($rec['iddocente'],$con);
-        $giorniperm = calcolaGiorniPermesso($rec['iddocente'],$con);
-        
-        
-        
-        print "<td>" . estrai_dati_docente($rec['iddocente'], $con) ."<small><br><br>PRECEDENTI:<br>Ore perm.: $totaleore <br>Ferie: $giorniferie <br>Perm.: $giorniperm <big></td>";
+
+        $totaleore = calcolaOrePermesso($rec['iddocente'], $con);
+        $giorniferie = calcolaGiorniFerie($rec['iddocente'], $con);
+        $giorniperm = calcolaGiorniPermesso($rec['iddocente'], $con);
+
+
+
+        print "<td>" . estrai_dati_docente($rec['iddocente'], $con) . "<small><br><br>PRECEDENTI:<br>Ore perm.: $totaleore <br>Ferie: $giorniferie <br>Perm.: $giorniperm <big></td>";
         require "../lib/req_prepara_stringa_sintetica_richiesta.php";
-        
     }
     $query = "select * from tbl_richiesteferie where concessione=0 or concessione=1 order by idrichiestaferie desc";
-   
-    $ris = eseguiQuery($con,$query);
+
+    $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris))
     {
         print "<tr>";
@@ -76,18 +75,16 @@ if ($tipoutente == 'P')
         print "<td>$prot</td>";
         print "<td>" . estrai_dati_docente($rec['iddocente'], $con) . "</td>";
         require "../lib/req_prepara_stringa_sintetica_richiesta.php";
-        
     }
     print "</table>";
     print "<br>";
-}
-else
+} else
 {
     print "<br><center><b>ESITO PROPRIE RICHIESTE ASTENSIONE DAL LAVORO</b></center><br><br>";
     print "<table border='1' align='center'>";
     print "<tr class='prima'><td>Prot.</td><td>Docente</td><td>Richiesta</td><td>Concessione</td></tr>";
     $query = "select * from tbl_richiesteferie where iddocente=$iddocente and (concessione<>9 or isnull(concessione)) order by idrichiestaferie desc";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris))
     {
         print "<tr>";

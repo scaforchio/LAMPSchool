@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 //Programma per la modifica dell'elenco delle tbl_classi
 
@@ -32,7 +34,7 @@ if ($tipoutente == "")
 
 $titolo = "Modifica gruppo";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_gru.php'>ELENCO GRUPPI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -54,12 +56,11 @@ if (!$DB)
 
 //Esecuzione query
 $sql = "SELECT * FROM tbl_gruppi WHERE idgruppo=" . stringa_html('idgruppo');
-if (!($ris = eseguiQuery($con,$sql)))
+if (!($ris = eseguiQuery($con, $sql)))
 {
     print("\n<h1> Query fallita </h1>");
     exit;
-}
-else
+} else
 {
     $dati = mysqli_fetch_array($ris);
     print "<form action='agg_gru.php' method='POST'>";

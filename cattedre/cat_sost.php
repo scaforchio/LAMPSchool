@@ -1,25 +1,27 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 /*
-     INSERIMENTO DELLE CATTEDRE
-*/
+  INSERIMENTO DELLE CATTEDRE
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -39,7 +41,7 @@ $docente = stringa_html('docente');
 //
 //    Parte iniziale della pagina
 //
-$maxcattedre=10;
+$maxcattedre = 10;
 $titolo = "Gestione cattedra docente di sostegno";
 $script = "";
 stampa_head($titolo, "", $script, "MASP");
@@ -49,7 +51,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 //    Fine parte iniziale della pagina
 //
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 print ("
    <form method='post' action='cat_sost.php' name='cat_sost'>
@@ -61,12 +63,11 @@ print ("
       <td colspan='2' align='center'><b>Docente</b>");
 
 $sqld = "SELECT * FROM tbl_docenti WHERE sostegno ORDER BY cognome, nome";
-$resd = eseguiQuery($con,$sqld);
+$resd = eseguiQuery($con, $sqld);
 if (!$resd)
 {
     print ("<br/> <br/> <br/> <h2>a Impossibile visualizzare i dati </h2>");
-}
-else
+} else
 {
     print ("<select name='docente' ONCHANGE='cat_sost.submit();'>");
     print ("<option>");
@@ -84,7 +85,6 @@ else
         print("&nbsp;");
         print($datal['nome']);
     }
-
 }
 print("</select> </td> </tr>");
 print("</table>");
@@ -99,7 +99,7 @@ if ($docente != '')
     $query = "select distinct idalunno from tbl_cattnosupp
                 where iddocente=$docente
                 and idalunno<>0";
-    $risalu = eseguiQuery($con,$query);
+    $risalu = eseguiQuery($con, $query);
     $arralu = array();
 
     print("<tr class='prima'><td width='50%' align=center><b>Alunno</b></td>
@@ -122,7 +122,7 @@ if ($docente != '')
                       where iddocente=$docente
                       and idalunno=" . $arralu[$i - 1];
             // print "tttt $query";
-            $rismat = eseguiQuery($con,$query);
+            $rismat = eseguiQuery($con, $query);
 
             while ($recmat = mysqli_fetch_array($rismat))
             {
@@ -135,7 +135,7 @@ if ($docente != '')
         print("<select name='alu$i'><option value='0'>&nbsp;</option>");
 
         $query = "SELECT idalunno,cognome,nome,datanascita FROM tbl_alunni WHERE certificato ORDER BY cognome,nome";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         while ($nom = mysqli_fetch_array($ris))
         {
             print "<option value='";
@@ -158,7 +158,7 @@ if ($docente != '')
         print("<td>");
         print ("<select multiple size=8 name='materie" . $i . "[]'>");
         $query = "SELECT idmateria,denominazione FROM tbl_materie WHERE idmateria>0 ORDER BY denominazione";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         while ($nom = mysqli_fetch_array($ris))
         {
             print "<option value='";
@@ -172,10 +172,10 @@ if ($docente != '')
                     $matcatt = true;
                 }
             }
-            if ($matcatt) print " selected";
+            if ($matcatt)
+                print " selected";
             print ">";
             print ($nom["denominazione"]);
-
         }
         print("</select>");
 
@@ -204,5 +204,5 @@ if ($docente != '')
     ');
 }
 mysqli_close($con);
-stampa_piede(""); 
+stampa_piede("");
 

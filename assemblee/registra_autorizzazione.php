@@ -44,30 +44,29 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 $query = "UPDATE tbl_assemblee
           SET autorizzato=$autorizza, docenteautorizzante=$iddocente, note='$note'
           WHERE idassemblea=$idassemblea";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 if ($autorizza == 1)
 {
     $a = "SELECT * FROM tbl_assemblee WHERE idassemblea=$idassemblea";
-    $ris2 = mysqli_query($con, inspref($a)) or die("Errore : " . inspref($a));
+    $ris2 = eseguiQuery($con, $a);
     $data = mysqli_fetch_array($ris2);
 
 
-    if ($data['orainizio']==$data['orafine'])
+    if ($data['orainizio'] == $data['orafine'])
         $mess .= "Vista la regolare richiesta si autorizza assemblea di classe nella " . $data['orainizio'] . "^ ora di lezione.";
     else
-       $mess .= "Vista la regolare richiesta si autorizza assemblea di classe dalla " . $data['orainizio'] . "^ ora alla " . $data['orafine'] . "^ ora di lezione.";
+        $mess .= "Vista la regolare richiesta si autorizza assemblea di classe dalla " . $data['orainizio'] . "^ ora alla " . $data['orafine'] . "^ ora di lezione.";
 
     $ann = "INSERT INTO tbl_annotazioni(idclasse,iddocente,data,testo,visibilitaalunni) 
 		VALUES ($idclasse,$iddocente,'" . $data['dataassemblea'] . "','$mess',1)";
-    mysqli_query($con,inspref($ann)) or die("Errore : " . inspref($ann));
+    eseguiQuery($con, $ann);
 }
 
 if ($ris)
 {
     header("Location: ./assstaff.php?iddocente=$iddocente");
-}
-else
+} else
 {
     print "<center><big>Autorizzazione non inserita correttamente!</big></center>";
 }

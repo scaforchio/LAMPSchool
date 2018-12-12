@@ -1,28 +1,28 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 @require_once("../lib/sms/php-send.php");
 // @require_once("php-send.php");
-
-
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
@@ -39,7 +39,7 @@ $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $selepep = '';
 $selepet = '';
@@ -91,21 +91,19 @@ $smsresidui = floor($smsresidui * ($costosmsclassic / $costosmsplus));
 if ($smsresidui > 1000)
 {
     $color = 'green';
-}
-else
+} else
 {
     if ($smsresidui > 500)
     {
         $color = 'orange';
-    }
-    else
+    } else
     {
         $color = 'red';
     }
 }
 print "<center><b><font color='$color' size='4'>SMS residui: $smsresidui</font></center></b>";
 /* foreach ($rissms as $rsms)
-       print "<center>".$rsms."<br></center>"; */
+  print "<center>".$rsms."<br></center>"; */
 
 
 print "<br><b><center>Selezione SMS da inviare</center></b><br>";
@@ -117,7 +115,7 @@ print "<tr><td>Tipo evento</td>
        <td><select name='tipoass' ONCHANGE='selesms.submit();'>";
 print "<option value='T' $seletat>Tutti</option>";
 print "<option value='A' $seletaa>Assenze</option>";
-if ($numeroritardisms>0)
+if ($numeroritardisms > 0)
     print "<option value='R' $seletar>Super. Num. Ritardi</option>";
 else
     print "<option value='R' $seletar>Ritardi</option>";
@@ -141,7 +139,8 @@ $iddest = array();
 $dataoggi = date("Y-m-d");
 
 print "<form action='sendsms.php' method='POST'><center>";
-if ($smsresidui > 0) print "<input type='submit' value='Invia SMS'><br><br></center>";
+if ($smsresidui > 0)
+    print "<input type='submit' value='Invia SMS'><br><br></center>";
 print "<table align='center' border='1'>";
 print "<tr class='prima'><td>Tipo</td><td>Alunno</td><td>Classe</td><td>Invio</td></tr>";
 if ($tipoass == 'A' | $tipoass == 'T')
@@ -153,7 +152,7 @@ if ($tipoass == 'A' | $tipoass == 'T')
         and tbl_assenze.idalunno
         order by anno,sezione,specializzazione,cognome, nome";
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris))
     {
         $idalunno = $rec['idalunno'];
@@ -161,8 +160,7 @@ if ($tipoass == 'A' | $tipoass == 'T')
         if ($periodo == 'P')
         {
             $asspre = verifica_ass_pre($idalunno, $dataoggi, $con);
-        }
-        else
+        } else
         {
             $asspre = false;
         }
@@ -177,10 +175,10 @@ if ($tipoass == 'A' | $tipoass == 'T')
                     and iddestinatario=$idalunno
                     and substr(tbl_testisms.testo,1,7)='\${nome}'
                     and substr(tbl_testisms.dataora,1,10)='$dataoggi'";
-            $rissms= eseguiQuery($con,$sql);
-            $giainviato=false;
-            if (mysqli_num_rows($rissms)>0)
-                $giainviato=true;
+            $rissms = eseguiQuery($con, $sql);
+            $giainviato = false;
+            if (mysqli_num_rows($rissms) > 0)
+                $giainviato = true;
             print "<tr class='oddeven'>";
             print "<td>ASS</td>";
             print "<td>" . estrai_alunno_data($idalunno, $con) . "</td><td>" . decodifica_classe($idclasse, $con) . "</td>";
@@ -191,7 +189,6 @@ if ($tipoass == 'A' | $tipoass == 'T')
                     print "<td align='center'><input type='checkbox' name='ass$idalunno' checked></td>";
                 else
                     print "<td align='center'>Inviato!</td>";
-
             }
             else
             {
@@ -204,7 +201,7 @@ if ($tipoass == 'A' | $tipoass == 'T')
 }
 if ($tipoass == 'R' | $tipoass == 'T')
 {
-    if ($numeroritardisms=='0')
+    if ($numeroritardisms == '0')
     {
         // INVIA I MESSAGGI DI RITARDO
         $query = "select * from tbl_ritardi,tbl_alunni,tbl_classi
@@ -213,7 +210,7 @@ if ($tipoass == 'R' | $tipoass == 'T')
                     and tbl_alunni.idclasse=tbl_classi.idclasse
                     and data='$dataoggi'
                     order by anno,sezione,specializzazione,cognome, nome";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         while ($rec = mysqli_fetch_array($ris))
         {
             // CONTROLLO CHE NON SIA GIA' STATO INVIATO UN SMS
@@ -224,7 +221,7 @@ if ($tipoass == 'R' | $tipoass == 'T')
                     and iddestinatario=$idalunno
                     and substr(tbl_testisms.testo,1,7)='\${nome}'
                     and substr(tbl_testisms.dataora,1,10)='$dataoggi'";
-            $rissms = eseguiQuery($con,$sql);
+            $rissms = eseguiQuery($con, $sql);
             $giainviato = false;
             if (mysqli_num_rows($rissms) > 0)
             {
@@ -236,7 +233,7 @@ if ($tipoass == 'R' | $tipoass == 'T')
             // CONTO I RITARDI
             $query = "SELECT count(*) AS numritardi FROM tbl_ritardi WHERE idalunno=" . $rec['idalunno'];
 
-            $risnumrit = eseguiQuery($con,$query);
+            $risnumrit = eseguiQuery($con, $query);
             $recnumrit = mysqli_fetch_array($risnumrit);
             $numritardi = $recnumrit['numritardi'];
 
@@ -250,22 +247,17 @@ if ($tipoass == 'R' | $tipoass == 'T')
                 if (!$giainviato)
                 {
                     print "<td align='center'><input type='checkbox' name='rit$idalunno' checked></td>";
-                }
-                else
+                } else
                 {
                     print "<td align='center'>Inviato!</td>";
                 }
-
-            }
-
-            else
+            } else
             {
                 print "<td align='center'>Ins. cell.</td>";
             }
             print "</tr>";
         }
-    }
-    else
+    } else
     {
         // INVIA I MESSAGGI DI SUPERAMENTO DEL LIMITE DEI RITARDI
 
@@ -275,7 +267,7 @@ if ($tipoass == 'R' | $tipoass == 'T')
                     and tbl_alunni.idclasse=tbl_classi.idclasse
                     and data='$dataoggi'
                     order by anno,sezione,specializzazione,cognome, nome";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         while ($rec = mysqli_fetch_array($ris))
         {
             // CONTROLLO CHE NON SIA GIA' STATO INVIATO UN SMS
@@ -285,16 +277,15 @@ if ($tipoass == 'R' | $tipoass == 'T')
                     where tbl_sms.idtestosms=tbl_testisms.idtestosms
                     and iddestinatario=$idalunno
                     and substr(tbl_testisms.testo,1,13)='\${nome} ha su'";
-            $rissms = mysqli_query($con, inspref($sql)) or die ("Errore: " .inspref($sql,false) );
+            $rissms = eseguiQuery($con,$sql);
             $giainviato = false;
             if (mysqli_num_rows($rissms) > 0)
             {
-                $recinv=mysqli_fetch_array($rissms);
-                $datainvio=$recinv['dataora'];
-                $datainvio=substr($datainvio,0,10);
-                $datainvio=data_italiana($datainvio);
+                $recinv = mysqli_fetch_array($rissms);
+                $datainvio = $recinv['dataora'];
+                $datainvio = substr($datainvio, 0, 10);
+                $datainvio = data_italiana($datainvio);
                 $giainviato = true;
-
             }
             $idalunno = $rec['idalunno'];
             $idclasse = $rec['idclasse'];
@@ -304,7 +295,7 @@ if ($tipoass == 'R' | $tipoass == 'T')
                       WHERE data<='$fineprimo'
                       AND idalunno=" . $rec['idalunno'];
 
-            $risnumrit = eseguiQuery($con,$query);
+            $risnumrit = eseguiQuery($con, $query);
             $recnumrit = mysqli_fetch_array($risnumrit);
             $numritardiprimo = $recnumrit['numritardi'];
 
@@ -312,16 +303,16 @@ if ($tipoass == 'R' | $tipoass == 'T')
                       WHERE data>'$fineprimo'
                       AND idalunno=" . $rec['idalunno'];
 
-            $risnumrit = eseguiQuery($con,$query);
+            $risnumrit = eseguiQuery($con, $query);
             $recnumrit = mysqli_fetch_array($risnumrit);
             $numritardisec = $recnumrit['numritardi'];
 
-            if ($dataoggi>$fineprimo)
-                $ritconfr=$numritardisec;
+            if ($dataoggi > $fineprimo)
+                $ritconfr = $numritardisec;
             else
-                $ritconfr=$numritardiprimo;
+                $ritconfr = $numritardiprimo;
 
-            if ($ritconfr>$numeroritardisms)
+            if ($ritconfr > $numeroritardisms)
             {
                 print "<tr class='oddeven'>";
                 print "<td>RIT [I=<b>$numritardiprimo</b>";
@@ -337,32 +328,28 @@ if ($tipoass == 'R' | $tipoass == 'T')
                     if (!$giainviato)
                     {
                         print "<td align='center'><input type='checkbox' name='numrit$idalunno'></td>";
-                    }
-                    else
+                    } else
                     {
                         print "<td align='center'>Inviato in data $datainvio !</td>";
                     }
-
-                }
-
-                else
+                } else
                 {
                     print "<td align='center'>Ins. cell.</td>";
                 }
                 print "</tr>";
             }
         }
-
     }
 }
 print "</table>";
-if ($smsresidui > 0) print "<br><center><input type='submit' value='Invia SMS'></center></form>";
+if ($smsresidui > 0)
+    print "<br><center><input type='submit' value='Invia SMS'></center></form>";
 
 
 stampa_piede("");
 mysqli_close($con);
 
 
-         
+
 
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: pietro
@@ -15,13 +16,12 @@
 function estrai_dati_alunno($idalunno, $conn)
 {
     $query = "select * from tbl_alunni where idalunno='$idalunno'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     if ($rec['datanascita'] != '0000-00-00')
     {
         $datialunno = $rec['cognome'] . " " . $rec['nome'] . " (" . data_italiana($rec['datanascita']) . ")";
-    }
-    else
+    } else
     {
         $datialunno = $rec['cognome'] . " " . $rec['nome'];
     }
@@ -29,13 +29,12 @@ function estrai_dati_alunno($idalunno, $conn)
     return $datialunno;
 }
 
-
 function estrai_codicefiscale($idalunno, $conn)
 {
     $query = "select * from tbl_alunni where idalunno='$idalunno'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
-    
+
 
     return $rec['codfiscale'];
 }
@@ -43,9 +42,9 @@ function estrai_codicefiscale($idalunno, $conn)
 function estrai_sesso_alunno($idalunno, $conn)
 {
     $query = "select * from tbl_alunni where idalunno='$idalunno'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
-    
+
 
     return $rec['sesso'];
 }
@@ -59,12 +58,11 @@ function estrai_sesso_alunno($idalunno, $conn)
 function estrai_dati_alunno_rid($idalunno, $conn)
 {
     $query = "select * from tbl_alunni where idalunno='$idalunno'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $datialunno = $rec['cognome'] . " " . $rec['nome'];
     return $datialunno;
 }
-
 
 /**
  *
@@ -75,7 +73,7 @@ function estrai_dati_alunno_rid($idalunno, $conn)
 function alunno_certificato($idalunno, $conn)
 {
     $query = "select certificato from tbl_alunni where idalunno='$idalunno'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $datialunno = $rec['certificato'];
     return $datialunno;
@@ -92,13 +90,13 @@ function alunno_certificato_pei($idalunno, $idmateria, $conn)
     $datialunno = 0;
     $query = "select certificato from tbl_alunni where idalunno='$idalunno'";
 
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     if ($rec['certificato'])
     {
         $query = "select tipoprogr from tbl_tipoprog where idalunno='$idalunno' and idmateria='$idmateria'";
 
-        $ris2 = eseguiQuery($conn,$query);
+        $ris2 = eseguiQuery($conn, $query);
         $rec2 = mysqli_fetch_array($ris2);
 
         if ($rec2['tipoprogr'] == 'P')
@@ -121,13 +119,13 @@ function alunno_certificato_ob_min($idalunno, $idmateria, $conn)
     $datialunno = 0;
     $query = "select certificato from tbl_alunni where idalunno='$idalunno'";
 
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     if ($rec['certificato'])
     {
         $query = "select tipoprogr from tbl_tipoprog where idalunno='$idalunno' and idmateria='$idmateria'";
 
-        $ris2 = eseguiQuery($conn,$query);
+        $ris2 = eseguiQuery($conn, $query);
         $rec2 = mysqli_fetch_array($ris2);
 
         if ($rec2['tipoprogr'] == 'O')
@@ -150,19 +148,17 @@ function estrai_alunni_classe_data($idclasse, $data, $conn)
     $elenco = "";
     // print "ttt $data <br>";
     // SE LA DATA E' QUELLA ODIERNA POSSO SELEZIONARE DALLA COMPOSIZIONE DELLA CLASSE
-    
+
     if ($data == date("Y-m-d"))
     {
         $query = "select idalunno from tbl_alunni where idclasse='$idclasse'";
         // print "TTTT ".inspref($query)."<br>";
-        $ris = eseguiQuery($conn,$query);
+        $ris = eseguiQuery($conn, $query);
         while ($rec = mysqli_fetch_array($ris))
         {
             $elenco .= $rec['idalunno'] . ",";
         }
-
-    }
-    else  // DEVO VEDERE GLI ALUNNI PRESENTI NELLA DATA NELLA CLASSE
+    } else  // DEVO VEDERE GLI ALUNNI PRESENTI NELLA DATA NELLA CLASSE
     {
         // AGGIUNGO TUTTI GLI ALUNNI CHE NON HANNO CAMBIAMENTI DI CLASSE SUCCESSIVI
         // ALLA DATA SPECIFICATA
@@ -170,7 +166,7 @@ function estrai_alunni_classe_data($idclasse, $data, $conn)
                 and not exists (select * from tbl_cambiamenticlasse where idalunno=alu.idalunno
                                    and datafine>='$data')";
         //   print inspref($query);
-        $ris = eseguiQuery($conn,$query);
+        $ris = eseguiQuery($conn, $query);
         //print "TTTT ".inspref($query)."<br>";
         while ($rec = mysqli_fetch_array($ris))
         {
@@ -185,20 +181,17 @@ function estrai_alunni_classe_data($idclasse, $data, $conn)
                                   where idalunno=camb.idalunno
                                   and datafine>'$data' and datafine < camb.datafine) ";
         // print inspref($query,false);
-        $ris = eseguiQuery($conn,$query);
+        $ris = eseguiQuery($conn, $query);
         //print "TTTT ".inspref($query)."<br>";
         while ($rec = mysqli_fetch_array($ris))
         {
             $elenco .= $rec['idalunno'] . ",";
         }
-
-
     }
     // ELIMINO L'ULTIMA VIRGOLA
     $elenco = substr($elenco, 0, strlen($elenco) - 1);
     return $elenco;
 }
-
 
 /**
  *
@@ -214,30 +207,24 @@ function estrai_classe_alunno_data($idalunno, $data, $conn)
     if ($data == date("Y-m-d"))
     {
         return estrai_classe_alunno($idalunno, $conn);
-
-    }
-    else  // DEVO VEDERE LA CLASSE DI APPARTENENZA NELLA DATA SPECIFICATA
+    } else  // DEVO VEDERE LA CLASSE DI APPARTENENZA NELLA DATA SPECIFICATA
     {
 
         // VERIFICO SE L'ALUNNO NON HA TRASFERIMENTI SUCCESIVI ALLA DATA
         $query = "select * from tbl_cambiamenticlasse where idalunno='$idalunno'
                        and datafine>'$data' order by datafine";
-        $ris = eseguiQuery($conn,$query);
+        $ris = eseguiQuery($conn, $query);
         if (mysqli_num_rows($ris) == 0)
         {
             return estrai_classe_alunno($idalunno, $conn);
-        }
-        else // LA CLASSE DEL PRIMO RECORD TROVATO SARA' LA CLASSE DI APPARTENENZA DELL'ALUNNO
+        } else // LA CLASSE DEL PRIMO RECORD TROVATO SARA' LA CLASSE DI APPARTENENZA DELL'ALUNNO
         {
 
             $rec = mysqli_fetch_array($ris);
             return $rec['idclasse'];
-
         }
     }
-
 }
-
 
 /**
  *
@@ -250,13 +237,13 @@ function alunno_certificato_norm($idalunno, $idmateria, $conn)
     $datialunno = 0;
     $query = "select certificato from tbl_alunni where idalunno='$idalunno'";
 
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     if ($rec['certificato'])
     {
         $query = "select tipoprogr from tbl_tipoprog where idalunno='$idalunno' and idmateria='$idmateria'";
 
-        $ris2 = eseguiQuery($conn,$query);
+        $ris2 = eseguiQuery($conn, $query);
 
         $rec2 = mysqli_fetch_array($ris2);
 
@@ -264,7 +251,6 @@ function alunno_certificato_norm($idalunno, $idmateria, $conn)
         {
             $datialunno = 1;
         }
-
     }
 
     return $datialunno;
@@ -281,15 +267,13 @@ function estrai_alunno_da_cattedra_pei($idcattedra, $conn)
     $codalu = 0;
     $query = "select idalunno from tbl_cattnosupp where idcattedra='$idcattedra'";
 
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
 
     $codalu = $rec['idalunno'];
 
     return $codalu;
 }
-
-
 
 /**
  *
@@ -300,14 +284,12 @@ function estrai_alunno_da_cattedra_pei($idcattedra, $conn)
 function estrai_classe_alunno($idalunno, $conn)
 {
     $query = "select idclasse from tbl_alunni where idalunno='$idalunno'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $classealunno = $rec['idclasse'];
 
     return $classealunno;
 }
-
-
 
 /**
  *
@@ -319,12 +301,11 @@ function estrai_tipo_prog($idalunno, $idmateria, $conn)
 {
     $query = "select tipoprogr from tbl_tipoprog where idalunno='$idalunno' and idmateria='$idmateria'";
 
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     if ($rec = mysqli_fetch_array($ris))
     {
         $dato = $rec['tipoprogr'];
-    }
-    else
+    } else
     {
         $dato = "";
     }
@@ -340,13 +321,12 @@ function estrai_tipo_prog($idalunno, $idmateria, $conn)
 function decodifica_alunno($idalunno, $conn)
 {
     $query = "select cognome,nome from tbl_alunni where idalunno='$idalunno'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $datialunno = $rec['cognome'] . " " . $rec['nome'];
 
     return $datialunno;
 }
-
 
 /**
  *
@@ -354,11 +334,10 @@ function decodifica_alunno($idalunno, $conn)
  * @param object $conn Connessione al db
  * @return string
  */
-
 function estrai_alunno_data($idalunno, $conn)
 {
     $query = "select cognome, nome, datanascita from tbl_alunni where idalunno='$idalunno'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $datialunno = $rec['cognome'] . " " . $rec['nome'] . " (" . data_italiana($rec['datanascita']) . ")";
 

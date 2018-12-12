@@ -32,8 +32,7 @@ $integrativo = stringa_html('integrativo');
 if ($integrativo == 'yes')
 {
     $scrutiniintegrativi = true;
-}
-else
+} else
 {
     $scrutiniintegrativi = false;
 }
@@ -59,8 +58,7 @@ $titolo = "Tabellone scrutini";
 if ($scrutiniintegrativi)
 {
     $numper = '9';
-}
-else
+} else
 {
     $numper = $numeroperiodi;
 }
@@ -272,8 +270,7 @@ $coordinatore = false;
 if ($scrutiniintegrativi)
 {
     $ricercaintegrativi = " AND idclasse in (SELECT DISTINCT idclasse from tbl_esiti WHERE (validita='1' OR validita='2') AND esito=0) ";
-}
-else
+} else
 {
     $ricercaintegrativi = "";
 }
@@ -282,8 +279,7 @@ if ($tipoutente == "S" | $tipoutente == "P" | $tipoutente == "A")
     $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM tbl_classi
               WHERE 1=1 $ricercaintegrativi
               ORDER BY anno,sezione,specializzazione";
-}
-else
+} else
 {
     $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM tbl_classi
               WHERE idcoordinatore=" . $_SESSION['idutente'] . "
@@ -291,7 +287,7 @@ else
               ORDER BY anno,sezione,specializzazione";
     $coordinatore = true;
 }
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -310,21 +306,21 @@ while ($nom = mysqli_fetch_array($ris))
 }
 
 print ("</select></td></tr></table></form>");
-$classeterminale=false;
+$classeterminale = false;
 if ($idclasse != "")
 {
-    $annoclasse= decodifica_anno_classe($idclasse, $con);
+    $annoclasse = decodifica_anno_classe($idclasse, $con);
 
-    if ($livello_scuola==1 & $annoclasse==5)
-        $classeterminale=true;
-    if ($livello_scuola == 2 & $annoclasse==3)
-        $classeterminale=true;
-    
-    if ($livello_scuola == 3 & ($annoclasse==3 | $annoclasse==8))
-        $classeterminale=true;
-    
-   //  if ($livello_scuola == 4 & $annoclasse==5)
-   //     $classeterminale=true;
+    if ($livello_scuola == 1 & $annoclasse == 5)
+        $classeterminale = true;
+    if ($livello_scuola == 2 & $annoclasse == 3)
+        $classeterminale = true;
+
+    if ($livello_scuola == 3 & ($annoclasse == 3 | $annoclasse == 8))
+        $classeterminale = true;
+
+    //  if ($livello_scuola == 4 & $annoclasse==5)
+    //     $classeterminale=true;
 
     if ($tipoutente != 'A')
     {
@@ -335,14 +331,14 @@ if ($idclasse != "")
         and idclasse=$idclasse
         and periodo=$numeroperiodi";
 
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         $numproposte = mysqli_num_rows($ris);
 
         $query = "SELECT * FROM tbl_valutazionifinali,tbl_alunni
         where tbl_valutazionifinali.idalunno=tbl_alunni.idalunno
         and idclasse=$idclasse
         and periodo=$numeroperiodi";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         $numvalutazioni = mysqli_num_rows($ris);
 
 
@@ -352,15 +348,14 @@ if ($idclasse != "")
         {
             $numper = 9;
             $textverb = 'verbscruting';
-        }
-        else
+        } else
         {
             $numper = $numeroperiodi;
             $textverb = 'verbscrutfin';
         }
 
         $queryver = "SELECT * FROM tbl_scrutini WHERE idclasse=$idclasse AND periodo='$numper'";
-        $risver = mysqli_query($con, inspref($queryver)) or die("Errore nella query: " . mysqli_error($con));
+        $risver = eseguiQuery($con,$queryver);
         if (!($valver = mysqli_fetch_array($risver)))
         {
 
@@ -377,11 +372,10 @@ if ($idclasse != "")
             $testo4 = estrai_testo($textverb . '04', $con);
             $criteri = estrai_testo('criterival', $con);
             $queryscr = "INSERT into tbl_scrutini(idclasse,periodo,datascrutinio,stato,orainizioscrutinio,orafinescrutinio,dataverbale,sostituzioni,segretario,datastampa,firmadirigente,testo1,testo2,testo3,testo4,criteri)
-	                VALUES ($idclasse,$numper,'" . date("Y-m-d") . "','A','00:00','00:00','".date("Y-m-d")."','','0','".date("Y-m-d")."',0,'','','','','')";
-            $risscr = mysqli_query($con, inspref($queryscr)) or die("Errore: ".inspref($queryscr,false)." ".mysqli_error($con));
+	                VALUES ($idclasse,$numper,'" . date("Y-m-d") . "','A','00:00','00:00','" . date("Y-m-d") . "','','0','" . date("Y-m-d") . "',0,'','','','','')";
+            $risscr = eseguiQuery($con,$queryscr);
             $idscrutinio = mysqli_insert_id($con);
-        }
-        else
+        } else
         {
 
             $idscrutinio = $valver['idscrutinio'];
@@ -419,17 +413,17 @@ if ($idclasse != "")
 							  where tbl_proposte.idalunno=tbl_alunni.idalunno
 							  and idclasse=$idclasse and periodo=$numeroperiodi";
 
-            $risins = eseguiQuery($con,$queryins);
+            $risins = eseguiQuery($con, $queryins);
             print "<br><center><b>Voti importati dalle proposte di voto!</b></center><br>";
             // CALCOLO IL VOTO DI CONDOTTA PER TUTTI GLI ALUNNI
             $query = "SELECT idalunno FROM tbl_alunni WHERE idclasse=$idclasse";
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             while ($nom = mysqli_fetch_array($ris))
             {
                 $idal = $nom['idalunno'];
                 $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,periodo)
 						 VALUES ($idal,-1," . calcola_media_condotta($idal, $numeroperiodi, $con) . ",$numeroperiodi)";
-                $risins = eseguiQuery($con,$queryins);
+                $risins = eseguiQuery($con, $queryins);
             }
         }
 
@@ -446,7 +440,7 @@ if ($idclasse != "")
 	and tbl_cattnosupp.iddocente <> 1000000000
         and tbl_materie.progrpag<100
 	order by tbl_materie.progrpag,tbl_materie.sigla";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         if (mysqli_num_rows($ris) > 0)
         {
             print ("<table align='center' border='1'><tr class='prima' align='center'><td>Alunno</td><td>Scrut.</td>");
@@ -499,14 +493,13 @@ if ($idclasse != "")
                 $query = "SELECT * FROM tbl_alunni WHERE idclasse='$idclasse'
                            and idalunno in (select idalunno from tbl_esiti WHERE (validita='1' OR validita='2') AND esito=0)
                            ORDER BY cognome,nome,datanascita";
-            }
-            else
+            } else
             {
                 $query = "SELECT * FROM tbl_alunni WHERE idclasse='$idclasse'
                            ORDER BY cognome,nome,datanascita";
             }
             // TTTT
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             while ($val = mysqli_fetch_array($ris))
             {
                 $listavoti = array();
@@ -516,8 +509,7 @@ if ($idclasse != "")
                 if ($numeroalunno % 2 == 0)
                 {
                     $colore = '#FFFFFF';
-                }
-                else
+                } else
                 {
                     $colore = '#CCCCCC';
                 }
@@ -526,8 +518,7 @@ if ($idclasse != "")
                 if (!$val['certificato'])
                 {
                     $cert = "";
-                }
-                else
+                } else
                 {
                     $cert = "<img src='../immagini/apply_small.png'>";
                 }
@@ -545,24 +536,23 @@ if ($idclasse != "")
                     $votounico = ricerca_voto($idalunno, $cm, "U", $alunni, $mattipo, $valutazioni);
 
                     print "<td align='center'><table><tr>";
-                    
-                   // if (strpos($tipoval[$nummat], "U") != false)
-                   // {
-                        if (insufficiente($votounico))
-                        {
-                            $colore = "'red'";
-                        }
-                        else
-                        {
-                            $colore = "''";
-                        }
-                        print "<td align='center' bgcolor=$colore>" . dec_to_vot($votounico) . "</td>";
-                        if (($votounico >= 1 && $votounico <= 10) && calcola_media($cm, $con))
-                        {
-                            $contavoti++;
-                            $sommavoti += $votounico;
-                        }
-               //     }
+
+                    // if (strpos($tipoval[$nummat], "U") != false)
+                    // {
+                    if (insufficiente($votounico))
+                    {
+                        $colore = "'red'";
+                    } else
+                    {
+                        $colore = "''";
+                    }
+                    print "<td align='center' bgcolor=$colore>" . dec_to_vot($votounico) . "</td>";
+                    if (($votounico >= 1 && $votounico <= 10) && calcola_media($cm, $con))
+                    {
+                        $contavoti++;
+                        $sommavoti += $votounico;
+                    }
+                    //     }
 
                     print "</tr></table></td>";
                 }
@@ -571,8 +561,7 @@ if ($idclasse != "")
                 if ($contavoti > 0)
                 {
                     print ("<td align=center>" . round($sommavoti / $contavoti, 2) . "</td>");
-                }
-                else
+                } else
                 {
                     print ("<td align=center>--</td>");
                 }
@@ -612,8 +601,7 @@ if ($idclasse != "")
             if (scrutinio_aperto($idclasse, $numper, $con))
             {
                 $abilscr = '';
-            }
-            else
+            } else
             {
                 $abilscr = ' disabled';
             }
@@ -643,21 +631,20 @@ if ($idclasse != "")
             print "<tr class='prima'><td>Docente</td><td>Sostituito da</td><td>Segretario</td><td>Sost. da suppl.</td></tr>";
             $querydoc = "SELECT DISTINCT cognome,nome,iddocente FROM tbl_docenti
 				WHERE iddocente=1000000000";
-            $risdoc = mysqli_query($con, inspref($querydoc)) or die("Errore nella query: " . inspref($querydoc, false));
+            $risdoc = eseguiQuery($con,$querydoc);
             while ($recdoc = mysqli_fetch_array($risdoc))
             {
                 print "<tr><td>" . $recdoc['cognome'] . " " . $recdoc['nome'] . "</td><td>";
                 $querysost = "SELECT DISTINCT cognome,nome,iddocente FROM tbl_docenti
 							WHERE iddocente<>" . $recdoc['iddocente'] . " ORDER BY cognome,nome";
-                $rissost = mysqli_query($con, inspref($querysost)) or die("Errore nella query: " . inspref($querysost, false));
+                $rissost = eseguiQuery($con,$querysost);
                 print "<select name='docsost" . $recdoc['iddocente'] . "' $abilscr><option value=''>&nbsp;</option>";
                 while ($recsost = mysqli_fetch_array($rissost))
                 {
                     if (strpos($sostituzioni, $recdoc['iddocente'] . "<" . $recsost['iddocente']) > 0)
                     {
                         print "<option value='" . $recsost['iddocente'] . "' selected>" . $recsost['cognome'] . " " . $recsost['nome'] . "</option>";
-                    }
-                    else
+                    } else
                     {
                         print "<option value='" . $recsost['iddocente'] . "'>" . $recsost['cognome'] . " " . $recsost['nome'] . "</option>";
                     }
@@ -667,8 +654,7 @@ if ($idclasse != "")
                 if ($segretario != $recdoc['iddocente'])
                 {
                     print "<td><input type='radio' name='segretario' value='" . $recdoc['iddocente'] . "'></td>";
-                }
-                else
+                } else
                 {
                     print "<td><input type='radio' name='segretario' value='" . $recdoc['iddocente'] . "' checked='checked'></td>";
                 }
@@ -680,21 +666,20 @@ if ($idclasse != "")
 				AND tbl_cattnosupp.iddocente<>1000000000
 				ORDER BY cognome,nome
 				";
-            $risdoc = mysqli_query($con, inspref($querydoc)) or die("Errore nella query: " . inspref($querydoc, false));
+            $risdoc = eseguiQuery($con,$querydoc);
             while ($recdoc = mysqli_fetch_array($risdoc))
             {
                 print "<tr><td>" . $recdoc['cognome'] . " " . $recdoc['nome'] . "</td><td>";
                 $querysost = "SELECT DISTINCT cognome,nome,iddocente FROM tbl_docenti
 							WHERE iddocente<>" . $recdoc['iddocente'] . " ORDER BY cognome,nome";
-                $rissost = mysqli_query($con, inspref($querysost)) or die("Errore nella query: " . inspref($querysost, false));
+                $rissost = eseguiQuery($con,$querysost);
                 print "<select name='docsost" . $recdoc['iddocente'] . "' $abilscr><option value=''>&nbsp;</option>";
                 while ($recsost = mysqli_fetch_array($rissost))
                 {
                     if (strpos($sostituzioni, $recdoc['iddocente'] . "<" . $recsost['iddocente']) > 0)
                     {
                         print "<option value='" . $recsost['iddocente'] . "' selected>" . $recsost['cognome'] . " " . $recsost['nome'] . "</option>";
-                    }
-                    else
+                    } else
                     {
                         print "<option value='" . $recsost['iddocente'] . "'>" . $recsost['cognome'] . " " . $recsost['nome'] . "</option>";
                     }
@@ -704,8 +689,7 @@ if ($idclasse != "")
                 if ($segretario != $recdoc['iddocente'])
                 {
                     print "<td><input type='radio' name='segretario' value='" . $recdoc['iddocente'] . "'></td>";
-                }
-                else
+                } else
                 {
                     print "<td><input type='radio' name='segretario' value='" . $recdoc['iddocente'] . "' checked='checked'></td>";
                 }
@@ -714,8 +698,7 @@ if ($idclasse != "")
                 if (strpos($sostituzioni, "§" . $recdoc['iddocente']) > -1)
                 {
                     print "<td><input type='checkbox' name='suppl" . $recdoc['iddocente'] . "' value='" . $recdoc['iddocente'] . "' checked='checked'></td>";
-                }
-                else
+                } else
                 {
                     print "<td><input type='checkbox' name='suppl" . $recdoc['iddocente'] . "' value='" . $recdoc['iddocente'] . "'></td>";
                 }
@@ -748,16 +731,14 @@ if ($idclasse != "")
             if (($livello_scuola == '2' & decodifica_classe_no_spec($idclasse, $con) == 3) | ($livello_scuola == '3' & decodifica_classe_no_spec($idclasse, $con) == 8))
             {
                 print "Voto ammissione in tabellone<select id='voamtab'><option value='yes' selected>Si</option><option value='no'>No</option></select>";
-            }
-            else
+            } else
             {
                 print "<input type='hidden' id='voamtab' value='no'>";
             }
             if (($livello_scuola == '4' & decodifica_classe_no_spec($idclasse, $con) > 2))
             {
                 print "Credito in tabellone<select id='credtab'><option value='yes' selected>Si</option><option value='no'>No</option></select>";
-            }
-            else
+            } else
             {
                 print "<input type='hidden' id='credtab' value='no'>";
             }
@@ -770,18 +751,18 @@ if ($idclasse != "")
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaVERB.png' onclick='stampaVER()'  onmouseover=$(this).css('cursor','pointer')>";
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaCRI.png' onclick='stampaCRI()'  onmouseover=$(this).css('cursor','pointer')>";
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaCER.png' onclick='stampaCER()'  onmouseover=$(this).css('cursor','pointer')>";
-            
-            
-            
+
+
+
             $nf = "scrut_" . decodifica_classe($idclasse, $con) . "_" . $numeroperiodi . ".csv";
             $nf = str_replace(" ", "_", $nf);
             $nomefile = "$cartellabuffer/" . $nf;
             print ("&nbsp;&nbsp;&nbsp;<a href='$nomefile' target='_blank'><img src='../immagini/csv.png'></a></center>");
 
             print "</fieldset>";
-            
-            
-            
+
+
+
             // VERIFICO SE LO SCRUTINIO E' COMPLETO E IN TAL CASO PROPONGO LA CHIUSURA
             // ALTRIMENTI VISUALIZZO AVVISO DI VOTI MANCANTI
             //  if (scrutinio_aperto($idclasse, $numeroperiodi, $con))
@@ -803,8 +784,8 @@ if ($idclasse != "")
 						 <br>ATTENZIONE! La reimportazione delle proposte annullerà eventuali modifiche apportate.<br>
 						 <input type='submit' value='Ricarica proposte'></form>";
                 if ($classeterminale)
-                print "<br><a href='../certcomp/cctabellone.php?idclasse=$idclasse&provenienza=scrutini' target='_blank'>Certificazione competenze</a>";
-            
+                    print "<br><a href='../certcomp/cctabellone.php?idclasse=$idclasse&provenienza=scrutini' target='_blank'>Certificazione competenze</a>";
+
                 print "</center>";
             }
             else
@@ -814,20 +795,17 @@ if ($idclasse != "")
                   print ("<p align=center><b>Scrutinio chiuso in data: $data_scrutinio!</b></p>"); */
                 print ("<p align=center><b>Scrutinio chiuso!</b></p>");
             }
-        }
-        else
+        } else
         {
             print("<center><b><br>Nessun alunno presente!</b></center>");
         }
-    }
-    else
+    } else
     {
         // if (scrutinio_aperto($idclasse, $numeroperiodi, $con))
         if (scrutinio_aperto($idclasse, $numper, $con))
         {
             print "<div style=\"text-align: center;\"><b><br>Scrutinio non ancora chiuso!</b></div>";
-        }
-        else
+        } else
         {
             /* MODIFICHE PER STAMPE SINGOLE DELLE PAGELLE Maggio 2017 */
 
@@ -855,7 +833,7 @@ if ($idclasse != "")
             //	$query='select * from tbl_alunni where idclasse="'.$idclasse.'" order by cognome,nome,datanascita';
 
             $query = "select * from tbl_alunni where idalunno in ($elencoalunni) order by cognome,nome,datanascita";
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             while ($val = mysqli_fetch_array($ris))
             {
                 $listavoti = array();
@@ -865,8 +843,7 @@ if ($idclasse != "")
                 if ($numeroalunno % 2 == 0)
                 {
                     $colore = '#FFFFFF';
-                }
-                else
+                } else
                 {
                     $colore = '#CCCCCC';
                 }
@@ -875,8 +852,7 @@ if ($idclasse != "")
                 if (!$val['certificato'])
                 {
                     $cert = "";
-                }
-                else
+                } else
                 {
                     $cert = "<img src='../immagini/apply_small.png'>";
                 }
@@ -886,7 +862,7 @@ if ($idclasse != "")
                 echo "<td align='center'><img src='../immagini/stampaA4.png' height='24' width='24' onclick='stampaA4($idalunno)'  onmouseover=$(this).css('cursor','pointer')>";
                 echo "&nbsp;<img src='../immagini/stampaA3.png' height='24' width='24' onclick='stampaA3($idalunno)'  onmouseover=$(this).css('cursor','pointer')>";
                 echo "&nbsp;<img src='../immagini/stampaCER.png' height='24' width='24' onclick='stampaCER($idalunno)'  onmouseover=$(this).css('cursor','pointer')>";
-                
+
                 echo "&nbsp;<img src='../immagini/stampaMIN.png' height='24' width='24' onclick='stampaMIN($idalunno)'  onmouseover=$(this).css('cursor','pointer')>";
                 echo "&nbsp;<img src='../immagini/stampaSEP.png' height='24' width='24' onclick='stampaSEP($idalunno)'  onmouseover=$(this).css('cursor','pointer')></td></tr>";
 //     }
@@ -909,16 +885,14 @@ if ($idclasse != "")
             if (($livello_scuola == '2' & decodifica_classe_no_spec($idclasse, $con) == 3) | ($livello_scuola == '3' & decodifica_classe_no_spec($idclasse, $con) == 8))
             {
                 print "Voto ammissione in tabellone<select id='voamtab'><option value='yes' selected>Si</option><option value='no'>No</option></select>";
-            }
-            else
+            } else
             {
                 print "<input type='hidden' id='voamtab' value='no'>";
             }
             if (($livello_scuola == '4' & decodifica_classe_no_spec($idclasse, $con) > 2))
             {
                 print "Credito in tabellone<select id='credtab'><option value='yes' selected>Si</option><option value='no'>No</option></select>";
-            }
-            else
+            } else
             {
                 print "<input type='hidden' id='credtab' value='no'>";
             }
@@ -933,17 +907,15 @@ if ($idclasse != "")
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaVERB.png' onclick='stampaVER()'  onmouseover=$(this).css('cursor','pointer')>";
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaCRI.png' onclick='stampaCRI()'  onmouseover=$(this).css('cursor','pointer')>";
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaCER.png' onclick='stampaCER()'  onmouseover=$(this).css('cursor','pointer')>";
-            
-            
-            
+
+
+
             $nf = "scrut_" . decodifica_classe($idclasse, $con) . "_" . $numeroperiodi . ".csv";
             $nf = str_replace(" ", "_", $nf);
             $nomefile = "$cartellabuffer/" . $nf;
             print ("&nbsp;&nbsp;&nbsp;<a href='$nomefile' target='_blank'><img src='../immagini/csv.png'></a></center>");
 
             print "</fieldset>";
-            
-            
         }
     }
 }
@@ -953,18 +925,18 @@ stampa_piede("");
 
 function ricerca_voto($idalunno, $idmateria, $tipo, $alu, $mattipi, $valutaz)
 {
- //   print "$idalunno $idmateria $tipo";
-        
+    //   print "$idalunno $idmateria $tipo";
+
     for ($i = 0; $i < count($valutaz); $i++)
     {
 
         if ($idalunno == $alu[$i] & ($idmateria . $tipo) == $mattipi[$i])
         {
-         //   print "VAL".$valutaz[$i];
+            //   print "VAL".$valutaz[$i];
             return $valutaz[$i];
         }
     }
-  //  print "non trovata";
+    //  print "non trovata";
     return 0;
 }
 
@@ -1029,7 +1001,7 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
 	          AND idclasse=$idclasse 
 	          AND periodo='1'";
     //print inspref($query);
-    $risvalu = eseguiQuery($conn,$query);
+    $risvalu = eseguiQuery($conn, $query);
     while ($recval = mysqli_fetch_array($risvalu))
     {
 
@@ -1050,7 +1022,7 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
            and tbl_cattnosupp.iddocente <> 1000000000
            and tbl_materie.progrpag<100
            order by tbl_materie.progrpag,tbl_materie.sigla";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $intestazione = array();
     $codmat = array();
     $siglamat = array();
@@ -1134,7 +1106,7 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
 
 
     $query = "SELECT idalunno, cognome, nome, datanascita,idcomnasc,codfiscale from tbl_alunni where idclasse=$idclasse ORDER BY cognome, nome, datanascita";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
 
     while ($rec = mysqli_fetch_array($ris))
     {
@@ -1155,15 +1127,14 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
         $nominativo[] = estrai_sigla_provincia($rec['idcomnasc'], $conn);
         // ESTRAGGO I DATI DELLA CLASSE
         $querycla = "select * from tbl_classi where idclasse=$idclasse";
-        $riscla = mysqli_query($conn, inspref($querycla)) or die("Errore nella query: " . mysqli_error($conn));
+        $riscla = eseguiQuery($conn,$querycla);
         $reccla = mysqli_fetch_array($riscla);
 
         $classe = 0;
         if ($reccla['anno'] > 5)
         {
             $classe = $reccla['anno'] - 5;
-        }
-        else
+        } else
         {
             $classe = $reccla['anno'];
         }
@@ -1174,7 +1145,7 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
 	          WHERE idclasse=$idclasse 
 	          AND periodo='1'";
         //print inspref($query);
-        $risscrut = eseguiQuery($conn,$query);
+        $risscrut = eseguiQuery($conn, $query);
         $recscrut = mysqli_fetch_array($risscrut);
         $datascrut1 = data_italiana($recscrut['datascrutinio']);
         $nominativo[] = $datascrut1;
@@ -1200,14 +1171,13 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
 
         $query = "SELECT COUNT(*) as numassenze from tbl_assenze where idalunno=$idalunno $perioquery";
 
-        $risasse = eseguiQuery($conn,$query);
+        $risasse = eseguiQuery($conn, $query);
 
         if ($recasse = mysqli_fetch_array($risasse))
         {
             $numasse = $recasse['numassenze'];
             $nominativo[] = $numasse;
-        }
-        else
+        } else
         {
             $nominativo[] = 0;
         }
@@ -1218,12 +1188,11 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
                WHERE idalunno=$idalunno
                AND periodo='1'";
 
-        $risgiud = eseguiQuery($conn,$query);
+        $risgiud = eseguiQuery($conn, $query);
         if ($recgiud = mysqli_fetch_array($risgiud))
         {
             $nominativo[] = $recgiud['giudizio'];
-        }
-        else
+        } else
         {
             $nominativo[] = "";
         }
@@ -1241,7 +1210,6 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
         $note = array();
 
         // ESTRAGGO I DATI DEL QUADRIMESTRE FINALE
-
         // TTTT AGGIUNTO filtro su idalunno il 10/06/2017   VERIFUCARE
         $query = "SELECT tbl_valutazionifinali.*,tbl_materie.tipovalutazione FROM tbl_valutazionifinali,tbl_alunni,tbl_materie
 					 WHERE tbl_valutazionifinali.idalunno=tbl_alunni.idalunno
@@ -1249,9 +1217,9 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
                                          AND idclasse=$idclasse
 					 AND periodo='$numeroperiodi'";
 
-       // print inspref($query);
+        // print inspref($query);
 
-        $risvalu = eseguiQuery($conn,$query);
+        $risvalu = eseguiQuery($conn, $query);
 
         while ($recval = mysqli_fetch_array($risvalu))
         {
@@ -1268,7 +1236,7 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
 	          WHERE idclasse=$idclasse 
 	          AND periodo='2'";
         //print inspref($query);
-        $risscrut = eseguiQuery($conn,$query);
+        $risscrut = eseguiQuery($conn, $query);
         $recscrut = mysqli_fetch_array($risscrut);
         $datascrut2 = data_italiana($recscrut['datascrutinio']);
         $nominativo[] = $datascrut2;
@@ -1289,14 +1257,13 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
 
         $query = "SELECT COUNT(*) as numassenze from tbl_assenze where idalunno=$idalunno";
 
-        $risasse = eseguiQuery($conn,$query);
+        $risasse = eseguiQuery($conn, $query);
 
         if ($recasse = mysqli_fetch_array($risasse))
         {
             $numasse = $recasse['numassenze'];
             $nominativo[] = $numasse;
-        }
-        else
+        } else
         {
             $nominativo[] = 0;
         }
@@ -1307,12 +1274,11 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
                WHERE idalunno=$idalunno
                AND periodo='$numeroperiodi'";
 
-        $risgiud = eseguiQuery($conn,$query);
+        $risgiud = eseguiQuery($conn, $query);
         if ($recgiud = mysqli_fetch_array($risgiud))
         {
             $nominativo[] = $recgiud['giudizio'];
-        }
-        else
+        } else
         {
             $nominativo[] = "";
         }
@@ -1323,7 +1289,7 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
                WHERE idalunno=$idalunno";
 
 
-        $risesito = eseguiQuery($conn,$query);
+        $risesito = eseguiQuery($conn, $query);
         if ($recesito = mysqli_fetch_array($risesito))
         {
             $nominativo[] = str_replace("|", " ", decodifica_esito($recesito['esito'], $conn));
@@ -1332,8 +1298,7 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
             $nominativo[] = $recesito['credito'];
             $nominativo[] = $recesito['creditotot'];
             $nominativo[] = $recesito['votoammissione'];
-        }
-        else
+        } else
         {
             $nominativo[] = "";
             $nominativo[] = "";

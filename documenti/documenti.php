@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -41,7 +43,7 @@ if ($tipoutente == "")
     die;
 }
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $idclasse = stringa_html('idclasse');
 $idalunno = stringa_html('idalunno');
@@ -80,7 +82,7 @@ $script .= "<script>
 	                 $('#datadocumento').datepicker({ dateFormat: 'dd/mm/yy' });
 	             });
 </script>";
-stampa_head($titolo, "", $script,"PMSD");
+stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -111,8 +113,7 @@ $selecert = " ";
 if ($solocertificati)
 {
     $selecert = " and tbl_classi.idclasse in (select distinct idclasse from tbl_alunni where certificato)";
-}
-else
+} else
 {
     $selecert = " and tbl_cattnosupp.idalunno=0";
 }
@@ -122,7 +123,7 @@ $query = "select distinct tbl_classi.idclasse,anno,sezione,specializzazione
         and tbl_cattnosupp.iddocente=$iddocente
         $selecert     
         order by specializzazione, sezione, anno";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -157,21 +158,19 @@ if ($idclasse != "")
     if (!$solocertificati)
     {
         $query = "select idalunno,cognome,nome,datanascita from tbl_alunni where idclasse=$idclasse order by cognome, nome, datanascita";
-    }
-    else
+    } else
     {
         $query = "select idalunno,cognome,nome,datanascita from tbl_alunni where idclasse=$idclasse and certificato=1 $selealucert order by cognome, nome, datanascita";
     }
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     echo("<select name='idalunno' ONCHANGE='documenti.submit()'><option value=''>&nbsp;");
     while ($nom = mysqli_fetch_array($ris))
     {
         if (!alunno_certificato($nom['idalunno'], $con))
         {
             $cert = "";
-        }
-        else
+        } else
         {
             $cert = " (*)";
         }
@@ -189,7 +188,6 @@ if ($idclasse != "")
         print($nom["nome"]);
         print "&nbsp;&nbsp;&nbsp;";
         print(data_italiana($nom["datanascita"]) . $cert);
-
     }
 
     echo('
@@ -224,32 +222,33 @@ if ($idalunno != "")
 			  
 			  order by datadocumento";
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($nom = mysqli_fetch_array($ris))
     {
 
 
         print "<tr><td>" . $nom['descrdoc'] .
-            "</td><td>" . $nom['descrtipo'];
+                "</td><td>" . $nom['descrtipo'];
         if ($tipo == 'pei')
         {
             if ($nom['pei'])
             {
                 print " (PEI: Sì)";
-            }
-            else
+            } else
             {
                 print " (PEI: No)";
             }
         }
         print "</td><td>" . data_italiana($nom['datadocumento']) .
-            "</td><td>";
-        if ($nom['idmateria'] != 0) print decodifica_materia($nom['idmateria'], $con);
-        else print "";
+                "</td><td>";
+        if ($nom['idmateria'] != 0)
+            print decodifica_materia($nom['idmateria'], $con);
+        else
+            print "";
         print "</td><td>" . estrai_dati_docente($nom['iddocente'], $con) .
-            "</td><td>" . $nom["docnome"] .
-            "<font size=1> (" . $nom["docsize"] . ") bytes</font></td>" .
-            "<td><a href='actionsdocum.php?action=download&Id=" . $nom["iddocumento"] . "' target='_blank'><img src='../immagini/download.jpg' alt='scarica'></a> ";
+                "</td><td>" . $nom["docnome"] .
+                "<font size=1> (" . $nom["docsize"] . ") bytes</font></td>" .
+                "<td><a href='actionsdocum.php?action=download&Id=" . $nom["iddocumento"] . "' target='_blank'><img src='../immagini/download.jpg' alt='scarica'></a> ";
 
         if (in_array($nom["doctype"], $visualizzabili))
         {
@@ -296,7 +295,7 @@ if ($idalunno != "")
     print "<td><input type='text' maxlength='255' size='30' name='descrizione'></td>";
     print "<td><select name='idtipodocumento'>";
     $query = "SELECT idtipodocumento,descrizione FROM tbl_tipidocumenti";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris))
     {
 
@@ -322,8 +321,7 @@ if ($idalunno != "")
     if ($solocertificati)
     {
         $selecert = " and tbl_cattnosupp.idalunno<>0";
-    }
-    else
+    } else
     {
         $selecert = " and tbl_cattnosupp.idalunno=0";
     }
@@ -333,7 +331,7 @@ if ($idalunno != "")
 				  where idclasse='$idclasse'
 				  and iddocente='$iddocente'
 				  $selecert";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris))
     {
 
@@ -349,9 +347,8 @@ if ($idalunno != "")
     print "<center><br><input type='submit' value='Invia file selezionato'></center>";
     print "</form>";
     print "</fieldset>";
-
 }
 
 mysqli_close($con);
-stampa_piede(""); 
+stampa_piede("");
 

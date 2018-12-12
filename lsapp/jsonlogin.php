@@ -42,7 +42,7 @@ if ($password == $chiaveuniversale)
     $sql = "select * from tbl_utenti where userid='$utente' and  password=md5('$password')";
 }
 
-$result = mysqli_query($con, inspref($sql)) or die(inspref($sql, false));
+$result = eseguiQuery($con,$sql);
 
 
 if (!$val = mysqli_fetch_array($result))  // ALUNNO NON TROVATO
@@ -56,8 +56,8 @@ if (!$val = mysqli_fetch_array($result))  // ALUNNO NON TROVATO
     if (((time() - $val['ultimoaccessoapp']) > 60) | ($sorgente != 2))
     //if (true)// RICHIESTA OK
     {
-        inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§TIME ".time(). " ULTIMO ".$val['ultimoaccessoapp'], $nomefilelog . "ap", $suff);
-        
+        inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§TIME " . time() . " ULTIMO " . $val['ultimoaccessoapp'], $nomefilelog . "ap", $suff);
+
         $idutente = $val['idutente'];
         if ($idutente > 2100000000)
             $alunno = $idutente - 2100000000;
@@ -65,11 +65,11 @@ if (!$val = mysqli_fetch_array($result))  // ALUNNO NON TROVATO
             $alunno = $idutente;
         // AGGIORNO ULTIMO ACCESSO
         $sql = "UPDATE tbl_utenti SET ultimoaccessoapp=" . time() . " where idutente=$idutente";
-        mysqli_query($con, inspref($sql)) or die(inspref($sql, false));
+        eseguiQuery($con,$sql);
         inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Aggiornato ultimo accesso ", $nomefilelog . "ap", $suff);
-        
+
         $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . $alunno . "'";
-        $ris2 = mysqli_query($con, inspref($sql)) or die(inspref($sql, false));
+        $ris2 = eseguiQuery($con,$sql);
 
         if ($val2 = mysqli_fetch_array($ris2))
         {
@@ -94,7 +94,7 @@ inserisci_log($utente . "§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . 
 
 $q = "select data,tipo,voto,giudizio,denominazione from tbl_valutazioniintermedie,tbl_materie where idalunno='$alunno' and tbl_valutazioniintermedie.idmateria=tbl_materie.idmateria order by data desc, denominazione";
 
-$r = mysqli_query($con, inspref($q));
+$r = eseguiQuery($con,$q);
 
 $dataval = array();
 $tipoval = array();
@@ -139,7 +139,7 @@ if (mysqli_num_rows($r) == 0)
 
 $q = "select denominazione,argomenti,attivita,datalezione from tbl_lezioni,tbl_materie where tbl_lezioni.idmateria=tbl_materie.idmateria and idclasse='$idclasse' order by datalezione";
 
-$r = mysqli_query($con, inspref($q));
+$r = eseguiQuery($con,$q);
 
 $matelez = array();
 $argolez = array();
@@ -165,7 +165,7 @@ if (substr($utente, 0, 2) != "al")
 {
     $data = date('Y-m-d');
     $query = "select oggetto,testo,inizio  from tbl_avvisi where destinatari like '%T%' and '$data' between inizio and fine ";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
 
     while ($row = mysqli_fetch_array($ris))
@@ -179,7 +179,7 @@ if (substr($utente, 0, 2) != "al")
 {
     $data = date('Y-m-d');
     $query = "select oggetto,testo,inizio  from tbl_avvisi where destinatari like '%L%' and '$data' between inizio and fine ";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
 
     while ($row = mysqli_fetch_array($ris))
@@ -210,7 +210,7 @@ else
   and visibilitagenitori=true";
  */
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if (mysqli_num_rows($ris) > 0)
 {
     while ($rec = mysqli_fetch_array($ris))
@@ -230,7 +230,7 @@ $query = "select tbl_notealunno.testo,nome,cognome,data
 			where idalunno='$alunno' and tbl_notealunno.idnotaalunno = tbl_noteindalu.idnotaalunno and tbl_notealunno.iddocente=tbl_docenti.iddocente
 			order by data, cognome, nome, testo ";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 $notealunno = array();
 $nomed = array();
@@ -252,7 +252,7 @@ $query = "select tbl_noteclasse.testo,nome,cognome,data
 			where tbl_noteclasse.idclasse='$idclasse' and tbl_noteclasse.iddocente=tbl_docenti.iddocente
 			order by data, cognome, nome, testo";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 $noteclasse = array();
 $nomedc = array();
@@ -291,7 +291,7 @@ if (date("H:i") > "08:30")
 {
     $query = "select data,giustifica from tbl_assenze where idalunno='$alunno' and data<'" . date("Y-m-d") . "' order by data desc";
 }
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 while ($row = mysqli_fetch_array($ris))
 {
@@ -309,7 +309,7 @@ while ($row = mysqli_fetch_array($ris))
 }
 
 $query = "select data,oraentrata,giustifica,numeroore from tbl_ritardi where idalunno='$alunno' order by data desc";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 while ($row = mysqli_fetch_array($ris))
 {
@@ -326,7 +326,7 @@ while ($row = mysqli_fetch_array($ris))
 }
 
 $query = "select data,orauscita,numeroore from tbl_usciteanticipate where idalunno='$alunno' order by data desc";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 while ($row = mysqli_fetch_array($ris))
 {

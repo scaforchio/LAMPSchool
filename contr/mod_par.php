@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 //Programma per la modifica dell'elenco delle tbl_classi
 
@@ -74,7 +76,7 @@ $script = "<script type='text/javascript'>
 
          //-->
          </script>";
-stampa_head($titolo, "", $script,"PMSD");
+stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='paramedit.php'>ELENCO PARAMETRI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -89,12 +91,11 @@ if (!$con)
 
 //Esecuzione query
 $sql = "SELECT * FROM tbl_parametri WHERE idparametro=" . stringa_html('idpar');
-if (!($ris = eseguiQuery($con,$sql)))
+if (!($ris = eseguiQuery($con, $sql)))
 {
     print("\n<h1> Query fallita </h1>");
     exit;
-}
-else
+} else
 {
     $dati = mysqli_fetch_array($ris);
 
@@ -113,19 +114,16 @@ else
     {
         if ($dati['parametro'] != "chiaveuniversale")
         {
-            if ($dati['valoriammessi']=="Data")
-
+            if ($dati['valoriammessi'] == "Data")
                 print "<tr><td ALIGN='CENTER'><br> <input type='text' name='valore' id='valoredata' size='10' maxlenght='10' value='" . $dati['valore'] . "'></td></tr>";
-
             else
-               print "<tr><td ALIGN='CENTER'><br> <input type='text' name='valore' value='" . $dati['valore'] . "'></td></tr>";
+                print "<tr><td ALIGN='CENTER'><br> <input type='text' name='valore' value='" . $dati['valore'] . "'></td></tr>";
         }
         else
         {
             print "<tr><td ALIGN='CENTER'><br> <input type='text' name='valore' value='Inserisci nuova password o annulla modifica!'></td></tr>";
         }
-    }
-    else
+    } else
     {
         print "<tr><td align='center'><select name='valore'>";
         for ($i = 0; $i < $numval; $i++)

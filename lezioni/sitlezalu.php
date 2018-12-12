@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -32,7 +34,7 @@ if ($tipoutente == "")
 
 $titolo = "Situazione alunno";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 print "\n<body>";
 //stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo","","$nome_scuola","$comune_scuola"); 
 
@@ -45,8 +47,7 @@ $periodo = stringa_html('periodo');
 if ($numeroperiodi == 2)
 {
     $per = 'quadrimestre';
-}
-else
+} else
 {
     $per = 'trimestre';
 }
@@ -57,19 +58,18 @@ else
 //
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 $query = 'SELECT * FROM tbl_alunni WHERE idalunno="' . $codalu . '"';
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 $val = mysqli_fetch_array($ris);
 $nominativo = $val["cognome"] . ' ' . $val["nome"];
 
 if (!alunno_certificato($val['idalunno'], $con))
 {
     $cert = "";
-}
-else
+} else
 {
     $cert = "<img src='../immagini/apply_small.png'>";
 }
@@ -79,7 +79,7 @@ $titolo = "Situazione alunno: $nominativo";
 $id_ut_doc = $_SESSION["idutente"];
 
 $query = "select anno,sezione,specializzazione from tbl_classi where tbl_classi.idclasse=$idclasse";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     $classe = $nom["anno"] . " " . $nom["sezione"] . " " . $nom["specializzazione"];
@@ -96,7 +96,7 @@ print "<b><center>Materia:&nbsp;";
 
 
 $query = "select * from tbl_materie where idmateria=$idmateria";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     $materia = $nom["denominazione"];
@@ -132,7 +132,7 @@ if ($periodo == "Tutti")
     $querylez = 'SELECT sum(numeroore) AS orelez FROM tbl_lezioni WHERE idmateria="' . $idmateria . '" AND idclasse="' . $idclasse . '" ';
 }
 
-$rislez = mysqli_query($con, inspref($querylez));
+$rislez = eseguiQuery($con,$querylez);
 $vallez = mysqli_fetch_array($rislez);
 print ('<br/>Ore totali di lezione: <b>' . $vallez['orelez'] . '</b><br/><br/></center>');
 
@@ -144,7 +144,7 @@ echo "<table border=1 width=98%>";
 
 
 $query = 'SELECT * FROM tbl_alunni WHERE idalunno="' . $codalu . '"';
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($val = mysqli_fetch_array($ris))
 {
     // $esiste_voto=false;
@@ -152,7 +152,7 @@ while ($val = mysqli_fetch_array($ris))
               <td colspan=3>";
 
     echo "<b><big><center>" . $val["cognome"] . " " .
-        $val["nome"] . " " . data_italiana($val["datanascita"]) . " </b></big>$cert</td>
+    $val["nome"] . " " . data_italiana($val["datanascita"]) . " </b></big>$cert</td>
           </tr>";
 
     // Codice per ricerca voti e calcolo medie
@@ -193,8 +193,7 @@ while ($val = mysqli_fetch_array($ris))
         $queryval = 'SELECT * FROM tbl_valutazioniintermedie WHERE idalunno = ' . $val["idalunno"] . ' AND idmateria="' . $idmateria . '" AND idclasse="' . $idclasse . '" AND tipo="O" ORDER BY data';
     }
 
-    if ($risval = mysqli_query($con, inspref($queryval)))
-
+    if ($risval = eseguiQuery($con,$queryval))
     {
         if (mysqli_num_rows($risval) > 0)
         {
@@ -215,8 +214,7 @@ while ($val = mysqli_fetch_array($ris))
     if (!$riempito)
     {
         print"";
-    }
-    else
+    } else
     {
         print"<tr>";
         $riempito = false;
@@ -257,8 +255,7 @@ while ($val = mysqli_fetch_array($ris))
         $queryval = 'SELECT * FROM tbl_valutazioniintermedie WHERE idalunno = ' . $val["idalunno"] . ' AND idmateria="' . $idmateria . '" AND idclasse="' . $idclasse . '" AND tipo="S" ORDER BY data';
     }
 
-    if ($risval = mysqli_query($con, inspref($queryval)))
-
+    if ($risval = eseguiQuery($con,$queryval))
     {
         if (mysqli_num_rows($risval) > 0)
         {
@@ -279,8 +276,7 @@ while ($val = mysqli_fetch_array($ris))
     if (!$riempito)
     {
         print"";
-    }
-    else
+    } else
     {
         print"<tr>";
         $riempito = false;
@@ -321,8 +317,7 @@ while ($val = mysqli_fetch_array($ris))
         $queryval = 'SELECT * FROM tbl_valutazioniintermedie WHERE idalunno = ' . $val["idalunno"] . ' AND idmateria="' . $idmateria . '" AND idclasse="' . $idclasse . '" AND tipo="P" ORDER BY data';
     }
 
-    if ($risval = mysqli_query($con, inspref($queryval)))
-
+    if ($risval = eseguiQuery($con,$queryval))
     {
 
         if (mysqli_num_rows($risval) > 0)
@@ -344,8 +339,7 @@ while ($val = mysqli_fetch_array($ris))
     if (!$riempito)
     {
         print"";
-    }
-    else
+    } else
     {
         print"<tr>";
         $riempito = false;
@@ -384,8 +378,7 @@ while ($val = mysqli_fetch_array($ris))
     if (($numvoti) != 0)
     {
         print round((($mediap + $medias + $mediao) / $numvoti), 2);
-    }
-    else
+    } else
     {
         print "---";
     }
@@ -393,8 +386,7 @@ while ($val = mysqli_fetch_array($ris))
     if (($numvoti) != 0)
     {
         print round(($vals + $valp + $valo) / ($nump + $numo + $nums), 2);
-    }
-    else
+    } else
     {
         print "---";
     }
@@ -426,7 +418,7 @@ while ($val = mysqli_fetch_array($ris))
     }
 
 
-    $risval = eseguiQuery($con,$queryass);
+    $risval = eseguiQuery($con, $queryass);
 
     $valass = mysqli_fetch_array($risval);
     print ('<br/>Ore assenza: ' . $valass['oreass']);
@@ -436,8 +428,6 @@ while ($val = mysqli_fetch_array($ris))
 
 
     // Fine codice per ricerca voti già inseriti
-
-
     // echo '</td></tr>';
 }
 
@@ -458,7 +448,7 @@ if ($periodo <> "Primo" & $periodo <> "Tutti")
     {
         print "<tr class='prima'><td colspan=1 align=center>Valutazioni primo $per</td></tr>";
         $querypro = "SELECT * FROM tbl_proposte WHERE idalunno = " . $codalu . " AND periodo='1' AND idmateria=" . $idmateria;
-        if ($rispro = mysqli_query($con, inspref($querypro)))
+        if ($rispro = eseguiQuery($con,$querypro))
         {
             if ($valpro = mysqli_fetch_array($rispro))
             {
@@ -484,8 +474,7 @@ if ($periodo <> "Primo" & $periodo <> "Tutti")
                     print ('<br/>Voto condotta: ' . dec_to_vot($valpro['condotta']));
                 }
                 print"<br/>&nbsp;</td></tr>";
-            }
-            else
+            } else
             {
                 echo "<tr><td><center><br/>Nessuna valutazione registrata!<br/>&nbsp;</center></td></tr>";
             }
@@ -496,7 +485,7 @@ if ($periodo <> "Primo" & $periodo <> "Tutti")
     {
         print "<tr class='prima'><td colspan=1 align=center>Valutazioni primo $per</td></tr>";
         $querypro = "SELECT * FROM tbl_proposte WHERE idalunno = " . $codalu . " AND periodo='1' AND idmateria=" . $idmateria;
-        if ($rispro = mysqli_query($con, inspref($querypro)))
+        if ($rispro = eseguiQuery($con,$querypro))
         {
             if ($valpro = mysqli_fetch_array($rispro))
             {
@@ -522,8 +511,7 @@ if ($periodo <> "Primo" & $periodo <> "Tutti")
                     print ('<br/>Voto condotta: ' . dec_to_vot($valpro['condotta']));
                 }
                 print"<br/>&nbsp;</td></tr>";
-            }
-            else
+            } else
             {
                 echo "<tr><td><center><br/>Nessuna valutazione registrata!<br/>&nbsp;</center></td></tr>";
             }
@@ -531,7 +519,7 @@ if ($periodo <> "Primo" & $periodo <> "Tutti")
         print "</center><br>";
         print "<tr class='prima'><td colspan=1 align=center>Valutazioni secondo $per</td></tr>";
         $querypro = "SELECT * FROM tbl_proposte WHERE idalunno = " . $codalu . " AND periodo='2' AND idmateria=" . $idmateria;
-        if ($rispro = mysqli_query($con, inspref($querypro)))
+        if ($rispro = eseguiQuery($con,$querypro))
         {
             if ($valpro = mysqli_fetch_array($rispro))
             {
@@ -557,8 +545,7 @@ if ($periodo <> "Primo" & $periodo <> "Tutti")
                     print ('<br/>Voto condotta: ' . dec_to_vot($valpro['condotta']));
                 }
                 print"<br/>&nbsp;</td></tr>";
-            }
-            else
+            } else
             {
                 echo "<tr><td><center><br/>Nessuna valutazione registrata!<br/>&nbsp;</center></td></tr>";
             }
@@ -580,7 +567,7 @@ $query = "select tbl_notealunno.idnotaalunno, data, tbl_alunni.cognome as cognal
             and tbl_noteindalu.idalunno=$codalu 
             order by tbl_notealunno.data desc";
 // print inspref($query);
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 $c = mysqli_num_rows($ris);
 
@@ -590,8 +577,7 @@ print "<tr class='prima'><td colspan=4 align=center>Note e provvedimenti discipl
 if ($c == 0)
 {
     echo "<tr><td colspan=4 align=center><br>Nessuna nota da visualizzare!<br>&nbsp;</td></tr>";
-}
-else
+} else
 {
     print "<tr class=prima><td>Docente</td><td>Data</td><td>Nota</td><td>Provv.</td></tr>";
     while ($rec = mysqli_fetch_array($ris))
@@ -613,10 +599,7 @@ else
         print("</td>");
 
         print("</tr>");
-
     }
-
-
 }
 print "</table><br><br>";
 
@@ -627,7 +610,7 @@ $query = "select idosssist, data, testo
             and tbl_osssist.idalunno=$codalu  
             order by tbl_osssist.data";
 // print $query."<br/>";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 $c = mysqli_num_rows($ris);
 
@@ -638,8 +621,7 @@ print "<tr class='prima'><td colspan=2 align=center>Osservazioni sull'alunno</td
 if ($c == 0)
 {
     echo "<tr><td colspan=2 align=center><br>Nessuna osservazione da visualizzare!<br>&nbsp;</td></tr>";
-}
-else
+} else
 {
 
     print "<tr class='prima'><td>Data</td><td>Osservazione</td></tr>";
@@ -655,18 +637,15 @@ else
         print("</td>");
 
         print("</tr>");
-
     }
     print "</table>";
-
-
 }
 
 
 $query = "select count(*) as numeroaccessi,max(dataacc) as ultimoaccesso from tbl_logacc
         where utente = 'gen$codalu'";
 // print $query."<br/>";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 $rec = mysqli_fetch_array($ris);
 $numacc = $rec['numeroaccessi'];

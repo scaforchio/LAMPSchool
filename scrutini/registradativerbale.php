@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -30,13 +32,13 @@ if ($tipoutente == "")
 
 $titolo = "Registrazione dati verbale";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
 $idscrutinio = stringa_html('idscrutinio');
 $integrativo = stringa_html('integrativo');
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $dataverbale = stringa_html('dataverbale');
 $orainizioscrutinio = stringa_html('orainizioscrutinio');
@@ -51,7 +53,7 @@ $segretario = stringa_html('segretario');
 $sostituzioni = "";
 
 $query = "SELECT idclasse,periodo FROM tbl_scrutini WHERE idscrutinio=$idscrutinio";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 $rec = mysqli_fetch_array($ris);
 $idclasse = $rec['idclasse'];
 $periodo = $rec['periodo'];
@@ -59,7 +61,7 @@ $periodo = $rec['periodo'];
 $querydoc = "SELECT DISTINCT cognome,nome,iddocente FROM tbl_docenti
 	        WHERE iddocente=1000000000
 	        ";
-$risdoc = mysqli_query($con, inspref($querydoc)) or die ("Errore nella query: " . inspref($querydoc, false));
+$risdoc = eseguiQuery($con, $querydoc);
 while ($recdoc = mysqli_fetch_array($risdoc))
 {
     $postsost = "docsost" . $recdoc['iddocente'];
@@ -74,7 +76,7 @@ $querydoc = "SELECT DISTINCT cognome,nome,tbl_docenti.iddocente FROM tbl_cattnos
 	        AND tbl_cattnosupp.idclasse=" . $idclasse . "
 	        AND tbl_cattnosupp.iddocente<>1000000000
 	        ORDER BY cognome,nome";
-$risdoc = mysqli_query($con, inspref($querydoc)) or die ("Errore nella query: " . inspref($querydoc, false));
+$risdoc = eseguiQuery($con, $querydoc);
 while ($recdoc = mysqli_fetch_array($risdoc))
 {
     $postsost = "docsost" . $recdoc['iddocente'];
@@ -97,7 +99,7 @@ $query = "UPDATE tbl_scrutini SET dataverbale='" . data_to_db($dataverbale) . "'
          segretario='$segretario' 
          WHERE idscrutinio=$idscrutinio";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 if ($periodo < $numeroperiodi)
 {
@@ -111,8 +113,7 @@ if ($periodo < $numeroperiodi)
            document.getElementById('formchiscr').submit();
         }
         </SCRIPT>";
-}
-else
+} else
 {
     print "
         <form method='post' id='formchiscr' action='../scrutini/riepvotifinali.php'>

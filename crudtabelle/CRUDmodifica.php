@@ -56,16 +56,16 @@ else
     print "<form name='form1' action='CRUDinsregistra.php' method='POST'>";
 print "<CENTER><table border ='0'>";
 
-$chiaveprincipale=$recgen[$daticrud['campochiave']];
+$chiaveprincipale = $recgen[$daticrud['campochiave']];
 $posarr = 0;
 foreach ($daticrud['campi'] as $c)
 {
     $posarr++;
-    $disabilitato="";
-    if ($id==0)
-        $c[15]=0;
-    if ($c[15]==1)
-        $disabilitato=" disabled";
+    $disabilitato = "";
+    if ($id == 0)
+        $c[15] = 0;
+    if ($c[15] == 1)
+        $disabilitato = " disabled";
     if ($c[7] != 0)
     {
 
@@ -83,12 +83,12 @@ foreach ($daticrud['campi'] as $c)
             {
                 $valore = $recgen[$c[0]];
                 print "<td><select name='campo[]" . $posarr . "'$disabilitato>";
-                
+
                 if ($valore == 0)
                     print "<option value=0 selected>No</option><option value=1>S&igrave;</option>";
                 else
                     print "<option value=0>No</option><option value=1 selected>S&igrave;</option>";
-                if ($c[15]==1)
+                if ($c[15] == 1)
                     print "<input type='hidden' name='campo[]" . $posarr . "' value='$valore'>";
 
 
@@ -97,7 +97,7 @@ foreach ($daticrud['campi'] as $c)
             {
                 $valore = $recgen[$c[0]];
                 print "<td><textarea name='campo[]" . $posarr . "'$disabilitato>$valore</textarea>";
-                if ($c[15]==1)
+                if ($c[15] == 1)
                     print "<input type='hidden' name='campo[]" . $posarr . "' value='$valore'>";
                 print "</td></tr>";
             } else
@@ -105,10 +105,9 @@ foreach ($daticrud['campi'] as $c)
                 $valore = $recgen[$c[0]];
                 print "<td>";
                 print "<input type='" . $c[8] . "' value='" . $recgen[$c[0]] . "' name='campo[]" . $posarr . "' size='" . $c[5] . "' " . "' maxlength='" . $c[5] . "' min='" . $c[11] . "' " . "' max='" . $c[12] . "'$richiesto$disabilitato>";
-                if ($c[15]==1)
+                if ($c[15] == 1)
                     print "<input type='hidden' name='campo[]" . $posarr . "' value='$valore'>";
                 print "</td></tr>";
-                
             }
         }
         else
@@ -116,10 +115,10 @@ foreach ($daticrud['campi'] as $c)
             $valore = $recgen[$c[0]];
             print "<td><select name='campo[]" . $posarr . "'$richiesto$disabilitato><option value=''>&nbsp</option>";
             // $query per selezione elementi della select
-            if ($c[16]!='')
-                $subquery=" where ".$c[3]." in(".$c[16]."'$chiaveprincipale')";
+            if ($c[16] != '')
+                $subquery = " where " . $c[3] . " in(" . $c[16] . "'$chiaveprincipale')";
             else
-                $subquery='';
+                $subquery = '';
             $query = "select " . $c[3] . "," . $c[4] . " from " . $c[2] . "$subquery order by " . $c[4];
             print $query;
             $ris = eseguiQuery($con, $query);
@@ -136,8 +135,8 @@ foreach ($daticrud['campi'] as $c)
             }
 
             print "</select>";
-            if ($c[15]==1)
-                    print "<input type='hidden' name='campo[]" . $posarr . "' value='$valore'>";
+            if ($c[15] == 1)
+                print "<input type='hidden' name='campo[]" . $posarr . "' value='$valore'>";
             print "</td></tr>";
         }
     }

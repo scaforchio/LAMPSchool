@@ -55,7 +55,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 
 $passwordesame = creapassword();
 $query = "update tbl_parametri set valore=md5(md5('$passwordesame')) where parametro='passwordesame' ";
-eseguiQuery($con,$query);
+eseguiQuery($con, $query);
 //
 //   IMPOSTAZIONE CLASSE D'ESAME PER TUTTI GLI ALUNNI DELLE CLASSI TERMINALI
 //
@@ -63,8 +63,7 @@ eseguiQuery($con,$query);
 if ($livello_scuola == '2')
 {
     $ricercaterze = " AND anno='3' ";
-}
-else
+} else
 {
     $ricercaterze = " AND anno='8' ";
 }
@@ -75,7 +74,7 @@ else
 $query = "select * from tbl_classi "
         . "where true $ricercaterze";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 $classiterzemedie = mysqli_num_rows($ris);
 
@@ -85,7 +84,7 @@ $query = "select * from tbl_scrutini,tbl_classi "
         . "and tbl_scrutini.stato='C' "
         . $ricercaterze;
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 $classiconscrutiniochiuso = mysqli_num_rows($ris);
 
@@ -95,20 +94,20 @@ if ($classiconscrutiniochiuso == $classiterzemedie)
     // ELIMINO EVENTUALI ALUNNI CON IMPOSTATA CLASSE ESAME DELL'ANNO PRECEDENTE
     $query = "UPDATE tbl_alunni SET idclasseesame=0 WHERE 1=1";
 
-    eseguiQuery($con,$query);
-    
+    eseguiQuery($con, $query);
+
     $query = "UPDATE tbl_alunni SET idclasseesame=idclasse where idclasse in
              (SELECT DISTINCT tbl_classi.idclasse FROM tbl_classi
               WHERE 1=1 $ricercaterze
               ORDER BY idclasse)";
 
-    eseguiQuery($con,$query);
+    eseguiQuery($con, $query);
 
 
 // Esclusione alunni con esito negativo agli scrutini
 
     $query = "SELECT * FROM tbl_alunni WHERE idclasseesame<>'0' AND idclasse<>'0'";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris))
     {
         $idtipoesito = estrai_idtipoesito($rec['idalunno'], $con);
@@ -117,7 +116,7 @@ if ($classiconscrutiniochiuso == $classiterzemedie)
             if (passaggio($idtipoesito, $con) != 0)
             {
                 $query = "UPDATE tbl_alunni SET idclasseesame=0 WHERE idalunno=" . $rec['idalunno'];
-                eseguiQuery($con,$query);
+                eseguiQuery($con, $query);
             }
         }
     }
@@ -126,11 +125,10 @@ if ($classiconscrutiniochiuso == $classiterzemedie)
     print "<br><br><center>Accedere per gestione esami con:<br><br>Utente: <b>esamidistato</b><br><br>Password: <b>$passwordesame</b><br><br>";
 
     print "<center><img src='../immagini/stampa.png' onClick='printPage();'</center>";
-}
-else
+} else
 {
     print "<center><br><br><b>GLI SCRUTINI NON SONO COMPLETI!</b><br>"
-    . "Classi terze: $classiterzemedie - Scrutini chiusi: $classiconscrutiniochiuso</CENTER>";
+            . "Classi terze: $classiterzemedie - Scrutini chiusi: $classiconscrutiniochiuso</CENTER>";
 }
 
 mysqli_close($con);

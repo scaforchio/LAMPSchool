@@ -58,7 +58,7 @@ $asses = "SELECT * FROM tbl_assemblee
 		  WHERE ((docenteconcedente1=$iddocente AND concesso1=0)
                         OR (docenteconcedente2=$iddocente AND concesso2=0))
                         AND (rappresentante1<>0 and rappresentante2<>0)";
-$ris1 = mysqli_query($con, inspref($asses)) or die("Errore durante la connessione: " . mysqli_error($con) . "<br/>" . $asses);
+$ris1 = eseguiQuery($con, $asses);
 
 //ELENCO RICHIESTE ASSEMBLEE DA VALIDARE
 print "<CENTER><table border ='1' cellpadding='5'>";
@@ -80,12 +80,11 @@ $i = 0;
 if (mysqli_num_rows($ris1) == 0)
 {
     print "<td colspan='4' align='center'><b><i>Nessuna assemblea richiesta</i></b></td>";
-}
-else
+} else
 {
     while ($dataass = mysqli_fetch_array($ris1))
     {
-        $idassemblea=$dataass['idassemblea'];
+        $idassemblea = $dataass['idassemblea'];
         if ($dataass['docenteconcedente1'] == $iddocente)
         {
             $controllo = $dataass['concesso1'];
@@ -97,10 +96,10 @@ else
         if ($controllo == 0)
         {
             print "<tr>";
-            
+
             //DATA RICHIESTA
             //DATA RICHIESTA
-            print "<td>Classe: " . decodifica_classe($dataass['idclasse'],$con,1). "<br>";
+            print "<td>Classe: " . decodifica_classe($dataass['idclasse'], $con, 1) . "<br>";
             print "Rich.: " . data_italiana($dataass['datarichiesta']) . "<br>";
             //DATA ASSEMBLEA
             print "Svolg.: " . data_italiana($dataass['dataassemblea']) . "<br>";
@@ -114,7 +113,7 @@ else
 					OR idalunno=" . $dataass['rappresentante2'] . "
 					ORDER BY cognome";
 
-            $risalu = eseguiQuery($con,$alu);
+            $risalu = eseguiQuery($con, $alu);
             print "<td>";
             while ($dataalu = mysqli_fetch_array($risalu))
             {
@@ -122,10 +121,10 @@ else
             }
             print "</td>";
 
-           
+
             //ORDINE DEL GIORNO
-           // print "<td><a href=javascript:Popup('visdatiass.php?dato=odg&idass=" . $dataass['idassemblea'] . "')>Visualizza Ordine del Giorno</a></td>";
-           print "<td>".nl2br($dataass['odg'])."</td>";
+            // print "<td><a href=javascript:Popup('visdatiass.php?dato=odg&idass=" . $dataass['idassemblea'] . "')>Visualizza Ordine del Giorno</a></td>";
+            print "<td>" . nl2br($dataass['odg']) . "</td>";
             //BOTTONE INVIO
             print "<td><a href='registra_concessione.php?idassemblea=$idassemblea&concesso=1'>CONCEDI</a>"
                     . "&nbsp;&nbsp;<a href='registra_concessione.php?idassemblea=$idassemblea&concesso=0'>NEGA</a></td>";
@@ -148,7 +147,7 @@ $assco = "SELECT * FROM tbl_assemblee
 		  WHERE ((docenteconcedente1=$iddocente AND concesso1=1)
                         OR (docenteconcedente2=$iddocente AND concesso2=1))";
 
-$ris2 = mysqli_query($con, inspref($assco)) or die("Errore durante la connessione: " . mysqli_error($con) . "<br/>" . $assco);
+$ris2 = eseguiQuery($con, $assco);
 print "<tr class='prima'>
 		<td colspan='8'><font size='2'>ASSEMBLEE CONCESSE</font></td>
 	   </tr>";
@@ -163,8 +162,7 @@ print "<tr class='prima'>
 if (mysqli_num_rows($ris2) == 0)
 {
     print "<td colspan='8' align='center'><b><i>Nessuna assemblea concessa</i></b></td>";
-}
-else
+} else
 {
     while ($dataass = mysqli_fetch_array($ris2))
     {
@@ -179,11 +177,11 @@ else
         if ($controllo == 1)
         {
             print "<tr>";
-            
-            
+
+
             //DATA RICHIESTA
             //DATA RICHIESTA
-            print "<td>Classe: " . decodifica_classe($dataass['idclasse'],$con,1). "<br>";
+            print "<td>Classe: " . decodifica_classe($dataass['idclasse'], $con, 1) . "<br>";
             print "Rich.: " . data_italiana($dataass['datarichiesta']) . "<br>";
             //DATA ASSEMBLEA
             print "Svolg.: " . data_italiana($dataass['dataassemblea']) . "<br>";
@@ -197,7 +195,7 @@ else
 					OR idalunno=" . $dataass['rappresentante2'] . "
 					ORDER BY cognome";
 
-            $risalu = eseguiQuery($con,$alu);
+            $risalu = eseguiQuery($con, $alu);
             print "<td>";
             while ($dataalu = mysqli_fetch_array($risalu))
             {
@@ -209,8 +207,7 @@ else
             //print "<td><a href=javascript:Popup('visdatiass.php?dato=odg&idass=" . $dataass['idassemblea'] . "')>Visualizza OdG</a></td>";
             print "<td>" . nl2br($dataass['odg']) . "</td>";
             print "</tr>";
-        }
-        else
+        } else
         {
             print "<td colspan='8' align='center'><b><i>Nessuna assemblea concessa</i></b></td>";
         }
@@ -226,7 +223,7 @@ $assef = "SELECT * FROM tbl_assemblee
 		  WHERE (docenteconcedente1=$iddocente OR docenteconcedente2=$iddocente)
 		  AND (verbale != '')";
 
-$ris3 = mysqli_query($con, inspref($assef)) or die("Errore durante la connessione: " . mysqli_error($con) . "<br/>" . $assef);
+$ris3 = eseguiQuery($con, $assef);
 print "<tr class='prima'>
 		<td colspan='8'><font size='2'>ASSEMBLEE EFFETTUATE</font></td>
 	   </tr>";
@@ -243,8 +240,7 @@ print "<tr class='prima'>
 if (mysqli_num_rows($ris3) == 0)
 {
     print "<td colspan='8' align='center'><b><i>Nessuna assemblea effettuata</i></b></td>";
-}
-else
+} else
 {
     while ($dataass = mysqli_fetch_array($ris3))
     {
@@ -253,8 +249,7 @@ else
         if ($dataass['consegna_verbale'] == 0)
         {
             print "<td colspan='2' align='center'><img src='../immagini/red_cross.gif'></td>";
-        }
-        else
+        } else
         {
             print "<td colspan='2' align='center'><img src='../immagini/green_tick.gif'><br/><a href=javascript:Popup('visdatiass.php?dato=ver&idass=" . $dataass['idassemblea'] . "')>Visualizza verbale</a></td>";
         }
@@ -269,7 +264,7 @@ else
 				OR idalunno=" . $dataass['rappresentante2'] . "
 				ORDER BY cognome";
 
-        $risalu = eseguiQuery($con,$alu);
+        $risalu = eseguiQuery($con, $alu);
         print "<td>";
         while ($dataalu = mysqli_fetch_array($risalu))
         {
@@ -281,7 +276,7 @@ else
         $alu = "SELECT cognome,nome FROM tbl_alunni
 				WHERE idalunno=" . $dataass['alunnopresidente'];
 
-        $risalu = eseguiQuery($con,$alu);
+        $risalu = eseguiQuery($con, $alu);
         $dataalu = mysqli_fetch_array($risalu);
         print "<td>" . $dataalu['cognome'] . "&nbsp;" . $dataalu['nome'] . "</td>";
 
@@ -289,7 +284,7 @@ else
         $alu = "SELECT cognome,nome FROM tbl_alunni
 				WHERE idalunno=" . $dataass['alunnosegretario'];
 
-        $risalu = eseguiQuery($con,$alu);
+        $risalu = eseguiQuery($con, $alu);
         $dataalu = mysqli_fetch_array($risalu);
         print "<td>" . $dataalu['cognome'] . "&nbsp;" . $dataalu['nome'] . "</td>";
 

@@ -1,23 +1,25 @@
-<?php session_start();
+<?php
+
+session_start();
 
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
-/*Programma per la visualizzazione del menu principale.*/
+/* Programma per la visualizzazione del menu principale. */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -56,11 +58,10 @@ foreach ($arrbkp as $ambito)
     if ($ambito == 'ana')
     {
         $tabelle[] = 'tbl_docenti';
-      //  $tabelle[] = 'tbl_tutori';
+        //  $tabelle[] = 'tbl_tutori';
         $tabelle[] = 'tbl_alunni';
         $tabelle[] = 'tbl_amministrativi';
         $tabelle[] = 'tbl_utenti';
-
     }
     if ($ambito == 'pro')
     {
@@ -70,7 +71,6 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_competscol';
         $tabelle[] = 'tbl_compob';
         $tabelle[] = 'tbl_compsubob';
-
     }
 
     if ($ambito == 'tab')
@@ -91,18 +91,21 @@ foreach ($arrbkp as $ambito)
     {
         $tabelle[] = 'tbl_parametri';
     }
-
 }
 
 
 // APERTURA CONNESSIONI AI DUE DATABASE
-if ($oldserver == "") $oldserver = $db_server;
-if ($olduser == "") $olduser = $db_user;
-if ($oldpwd == "") $oldpwd = $db_password;
-if ($olddb == "") $olddb = $db_nome;
-$conold = mysqli_connect($oldserver, $olduser, $oldpwd, $olddb) or die ("Errore durante la connessione al database origine: " . mysqli_error($con));
+if ($oldserver == "")
+    $oldserver = $db_server;
+if ($olduser == "")
+    $olduser = $db_user;
+if ($oldpwd == "")
+    $oldpwd = $db_password;
+if ($olddb == "")
+    $olddb = $db_nome;
+$conold = mysqli_connect($oldserver, $olduser, $oldpwd, $olddb) or die("Errore durante la connessione al database origine: " . mysqli_error($con));
 // $conold = mysqli_connect($db_server, $db_user, $db_password, $olddb) or die ("Errore durante la connessione al database origine: " . mysqli_error($con));
-$connew = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione al database destinazione: " . mysqli_error($con));
+$connew = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione al database destinazione: " . mysqli_error($con));
 // Per evitare che l'inserimento di chiavi a zero vengano reimpostate a 1
 mysqli_query($connew, "SET SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO'") or die("Errore impostazione NO_AUTO_VALUE_ON_ZERO");
 
@@ -127,8 +130,7 @@ foreach ($tabelle as $tab)
     {
         $sqldrop = "delete from $tabnew where 1=1";
         mysqli_query($connew, $sqldrop) or die("Errore:" . $sqldrop);
-    }
-    else
+    } else
     {
         if ($tab == 'tbl_utenti')
         {
@@ -136,8 +138,6 @@ foreach ($tabelle as $tab)
             mysqli_query($connew, $sqldrop) or die("Errore:" . $sqldrop);
         }
     }
-
-
 }
 
 // INSERISCO I DATI DALLE TABELLE DEL VECCHIO ANNO
@@ -155,8 +155,7 @@ foreach ($tabelle as $tab)
         if ($tab != 'tbl_utenti')
         {
             $sqlestrai = "select * from $tabold";
-        }
-        else
+        } else
         {
             $sqlestrai = "select * from $tabold where idutente>0";
         }
@@ -189,7 +188,6 @@ foreach ($tabelle as $tab)
             $queryins = $queryins . ")";
 
             mysqli_query($connew, $queryins) or die("Errore:" . $queryins);
-
         }
         if ($tab == 'tbl_classi')
         {
@@ -201,8 +199,7 @@ foreach ($tabelle as $tab)
             mysqli_query($connew, inspref($queryduplclassi)) or die("Errore:" . inspref($queryduplclassi));
         }
         print "<center><big>Importazione tabella $tab</big></center><br>";
-    }
-    else
+    } else
     {
         $elenco = "'versioneprecedente','annoscol','fineprimo','finesecondo','datafinelezioni','datainiziolezioni','nomefilelog','sola_lettura'";
         $queryestraipar = "select * from $oldpref" . "tbl_parametri where parametro not in ($elenco)";
@@ -216,7 +213,6 @@ foreach ($tabelle as $tab)
         print "<center><big>Importazione PARAMETRI</big></center><br>";
     }
     // IMPORTAZIONE PARAMETRI
-
 }
 
 

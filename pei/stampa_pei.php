@@ -1,24 +1,26 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
@@ -73,7 +75,7 @@ $idclasse = "";
 $query = "SELECT datanascita, codfiscale, denominazione, idclasse FROM tbl_alunni,tbl_comuni
 			  WHERE tbl_alunni.idcomnasc=tbl_comuni.idcomune 
 			  AND idalunno=$idalunno";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 // print inspref($query);
 if ($val = mysqli_fetch_array($ris))
 {
@@ -150,7 +152,7 @@ $query = "select * from tbl_tipoprog,tbl_materie
         where tbl_tipoprog.idmateria=tbl_materie.idmateria
         and idalunno=$idalunno
         order by denominazione";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($rec = mysqli_fetch_array($ris))
 {
     $pei->setXY(50, $posY);
@@ -186,7 +188,7 @@ if (count($matpers) > 0)
         //$posY+=10;
 
         $query = "select * from tbl_competalu where idmateria=" . $matpers[$i] . " and idalunno=$idalunno order by numeroordine";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
 
         if (mysqli_num_rows($ris) > 0)
         {
@@ -213,7 +215,7 @@ if (count($matpers) > 0)
 
 
                 $query = "select * from tbl_abilalu where idcompetenza=$idcompetenza and abil_cono='C' order by numeroordine";
-                $risabil = eseguiQuery($con,$query);
+                $risabil = eseguiQuery($con, $query);
                 if (mysqli_num_rows($risabil) > 0)
                 {
                     $pei->setX(20);
@@ -243,7 +245,7 @@ if (count($matpers) > 0)
                 }
 
                 $query = "select * from tbl_abilalu where idcompetenza=$idcompetenza and abil_cono='A' order by numeroordine";
-                $risabil = eseguiQuery($con,$query);
+                $risabil = eseguiQuery($con, $query);
                 if (mysqli_num_rows($risabil) > 0)
                 {
                     $pei->setX(20);
@@ -273,11 +275,8 @@ if (count($matpers) > 0)
                 // print "</font>";
             }
             // print "<br/><br/>(Le voci in <i>corsivo</i> fanno parte degli obiettivi minimi)";
-
             // print "</font>";
-
         }
-
     }
 }
 
@@ -300,7 +299,7 @@ for ($i = 0; $i < count($matall); $i++)
 	         and idmateria=" . $matall[$i] . "
 	         order by datalezione";
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     if (mysqli_num_rows($ris) > 0)
     {
@@ -322,8 +321,6 @@ for ($i = 0; $i < count($matall); $i++)
         $pei->setX(20);
         $pei->SetFont('Arial', '', 9);
         $pei->MultiCell(172, 6, converti_utf8($rec['attivita']), 0, "J");
-
-
     }
 }
 /*
@@ -350,8 +347,7 @@ for ($i = 0; $i < count($matall); $i++)
 	         and idalunno=$idalunno
 	         and idmateria=" . $matall[$i] . "
 	         order by numeroordine, data";
-    }
-    else
+    } else
     {
         $query = "select numeroordine,sintabilcono,data,tbl_valutazioniabilcono.voto
              from tbl_valutazioniabilcono,tbl_valutazioniintermedie,tbl_abildoc 
@@ -362,7 +358,7 @@ for ($i = 0; $i < count($matall); $i++)
 	         and idmateria=" . $matall[$i] . "
 	         order by numeroordine, data";
     }
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if (mysqli_num_rows($ris) > 0)
     {
         $pei->AddPage();
@@ -379,15 +375,11 @@ for ($i = 0; $i < count($matall); $i++)
             $pei->SetFont('Arial', 'I', 9);
             $pei->Cell(25, 8, converti_utf8(data_italiana($rec['data'])), 1, 0, "J");
             //$pei->setX(20);
-
             //$pei->setX(20);
             $pei->SetFont('Arial', '', 9);
             $pei->Cell(10, 8, converti_utf8(dec_to_csv($rec['voto'])), 1, 1, "J");
-
         }
     }
-
-
 }
 
 
@@ -409,7 +401,7 @@ for ($i = 0; $i < count($matall); $i++)
 	         and idmateria=" . $matall[$i] . "
 	         order by data";
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     if (mysqli_num_rows($ris) > 0)
     {
@@ -427,7 +419,6 @@ for ($i = 0; $i < count($matall); $i++)
         $pei->setX(20);
         $pei->SetFont('Arial', '', 9);
         $pei->MultiCell(172, 6, converti_utf8($rec['testo']), 0, "J");
-
     }
 }
 /*
@@ -457,7 +448,7 @@ $query = "select tbl_notealunno.idnotaalunno, data, tbl_alunni.cognome as cognal
             and tbl_noteindalu.idalunno=$idalunno 
             order by tbl_classi.specializzazione, tbl_classi.sezione, tbl_classi.anno, tbl_notealunno.data, tbl_docenti.cognome, tbl_docenti.nome, tbl_alunni.cognome, tbl_alunni.nome, tbl_alunni.datanascita";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if (mysqli_num_rows($ris) > 0)
 {
     while ($rec = mysqli_fetch_array($ris))
@@ -472,10 +463,8 @@ if (mysqli_num_rows($ris) > 0)
         $pei->MultiCell(172, 6, converti_utf8($rec['testo']), 0, "J");
         $pei->SetFont('Arial', 'I', 9);
         $pei->MultiCell(172, 6, converti_utf8($rec['provvedimenti']), 0, "J");
-
     }
-}
-else
+} else
 {
     $pei->setX(20);
     $pei->SetFont('Arial', 'B', 12);
@@ -494,7 +483,7 @@ $query = "select idnotaclasse, data, tbl_docenti.cognome as cogndocente, tbl_doc
             and tbl_noteclasse.idclasse=$idclasse 
             order by tbl_classi.specializzazione, tbl_classi.sezione, tbl_classi.anno, tbl_docenti.cognome, tbl_docenti.nome, tbl_noteclasse.data";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if (mysqli_num_rows($ris) > 0)
 {
     while ($rec = mysqli_fetch_array($ris))
@@ -509,10 +498,8 @@ if (mysqli_num_rows($ris) > 0)
         $pei->MultiCell(172, 6, converti_utf8($rec['testo']), 0, "J");
         $pei->SetFont('Arial', 'I', 9);
         $pei->MultiCell(172, 6, converti_utf8($rec['provvedimenti']), 0, "J");
-
     }
-}
-else
+} else
 {
     $pei->setX(20);
     $pei->SetFont('Arial', 'B', 12);
@@ -539,7 +526,7 @@ for ($i = 0; $i < count($matall); $i++)
 	         and pei
 	         order by datadocumento";
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     if (mysqli_num_rows($ris) > 0)
     {
@@ -560,10 +547,8 @@ for ($i = 0; $i < count($matall); $i++)
             $pei->setX(150);
             $pei->SetFont('Arial', '', 9);
             $pei->Cell(50, 6, converti_utf8($rec['docnome']), 1, 1, "J");
-
         }
     }
-
 }
 // VERIFICO ALLEGATI GENERICI  
 $query = "select descrizione,datadocumento,pei,docnome from tbl_documenti
@@ -573,7 +558,7 @@ $query = "select descrizione,datadocumento,pei,docnome from tbl_documenti
 	         and pei
 	         order by datadocumento";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 if (mysqli_num_rows($ris) > 0)
 {
@@ -594,7 +579,6 @@ if (mysqli_num_rows($ris) > 0)
         $pei->setX(150);
         $pei->SetFont('Arial', '', 9);
         $pei->Cell(50, 6, converti_utf8($rec['docnome']), 1, 1, "J");
-
     }
 }
 /*
@@ -622,14 +606,12 @@ $pei->Output($nomefile, "I");
 
 mysqli_close($con);
 
-
 function elimina_cr($stringa)
 {
 
     $strpul = str_replace(array("\n", "\r"), " ", $stringa);
     return $strpul;
 }
-
 
 function inserisci_new_line($stringa)
 {
@@ -645,8 +627,7 @@ function estrai_prima_riga($stringa)
     if ($posint != 0)
     {
         $str1 = substr($stringa, 0, $posint);
-    }
-    else
+    } else
     {
         $str1 = $stringa;
     }
@@ -660,8 +641,7 @@ function estrai_seconda_riga($stringa)
     if ($posint != 0)
     {
         $str2 = substr($stringa, $posint + 1);
-    }
-    else
+    } else
     {
         $str2 = "";
     }
@@ -687,5 +667,3 @@ function decodifica_tipo_prog($stringa)
         return "Normale";
     }
 }
-  
-

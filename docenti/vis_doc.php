@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 // programma per la visualizzazione dei docenti
 
@@ -83,12 +85,11 @@ if (!$DB)
 $sql = "SELECT * FROM tbl_docenti ,tbl_utenti
        WHERE tbl_docenti.iddocente=tbl_utenti.idutente 
        ORDER BY cognome,nome";
-$result = eseguiQuery($con,$sql);
+$result = eseguiQuery($con, $sql);
 if (!($result))
 {
     print("query fallita");
-}
-else
+} else
 {
 
     print "<div align='right'><br><input type='button' id='mv' value='Attiva reset password' onclick='mostra()' />
@@ -101,7 +102,8 @@ else
 
     print("<FORM NAME='VI2' ACTION='ins_doc.php' method='POST'>");
 
-    if ($modo != 'vis') print("<CENTER><INPUT TYPE='SUBMIT' VALUE='Inserisci nuovo docente'><br><br>");
+    if ($modo != 'vis')
+        print("<CENTER><INPUT TYPE='SUBMIT' VALUE='Inserisci nuovo docente'><br><br>");
     print("\n<table border=1>\n");
 
     print("<tr class='prima'><td>Cognome Nome</td>
@@ -120,20 +122,19 @@ else
         {
             $cn = $Data['idcomnasc'];
             $sql1 = "SELECT denominazione as den1 FROM tbl_comuni WHERE idcomune=$cn";
-            $result1 = mysqli_query($con, inspref($sql1));
+            $result1 = eseguiQuery($con, $sql1);
             $Data1 = mysqli_fetch_array($result1);
             $cr = $Data['idcomres'];
             $sql2 = "SELECT denominazione as den2 FROM tbl_comuni WHERE idcomune=$cr";
 
-            if ($result2 = mysqli_query($con, inspref($sql2)))
+            if ($result2 = eseguiQuery($con, $sql2))
             {
                 $Data2 = mysqli_fetch_array($result2);
             }
             if ($Data['tipo'] != "S")
             {
                 print("<tr class='oddeven'><td>" . $Data['cognome'] . "  " . $Data['nome'] . "</td>\n");
-            }
-            else
+            } else
             {
                 print("<tr class='oddeven'><td><b>" . $Data['cognome'] . "  " . $Data['nome'] . "</b></td>\n");
             }
@@ -148,8 +149,7 @@ else
             if ($Data['telcel'])
             {
                 print("<td align='center'>" . $Data['telcel'] . "</td>");
-            }
-            else
+            } else
             {
                 print("<td align='center'>" . $Data['telefono'] . "</td>");
             }
@@ -157,8 +157,7 @@ else
             if ($Data['sostegno'])
             {
                 print("<td><img src='../immagini/apply_small.png'></td>");
-            }
-            else
+            } else
             {
                 print("<td>&nbsp;</td>");
             }
@@ -180,13 +179,13 @@ else
             }
             print("</td></tr>\n");
         }
-    }
-    else
+    } else
     {
         print("<tr><td align='center' colspan='6'>Nessun docente trovato</td></tr>");
     }
     print("</TABLE>\n<br/>\n");
-    if ($modo != 'vis') print("<INPUT TYPE='SUBMIT' VALUE='Inserisci nuovo docente'>");
+    if ($modo != 'vis')
+        print("<INPUT TYPE='SUBMIT' VALUE='Inserisci nuovo docente'>");
 }
 print("</CENTER></FORM>");
 

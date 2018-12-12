@@ -88,14 +88,14 @@ print "<br><br><center><input type='date' name='datalog' value='$datalog' ONCHAN
 print "</form>";
 
 
-for ($d = $datalog; $d <= $datafinelog; $d=aggiungi_giorni($d,1))
+for ($d = $datalog; $d <= $datafinelog; $d = aggiungi_giorni($d, 1))
 {
-    $data=substr($d, 0, 4) . substr($d, 5, 2) . substr($d, 8, 2);
+    $data = substr($d, 0, 4) . substr($d, 5, 2) . substr($d, 8, 2);
     print "DATA $data<br>";
-    
-    
+
+
     $filename = "../lampschooldata/" . $suff . "0000$nomefilelog" . $sufftipo . $data . ".log";
-    
+
     try
     {
         $handle = fopen($filename, "r");
@@ -105,7 +105,7 @@ for ($d = $datalog; $d <= $datafinelog; $d=aggiungi_giorni($d,1))
         $handle = '';
     }
     $handle = fopen($filename, "r");
- // print "Handle ".$handle.$filename;
+    // print "Handle ".$handle.$filename;
 // $contents = fread($handle, filesize($filename));
     if ($handle != '')
     {

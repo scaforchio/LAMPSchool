@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -31,7 +33,7 @@ if ($tipoutente == "")
 
 $titolo = "Inserimento voto per obiettivi";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -46,21 +48,20 @@ $idclasse = stringa_html('cl');
 $idgruppo = stringa_html('idgruppo');
 $cattedra = stringa_html('cattedra');
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 if ($idgruppo == "")
 {
     $query = "SELECT idalunno,cognome,nome FROM tbl_alunni WHERE idclasse=" . $idclasse;
-    $ris = eseguiQuery($con,$query);
-}
-else
+    $ris = eseguiQuery($con, $query);
+} else
 {
     $query = "select tbl_gruppialunni.idalunno as idalunno,cognome,nome from tbl_gruppialunni,tbl_alunni
             where tbl_gruppialunni.idalunno=tbl_alunni.idalunno
             and idgruppo=$idgruppo";
 }
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
 {
 
@@ -68,7 +69,7 @@ while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
     $presentevoto = false;
     $idal = $id['idalunno'];
     $query = "select idvalcomp,voto from tbl_valutazionicomp where idalunno=" . $idal . " and data='$data' and idmateria='$idmateria' and iddocente='$iddocente'";
-    $ris2 = eseguiQuery($con,$query);
+    $ris2 = eseguiQuery($con, $query);
     if (mysqli_num_rows($ris2) > 0)
     {
 
@@ -78,34 +79,30 @@ while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
 
         $idvalcomp = $val['idvalcomp'];
         $querycanc = "delete from tbl_valutazioniobcomp where idvalcomp=$idvalcomp";
-        $ris3 = mysqli_query($con, inspref($querycanc)) or die (mysqli_error);
+        $ris3 = eseguiQuery($con,$querycanc);
         $numcancellate = mysqli_affected_rows($con);
         if ($numcancellate > 0)
         {
             $esistenti = true;
         }
-
-
-    }
-    else
+    } else
     {
         // Si inserisce il nuovo voto nella tabella tbl_valutazionicomp con valore di voto=0
         // tale valore verrà valorizzato dopo aver inserito i voti delle singole abilità e conoscenze
         // con il voto medio risultante
         $query = "insert into tbl_valutazionicomp(idalunno,idmateria,iddocente,idclasse,data,giudizio)
           values('$idal','$idmateria','$iddocente','" . estrai_classe_alunno_data($idal, $data, $con) . "','$data','')";
-        $ris2 = eseguiQuery($con,$query);
+        $ris2 = eseguiQuery($con, $query);
         $idvalcomp = mysqli_insert_id($con);
     }
 
     // Si procede con l'inserimento di tutti i voti inseriti
-
     // $idmateria = estrai_id_materia($cattedra, $con);
     // $idclasse = estrai_id_classe($cattedra, $con);
-    $numvoti=0;
-    $totvoti=0;
+    $numvoti = 0;
+    $totvoti = 0;
     $query = "SELECT idsubob FROM tbl_compsubob";
-    $risab = eseguiQuery($con,$query);
+    $risab = eseguiQuery($con, $query);
     while ($nomab = mysqli_fetch_array($risab))
     {
         $idsubob = $nomab['idsubob'];
@@ -118,33 +115,26 @@ while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
             $query = "insert into tbl_valutazioniobcomp(voto,idvalcomp,idsubob)
                            values('$votocomp','$idvalcomp','$idsubob')";
 
-            $risins = eseguiQuery($con,$query);
+            $risins = eseguiQuery($con, $query);
         }
     }
 
 
     if ($numvoti != 0)
     {
-        /*  if ($presentevoto & !$esistenti)
-          {
-              print "<br><center><font size=4 color='red'>Valutazione non legata alle competenze già presente per " . $id['cognome'] . " " . $id['nome'] . "</font></center>";
-              mysqli_query($con, inspref("delete from tbl_valutazioniabilcono where idvalint=$idvalcomp"));
-          }
-          else
-          {*/
+        
         $votomedio = round($totvoti * 4 / $numvoti) / 4;
         $query = "update tbl_valutazionicomp set voto=$votomedio where idvalcomp=$idvalcomp";
-        $risupd = eseguiQuery($con,$query);
+        $risupd = eseguiQuery($con, $query);
         echo "
 					  <center>
 					  <font size=4><br>
 					  Il voto medio risultante per l'alunno " . $id['cognome'] . " " . $id['nome'] . " è: <b>" . dec_to_mod($votomedio) . "</b></font>
 					  </center>";
         //  }
-    }
-    else
+    } else
     {
-        mysqli_query($con, inspref("delete from tbl_valutazionicomp where idvalcomp=$idvalcomp"));
+        eseguiQuery($con,"delete from tbl_valutazionicomp where idvalcomp=$idvalcomp");
         if ($esistenti)
         {
             echo "
@@ -154,8 +144,6 @@ while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
 					  ";
         }
     }
-
-
 }
 
 //  codice per richiamare il form delle tbl_assenze;

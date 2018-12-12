@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 //Visualizzazione e modifica di un alunno
 //parametri di ingresso: codice dell'alunno
@@ -89,18 +91,17 @@ $strnome = stringa_html('strnome');
 $sql = "SELECT * FROM tbl_alunni WHERE idalunno='$c'";
 $sqlpass = "SELECT dischpwd FROM tbl_utenti WHERE idutente='$c'";
 //esecuzione query
-$res = eseguiQuery($con,$sql);
+$res = eseguiQuery($con, $sql);
 if (!$res)
 {
     print ("<br/> <br/> <br/> <h2> Impossibile visualizzare i dati </h2>");
-}
-else
+} else
 {
     if ($dato = mysqli_fetch_array($res))
     {
-        $respass=eseguiQuery($con,$sqlpass);
-        $recpass=mysqli_fetch_array($respass);
-        $bloccopassword=$recpass['dischpwd'];
+        $respass = eseguiQuery($con, $sqlpass);
+        $recpass = mysqli_fetch_array($respass);
+        $bloccopassword = $recpass['dischpwd'];
         print("<form action='vis_alu_mod_ok.php' method='POST'>");
         print ("<div style=\"text-align: center;\">");
         print ("<table align='center'>");
@@ -134,20 +135,19 @@ else
 
         //	 }
         print ("\n \t <tr> <td align='left'>  <input type='hidden' name='idal' value='$idal'> </td> </tr>");
-        print   ("\n \t <tr> <td><i> Cognome <span style=\"color: #cc0000; \"> <b> * </b> </span></i> </td> ");
+        print ("\n \t <tr> <td><i> Cognome <span style=\"color: #cc0000; \"> <b> * </b> </span></i> </td> ");
         print("<td align='left'> <input type='text' value='$cognome' name='cognome' size='30' maxlength='30'> </td> </tr>");
-        print   ("<tr> <td><i>Nome <span style=\"color: #cc0000; \"> <b> * </b> </span></i> </td> <td align='left'> <input type='text' value='$nome' name='nome' size='30' maxlength='30'> </td> </tr>");
-        print   ("<tr> <td><i>Codice fiscale <span style=\"color: #cc0000; \"> <b> * </b> </span></i> </td> <td align='left'> <input type='text' value='$codfiscale' name='codfiscale' size='16' maxlength='16'> </td> </tr>");
+        print ("<tr> <td><i>Nome <span style=\"color: #cc0000; \"> <b> * </b> </span></i> </td> <td align='left'> <input type='text' value='$nome' name='nome' size='30' maxlength='30'> </td> </tr>");
+        print ("<tr> <td><i>Codice fiscale <span style=\"color: #cc0000; \"> <b> * </b> </span></i> </td> <td align='left'> <input type='text' value='$codfiscale' name='codfiscale' size='16' maxlength='16'> </td> </tr>");
 
         print ("<tr> <td> <i> Data di nascita <span style=\"color: #cc0000; \"> <b> * </b> </span></i> </td> <td align='left'> <input type='text' value='$gg' name='gg' size='1'  maxlength='2'> / <input type='text' value='$mm' name='mm' size='1'  maxlength='2'> / <input type='text' value='$aa' name='aa' size='3'  maxlength='4'> (gg/mm/aaaa) </td> </tr>");
-        print   ("<tr> <td> <i>Comune o stato estero di nascita<span style=\"color: #cc0000; \"></span></i> </td> <td align='left'> <select name='idcomn'>");
+        print ("<tr> <td> <i>Comune o stato estero di nascita<span style=\"color: #cc0000; \"></span></i> </td> <td align='left'> <select name='idcomn'>");
         $sqla = "SELECT * FROM tbl_comuni WHERE statoestero='N' ORDER BY denominazione ";
-        $resa = eseguiQuery($con,$sqla);
+        $resa = eseguiQuery($con, $sqla);
         if (!$resa)
         {
             print ("<br/> <br/> <br/> <h2>a Impossibile visualizzare i dati </h2>");
-        }
-        else
+        } else
         {
             print ("<option value='9999'>");
             print ("<optgroup label='COMUNI ITALIANI'>");
@@ -158,23 +158,20 @@ else
                 if ($idcomn == ($datal['idcomune']))
                 {
                     print("<option value='" . $datal['idcomune'] . "' selected> " . $datal['denominazione'] . "");
-                }
-                else
+                } else
                 {
                     print("<option value='" . $datal['idcomune'] . "'> " . $datal['denominazione'] . "");
                 }
-
             }
             print ("</optgroup>");
         }
 
         $sqlb = "SELECT * FROM tbl_comuni WHERE statoestero='S' ORDER BY denominazione";
-        $resb = eseguiQuery($con,$sqlb);
+        $resb = eseguiQuery($con, $sqlb);
         if (!$resb)
         {
             print ("<br/> <br/> <br/> <h2>a Impossibile visualizzare i dati </h2>");
-        }
-        else
+        } else
         {
             print ("<optgroup label='STATI ESTERI'>");
             while ($datal = mysqli_fetch_array($resb))
@@ -183,28 +180,25 @@ else
                 if ($idcomn == ($datal['idcomune']))
                 {
                     print("<option value='" . $datal['idcomune'] . "' selected> " . $datal['denominazione'] . "");
-                }
-                else
+                } else
                 {
                     print("<option value='" . $datal['idcomune'] . "'> " . $datal['denominazione'] . "");
                 }
-
             }
             print ("</optgroup>");
         }
 
         print("</select> </td> </tr>");
-        print  ("<tr> <td> <i> Indirizzo <span style=\"color: #cc0000; \"></span></i> </td> <td align='left'> <input type='text' value='$indirizzo' name='indirizzo' size='30' maxlength='30'> </td> </tr>");
+        print ("<tr> <td> <i> Indirizzo <span style=\"color: #cc0000; \"></span></i> </td> <td align='left'> <input type='text' value='$indirizzo' name='indirizzo' size='30' maxlength='30'> </td> </tr>");
         //$sqlb="SELECT * FROM tbl_comuni ORDER BY denominazione";
         mysqli_data_seek($resa, 0); // Ritorna all'inizio del resultset
         $resb = $resa; // Evita di rifare la query sui comuni : eseguiQuery($con,$sqlb);
         if (!$resb)
         {
             print ("<br/> <br/> <br/> <h2><b> Impossibile visualizzare i dati </b></h2>");
-        }
-        else
+        } else
         {
-            print  ("<tr> <td> <i>Comune di residenza<span style=\"color: #cc0000; \"></span></i> </td> <td align='left'> <select name='idcomr'>");
+            print ("<tr> <td> <i>Comune di residenza<span style=\"color: #cc0000; \"></span></i> </td> <td align='left'> <select name='idcomr'>");
             print("<option value='9999'>");
             while ($datbl_ = mysqli_fetch_array($resb))
             {
@@ -212,12 +206,10 @@ else
                 if ($idcomr == ($datbl_['idcomune']))
                 {
                     print("<option value='" . $datbl_['idcomune'] . "' selected> " . $datbl_['denominazione'] . "");
-                }
-                else
+                } else
                 {
                     print("<option value='" . $datbl_['idcomune'] . "'> " . $datbl_['denominazione'] . "");
                 }
-
             }
             print("</select> </td> </tr>");
         }
@@ -225,12 +217,11 @@ else
         print ("<tr> <td><i>Numero di telefono</i> </td> <td align='left'> <input type='text' value='$tel' name='tel' size='30' maxlength='15'> </td> </tr>");
         print ("<tr> <td> <i>Numero cellulare<br><small>(massimo 2 separati eventualmente da virgola)</small></i> </td> <td align='left'> <input type='text' value='$cel' name='cel' size='30' maxlength='25'> </td> </tr>");
         print ("<tr> <td><i>Indirizzo E-mail</i> </td> <td align='left'> <input type='text' value='$mail' name='mail' size='50' maxlength='100'> </td> </tr>");
-        print   ("<tr><td>Certificato</td><td align='left'><select name='certificato'>");
+        print ("<tr><td>Certificato</td><td align='left'><select name='certificato'>");
         if (!$certificato)
         {
             print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
-        }
-        else
+        } else
         {
             print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");
         }
@@ -244,8 +235,7 @@ else
         if (!$firmapropria)
         {
             print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
-        }
-        else
+        } else
         {
             print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");
         }
@@ -255,8 +245,7 @@ else
         if (!$bloccopassword)
         {
             print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
-        }
-        else
+        } else
         {
             print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");
         }
@@ -291,7 +280,7 @@ else
 
 
         $sqlc = "SELECT * FROM tbl_classi ORDER BY specializzazione,sezione,anno";
-        $resc = eseguiQuery($con,$sqlc);
+        $resc = eseguiQuery($con, $sqlc);
 
         print ("<tr bgcolor='lightgrey'> <td><i>Classe </i>");
 
@@ -303,26 +292,23 @@ else
             if ($idcla == ($datc['idclasse']))
             {
                 print("<option value='" . $datc['idclasse'] . "' selected> " . $datc['anno'] . " " . $datc['sezione'] . " " . $datc['specializzazione'] . "");
-            }
-            else
+            } else
             {
                 print("<option value='" . $datc['idclasse'] . "'> " . $datc['anno'] . " " . $datc['sezione'] . " " . $datc['specializzazione'] . "");
             }
-
         }
         print("</select></td>");
         print("<td>");
         // CERCO CAMBIAMENTI DI CLASSE
         $query = "select * from tbl_cambiamenticlasse where idalunno=$c order by datafine";
         print "<small>";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         while ($rec = mysqli_fetch_array($ris))
         {
             if ($rec['idclasse'] != 0)
             {
                 print "Classe: " . decodifica_classe($rec['idclasse'], $con) . " fino a " . data_italiana($rec['datafine']) . "<br>";
-            }
-            else
+            } else
             {
                 print "Senza classe fino a " . data_italiana($rec['datafine']) . "<br>";
             }
@@ -340,7 +326,7 @@ else
         print("</tr>");
 
 
-        print  (" <tr valign='bottom'><td colspan='2'  align ='center' >
+        print (" <tr valign='bottom'><td colspan='2'  align ='center' >
    		          <input type ='hidden' name='strcogn' value='$strcogn'>
 			      <input type ='hidden' name='strnome' value='$strnome'>
 			      <br/><input type='submit' value='Modifica dati'></form></td></tr> ");
@@ -353,19 +339,15 @@ else
             print ("<tr><td colspan='2' valign='top' align ='center' ><input type='submit' value=' << Indietro '> </td></tr> ");
             print ("<tr><td colspan='2'><div align='left'>");
             print ("</table></form>");
-
-        }
-        else
+        } else
         {
             print(" <form action='vis_alu.php' method='POST'>");
             print ("<input type ='hidden' name='idcla' value='" . $dato['idclasse'] . "'>");
             print ("<tr><td colspan='2' valign='top' align ='center' ><input type='submit' value=' << Indietro '> </td></tr> ");
             print ("<tr><td colspan='2'><div align='left'>");
-            print  (" </table></form>");
-
+            print (" </table></form>");
         }
-    }
-    else
+    } else
     {
         print(" Dati non trovati ");
     }

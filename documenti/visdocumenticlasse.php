@@ -1,23 +1,22 @@
 <?php
 
-
 session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 // @require_once("../php-ini".$_SESSION['suffisso'].".php");
 @require_once("../lib/funzioni.php");
@@ -43,7 +42,7 @@ stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 // scelta classe
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 //$gotoPage = $_SERVER['PHP_SELF'];
 print ("
@@ -65,7 +64,7 @@ print("
 //  Riempimento combobox delle tbl_classi
 //
 $query = "SELECT * FROM tbl_tipidocumenti ORDER BY descrizione";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -77,7 +76,6 @@ while ($nom = mysqli_fetch_array($ris))
     }
     print ">";
     print ($nom["descrizione"]);
-
 }
 
 print ("</select></td></tr></table></form>");
@@ -95,8 +93,7 @@ if ($tipo == "")
 			  and tbl_documenti.idtipodocumento<1000000000
 			  and idclasse = $idclasse
 			  order by datadocumento desc";
-}
-else
+} else
 {
     $query = "select doctype, tbl_documenti.iddocumento, tbl_documenti.descrizione,tbl_documenti.datadocumento,tbl_tipidocumenti.descrizione as tipo
 			  from tbl_documenti,tbl_tipidocumenti
@@ -104,11 +101,10 @@ else
 			  and tbl_documenti.idtipodocumento=$tipo
 			  and idclasse = $idclasse
 			  order by datadocumento desc";
-
 }
 //print inspref($query);
-$ris = eseguiQuery($con,$query);
-if (mysqli_num_rows($ris)>0)
+$ris = eseguiQuery($con, $query);
+if (mysqli_num_rows($ris) > 0)
 {
     print ("
 		<p align='center'>
@@ -136,13 +132,10 @@ if (mysqli_num_rows($ris)>0)
 
         print "</td>";
         print"</tr>";
-
-
     }
 
     print "</table>";
-}
-else
+} else
 {
     print "<center><b><br>Nessun documento presente!</b>";
 }

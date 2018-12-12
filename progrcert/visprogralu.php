@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -42,13 +44,13 @@ $script = "<script type='text/javascript'>
          //-->
          </script>";
 
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
 $cattedra = stringa_html('cattedra');
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 if ($tipoutente != 'P')
 {
@@ -63,8 +65,7 @@ if ($tipoutente != 'P')
 					and tbl_cattnosupp.idalunno = tbl_tipoprog.idalunno
 					and tbl_tipoprog.tipoprogr='P'
 					order by tbl_cattnosupp.idalunno, denominazione";
-    }
-    else
+    } else
     {
         $query = "select idcattedra,tbl_cattnosupp.idalunno,tbl_classi.idclasse, anno, sezione, specializzazione, denominazione
 					from tbl_cattnosupp, tbl_classi, tbl_materie, tbl_tipoprog 
@@ -78,8 +79,7 @@ if ($tipoutente != 'P')
 					and tbl_materie.idmateria in (select idmateria from tbl_cattnosupp where iddocente=$iddocente)
 					order by tbl_cattnosupp.idalunno, denominazione";
     }
-}
-else
+} else
 {
     $query = "SELECT idcattedra,tbl_cattnosupp.idalunno,tbl_classi.idclasse, anno, sezione, specializzazione, denominazione
 					FROM tbl_cattnosupp, tbl_classi, tbl_materie, tbl_tipoprog
@@ -93,7 +93,7 @@ else
 }
 
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 if (mysqli_num_rows($ris) > 0)
 {
@@ -121,15 +121,12 @@ if (mysqli_num_rows($ris) > 0)
         print (estrai_dati_alunno($nom['idalunno'], $con));
         print "&nbsp;-&nbsp;";
         print($nom["denominazione"]);
-
     }
 
     print("
       </SELECT>
       </td></tr></table></form>");
-}
-else
-
+} else
 {
     print "<br><br><center><b>Nessuna cattedra per alunni con programma personalizzato!</b></center><br>";
 }
@@ -142,32 +139,30 @@ if ($cattedra != "")
     {
         $query = "select iddocente from tbl_cattnosupp where idcattedra=$cattedra";
 
-        $risdoc = eseguiQuery($con,$query);
+        $risdoc = eseguiQuery($con, $query);
         $val = mysqli_fetch_array($risdoc);
         $iddocprog = $val['iddocente'];
-
     }
 
 
-    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
     if ($tipoutente == 'P')
     {
         $query = "select * from tbl_docenti where iddocente=$iddocprog";
-    }
-    else
+    } else
     {
         $query = "select * from tbl_docenti where iddocente=$iddocente";
     }
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($val = mysqli_fetch_array($ris))
     {
         $cognome = $val["cognome"];
         $nome = $val["nome"];
     }
     $query = "select idcattedra,idalunno,tbl_classi.idclasse, anno, sezione, specializzazione, denominazione from tbl_cattnosupp, tbl_classi, tbl_materie where idcattedra=$cattedra and tbl_cattnosupp.idclasse=tbl_classi.idclasse and tbl_cattnosupp.idmateria = tbl_materie.idmateria order by anno, sezione, specializzazione, denominazione";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($val = mysqli_fetch_array($ris))
     {
         $materia = ($val["denominazione"]);
@@ -188,7 +183,7 @@ if ($cattedra != "")
 
 
     $query = "select * from tbl_competalu where idmateria=$idmateria and idalunno=$idalunno order by numeroordine";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     if (mysqli_num_rows($ris) > 0)
     {
@@ -204,7 +199,7 @@ if ($cattedra != "")
             print "<br/><br/><b>$numord. $sintcomp</b><br>  $competenza";
 
             $query = "select * from tbl_abilalu where idcompetenza=$idcompetenza and abil_cono='C' order by numeroordine";
-            $risabil = eseguiQuery($con,$query);
+            $risabil = eseguiQuery($con, $query);
             print "<font size=1>";
             while ($valabil = mysqli_fetch_array($risabil))
             {
@@ -216,15 +211,14 @@ if ($cattedra != "")
                 if (!$obminimi)
                 {
                     print "<br/><b>C $numord.$numordabil $sintabil</b><br> $abilita";
-                }
-                else
+                } else
                 {
                     print "<br/><i><b>C $numord.$numordabil $sintabil</b><br> $abilita</i>";
                 }
             }
 
             $query = "select * from tbl_abilalu where idcompetenza=$idcompetenza and abil_cono='A' order by numeroordine";
-            $risabil = eseguiQuery($con,$query);
+            $risabil = eseguiQuery($con, $query);
 
             while ($valabil = mysqli_fetch_array($risabil))
             {
@@ -236,8 +230,7 @@ if ($cattedra != "")
                 if (!$obminimi)
                 {
                     print "<br/><b>A $numord.$numordabil $sintabil</b><br> $abilita";
-                }
-                else
+                } else
                 {
                     print "<br/><i><b>A $numord.$numordabil $sintabil</b><br> $abilita</i>";
                 }
@@ -249,8 +242,7 @@ if ($cattedra != "")
         print "</font>";
 
         print"<br/><center><a href=javascript:Popup('staprogralu.php?cattedra=$cattedra')><img src='../immagini/stampa.png'></a><br/><br/>";
-    }
-    else
+    } else
     {
         print"<br/><center><b>Non c'è ancora una programmazione personalizzata per l'alunno.<br>
 		                      Importarla da programmazione esistente o definirla.</b></center><br/>";
@@ -258,5 +250,5 @@ if ($cattedra != "")
 }
 
 mysqli_close($con);
-stampa_piede(""); 
+stampa_piede("");
 

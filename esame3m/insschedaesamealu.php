@@ -30,7 +30,8 @@ $idalunno = stringa_html('idalunno');
 
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "") {
+if ($tipoutente == "")
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -55,7 +56,8 @@ $votom6 = stringa_html('votom6') != '' ? stringa_html('votom6') : '0';
 $votom7 = stringa_html('votom7') != '' ? stringa_html('votom7') : '0';
 $votom8 = stringa_html('votom8') != '' ? stringa_html('votom8') : '0';
 $votom9 = stringa_html('votom9') != '' ? stringa_html('votom9') : '0';
-$votoorale = stringa_html('votocoll') != '' ? stringa_html('votocoll') : '0';;
+$votoorale = stringa_html('votocoll') != '' ? stringa_html('votocoll') : '0';
+;
 $mediascrcolloq = stringa_html('mediascrcolloqh');
 $mediafinale = stringa_html('mediafinah');
 $votofinale = stringa_html('vtfinah');
@@ -153,7 +155,7 @@ $query .= "tracciacolloquio='$tracciacolloquio',
         unanimita='$unanimita',
         ammissioneterza='$ammissioneterza'
         where idalunno=$idalunno";
-eseguiQuery($con,$query);
+eseguiQuery($con, $query);
 
 
 

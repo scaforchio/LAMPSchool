@@ -55,7 +55,7 @@ if ($idclasse != "")
             . " and idclasseesame=$idclasse "
             . " and votofinale>=6"
             . " order by cognome,nome";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     ;
     while ($val = mysqli_fetch_array($ris))
     {
@@ -66,7 +66,7 @@ if ($idclasse != "")
 
     $alunni[] = $idalunno;
     $query = "select idclasseesame from tbl_alunni where idalunno=$idalunno";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     ;
     if ($val = mysqli_fetch_array($ris))
     {
@@ -104,13 +104,13 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
 
 
     $query = "select * from tbl_esami3m where idclasse=$idclasse";
-    $risesa = eseguiQuery($con,$query);
+    $risesa = eseguiQuery($con, $query);
     ;
     $recesa = mysqli_fetch_array($risesa);
 
 
     $query = "select * from tbl_esmaterie where idclasse=$idclasse";
-    $rismat = eseguiQuery($con,$query);
+    $rismat = eseguiQuery($con, $query);
     ;
     $recmat = mysqli_fetch_array($rismat);
 
@@ -122,7 +122,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
     foreach ($alunni as $alu)
     {
         $query = "select * from tbl_esesiti where idalunno=$alu";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         ;
         $rec = mysqli_fetch_array($ris);
 
@@ -170,7 +170,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
         $query = "SELECT datanascita, codfiscale, denominazione,idcomnasc FROM tbl_alunni,tbl_comuni
               WHERE tbl_alunni.idcomnasc=tbl_comuni.idcomune 
               AND idalunno=$alu";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         ;
         if ($val = mysqli_fetch_array($ris))
         {
@@ -224,84 +224,81 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
             $schede->MultiCell(170, 6, converti_utf8("Visti gli esiti delle prove d'esame e il percorso di studi effettuato,\nl'alunno ha superato l'Esame di Stato conclusivo del primo ciclo\ncon la seguente valutazione:"), 0, 'C');
         else
             $schede->MultiCell(170, 6, converti_utf8("Visti gli esiti delle prove d'esame e il percorso di studi effettuato,\nl'alunna ha superato l'Esame di Stato conclusivo del primo ciclo\ncon la seguente valutazione:"), 0, 'C');
-        
-
-          $schede->setXY($posX, $posY + 60);
-          if ($rec['lode'])
-          {
-          $lode = " con lode ";
-          }
-          else
-          {
-          $lode = " ";
-          }
 
 
-          $schede->setXY(20, 190);
-          $schede->SetFont('Arial', 'B', 14);
-          $schede->MultiCell(170, 6, converti_utf8(dec_to_pag($rec['votofinale']). " / decimi" . $lode),0,"C");
-          
+        $schede->setXY($posX, $posY + 60);
+        if ($rec['lode'])
+        {
+            $lode = " con lode ";
+        } else
+        {
+            $lode = " ";
+        }
 
-          // Sottocommissione
-          $idcommissione = $recesa['idcommissione'];
-          $nomepresidente = "";
-          $cognomepresidente = "";
-          $denominazionecomm = "";
-          $query = "select * from tbl_escompcommissioni,tbl_docenti,tbl_escommissioni
+
+        $schede->setXY(20, 190);
+        $schede->SetFont('Arial', 'B', 14);
+        $schede->MultiCell(170, 6, converti_utf8(dec_to_pag($rec['votofinale']) . " / decimi" . $lode), 0, "C");
+
+
+        // Sottocommissione
+        $idcommissione = $recesa['idcommissione'];
+        $nomepresidente = "";
+        $cognomepresidente = "";
+        $denominazionecomm = "";
+        $query = "select * from tbl_escompcommissioni,tbl_docenti,tbl_escommissioni
           where tbl_escompcommissioni.idcommissione=tbl_escommissioni.idescommissione
           and tbl_escompcommissioni.iddocente=tbl_docenti.iddocente
           and tbl_escompcommissioni.idcommissione=$idcommissione";
-          $riscom = eseguiQuery($con,$query);
-          $cont = 0;
-          $posYiniz=$schede->GetY();
-          while ($reccom = mysqli_fetch_array($riscom))
-          {
+        $riscom = eseguiQuery($con, $query);
+        $cont = 0;
+        $posYiniz = $schede->GetY();
+        while ($reccom = mysqli_fetch_array($riscom))
+        {
 
-          $nomepresidente = $reccom['nomepresidente'];
-          $cognomepresidente = $reccom['cognomepresidente'];
-          $denominazionecomm = $reccom['denominazione'];
-          $nomedocente = $reccom['nome'];
-          $cognomedocente = $reccom['cognome'];
-          }
+            $nomepresidente = $reccom['nomepresidente'];
+            $cognomepresidente = $reccom['cognomepresidente'];
+            $denominazionecomm = $reccom['denominazione'];
+            $nomedocente = $reccom['nome'];
+            $cognomedocente = $reccom['cognome'];
+        }
 
 
-          // STAMPA PARTE TERMINALE
-          $datastampa = data_italiana($recesa['datascrutinio']);
-          $luogodata = converti_utf8("$comune_scuola, $datastampa");
-          $posY=210;
-          $schede->setXY(20, $posY);
-          $schede->SetFont('Arial', '', 10);
-          $schede->Cell(70, 5, $luogodata, "", 0, "L");
+        // STAMPA PARTE TERMINALE
+        $datastampa = data_italiana($recesa['datascrutinio']);
+        $luogodata = converti_utf8("$comune_scuola, $datastampa");
+        $posY = 210;
+        $schede->setXY(20, $posY);
+        $schede->SetFont('Arial', '', 10);
+        $schede->Cell(70, 5, $luogodata, "", 0, "L");
 
-          $schede->setXY(20, $posY+40);
-          $schede->SetFont('Arial', '', 10);
-          $schede->Cell(40, 5, converti_utf8($nomepresidente . " " . $cognomepresidente), "B", 0, "C");
-          $dicituradirigente = "IL PRESIDENTE";
-          $schede->setXY(20, $posY+45);
-          $schede->SetFont('Arial', '', 7);
-          $schede->Cell(40, 3, $dicituradirigente, "", 0, "C");
+        $schede->setXY(20, $posY + 40);
+        $schede->SetFont('Arial', '', 10);
+        $schede->Cell(40, 5, converti_utf8($nomepresidente . " " . $cognomepresidente), "B", 0, "C");
+        $dicituradirigente = "IL PRESIDENTE";
+        $schede->setXY(20, $posY + 45);
+        $schede->SetFont('Arial', '', 7);
+        $schede->Cell(40, 3, $dicituradirigente, "", 0, "C");
 
-          $schede->setXY(140, $posY+40);
-          $schede->SetFont('Arial', '', 10);
-          $schede->Cell(40, 5, converti_utf8(estrai_dirigente($con)), "B", 0, "C");
-          $dicituradirigente = "IL DIRIGENTE SCOLASTICO";
-          $schede->setXY(140, $posY+45);
-          $schede->SetFont('Arial', '', 7);
-          $schede->Cell(40, 3, $dicituradirigente, "", 0, "C");
-          
-          
-          if ($_SESSION['suffisso'] != "")
-          {
-          $suff = $_SESSION['suffisso'] . "/";
-          }
-          else $suff = "";
-          $schede->setXY(140, $posY+50);
-          $schede->Image('../abc/' . $suff . 'firmadirigente.png');
-          
-          $schede->setXY(90, $posY+15);
-          $schede->Image('../abc/' . $suff . 'timbro.png');
+        $schede->setXY(140, $posY + 40);
+        $schede->SetFont('Arial', '', 10);
+        $schede->Cell(40, 5, converti_utf8(estrai_dirigente($con)), "B", 0, "C");
+        $dicituradirigente = "IL DIRIGENTE SCOLASTICO";
+        $schede->setXY(140, $posY + 45);
+        $schede->SetFont('Arial', '', 7);
+        $schede->Cell(40, 3, $dicituradirigente, "", 0, "C");
 
-         
+
+        if ($_SESSION['suffisso'] != "")
+        {
+            $suff = $_SESSION['suffisso'] . "/";
+        } else
+            $suff = "";
+        $schede->setXY(140, $posY + 50);
+        $schede->Image('../abc/' . $suff . 'firmadirigente.png');
+
+        $schede->setXY(90, $posY + 15);
+        $schede->Image('../abc/' . $suff . 'timbro.png');
     }
 
     if (count($alunni) > 1)

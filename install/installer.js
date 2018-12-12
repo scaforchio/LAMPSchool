@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
     $('.datepicker').datepicker({
         dateFormat: 'yy-mm-dd',
         showOn: 'button',
@@ -6,7 +6,7 @@ $(function() {
         buttonImageOnly: true,
         changeMonth: true,
         changeYear: true
-   });
+    });
 });
 
 function setAction(url) {

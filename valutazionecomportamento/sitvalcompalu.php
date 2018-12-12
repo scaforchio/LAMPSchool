@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 
@@ -65,11 +67,11 @@ print ("
 //
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $query = "select iddocente, cognome, nome from tbl_docenti where iddocente=$iddocente";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 
 if ($nom = mysqli_fetch_array($ris))
@@ -103,7 +105,7 @@ print("
 //    else
 $query = "select idcattedra,tbl_classi.idclasse,tbl_materie.idmateria,idalunno, anno, sezione, specializzazione, denominazione from tbl_cattnosupp, tbl_classi, tbl_materie where iddocente=$iddocente and tbl_cattnosupp.idclasse=tbl_classi.idclasse and tbl_cattnosupp.idmateria = tbl_materie.idmateria order by anno, sezione, specializzazione, denominazione";
 //  print inspref($query);
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -114,7 +116,8 @@ while ($nom = mysqli_fetch_array($ris))
         print " selected";
         $idmateria = $nom["idmateria"];   // Memorizzo materia e classe della cattedra selezionata
         $idclasse = $nom["idclasse"];
-        if ($nom['idalunno'] != 0) $alunno = $nom["idalunno"];
+        if ($nom['idalunno'] != 0)
+            $alunno = $nom["idalunno"];
     }
     print ">";
     //   if (!$_SESSION['sostegno'])
@@ -133,10 +136,7 @@ while ($nom = mysqli_fetch_array($ris))
         print ("&nbsp;-&nbsp;" . estrai_dati_alunno($nom['idalunno'], $con));
         //	print "&nbsp;-&nbsp;";
         //	print($nom["denominazione"]);
-
     }
-
-
 }
 
 
@@ -157,13 +157,12 @@ if ($cattedra != "")
         and tbl_alunni.idclasse=$idcl
         and tbl_gruppi.idmateria=$idmat
         and tbl_gruppi.iddocente=$iddocente";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($rec = mysqli_fetch_array($ris))
     {
         $idgruppo = $rec['idgruppo'];
     }
 //
-
 // Se è stata selezionata la cattedra riempio la select degli alunni      
     if (!cattedra_sostegno($cattedra, $con))
     {
@@ -182,8 +181,7 @@ if ($cattedra != "")
             if ($idgruppo == '')
             {
                 $query = "select * from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
-            }
-            else
+            } else
             {
                 $query = "select tbl_alunni.idalunno,cognome,nome,datanascita
                   from tbl_gruppi,tbl_gruppialunni,tbl_alunni
@@ -195,14 +193,13 @@ if ($cattedra != "")
             }//=$idgruppo";
 
 
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             while ($nom = mysqli_fetch_array($ris))
             {
                 if (!alunno_certificato($nom['idalunno'], $con))
                 {
                     $cert = "";
-                }
-                else
+                } else
                 {
                     $cert = " (*)";
                 }
@@ -212,7 +209,6 @@ if ($cattedra != "")
                 if ($alunno == $nom["idalunno"])
                 {
                     print " selected";
-
                 }
                 print ">";
                 print ($nom["cognome"]);
@@ -221,9 +217,7 @@ if ($cattedra != "")
                 print "&nbsp;";
                 print(data_italiana($nom["datanascita"]));
                 print $cert;
-
             }
-
         }
 
         print("</select>
@@ -232,7 +226,6 @@ if ($cattedra != "")
 				 
 			</tr>");
     }
-
 }
 
 
@@ -242,8 +235,7 @@ if ($cattedra != "")
 if ($numeroperiodi == 2)
 {
     print("<tr><td width='50%'><b>Quadrimestre</b></td>");
-}
-else
+} else
 {
     print("<tr><td width='50%'><b>Trimestre</b></td>");
 }
@@ -254,16 +246,14 @@ echo("   <select id='periodo' name='periodo' ONCHANGE='valabil.submit()'>");
 if ($periodo == 'Primo')
 {
     echo("<option selected>Primo</option>");
-}
-else
+} else
 {
     echo("<option>Primo</option>");
 }
 if ($periodo == 'Secondo')
 {
     echo("<option selected>Secondo</option>");
-}
-else
+} else
 {
     echo("<option>Secondo</option>");
 }
@@ -273,8 +263,7 @@ if ($numeroperiodi == 3)
     if ($periodo == 'Terzo')
     {
         echo("<option selected>Terzo</option>");
-    }
-    else
+    } else
     {
         echo("<option>Terzo</option>");
     }
@@ -334,14 +323,12 @@ if ($alunno != "")
 	              $perioquery
 	              order by data";
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($nomdat = mysqli_fetch_array($ris))
     {
         $datelez[] = $nomdat["data"];
-
-
     }
-  //  print "ttt".count($datelez);
+    //  print "ttt".count($datelez);
 
     $query = "select tbl_valutazioniobcomp.idsubob, tbl_valutazionicomp.idalunno,tbl_valutazionicomp.voto as votom,tbl_valutazioniobcomp.voto as votoob,tbl_valutazionicomp.data
 	              from tbl_valutazioniobcomp,tbl_valutazionicomp,tbl_alunni, tbl_classi where
@@ -353,15 +340,14 @@ if ($alunno != "")
 	              and tbl_alunni.idalunno=$alunno
 	              $perioquery";
 
-   // print inspref($query);
+    // print inspref($query);
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($nomval = mysqli_fetch_array($ris))
     {
         $date[] = $nomval["data"];
         $voti[] = $nomval["votoob"];
         $subobiettivi[] = $nomval["idsubob"];
-
     }
 
 
@@ -376,7 +362,6 @@ if ($alunno != "")
         $listadate[] = data_italiana($datelez[$i]);  // Aggiungo le date all'array per file csv
 
         echo "</td>";
-
     }
 
 
@@ -390,7 +375,7 @@ if ($alunno != "")
     $query = "select * from tbl_compob
 	           order by numeroordine";
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     while ($nom = mysqli_fetch_array($ris))
     {
@@ -412,8 +397,6 @@ if ($alunno != "")
             echo "</td>";
 
             // $listavoti[]=$numordcomp." ".$sintcom;
-
-
         }
 
 
@@ -423,7 +406,7 @@ if ($alunno != "")
 
         $query = "SELECT * FROM tbl_compsubob WHERE idobiettivo=" . $idobiettivo . " ORDER BY numeroordine";
 
-        $risab = eseguiQuery($con,$query);
+        $risab = eseguiQuery($con, $query);
         while ($nomab = mysqli_fetch_array($risab))
         {
             $listavoti = array();
@@ -441,10 +424,10 @@ if ($alunno != "")
                 echo "<td align='center'>";
                 // RICERCA VOTO SE ESISTE IN QUESTA DATA
                 $votinum = array();
-             //   print "ttt data".$datelez[$i];
-             //   print "ttt idsubob".$idsubob;
-             //   print "ttt date".$date[$i];
-             //   print "ttt voti".$voti[$i];
+                //   print "ttt data".$datelez[$i];
+                //   print "ttt idsubob".$idsubob;
+                //   print "ttt date".$date[$i];
+                //   print "ttt voti".$voti[$i];
 
                 $votinum = CercaVoto($datelez[$i], $idsubob, $date, $voti, $subobiettivi);
                 // $numvotivotovis=dec_to_mod();
@@ -459,14 +442,13 @@ if ($alunno != "")
                         if ($votonum < 5.875)
                         {
                             echo "<font color='red'>";
-                        }
-                        else echo "<font color='green'>";
+                        } else
+                            echo "<font color='green'>";
                         echo dec_to_mod($votonum);
                         $votigiorno = $votigiorno . num_to_ita($votonum) . " ";
                         echo "&nbsp;</font>";
                     }
                     $listavoti[] = $votigiorno;
-
                 }
                 else
                 {
@@ -482,8 +464,8 @@ if ($alunno != "")
                 if ($votomedio < 5.875)
                 {
                     echo "<font color='red'>";
-                }
-                else echo "<font color='green'>";
+                } else
+                    echo "<font color='green'>";
                 echo dec_to_mod($votomedio);
                 $listavoti[] = num_to_ita($votomedio);
                 echo "</font></b></td>";
@@ -496,8 +478,6 @@ if ($alunno != "")
             fputcsv($fp, $listavoti, ";");
             print "</tr>";
         }
-
-
     }
     fclose($fp);
     echo "</table>";
@@ -511,7 +491,6 @@ if ($alunno != "")
 mysqli_close($con);
 stampa_piede("");
 
-
 function CercaVoto($dl, $idab, $datel, $vot, $subobs)
 {
 
@@ -520,7 +499,7 @@ function CercaVoto($dl, $idab, $datel, $vot, $subobs)
 
     for ($i = 0; $i < $numsubobs; $i++)
     {
-       // print "ttt".$dl." - ".$datel[$i]." - ".$idab." - ".$subobs[$i]."<br>";
+        // print "ttt".$dl." - ".$datel[$i]." - ".$idab." - ".$subobs[$i]."<br>";
 
         if ($dl == $datel[$i] && $idab == $subobs[$i])
         {
@@ -529,5 +508,3 @@ function CercaVoto($dl, $idab, $datel, $vot, $subobs)
     }
     return $votiinseriti;
 }
-
-

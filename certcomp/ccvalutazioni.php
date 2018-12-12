@@ -24,7 +24,8 @@ session_start();
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "") {
+if ($tipoutente == "")
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -76,12 +77,14 @@ print('
 
 $query = "select idclasse, anno, sezione, specializzazione from tbl_classi where $annocomp order by anno, sezione, specializzazione";
 
-$ris = eseguiQuery($con,$query);
-while ($nom = mysqli_fetch_array($ris)) {
+$ris = eseguiQuery($con, $query);
+while ($nom = mysqli_fetch_array($ris))
+{
     print "<option value='";
     print ($nom["idclasse"]);
     print "'";
-    if ($idclasse == $nom["idclasse"]) {
+    if ($idclasse == $nom["idclasse"])
+    {
         print " selected";
     }
     print ">";
@@ -101,7 +104,8 @@ echo('
 //  ALUNNI
 //
 
-if ($idclasse != '') {
+if ($idclasse != '')
+{
     print('
         <tr>
         <td width="50%"><b>Alunno</b></td>
@@ -111,12 +115,14 @@ if ($idclasse != '') {
 
     $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
 
-    $ris = eseguiQuery($con,$query);
-    while ($nom = mysqli_fetch_array($ris)) {
+    $ris = eseguiQuery($con, $query);
+    while ($nom = mysqli_fetch_array($ris))
+    {
         print "<option value='";
         print ($nom["idalunno"]);
         print "'";
-        if ($idalunno == $nom["idalunno"]) {
+        if ($idalunno == $nom["idalunno"])
+        {
             print " selected";
         }
         print ">";
@@ -153,11 +159,13 @@ if ($annoclasse == 3 || $annoclasse == 8)
 if ($annoclasse == 5)
     $livscuola = $livello_scuola;
 
-if ($idalunno != '') {
+if ($idalunno != '')
+{
 
     $query = "select * from tbl_certcompvalutazioni where idalunno='$idalunno'";
-    $ris = eseguiQuery($con,$query);
-    if (mysqli_num_rows($ris) == 0) {
+    $ris = eseguiQuery($con, $query);
+    if (mysqli_num_rows($ris) == 0)
+    {
         if (importa_proposte($con, $idalunno, $livscuola))
             print "<center><font color='green'><big>Proposte importate!</big></font></center>";
         else
@@ -172,11 +180,13 @@ if ($idalunno != '') {
 
 
     $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
-    $ris = eseguiQuery($con,$query);
-    while ($rec = mysqli_fetch_array($ris)) {
+    $ris = eseguiQuery($con, $query);
+    while ($rec = mysqli_fetch_array($ris))
+    {
         print "<tr>";
         print "<td valign='middle' width=5%>" . $rec['numprogressivo'] . "</td>";
-        if ($rec['compcheuropea'] != '') {  // Prevede valutazione sul livello
+        if ($rec['compcheuropea'] != '')
+        {  // Prevede valutazione sul livello
             print "<td valign='middle' width=25%>" . $rec['compcheuropea'] . "</td>";
             print "<td valign='middle' width=60%>" . $rec['compprofilo'] . "</td>";
             print "<td valign='middle' width=10%>";
@@ -184,9 +194,10 @@ if ($idalunno != '') {
             //print $livellocomp;
 
             $queryliv = "select * from tbl_certcomplivelli where livscuola='$livscuola' order by livello";
-            $risliv = mysqli_query($con, inspref($queryliv)) or die("Errore" . mysqli_error($con));
+            $risliv = eseguiQuery($con, $queryliv);
             print "<select name='selcmp_" . $rec['idccc'] . "'><option value='0'>&nbsp;";
-            while ($recliv = mysqli_fetch_array($risliv)) {
+            while ($recliv = mysqli_fetch_array($risliv))
+            {
                 $codliv = $recliv['idccl'];
                 $desliv = $recliv['livello'];
                 if ($codliv == $livellocomp)
@@ -198,7 +209,8 @@ if ($idalunno != '') {
             print "</select>";
             print "</td>";
         }
-        else {
+        else
+        {
             print "<td colspan=3 valign='middle' width=60%>" . $rec['compprofilo'] . ""
                     . "<br><textarea cols=120 name='txtcmp_" . $rec['idccc'] . "'>";
 

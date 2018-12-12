@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -31,7 +33,7 @@ if ($tipoutente == "")
     die;
 }
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $titolo = "Visualizza circolari";
 
@@ -68,7 +70,7 @@ $script .= "<script>
 	                 
 	             });
 </script>";
-stampa_head($titolo, "", $script,"MSAPDTL");
+stampa_head($titolo, "", $script, "MSAPDTL");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -97,15 +99,15 @@ $query = "select tbl_diffusionecircolari.idcircolare,tbl_circolari.iddocumento,r
 			  and tbl_circolari.datainserimento<='$dataoggi'
 			  order by datainserimento desc";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 while ($nom = mysqli_fetch_array($ris))
 {
 
 
     print "<tr><td>" . $nom['descrizione'] .
-        "</td><td>" . data_italiana($nom['datainserimento']) .
-        "</td><td>";
+            "</td><td>" . data_italiana($nom['datainserimento']) .
+            "</td><td>";
     // print "TTTT".$nom['datalettura'];
     if ($nom['datalettura'] != "0000-00-00")
     {
@@ -121,7 +123,7 @@ while ($nom = mysqli_fetch_array($ris))
     print "</td>";
     print "<td>&nbsp;";
     // print "TTTT".$nom['dataconfermalettura'];
-    if (($nom['dataconfermalettura'] == '0000-00-00' | $nom['dataconfermalettura'] == '')  & $nom['ricevuta'] == 1) // & $nom['datalettura']!="0000-00-00")
+    if (($nom['dataconfermalettura'] == '0000-00-00' | $nom['dataconfermalettura'] == '') & $nom['ricevuta'] == 1) // & $nom['datalettura']!="0000-00-00")
     {
         print "<a href='firmacirc.php?idcircolare=" . $nom['idcircolare'] . "&idutente=$idutente'><img src='../immagini/stilo.png'></a>";
     }

@@ -28,7 +28,8 @@ session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 
 
-if ($tipoutente == "") {
+if ($tipoutente == "")
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -44,7 +45,8 @@ $script = "";
 stampa_head($titolo, "", $script, "E");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
-if ($registrata == '1') {
+if ($registrata == '1')
+{
     print "<center><font color='green'><b>Registrazione effettuata!</b></font><br>";
 }
 print ("
@@ -58,17 +60,21 @@ print("   <tr>
       <td width='50%'><SELECT NAME='idescommissione' ONCHANGE='commissione.submit()'><option value=''>&nbsp;</option>");
 
 $query = "SELECT * FROM tbl_escommissioni ORDER BY denominazione";
-$ris = eseguiQuery($con,$query);
-while ($rec = mysqli_fetch_array($ris)) {
+$ris = eseguiQuery($con, $query);
+while ($rec = mysqli_fetch_array($ris))
+{
     print "<option value='" . $rec['idescommissione'] . "' ";
-    if ($idescommissione == $rec['idescommissione']) {
+    if ($idescommissione == $rec['idescommissione'])
+    {
         print "selected";
     }
     print ">" . $rec['denominazione'] . "</option>";
 }
-if ($idescommissione == '1000000000') {
+if ($idescommissione == '1000000000')
+{
     print "<option value='1000000000' selected>NUOVA COMMISSIONE</option></SELECT></td>";
-} else {
+} else
+{
     print "<option value='1000000000'>NUOVA COMMISSIONE</option></SELECT></td>";
 }
 
@@ -76,7 +82,8 @@ print "</form>";
 print "</table>";
 print "<br>";
 
-if ($idescommissione != '') {
+if ($idescommissione != '')
+{
 
     print "<center><form action='inscommissione.php' method='post'>";
     print "<input type='hidden' name='idcommissione' value='$idescommissione'>";
@@ -85,19 +92,22 @@ if ($idescommissione != '') {
     $nomepresidente = "";
     $cognomepresidente = "";
     $idsegretario = "";
-    if ($idescommissione != '1000000000') {
+    if ($idescommissione != '1000000000')
+    {
         $query = "select * from tbl_escommissioni where idescommissione=$idescommissione";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         $rec = mysqli_fetch_array($ris);
 
         $denominazione = $rec['denominazione'];
         $nomepresidente = $rec['nomepresidente'];
         $cognomepresidente = $rec['cognomepresidente'];
         $idsegretario = $rec['idsegretario'];
-    } else {
+    } else
+    {
         $query = "select * from tbl_escommissioni LIMIT 1";
-        $ris = eseguiQuery($con,$query);
-        if ($rec = mysqli_fetch_array($ris)) {
+        $ris = eseguiQuery($con, $query);
+        if ($rec = mysqli_fetch_array($ris))
+        {
             $nomepresidente = $rec['nomepresidente'];
             $cognomepresidente = $rec['cognomepresidente'];
         }
@@ -120,9 +130,11 @@ if ($idescommissione != '') {
       <td width='50%'><b>Docenti</b></td>");
     print ("<td width='50%'>");
 
-    if ($livello_scuola == '2') {
+    if ($livello_scuola == '2')
+    {
         $ultimoanno = '3';
-    } else {
+    } else
+    {
         $ultimoanno = '8';
     }
 
@@ -130,17 +142,20 @@ if ($idescommissione != '') {
                                     (SELECT iddocente from tbl_cattnosupp,tbl_classi WHERE tbl_cattnosupp.idclasse=tbl_classi.idclasse AND anno='$ultimoanno' AND iddocente<>1000000000)
                 order by cognome, nome";
 
-    $risdc = mysqli_query($con, inspref($querydc)) or die("Errore: " . inspref($querydc, false));
+    $risdc = eseguiQuery($con,$querydc);
 
     print ("<select multiple size=15 name='docenti[]'>");
-    while ($recdc = mysqli_fetch_array($risdc)) {
+    while ($recdc = mysqli_fetch_array($risdc))
+    {
         $iddocente = $recdc['iddocente'];
         $nominativo = $recdc['cognome'] . " " . $recdc['nome'];
         $queryriccomm = "select * from tbl_escompcommissioni where iddocente=$iddocente and idcommissione=$idescommissione";
-        $risriccomm = mysqli_query($con, inspref($queryriccomm));
-        if (mysqli_num_rows($risriccomm) != 0) {
+        $risriccomm = eseguiQuery($con,$queryriccomm);
+        if (mysqli_num_rows($risriccomm) != 0)
+        {
             $sele = ' selected';
-        } else {
+        } else
+        {
             $sele = '';
         }
         print "<option value='$iddocente'" . "$sele>$nominativo";
@@ -152,9 +167,11 @@ if ($idescommissione != '') {
       <td width='50%'><b>Segretario</b></td>");
     print ("<td width='50%'>");
 
-    if ($livello_scuola == '2') {
+    if ($livello_scuola == '2')
+    {
         $ultimoanno = '3';
-    } else {
+    } else
+    {
         $ultimoanno = '8';
     }
 
@@ -168,16 +185,19 @@ if ($idescommissione != '') {
                 order by cognome, nome";
 
 
-    $risdc = mysqli_query($con, inspref($querydc)) or die("Errore: " . inspref($querydc, false));
+    $risdc = eseguiQuery($con,$querydc);
 
     print ("<select name='idsegretario'><option value=0>&nbsp;");
-    while ($recdc = mysqli_fetch_array($risdc)) {
+    while ($recdc = mysqli_fetch_array($risdc))
+    {
         $iddocente = $recdc['iddocente'];
         $nominativo = $recdc['cognome'] . " " . $recdc['nome'];
 
-        if ($idsegretario == $iddocente) {
+        if ($idsegretario == $iddocente)
+        {
             $sele = ' selected';
-        } else {
+        } else
+        {
             $sele = '';
         }
         print "<option value='$iddocente'" . "$sele>$nominativo";
@@ -186,9 +206,11 @@ if ($idescommissione != '') {
     print ("</td></tr>");
 
     print "</table >";
-    if ($idescommissione == '1000000000') {
+    if ($idescommissione == '1000000000')
+    {
         print "<input type='submit' value='Registra commissione'>";
-    } else {
+    } else
+    {
         print "<input type='submit' value='Modifica commissione'>";
     }
 

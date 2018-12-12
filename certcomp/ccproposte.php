@@ -24,7 +24,8 @@ session_start();
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "") {
+if ($tipoutente == "")
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -76,8 +77,9 @@ print ('
 //
 
 $query = "select cognome, nome from tbl_docenti where idutente='$id_ut_doc'";
-$ris = eseguiQuery($con,$query);
-if ($nom = mysqli_fetch_array($ris)) {
+$ris = eseguiQuery($con, $query);
+if ($nom = mysqli_fetch_array($ris))
+{
     $cognomedoc = $nom["cognome"];
     $nomedoc = $nom["nome"];
     $nominativo = $nomedoc . " " . $cognomedoc;
@@ -105,12 +107,14 @@ print('
 
 $query = "select distinct tbl_cattnosupp.idclasse, anno, sezione, specializzazione from tbl_cattnosupp, tbl_classi where tbl_cattnosupp.idclasse=tbl_classi.idclasse and iddocente='$id_ut_doc' and ($annocomp) order by anno, sezione, specializzazione";
 
-$ris = eseguiQuery($con,$query);
-while ($nom = mysqli_fetch_array($ris)) {
+$ris = eseguiQuery($con, $query);
+while ($nom = mysqli_fetch_array($ris))
+{
     print "<option value='";
     print ($nom["idclasse"]);
     print "'";
-    if ($idclasse == $nom["idclasse"]) {
+    if ($idclasse == $nom["idclasse"])
+    {
         print " selected";
     }
     print ">";
@@ -130,8 +134,10 @@ echo('
 //  ALUNNI
 //
 
-if ($idclasse != '') {
-    if (scrutinio_aperto($idclasse, $numeroperiodi, $con)) {
+if ($idclasse != '')
+{
+    if (scrutinio_aperto($idclasse, $numeroperiodi, $con))
+    {
         print('
         <tr>
         <td width="50%"><b>Alunno</b></td>
@@ -141,12 +147,14 @@ if ($idclasse != '') {
 
         $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
 
-        $ris = eseguiQuery($con,$query);
-        while ($nom = mysqli_fetch_array($ris)) {
+        $ris = eseguiQuery($con, $query);
+        while ($nom = mysqli_fetch_array($ris))
+        {
             print "<option value='";
             print ($nom["idalunno"]);
             print "'";
-            if ($idalunno == $nom["idalunno"]) {
+            if ($idalunno == $nom["idalunno"])
+            {
                 print " selected";
             }
             print ">";
@@ -161,8 +169,7 @@ if ($idclasse != '') {
         echo('
       </SELECT>
       </td></tr>');
-    }
-    else
+    } else
         print "<tr><td colspan=2><b><center><br>Scrutinio già chiuso!<br></center></b></td></tr>";
 }
 echo('</table>
@@ -186,7 +193,8 @@ if ($annoclasse == 3 || $annoclasse == 8)
 if ($annoclasse == 5)
     $livscuola = $livello_scuola;
 
-if ($idalunno != '') {
+if ($idalunno != '')
+{
     print "<form name='regprop' action='ccinsproposte.php' method='POST'>";
     print "<input type='hidden' name='iddocente' value='$id_ut_doc'>";
     print "<input type='hidden' name='idalunno' value='$idalunno'>";
@@ -194,30 +202,24 @@ if ($idalunno != '') {
 
     print "<table border=1>";
     $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
-    $ris = eseguiQuery($con,$query);
-    while ($rec = mysqli_fetch_array($ris)) {
+    $ris = eseguiQuery($con, $query);
+    while ($rec = mysqli_fetch_array($ris))
+    {
         print "<tr>";
         print "<td valign='middle' width=5%>" . $rec['numprogressivo'] . "</td>";
-        if ($rec['compcheuropea'] != '') {  // Prevede valutazione sul livello
+        if ($rec['compcheuropea'] != '')
+        {  // Prevede valutazione sul livello
             print "<td valign='middle' width=25%>" . $rec['compcheuropea'] . "</td>";
             print "<td valign='middle' width=60%>" . $rec['compprofilo'] . "</td>";
             print "<td valign='middle' width=10%>";
             $livellocomp = cerca_livello_prop($con, $idalunno, $id_ut_doc, $rec[idccc]);
-            //print $livellocomp;
-            // SELEZIONO LIVELLO GIA' REGISTRATO
-            //  $queryreg="select * from tbl_certcompproposte where idalunno=$idalunno and idccc= ".$idccc;
-            //  $ris=mysqli_query($con,$queryreg);
-            //  if (mysqli_numrows($ris)==1)
-            //  {
-            //      $rec=mysqli_fetch_array($ris);
-            //      $livello=$rec['idccl'];
-            //      $giud  =$rec['giud'];
-            //  }
+            
 
             $queryliv = "select * from tbl_certcomplivelli where livscuola='$livscuola' order by livello";
-            $risliv = mysqli_query($con, inspref($queryliv)) or die("Errore" . mysqli_error($con));
+            $risliv = eseguiQuery($con, $queryliv);
             print "<select name='selcmp_" . $rec['idccc'] . "'><option value='0'>&nbsp;";
-            while ($recliv = mysqli_fetch_array($risliv)) {
+            while ($recliv = mysqli_fetch_array($risliv))
+            {
                 $codliv = $recliv['idccl'];
                 $desliv = $recliv['livello'];
                 if ($codliv == $livellocomp)
@@ -229,7 +231,8 @@ if ($idalunno != '') {
             print "</select>";
             print "</td>";
         }
-        else {
+        else
+        {
             print "<td colspan=3 valign='middle' width=60%>" . $rec['compprofilo'] . ""
                     . "<br><textarea cols=120 name='txtcmp_" . $rec['idccc'] . "'>";
 

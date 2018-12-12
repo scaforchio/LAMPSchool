@@ -49,18 +49,17 @@ if ($idclasse != "")
     else
         $conddebito = "";
     $query = "select idalunno from tbl_alunni where idclasse=$idclasse $conddebito order by cognome,nome";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($val = mysqli_fetch_array($ris))
     {
         $alunni[] = $val['idalunno'];
     }
-}
-else
+} else
 {
 
     $alunni[] = $idalunno;
     $query = "select idclasse from tbl_alunni where idalunno=$idalunno";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($val = mysqli_fetch_array($ris))
     {
         $idclasse = $val['idclasse'];
@@ -74,8 +73,7 @@ else
 if ($firmadirigente != "" && $datastampa != "")
 {
     aggiorna_data_firma_scrutinio($datastampa, $firmadirigente, $periodo, $idclasse, $con);
-}
-else
+} else
 {
     $firmadirigente = estrai_firma_scrutinio($idclasse, $periodo, $con);
     $datastampa = estrai_data_stampa($idclasse, $periodo, $con);
@@ -140,7 +138,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
         $query = "SELECT datanascita, codfiscale, denominazione FROM tbl_alunni,tbl_comuni
               WHERE tbl_alunni.idcomnasc=tbl_comuni.idcomune 
               AND idalunno=$alu";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         if ($val = mysqli_fetch_array($ris))
         {
             $datanascita = data_italiana($val['datanascita']);
@@ -203,7 +201,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
 
         $query = "select * from tbl_esiti where idalunno='$alu'";
 
-        $risesi = eseguiQuery($con,$query);
+        $risesi = eseguiQuery($con, $query);
 
         if ($recesi = mysqli_fetch_array($risesi))
         {
@@ -260,13 +258,12 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
                 $schede->SetFont('Arial', 'B', 10);
                 $schede->Cell(172, 6, converti_utf8("con voto di ammissione di " . $votoammissione . "/10"), "LR", 1, "C");
             }
-        }
-        else
+        } else
         {
             $schede->setXY(220, $schede->getY());
             $schede->SetFont('Arial', 'B', 10);
-             $schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (D.M. 62/2017),\nla mancata frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,\nnon si procede allo scrutinio dell'alunno"), "LR", "C");
-           // $schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (comma 1, art. 11D.L. 12/02/2004 n. 59),\nla mancata frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,\nnon si procede allo scrutinio dell'alunno"), "LR", "C");
+            $schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (D.M. 62/2017),\nla mancata frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,\nnon si procede allo scrutinio dell'alunno"), "LR", "C");
+            // $schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (comma 1, art. 11D.L. 12/02/2004 n. 59),\nla mancata frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,\nnon si procede allo scrutinio dell'alunno"), "LR", "C");
             // $schede->Multicell(172,6,inserisci_new_line($esito),"LR","C");
             $schede->setXY(220, $schede->getY());
             $schede->Cell(172, 6, "", "LR", 1, "C");
@@ -283,8 +280,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
         if ($_SESSION['suffisso'] != "")
         {
             $suff = $_SESSION['suffisso'] . "/";
-        }
-        else
+        } else
             $suff = "";
         $schede->Image('../abc/' . $suff . 'firmadirigente.png');
         $schede->setXY(350, $schede->getY() - 25);
@@ -303,7 +299,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
         $query = "SELECT giudizio from tbl_giudizi
 						WHERE idalunno=$alu
 						AND periodo='1'";
-        $risgiud = eseguiQuery($con,$query);
+        $risgiud = eseguiQuery($con, $query);
         if ($recgiud = mysqli_fetch_array($risgiud))
         {
 
@@ -321,18 +317,18 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
 
         $numasse = 0;
         $query = "select count(*) as numassenze from tbl_assenze where idalunno=$alu $perioquery";
-        $risasse = eseguiQuery($con,$query);
+        $risasse = eseguiQuery($con, $query);
 
         if ($recasse = mysqli_fetch_array($risasse))
         {
             $numasse = $recasse['numassenze'];
         }
 
-        if ($gioass=="yes")
+        if ($gioass == "yes")
         {
-           $schede->setXY(23, $schede->getY());
-           $schede->SetFont('Arial', 'BI', 8);
-           $schede->Cell(172, 6, "Numero assenze primo quadrimestre: " . $numasse, 1, 1);
+            $schede->setXY(23, $schede->getY());
+            $schede->SetFont('Arial', 'BI', 8);
+            $schede->Cell(172, 6, "Numero assenze primo quadrimestre: " . $numasse, 1, 1);
         }
 
         // GIUDIZIO GLOBALE FINALE
@@ -343,7 +339,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
         $query = "SELECT giudizio from tbl_giudizi
 						WHERE idalunno=$alu
 						AND periodo='$numeroperiodi'";
-        $risgiud = eseguiQuery($con,$query);
+        $risgiud = eseguiQuery($con, $query);
         if ($recgiud = mysqli_fetch_array($risgiud))
         {
 
@@ -358,18 +354,18 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
 
         $numasse = 0;
         $query = "select count(*) as numassenze from tbl_assenze where idalunno=$alu";
-        $risasse = eseguiQuery($con,$query);
+        $risasse = eseguiQuery($con, $query);
 
         if ($recasse = mysqli_fetch_array($risasse))
         {
             $numasse = $recasse['numassenze'];
         }
 
-        if ($gioass=='yes')
+        if ($gioass == 'yes')
         {
-        $schede->setXY(23, $schede->getY());
-        $schede->SetFont('Arial', 'BI', 8);
-        $schede->Cell(172, 6, "Numero assenze totali: " . $numasse, 1, 1);
+            $schede->setXY(23, $schede->getY());
+            $schede->SetFont('Arial', 'BI', 8);
+            $schede->Cell(172, 6, "Numero assenze totali: " . $numasse, 1, 1);
         }
         // FIRME, LUOGO E DATA SCRUTINIO
         // FIRME
@@ -460,7 +456,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
                           AND periodo='$numeroperiodi'
                           AND tbl_materie.progrpag<99 AND tbl_materie.idmateria>0
                           ORDER BY tbl_materie.progrpag, denominazione";
-        $rismat = eseguiQuery($con,$query);
+        $rismat = eseguiQuery($con, $query);
         while ($valmat = mysqli_fetch_array($rismat))
         {
             $nummat++;
@@ -489,7 +485,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
               WHERE idalunno=$alu
               AND periodo='1'
               AND idmateria=$idmateria";
-            $risvoti = eseguiQuery($con,$query);
+            $risvoti = eseguiQuery($con, $query);
             if ($recvoti = mysqli_fetch_array($risvoti))
             {
                 $unico1 = dec_to_pag($recvoti['votounico']);
@@ -501,7 +497,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
               WHERE idalunno=$alu
               AND periodo='$numeroperiodi'
               AND idmateria=$idmateria";
-            $risvoti = eseguiQuery($con,$query);
+            $risvoti = eseguiQuery($con, $query);
             if ($recvoti = mysqli_fetch_array($risvoti))
             {
                 $unico2 = dec_to_pag($recvoti['votounico']);
@@ -516,8 +512,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
             if ($i > 7)
             {
                 $nm = $i - 7;
-            }
-            else
+            } else
             {
                 $nm = $i;
             }
@@ -562,7 +557,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
               AND idalunno=$alu
               AND periodo='1'
               AND tbl_valutazionifinali.idmateria=-1";
-        $risvoti = eseguiQuery($con,$query);
+        $risvoti = eseguiQuery($con, $query);
 
         if ($recvoti = mysqli_fetch_array($risvoti))
         {
@@ -575,7 +570,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
               AND idalunno=$alu
               AND periodo='$numeroperiodi'
               AND tbl_valutazionifinali.idmateria=-1";
-        $risvoti = eseguiQuery($con,$query);
+        $risvoti = eseguiQuery($con, $query);
 
         if ($recvoti = mysqli_fetch_array($risvoti))
         {
@@ -592,10 +587,9 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
     {
         $nomefile = "pagelle_" . decodifica_classe($classe, $con) . "_F.pdf";
         $nomefile = str_replace(" ", "_", $nomefile);
-    }
-    else
+    } else
     {
-        $nomefile = "pagella_" . decodifica_alunno($alunni[0], $con) ."_".$codfiscale. "_F.pdf";
+        $nomefile = "pagella_" . decodifica_alunno($alunni[0], $con) . "_" . $codfiscale . "_F.pdf";
         $nomefile = str_replace(" ", "_", $nomefile);
     }
     $schede->Output($nomefile, "I");
@@ -612,47 +606,47 @@ function stampa_materia($schede, $posX, $posY, $denom, $unico1, $unico2, $annota
     $schede->Cell(100, 8, $denom, 1, 0, 'C');
     $schede->setXY($posX + 100, $posY);
     $schede->SetFont('Arial', 'B', 12);
-   if (strlen($unico1)>14)
-       $schede->SetFont('Arial', 'B', 9);
+    if (strlen($unico1) > 14)
+        $schede->SetFont('Arial', 'B', 9);
     $schede->Cell(36, 8, $unico1, 1, 0, 'C');
     $schede->setXY($posX + 136, $posY);
-    
+
     $schede->SetFont('Arial', 'B', 12);
-    if (strlen($unico2)>14)
+    if (strlen($unico2) > 14)
         $schede->SetFont('Arial', 'B', 9);
     $schede->Cell(36, 8, $unico2, 1, 0, 'C');
-   
+
     $schede->setXY($posX, $posY + 8);
     $schede->SetFont('Arial', NULL, 8);
     $schede->MultiCell(172, 6, converti_utf8("ANNOTAZIONI 1° Q.: ") . $annotazioni1, 'TLR', 'L');
-    
+
     $schede->setXY($posX, $posY + 20);
     $schede->SetFont('Arial', NULL, 8);
     $schede->MultiCell(172, 6, converti_utf8("ANNOTAZIONI 2° Q.: ") . $annotazioni2, 'TLR', 'L');
     $schede->setXY($posX, $posY + 14);
-    $schede->Cell(172,6,"","BLR");
+    $schede->Cell(172, 6, "", "BLR");
     $schede->setXY($posX, $posY + 26);
-    $schede->Cell(172,6,"","BLR");
-   /* 
-    * 
-    $schede->setXY($posX, $posY);
-    $schede->SetFont('Arial', 'B', 12);
-    $schede->Cell(100, 12, $denom, 1, 0, 'C');
-    $schede->setXY($posX + 100, $posY);
-    $schede->SetFont('Arial', 'B', 12);
-    $schede->Cell(36, 12, $unico1, 1, 0, 'C');
-    $schede->setXY($posX + 136, $posY);
-    $schede->SetFont('Arial', 'B', 12);
-    $schede->Cell(36, 12, $unico2, 1, 0, 'C');
-    $schede->setXY($posX, $posY + 12);
-    
-    $schede->SetFont('Arial', NULL, 7);
-    $schede->Cell(172, 10, converti_utf8("ANNOTAZIONI 1° Q.: ") . $annotazioni1, 1, 0, 'L');
-    $schede->setXY($posX, $posY + 22);
-    $schede->SetFont('Arial', NULL, 7);
-    $schede->Cell(172, 10, converti_utf8("ANNOTAZIONI 2° Q.: ") . $annotazioni2, 1, 0, 'L');
-    * 
-    */
+    $schede->Cell(172, 6, "", "BLR");
+    /*
+     * 
+      $schede->setXY($posX, $posY);
+      $schede->SetFont('Arial', 'B', 12);
+      $schede->Cell(100, 12, $denom, 1, 0, 'C');
+      $schede->setXY($posX + 100, $posY);
+      $schede->SetFont('Arial', 'B', 12);
+      $schede->Cell(36, 12, $unico1, 1, 0, 'C');
+      $schede->setXY($posX + 136, $posY);
+      $schede->SetFont('Arial', 'B', 12);
+      $schede->Cell(36, 12, $unico2, 1, 0, 'C');
+      $schede->setXY($posX, $posY + 12);
+
+      $schede->SetFont('Arial', NULL, 7);
+      $schede->Cell(172, 10, converti_utf8("ANNOTAZIONI 1° Q.: ") . $annotazioni1, 1, 0, 'L');
+      $schede->setXY($posX, $posY + 22);
+      $schede->SetFont('Arial', NULL, 7);
+      $schede->Cell(172, 10, converti_utf8("ANNOTAZIONI 2° Q.: ") . $annotazioni2, 1, 0, 'L');
+     * 
+     */
 }
 
 function elimina_cr($stringa)
@@ -676,8 +670,7 @@ function estrai_prima_riga($stringa)
     if ($posint != 0)
     {
         $str1 = substr($stringa, 0, $posint);
-    }
-    else
+    } else
     {
         $str1 = $stringa;
     }
@@ -691,8 +684,7 @@ function estrai_seconda_riga($stringa)
     if ($posint != 0)
     {
         $str2 = substr($stringa, $posint + 1);
-    }
-    else
+    } else
     {
         $str2 = "";
     }

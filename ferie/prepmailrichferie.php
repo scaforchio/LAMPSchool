@@ -50,10 +50,10 @@ $orepermessobreve = stringa_html('orepermessobreve');
 $tempo = stringa_html('tempo');
 $to = $indirizzomailassenze;
 $reason = stringa_html('reason');
-if ($reason!=7)
+if ($reason != 7)
     $subject = "Richiesta astensione di " . stringa_html('nominativo') . " da " . stringa_html('datainizio') . " a " . stringa_html('datafine');
 else
-    $subject = "Richiesta permesso breve di " . stringa_html('nominativo') . " giorno " . stringa_html('giornopermessobreve') . " da " . stringa_html('orainiziopermessobreve'). " a " . stringa_html('orafinepermessobreve');
+    $subject = "Richiesta permesso breve di " . stringa_html('nominativo') . " giorno " . stringa_html('giornopermessobreve') . " da " . stringa_html('orainiziopermessobreve') . " a " . stringa_html('orafinepermessobreve');
 print "<center><font color='red'>La richiesta inoltrata sarà la seguente.<br>Per inoltrarla premere il tasto [INOLTRA] in fondo alla pagina!<br></center></font><br>";
 
 print "Oggetto: $subject";
@@ -74,11 +74,11 @@ switch ($reason)
         break;
     case '1': $motivo = "Permesso retribuito (ai sensi art. 15 CCNL) per " . stringa_html('motivopermesso');
         break;
-    case '2': 
-             if(stringa_html('motivomalattia')=='Generica')
-                 $motivo = "Malattia (ai sensi art. 17 CCNL).";
-             else
-                 $motivo = "Malattia (ai sensi art. 17 CCNL) per " . stringa_html('motivomalattia');
+    case '2':
+        if (stringa_html('motivomalattia') == 'Generica')
+            $motivo = "Malattia (ai sensi art. 17 CCNL).";
+        else
+            $motivo = "Malattia (ai sensi art. 17 CCNL) per " . stringa_html('motivomalattia');
         break;
     case '3': $motivo = "Maternit&agrave; per " . stringa_html('motivomaternita');
         break;
@@ -92,11 +92,11 @@ switch ($reason)
         break;
 }
 $recapito = "<br><br>Durante il periodo di assenza sar&agrave; domiciliato in " . stringa_html('comunedomicilio') . ", alla via " . stringa_html('indirizzodomicilio') . " n." . stringa_html('numerodomicilio') . ", Tel. " . stringa_html('telefonorecapito');
-if (stringa_html('allegati')!='')
-    $allegati = "<br>Si allega: " . stringa_html('allegati')."<br>";
+if (stringa_html('allegati') != '')
+    $allegati = "<br>Si allega: " . stringa_html('allegati') . "<br>";
 else
-    $allegati="";
-$testomail .= "<br><b>" . $motivo."</b>";
+    $allegati = "";
+$testomail .= "<br><b>" . $motivo . "</b>";
 $testomail .= "$recapito<br>";
 $testomail .= "$allegati";
 $testomail .= "<br>";
@@ -104,7 +104,7 @@ $testomail .= "$comune_scuola , " . date("d/m/Y") . " <br>";
 $testomail .= "<br><br>";
 $testomail .= "<center>IN FEDE<br>$nominativo<br></center>";
 
-print "<br><br>".$testomail;
+print "<br><br>" . $testomail;
 print "<br><form action='inviamailrichferie.php' method='post'>"
         . "<input type='hidden' name='subject' value='$subject'>"
         . "<input type='hidden' name='testomail' value='$testomail'>"

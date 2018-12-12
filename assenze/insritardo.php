@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -30,7 +32,7 @@ if ($tipoutente == "")
 
 $titolo = "Inserimento ritardi";
 $script = "";
-stampa_head($titolo, "", $script,"MSPD");
+stampa_head($titolo, "", $script, "MSPD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -41,53 +43,52 @@ $data = $anno . "/" . $mese . "/" . $gio;
 
 $idclasse = stringa_html('cl');
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 $query = "SELECT idalunno AS al FROM tbl_alunni WHERE idalunno IN (" . estrai_alunni_classe_data($idclasse, $data, $con) . ")";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 while ($id = mysqli_fetch_array($ris))
 {
     // $idal = stringa_html('rit'.$id['al'])?"on":"off";
 
 
-    $ritardopresente=false;
-    $cambiamento=false;
+    $ritardopresente = false;
+    $cambiamento = false;
     $idalunno = $id['al'];
     $numeroore = stringa_html('numeroore' . $id['al']);
     $oraentrata = stringa_html('oraentrata' . $id['al']);
     $query = 'SELECT * FROM tbl_ritardi WHERE idalunno=' . $id['al'] . ' AND data="' . $data . '"';
-    $rissel = eseguiQuery($con,$query);
+    $rissel = eseguiQuery($con, $query);
     if (mysqli_num_rows($rissel) > 0)
     {
-        $ritardopresente=true;
-        $rec=mysqli_fetch_array($rissel);
-        $idritardo=$rec['idritardo'];
+        $ritardopresente = true;
+        $rec = mysqli_fetch_array($rissel);
+        $idritardo = $rec['idritardo'];
     }
     if ($numeroore != 0 | checktime($oraentrata))
     {
         if (!$ritardopresente)
         {
-            if ($numeroore=='') $numeroore=0;
-            if ($tipoutente=='D')
+            if ($numeroore == '')
+                $numeroore = 0;
+            if ($tipoutente == 'D')
                 $query = "insert into tbl_ritardi(idalunno,data,oraentrata,numeroore) values('$idalunno','$data','$oraentrata','$numeroore')";
-            if ($tipoutente=='P' | $tipoutente=='S')
+            if ($tipoutente == 'P' | $tipoutente == 'S')
                 $query = "insert into tbl_ritardi(idalunno,data,oraentrata,numeroore,autorizzato) values('$idalunno','$data','$oraentrata','$numeroore',true)";
-            $ris2 = eseguiQuery($con,$query);
+            $ris2 = eseguiQuery($con, $query);
             $query = "delete from tbl_assenze where idalunno='$idalunno' and data='$data'";
-            $ris3 = eseguiQuery($con,$query);
+            $ris3 = eseguiQuery($con, $query);
         }
         else
         {
             $query = "update tbl_ritardi set oraentrata='$oraentrata', numeroore='$numeroore' where idritardo=$idritardo";
-            eseguiQuery($con,$query);
+            eseguiQuery($con, $query);
         }
-        $cambiamento=true;
+        $cambiamento = true;
         // inserisci_assenze_per_ritardi($con,$idalunno,$data,$numeroore);
-
-    }
-    else
+    } else
     {
         if (!checktime($oraentrata) & $oraentrata != "")
         {
@@ -96,8 +97,8 @@ while ($id = mysqli_fetch_array($ris))
         if ($ritardopresente)
         {
             $query = "DELETE FROM tbl_ritardi WHERE idritardo=$idritardo";
-            $ris2 = eseguiQuery($con,$query);
-            $cambiamento=true;
+            $ris2 = eseguiQuery($con, $query);
+            $cambiamento = true;
         }
     }
     if ($cambiamento)
@@ -133,8 +134,7 @@ if ($_SESSION['regcl'] != "")
            document.getElementById('formrit').submit();
         }
         </SCRIPT>";
-}
-else
+} else
 {
     echo '
            <p align="center">
@@ -177,5 +177,3 @@ function checktime($ora)
     }
     return $contr;
 }
-
-

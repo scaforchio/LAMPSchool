@@ -1,29 +1,29 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
-
-
 // DEFINIZIONE ARRAY PER MEMORIZZAZZIONE IN CSV
 $listamaterie = array();
 $listamaterie[] = "Alunno";
@@ -52,7 +52,7 @@ $script = "<script type='text/javascript'>
          //-->
          </script>";
 
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
@@ -87,8 +87,7 @@ print ('
 if ($numeroperiodi == 2)
 {
     print('<tr><td width="50%"><b>Quadrimestre</b></td>');
-}
-else
+} else
 {
     print('<tr><td width="50%"><b>Trimestre</b></td>');
 }
@@ -99,16 +98,14 @@ echo('   <select name="periodo" ONCHANGE="voti.submit()">');
 if ($periodo == '1')
 {
     echo("<option selected value='1'>Primo</option>");
-}
-else
+} else
 {
     echo("<option value='1'>Primo</option>");
 }
 if ($periodo == '2')
 {
     echo("<option selected value='2'>Secondo</option>");
-}
-else
+} else
 {
     echo("<option value='2'>Secondo</option>");
 }
@@ -118,8 +115,7 @@ if ($numeroperiodi == 3)
     if ($periodo == '3')
     {
         echo("<option selected value='3'>Terzo</option>");
-    }
-    else
+    } else
     {
         echo("<option value='3'>Terzo</option>");
     }
@@ -133,8 +129,6 @@ echo("</td></tr>");
 //
 //  Fine visualizzazione del quadrimestre
 //
-
-
 //
 //   Classi
 //
@@ -152,13 +146,12 @@ print('
 if ($tipoutente == "S" | $tipoutente == "P")
 {
     $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY anno,sezione,specializzazione";
-}
-else
+} else
 {
     $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM tbl_classi
            WHERE idcoordinatore=" . $_SESSION['idutente'] . " ORDER BY anno,sezione,specializzazione";
 }
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -192,7 +185,7 @@ WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
 and tbl_cattnosupp.idclasse=$idclasse
 and tbl_cattnosupp.iddocente <> 1000000000
 order by tbl_materie.sigla";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if (mysqli_num_rows($ris) > 0)
     {
         print ("<table align='center' border='1'><tr class='prima' align='center'><td>Alunno</td>");
@@ -209,7 +202,6 @@ order by tbl_materie.sigla";
         // 
         // 
 //print("<td><b>MEDIA</b></td></tr>");
-
 //$lm=$listamaterie;
 //fputcsv($fp, $lm,";");
 
@@ -240,7 +232,7 @@ order by tbl_materie.sigla";
         $elencoalunni = estrai_alunni_classe_data($idclasse, $datarif, $con);
 
         $query = "select * from tbl_alunni where idalunno in ($elencoalunni) order by cognome,nome,datanascita";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         while ($val = mysqli_fetch_array($ris))
         {
             $listavoti = array();
@@ -250,8 +242,7 @@ order by tbl_materie.sigla";
             if ($numeroalunno % 2 == 0)
             {
                 $colore = '#FFFFFF';
-            }
-            else
+            } else
             {
                 $colore = '#C0C0C0';
             }
@@ -259,8 +250,7 @@ order by tbl_materie.sigla";
             if (!alunno_certificato($val['idalunno'], $con))
             {
                 $cert = "";
-            }
-            else
+            } else
             {
                 $cert = "<img src='../immagini/apply_small.png'>";
             }
@@ -273,16 +263,16 @@ order by tbl_materie.sigla";
             foreach ($codmat as $cm)
             {
                 /*  $query="SELECT unico FROM tbl_proposte
-                          WHERE idalunno=$idalunno
-                          and idmateria=$cm
-                          and unico <> '99'
-                          and periodo='$per'";  */
+                  WHERE idalunno=$idalunno
+                  and idmateria=$cm
+                  and unico <> '99'
+                  and periodo='$per'"; */
                 print "<td align='center'>";
                 $query = "SELECT unico FROM tbl_proposte
                       WHERE idalunno=$idalunno
                       and idmateria=$cm
                       and periodo='$per'";
-                $rismedia = eseguiQuery($con,$query);
+                $rismedia = eseguiQuery($con, $query);
                 if ($valmedia = mysqli_fetch_array($rismedia))
                 {
                     $outuni = $valmedia["unico"];
@@ -293,35 +283,29 @@ order by tbl_materie.sigla";
                     if ($outuni != "99")
                     {
                         print dec_to_vot($outuni) . "<sub> </sub>";
-
                     }
                     /*
-                     if ($outscr!="99" & $outscr!=NULL)
-                        {
-                          print dec_to_vot($outscr)."<sub>S</sub>";
+                      if ($outscr!="99" & $outscr!=NULL)
+                      {
+                      print dec_to_vot($outscr)."<sub>S</sub>";
 
-                        }
-                     if ($outora!="99" & $outora!=NUL)
-                        {
-                          print dec_to_vot($outora)."<sub>O</sub>";
+                      }
+                      if ($outora!="99" & $outora!=NUL)
+                      {
+                      print dec_to_vot($outora)."<sub>O</sub>";
 
-                        }
-                     if ($outpra!="99" & $outpra!=NUL)
-                        {
-                          print dec_to_vot($outpra)."<sub>P</sub>";
+                      }
+                      if ($outpra!="99" & $outpra!=NUL)
+                      {
+                      print dec_to_vot($outpra)."<sub>P</sub>";
 
-                        }
-                        */
-
-
-                }
-                else
+                      }
+                     */
+                } else
                 {
                     print " -- ";
-
                 }
                 print "</td>";
-
             }
             // $outmedia=number_format ( $sommavoti/$contavoti,2);
             // print "<td><b><center>$outmedia</center></b></td>";
@@ -331,17 +315,14 @@ order by tbl_materie.sigla";
         }
         print "</table>";
 //print ("<br/><center><a href='$cartellabuffer/$nf'><img src='../immagini/csv.png'></a></center>");
-    }
-    else
+    } else
     {
         print("<center><b><br>Nessun dato presente!</b></center>");
     }
 
 // fclose($fp);
     mysqli_close($con);
-
-
 }
 
-stampa_piede(""); 
+stampa_piede("");
 

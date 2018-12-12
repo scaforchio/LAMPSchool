@@ -47,7 +47,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 $iddocente = stringa_html('idutente');
 $idclasse = stringa_html('idclasse');
-$mese = substr(stringa_html('mese'),0,2);
+$mese = substr(stringa_html('mese'), 0, 2);
 
 
 
@@ -86,7 +86,7 @@ if ($mese != "")
 
     $query .= " order by anno, specializzazione, sezione";
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     print "<br/><br/><center><table border ='1' cellpadding='5' class='smallchar'>";
 
     print "<tr class='prima'>
@@ -105,14 +105,14 @@ if ($mese != "")
         {
 
             //CLASSE
-            print "<td width=5%>" . substr(decodifica_classe($data['idclasse'], $con),0,5) . "</td>";
+            print "<td width=5%>" . substr(decodifica_classe($data['idclasse'], $con), 0, 5) . "</td>";
             //Rappresentanti
-            print "<td width=15%>". estrai_dati_alunno_rid($data['rappresentante1'], $con)."<br>". estrai_dati_alunno_rid($data['rappresentante2'], $con)."</td>";
-            
-            print "<td width=10%>". data_italiana($data['dataassemblea'])."</td>";
-            print "<td width=15%>". estrai_dati_docente($data['docenteconcedente1'], $con)."</td>";
-            
-            
+            print "<td width=15%>" . estrai_dati_alunno_rid($data['rappresentante1'], $con) . "<br>" . estrai_dati_alunno_rid($data['rappresentante2'], $con) . "</td>";
+
+            print "<td width=10%>" . data_italiana($data['dataassemblea']) . "</td>";
+            print "<td width=15%>" . estrai_dati_docente($data['docenteconcedente1'], $con) . "</td>";
+
+
             //COMMENTI
             print "<td width=55%>" . nl2br($data['rapportoperdirigente']) . "</td>";
 

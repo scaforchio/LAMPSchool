@@ -1,11 +1,12 @@
-<?php session_start();
+<?php
+
+session_start();
 /**
  * Nuova installazione, inserimento dei dati per la connessione alla base dati
  *
  * @copyright  Copyright (C) 2015 Angelo Scarnà, Renato Tamilio
  * @license    GNU Affero General Public License versione 3 o successivi; vedete agpl-3.0.txt
  */
-
 require_once '../lib/funzioni.php';
 require_once 'funzioni_install.php';
 
@@ -73,12 +74,11 @@ if ($validated == "1")
     {
         $stile = "importante";
         $messaggio = "<h3 class='$stile'>Connessione al server fallita o database inesistente !</h3>";
-    }
-    else
+    } else
     {
         if ($err == 3)
         {
-            $stile="importanteverde";
+            $stile = "importanteverde";
             // Sostituisce nel file php-ini.php i dati della base dati
             $str = file_get_contents('php-ini.php');
             $str = str_replace("{DBHOST}", "$par_db_server", $str);

@@ -1,26 +1,28 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 require_once("../lib/fpdf/fpdf.php");
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
@@ -53,8 +55,7 @@ $periodo = stringa_html('periodo');
 if ($firmadirigente != "" && $datastampa != "")
 {
     aggiorna_data_firma_scrutinio($datastampa, $firmadirigente, $periodo, $idclasse, $con);
-}
-else
+} else
 {
     $firmadirigente = estrai_firma_scrutinio($idclasse, $periodo, $con);
     $datastampa = estrai_data_stampa($idclasse, $periodo, $con);
@@ -70,8 +71,7 @@ $voti = array();
 if ($periodo == '9')
 {
     $conddebito = " and tbl_valutazionifinali.idalunno in (select idalunno from tbl_esiti WHERE (validita='1' OR validita='2') AND esito=0) ";
-}
-else
+} else
 {
     $conddebito = "";
 }
@@ -85,7 +85,7 @@ $query = "SELECT tbl_valutazionifinali.*,tbl_materie.tipovalutazione FROM tbl_va
 	          AND periodo='$numeroperiodi'";
 
 //print inspref($query);
-$risvalu = eseguiQuery($con,$query);
+$risvalu = eseguiQuery($con, $query);
 while ($recval = mysqli_fetch_array($risvalu))
 {
     $codalunni[] = $recval['idalunno'];
@@ -120,7 +120,7 @@ $schede->Cell(400, 6, converti_utf8("$nome_scuola") . " " . converti_utf8("$comu
 $posY += 8;
 $schede->SetFont('Arial', 'BI', 9);
 $schede->setXY(10, $posY);
-$specplesso = converti_utf8("A.S.:".$annoscol."/".($annoscol+1)." - ".$plesso_specializzazione . ": " . decodifica_classe_spec($idclasse, $con) . " - Classe: " . decodifica_classe_no_spec($idclasse, $con, 1));
+$specplesso = converti_utf8("A.S.:" . $annoscol . "/" . ($annoscol + 1) . " - " . $plesso_specializzazione . ": " . decodifica_classe_spec($idclasse, $con) . " - Classe: " . decodifica_classe_no_spec($idclasse, $con, 1));
 $schede->Cell(400, 6, $specplesso, NULL, 1, "C");
 $posY += 8;
 
@@ -133,7 +133,7 @@ $query = "SELECT distinct tbl_materie.idmateria,tbl_materie.progrpag,sigla,tipov
 	              and tbl_materie.progrpag<>100
 	              order by tbl_materie.progrpag,tbl_materie.sigla";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 $codmat = array();
 
@@ -161,14 +161,12 @@ if ($nummaterie > 0)
             $schede->SetFont('Arial', 'B', 7);
             $schede->Cell($larghcol, $altriga, converti_utf8($nom["sigla"]), 1, NULL, "C");
             $posX += $larghcol;
-
-
         }
         // INSERISCO LA CONDOTTA
         $schede->setXY($posX, $posY);
         $schede->SetFont('Arial', 'B', 7);
-        $schede->Cell($larghcol*2, $altriga, converti_utf8("COMP"), 1, NULL, "C");
-        $posX += $larghcol*2;
+        $schede->Cell($larghcol * 2, $altriga, converti_utf8("COMP"), 1, NULL, "C");
+        $posX += $larghcol * 2;
     }
 
     if ($voamtab == 'yes')
@@ -207,15 +205,14 @@ if ($nummaterie > 0)
     if ($periodo == '9')
     {
         $conddebito = " and idalunno in (select idalunno from tbl_esiti WHERE (validita='1' OR validita='2') AND esito=0) ";
-    }
-    else
+    } else
     {
         $conddebito = "";
     }
 
     $query = "select * from tbl_alunni
                 where idclasse= $idclasse $conddebito order by cognome,nome,datanascita";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     while ($val = mysqli_fetch_array($ris))
     {
@@ -230,9 +227,9 @@ if ($nummaterie > 0)
         $creditototale = "";
         $votoammissione = "";
         $media = "";
-        $stampavoti=true;
+        $stampavoti = true;
         $query = "select * from tbl_esiti where idalunno='$idalunno'";
-        $risesi = eseguiQuery($con,$query);
+        $risesi = eseguiQuery($con, $query);
 
         if ($recesi = mysqli_fetch_array($risesi))
         {
@@ -240,8 +237,8 @@ if ($nummaterie > 0)
             $codesi = $recesi['esito'];
             $codint = $recesi['integrativo'];
             $esito = estrai_esito($idalunno, $con);
-            $passesi = passaggio($codesi,$con);
-            $passint = passaggio($codint,$con);
+            $passesi = passaggio($codesi, $con);
+            $passint = passaggio($codint, $con);
 
 
             /*
@@ -250,9 +247,8 @@ if ($nummaterie > 0)
              * 2 - giudizio sospeso
              */
             //print "codesi $codesi codint $codint esito $esito passesi $passesi passint $passint <br> ";
-
             // TTTT RIVEDERE
-            if ($votinp=='no')
+            if ($votinp == 'no')
             {   // IL GIUDIZIO E' SOSPESO OPPURE ERA SOSPESO ED E' RISULTATO NEGATIVO
                 if ($codesi == 0 && ($codint != 0 && $passint == 1))
                 {
@@ -298,7 +294,7 @@ if ($nummaterie > 0)
                 $schede->setXY($posX, $posY);
                 $schede->SetFont('Arial', '', 8);
                 if ($stampavoti)
-                   $schede->Cell($larghcol, $altriga, converti_utf8(dec_to_vot($votounico)), 1, NULL, "C");
+                    $schede->Cell($larghcol, $altriga, converti_utf8(dec_to_vot($votounico)), 1, NULL, "C");
                 else
                     $schede->Cell($larghcol, $altriga, "", 1, NULL, "C");
                 $posX += $larghcol;
@@ -308,10 +304,10 @@ if ($nummaterie > 0)
             $schede->setXY($posX, $posY);
             $schede->SetFont('Arial', '', 8);
             if ($stampavoti)
-                $schede->Cell($larghcol*2, $altriga, converti_utf8(dec_to_vot($votounico)), 1, NULL, "C");
+                $schede->Cell($larghcol * 2, $altriga, converti_utf8(dec_to_vot($votounico)), 1, NULL, "C");
             else
-                $schede->Cell($larghcol*2, $altriga, "", 1, NULL, "C");
-            $posX += $larghcol*2;
+                $schede->Cell($larghcol * 2, $altriga, "", 1, NULL, "C");
+            $posX += $larghcol * 2;
         }
 
 
@@ -321,7 +317,7 @@ if ($nummaterie > 0)
             $schede->setXY($posX, $posY);
             $schede->SetFont('Arial', 'B', 7);
             if ($stampavoti)
-               $schede->Cell($larghcol, $altriga, $votoammissione, 1, NULL, "C");
+                $schede->Cell($larghcol, $altriga, $votoammissione, 1, NULL, "C");
             else
                 $schede->Cell($larghcol, $altriga, "", 1, NULL, "C");
             $posX += $larghcol;
@@ -357,12 +353,10 @@ if ($nummaterie > 0)
 
         $schede->setXY($posX, $posY);
         $schede->SetFont('Arial', '', 8);
-        if ($esito=="" & $livello_scuola==4)
-            $esito="GIUDIZIO SOSPESO";
+        if ($esito == "" & $livello_scuola == 4)
+            $esito = "GIUDIZIO SOSPESO";
         $schede->Cell(90, $altriga, converti_utf8(str_replace("|", " ", $esito)), 1, NULL, "L");
-
     }
-
 }
 
 //   FIRMA E TIMBRO
@@ -376,8 +370,10 @@ $schede->SetFont('Arial', 'B', 10);
 $schede->Multicell(172, 6, converti_utf8("Il dirigente scolastico\n" . $firmadirigente . "\n\n\n\n\n\n"), 0, "C");
 
 $schede->setXY(278, $schede->getY() - 25);
-if ($_SESSION['suffisso'] != "") $suff = $_SESSION['suffisso'] . "/";
-else $suff = "";
+if ($_SESSION['suffisso'] != "")
+    $suff = $_SESSION['suffisso'] . "/";
+else
+    $suff = "";
 $schede->Image('../abc/' . $suff . 'firmadirigente.png');
 $schede->setXY(200, $schede->getY() - 25);
 $schede->Image('../abc/' . $suff . 'timbro.png');
@@ -389,7 +385,6 @@ $schede->Output($nomefile, "I");
 
 
 mysqli_close($con);
-
 
 function elimina_cr($stringa)
 {
@@ -412,8 +407,7 @@ function estrai_prima_riga($stringa)
     if ($posint != 0)
     {
         $str1 = substr($stringa, 0, $posint);
-    }
-    else
+    } else
     {
         $str1 = $stringa;
     }
@@ -427,14 +421,12 @@ function estrai_seconda_riga($stringa)
     if ($posint != 0)
     {
         $str2 = substr($stringa, $posint + 1);
-    }
-    else
+    } else
     {
         $str2 = "";
     }
     return $str2;
 }
-
 
 function ricerca_voto($idalunno, $idmateria, $alu, $materie, $valutaz)
 {
@@ -469,6 +461,4 @@ function calcolaPosizioneIniziale($nummaterie, $votitab, $voamtab, $mediatab, $c
         $spazio += $larghcol;
     }
     return (410 - $spazio) / 2;
-
 }
-

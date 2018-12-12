@@ -40,7 +40,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
 print "<center><b>SEI SICURO DI VOLER CANCELLARE?";
 print("<FORM NAME='CAN' ACTION='CRUDcancellazione.php' method='POST'>");
-print("<br><table><INPUT TYPE='hidden' name='id' value='".$id."'>");
+print("<br><table><INPUT TYPE='hidden' name='id' value='" . $id . "'>");
 print("<tr><td align='left'><INPUT TYPE='SUBMIT' VALUE='    SI    '></td><td colspan='2'></td>");
 print("\n</FORM>");
 

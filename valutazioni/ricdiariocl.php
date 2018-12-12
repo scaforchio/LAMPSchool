@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -65,7 +67,7 @@ jQuery(function($){
 				 $('#datafine').datepicker({ dateFormat: 'dd/mm/yy' });
 			 });
 			 </script>";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -81,13 +83,13 @@ if ($tipoutente != 'P')
 
 
 /*
-if ($giorno=='')
-   $giorno=date('d');
-if ($mese=='')
-   $mese=date('m');
-if ($anno=='')
-   $anno=date('Y');
-*/
+  if ($giorno=='')
+  $giorno=date('d');
+  if ($mese=='')
+  $mese=date('m');
+  if ($anno=='')
+  $anno=date('Y');
+ */
 
 print ('
    <form method="post" action="ricdiariocl.php" name="tbl_diariocl">
@@ -101,7 +103,7 @@ print ('
       <option value="">&nbsp;  ');
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 // Riempimento combo box tbl_classi
@@ -110,8 +112,7 @@ if ($tipoutente == "P")
     $query = "SELECT tbl_classi.idclasse,anno,sezione,specializzazione
            FROM tbl_classi
            ORDER BY specializzazione, sezione, anno";
-}
-else
+} else
 {
     $query = "select distinct tbl_classi.idclasse,anno,sezione,specializzazione
            from tbl_classi,tbl_cattnosupp
@@ -120,7 +121,7 @@ else
            order by specializzazione, sezione, anno";
 }
 //print inspref($query);        
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -163,7 +164,7 @@ echo('      <tr>
 
 
 echo('   <td width="50%">');
-print("<input type='text' name='datafine' value='" .$datafine . "' id='datafine'>");
+print("<input type='text' name='datafine' value='" . $datafine . "' id='datafine'>");
 
 print("</td></tr>");
 
@@ -171,7 +172,6 @@ print("</td></tr>");
 //
 //  Fine visualizzazione della data
 //
-
 //
 //   Inizio visualizzazione della data
 //
@@ -189,21 +189,21 @@ print("</td></tr>");
 
 echo('</table><center><input type="submit" value="Cerca"></center></form>');
 
-/*  
+/*
   if ($mese=="")
-     $m=0;
+  $m=0;
   else
-     $m=$mese; 
-  if ($giorno=="") 
-     $g=0;
+  $m=$mese;
+  if ($giorno=="")
+  $g=0;
   else
-     $g=$giorno; 
+  $g=$giorno;
 
-  if ($anno=="") 
-     $a=0;
+  if ($anno=="")
+  $a=0;
   else
-     $a=$anno; 
-*/
+  $a=$anno;
+ */
 
 // print($nome." -   ". $m.$g.$a.$giornosettimana);
 
@@ -216,19 +216,16 @@ if ($idclasse != "")
 
 if ($datainizio != "")
 {
-    $stringaricerca = $stringaricerca . " and data>='".data_to_db($datainizio)."' ";
-
+    $stringaricerca = $stringaricerca . " and data>='" . data_to_db($datainizio) . "' ";
 }
 if ($datafine != "")
 {
-    $stringaricerca = $stringaricerca . " and data<='".data_to_db($datafine)."' ";
-
+    $stringaricerca = $stringaricerca . " and data<='" . data_to_db($datafine) . "' ";
 }
 
 if ($testo != "")
 {
     $stringaricerca = $stringaricerca . " and testo like '%$testo%' ";
-
 }
 
 
@@ -247,7 +244,7 @@ if ($idclasse != "")
             order by data desc,tbl_diariocl.oraultmod desc";
 
     // print inspref($query);
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     $c = mysqli_num_rows($ris);
 
@@ -255,8 +252,7 @@ if ($idclasse != "")
     if ($c == 0)
     {
         echo "<center><b>Nessuna annotazione da visualizzare!</b></center>";
-    }
-    else
+    } else
     {
         print "<table border=1  align='center'>";
         print "<tr class='prima'><td>Docente</td><td>Data</td><td>Osservazione</td><td>Modif.</td></tr>";
@@ -277,18 +273,16 @@ if ($idclasse != "")
             print("<td>");
             if ($tipoutente != "P")
             {
-                if ($rec['iddocente']==$_SESSION['idutente'])
+                if ($rec['iddocente'] == $_SESSION['idutente'])
                     print("<center><a href='diariocl.php?idnota=" . $rec['iddiariocl'] . "' title='Modifica'><img src='../immagini/modifica.png' alt='Modifica'></a>");
             }
             print("</td>");
             print("</tr>");
-
         }
         print "</table>";
-
     }
 }
 
 mysqli_close($con);
-stampa_piede(""); 
+stampa_piede("");
 

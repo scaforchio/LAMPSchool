@@ -24,7 +24,8 @@ session_start();
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "") {
+if ($tipoutente == "")
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -46,31 +47,34 @@ $livscuola = stringa_html('livscuola');
 if ($_SESSION['ccritorno'] == 'tab')
 {
     stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='cctabellone.php?idclasse=$idclasse'>TABELLONE COMPETENZE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
-    $_SESSION['ccritorno']='';
-}else
+    $_SESSION['ccritorno'] = '';
+} else
     stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='ccvalutazioni.php?idclasse=$idclasse'>VALUTAZIONI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 // Cancello le vecchie proposte
 
 $querydel = "delete from tbl_certcompvalutazioni where idalunno=$idalunno";
 
-eseguiQuery($con,$querydel);
+eseguiQuery($con, $querydel);
 
 // Inserisco le nuove proposte per ogni competenza presente
 
 $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
-while ($rec = mysqli_fetch_array($ris)) {
+while ($rec = mysqli_fetch_array($ris))
+{
     $queryins = "";
-    if ($rec['compcheuropea'] == "") {
+    if ($rec['compcheuropea'] == "")
+    {
         $campo = "txtcmp_" . $rec['idccc'];
         $giud = stringa_html($campo);
         if ($giud != '')
             $queryins = "insert into tbl_certcompvalutazioni(idalunno,idccc,giud) "
                     . "values ($idalunno,'" . $rec[idccc] . "','$giud')";
-    } else {
+    } else
+    {
         $campo = "selcmp_" . $rec['idccc'];
         $live = stringa_html($campo);
         if ($live != "0")
@@ -78,7 +82,7 @@ while ($rec = mysqli_fetch_array($ris)) {
                     . "values ($idalunno,'" . $rec[idccc] . "','" . $live . "')";
     }
     if ($queryins != "")
-        mysqli_query($con, inspref($queryins)) or die("Errore nella query: " . mysqli_error($con) . " " . inspref($queryins));
+        eseguiQuery($con,$queryins);
 }
 
 print "
@@ -92,7 +96,7 @@ print "
 				  document.getElementById('formcc').submit();
 			  }
 			  </SCRIPT>";
-			  
+
 
 mysqli_close($con);
 stampa_piede("");

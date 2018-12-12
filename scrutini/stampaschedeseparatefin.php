@@ -1,24 +1,26 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
@@ -43,25 +45,23 @@ if ($idclasse != "")
     if ($periodo == '9')
     {
         $conddebito = " and idalunno in (select idalunno from tbl_esiti WHERE (validita='1' OR validita='2') AND esito=0) ";
-    }
-    else
+    } else
     {
         $conddebito = "";
     }
 
     $query = "select idalunno from tbl_alunni where idclasse=$idclasse $conddebito order by cognome,nome";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($val = mysqli_fetch_array($ris))
     {
         $alunni[] = $val['idalunno'];
     }
-}
-else
+} else
 {
 
     $alunni[] = $idalunno;
     $query = "select idclasse from tbl_alunni where idalunno=$idalunno";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($val = mysqli_fetch_array($ris))
     {
         $idclasse = $val['idclasse'];
@@ -74,8 +74,7 @@ else
 if ($firmadirigente != "" && $datastampa != "")
 {
     aggiorna_data_firma_scrutinio($datastampa, $firmadirigente, $periodo, $idclasse, $con);
-}
-else
+} else
 {
     $firmadirigente = estrai_firma_scrutinio($idclasse, $periodo, $con);
     $datastampa = estrai_data_stampa($idclasse, $periodo, $con);
@@ -85,7 +84,6 @@ mysqli_close($con);
 
 stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigente);
 
-
 function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 {
     @require("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -93,7 +91,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 
     $schede = new FPDF();
     $schede->AddFont('palacescript', '', 'palacescript.php'); // Font del Ministero
-    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
     $datascrutinio = data_italiana(estrai_datascrutinio($classe, $periodo, $con));
 
@@ -110,7 +108,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
            and tbl_cattnosupp.iddocente <> 1000000000
            and tbl_materie.progrpag = 99
            order by tbl_materie.progrpag,tbl_materie.sigla";
-        $rismat = eseguiQuery($con,$query);
+        $rismat = eseguiQuery($con, $query);
         while ($valmat = mysqli_fetch_array($rismat))
         {
 
@@ -124,14 +122,13 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
               AND periodo='1'
               AND idmateria=$codmateria";
             // print inspref($query);
-            $risvoti = eseguiQuery($con,$query);
+            $risvoti = eseguiQuery($con, $query);
 
             if ($recvoti = mysqli_fetch_array($risvoti))
             {
                 $unico1 = dec_to_pag($recvoti['votounico']);
                 $assenze1 = $recvoti['assenze'];
                 $annotazioni1 = $recvoti['note'];
-
             }
 
 
@@ -143,13 +140,12 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
               AND periodo='$numeroperiodi'
               AND idmateria=$codmateria";
             //   print inspref($query)."<br>";
-            $risvoti = eseguiQuery($con,$query);
+            $risvoti = eseguiQuery($con, $query);
 
             if ($recvoti = mysqli_fetch_array($risvoti))
             {
                 $unico = dec_to_pag($recvoti['votounico']);
                 $annotazioni = $recvoti['note'];
-
             }
             // print "unico1 $unico1 unico $unico annotazioni1 $annotazioni1 annotazioni $annotazioni1 <br>";
             if ($unico1 != "" | $unico != "" | $annotazioni1 != "" | $annotazioni != "")
@@ -176,8 +172,6 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 $schede->Cell(190, 6, "SCHEDA DI VALUTAZIONE FINALE DI " . converti_utf8($materia) . " - A.S. $annoscolastico", NULL, 1, "C");
                 //$schede->Cell(190,4,"",NULL,1,"C");
                 //$schede->Cell(190,4,$materia,"B",1,"C");
-
-
                 // Prelievo dei dati degli alunni
 
                 $datanascita = "";
@@ -186,13 +180,12 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 $query = "SELECT datanascita, codfiscale, denominazione FROM tbl_alunni,tbl_comuni
 					  WHERE tbl_alunni.idcomnasc=tbl_comuni.idcomune 
 					  AND idalunno=$alu";
-                $ris = eseguiQuery($con,$query);
+                $ris = eseguiQuery($con, $query);
                 if ($val = mysqli_fetch_array($ris))
                 {
                     $datanascita = data_italiana($val['datanascita']);
                     $codfiscale = $val['codfiscale'];
                     $denominazione = converti_utf8($val['denominazione']);
-
                 }
 
                 $schede->setXY($schede->getX(), $schede->getY() + 10);
@@ -222,7 +215,6 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 
                 // ESTRAGGO LE VALUTAZIONI PERIODICHE
                 //$schede->setXY($schede->getX(),$schede->getY()+10);
-
                 //$schede->Cell(190,8,"VALUTAZIONE FINALE PER ".converti_utf8($materia),NULL,1,"C");
                 $schede->SetFont('Arial', 'BI', 10);
                 $schede->setXY($schede->getX(), $schede->getY() + 10);
@@ -256,15 +248,13 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 if ($_SESSION['suffisso'] != "")
                 {
                     $suff = $_SESSION['suffisso'] . "/";
-                }
-                else $suff = "";
+                } else
+                    $suff = "";
                 $schede->Image('../abc/' . $suff . 'firmadirigente.png', 120, NULL);
                 $schede->setXY(45, $schede->getY() - 30);
                 $schede->Image('../abc/' . $suff . 'timbro.png', 60, NULL);
             }
-
         }
-
     }
 
 
@@ -274,9 +264,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 
 
     mysqli_close($con);
-
 }
-
 
 function elimina_cr($stringa)
 {
@@ -284,5 +272,3 @@ function elimina_cr($stringa)
     $strpul = str_replace(array("\n", "\r"), " ", $stringa);
     return $strpul;
 }
-
-

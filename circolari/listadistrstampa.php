@@ -70,7 +70,7 @@ if ($idcircolare != "")
 {
 
     $query = "select * from tbl_circolari where idcircolare=$idcircolare";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     $rec = mysqli_fetch_array($ris);
 
     print "<center><b>Lista di distribuzione circolare:</b><br><br>";
@@ -96,24 +96,24 @@ if ($idcircolare != "")
                and tbl_alunni.idclasse=tbl_classi.idclasse
                order by cognome,nome";
     if ($dest == 'L' | $dest == 'SL')
-            $query = "select * from tbl_diffusionecircolari,tbl_alunni,tbl_classi
+        $query = "select * from tbl_diffusionecircolari,tbl_alunni,tbl_classi
                where tbl_diffusionecircolari.idutente=(tbl_alunni.idalunno+2100000000)
                and idcircolare=$idcircolare
                and tbl_alunni.idclasse=tbl_classi.idclasse
                order by anno, sezione, specializzazione, cognome,nome";
-        if ($dest == 'I' | $dest == 'SI')
+    if ($dest == 'I' | $dest == 'SI')
         $query = "select * from tbl_diffusionecircolari,tbl_amministrativi
                where tbl_diffusionecircolari.idutente=tbl_amministrativi.idamministrativo
                and idcircolare=$idcircolare
                order by anno, sezione, specializzazione, cognome,nome";
     // print "tttt $dest";
     // print inspref($query);
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris))
     {
 
         print ("<tr><td>" . $rec['cognome'] . "&nbsp;" . $rec['nome']);
-        if ($dest == 'A' | $dest == 'SA' | $dest == 'L' | $dest == 'SL' )
+        if ($dest == 'A' | $dest == 'SA' | $dest == 'L' | $dest == 'SL')
             print (" - " . decodifica_classe(estrai_classe_alunno($rec['idalunno'], $con), $con) . " - " . data_italiana($rec['datanascita']));
         print "</td>";
         if ($rec['datalettura'] != '0000-00-00')

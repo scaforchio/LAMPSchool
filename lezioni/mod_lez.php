@@ -1,24 +1,26 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo 
-e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo
+  e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
-/*programma per la modifica di un docente
-riceve in ingresso iddocente*/
+/* programma per la modifica di un docente
+  riceve in ingresso iddocente */
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 
@@ -34,7 +36,7 @@ $a = stringa_html('a');
 $b = stringa_html('b');
 $titolo = "Modifica lezione";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_lez.php?iddocente=$b'>ELENCO LEZIONI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -52,13 +54,12 @@ if (!$DB)
 }
 
 $sql = "SELECT * from tbl_lezioni where (idlezione='$a')";
-$result = eseguiQuery($con,$sql);
+$result = eseguiQuery($con, $sql);
 $reclez = mysqli_fetch_array($result);
 if (!($result))
 {
     print("Query fallita");
-}
-else
+} else
 {
     $data = $reclez['datalezione'];
     $inizio = $reclez['orainizio'];
@@ -77,72 +78,72 @@ else
     echo('   <td width="50%">');
     echo('   <select name="giorno">');
     require '../lib/aggiungi_giorni_a_select.php';
-/*
-for  ($g = 1; $g <= 31; $g++)
-{
-    if ($g < 10)
-    {
-        $gs = '0' . $g;
-    }
-    else
-    {
-        $gs = '' . $g;
-    }
-    if ($gs == $giorno)
-    {
-        echo("<option selected>$gs</option>");
-    }
-    else
-    {
-        echo("<option>$gs</option>");
-    }
-}
- * 
- */
+    /*
+      for  ($g = 1; $g <= 31; $g++)
+      {
+      if ($g < 10)
+      {
+      $gs = '0' . $g;
+      }
+      else
+      {
+      $gs = '' . $g;
+      }
+      if ($gs == $giorno)
+      {
+      echo("<option selected>$gs</option>");
+      }
+      else
+      {
+      echo("<option>$gs</option>");
+      }
+      }
+     * 
+     */
     echo("</select>");
 
     echo('<select name="meseanno">');
     require '../lib/aggiungi_mesi_a_select.php';
     /*
-    for  ($m = 9; $m <= 12; $m++)
-    {
-        if ($m < 10)
-        {
-            $ms = "0" . $m;
-        }
-        else
-        {
-            $ms = '' . $m;
-        }
-        if ($ms == $mese)
-        {
-            echo("<option selected>$ms - $annoscol");
-        }
-        else
-        {
-            echo("<option>$ms - $annoscol");
-        }
-    }
-    $annoscolsucc = $annoscol + 1;
-    for ($m = 1; $m <= 8; $m++)
-    {
-        if ($m < 10)
-        {
-            $ms = '0' . $m;
-        }
-        else
-        {
-            $ms = '' . $m;
-        }
-        if ($ms == $mese)
-        {
-            echo("<option selected>$ms - $annoscolsucc");
-        }
-        else
-        {
-            echo("<option>$ms - $annoscolsucc");
-        }
-    }
+      for  ($m = 9; $m <= 12; $m++)
+      {
+      if ($m < 10)
+      {
+      $ms = "0" . $m;
+      }
+      else
+      {
+      $ms = '' . $m;
+      }
+      if ($ms == $mese)
+      {
+      echo("<option selected>$ms - $annoscol");
+      }
+      else
+      {
+      echo("<option>$ms - $annoscol");
+      }
+      }
+      $annoscolsucc = $annoscol + 1;
+      for ($m = 1; $m <= 8; $m++)
+      {
+      if ($m < 10)
+      {
+      $ms = '0' . $m;
+      }
+      else
+      {
+      $ms = '' . $m;
+      }
+      if ($ms == $mese)
+      {
+      echo("<option selected>$ms - $annoscolsucc");
+      }
+      else
+      {
+      echo("<option>$ms - $annoscolsucc");
+      }
+      }
      * 
      */
     echo("</select>");
@@ -160,8 +161,7 @@ for  ($g = 1; $g <= 31; $g++)
             if ($i == $inizio & ($j == ($i + $durata - 1)))
             {
                 print "<option selected>$strore";
-            }
-            else
+            } else
             {
                 print "<option>$strore";
             }

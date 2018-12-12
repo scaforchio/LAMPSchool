@@ -1,21 +1,23 @@
-<?php session_start();
+<?php
+
+session_start();
 
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 //Programma per la visualizzazione dell'elenco delle tbl_classi
@@ -33,7 +35,7 @@ if ($tipoutente == "")
 
 $titolo = "Aggiornamento parametri";
 $script = "";
-stampa_head($titolo, "", $script,"PMSD");
+stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='paramedit.php'>ELENCO PARAMETRI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -57,8 +59,7 @@ if (!$DB)
 if (stringa_html('nomeparametro') != "chiaveuniversale")
 {
     $sql = "UPDATE tbl_parametri SET valore='" . stringa_html('valore') . "' WHERE idparametro=" . stringa_html('idpar');
-}
-else
+} else
 {
     $sql = "UPDATE tbl_parametri SET valore=md5('" . stringa_html('valore') . "') WHERE idparametro=" . stringa_html('idpar');
 }
@@ -66,11 +67,10 @@ else
 
 
 
-if (!($ris = eseguiQuery($con,$sql)))
+if (!($ris = eseguiQuery($con, $sql)))
 {
     print("\n<FONT SIZE='+2'> <CENTER>Modifica non eseguita</CENTER> </FONT>");
-}
-else
+} else
 {
     print "
         <form method='post' id='formpar' action='paramedit.php'>

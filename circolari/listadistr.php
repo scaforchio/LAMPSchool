@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -31,7 +33,7 @@ if ($tipoutente == "")
     die;
 }
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $idcircolare = stringa_html('idcircolare');
 $titolo = "Controllo liste distribuzione circolari";
@@ -45,7 +47,7 @@ $script = "<script type='text/javascript'>
                }
          //-->
          </script>";
-stampa_head($titolo, "", $script,"MSAP");
+stampa_head($titolo, "", $script, "MSAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -69,7 +71,7 @@ print ("
       <SELECT NAME='idcircolare' ONCHANGE='listadistr.submit()'>
       <option value=''>&nbsp;</option>");
 $query = "SELECT * FROM tbl_circolari ORDER BY datainserimento DESC";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($rec = mysqli_fetch_array($ris))
 {
 
@@ -130,12 +132,12 @@ if ($idcircolare != "")
     }
     // print "tttt $dest";
     // print inspref($query);
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris))
     {
 
         print ("<tr><td>" . $rec['cognome'] . "&nbsp;" . $rec['nome']);
-        if ($dest == 'A' | $dest == 'SA' | $dest == 'L' | $dest == 'SL' )
+        if ($dest == 'A' | $dest == 'SA' | $dest == 'L' | $dest == 'SL')
         {
             print (" - " . decodifica_classe(estrai_classe_alunno($rec['idalunno'], $con), $con) . " - " . data_italiana($rec['datanascita']));
         }
@@ -143,8 +145,7 @@ if ($idcircolare != "")
         if ($rec['datalettura'] != '0000-00-00')
         {
             print ("<td>" . data_italiana($rec['datalettura']) . "</td>");
-        }
-        else
+        } else
         {
             print ("<td>&nbsp;</td>");
         }
@@ -153,8 +154,7 @@ if ($idcircolare != "")
             if ($rec['dataconfermalettura'] != '0000-00-00')
             {
                 print ("<td>" . data_italiana($rec['dataconfermalettura']) . "</td>");
-            }
-            else
+            } else
             {
                 print ("<td>&nbsp;</td>");
             }

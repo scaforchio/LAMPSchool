@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -39,14 +41,12 @@ $script = "";
 stampa_head($titolo, "", $script, "MA");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 //
 //    Fine parte iniziale della pagina
 //
-
-
 // Carico in una combobox a scelta multipla tutte le voci della programmazione
 
 print "<form method='post' action='updsubobiettivo.php' name='votiabil' >";
@@ -56,13 +56,13 @@ print "<table align='center'>
 						 <td valign='top'> <center><b>Sub-obiettivi di comportamento:</b><br/></center>";
 // Conto competenze, abilità e conoscenze per dimensionare la select multiple
 $query = "select count(*) as numob from tbl_compob";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 $nomcomp = mysqli_fetch_array($ris);
 $numob = $nomcomp['numob'];
 
 $query = "select count(*) as numsubob from tbl_compsubob,tbl_compob
 	              where tbl_compsubob.idobiettivo=tbl_compob.idobiettivo";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 $nomabil = mysqli_fetch_array($ris);
 $numsubob = $nomabil['numsubob'];
 
@@ -72,7 +72,7 @@ print "<select name='abil' size='$totalerighe'>";
 $query = "select * from tbl_compob
 	              
 	              order by numeroordine";
-$riscomp = eseguiQuery($con,$query);
+$riscomp = eseguiQuery($con, $query);
 
 while ($nomcomp = mysqli_fetch_array($riscomp))
 {
@@ -86,7 +86,7 @@ while ($nomcomp = mysqli_fetch_array($riscomp))
 	              where idobiettivo=$idobiettivo
 	              order by numeroordine";
 
-    $risabil = eseguiQuery($con,$query);
+    $risabil = eseguiQuery($con, $query);
 
     while ($nomabil = mysqli_fetch_array($risabil))
     {
@@ -98,7 +98,6 @@ while ($nomcomp = mysqli_fetch_array($riscomp))
     }
 
     print "</optgroup>";
-
 }
 print "</select>";
 
@@ -109,4 +108,4 @@ print "<center><input type='submit' value='Modifica sub-obiettivo'></center></fo
 
 
 mysqli_close($con);
-stampa_piede(""); 
+stampa_piede("");

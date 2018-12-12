@@ -1,21 +1,21 @@
 <?php
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
-/*Programma per il login al registro.*/
+/* Programma per il login al registro. */
 
 if (isset($_GET['suffisso']))
     $suffisso = $_GET['suffisso'];
@@ -37,12 +37,12 @@ session_start();
 $_SESSION["prefisso"] = $prefisso_tabelle;
 $_SESSION["annoscol"] = $annoscol;
 $_SESSION["suffisso"] = $suffisso;
-$_SESSION["alias"]= false;
+$_SESSION["alias"] = false;
 
 
 
 $titolo = "Inserimento dati di accesso";
-$seme=md5(date('Y-m-d'));
+$seme = md5(date('Y-m-d'));
 $script = "<script src='../lib/js/crypto.js'></script>\n";
 $script .= "<script>
 
@@ -75,8 +75,7 @@ if (strlen($messaggio) > 0)
     if ($messaggio == 'errore')
     {
         $mex .= 'Nome utente e/o password errati !';
-    }
-    else
+    } else
     {
         $mex .= $messaggio;
     }
@@ -99,14 +98,14 @@ if (strlen($messaggio) > 0)
             </tr>
         </table>
         <noscript>
-            <input name='js_enabled' type='hidden' value='1'>
+        <input name='js_enabled' type='hidden' value='1'>
         </noscript>
         <input type='hidden' name='password' id='passwordmd5'>
     </form>
     <br/>
 
-    
-    
+
+
     <?php
     print "<a href='$sito_scuola' target='_top'>Ritorna ad home page</a>";
     ?>

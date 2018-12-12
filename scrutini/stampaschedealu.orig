@@ -103,7 +103,7 @@ if ($datastampa != "" & $firmadirigente != "" & $gioass != "")  // VUOL DIRE CHE
 
     $querymod = "update tbl_scrutini set sostituzioni='" . $strini . $modistampa . "' where idclasse=$classe and periodo='$periodo'";
 
-    mysqli_query($con, inspref($querymod)) or die("Errore $querymod");
+    eseguiQuery($con,$querymod);
 }
 else
 {

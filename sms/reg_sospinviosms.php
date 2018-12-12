@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 //Programma per la visualizzazione dell'elenco delle tbl_classi
 
@@ -59,13 +61,12 @@ $data = stringa_html('data');
 
 
 //Esecuzione query finale
-$sql = "INSERT INTO tbl_sospinviosms (datasosp) VALUES ('".data_to_db($data)."')";
+$sql = "INSERT INTO tbl_sospinviosms (datasosp) VALUES ('" . data_to_db($data) . "')";
 
-if (!($ris = eseguiQuery($con,$sql)))
+if (!($ris = eseguiQuery($con, $sql)))
 {
     print("\n<FONT SIZE='+2'> <CENTER>Inserimento non eseguito </CENTER></FONT>");
-}
-else
+} else
 {
     // print("\n<FONT SIZE='+2'> <CENTER>Inserimento eseguito</CENTER> </FONT>");
     print "
@@ -90,5 +91,3 @@ function displayFormIndietro()
     print "<INPUT TYPE='SUBMIT' VALUE='<< Indietro'>";
     print "</FORM></CENTER>";
 }
-
-

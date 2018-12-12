@@ -1,4 +1,5 @@
 <?php
+
 // session_start();
 @require_once("../lib/funzioni.php");
 $suffisso = stringa_html('suffisso');
@@ -11,17 +12,16 @@ $m1 = stringa_html("m1");
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("errore query " . inspref($query, false));
 $dataoggi = date("Y-m-d");
-$indirizzoip=IndirizzoIpReale();
+$indirizzoip = IndirizzoIpReale();
 
 if ($suffisso != "")
 {
     $suff = $suffisso . "/";
-}
-else
+} else
 {
     $suff = "";
 }
-inserisci_log("LAMPSchool§" . date('m-d|H:i:s') ."§$indirizzoip §INIZIO RICEZIONE \n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
+inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §INIZIO RICEZIONE \n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
 
 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$m1\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
 
@@ -33,8 +33,6 @@ inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$m1\n", 3, "../lampschoold
 //   Se non ci sono timbrature nella giornata (cioè primo invio nella giornata) 
 //   inserisco le assenze per tutti
 //
-
-
 // VERIFICO SE CI SONO GIA' TIMBRATURE VALIDE
 // NELLA GIORNATA PERCHE' SE E' LA PRIMA
 // TIMBRATURA VALIDA OCCORRE INSERIRE LE ASSENZE
@@ -44,7 +42,7 @@ inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$m1\n", 3, "../lampschoold
 $query = "select count(*) as numtimbrature from tbl_timbrature where datatimbratura='$dataoggi' and idalunno in(select idalunno from tbl_alunni where idclasse<>0)";
 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
 
-if (!$ris = eseguiQuery($con,$query))
+if (!$ris = eseguiQuery($con, $query))
 {
     inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
     die("errore query " . inspref($query, false));
@@ -97,7 +95,7 @@ foreach ($arrtimb as $m2)
     // le timbrature.
 
 
-    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§". "Numtimbrature $numtimbrature \n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . "Numtimbrature $numtimbrature \n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
     inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . "Data $dataoggi \n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
     inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . "Esiste alunno $esiste_alunno \n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
     inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . "Esiste assenza $esiste_assenza \n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
@@ -105,7 +103,7 @@ foreach ($arrtimb as $m2)
     if (($numtimbrature == 0) && ($dataoggi == "$anno-$mes-$gio") && ($esiste_alunno) && (!$esiste_assenza))
     {
 
-            $query = "insert into tbl_assenze(idalunno,data)
+        $query = "insert into tbl_assenze(idalunno,data)
                       select idalunno,'$dataoggi'
                       from tbl_alunni
                       where idclasse<>0
@@ -113,7 +111,7 @@ foreach ($arrtimb as $m2)
                       order by idalunno";
 
         inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
-        if (!$ris = eseguiQuery($con,$query))
+        if (!$ris = eseguiQuery($con, $query))
         {
             inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
             die("errore query " . inspref($query, false));
@@ -125,7 +123,7 @@ foreach ($arrtimb as $m2)
 
     $query = "insert into tbl_timbrature(idalunno,tipotimbratura,datatimbratura,oratimbratura) values ('$matricola','$tipo','$anno-$mes-$gio','$ora:$min')";
     inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
-    if (!$ris = eseguiQuery($con,$query))
+    if (!$ris = eseguiQuery($con, $query))
     {
         inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
         die("errore query " . inspref($query, false));
@@ -143,12 +141,11 @@ foreach ($arrtimb as $m2)
         {
             $query = "delete from tbl_assenze where idalunno='$matricola' and data='$anno-$mes-$gio'";
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
-            if (!$ris = eseguiQuery($con,$query))
+            if (!$ris = eseguiQuery($con, $query))
             {
                 inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
                 die("errore query " . inspref($query, false));
             }
-
         }
         if ($tipo == 'U')
         {
@@ -156,7 +153,7 @@ foreach ($arrtimb as $m2)
             $orausc = "$ora:$min";
             $query = "insert into tbl_usciteanticipate(idalunno,data,orauscita) values ('$matricola', '$datausc', '$orausc')";
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
-            if (!$ris = eseguiQuery($con,$query))
+            if (!$ris = eseguiQuery($con, $query))
             {
                 inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
                 die("errore query " . inspref($query, false));
@@ -164,7 +161,6 @@ foreach ($arrtimb as $m2)
             //ricalcola_uscite($con, $matricola, $datausc);
             elimina_assenze_lezione($con, $matricola, $datausc);
             inserisci_assenze_per_ritardi_uscite($con, $matricola, $datausc);
-
         }
         if ($tipo == 'R')
         {
@@ -172,14 +168,14 @@ foreach ($arrtimb as $m2)
             $oraent = "$ora:$min";
             $query = "insert into tbl_ritardi(idalunno,data,oraentrata) values ('$matricola', '$dataent', '$oraent')";
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
-            if (!$ris = eseguiQuery($con,$query))
+            if (!$ris = eseguiQuery($con, $query))
             {
                 inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
                 die("errore query " . inspref($query, false));
             }
             $query = "delete from tbl_assenze where idalunno='$matricola' and data='$anno-$mes-$gio'";
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
-            if (!$ris = eseguiQuery($con,$query))
+            if (!$ris = eseguiQuery($con, $query))
             {
                 inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
                 die("errore query " . inspref($query, false));
@@ -187,25 +183,21 @@ foreach ($arrtimb as $m2)
             //ricalcola_ritardi($con, $matricola, $dataent);
             elimina_assenze_lezione($con, $matricola, $dataent);
             inserisci_assenze_per_ritardi_uscite($con, $matricola, $dataent);
-
-
         }
     }
-
 }
 
 print ("ricevuti");
 mysqli_close($con);
 
 
-inserisci_log("LAMPSchool§" . date('m-d|H:i:s') ."§$indirizzoip §FINE RICEZIONE \n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
-
+inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §FINE RICEZIONE \n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
 
 function esiste_alunno($matricola, $conn, $suff)
 {
     $query = "select * from tbl_alunni where idalunno='$matricola' and idclasse<>0";
     inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
-    if (!$ris = mysqli_query($conn, inspref($query, false)))
+    if (!$ris = eseguiQuery($conn,$query))
     {
         inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
         die("errore query " . inspref($query, false));
@@ -214,8 +206,7 @@ function esiste_alunno($matricola, $conn, $suff)
     {
 
         return true;
-    }
-    else
+    } else
     {
 
         return false;
@@ -227,7 +218,7 @@ function esiste_assenza($dataodierna, $conn, $suff)
     $query = "select * from tbl_assenze where data='$dataodierna'";
     inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
 
-    if (!$ris = mysqli_query($conn, inspref($query, false)))
+    if (!$ris = eseguiQuery($conn,$query))
     {
         inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
         die("errore query " . inspref($query, false));
@@ -236,13 +227,9 @@ function esiste_assenza($dataodierna, $conn, $suff)
     {
 
         return true;
-    }
-    else
+    } else
     {
 
         return false;
     }
 }
-
-
-

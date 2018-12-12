@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: pietro
  * Date: 16/06/15
  * Time: 18.01
  */
-
 
 /**
  *
@@ -40,7 +40,6 @@ function controlla_stringa($stringa = '', $decode = true)
         if (is_numeric($car))
         {
             return 1;
-
         }
     }
 }
@@ -57,13 +56,10 @@ function elimina_spazi($comando)
             {
                 $comando_pulito .= substr($comando, $i, 1);
             }
-        }
-
-        else
+        } else
         {
             $comando_pulito .= $comando[$i];
         }
-
     }
     return $comando_pulito;
 }
@@ -74,27 +70,24 @@ function elimina_spazi($comando)
  * @param string $stringa
  * @return string $stringa in utf8
  */
-
 function converti_utf8($stringa)
 {
     $strpul = "";
     $strpul = mb_convert_encoding($stringa, 'windows-1252', 'UTF-8');
     /*
-    $iconv = extension_loaded('iconv');
-    if($iconv)
+      $iconv = extension_loaded('iconv');
+      if($iconv)
       {
-           $strpul = iconv('UTF-8', 'windows-1252', $stringa);
+      $strpul = iconv('UTF-8', 'windows-1252', $stringa);
 
-           $numcicli=floor(strlen($stringa)/5000);
-           for ($i=0;$i<=$numcicli;$i++)
-           {
-               $strpul.=iconv('UTF-8', 'windows-1252', substr($stringa,5000*$i,5000));
-           }
+      $numcicli=floor(strlen($stringa)/5000);
+      for ($i=0;$i<=$numcicli;$i++)
+      {
+      $strpul.=iconv('UTF-8', 'windows-1252', substr($stringa,5000*$i,5000));
+      }
 
-        }
-   else
-       $strpul=utf8_decode($stringa); */
+      }
+      else
+      $strpul=utf8_decode($stringa); */
     return $strpul;
 }
-
-

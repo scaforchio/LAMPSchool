@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -64,7 +66,7 @@ stampa_head($titolo, "", $script, "SDMAP");
 print ('<body class="stampa" onLoad="printPage()">');
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 $per = stringa_html('periodo');
@@ -72,21 +74,21 @@ $catt = stringa_html('cattedra');
 
 
 // Prelevo classe e materia dalla cattedra selezionata
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 /*
-if ($catt<>"")
-{
-   $query="select idclasse, idmateria from tbl_cattnosupp where idcattedra=$catt"; 
-   $ris=eseguiQuery($con,$query);
-   if($nom=mysqli_fetch_array($ris))
-    {
-        $mat=$nom['idmateria'];
-        $cla=$nom['idclasse'];
-    }
-}
-*/
+  if ($catt<>"")
+  {
+  $query="select idclasse, idmateria from tbl_cattnosupp where idcattedra=$catt";
+  $ris=eseguiQuery($con,$query);
+  if($nom=mysqli_fetch_array($ris))
+  {
+  $mat=$nom['idmateria'];
+  $cla=$nom['idclasse'];
+  }
+  }
+ */
 
 $idclasse = estrai_id_classe($catt, $con);
 $idmateria = estrai_id_materia($catt, $con);
@@ -97,7 +99,7 @@ $query = "select distinct tbl_gruppi.idgruppo from tbl_gruppialunni,tbl_alunni,t
              and tbl_alunni.idclasse=$idclasse
              and tbl_gruppi.idmateria=$idmateria
              and tbl_gruppi.iddocente=$iddocente";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($rec = mysqli_fetch_array($ris))
 {
     $idgruppo = $rec['idgruppo'];
@@ -110,12 +112,10 @@ $id_ut_doc = $_SESSION["idutente"];
 // Divido il mese dall'anno
 //$mese=substr($meseanno,0,2);
 //$anno=substr($meseanno,5,4);
-
-
 // Estraggo nome della classe
 
 $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($val = mysqli_fetch_array($ris))
 {
     $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
@@ -125,7 +125,7 @@ if ($val = mysqli_fetch_array($ris))
 // Estraggo nome della materia
 
 $query = 'SELECT * FROM tbl_materie WHERE idmateria="' . $idmateria . '" ';
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($val = mysqli_fetch_array($ris))
 {
     $nomemateria = $val["denominazione"];
@@ -134,13 +134,12 @@ if ($val = mysqli_fetch_array($ris))
 // Estraggo il nominativo del docente
 $query = "select iddocente, cognome, nome from tbl_docenti where idutente=$id_ut_doc";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($nom = mysqli_fetch_array($ris))
 {
 
     $cogndoc = $nom["cognome"];
     $nomedoc = $nom["nome"];
-
 }
 
 
@@ -169,7 +168,7 @@ if ($per == "Terzo")
 
 
 $query = "SELECT sum(numeroore) AS numtotore FROM tbl_lezioni WHERE idclasse='" . $idclasse . "' AND idmateria='" . $idmateria . "' " . $perioquery;
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($val = mysqli_fetch_array($ris))
 {
     $oretotalilezione = $val["numtotore"];
@@ -178,17 +177,15 @@ if ($val = mysqli_fetch_array($ris))
 
 $query = "SELECT idlezione,datalezione, numeroore,orainizio FROM tbl_lezioni WHERE idclasse='" . $idclasse . "' AND idmateria='" . $idmateria . "' " . $perioquery . " ORDER BY datalezione";
 
-$rislez = eseguiQuery($con,$query);
+$rislez = eseguiQuery($con, $query);
 
 while ($reclez = mysqli_fetch_array($rislez))
-
 {
     $gio = substr($reclez['datalezione'], 8, 2);
     $mes = substr($reclez['datalezione'], 5, 2);
     $ann = substr($reclez['datalezione'], 0, 4);
     $gio = $ann . $mes . $gio . $reclez['orainizio'] . $reclez['datalezione'] . $reclez['numeroore'] . $reclez['idlezione'];
     $giornilezione[] = $gio;
-
 }
 
 
@@ -217,33 +214,32 @@ if ($per == "Terzo")
 
 // Estraggo tutte le valutazioni registrate per la classe, materia e periodo in esame per aggiungerle alle tbl_lezioni se non sono state registrate
 /*    $query="select distinct data from tbl_valutazioniintermedie,tbl_alunni where tbl_valutazioniintermedie.idalunno=tbl_alunni.idalunno and idclasse='".$idclasse."' and         idmateria='".$idmateria."' ".$perioquery." order by data";
-    
-    $risvot=eseguiQuery($con,$query);
-    
-    while ($recvot=mysqli_fetch_array($risvot))
-  
-    {
-       $presente=false;
-       foreach($giornilezione as $ggia)
-       {
-          if (substr($ggia,6,2)==substr($recvot['data'],8,2) & substr($ggia,4,2)==substr($recvot['data'],5,2))
-             $presente=true;
-       }
-       if (!$presente)
-       { 
-          $gio=substr($recvot['data'],8,2);
-          $mes=substr($reclez['data'],5,2);
-	  $ann=substr($reclez['data'],0,4);
-          $gio=$ann.$mes.$gio.$recvot['data']."0"."00000000000"; 
-          $giornilezione[]=$gio;
-          $numerotbl_lezioni++;  // incremento il contatore dei numeri di giorni da visualizzare tttttttt
-       } 
-      
-    } 
-*/
+
+  $risvot=eseguiQuery($con,$query);
+
+  while ($recvot=mysqli_fetch_array($risvot))
+
+  {
+  $presente=false;
+  foreach($giornilezione as $ggia)
+  {
+  if (substr($ggia,6,2)==substr($recvot['data'],8,2) & substr($ggia,4,2)==substr($recvot['data'],5,2))
+  $presente=true;
+  }
+  if (!$presente)
+  {
+  $gio=substr($recvot['data'],8,2);
+  $mes=substr($reclez['data'],5,2);
+  $ann=substr($reclez['data'],0,4);
+  $gio=$ann.$mes.$gio.$recvot['data']."0"."00000000000";
+  $giornilezione[]=$gio;
+  $numerotbl_lezioni++;  // incremento il contatore dei numeri di giorni da visualizzare tttttttt
+  }
+
+  }
+ */
 sort($giornilezione);
 // print("tbl_lezioni $numerotbl_lezioni");
-
 //
 //    INIZIO STAMPA
 //
@@ -251,8 +247,8 @@ sort($giornilezione);
 if ($_SESSION['suffisso'] != "")
 {
     $suff = $_SESSION['suffisso'] . "/";
-}
-else $suff = "";
+} else
+    $suff = "";
 print ("<center><img src='../abc/" . $suff . "testata.jpg' width='600'></center>");
 
 $annoscolastico = $annoscol . "/" . ($annoscol + 1);
@@ -262,9 +258,10 @@ $annoscolastico = $annoscol . "/" . ($annoscol + 1);
 
 $num = ($numerotbl_lezioni + 5) % $lezperpag; // Aggiungo 5 per tenere conto delle proposte di voto
 
-$numeropagine = (int)(($numerotbl_lezioni + 5) / $lezperpag);
+$numeropagine = (int) (($numerotbl_lezioni + 5) / $lezperpag);
 
-if ($num > 0) $numeropagine++;
+if ($num > 0)
+    $numeropagine++;
 // print ("num $num numero $numeropagine");
 
 
@@ -274,12 +271,12 @@ for ($np = 1; $np <= $numeropagine; $np++)
     if ($numeroperiodi == 2)
     {
         print " Quadrimestre</i>";
-    }
-    else
+    } else
     {
         print " Trimestre</i>";
     }
-    if ($np == 1) print ("<br/>Totale ore di lezione: <i>$oretotalilezione</i><br/>");
+    if ($np == 1)
+        print ("<br/>Totale ore di lezione: <i>$oretotalilezione</i><br/>");
     print ("<center><br/>Pag. $np/$numeropagine<br/><br/></center>");
 
     echo '<table class="smallchar" border=1 align="center">';
@@ -287,8 +284,7 @@ for ($np = 1; $np <= $numeropagine; $np++)
     if ($np == 1)
     {
         echo '<tr><td rowspan=2><b><center> Alunno </center></b></td>';
-    }
-    else
+    } else
     {
         echo '<tr><td><b><center> Alunno </center></b></td>';
     }
@@ -296,7 +292,6 @@ for ($np = 1; $np <= $numeropagine; $np++)
     if ($np == 1)
     {
         print "<td colspan=5><center><b>Proposte di voto</b></td>";
-
     }
 
     $numeroalunno = 0;
@@ -306,10 +301,11 @@ for ($np = 1; $np <= $numeropagine; $np++)
     if ($np < $numeropagine | $num == 0)
     {
         $limite = $lezperpag;
-    }
-    else $limite = $num;
+    } else
+        $limite = $num;
     // print  ("due$limite");
-    if ($np == 1) $limite = $limite - 5;
+    if ($np == 1)
+        $limite = $limite - 5;
     // print ("tre$limite");
     for ($ng = 0; $ng < $limite; $ng++)
     {
@@ -331,8 +327,7 @@ for ($np = 1; $np <= $numeropagine; $np++)
             //       print "<td rowspan=2><b><center>".giorno_settimana(substr($gg,8,10))."<br/>".substr($gg,6,2)."<br/>".substr($gg,4,2)."<br/>".substr($gg,18,1)."</b></td>";
             //    else
             //       print "<td rowspan=2><b><center>".giorno_settimana(substr($gg,2,10))."<br/>".substr($gg,0,2)."<br/>".substr($gg,2,2)."<br/>".substr($gg,12,1)."</b></td>";
-        }
-        else
+        } else
         {
             $strore = substr($gg, 8, 1) . ">" . ((substr($gg, 19, 1) + substr($gg, 8, 1) - 1));
             print "<td><b><center>" . giorno_settimana(substr($gg, 9, 10)) . "<br/>" . substr($gg, 6, 2) . "<br/>" . substr($gg, 4, 2) . "<br/>$strore</a></td>";
@@ -341,7 +336,6 @@ for ($np = 1; $np <= $numeropagine; $np++)
             //    else
             //       print "<td><b><center>".giorno_settimana(substr($gg,2,10))."<br/>".substr($gg,0,2)."<br/>".substr($gg,2,2)."<br/>".substr($gg,12,1)."</b></td>";
         }
-
     }
 
 
@@ -350,8 +344,7 @@ for ($np = 1; $np <= $numeropagine; $np++)
         if ($np == 1)
         {
             print "<td rowspan=2 align='center' valign='middle'><b>Ass.<br/>tot.</b></td>";
-        }
-        else
+        } else
         {
             print "<td align='center' valign='middle'><b>Ass.<br/>tot.</b></td>";
         }
@@ -367,15 +360,13 @@ for ($np = 1; $np <= $numeropagine; $np++)
           <td><font size=1><b>Pr</b></td>
           <td><font size=1><b>Un</b></td>
           <td><font size=1><b>Co</b></td></tr> ";
-
     }
 
     $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
     if ($idgruppo == '')
     {
         $query = "select * from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
-    }
-    else
+    } else
     {
         $query = "select tbl_alunni.idalunno,cognome,nome,datanascita
                   from tbl_gruppi,tbl_gruppialunni,tbl_alunni
@@ -388,7 +379,7 @@ for ($np = 1; $np <= $numeropagine; $np++)
     }
 
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($val = mysqli_fetch_array($ris))
     {
         echo '
@@ -406,12 +397,15 @@ for ($np = 1; $np <= $numeropagine; $np++)
 
         if ($np == 1)
         {
-            if ($per == "Primo") $perio = '1';
-            if ($per == "Secondo") $perio = '2';
-            if ($per == "Terzo") $perio = '3';
+            if ($per == "Primo")
+                $perio = '1';
+            if ($per == "Secondo")
+                $perio = '2';
+            if ($per == "Terzo")
+                $perio = '3';
             $queryprop = 'SELECT * FROM tbl_proposte WHERE idalunno=' . $val['idalunno'] . ' AND idmateria =' . $idmateria . ' AND periodo="' . $perio . '"';
 
-            $risprop = mysqli_query($con, inspref($queryprop)) or die("Errore: " . inspref($queryprop));
+            $risprop = eseguiQuery($con,$queryprop);
             if ($valprop = mysqli_fetch_array($risprop))
             {
 
@@ -420,8 +414,7 @@ for ($np = 1; $np <= $numeropagine; $np++)
                 print "<td><font size=1><center><b>" . dec_to_vot($valprop['pratico']) . "</b></td>";
                 print "<td><font size=1><center><b>" . dec_to_vot($valprop['unico']) . "</b></td>";
                 print "<td><font size=1><center><b>" . dec_to_vot($valprop['condotta']) . "</b></td>";
-            }
-            else
+            } else
             {
                 print "<td><b>&nbsp;</b></td>";
                 print "<td><b>&nbsp;</b></td>";
@@ -429,7 +422,6 @@ for ($np = 1; $np <= $numeropagine; $np++)
                 print "<td><b>&nbsp;</b></td>";
                 print "<td><b>&nbsp;</b></td>";
             }
-
         }
 
 
@@ -458,7 +450,7 @@ for ($np = 1; $np <= $numeropagine; $np++)
 
             $query = "SELECT oreassenza FROM tbl_asslezione WHERE idalunno=" . $val['idalunno'] . " AND idlezione='" . substr($gg, 20, 11) . "'";
 
-            $risass = eseguiQuery($con,$query);
+            $risass = eseguiQuery($con, $query);
             if (mysqli_num_rows($risass) > 0)
             {
                 $ass = mysqli_fetch_array($risass);
@@ -471,15 +463,14 @@ for ($np = 1; $np <= $numeropagine; $np++)
 
             $query = "SELECT voto, giudizio, tipo FROM tbl_valutazioniintermedie WHERE idalunno=" . $val['idalunno'] . " AND idlezione='" . substr($gg, 20, 11) . "'";
 
-            $risvot = eseguiQuery($con,$query);
+            $risvot = eseguiQuery($con, $query);
             if (mysqli_num_rows($risvot) > 0)
             {
                 while ($vot = mysqli_fetch_array($risvot))
                     if ($vot['voto'] >= 6)
                     {
                         print "&nbsp;" . dec_to_mod($vot['voto']) . "<sub>" . $vot['tipo'] . "</sub>";
-                    }
-                    else
+                    } else
                     {
                         print "&nbsp;" . dec_to_mod($vot['voto']) . "<sub>" . $vot['tipo'] . "</sub>";
                     }
@@ -497,7 +488,6 @@ for ($np = 1; $np <= $numeropagine; $np++)
         // Fine codice per ricerca tbl_assenze gi� inserite
 
         print"</tr>";
-
     }
 
     echo '</table>';
@@ -506,13 +496,10 @@ for ($np = 1; $np <= $numeropagine; $np++)
     if ($np < $numeropagine)
     {
         print("<h1>&nbsp;</h1>");
-    }
-    else
+    } else
     {
         print("<br/><br/><table border=0 width=100%><tr><td width=50%>&nbsp</td><td width=50% align='center'>Il docente<br/>(Prof. $nomedoc $cogndoc)<br/><br/>______________________________</td></tr></table>");
     }
-
-
 }
 
 

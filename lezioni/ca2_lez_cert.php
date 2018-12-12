@@ -57,32 +57,32 @@ if (!$con)
 
 $query = "select idlezionenorm,iddocente from tbl_lezionicert
 	           where idlezione=$idlezione";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 $rec = mysqli_fetch_array($ris);
 $iddocente = $rec['iddocente'];
 $idlezionenorm = $rec['idlezionenorm'];
 $queryricnum = "select idlezionenorm,iddocente from tbl_lezionicert
 	           where idlezionenorm=$idlezionenorm";
-$risricnum=mysqli_query($con, inspref($queryricnum)) or die("Errore: " . inspref($queryricnum));
+$risricnum = eseguiQuery($con,$queryricnum);
 $numerolezionisost = mysqli_num_rows($risricnum);
 
- 
+
 //die("NUMERO LEZIONI SOST".$numerolezionisost);
 
 if ($numerolezionisost == 1)
 {
-    
+
 
     $query = "delete from tbl_firme where idlezione=$idlezionenorm and iddocente=$iddocente";
-    $ris1 = eseguiQuery($con,$query);
+    $ris1 = eseguiQuery($con, $query);
 
     // VERIFICO SE CI SONO ALTRE FIRME ALTRIMENTI CANCELLO LA LEZIONE
     $query = "select * from tbl_firme where idlezione=$idlezionenorm";
-    $ris2 = eseguiQuery($con,$query);
+    $ris2 = eseguiQuery($con, $query);
     if (mysqli_num_rows($ris2) == 0)
     {
         $query = "delete from tbl_lezioni where idlezione=$idlezionenorm";
-        $ris3 = eseguiQuery($con,$query);
+        $ris3 = eseguiQuery($con, $query);
     }
 }
 
@@ -132,7 +132,7 @@ if ($numerolezionisost == 1)
  * 
  */
 $f = "DELETE FROM tbl_lezionicert WHERE idlezione='$idlezione'";
-$ris = mysqli_query($con, inspref($f)) or die("Cancellazione lezione fallita!");
+$ris = eseguiQuery($con,$f);
 
 //header("location: ../lezioni/vis_lez.php?iddocente=$iddocente"); 
 print "

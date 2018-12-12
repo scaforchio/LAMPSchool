@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -42,11 +44,12 @@ stampa_head($titolo, "", $script, "LT");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 $id_ut_doc = $_SESSION["idutente"];
-if($id_ut_doc>2100000000) $id_ut_doc-=2100000000;
+if ($id_ut_doc > 2100000000)
+    $id_ut_doc -= 2100000000;
 $idmateria = stringa_html('idmateria');
 
 print ('
@@ -69,7 +72,7 @@ $query = "SELECT DISTINCT tbl_materie.idmateria as idmateria, tbl_alunni.idclass
 // print inspref($query);   
 print "<select name='idmateria' ONCHANGE='argomenti.submit()'><option value=''>&nbsp;</option>";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 while ($nom = mysqli_fetch_array($ris))
 {
@@ -83,7 +86,6 @@ while ($nom = mysqli_fetch_array($ris))
     }
     print ">";
     print ($nom["denominazione"]);
-
 }
 
 
@@ -96,22 +98,18 @@ print("</table></form>");
 //     $m=0;
 //  else
 //     $m=$mese; 
-
 //  if ($anno=="") 
 //     $a=0;
 //  else
 //     $a=$anno; 
-
-
 // print($nome." -   ". $g.$m.$a.$giornosettimana);
-
 //   $idclasse=$nome;
 //  $classe="";
 
 if ($idmateria != "")
 {
     $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     if ($val = mysqli_fetch_array($ris))
     {
@@ -127,13 +125,12 @@ if ($idmateria != "")
     {
         $query = "select * from tbl_lezioni where idclasse='$idclasse' and idmateria='$idmateria' and (argomenti<>'' or attivita<>'') order by datalezione";
 
-        $rislez = eseguiQuery($con,$query);
+        $rislez = eseguiQuery($con, $query);
 
         if (mysqli_num_rows($rislez) == 0)
         {
-            print  "<center><br><b>Nessun argomento registrato!</b><br></center>";
-        }
-        else
+            print "<center><br><b>Nessun argomento registrato!</b><br></center>";
+        } else
         {
             print "
                     <table border=2 align='center'>
@@ -153,13 +150,12 @@ if ($idmateria != "")
             {
                 $query = "select * from tbl_lezionicert where idclasse='$idclasse' and idmateria='$idmateria' and idalunno='$id_ut_doc' order by datalezione";
 
-                $rislez = eseguiQuery($con,$query);
+                $rislez = eseguiQuery($con, $query);
 
                 if (mysqli_num_rows($rislez) == 0)
                 {
-                    print  "<center><br><b>Nessuna attività di sostegno registrata!</b><br></center>";
-                }
-                else
+                    print "<center><br><b>Nessuna attività di sostegno registrata!</b><br></center>";
+                } else
                 {
                     print "<center><br><b>Attività di sostegno</b><br><br></center>
                     <table border=2 align='center'>
@@ -175,7 +171,6 @@ if ($idmateria != "")
 
                     print "</table>";
                 }
-
             }
         }
         // VISUALIZZARE ARGOMENTI SOSTEGNO

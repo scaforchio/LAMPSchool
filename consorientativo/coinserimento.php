@@ -21,13 +21,14 @@ session_start();
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 
-$idclasse= stringa_html("idclasse");
+$idclasse = stringa_html("idclasse");
 
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "") {
+if ($tipoutente == "")
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -45,23 +46,21 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 
 // Cancello le vecchie proposte
-
-
 // Inserisco le nuove proposte per ogni competenza presente
 
 $query = "select idalunno from tbl_alunni where idclasse=$idclasse";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
-while ($rec = mysqli_fetch_array($ris)) {
-    $idalunno=$rec['idalunno'];
-    $nomecampo="co_$idalunno";
-    $coalunno=stringa_html($nomecampo);
-    $query="delete from tbl_consorientativi where idalunno=$idalunno";
-    eseguiQuery($con,$query);
-    $query="insert into tbl_consorientativi (idalunno, consiglioorientativo) values ($idalunno,'$coalunno')";
-    eseguiQuery($con,$query);
-    
+while ($rec = mysqli_fetch_array($ris))
+{
+    $idalunno = $rec['idalunno'];
+    $nomecampo = "co_$idalunno";
+    $coalunno = stringa_html($nomecampo);
+    $query = "delete from tbl_consorientativi where idalunno=$idalunno";
+    eseguiQuery($con, $query);
+    $query = "insert into tbl_consorientativi (idalunno, consiglioorientativo) values ($idalunno,'$coalunno')";
+    eseguiQuery($con, $query);
 }
 
 print "
@@ -75,7 +74,7 @@ print "
 				  document.getElementById('formcc').submit();
 			  }
 			  </SCRIPT>";
-			  
+
 
 mysqli_close($con);
 stampa_piede("");

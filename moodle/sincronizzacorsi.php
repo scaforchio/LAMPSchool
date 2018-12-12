@@ -58,33 +58,32 @@ GROUP BY tbl_cattnosupp.idmateria,tbl_classi.idclasse
  ORDER BY 
     anno,specializzazione,sezione,denominazione";
 
-$ris = eseguiQuery($con,$query);
-$corsi=getCorsiMoodle($tokenservizimoodle,$urlmoodle);
+$ris = eseguiQuery($con, $query);
+$corsi = getCorsiMoodle($tokenservizimoodle, $urlmoodle);
 // print "Corsi: $corsi";
-if (mysqli_num_rows($ris)>0) 
-{    
-    
+if (mysqli_num_rows($ris) > 0)
+{
 
-    while ($lez=mysqli_fetch_array($ris)){
-        $ann=$lez['anno'];
-        $sez=$lez['sezione'];
-        $spe=$lez['specializzazione'];
-        $mat=$lez['denominazione'];
-        $idmat=$lez['idmateria'];
-        $idcla=$lez['idclasse'];
-        $sigmat=$lez['sigla'];
-        $specsigla=substr($spe,0,3);
-        $siglacorso=$sigmat.$ann.$sez.$specsigla.$_SESSION['annoscol'];
 
-        $presente=strstr($corsi,$siglacorso);
+    while ($lez = mysqli_fetch_array($ris))
+    {
+        $ann = $lez['anno'];
+        $sez = $lez['sezione'];
+        $spe = $lez['specializzazione'];
+        $mat = $lez['denominazione'];
+        $idmat = $lez['idmateria'];
+        $idcla = $lez['idclasse'];
+        $sigmat = $lez['sigla'];
+        $specsigla = substr($spe, 0, 3);
+        $siglacorso = $sigmat . $ann . $sez . $specsigla . $_SESSION['annoscol'];
+
+        $presente = strstr($corsi, $siglacorso);
         if ($presente)
         {
             print "<br>Sincronizzazione corso classe $idcla materia $idmat";
-            sincronizzaCorsoMoodle($idcla, $idmat, $con,$tokenservizimoodle,$urlmoodle,$nome_scuola,$annoscol);
+            sincronizzaCorsoMoodle($idcla, $idmat, $con, $tokenservizimoodle, $urlmoodle, $nome_scuola, $annoscol);
         }
-
     }
-    
 }
 
 mysqli_close($con);

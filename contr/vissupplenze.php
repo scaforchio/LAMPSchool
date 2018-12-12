@@ -1,24 +1,26 @@
-<?php session_start();
+<?php
+
+session_start();
 
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
-/*programma per la visualizzazione dei tbl_docenti
-riceve in ingresso idcomnasc e idcomres Da in uscita iddocente*/
+/* programma per la visualizzazione dei tbl_docenti
+  riceve in ingresso idcomnasc e idcomres Da in uscita iddocente */
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 
@@ -34,7 +36,7 @@ if ($tipoutente == "")
 
 $titolo = "Visualizzazione supplenze";
 $script = "";
-stampa_head($titolo, "", $script,"PMSD");
+stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $iddocente = stringa_html('iddocente');
@@ -65,7 +67,7 @@ print ' <form method="post" name="lezioni" action="vissupplenze.php">
       <td colspan="2" align="center"><b>Docente</b>';
 
 $sqld = "SELECT * FROM tbl_docenti ORDER BY cognome, nome";
-$resd = mysqli_query($con, inspref($sqld)) or die (mysqli_error($con));
+$resd = eseguiQuery($con,$sqld);
 if ($resd)
 {
     print ("<select name='iddocente' ONCHANGE='lezioni.submit()'>");
@@ -80,8 +82,7 @@ if ($resd)
             print($datal['cognome']);
             print("&nbsp;");
             print($datal['nome']);
-        }
-        else
+        } else
         {
             print("<option value='");
             print($datal['iddocente']);
@@ -91,7 +92,6 @@ if ($resd)
             print($datal['nome']);
         }
     }
-
 }
 print("</select> </td> </tr></table></form><br>");
 if ($iddocente != '')
@@ -105,19 +105,18 @@ if ($iddocente != '')
        AND tbl_firme.iddocente=$iddocente
        AND tbl_lezioni.idmateria=0
        ORDER BY datalezione,orainizio";
-}
-else
+} else
 {
-   /* $sql = "SELECT * FROM tbl_firme,tbl_lezioni ,tbl_classi,tbl_materie
-       WHERE 
-       tbl_firme.idlezione=tbl_lezioni.idlezione
-       AND tbl_lezioni.idclasse=tbl_classi.idclasse
-       
-       AND tbl_lezioni.idmateria=tbl_materie.idmateria
-       AND tbl_lezioni.idmateria=0
-       ORDER BY datalezione,orainizio"; */
+    /* $sql = "SELECT * FROM tbl_firme,tbl_lezioni ,tbl_classi,tbl_materie
+      WHERE
+      tbl_firme.idlezione=tbl_lezioni.idlezione
+      AND tbl_lezioni.idclasse=tbl_classi.idclasse
 
-       $sql = "SELECT sum(numeroore) as totoresupp, tbl_firme.iddocente, cognome, nome FROM tbl_firme,tbl_lezioni ,tbl_classi,tbl_materie,tbl_docenti
+      AND tbl_lezioni.idmateria=tbl_materie.idmateria
+      AND tbl_lezioni.idmateria=0
+      ORDER BY datalezione,orainizio"; */
+
+    $sql = "SELECT sum(numeroore) as totoresupp, tbl_firme.iddocente, cognome, nome FROM tbl_firme,tbl_lezioni ,tbl_classi,tbl_materie,tbl_docenti
                WHERE tbl_firme.idlezione=tbl_lezioni.idlezione
                AND tbl_firme.iddocente=tbl_docenti.iddocente
                AND tbl_lezioni.idclasse=tbl_classi.idclasse
@@ -125,12 +124,10 @@ else
                AND tbl_lezioni.idmateria=0
                GROUP BY tbl_firme.iddocente
                ORDER BY cognome, nome";
-
-
 }
-$result = mysqli_query($con, inspref($sql)) or die(mysqli_error($con));
+$result = eseguiQuery($con,$sql);
 
-if ($iddocente!=0)
+if ($iddocente != 0)
 {
     $totaleore = 0;
     print("<CENTER><table border=1>");
@@ -159,8 +156,7 @@ if ($iddocente!=0)
 //	 print("<td><center><a href='mod_lez.php?a=$idlez'> Modifica</a></td>");
 //	 print("<td><center><a href='can_lez.php?a=$idlez'> Elimina</a></td></tr>");
         }
-    }
-    else
+    } else
     {
         print("<tr BGCOLOR='#cccccc'><td colspan='11'> <center>Nessuna supplenza trovata</center></td></tr>");
     }
@@ -168,8 +164,7 @@ if ($iddocente!=0)
     print("<b>Totale ore di supplenza: $totaleore</b>");
 
     print("</CENTER>");
-}
-else
+} else
 {
     $totaleore = 0;
     print("<CENTER><table border=1>");
@@ -186,15 +181,14 @@ else
         while ($Data = mysqli_fetch_array($result))
         {
 
-            $docente = $Data['cognome']." ".$Data['nome'];
+            $docente = $Data['cognome'] . " " . $Data['nome'];
             $numeroore = $Data['totoresupp'];
             print("<tr><td>$docente</td><td align='center'>$numeroore</td>");
             $totaleore += $numeroore;
 //	 print("<td><center><a href='mod_lez.php?a=$idlez'> Modifica</a></td>");
 //	 print("<td><center><a href='can_lez.php?a=$idlez'> Elimina</a></td></tr>");
         }
-    }
-    else
+    } else
     {
         print("<tr BGCOLOR='#cccccc'><td colspan='11'> <center>Nessuna supplenza trovata</center></td></tr>");
     }
@@ -202,8 +196,6 @@ else
     print("<b>Totale ore di supplenza: $totaleore</b>");
 
     print("</CENTER>");
-
-
 }
 
 mysqli_close($con);

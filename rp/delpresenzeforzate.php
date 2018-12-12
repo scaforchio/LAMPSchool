@@ -1,23 +1,25 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
-/*Programma per la visualizzazione dell'elenco delle tbl_classi.*/
+/* Programma per la visualizzazione dell'elenco delle tbl_classi. */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -33,7 +35,7 @@ if ($tipoutente == "")
 
 $titolo = "Cancellazione presenza forzata";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vispresenzeforzate.php'>ELENCO PRESENZE FORZATE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -54,14 +56,13 @@ if (!$DB)
 };
 
 //Esecuzione query
-$idalunno=stringa_html('idalunno');
+$idalunno = stringa_html('idalunno');
 $eli = "DELETE FROM tbl_presenzeforzate WHERE idpresenzaforzata=" . stringa_html('idpre');
-$ris = mysqli_query($con, inspref($eli));
+$ris = eseguiQuery($con, $eli);
 if (!($ris))
 {
     print "<CENTER><FONT SIZE='+2'>\n Eliminazione non effettuata</FONT></CENTER>";
-}
-else
+} else
 {
     // print "<CENTER><FONT SIZE='+2'>\n Eliminazione effettuata</FONT></CENTER>";
     print "

@@ -1,22 +1,24 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
-/*programma per la visualizzazione e modifica degli avvisi
+/* programma per la visualizzazione e modifica degli avvisi
  */
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -31,7 +33,7 @@ if ($tipoutente == "")
 }
 $titolo = "Elenco collegamenti web";
 $script = "";
-stampa_head($titolo, "", $script,"PMSD");
+stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -48,7 +50,7 @@ if (!$DB)
     exit;
 }
 $sql = "SELECT * FROM tbl_collegamenti ORDER BY destinatari, descrizione";
-$result = eseguiQuery($con,$sql);
+$result = eseguiQuery($con, $sql);
 
 
 print("<CENTER><table border=1>");
@@ -70,8 +72,7 @@ if ($w > 0)
         print "&nbsp;<a href='can_coll.php?idavviso=" . $Data['idcollegamento'] . "'><img src='../immagini/delete.png' title='Elimina'></a>";
         print "</td></tr>";
     }
-}
-else
+} else
 {
     print("<tr BGCOLOR='#cccccc'><td colspan='11'> <center>Nessun collegamento trovato</center></td></tr>");
 }

@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -28,10 +30,10 @@ if ($tipoutente == "")
     die;
 }
 
-/*Programma per la gestione del controllo dell'input di un alunno **/
+/* Programma per la gestione del controllo dell'input di un alunno * */
 $titolo = "Conferma inserimento alunno";
 $script = "";
-stampa_head($titolo, "", $script,"E");
+stampa_head($titolo, "", $script, "E");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='esa_vis_alu_cla.php'>Elenco classi</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $cognome = stringa_html('cognome');
@@ -60,8 +62,7 @@ $DB = true;
 if (!$DB)
 {
     print("<h1> Connessione al database fallita </h1>");
-}
-else
+} else
 {
     print "<center>";
     //print "<html>";
@@ -74,8 +75,7 @@ else
     {
         $err = 1;
         $mes = "Il cognome non &egrave; stato inserito<br/> ";
-    }
-    else
+    } else
     {
         $errore = controlla_stringa($cognome);
         if ($errore == 1)
@@ -88,8 +88,7 @@ else
     {
         $err = 1;
         $mes = $mes . "Il nome non &egrave; stato inserito<br/> ";
-    }
-    else
+    } else
     {
         $errore = controlla_stringa($nome);
         if ($errore == 1)
@@ -102,8 +101,7 @@ else
     {
         $err = 1;
         $mes = $mes . " L'anno di nascita non &egrave; stato inserito<br/> ";
-    }
-    else
+    } else
     {
         if (is_numeric($aa) === false)
         {
@@ -116,8 +114,7 @@ else
     {
         $err = 1;
         $mes = $mes . " Il giorno di nascita non &egrave; stato inserito<br/> ";
-    }
-    else
+    } else
     {
         if (is_numeric($gg) === false)
         {
@@ -129,8 +126,7 @@ else
     {
         $err = 1;
         $mes = $mes . "Il mese di nascita non &egrave; stato inserito<br/> ";
-    }
-    else
+    } else
     {
         switch ($mm)
         {
@@ -139,53 +135,53 @@ else
             case 5:
             case 7:
             case 8:
-            {
-                if ($gg > 31)
                 {
-                    $err = 1;
-                    $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+                    if ($gg > 31)
+                    {
+                        $err = 1;
+                        $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+                    }
+                    break;
                 }
-                break;
-            }
             case 10:
-            {
-                if ($gg > 31)
                 {
-                    $err = 1;
-                    $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+                    if ($gg > 31)
+                    {
+                        $err = 1;
+                        $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+                    }
+                    break;
                 }
-                break;
-            }
             case 12:
-            {
-                if ($gg > 31)
                 {
-                    $err = 1;
-                    $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+                    if ($gg > 31)
+                    {
+                        $err = 1;
+                        $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+                    }
+                    break;
                 }
-                break;
-            }
             case 4:
             case 6:
             case 9:
             case 11:
-            {
-                if ($gg > 30)
                 {
-                    $err = 1;
-                    $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+                    if ($gg > 30)
+                    {
+                        $err = 1;
+                        $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+                    }
+                    break;
                 }
-                break;
-            }
             case 2:
-            {
-                if ($gg > 29)
                 {
-                    $err = 1;
-                    $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+                    if ($gg > 29)
+                    {
+                        $err = 1;
+                        $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+                    }
+                    break;
                 }
-                break;
-            }
             default:
                 $mes = $mes . "Il mese di nascita non &egrave; corretto<br/>";
         }
@@ -198,40 +194,38 @@ else
 
     if ($err == 0)
     { // print inspref($query);
-        $res = mysqli_query($con, inspref($query)) or die (mysqli_error($con)." - ".inspref($query,false));
+        $res = eseguiQuery($con,$query);
         if (!$res)
         {
             print("Il nuovo alunno non &egrave; stato inserito<br/>");
-        }
-        else
+        } else
         {
             /*
-            $idalunnoinserito = mysqli_insert_id($con);
+              $idalunnoinserito = mysqli_insert_id($con);
 
-            // INSERISCO ANCHE IL RECORD NELLA TABELLA DEI tbl_tutori;
-            $sqlt = "insert into tbl_tutori(idtutore,cognome,nome,idalunno,idutente) values ('$idalunnoinserito','$cognome','$nome','$idalunnoinserito','$idalunnoinserito')";
-            $res = eseguiQuery($con,$sqlt);
-            // INSERISCO ANCHE IL RECORD NELLA TABELLA DEI tbl_tutori;
-            $utente = "gen" . $idalunnoinserito;
-            $password = creapassword();
-            $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idalunnoinserito','$utente',md5('" . md5($password) . "'),'T')";
-            $res = eseguiQuery($con,$sqlt);
-            // AGGIORNO IL RECORD DELL'ALUNNO CON l'ID DEL TUTORE
-            $sqlt = "update tbl_alunni set idtutore=$idalunnoinserito,idutente=$idalunnoinserito where idalunno=$idalunnoinserito";
+              // INSERISCO ANCHE IL RECORD NELLA TABELLA DEI tbl_tutori;
+              $sqlt = "insert into tbl_tutori(idtutore,cognome,nome,idalunno,idutente) values ('$idalunnoinserito','$cognome','$nome','$idalunnoinserito','$idalunnoinserito')";
+              $res = eseguiQuery($con,$sqlt);
+              // INSERISCO ANCHE IL RECORD NELLA TABELLA DEI tbl_tutori;
+              $utente = "gen" . $idalunnoinserito;
+              $password = creapassword();
+              $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idalunnoinserito','$utente',md5('" . md5($password) . "'),'T')";
+              $res = eseguiQuery($con,$sqlt);
+              // AGGIORNO IL RECORD DELL'ALUNNO CON l'ID DEL TUTORE
+              $sqlt = "update tbl_alunni set idtutore=$idalunnoinserito,idutente=$idalunnoinserito where idalunno=$idalunnoinserito";
 
-            $res = eseguiQuery($con,$sqlt);
+              $res = eseguiQuery($con,$sqlt);
 
-            // print "risultato inserimento $idalunnoinserito<br/>"; */
+              // print "risultato inserimento $idalunnoinserito<br/>"; */
             print("L'alunno &egrave; stato inserito<br/>");
         }
         print(" <form action='esa_vis_alu.php' method='POST'>");
         print ("<input type='hidden'  name='idcla' value='$datc'>");
-        print  ("<input type='submit' value=' << Indietro '></form> ");
+        print ("<input type='submit' value=' << Indietro '></form> ");
         print "<br><br><center>";
 
         print "</center>";
-    }
-    else
+    } else
     {
         print (" <form action='esa_vis_alu_cla.php' method='POST'>");
         print ("<input type='hidden'  name='cognome' value='$cognome'>");
@@ -246,7 +240,7 @@ else
 
         print ("<h3> Correzioni:</h3>");
         print $mes;
-        print  ("<br/><input type='submit' value=' << Indietro '> ");
+        print ("<br/><input type='submit' value=' << Indietro '> ");
         print ("</form>");
     }
     print "</center>";

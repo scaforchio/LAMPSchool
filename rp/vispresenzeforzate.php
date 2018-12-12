@@ -1,23 +1,25 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
-/*Programma per la visualizzazione dell'elenco delle tbl_classi.*/
+/* Programma per la visualizzazione dell'elenco delle tbl_classi. */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -34,24 +36,22 @@ if ($tipoutente == "")
 
 $titolo = "Elenco presenze forzate";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
 //
 //    Fine parte iniziale della pagina
 //
-
-
 //Connessione al server SQL
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 $query = "SELECT * FROM tbl_alunni LEFT JOIN tbl_classi
          ON tbl_alunni.idclasse=tbl_classi.idclasse
          ORDER BY cognome,nome,anno, sezione, specializzazione";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 print "<form name='selealu' action='vispresenzeforzate.php' method='post'>";
 print "<table align='center'>";
@@ -63,8 +63,7 @@ while ($rec = mysqli_fetch_array($ris))
     if ($idalunno == $rec['idalunno'])
     {
         $sele = " selected";
-    }
-    else
+    } else
     {
         $sele = "";
     }
@@ -81,8 +80,7 @@ print "
 if ($idalunno != "")
 {
     $selealunno = " AND tbl_presenzeforzate.idalunno=$idalunno ";
-}
-else
+} else
 {
     $selealunno = " ";
 }
@@ -92,7 +90,7 @@ $query = "SELECT * FROM tbl_presenzeforzate,tbl_alunni,tbl_classi
               AND tbl_alunni.idclasse = tbl_classi.idclasse
               $selealunno
               ORDER BY data desc,cognome,nome,anno,sezione,specializzazione,data";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 print "<CENTER><TABLE BORDER='1'>";
 print "<TR class='prima'><TD ALIGN='CENTER'><B>Alunno</B></TD><TD ALIGN='CENTER'><B>Data</B></TD><TD ALIGN='CENTER'><B>Motivo</B></TD></TD><TD COLSPAN='2' ALIGN='CENTER'><B>Azioni</B></TD></TR>";
@@ -113,7 +111,7 @@ print "</CENTER></TABLE>";
 
 stampa_piede("");
 mysqli_close($con);
-	
-	
+
+
 
 

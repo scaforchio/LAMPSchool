@@ -27,7 +27,8 @@ session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 
 
-if ($tipoutente == "") {
+if ($tipoutente == "")
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -48,7 +49,8 @@ $datafine = data_to_db(stringa_html('datafine'));
 
 
 $oregiorni = array();    // Array contenente il numero di ore della deroga per ogni giorno della settimana
-for ($i = 1; $i <= $giornilezsett; $i++) {
+for ($i = 1; $i <= $giornilezsett; $i++)
+{
     array_push($oregiorni, stringa_html("ore$i"));
 }
 
@@ -60,21 +62,24 @@ if ($datafine > $datafinelezioni)  // Per evitare errori di inserimento
     $datafine = $datafinelezioni;
 
 // Inserisco una presenza forzata per ogni giorno compreso tra datainizio e datafine
-do {
+do
+{
     $numeroore = $oregiorni[numero_giorno_settimana($data) - 1];
     $strgi = 'giorno' . numero_giorno_settimana($data);
 
     $vergiornosett = stringa_html($strgi) ? "on" : "off";
 
-    if ((!giorno_festa($data, $con)) && ($vergiornosett == "on")) {
+    if ((!giorno_festa($data, $con)) && ($vergiornosett == "on"))
+    {
         $query = "insert into tbl_deroghe(idalunno,data,motivo,numeroore) values ($idalunno,'$data','$motivo',0)";
-        eseguiQuery($con,$query);
+        eseguiQuery($con, $query);
     } else
 
-    if ((!giorno_festa($data, $con)) && (giorno_settimana($data) != "Dom") && ($numeroore > 0)) {
+    if ((!giorno_festa($data, $con)) && (giorno_settimana($data) != "Dom") && ($numeroore > 0))
+    {
         $query = "insert into tbl_deroghe(idalunno,data,motivo,numeroore) values ($idalunno,'$data','$motivo','$numeroore')";
-        eseguiQuery($con,$query);
-    } 
+        eseguiQuery($con, $query);
+    }
     $data = aggiungi_giorni($data, 1);
 } while ($data <= $datafine);
 

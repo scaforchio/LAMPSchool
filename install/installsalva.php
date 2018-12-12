@@ -1,4 +1,6 @@
-<?php session_start();
+<?php
+
+session_start();
 /**
  * Nuova installazione, salvataggio dei parametri globali di LAMPSchool nella tabella tbl_parametri
  * il file newphp-ini.php viene copiato nel path iniziale del sito e diventa php-ini.php
@@ -6,8 +8,6 @@
  * @copyright  Copyright (C) 2015 Angelo Scarnà, Renato Tamilio
  * @license    GNU Affero General Public License versione 3 o successivi; vedete agpl-3.0.txt
  */
-
-
 require_once '../lib/funzioni.php';
 require_once 'funzioni_install.php';
 
@@ -32,9 +32,7 @@ if (file_exists($configfile))
 if (!copy($newfile, $configfile))
 {
     print "<p class='importante' align='center'>il file $configfile non &egrave; stato copiato correttamente</p>";
-
-}
-else
+} else
 {
     // CREAZIONE SOTTOCARTELLE SUFFISSO
 
@@ -45,7 +43,7 @@ else
     copy("../abc/firmadirigente.png", "../abc/$par_suffisso_installazione/firmadirigente.png");
     copy("../abc/testata.jpg", "../abc/$par_suffisso_installazione/testata.jpg");
     copy("../abc/timbro.png", "../abc/$par_suffisso_installazione/timbro.png");
-  //  copy("../abc/*", "../abc/$par_suffisso_installazione");
+    //  copy("../abc/*", "../abc/$par_suffisso_installazione");
     copy("../lampschooldata/index.html", "../lampschooldata/$par_suffisso_installazione/index.html");
     copy("../css/stile.css", "../css/stile$par_suffisso_installazione.css");
 }
@@ -74,10 +72,10 @@ esecuzioneFile($file, $credenziali);
 //    $erroredb = inizializzaParametri(true, $credenziali,$json['versione']);
 //}
 
-$con=mysqli_connect($par_db_server,$par_db_user,$par_db_password,$par_db_nome);
-$query="update $par_prefisso_tabelle"."tbl_parametri set valore='".$par_nomescuola."' where parametro='nome_scuola'";
-mysqli_query($con,$query) or die("Errore in settaggio nome scuola");
-if ($par_passwordadmin!="")
+$con = mysqli_connect($par_db_server, $par_db_user, $par_db_password, $par_db_nome);
+$query = "update $par_prefisso_tabelle" . "tbl_parametri set valore='" . $par_nomescuola . "' where parametro='nome_scuola'";
+mysqli_query($con, $query) or die("Errore in settaggio nome scuola");
+if ($par_passwordadmin != "")
 {
     $query = "update $par_prefisso_tabelle" . "tbl_utenti set password=md5(md5('" . $par_passwordadmin . "')) where idutente=0";
     mysqli_query($con, $query) or die("Errore in impostazione password");
@@ -86,8 +84,7 @@ mysqli_close($con);
 if ($erroredb)
 {
     $stile . "importante";
-}
-else
+} else
 {
     $stile = "importanteverde";
 }
@@ -97,13 +94,12 @@ $messaggioFinale = "<div class='$stile' align='center'>Installazione di LAMPScho
 if ($erroredb)
 {
     print $messaggioFinale . " NON effettuata correttamente :-(</div>";
-}
-else
+} else
 {
-    if ($par_passwordadmin!="")
-        $passadm=$par_passwordadmin;
+    if ($par_passwordadmin != "")
+        $passadm = $par_passwordadmin;
     else
-        $passadm="admin";
+        $passadm = "admin";
     print $messaggioFinale . " completata :-)<br>
                               Ricordarsi di:<br><br>
                                - effettuare l'impostazione dei parametri;<br>

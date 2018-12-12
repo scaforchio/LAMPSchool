@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
@@ -22,7 +24,7 @@ require_once '../lib/funzioni.php';
 // istruzioni per tornare alla pagina di login se non c'è una sessione valida
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-$classeregistro= $_SESSION['classeregistro'];
+$classeregistro = $_SESSION['classeregistro'];
 if ($tipoutente == "")
 {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
@@ -57,10 +59,10 @@ $(document).ready(function(){
 
 
 </script>";
-stampa_head($titolo, "", $script,"MSPD");
+stampa_head($titolo, "", $script, "MSPD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", "$nome_scuola", "$comune_scuola");
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $nome = stringa_html('cl');
 // $but = stringa_html('visrit');
@@ -101,16 +103,14 @@ print ('
 
 
 
-if ($classeregistro=="")
+if ($classeregistro == "")
 {
     $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY specializzazione, sezione, anno";
     print "<option value=''>&nbsp;";
-}
-
-else
+} else
     $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi where idclasse=$classeregistro ORDER BY specializzazione, sezione, anno";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -137,54 +137,50 @@ echo('
 //
 //   Inizio visualizzazione della data
 //
-
-
 //
 //   Inizio visualizzazione della data
 //
 
 
 echo('   <td width="50%">');
-if ($classeregistro=="")
+if ($classeregistro == "")
 {
     echo('   <select name="gio"  ONCHANGE="tbl_assenze.submit()">');
-}
-else
+} else
 {
     print ("<input type='hidden' name='gio' value='$giorno'>");
     echo('   <select name="gio" disabled>');
 }
 require '../lib/aggiungi_giorni_a_select.php';
 /*
-for  ($g = 1; $g <= 31; $g++)
-{
-    if ($g < 10)
-    {
-        $gs = '0' . $g;
-    }
-    else
-    {
-        $gs = '' . $g;
-    }
-    if ($gs == $giorno)
-    {
-        echo("<option selected>$gs</option>");
-    }
-    else
-    {
-        echo("<option>$gs</option>");
-    }
-}
+  for  ($g = 1; $g <= 31; $g++)
+  {
+  if ($g < 10)
+  {
+  $gs = '0' . $g;
+  }
+  else
+  {
+  $gs = '' . $g;
+  }
+  if ($gs == $giorno)
+  {
+  echo("<option selected>$gs</option>");
+  }
+  else
+  {
+  echo("<option>$gs</option>");
+  }
+  }
  * 
  */
 echo("</select>");
 
 
-if ($classeregistro=="")
+if ($classeregistro == "")
 {
     echo('   <select name="meseanno" ONCHANGE="tbl_assenze.submit()">');
-}
-else
+} else
 {
     print ("<input type='hidden' name='meseanno' value='$mese'>");
     echo('   <select name="meseanno" disabled>');
@@ -192,48 +188,48 @@ else
 require '../lib/aggiungi_mesi_a_select.php';
 
 /*
-for  ($m = 9; $m <= 12; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = "0" . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscol</option>");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscol</option>");
-    }
-}
-$annoscolsucc = $annoscol + 1;
-for ($m = 1; $m <= 8; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = '0' . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscolsucc</option>");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscolsucc</option>");
-    }
-}
+  for  ($m = 9; $m <= 12; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = "0" . $m;
+  }
+  else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscol</option>");
+  }
+  else
+  {
+  echo("<option>$ms - $annoscol</option>");
+  }
+  }
+  $annoscolsucc = $annoscol + 1;
+  for ($m = 1; $m <= 8; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = '0' . $m;
+  }
+  else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscolsucc</option>");
+  }
+  else
+  {
+  echo("<option>$ms - $annoscolsucc</option>");
+  }
+  }
  * 
  */
- 
+
 echo("</select>");
 
 //
@@ -259,16 +255,14 @@ echo('  </td>
 if ($mese == "")
 {
     $m = 0;
-}
-else
+} else
 {
     $m = $mese;
 }
 if ($giorno == "")
 {
     $g = 0;
-}
-else
+} else
 {
     $g = $giorno;
 }
@@ -276,8 +270,7 @@ else
 if ($anno == "")
 {
     $a = 0;
-}
-else
+} else
 {
     $a = $anno;
 }
@@ -288,18 +281,18 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
     $idclasse = $nome;
     $classe = "";
     $data = $a . "-" . $m . "-" . $g;
-    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
     $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($val = mysqli_fetch_array($ris))
     {
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
     }
 
     $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     $c = mysqli_fetch_array($ris);
 
@@ -331,62 +324,56 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
   ';
 
 
-    $query = "SELECT * FROM tbl_alunni WHERE idalunno in (".estrai_alunni_classe_data($idclasse,$anno . '-' . $mese . '-' . $giorno,$con).")  order by cognome, nome, datanascita";
+    $query = "SELECT * FROM tbl_alunni WHERE idalunno in (" . estrai_alunni_classe_data($idclasse, $anno . '-' . $mese . '-' . $giorno, $con) . ")  order by cognome, nome, datanascita";
 
-    $ris = eseguiQuery($con,$query);
-    $cont=0;
+    $ris = eseguiQuery($con, $query);
+    $cont = 0;
     while ($val = mysqli_fetch_array($ris))
     {
         $cont++;
         if ($val['autentrata'] != "")
         {
             $autoentr = "<br><small>Perm. ingr.: " . $val['autentrata'] . "</small>";
-        }
-        else
+        } else
         {
             $autoentr = "";
         }
         echo '
         <tr>
           
-          <td><b>'.$cont.'</b></td><td><b> ' . $val["cognome"] . ' ' . $val["nome"] . ' ' . data_italiana($val["datanascita"]) . ' ' . $autoentr . ' </b></td>';
+          <td><b>' . $cont . '</b></td><td><b> ' . $val["cognome"] . ' ' . $val["nome"] . ' ' . data_italiana($val["datanascita"]) . ' ' . $autoentr . ' </b></td>';
 
         //      <td><center>   <input type=checkbox name="rit'.$val["idalunno"].'
-
-
 // Codice per ricerca tbl_ritardi già inseriti
         $queryrit = 'SELECT * FROM tbl_ritardi WHERE idalunno = ' . $val["idalunno"] . ' AND data = "' . $anno . '-' . $mese . '-' . $giorno . '"';
 
-        $risrit = mysqli_query($con, inspref($queryrit)) or die ("Errore nella query: " . mysqli_error($con));
+        $risrit = eseguiQuery($con, $queryrit);
         $valrit = mysqli_fetch_array($risrit);
         //    {
         //         print " checked";
         //    }
-
 // Fine codice per ricerca tbl_ritardi già inseriti
-
-
         // print "></center></td>";
-    /*    print "<td><center>";
-        echo "<select class='smallchar' name='numeroore" . $val["idalunno"] . "' disabled>";
-        for ($i = 0; $i <= ($numeromassimoore - 1); $i++)
-        {
-            if ($i != $valrit["numeroore"])
-            {
-                print "<option>" . $i;
-            }
-            else
-            {
-                print "<option selected>" . $i;
-            }
-        }
-        print "</select>";
-        print "</td>"; */
+        /*    print "<td><center>";
+          echo "<select class='smallchar' name='numeroore" . $val["idalunno"] . "' disabled>";
+          for ($i = 0; $i <= ($numeromassimoore - 1); $i++)
+          {
+          if ($i != $valrit["numeroore"])
+          {
+          print "<option>" . $i;
+          }
+          else
+          {
+          print "<option selected>" . $i;
+          }
+          }
+          print "</select>";
+          print "</td>"; */
 
         if ($valrit['oraentrata'] != "00:00:00")
-            $valore=substr($valrit['oraentrata'], 0, 5);
+            $valore = substr($valrit['oraentrata'], 0, 5);
         else
-            $valore="";
+            $valore = "";
 
 
         // tttt Da sostituire quando firefox supporterà time    print "<td><input type='time' name='oraentrata" . $val["idalunno"] . "' maxlength='5' size=5 value='$valore'></td>";
@@ -396,20 +383,20 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
         print "</center></td>";
 
         print "<td><center>";
-      //  if ($giustifica_ritardi == 'yes')
-      //  {
-            $query = "select count(*) as numritingiust from tbl_ritardi
+        //  if ($giustifica_ritardi == 'yes')
+        //  {
+        $query = "select count(*) as numritingiust from tbl_ritardi
              where idalunno=" . $val['idalunno'] . "
              and data<= '$a-$m-$g'
              and (isnull(giustifica) or giustifica=0)";
-            $risriting = eseguiQuery($con,$query);
-            $valriting = mysqli_fetch_array($risriting);
-            $numero_ritardi_ing = $valriting['numritingiust'];
-            if ($numero_ritardi_ing > 0)
-            {
-                print "<a href='sitritdagiust.php?idalunno=" . $val['idalunno'] . "&idclasse=" . $val['idclasse'] . "&data=$data')><img src='../immagini/stilo.png'></a>";
-            }
-      //  }
+        $risriting = eseguiQuery($con, $query);
+        $valriting = mysqli_fetch_array($risriting);
+        $numero_ritardi_ing = $valriting['numritingiust'];
+        if ($numero_ritardi_ing > 0)
+        {
+            print "<a href='sitritdagiust.php?idalunno=" . $val['idalunno'] . "&idclasse=" . $val['idclasse'] . "&data=$data')><img src='../immagini/stilo.png'></a>";
+        }
+        //  }
         print "</center></td>";
 
 
@@ -423,20 +410,17 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
     <p align="center"><input type=hidden value=' . $anno . ' name=anno>
 </form>
 ';
-}
-else
+} else
 {
     if ($giornosettimana == "Dom")
     {
         print("<center><big><big>Il giorno selezionato &egrave; una domenica</big></big></center>");
-    }
-    else
+    } else
     {
         if ($nome == "")
         {
             print("");
-        }
-        else
+        } else
         {
             print("<center><big><big>La data selezionata non &egrave; valida</big></big></center>");
         }

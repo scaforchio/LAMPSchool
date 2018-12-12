@@ -1,23 +1,25 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
-GNU Affero General Public License come pubblicata
-dalla Free Software Foundation; sia la versione 3,
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 @include '../php-ini' . $_SESSION['suffisso'] . '.php';
 @include '../lib/funzioni.php';
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 // istruzioni per tornare alla pagina di login
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
@@ -84,7 +86,8 @@ switch ($deli)
 }
 //  print $arrpar[1];
 
-if ($sep == 't') $sep = "\t";
+if ($sep == 't')
+    $sep = "\t";
 $del = $deli == '' ? '"' : ($deli == 'a' ? "'" : '"');  // delimitatore di testo
 //  print $del;
 
@@ -94,8 +97,7 @@ if ($anno != "" && $idmateria != "")
     if (is_stringa_html('sovrascrittura'))
     {
         $sovrascrittura = true;
-    }
-    else
+    } else
     {
         $sovrascrittura = false;
     }
@@ -109,8 +111,7 @@ if ($anno != "" && $idmateria != "")
         if (is_uploaded_file($_FILES['filenomi']['tmp_name']))
         {
             move_uploaded_file($_FILES['filenomi']['tmp_name'], "$dir/$nomefile") or die("Impossibile spostare il file");
-        }
-        else
+        } else
         {
             die("Errore nell'upload del file." . $_FILES['filenomi']['error']);
         }
@@ -142,7 +143,7 @@ if ($anno != "" && $idmateria != "")
             $numordcono = 1;
             $idcompetenza = 0;
             $query = "delete from tbl_competscol where anno=$anno and idmateria=$idmateria";
-            eseguiQuery($con,$query);
+            eseguiQuery($con, $query);
             while (($riga_tmp = fgetcsv($handle, 1000, $sep, $del)) !== FALSE)
             {
                 if ($riga_tmp[0] == 'COMP')
@@ -152,21 +153,18 @@ if ($anno != "" && $idmateria != "")
                     $numordcono = 1;
                     $query = "insert into tbl_competscol(anno,idmateria,numeroordine,sintcomp,competenza) VALUES
                             ($anno,$idmateria,$numordcomp,'$riga_tmp[1]','$riga_tmp[2]')";
-                    eseguiQuery($con,$query);
+                    eseguiQuery($con, $query);
                     $idcompetenza = mysqli_insert_id($con);
 
                     $numordcomp++;
-
-                }
-                else
+                } else
                 {
                     if ($riga_tmp[0] == 'ABIL')
                     {
                         if ($riga_tmp[3] == 1)
                         {
                             $obmin = 1;
-                        }
-                        else
+                        } else
                         {
                             $obmin = 0;
                         }
@@ -174,52 +172,43 @@ if ($anno != "" && $idmateria != "")
                         // INSERISCO ABILITA' CON ID DELLA COMPETENZA SE C'E' IMPOSTO LO STATO AD "A"
                         $query = "insert into tbl_abilscol(idcompetenza,numeroordine,sintabilcono,abilcono,obminimi,abil_cono) VALUES
                             ($idcompetenza,$numordabil,'$riga_tmp[1]','$riga_tmp[2]',$obmin,'A')";
-                        eseguiQuery($con,$query);
+                        eseguiQuery($con, $query);
                         $numordabil++;
-                    }
-                    else
+                    } else
                     {
                         if ($riga_tmp[0] == 'CONO')
                         {
                             if ($riga_tmp[3] == 1)
                             {
                                 $obmin = 1;
-                            }
-                            else
+                            } else
                             {
                                 $obmin = 0;
                             }
                             // INSERISCO ABILITA' CON ID DELLA COMPETENZA SE C'E' IMPOSTO LO STATO AD "A"
                             $query = "insert into tbl_abilscol(idcompetenza,numeroordine,sintabilcono,abilcono,obminimi,abil_cono) VALUES
                             ($idcompetenza,$numordcono,'$riga_tmp[1]','$riga_tmp[2]',$obmin,'C')";
-                            eseguiQuery($con,$query);
+                            eseguiQuery($con, $query);
                             $numordcono++;
-
                         }
                     }
                 }
-
-
             }
-        }
-        else
+        } else
         {
             print "<center><br><b>Struttura del file errata!</b>";
             pulisci_buffer();
         }
-
-    }
-    else
+    } else
     {
         // TTTT SE C'E' GIA' UNA PROGRAMMAZIONE MESSAGGIO
         $query = "select * from tbl_competscol where anno=$anno and idmateria=$idmateria";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         if (mysqli_num_rows($ris) > 0)
         {
             print "<center><br><b>C'è già una programmazione per l'anno e la materia. Confermare sovrascrittura in fase di selezione!</b>";
         }
     }
-
 }
 
 mysqli_close($con);

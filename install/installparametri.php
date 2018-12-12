@@ -1,4 +1,6 @@
-<?php session_start();
+<?php
+
+session_start();
 /**
  * Nuova installazione, inserimento dei parametri globali di LAMPSchool
  * i dati di accesso alla base dati sono scritti nel file newphp-ini.php
@@ -7,15 +9,14 @@
  * @copyright  Copyright (C) 2015 Angelo Scarnà, Renato Tamilio
  * @license    GNU Affero General Public License versione 3 o successivi; vedete agpl-3.0.txt
  */
-
 require_once '../lib/funzioni.php';
 require_once 'funzioni_install.php';
 
 $json = leggeFileJSON('../lampschool.json');
-$titolo = $json['titolo']. ' '. $json['versione']. ' Installazione';
+$titolo = $json['titolo'] . ' ' . $json['versione'] . ' Installazione';
 ////session_start();
 
-$script = getCssJavascript(). "
+$script = getCssJavascript() . "
 <script>
 function validazione() {
     
@@ -36,7 +37,7 @@ function setAction(url) {
 }
 </script>
 ";
-stampa_head('Installazione Lampschool', '', $script,"", false);
+stampa_head('Installazione Lampschool', '', $script, "", false);
 stampa_testata_installer($titolo, '', '');
 
 print '<div class="modal"></div>';
@@ -44,15 +45,19 @@ print '<div class="modal"></div>';
 $scrittura = true;
 $fileIni = 'newphp-ini.php';
 
-if (file_exists($fileIni)) {
-    
-    if (!is_writable($fileIni)) {
+if (file_exists($fileIni))
+{
+
+    if (!is_writable($fileIni))
+    {
         print "<center>il file $fileIni non &egrave; scrivibile. Dare i permessi in scrittura al file.</center>";
         $scrittura = false;
     }
-} else {
-	
-    if (!is_writable("..")) {
+} else
+{
+
+    if (!is_writable(".."))
+    {
         print "<center>La cartella di destinazione non &egrave; scrivibile. Dare i permessi in scrittura alla cartella.</center>";
         $scrittura = false;
     }
@@ -78,7 +83,7 @@ $str = str_replace("{DBPREFIX}", "$par_prefisso_tabelle", $str);
 file_put_contents('newphp-ini.php', $str);
 
 // copy('php-ini.php.bkp', '../php-ini.php');
-print "<center><br>File php-ini".$par_suffisso_installazione.".php correttamente creato!</center>";
+print "<center><br>File php-ini" . $par_suffisso_installazione . ".php correttamente creato!</center>";
 
 print "
  <form method='post' id='formInstall'>
@@ -93,7 +98,7 @@ print "
 </form>
 ";
 
-stampaPulsanti('installdb','installsalva');
+stampaPulsanti('installdb', 'installsalva');
 
 stampa_piede('', false);
 

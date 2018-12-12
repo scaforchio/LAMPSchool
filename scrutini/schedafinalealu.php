@@ -179,7 +179,7 @@ else
 //  Riempimento combobox delle tbl_classi
 //
 $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY anno,sezione,specializzazione";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -208,7 +208,7 @@ if ($nome != "")
 {
     print "<tr><td><b>Alunno</b></td><td>";
     $query = "select idalunno,cognome,nome,datanascita from tbl_alunni where idclasse=$idclasse order by cognome, nome, datanascita";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($provenienza == 'tab')
         echo("<select name='idalunno' ONCHANGE='voti.submit()' disabled><option value=''>&nbsp");
     else
@@ -229,8 +229,7 @@ if ($nome != "")
         print "&nbsp;&nbsp;&nbsp;";
         print(data_italiana($nom["datanascita"]));
     }
-}
-else
+} else
 {
     print "<tr><td width='50%'><p align='center'><b>Alunno</b></p></td><td>";
     echo("<select name='idalunno'><option value=''>&nbsp");
@@ -253,7 +252,7 @@ if ($nome != "" & $idalunno != "")
               and tbl_cattnosupp.iddocente <> 1000000000
               and tbl_materie.progrpag<100
               order by progrpag,sigla";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if (mysqli_num_rows($ris) > 0)
     {
         //print ("<table align='center' border='1'><tr class='prima' align='center'><td>Alunno</td>");
@@ -271,7 +270,7 @@ if ($nome != "" & $idalunno != "")
                 and tbl_gruppi.idmateria=" . $nom['idmateria'] . "
                 ";
 
-            $risgru = eseguiQuery($con,$query);
+            $risgru = eseguiQuery($con, $query);
             if ($recgru = mysqli_fetch_array($risgru))
             {
                 $idgruppo = $recgru['idgruppo'];
@@ -283,7 +282,7 @@ if ($nome != "" & $idalunno != "")
                 and tbl_alunni.idclasse=$idclasse
                 and tbl_gruppi.idmateria=" . $nom['idmateria'] . ")";
 
-                $risgrualu = eseguiQuery($con,$query);
+                $risgrualu = eseguiQuery($con, $query);
                 if (mysqli_num_rows($risgrualu) == 0)
                 {
                     $aggiungi = false;
@@ -362,7 +361,7 @@ if ($nome != "" & $idalunno != "")
                         WHERE idalunno=$idalunno
                         and idmateria=$cm 
                         and periodo='$periodo'";
-            $rismedia = eseguiQuery($con,$query);
+            $rismedia = eseguiQuery($con, $query);
             if ($valmedia = mysqli_fetch_array($rismedia))
             {
                 $votounico = $valmedia['votounico'];
@@ -375,8 +374,7 @@ if ($nome != "" & $idalunno != "")
                 {
                     echo '<td>
                     <select id= "media_' . $cm . '" name="unico_' . $cm . '" ONCHANGE="CalcolaMedia()"><option value=99>&nbsp;';
-                }
-                else
+                } else
                 {
                     echo '<td>
                     <select id= "unico_' . $cm . '" name="unico_' . $cm . '" ONCHANGE="CalcolaMedia()"><option value=99>&nbsp;';
@@ -388,8 +386,7 @@ if ($nome != "" & $idalunno != "")
                         if ($votounico == $v)
                         {
                             echo '<option value=' . $v . ' selected>' . dec_to_vot($v);
-                        }
-                        else
+                        } else
                         {
                             echo '<option value=' . $v . '>' . dec_to_vot($v);
                         }
@@ -400,8 +397,7 @@ if ($nome != "" & $idalunno != "")
 
                 print "<td><input type='text' size='2' maxsize='3' value='$assenze' name='ass_$cm'></td>";
                 print ("<td><textarea name='not_$cm' cols='45' rows='2' maxlength='180'>$note</textarea></td>");
-            }
-            else
+            } else
             {
 
 
@@ -409,8 +405,7 @@ if ($nome != "" & $idalunno != "")
                 {
                     echo '<td>
                     <select id= "media_' . $cm . '" name="unico_' . $cm . '" ONCHANGE="CalcolaMedia()"><option value=99>&nbsp;';
-                }
-                else
+                } else
                 {
                     echo '<td>
                     <select id= "unico_' . $cm . '" name="unico_' . $cm . '" ONCHANGE="CalcolaMedia()"><option value=99>&nbsp;';
@@ -443,12 +438,11 @@ if ($nome != "" & $idalunno != "")
            WHERE idalunno=$idalunno
            and idclasse=$idclasse 
            and periodo='$periodo'";
-        $risgiud = eseguiQuery($con,$query);
+        $risgiud = eseguiQuery($con, $query);
         if ($valgiud = mysqli_fetch_array($risgiud))
         {
             $giudizio = $valgiud['giudizio'];
-        }
-        else
+        } else
         {
             $giudizio = '';
         }
@@ -470,7 +464,7 @@ if ($nome != "" & $idalunno != "")
     $query = "SELECT * FROM tbl_esiti
            WHERE idalunno=$idalunno
            ";
-    $risesito = eseguiQuery($con,$query);
+    $risesito = eseguiQuery($con, $query);
     if ($valesito = mysqli_fetch_array($risesito))
     {
         $esito = $valesito['esito'];
@@ -516,24 +510,21 @@ if ($nome != "" & $idalunno != "")
     if ($validita == 1)
     {
         print "<option value='1' selected>Valido";
-    }
-    else
+    } else
     {
         print "<option value='1'>Valido";
     }
     if ($validita == 2)
     {
         print "<option value='2' selected>Deroga";
-    }
-    else
+    } else
     {
         print "<option value='2'>Deroga";
     }
     if ($validita == 3)
     {
         print "<option value='3' selected>Non valido";
-    }
-    else
+    } else
     {
         print "<option value='3'>Non valido";
     }
@@ -550,14 +541,13 @@ if ($nome != "" & $idalunno != "")
         if ($livello_scuola == '4')
         {
             $query = "SELECT * FROM tbl_tipiesiti ORDER BY idtipoesito";
-        }
-        else
+        } else
         {
             $query = "SELECT * FROM tbl_tipiesiti WHERE passaggio<>2 ORDER BY idtipoesito ";
         }
 
 // print inspref($query);   
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
 
         while ($nom = mysqli_fetch_array($ris))
         {
@@ -590,7 +580,7 @@ if ($nome != "" & $idalunno != "")
         {
             print "<SELECT ID='esitoint' NAME='esitoint'><option value='0'></option>  ";
             $query = "SELECT * FROM tbl_tipiesiti  WHERE passaggio<>2 ORDER BY idtipoesito";
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             while ($nom = mysqli_fetch_array($ris))
             {
                 print "<option value='";
@@ -619,8 +609,7 @@ if ($nome != "" & $idalunno != "")
             if ($i == $votoammissione)
             {
                 print "<option value = '$i' selected>$i</option>";
-            }
-            else
+            } else
             {
                 print "<option value = '$i'>$i</option>";
             }
@@ -640,8 +629,7 @@ if ($nome != "" & $idalunno != "")
             if ($i == $credito)
             {
                 print "<option value = '$i' selected>$i</option>";
-            }
-            else
+            } else
             {
                 print "<option value = '$i'>$i</option>";
             }
@@ -661,8 +649,7 @@ if ($nome != "" & $idalunno != "")
             if ($i == $creditotot)
             {
                 print "<option value = '$i' selected>$i</option>";
-            }
-            else
+            } else
             {
                 print "<option value = '$i'>$i</option>";
             }
@@ -691,14 +678,12 @@ if ($nome != "" & $idalunno != "")
     if (!scrutinio_aperto($idclasse, $per, $con))
     {
         print "<center>Scrutinio chiuso!</center>";
-    }
-    else
+    } else
     {
         print "<br><center><input type='submit' value='Registra scrutinio'></center>";
     }
     print "</form>";
-}
-else
+} else
 {
     print("<center><b><br>Nessuna valutazione presente!</b></center>");
 }

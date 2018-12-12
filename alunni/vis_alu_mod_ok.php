@@ -1,26 +1,27 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 //segnalazione di eventuali errori
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");    //parametri ingresso:codice dell'alunno
 @require_once("../lib/funzioni.php");    //parametri di uscita: codice dell'alunno, dati dell'alunno modificati, flag di errore
-
 // istruzioni per tornare alla pagina di login 
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
@@ -34,7 +35,7 @@ $strcogn = stringa_html('strcogn');
 $strnome = stringa_html('strnome');
 $titolo = "Conferma modifica alunno";
 $script = "";
-stampa_head($titolo, "", $script,"MASP");
+stampa_head($titolo, "", $script, "MASP");
 stampa_testata("Conferma modifica alunno", "", "$nome_scuola", "$comune_scuola");
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 if (!$con)
@@ -66,28 +67,26 @@ $mail = stringa_html('mail');
 $note = stringa_html('note');
 $autentrata = stringa_html('autentrata');
 $autuscita = stringa_html('autuscita');
-$bloccopassword=stringa_html('bloccopassword');
+$bloccopassword = stringa_html('bloccopassword');
 $firmapropria = stringa_html('firmapropria');
-$numeroregistro=stringa_html('numeroregistro');
-$provenienza=stringa_html('provenienza');
-$titoloammissione=stringa_html('titoloammissione');
-$sequenzaiscrizione=stringa_html('sequenzaiscrizione');
-$autorizzazioni=stringa_html('autorizzazioni');
+$numeroregistro = stringa_html('numeroregistro');
+$provenienza = stringa_html('provenienza');
+$titoloammissione = stringa_html('titoloammissione');
+$sequenzaiscrizione = stringa_html('sequenzaiscrizione');
+$autorizzazioni = stringa_html('autorizzazioni');
 $idtut = stringa_html('idtut');
 $datacambio = stringa_html('datacambioclasse');
 $datacambio = $datacambio != "" ? data_to_db($datacambio) : "";
 
 $sql = "SELECT * FROM tbl_alunni WHERE idalunno='$c'";
-$resw = eseguiQuery($con,$sql);
+$resw = eseguiQuery($con, $sql);
 if ($dato = mysqli_fetch_array($resw))
 {
     $idclasseold = $dato['idclasse'];
-}
-else
+} else
 {
 
     print ("<h2> Dati non trovati </h2>");
-
 }
 
 $sqla = "UPDATE tbl_alunni SET cognome='$cognome', nome='$nome', datanascita='$aa-$mm-$gg',codfiscale='$codfiscale',certificato='$certificato',firmapropria='$firmapropria',autorizzazioni='$autorizzazioni',";
@@ -109,8 +108,7 @@ if (!$cognome)
 {
     $err = 1;
     $mes = "Il cognome non &egrave; stato inserito<br/> ";
-}
-else
+} else
 {
     $erro = controlla_stringa($cognome);
     if ($erro == 1)
@@ -123,8 +121,7 @@ if (!$nome)
 {
     $err = 1;
     $mes = $mes . "Il nome non &egrave; stato inserito<br/> ";
-}
-else
+} else
 {
     $erro = controlla_stringa($nome);
     if ($erro == 1)
@@ -176,53 +173,53 @@ switch ($mm)
     case 5:
     case 7:
     case 8:
-    {
-        if ($gg > 31)
         {
-            $err = 1;
-            $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+            if ($gg > 31)
+            {
+                $err = 1;
+                $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+            }
+            break;
         }
-        break;
-    }
     case 10:
-    {
-        if ($gg > 31)
         {
-            $err = 1;
-            $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+            if ($gg > 31)
+            {
+                $err = 1;
+                $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+            }
+            break;
         }
-        break;
-    }
     case 12:
-    {
-        if ($gg > 31)
         {
-            $err = 1;
-            $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+            if ($gg > 31)
+            {
+                $err = 1;
+                $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+            }
+            break;
         }
-        break;
-    }
     case 4:
     case 6:
     case 9:
     case 11:
-    {
-        if ($gg > 30)
         {
-            $err = 1;
-            $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+            if ($gg > 30)
+            {
+                $err = 1;
+                $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+            }
+            break;
         }
-        break;
-    }
     case 2:
-    {
-        if ($gg > 29)
         {
-            $err = 1;
-            $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+            if ($gg > 29)
+            {
+                $err = 1;
+                $mes = $mes . "Il giorno di nascita non &egrave; corretto <br/>";
+            }
+            break;
         }
-        break;
-    }
     default:
         $mes = $mes . "Il mese di nascita non &egrave; corretta<br/>";
 }
@@ -236,15 +233,10 @@ if ($mm > 12)
 }
 if ($err == 0)
 {
-    mysqli_query($con, inspref($sqla)) or die("Errore:" . inspref($sqla, false));
-
-    // 8/10/2016
-    // Aggiornamento parametro telefono per controllo genitori (da eliminare)
-  //  $querypar="update tbl_paramcomunicazpers set valore='$cel' where idutente=$c and nomeparametro='telcel'";
-  //  mysqli_query($con,inspref($querypar)) or die ("Errore: ".inspref($querypar,false));
+    eseguiQuery($con, $sqla);
 
 
-    mysqli_query($con, inspref($sqlpass)) or die("Errore:" . inspref($sqlpass, false));
+    eseguiQuery($con, $sqlpass);
     // print "ttt $datacambio";
     if ($idclasseold != $datc)
     {
@@ -253,12 +245,11 @@ if ($err == 0)
             $datafine = aggiungi_giorni($datacambio, -1);
             // print "ttt $datafine";
             $querycambioclasse = "insert into tbl_cambiamenticlasse(idalunno,idclasse,datafine) values ($c,$idclasseold,'$datafine')";
-            eseguiQuery($con,$querycambioclasse);
-        }
-        else
+            eseguiQuery($con, $querycambioclasse);
+        } else
         {
             $querycambioclasse = "delete from tbl_cambiamenticlasse where idalunno='$c'";
-            eseguiQuery($con,$querycambioclasse);
+            eseguiQuery($con, $querycambioclasse);
         }
     }
     if ($strcogn != "" | $strnome != "")
@@ -270,9 +261,7 @@ if ($err == 0)
         print ("<input type ='hidden' name='strnome' value='$strnome'>");
         print ("<input type='submit' value=' << Indietro'> ");
         print ("</form>");
-
-    }
-    else
+    } else
     {
         print "<div style=\"text-align: center;\">";
         print("Dati modificati correttamente<br/>");
@@ -281,9 +270,7 @@ if ($err == 0)
         print ("<input type='submit' value=' << Indietro'> ");
         print ("</form>");
     }
-
-}
-else
+} else
 {
     print "<div style=\"text-align: center;\">";
     print (" <form action='vis_alu_mod.php' method='POST'>");
@@ -320,7 +307,6 @@ else
     print $mes;
     print ("<br/><input type='submit' value=' << Indietro'> ");
     print ("</form>");
-
 }
 
 

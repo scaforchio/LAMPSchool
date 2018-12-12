@@ -59,7 +59,7 @@ $sql = "SELECT * from tbl_lezionicert,tbl_materie,tbl_alunni
 	      where tbl_lezionicert.idmateria=tbl_materie.idmateria 
 	      and tbl_lezionicert.idalunno=tbl_alunni.idalunno
 	      and idlezione=$a ";
-$result = eseguiQuery($con,$sql);
+$result = eseguiQuery($con, $sql);
 $Data = mysqli_fetch_array($result);
 if (!($result))
     print("Query fallita");

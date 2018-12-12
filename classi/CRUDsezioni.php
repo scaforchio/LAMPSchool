@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 /*
   Copyright (C) 2018 Pietro Tamburrano
@@ -24,7 +25,7 @@ require_once '../lib/funzioni.php';
 
 $daticrud = array();
 // Tabella da modificare
-$daticrud['titolo']='GESTIONE SEZIONI';
+$daticrud['titolo'] = 'GESTIONE SEZIONI';
 
 
 $daticrud['tabella'] = ("tbl_sezioni");
@@ -32,32 +33,31 @@ $daticrud['tabella'] = ("tbl_sezioni");
 
 // Nome della tabella per visualizzazioni
 $daticrud['aliastabella'] = "sezioni";
-$daticrud['larghezzatabella']= "40%";
+$daticrud['larghezzatabella'] = "40%";
 // Campo con l'id univoco per la tabella
 $daticrud['campochiave'] = "idsezione";
 
 // Campi in base ai quali ordinare (specificare gli alias (14° valore nella descrizione del campo)
 // se ci sono campi con lo stesso nome)
-$daticrud['campiordinamento']= "denominazione";
+$daticrud['campiordinamento'] = "denominazione";
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
-$daticrud['condizione']= ("true");
+$daticrud['condizione'] = ("true");
 
-$daticrud['abilitazionemodifica']=1;
-$daticrud['abilitazionecancellazione']=1;
-$daticrud['abilitazioneinserimento']=1;
+$daticrud['abilitazionemodifica'] = 1;
+$daticrud['abilitazionecancellazione'] = 1;
+$daticrud['abilitazioneinserimento'] = 1;
 
 // Dati per conferma cancellazione (0 senza conferma, 1 con conferma ed elenco dei campi da visualizzare per conferma)
 
-$daticrud['confermacancellazione'] = [1,''];
+$daticrud['confermacancellazione'] = [1, ''];
 // Vincoli per possibilità di cancellazione. Non devono esserci riferimenti nelle seguenti tabelle nel campo
 // specificato
 $daticrud['vincolicanc'] = [
-                            
-                           ];
+];
 
 
 /*
-// Significato valori
+  // Significato valori
  * 0 - nome campo tabella principale
  * 1 - ordine di visualizzazione in tabella (0 non visualizzata)
  * 2 - tabella esterna
@@ -79,11 +79,11 @@ $daticrud['vincolicanc'] = [
  */
 
 $daticrud['campi'] = [
-                      ['denominazione','1','','','',1,'Sezione',1,'text','',1,'','',0,'',0,''],
-                     ];
+    ['denominazione', '1', '', '', '', 1, 'Sezione', 1, 'text', '', 1, '', '', 0, '', 0, ''],
+];
 
 
 $_SESSION['daticrud'] = $daticrud;
 
-header("location: ../crudtabelle/CRUD.php?suffisso=".$_SESSION['suffisso']);
+header("location: ../crudtabelle/CRUD.php?suffisso=" . $_SESSION['suffisso']);
 

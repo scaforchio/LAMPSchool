@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -30,7 +32,7 @@ if ($tipoutente == "")
 
 $titolo = "Inserimento nota individuale";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -56,10 +58,9 @@ $idnota = stringa_html('idnota');
 if (count($idalunni) == 0 or $idalunni == "")
 {
     print "<center><b><br>Nessun alunno selezionato!</b></center>";
-}
-else
+} else
 {
-    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
     if ($idnota != '')
@@ -68,30 +69,29 @@ else
         $query = "update tbl_notealunno set testo='$notacl',provvedimenti='$provvedimenti',
 		          iddocente=$iddocente, data='$data' 
 		           where idnotaalunno=$idnota";
-        $ris2 = eseguiQuery($con,$query);
+        $ris2 = eseguiQuery($con, $query);
 
         $query = "delete from tbl_noteindalu where idnotaalunno=$idnota";
-        $ris2 = eseguiQuery($con,$query);
+        $ris2 = eseguiQuery($con, $query);
 
         foreach ($idalunni as $idalunno)
         {
             $query = "insert into tbl_noteindalu(idalunno,idnotaalunno) values ($idalunno,$idnota)";
-            $ris2 = eseguiQuery($con,$query);
+            $ris2 = eseguiQuery($con, $query);
         }
         print "<br><center><b>Modifica effettuata!</b></center>";
-    }
-    else
+    } else
     {
         $query = "insert into tbl_notealunno(testo,provvedimenti,iddocente,idclasse,data)
 		          values('$notacl','$provvedimenti',$iddocente,$idclasse,'$data')";
         //   print inspref($query);
-        $ris2 = eseguiQuery($con,$query);
+        $ris2 = eseguiQuery($con, $query);
         $idnota = mysqli_insert_id($con);
 
         foreach ($idalunni as $idalunno)
         {
             $query = "insert into tbl_noteindalu(idalunno,idnotaalunno) values ($idalunno,$idnota)";
-            $ris2 = eseguiQuery($con,$query);
+            $ris2 = eseguiQuery($con, $query);
         }
         print "<br><center><b>Inserimento effettuato!</b></center>";
     }
@@ -118,8 +118,7 @@ if ($_SESSION['regcl'] != "")
            document.getElementById('formnotind').submit();
         }
         </SCRIPT>";
-}
-else
+} else
 {
     print ("
    <form method='post' action='noteindmul.php'>

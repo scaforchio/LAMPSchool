@@ -1,24 +1,26 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
-/*programma per la modifica dei tbl_docenti
-riceve in ingresso i dati del docente*/
+/* programma per la modifica dei tbl_docenti
+  riceve in ingresso i dati del docente */
 
 
 // istruzioni per tornare alla pagina di login 
@@ -36,7 +38,7 @@ if ($tipoutente == "")
 
 $titolo = "Modifica lezione";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_lez.php'>ELENCO LEZIONI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
@@ -77,7 +79,7 @@ $numeroore = $finlez - $inilez + 1;
 $query = "select idclasse,idmateria from tbl_lezioni
          where idlezione='$idlezione'";
 // print inspref($query);
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 $val = mysqli_fetch_array($ris);
 $idclasse = $val['idclasse'];
 $idmateria = $val['idclasse'];
@@ -92,7 +94,7 @@ $query = "select orainizio,numeroore from tbl_lezioni
 	        and idclasse='$idclasse'
 	        and idlezione<>'$idlezione'";
 // print inspref($query);
-$rislezcla = eseguiQuery($con,$query);
+$rislezcla = eseguiQuery($con, $query);
 while ($vallezcla = mysqli_fetch_array($rislezcla))
 {
     $inizio = $vallezcla['orainizio'];
@@ -107,57 +109,55 @@ while ($vallezcla = mysqli_fetch_array($rislezcla))
     {
         print ("C'&egrave; gi&agrave; presente una lezione nelle ore indicate nella stessa classe!");
     }
-
 }
 
 
 // VERIFICO SOVRAPPOSIZIONI DI FIRME DELLO STESSO DOCENTE
 /*   DA RIVEDERE
-$query="select iddocente from tbl_firme 
-         where idlezione='$idlezione' and iddocente";
-        // print inspref($query);
-$ris=eseguiQuery($con,$query) or die (mysqli_error($con));
-while ($val=mysqli_fetch_array($ris))
-{
-	$iddoc=$val['iddocente'];
-	
-	
-   $oredisp=array();
-   $oredisp[]=9;
-   for($i=1;$i<=$numeromassimoore;$i++)
-      $oredisp[]=0;
-	$query = "select orainizio,numeroore from tbl_firme,tbl_lezioni
-	        where tbl_firme.idlezione=tbl_lezioni.idlezione
-	        and datalezione='$datadb' 
-	        and tbl_firme.iddocente='$iddoc'
-	        and tbl_firme.idlezione<>$idlezione";
-	// print inspref($query);        
-	$rislezdoc=eseguiQuery($con,$query) or die (mysqli_error($con));
-	while ($vallezdoc=mysqli_fetch_array($rislezdoc))
-	{  // Creo un array per verificare le ore già impegnate da lezioni
-      
-		$inizio=$vallezdoc['orainizio'];
-		$fine=$vallezdoc['orainizio']+$vallezdoc['numeroore']-1; 
-		// print "<br>".$idlezione." ".$inizio." ".$fine." ".$inilez." ".$finlez;   
-		for($i=$inizio;$i<=$fine;$i++)
-		{
-			$oredisp[$i]=1;
-		}
-		   
-		if (occupata($oredisp,$inilez,$finlez))
-		   print ("Sovrapposizione di lezioni per il docente: ".estrai_dati_docente($iddocente, $con).".");
-	}    
-      
-}
+  $query="select iddocente from tbl_firme
+  where idlezione='$idlezione' and iddocente";
+  // print inspref($query);
+  $ris=eseguiQuery($con,$query) or die (mysqli_error($con));
+  while ($val=mysqli_fetch_array($ris))
+  {
+  $iddoc=$val['iddocente'];
 
-*/
+
+  $oredisp=array();
+  $oredisp[]=9;
+  for($i=1;$i<=$numeromassimoore;$i++)
+  $oredisp[]=0;
+  $query = "select orainizio,numeroore from tbl_firme,tbl_lezioni
+  where tbl_firme.idlezione=tbl_lezioni.idlezione
+  and datalezione='$datadb'
+  and tbl_firme.iddocente='$iddoc'
+  and tbl_firme.idlezione<>$idlezione";
+  // print inspref($query);
+  $rislezdoc=eseguiQuery($con,$query) or die (mysqli_error($con));
+  while ($vallezdoc=mysqli_fetch_array($rislezdoc))
+  {  // Creo un array per verificare le ore già impegnate da lezioni
+
+  $inizio=$vallezdoc['orainizio'];
+  $fine=$vallezdoc['orainizio']+$vallezdoc['numeroore']-1;
+  // print "<br>".$idlezione." ".$inizio." ".$fine." ".$inilez." ".$finlez;
+  for($i=$inizio;$i<=$fine;$i++)
+  {
+  $oredisp[$i]=1;
+  }
+
+  if (occupata($oredisp,$inilez,$finlez))
+  print ("Sovrapposizione di lezioni per il docente: ".estrai_dati_docente($iddocente, $con).".");
+  }
+
+  }
+
+ */
 
 
 if (!checkdate($mese, $giorno, $anno))
 {
     print ("<br><b>Data non valida!</b><br>");
-}
-else
+} else
 {
     if (giorno_settimana($datadb) == "Dom")
     {
@@ -173,14 +173,13 @@ else
 	            numeroore='$numeroore',
 	            orainizio='$inilez'
 	        where idlezione=$idlezione";
-        eseguiQuery($con,$query);
+        eseguiQuery($con, $query);
         $query = "update tbl_asslezione
 	        set oreassenza='$numeroore'
 	        where oreassenza>'$numeroore'
 	        and idlezione=$idlezione";
 
-        eseguiQuery($con,$query);
-
+        eseguiQuery($con, $query);
     }
 }
 
@@ -207,5 +206,3 @@ function occupata($oredisp, $i, $f)
         }
     return $occ;
 }
-
-

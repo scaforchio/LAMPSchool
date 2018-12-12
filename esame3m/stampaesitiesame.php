@@ -77,7 +77,7 @@ $query = "SELECT * FROM tbl_esesiti,tbl_alunni,tbl_esami3m,tbl_esmaterie
 	          AND tbl_alunni.idclasseesame=$idclasse
 	          order by tbl_alunni.idclasse DESC, cognome, nome, datanascita";
 
-$ris = mysqli_query($con, inspref($query)) or die("Errore nella query: " . mysqli_error($con) . $query);
+$ris = eseguiQuery($con,$query);
 
 $recesi = mysqli_fetch_array($ris);
 $idcommissione = $recesi['idcommissione'];
@@ -178,7 +178,7 @@ $query = "select * from tbl_escompcommissioni,tbl_docenti,tbl_escommissioni
                 where tbl_escompcommissioni.idcommissione=tbl_escommissioni.idescommissione
                 and tbl_escompcommissioni.iddocente=tbl_docenti.iddocente
                 and tbl_escompcommissioni.idcommissione=$idcommissione";
-$riscom = eseguiQuery($con,$query);
+$riscom = eseguiQuery($con, $query);
 $cont = 0;
 $posYiniz = $schede->GetY() + 10;
 while ($reccom = mysqli_fetch_array($riscom))
@@ -190,12 +190,12 @@ while ($reccom = mysqli_fetch_array($riscom))
     $nomedocente = $reccom['nome'];
     $cognomedocente = $reccom['cognome'];
     /* PEr non stampare i nomi dei commissari
-    $posX = 30 + ($cont % 4 * 60);
-    $posY = $posYiniz + 18 + (floor($cont / 4) * 18);
+      $posX = 30 + ($cont % 4 * 60);
+      $posY = $posYiniz + 18 + (floor($cont / 4) * 18);
 
-    $schede->setXY($posX, $posY);
-    $schede->Line($posX, $posY, $posX + 50, $posY);
-    $schede->Cell(50, 4, converti_utf8($nomedocente . " " . $cognomedocente), 0, 0, "C");
+      $schede->setXY($posX, $posY);
+      $schede->Line($posX, $posY, $posX + 50, $posY);
+      $schede->Cell(50, 4, converti_utf8($nomedocente . " " . $cognomedocente), 0, 0, "C");
      * 
      */
     $cont++;

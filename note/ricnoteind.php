@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -29,7 +31,7 @@ if ($tipoutente == "")
 }
 $titolo = "Ricerca note individuali";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -47,13 +49,13 @@ $data = $anno . "-" . $mese . "-" . $giorno;
 $giornosettimana = giorno_settimana($data);
 
 /*
-if ($giorno=='')
-   $giorno=date('d');
-if ($mese=='')
-   $mese=date('m');
-if ($anno=='')
-   $anno=date('Y');
-*/
+  if ($giorno=='')
+  $giorno=date('d');
+  if ($mese=='')
+  $mese=date('m');
+  if ($anno=='')
+  $anno=date('Y');
+ */
 
 print ('
            <form method="post" action="ricnoteind.php" name="tbl_notealunno">
@@ -69,25 +71,24 @@ print ('
 if ($tipoutente == "S" | $tipoutente == "P")
 {
     print "<option value='all'";
-    if ($idclasse=='all')
+    if ($idclasse == 'all')
         print " selected";
     print ">Tutte";
 }
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 // Riempimento combo box tbl_classi
 if ($tipoutente == "S" | $tipoutente == "P")
 {
     $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY specializzazione, sezione, anno";
-}
-else
+} else
 {
     $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi
               WHERE idclasse in (select distinct idclasse from tbl_cattnosupp where iddocente=$idutente)
               ORDER BY specializzazione, sezione, anno";
 }
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -121,25 +122,25 @@ echo('   <td width="50%">');
 echo('   <select name="gio" ONCHANGE="tbl_notealunno.submit()"><option value="">&nbsp');
 require '../lib/aggiungi_giorni_a_select.php';
 /*
-for  ($g = 1; $g <= 31; $g++)
-{
-    if ($g < 10)
-    {
-        $gs = '0' . $g;
-    }
-    else
-    {
-        $gs = '' . $g;
-    }
-    if ($gs == $giorno)
-    {
-        echo("<option selected>$gs</option>");
-    }
-    else
-    {
-        echo("<option>$gs</option>");
-    }
-}
+  for  ($g = 1; $g <= 31; $g++)
+  {
+  if ($g < 10)
+  {
+  $gs = '0' . $g;
+  }
+  else
+  {
+  $gs = '' . $g;
+  }
+  if ($gs == $giorno)
+  {
+  echo("<option selected>$gs</option>");
+  }
+  else
+  {
+  echo("<option>$gs</option>");
+  }
+  }
  * 
  */
 echo("</select>");
@@ -147,45 +148,45 @@ echo("</select>");
 echo('   <select name="mese" ONCHANGE="tbl_notealunno.submit()"><option value="">&nbsp');
 require '../lib/aggiungi_mesi_a_select.php';
 /*
-for  ($m = 9; $m <= 12; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = '0' . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscol");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscol");
-    }
-}
-$annoscolsucc = $annoscol + 1;
-for ($m = 1; $m <= 8; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = '0' . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscolsucc");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscolsucc");
-    }
-}
+  for  ($m = 9; $m <= 12; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = '0' . $m;
+  }
+  else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscol");
+  }
+  else
+  {
+  echo("<option>$ms - $annoscol");
+  }
+  }
+  $annoscolsucc = $annoscol + 1;
+  for ($m = 1; $m <= 8; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = '0' . $m;
+  }
+  else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscolsucc");
+  }
+  else
+  {
+  echo("<option>$ms - $annoscolsucc");
+  }
+  }
  * 
  */
 echo("</select></td></tr>");
@@ -194,11 +195,10 @@ echo("</select></td></tr>");
 //
 //  Fine visualizzazione della data
 //
-
 // Riempimento combo box tbl_docenti
 print "<tr><td width='50%'><p align='center'><b>Docente</b></p></td><td>";
 $query = "SELECT iddocente,cognome,nome FROM tbl_docenti ORDER BY cognome, nome";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 echo("<select name='iddocente' ONCHANGE='tbl_notealunno.submit()'><option value=''>&nbsp");
 while ($nom = mysqli_fetch_array($ris))
 {
@@ -213,7 +213,6 @@ while ($nom = mysqli_fetch_array($ris))
     print ($nom["cognome"]);
     print "&nbsp;";
     print($nom["nome"]);
-
 }
 
 // Riempimento combo box tbl_alunni
@@ -221,7 +220,7 @@ if ($idclasse != "" & $idclasse != "all")
 {
     print "<tr><td width='50%'><p align='center'><b>Alunno</b></p></td><td>";
     $query = "select idalunno,cognome,nome,datanascita from tbl_alunni where idclasse=$idclasse order by cognome, nome, datanascita";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     echo("<select name='idalunno' ONCHANGE='tbl_notealunno.submit()'><option value=''>&nbsp");
     while ($nom = mysqli_fetch_array($ris))
     {
@@ -239,8 +238,7 @@ if ($idclasse != "" & $idclasse != "all")
         print "&nbsp;&nbsp;&nbsp;";
         print(data_italiana($nom["datanascita"]));
     }
-}
-else
+} else
 {
     print "<tr><td width='50%'><p align='center'><b>Alunno</b></p></td><td>";
     echo("<select name='idalunno'><option value=''>&nbsp");
@@ -264,21 +262,21 @@ echo('</form></td>
  
     ');
 
-/*  
+/*
   if ($mese=="")
-     $m=0;
+  $m=0;
   else
-     $m=$mese; 
-  if ($giorno=="") 
-     $g=0;
+  $m=$mese;
+  if ($giorno=="")
+  $g=0;
   else
-     $g=$giorno; 
+  $g=$giorno;
 
-  if ($anno=="") 
-     $a=0;
+  if ($anno=="")
+  $a=0;
   else
-     $a=$anno; 
-*/
+  $a=$anno;
+ */
 
 // print($nome." -   ". $m.$g.$a.$giornosettimana);
 
@@ -290,11 +288,10 @@ if ($idclasse != "")
     {
         $stringaricerca = $stringaricerca . " and tbl_notealunno.idclasse=$idclasse ";
     }
-}
-else
+} else
 {
-   // $stringaricerca = $stringaricerca . " and 1=2 ";
-    if ($_SESSION['tipoutente']=='D')
+    // $stringaricerca = $stringaricerca . " and 1=2 ";
+    if ($_SESSION['tipoutente'] == 'D')
         $stringaricerca = $stringaricerca . " and tbl_notealunno.iddocente=$idutente ";
 }
 
@@ -315,7 +312,7 @@ if ($mese != "")
         $stringaricerca = $stringaricerca . " and day(tbl_notealunno.data)=$giorno ";
     }
 }
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 //   $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
@@ -332,7 +329,7 @@ $query = "select tbl_notealunno.idnotaalunno, data, tbl_alunni.cognome as cognal
             and $stringaricerca 
             order by tbl_notealunno.data desc, tbl_classi.specializzazione, tbl_classi.sezione, tbl_classi.anno, tbl_notealunno.data, tbl_docenti.cognome, tbl_docenti.nome, tbl_alunni.cognome, tbl_alunni.nome, tbl_alunni.datanascita";
 // print $query."<br/>";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 $c = mysqli_num_rows($ris);
 
@@ -340,8 +337,7 @@ $c = mysqli_num_rows($ris);
 if ($c == 0)
 {
     echo "<center><b>Nessuna nota da visualizzare!</b></center>";
-}
-else
+} else
 {
     print "<table border=1  align='center'>";
     print "<tr class='prima'><td>Classe</td><td>Docente</td><td>Data</td><td>Alunno</td><td>Nota</td><td>Provv.</td><td>Modif.</td><td>Canc.</td></tr>";
@@ -367,13 +363,13 @@ else
         print("<i>" . $rec['provvedimenti'] . "</i>");
         print("</td>");
         print("<td>");
-        if ($tipoutente == "P" | $tipoutente == "S" | ($idutente == $rec['iddocente'] && $rec['data']==date('Y-m-d')))
+        if ($tipoutente == "P" | $tipoutente == "S" | ($idutente == $rec['iddocente'] && $rec['data'] == date('Y-m-d')))
         {
             print("<center><a href='noteindmul.php?idnota=" . $rec['idnotaalunno'] . "' title='Modifica'><img src='../immagini/modifica.png' alt='Modifica'></a>");
         }
         print("</td>");
         print("<td>");
-        if ($tipoutente == "P" | $tipoutente == "S" | ($idutente == $rec['iddocente'] && $rec['data']==date('Y-m-d')))
+        if ($tipoutente == "P" | $tipoutente == "S" | ($idutente == $rec['iddocente'] && $rec['data'] == date('Y-m-d')))
         {
             print("<center><a href='confcancnotealu.php?idnota=" . $rec['idnotaalunno'] . "&idalunno=" . $rec['idalunno'] . "' title='Cancella'><img src='../immagini/cancella.png' alt='Cancella'></a>");
         }
@@ -385,5 +381,5 @@ else
 }
 
 mysqli_close($con);
-stampa_piede(""); 
+stampa_piede("");
 

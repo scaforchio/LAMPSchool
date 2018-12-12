@@ -1,23 +1,25 @@
-<?php session_start();
+<?php
+
+session_start();
 
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
-/*Programma per la visualizzazione del menu principale.*/
+/* Programma per la visualizzazione del menu principale. */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -35,7 +37,7 @@ if ($tipoutente == "")
 
 $titolo = "BACKUP DATI";
 $script = "";
-stampa_head($titolo, "", $script,"MP");
+stampa_head($titolo, "", $script, "MP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 // SVUOTO LA CARTELLA BUFFER DAI VECCHI FILE SQL E CSV
@@ -78,7 +80,6 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_sospensionicolloqui';
         $tabelle[] = 'tbl_collegamenti';
         $tabelle[] = 'tbl_menu';
-
     }
     if ($ambito == 'pro')
     {
@@ -91,7 +92,6 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_tipoprog';
         $tabelle[] = 'tbl_compob';
         $tabelle[] = 'tbl_compsubob';
-
     }
     if ($ambito == 'ass')
     {
@@ -104,6 +104,7 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_presenzeforzate';
         $tabelle[] = 'tbl_timbrature';
         $tabelle[] = 'tbl_entrateclassi';
+        $tabelle[] = 'tbl_autorizzazioniuscite';
     }
 
     if ($ambito == 'val')
@@ -123,8 +124,7 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_certcomplivelli';
         $tabelle[] = 'tbl_certcompvalutazioni';
         $tabelle[] = 'tbl_certcompproposte';
-      
-       
+        $tabelle[] = 'tbl_consorientativi';
     }
     if ($ambito == 'scr')
     {
@@ -139,7 +139,6 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_notealunno';
         $tabelle[] = 'tbl_noteclasse';
         $tabelle[] = 'tbl_noteindalu';
-
     }
 
     if ($ambito == 'lez')
@@ -150,6 +149,7 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_lezionicert';
         $tabelle[] = 'tbl_assemblee';
         $tabelle[] = 'tbl_richiesteferie';
+        $tabelle[] = 'tbl_recuperipermessi';
     }
 
     if ($ambito == 'tab')
@@ -174,11 +174,10 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_comuni';
         $tabelle[] = 'tbl_province';
     }
-    
+
     if ($ambito == 'pdf')
     {
         $tabelle[] = 'tbl_documenti';
-
     }
 }
 $tabs = array();
@@ -189,14 +188,15 @@ header("location: " . backup_tables($db_server, $db_user, $db_password, $db_nome
 
 /*
   $db_server="127.0.0.1";
-$db_user="root";
-$db_password="";
-$db_nome="lampschool2012itis";
-$prefisso_tabelle="'";
-  */
+  $db_user="root";
+  $db_password="";
+  $db_nome="lampschool2012itis";
+  $prefisso_tabelle="'";
+ */
 
 
 /* backup the db OR just a table */
+
 function backup_tables($host, $user, $pass, $name, $tables, $cartellabuffer)
 {
 
@@ -207,7 +207,7 @@ function backup_tables($host, $user, $pass, $name, $tables, $cartellabuffer)
     $tabcontr = array_reverse($tables);
     $return = 'SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";';
     $return .= "\n\n";
-   
+
     //cycle through
     foreach ($tabcontr as $table)
     {
@@ -226,46 +226,45 @@ function backup_tables($host, $user, $pass, $name, $tables, $cartellabuffer)
         $row2 = mysqli_fetch_row(mysqli_query($link, 'SHOW CREATE TABLE ' . $table));
         $return .= "\n\n" . $row2[1] . ";\n\n";
 
-     //   for ($i = 0; $i < $num_fields; $i++)
-     //   {
-            
-            $numerorighe= mysqli_num_rows($result);
-            if ($numerorighe>0)
-               $return .="INSERT INTO $table VALUES";
-            $contarighe=0;
-            while ($row = mysqli_fetch_row($result))
+        //   for ($i = 0; $i < $num_fields; $i++)
+        //   {
+
+        $numerorighe = mysqli_num_rows($result);
+        if ($numerorighe > 0)
+            $return .= "INSERT INTO $table VALUES";
+        $contarighe = 0;
+        while ($row = mysqli_fetch_row($result))
+        {
+            $contarighe++;
+            $return .= '(';
+            for ($j = 0; $j < $num_fields; $j++)
             {
-                $contarighe++;
-                $return .= '(';
-                for ($j = 0; $j < $num_fields; $j++)
+                $row[$j] = addslashes($row[$j]);
+                // $row[$j] = preg_replace("\n","\\n",$row[$j]);
+                if (isset($row[$j]))
                 {
-                    $row[$j] = addslashes($row[$j]);
-                    // $row[$j] = preg_replace("\n","\\n",$row[$j]);
-                    if (isset($row[$j]))
-                    {
-                        $return .= '"' . $row[$j] . '"';
-                    }
-                    else
-                    {
-                        $return .= '""';
-                    }
-                    if ($j < ($num_fields - 1))
-                    {
-                        $return .= ',';
-                    }
+                    $return .= '"' . $row[$j] . '"';
+                } else
+                {
+                    $return .= '""';
                 }
-                if ($contarighe<$numerorighe)
-                    $return .= "),\n";
-                else
-                    $return .= ");\n";
+                if ($j < ($num_fields - 1))
+                {
+                    $return .= ',';
+                }
             }
-            
-      //  }
+            if ($contarighe < $numerorighe)
+                $return .= "),\n";
+            else
+                $return .= ");\n";
+        }
+
+        //  }
         $return .= "\n";
     }
 
     //save file
-    $nomefile = $cartellabuffer . '/lampschool-'.$_SESSION['suffisso']."-" . date("YmdHis") . '.sql';
+    $nomefile = $cartellabuffer . '/lampschool-' . $_SESSION['suffisso'] . "-" . date("YmdHis") . '.sql';
     $handle = fopen($nomefile, 'w+');
     fwrite($handle, $return);
     fclose($handle);
@@ -273,6 +272,3 @@ function backup_tables($host, $user, $pass, $name, $tables, $cartellabuffer)
 
     return $nomefile;
 }
-
-
-

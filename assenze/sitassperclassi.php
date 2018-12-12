@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -93,7 +95,7 @@ $but = stringa_html('visass');
 
 
 $meseanno = stringa_html('mese');  // In effetti contiene sia il mese che l'anno
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 // Divido il mese dall'anno
@@ -140,25 +142,25 @@ print ("
 
 $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY specializzazione, sezione, anno";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
-    $classe=$nom['idclasse'];
+    $classe = $nom['idclasse'];
 
-    $query="select count(*) as numeroalunni from tbl_alunni where idclasse=$classe";
-    $risal=eseguiQuery($con,$query);
-    $rec=mysqli_fetch_array($risal);
-    $numeroalunni=$rec['numeroalunni'];
+    $query = "select count(*) as numeroalunni from tbl_alunni where idclasse=$classe";
+    $risal = eseguiQuery($con, $query);
+    $rec = mysqli_fetch_array($risal);
+    $numeroalunni = $rec['numeroalunni'];
 
 
-    $query="select count(*) as numeroassenti from tbl_assenze,tbl_alunni
+    $query = "select count(*) as numeroassenti from tbl_assenze,tbl_alunni
             where tbl_assenze.idalunno=tbl_alunni.idalunno
             and data='$dataoggi'
             and idclasse=$classe";
 
-    $risas=eseguiQuery($con,$query);
-    $rec=mysqli_fetch_array($risas);
-    $numeroassenti=$rec['numeroassenti'];
+    $risas = eseguiQuery($con, $query);
+    $rec = mysqli_fetch_array($risas);
+    $numeroassenti = $rec['numeroassenti'];
 
     print "<tr>";
 
@@ -173,15 +175,14 @@ while ($nom = mysqli_fetch_array($ris))
     print "</td>";
     print "<td>$numeroalunni</td>";
     print "<td>$numeroassenti</td>";
-    print "<td>".round($numeroassenti/$numeroalunni*100)." %</td>";
+    print "<td>" . round($numeroassenti / $numeroalunni * 100) . " %</td>";
     print "</tr>";
 }
 
 echo '</table>';
 
-    print "<center><img src='../immagini/stampa.png' onClick='printPage();'</center>";
-    // print"<br/><center><a href=javascript:Popup('staasse.php?classe=$idclasse&datainizio=$datainizio&datafine=$datafine')><img src='../immagini/stampa.png'></a></center><br/><br/>";
-
+print "<center><img src='../immagini/stampa.png' onClick='printPage();'</center>";
+// print"<br/><center><a href=javascript:Popup('staasse.php?classe=$idclasse&datainizio=$datainizio&datafine=$datafine')><img src='../immagini/stampa.png'></a></center><br/><br/>";
 // fine if
 
 mysqli_close($con);

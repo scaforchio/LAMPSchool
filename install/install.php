@@ -1,16 +1,16 @@
-<?php session_start();
+<?php
+
+session_start();
 /**
  * Nuova installazione di LAMPSchool
  *
  * @copyright  Copyright (C) 2014-2016 Renato Tamilio, Pietro Tamburrano
  * @license    GNU Affero General Public License versione 3 o successivi; vedete agpl-3.0.txt
  */
-
 if (file_exists('../php-ini.php'))
 {
     @require_once '../php-ini.php';
-}
-else
+} else
 {
     $versioneprecedente = "";
 }

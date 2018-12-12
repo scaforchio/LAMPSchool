@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -33,7 +35,7 @@ if ($tipoutente == "")
     die;
 }
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $titolo = "Forzatura timbratura";
 
@@ -81,27 +83,27 @@ jQuery(function($){
 
 </script>
 ";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 /*
-$rissms=array();
-$rissms=verifica_numero_sms_residui($utentesms,$passsms);
-$smsresidui=$rissms['classic_sms'];
-$smsresidui=floor($smsresidui*($costosmsclassic/$costosmsplus));
-if ($smsresidui>1000)
-   $color='green';
-else if ($smsresidui>500)
-   $color='orange';
-else
-   $color='red';      
-print "<center><b><font color='$color' size='4'>SMS residui: $smsresidui</font></center></b>";
-*/
+  $rissms=array();
+  $rissms=verifica_numero_sms_residui($utentesms,$passsms);
+  $smsresidui=$rissms['classic_sms'];
+  $smsresidui=floor($smsresidui*($costosmsclassic/$costosmsplus));
+  if ($smsresidui>1000)
+  $color='green';
+  else if ($smsresidui>500)
+  $color='orange';
+  else
+  $color='red';
+  print "<center><b><font color='$color' size='4'>SMS residui: $smsresidui</font></center></b>";
+ */
 
 $timbratureforzate = array();
 
 
 $querytimbrature = "SELECT count(*) AS numero,idalunno FROM tbl_timbrature WHERE forzata AND tbl_timbrature.tipotimbratura='I' GROUP BY idalunno ORDER BY idalunno";
-$ristim = mysqli_query($con, inspref($querytimbrature));
+$ristim = eseguiQuery($con,$querytimbrature);
 while ($rectim = mysqli_fetch_array($ristim))
 {
     $timbratureforzate[$rectim['idalunno']] = $rectim['numero'];
@@ -113,7 +115,7 @@ $query = "SELECT * FROM tbl_alunni, tbl_classi
          AND tbl_alunni.idclasse<>0
          ORDER BY cognome,nome,anno, sezione, specializzazione";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 print "<form name='selealu' action='selealunnitimbraturaforzata.php' method='post'>";
 print "<table align='center'>";
@@ -127,8 +129,7 @@ while ($rec = mysqli_fetch_array($ris))
     if ($idalunno == $rec['idalunno'])
     {
         $sele = " selected";
-    }
-    else
+    } else
     {
         $sele = "";
     }

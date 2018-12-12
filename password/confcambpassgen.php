@@ -63,7 +63,7 @@ if (!$DB)
 //Esecuzione query
 $sql = "select * from tbl_utenti where userid='$ute'";
 
-$result = eseguiQuery($con,$sql);
+$result = eseguiQuery($con, $sql);
 // prelevo l'id dell'utente che coincide con quello del tutore
 $val = mysqli_fetch_array($result);
 $idutente = $val["idutente"];
@@ -72,40 +72,34 @@ $tipoutente = $val["tipo"];
 if (mysqli_num_rows($result) <= 0)
 {
     print ("<center>L'utente non risulta presente: verificare.</center>");
-}
-else
+} else
 {
     if (stringa_html('npass') != stringa_html('rnpass'))
     {
         print ("<center>Le password inserite sono diverse tra loro!</center>");
-    }
-    else
+    } else
     {
         if ($tipoutente == "T")
         {
             // alunno
             $sql = "select * from tbl_alunni where idalunno=$idutente";
             $descrizioneUtente = "il genitore dell'alunno";
-        }
-        else if ($tipoutente == "D" | $tipoutente == "S")
+        } else if ($tipoutente == "D" | $tipoutente == "S")
         {
             // docente
             $sql = "select * from tbl_docenti where idutente=$idutente";
             $descrizioneUtente = "il docente";
-        }
-        else if ($tipoutente == "A")
+        } else if ($tipoutente == "A")
         {
             // amministrativo
             $sql = "select * from tbl_amministrativi where idutente=$idutente";
             $descrizioneUtente = "l'impiegato";
-        }
-        else if ($tipoutente == "P")
+        } else if ($tipoutente == "P")
         {
             // amministrativo
             $sql = "select * from tbl_docenti where idutente=1000000000";
             $descrizioneUtente = "il preside";
-        }
-        else if ($tipoutente == "L")
+        } else if ($tipoutente == "L")
         {
             // alunno
             $idute = $idutente - 2100000000;
@@ -113,7 +107,7 @@ else
             $descrizioneUtente = "l'alunno";
         }
         // PRELEVO il nome e cognome
-        $result = eseguiQuery($con,$sql);
+        $result = eseguiQuery($con, $sql);
         $val = mysqli_fetch_array($result);
         $cognome = $val["cognome"];
         $nome = $val["nome"];

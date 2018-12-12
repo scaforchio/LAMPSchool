@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -24,7 +26,7 @@ $idclasse = stringa_html('idclasse');
 $idalunno = stringa_html('idalunno');
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
@@ -68,7 +70,7 @@ $(document).ready(function(){
 
 </script>";
 
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
@@ -80,7 +82,7 @@ $query = "SELECT * FROM tbl_ritardi, tbl_alunni, tbl_classi
 	        AND NOT autorizzato
 	        ORDER BY cognome,nome";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 
 
@@ -92,19 +94,15 @@ if (mysqli_num_rows($ris) > 0)
     while ($rec = mysqli_fetch_array($ris))
     {
 
-        $idalunno=$rec['idalunno'];
-/*
-        $queryprec="select count(*) as ritardiprec from tbl_ritardi where idalunno=$idalunno and data<'".date('Y-m-d')."'";
-        $risprec=mysqli_query($con,inspref($queryprec)) or die("Errore:".inspref($queryprec,false));
-        $recprec=mysqli_fetch_array($risprec);
-        $numeroritardiprecedenti=$recprec['ritardiprec']; */
+        $idalunno = $rec['idalunno'];
+        
 
         // CONTO I RITARDI PER QUADRIMESTRE
         $query = "SELECT count(*) AS numritardi FROM tbl_ritardi
                       WHERE data<='$fineprimo'
                       AND idalunno=" . $rec['idalunno'];
 
-        $risnumrit = eseguiQuery($con,$query);
+        $risnumrit = eseguiQuery($con, $query);
         $recnumrit = mysqli_fetch_array($risnumrit);
         $numritardiprimo = $recnumrit['numritardi'];
 
@@ -112,16 +110,16 @@ if (mysqli_num_rows($ris) > 0)
                       WHERE data>'$fineprimo'
                       AND idalunno=" . $rec['idalunno'];
 
-        $risnumrit = eseguiQuery($con,$query);
+        $risnumrit = eseguiQuery($con, $query);
         $recnumrit = mysqli_fetch_array($risnumrit);
         $numritardisec = $recnumrit['numritardi'];
 
 
 
-        $queryprec="select count(*) as ritardiprec from tbl_ritardi where idalunno=$idalunno and data<'".date('Y-m-d')."' and (isnull(giustifica) or giustifica=0)";
-        $risprec=mysqli_query($con,inspref($queryprec)) or die("Errore:".inspref($queryprec,false));
-        $recprec=mysqli_fetch_array($risprec);
-        $numeroritardiprecsenzagiust=$recprec['ritardiprec'];
+        $queryprec = "select count(*) as ritardiprec from tbl_ritardi where idalunno=$idalunno and data<'" . date('Y-m-d') . "' and (isnull(giustifica) or giustifica=0)";
+        $risprec = eseguiQuery($con,$queryprec);
+        $recprec = mysqli_fetch_array($risprec);
+        $numeroritardiprecsenzagiust = $recprec['ritardiprec'];
 
         if (date('Y-m-d') > $fineprimo)
             $numritardisec--;
@@ -132,24 +130,23 @@ if (mysqli_num_rows($ris) > 0)
             print "<small><br>(Autorizz. firma propria)";
         print "</td>
                    <td>" . $rec['anno'] . " " . $rec['sezione'] . " " . $rec['specializzazione'] . "
-                   <td><input type='text' name='oraentrata".$rec['idalunno']."' value='" .  substr($rec['oraentrata'],0,5) . "' maxlength='5' size=5></td>
-                   <td align='center'><input type='checkbox' name='aut" . $rec['idalunno'] . "'><input type='hidden' name='idritardo".$rec['idalunno']."' value='".$rec['idritardo']."'></td>
+                   <td><input type='text' name='oraentrata" . $rec['idalunno'] . "' value='" . substr($rec['oraentrata'], 0, 5) . "' maxlength='5' size=5></td>
+                   <td align='center'><input type='checkbox' name='aut" . $rec['idalunno'] . "'><input type='hidden' name='idritardo" . $rec['idalunno'] . "' value='" . $rec['idritardo'] . "'></td>
                    <td align='center'><input type='checkbox' name='giu" . $rec['idalunno'] . "'></td>
                    <td align='center'>1°Q=<b>$numritardiprimo</b>";
-                   if (date('Y-m-d') > $fineprimo)
-                   {
-                       print " - 2°Q=<b>$numritardisec</b>";
-                   }
+        if (date('Y-m-d') > $fineprimo)
+        {
+            print " - 2°Q=<b>$numritardisec</b>";
+        }
 
-         print " <font color='red'>($numeroritardiprecsenzagiust)";
+        print " <font color='red'>($numeroritardiprecsenzagiust)";
 
         print "<a href='../assenze/sitassalu.php?alunno=$idalunno' class='popupjq'><img src='../immagini/tabella.png'></a></td></tr>";
     }
     print "</table>";
     print "<br><center><input type='submit' value='Autorizza entrata'></center>";
     print "</form>";
-}
-else
+} else
 {
 
     print("<center><b><br>Nessun ritardo da autorizzare!</b></center>");
@@ -157,5 +154,5 @@ else
 
 
 mysqli_close($con);
-stampa_piede(""); 
+stampa_piede("");
 

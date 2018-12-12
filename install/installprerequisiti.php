@@ -1,19 +1,20 @@
-<?php session_start();
+<?php
+
+session_start();
 /**
  * Nuova installazione, prerequisiti per LAMPSchool
  * 
  * @copyright  Copyright (C) 2015 Angelo Scarnà, Renato Tamilio
  * @license    GNU Affero General Public License versione 3 o successivi; vedete agpl-3.0.txt
  */
-
 require_once '../lib/funzioni.php';
 require_once 'funzioni_install.php';
 
 $json = leggeFileJSON('../lampschool.json');
-$titolo = $json['titolo']. ' '. $json['versione']. ' Installazione';
+$titolo = $json['titolo'] . ' ' . $json['versione'] . ' Installazione';
 ////session_start();
 
-stampa_head('Installazione Lampschool', '', getCssJavascript(),"", false);
+stampa_head('Installazione Lampschool', '', getCssJavascript(), "", false);
 stampa_testata_installer($titolo, '', '');
 
 $pre_error = '';
@@ -21,17 +22,20 @@ $versionephp = phpversion();
 $versionephpok = version_compare(substr($versionephp, 0, 3), '5.0', '>=');
 $autostart = ini_get('session.auto_start');
 $estensionemysql = extension_loaded('mysqli');
-$estensionezip   = extension_loaded('zip');
+$estensionezip = extension_loaded('zip');
 $fileIni = '../php-ini.php';
 $rwfileIni = true;
 $controlloFileini = '';
 
-if (!file_exists($fileIni)) {
+if (!file_exists($fileIni))
+{
     $controlloFileini = "il file $fileIni non &egrave; presente. Sar&agrave; creato.";
-} else {
+} else
+{
     $rwfileIni = is_writable($fileIni);
 
-    if (!$rwfileIni) {
+    if (!$rwfileIni)
+    {
         $controlloFileini = "il file $fileIni deve essere accessibile in scrittura !";
     }
 }
@@ -39,20 +43,24 @@ if (!file_exists($fileIni)) {
 $imgok = "<img src='../immagini/apply.png'>";
 $imgko = "<img src='../immagini/cancel.png'>";
 
-if (!$versionephpok) {
-   $pre_error = "E' necessario utilizzare PHP5 o superiore per LAMPSchool!<br />";
+if (!$versionephpok)
+{
+    $pre_error = "E' necessario utilizzare PHP5 o superiore per LAMPSchool!<br />";
 }
 
-if ($autostart) {
-   $pre_error .= 'LAMPSchool potrebbe non funzionare con session.auto_start abilitato!<br />';
+if ($autostart)
+{
+    $pre_error .= 'LAMPSchool potrebbe non funzionare con session.auto_start abilitato!<br />';
 }
 
-if (!$estensionemysql) {
-   $pre_error .= "L'estensione di MySQL non &egrave; caricato !<br />";
+if (!$estensionemysql)
+{
+    $pre_error .= "L'estensione di MySQL non &egrave; caricato !<br />";
 }
 
-if (!$estensionezip) {
-   $pre_error .= "L'estensione ZIP non &egrave; caricata !<br />";
+if (!$estensionezip)
+{
+    $pre_error .= "L'estensione ZIP non &egrave; caricata !<br />";
 }
 print "
  $pre_error
@@ -124,7 +132,7 @@ print '
 </form>
 ';
 
-stampaPulsanti('index','installdb');
+stampaPulsanti('index', 'installdb');
 
 stampa_piede('', false);
 

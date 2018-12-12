@@ -56,8 +56,8 @@ if (!$DB)
 // 
 // SELEZIONE DOCENTE
 //
-    
-   print ' <form method="post" name="lezioni" action="vis_lez.php">
+
+print ' <form method="post" name="lezioni" action="vis_lez.php">
    
    <p align="center">
    <table align="center">
@@ -66,7 +66,7 @@ if (!$DB)
       <td colspan="2" align="center"><b>Docente</b>';
 
 $sqld = "SELECT * FROM tbl_docenti ORDER BY cognome, nome";
-$resd = mysqli_query($con, inspref($sqld)) or die(mysqli_error($con));
+$resd = eseguiQuery($con,$sqld);
 if ($resd)
 {
     if ($tipoutente == 'S' | $tipoutente == 'P' | $tipoutente == 'M')
@@ -84,8 +84,7 @@ if ($resd)
             print($datal['cognome']);
             print("&nbsp;");
             print($datal['nome']);
-        }
-        else
+        } else
         {
             print("<option value='");
             print($datal['iddocente']);
@@ -106,7 +105,7 @@ if ($iddocente != '')
               AND tbl_firme.iddocente=$iddocente
               AND tbl_lezioni.idlezionegruppo IS NULL
               ORDER BY datalezione,orainizio";
-    $result = eseguiQuery($con,$sql);
+    $result = eseguiQuery($con, $sql);
     if (!($result))
         print("query fallita");
     else
@@ -134,29 +133,26 @@ if ($iddocente != '')
                 $idlez = $Data['idlezione'];
 
                 print("<tr><td>$giorno $dl</td><td>$cm</td><td>$pe</td>");
-               
+
                 if (!$_SESSION['sostegno'])
                 {
-                   print("<td><center><a href='mod_lez.php?a=$idlez&b=$iddocente'> Modifica</a></td>");
-                   print("<td><center><a href='can_lez.php?a=$idlez&b=$iddocente'> Elimina</a></td></tr>");
-                }
-                else
+                    print("<td><center><a href='mod_lez.php?a=$idlez&b=$iddocente'> Modifica</a></td>");
+                    print("<td><center><a href='can_lez.php?a=$idlez&b=$iddocente'> Elimina</a></td></tr>");
+                } else
                 {
-                                      
-                    if (!lezione_sostegno($idlez,$iddocente,$con))
+
+                    if (!lezione_sostegno($idlez, $iddocente, $con))
                     {
                         print("<td><center><a href='mod_lez.php?a=$idlez&b=$iddocente'> Modifica</a></td>");
                         print("<td><center><a href='can_lez.php?a=$idlez&b=$iddocente'> Elimina</a></td></tr>");
-                    }
-                    else
+                    } else
                     {
                         print("<td>Lez. sost.</td>");
                         print("<td>Lez. sost.</td></tr>");
                     }
                 }
             }
-        }
-        else
+        } else
         {
             print("<tr BGCOLOR='#cccccc'><td colspan='11'> <center>Nessuna lezione trovata</center></td></tr>");
         }

@@ -69,7 +69,7 @@ if ($cattedra <> "")
 {
     $query = "select idclasse, idmateria from tbl_cattnosupp where idcattedra=$cattedra";
     // print inspref($query);
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($nom = mysqli_fetch_array($ris))
     {
         $materia = $nom['idmateria'];
@@ -95,8 +95,7 @@ print ('
 if ($numeroperiodi == 2)
 {
     print('<tr><td width="50%"><b>Quadrimestre</b></td>');
-}
-else
+} else
 {
     print('<tr><td width="50%"><b>Trimestre</b></td>');
 }
@@ -107,16 +106,14 @@ echo('   <select name="periodo" ONCHANGE="voti.submit()">');
 if ($periodo == '1')
 {
     echo("<option selected value='1'>Primo</option>");
-}
-else
+} else
 {
     echo("<option value='1'>Primo</option>");
 }
 if ($periodo == '2')
 {
     echo("<option selected value='2'>Secondo</option>");
-}
-else
+} else
 {
     echo("<option value='2'>Secondo</option>");
 }
@@ -126,8 +123,7 @@ if ($numeroperiodi == 3)
     if ($periodo == '3')
     {
         echo("<option selected value='3'>Terzo</option>");
-    }
-    else
+    } else
     {
         echo("<option value='3'>Terzo</option>");
     }
@@ -144,7 +140,7 @@ echo("</td></tr>");
 //
 
 $query = "select iddocente, cognome, nome from tbl_docenti where idutente=$id_ut_doc";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($nom = mysqli_fetch_array($ris))
 {
     $iddocente = $nom["iddocente"];
@@ -180,7 +176,7 @@ $tipoval = "";
 $query = "select idcattedra,tbl_classi.idclasse, anno, sezione, specializzazione, denominazione, tipovalutazione from tbl_cattnosupp, tbl_classi, tbl_materie where iddocente=$iddocente and tbl_cattnosupp.idclasse=tbl_classi.idclasse and tbl_cattnosupp.idmateria = tbl_materie.idmateria order by anno, sezione, specializzazione, denominazione";
 
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -215,7 +211,7 @@ $numerorighe = 0;
 if ($cattedra != "")
 {
     $query = "select * from tbl_cattnosupp where iddocente=$iddocente and idclasse=$idclasse and idmateria=$materia";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     $numerorighe = mysqli_num_rows($ris);
 }
 
@@ -234,7 +230,7 @@ if (($cattedra != "") & ($numerorighe > 0))
              and tbl_gruppi.idmateria=$idmat
              and tbl_gruppi.iddocente=$iddocente";
     //print inspref($query);
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     // CREO UNA LISTA DEI GRUPPI
     // TTTT 04/02/2017 MODIFICA EFFETTUATA PER RISOLVERE PROBLEMA IN CASO DI PIU GRUPPI CON STESSA MATERIA IN STESSA CLASSE
     while ($rec = mysqli_fetch_array($ris))
@@ -259,7 +255,7 @@ if (($cattedra != "") & ($numerorighe > 0))
 //    
 
     $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($val = mysqli_fetch_array($ris))
     {
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
@@ -273,8 +269,7 @@ if (($cattedra != "") & ($numerorighe > 0))
         if ($idgruppo == '')
         {
             $query = "select * from tbl_alunni where idclasse='$idclasse' order by cognome,nome, datanascita";
-        }
-        else
+        } else
         {
             // MODIFICA EFFETTUATA PER RISOLVERE PROBLEMA IN CASO DI PIU GRUPPI CON STESSA MATERIA IN STESSA CLASSE
             /* $query = "select distinct tbl_alunni.idalunno,cognome,nome,datanascita
@@ -300,7 +295,7 @@ if (($cattedra != "") & ($numerorighe > 0))
           order by cognome, nome, datanascita";
     }
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
 
     $c = mysqli_fetch_array($ris);
@@ -343,7 +338,7 @@ if (($cattedra != "") & ($numerorighe > 0))
         $querylez = 'SELECT sum(numeroore) AS orelez FROM tbl_lezioni WHERE idmateria="' . $materia . '" AND idclasse="' . $idclasse . '" ';
     }
 
-    $rislez = mysqli_query($con, inspref($querylez));
+    $rislez = eseguiQuery($con,$querylez);
     $vallez = mysqli_fetch_array($rislez);
     print ('<center>Ore totale lezione: <i>' . $vallez['orelez'] . '</i><br/>');
 
@@ -359,8 +354,7 @@ if (($cattedra != "") & ($numerorighe > 0))
     if ($periodo < $numeroperiodi)
     {
         echo "  <td><b> Scritto </b></td><td><b> Orale</b></td><td><b>Pratico </b></td><td><b>Unico </b></td><td><b>Condotta </b></td><td align='center'><b>Annotazioni</b></td>";
-    }
-    else
+    } else
     {
         echo "  <td><b>Unico </b></td><td><b>Condotta </b></td><td align='center'><b>Annotazioni</b></td>";
     }
@@ -379,8 +373,7 @@ if (($cattedra != "") & ($numerorighe > 0))
         if ($idgruppo == '')
         {
             $query = "select * from tbl_alunni where idclasse='$idclasse' order by cognome,nome, datanascita";
-        }
-        else
+        } else
         {
             $query = "select distinct tbl_alunni.idalunno,cognome,nome,datanascita,certificato
                   from tbl_gruppi,tbl_gruppialunni,tbl_alunni
@@ -401,15 +394,14 @@ if (($cattedra != "") & ($numerorighe > 0))
     }
     // $query='select * from tbl_alunni where idclasse="'.$idclasse.'" order by cognome,nome';
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($val = mysqli_fetch_array($ris))
     {
         $esiste_voto = false;
         if (!$val['certificato'])
         {
             $cert = "";
-        }
-        else
+        } else
         {
             $cert = "<img src='../immagini/apply_small.png'>";
         }
@@ -427,7 +419,7 @@ if (($cattedra != "") & ($numerorighe > 0))
         $unico = "";
         $condotta = "";
         $note = "";
-        $risval = mysqli_query($con, inspref($queryval)) or die("Errore nella query: " . mysqli_error($con));
+        $risval = eseguiQuery($con,$queryval);
         if ($valval = mysqli_fetch_array($risval))
         {
 
@@ -496,15 +488,13 @@ if (($cattedra != "") & ($numerorighe > 0))
                     if ($scritto == $v)
                     {
                         echo "<option value=" . $v . " selected>" . dec_to_mod($v);
-                    }
-                    else
+                    } else
                     {
                         echo "<option value=" . $v . ">" . dec_to_mod($v);
                     }
                 }
                 echo "</select>";
-            }
-            else
+            } else
             {
                 echo "<input type='hidden' name='scritto" . $val['idalunno'] . "' value=99>";
             }
@@ -523,15 +513,13 @@ if (($cattedra != "") & ($numerorighe > 0))
                     if ($orale == $v)
                     {
                         echo "<option value=" . $v . " selected>" . dec_to_mod($v);
-                    }
-                    else
+                    } else
                     {
                         echo "<option value=" . $v . ">" . dec_to_mod($v);
                     }
                 }
                 echo "</select>";
-            }
-            else
+            } else
             {
                 echo "<input type='hidden' name='orale" . $val['idalunno'] . "' value=99>";
             }
@@ -550,15 +538,13 @@ if (($cattedra != "") & ($numerorighe > 0))
                     if ($pratico == $v)
                     {
                         echo "<option value=" . $v . " selected>" . dec_to_mod($v);
-                    }
-                    else
+                    } else
                     {
                         echo "<option value=" . $v . ">" . dec_to_mod($v);
                     }
                 }
                 echo "</select>";
-            }
-            else
+            } else
             {
                 echo "<input type='hidden' name='pratico" . $val['idalunno'] . "' value=99>";
             }
@@ -577,15 +563,13 @@ if (($cattedra != "") & ($numerorighe > 0))
                 if ($unico == $v)
                 {
                     echo "<option value=" . $v . " selected>" . dec_to_mod($v);
-                }
-                else
+                } else
                 {
                     echo "<option value=" . $v . ">" . dec_to_mod($v);
                 }
             }
             echo "</select>";
-        }
-        else
+        } else
         {
             echo "<input type='hidden' name='unico" . $val['idalunno'] . "' value=99>";
         }
@@ -615,8 +599,7 @@ if (($cattedra != "") & ($numerorighe > 0))
                 if ($condotta == $v)
                 {
                     echo '<option value=' . $v . ' selected>' . dec_to_mod($v);
-                }
-                else
+                } else
                 {
                     echo '<option value=' . $v . '>' . dec_to_mod($v);
                 }
@@ -680,7 +663,7 @@ if (($cattedra != "") & ($numerorighe > 0))
 // VALUTAZIONI SCRITTE
 
         $queryval = 'SELECT * FROM tbl_valutazioniintermedie WHERE idalunno = ' . $val["idalunno"] . ' AND idclasse="' . $idclasse . '" AND idmateria="' . $materia . '" ' . $queryper . ' AND tipo="S" ORDER BY DATA ';
-        $risval = mysqli_query($con, inspref($queryval)) or die("Errore nella query: " . mysqli_error($con));
+        $risval = eseguiQuery($con,$queryval);
 
         while ($valval = mysqli_fetch_array($risval))
         {
@@ -690,8 +673,7 @@ if (($cattedra != "") & ($numerorighe > 0))
                 if ($valval["voto"] >= 6)
                 {
                     echo '<font face="courier" size=1 color=green>';
-                }
-                else
+                } else
                 {
                     echo '<font face="courier" size=1 color=red>';
                 }
@@ -707,8 +689,7 @@ if (($cattedra != "") & ($numerorighe > 0))
                 $totvotosc = $totvotosc + $valval["voto"];
                 $numvoti++;
                 $numvotisc++;
-            }
-            else
+            } else
             {
                 echo '<font face="courier" size=1 color=black>';
                 echo $valval["tipo"];
@@ -732,7 +713,7 @@ if (($cattedra != "") & ($numerorighe > 0))
 // VALUTAZIONI ORALI    
 
         $queryval = 'SELECT * FROM tbl_valutazioniintermedie WHERE idalunno = ' . $val["idalunno"] . ' AND idclasse="' . $idclasse . '" AND idmateria="' . $materia . '" ' . $queryper . ' AND tipo="O" ORDER BY DATA ';
-        $risval = mysqli_query($con, inspref($queryval)) or die("Errore nella query: " . mysqli_error($con));
+        $risval = eseguiQuery($con,$queryval);
         while ($valval = mysqli_fetch_array($risval))
         {
             if ($valval["voto"] != 99)
@@ -740,8 +721,7 @@ if (($cattedra != "") & ($numerorighe > 0))
                 if ($valval["voto"] >= 6)
                 {
                     echo '<font face="courier" size=1 color=green>';
-                }
-                else
+                } else
                 {
                     echo '<font face="courier" size=1 color=red>';
                 }
@@ -757,8 +737,7 @@ if (($cattedra != "") & ($numerorighe > 0))
                 $totvotoor = $totvotoor + $valval["voto"];
                 $numvoti++;
                 $numvotior++;
-            }
-            else
+            } else
             {
                 echo '<font face="courier" size=1 color=black>';
                 echo $valval["tipo"];
@@ -782,7 +761,7 @@ if (($cattedra != "") & ($numerorighe > 0))
 
 
         $queryval = 'SELECT * FROM tbl_valutazioniintermedie WHERE idalunno = ' . $val["idalunno"] . ' AND idclasse="' . $idclasse . '" AND idmateria="' . $materia . '" ' . $queryper . ' AND tipo="P" ORDER BY DATA ';
-        $risval = mysqli_query($con, inspref($queryval)) or die("Errore nella query: " . mysqli_error($con));
+        $risval = eseguiQuery($con,$queryval);
         while ($valval = mysqli_fetch_array($risval))
         {
             if ($valval["voto"] != 99)
@@ -790,8 +769,7 @@ if (($cattedra != "") & ($numerorighe > 0))
                 if ($valval["voto"] >= 6)
                 {
                     echo '<font face="courier" size=1 color=green>';
-                }
-                else
+                } else
                 {
                     echo '<font face="courier" size=1 color=red>';
                 }
@@ -807,8 +785,7 @@ if (($cattedra != "") & ($numerorighe > 0))
                 $totvotopr = $totvotopr + $valval["voto"];
                 $numvoti++;
                 $numvotipr++;
-            }
-            else
+            } else
             {
                 echo '<font face="courier" size=1 color=black>';
                 echo $valval["tipo"];
@@ -828,61 +805,7 @@ if (($cattedra != "") & ($numerorighe > 0))
             print "<font face='courier' size=1 color=blue><b>MEDIA PRATICO: $mediapr</b><br/>";
         }
 
-        /*
-          // ALTRE VALUTAZIONI LEGATE ALLE COMPETENZE
-
-          $queryval = 'SELECT * FROM tbl_valutazioniintermedie WHERE idalunno = ' . $val["idalunno"] . ' AND idmateria="' . $materia . '" ' . $queryper . ' AND tipo="M" ORDER BY DATA ';
-          $risval = mysqli_query($con, inspref($queryval)) or die ("Errore nella query: " . mysqli_error($con));
-
-          while ($valval = mysqli_fetch_array($risval))
-          {
-
-          if ($valval["voto"] != 99)
-          {
-          if ($valval["voto"] >= 6)
-          {
-          echo '<font face="courier" size=1 color=green>';
-          }
-          else
-          {
-          echo '<font face="courier" size=1 color=red>';
-          }
-          echo $valval["tipo"];
-          echo '&nbsp;&nbsp;';
-          echo data_italiana($valval["data"]);
-          echo '&nbsp;&nbsp;';
-          echo $valval["voto"];
-          echo '&nbsp;&nbsp;';
-          echo $valval["giudizio"];
-          echo '</font><br/>';
-          $totvoto = $totvoto + $valval["voto"];
-          $totvotoal = $totvotoal + $valval["voto"];
-          $numvoti++;
-          $numvotial++;
-
-          }
-          else
-          {
-          echo '<font face="courier" size=1>';
-          echo $valval["tipo"];
-          echo '&nbsp;&nbsp;';
-          echo data_italiana($valval["data"]);
-          echo '&nbsp;&nbsp;';
-          echo '&nbsp;&nbsp;&nbsp;&nbsp;';
-          echo '&nbsp;&nbsp;';
-          echo $valval["giudizio"];
-          echo '</font><br/>';
-          }
-          }
-
-          if ($numvotial > 0)
-          {
-          $numtipivoti++;
-          $mediaal = round($totvotoal / $numvotial, 2);
-          print "<font face='courier' size=1 color=blue><b>MEDIA ALTRI VOTI: $mediaal</b><br/>";
-          }
-
-         */
+       
 // Calcolo medie
 
         if ($numvoti > 0)
@@ -919,7 +842,7 @@ if (($cattedra != "") & ($numerorighe > 0))
         }
 
         //print inspref($queryass);
-        $risval = eseguiQuery($con,$queryass);
+        $risval = eseguiQuery($con, $queryass);
         $valass = mysqli_fetch_array($risval);
         echo "<font face='courier' size=1 color='black'>";
         print "<center><u><b>ASSENZE</b></u></center>";
@@ -934,7 +857,7 @@ if (($cattedra != "") & ($numerorighe > 0))
 
 
         //print inspref($queryass);
-        $risval = eseguiQuery($con,$queryass);
+        $risval = eseguiQuery($con, $queryass);
         $valass = mysqli_fetch_array($risval);
         print ("TOTALI:  " . $valass['oreass'] . "<br>");
 
@@ -952,7 +875,7 @@ if (($cattedra != "") & ($numerorighe > 0))
                   and idmateria=$idmat $queryper
                   order by data";
 
-        $riscomp = eseguiQuery($con,$query);
+        $riscomp = eseguiQuery($con, $query);
         while ($reccomp = mysqli_fetch_array($riscomp))
         {
             $totvotocomp += $reccomp['voto'];
@@ -962,8 +885,7 @@ if (($cattedra != "") & ($numerorighe > 0))
         if ($numvoticomp > 0)
         {
             $votomediocomp = round($totvotocomp / $numvoticomp, 2);
-        }
-        else
+        } else
         {
             $votomediocomp = "==";
         }
@@ -981,7 +903,7 @@ if (($cattedra != "") & ($numerorighe > 0))
             print "<td>";
             $queryvi = "select * from tbl_valutazionifinali where idalunno=" . $val["idalunno"] . " and idmateria=$materia and periodo<$numeroperiodi";
 
-            $risvi = mysqli_query($con, inspref($queryvi)) or die(mysqli_error($con));
+            $risvi = eseguiQuery($con,$queryvi);
             while ($recvi = mysqli_fetch_array($risvi))
             {
                 print "<center>" . $recvi["periodo"] . "° PER.</center><br>";
@@ -1009,7 +931,7 @@ if (($cattedra != "") & ($numerorighe > 0))
 
             $queryvi = "select * from tbl_valutazionifinali where idalunno=" . $val["idalunno"] . " and idmateria=-1 and periodo<$numeroperiodi";
 
-            $risvi = mysqli_query($con, inspref($queryvi)) or die(mysqli_error($con));
+            $risvi = eseguiQuery($con,$queryvi);
             while ($recvi = mysqli_fetch_array($risvi))
             {
 
@@ -1042,15 +964,14 @@ if (($cattedra != "") & ($numerorighe > 0))
     // ALTRIMENTI LA REGISTRAZIONE E' INIBITA
 
     $queryscr = "SELECT * FROM tbl_scrutini WHERE idclasse=$idclasse AND periodo='$periodo'";
-    $risscr = mysqli_query($con, inspref($queryscr)) or die("Errore nella query: " . mysqli_error($con));
+    $risscr = eseguiQuery($con,$queryscr);
     // print inspref($queryscr);
     if ($valscr = mysqli_fetch_array($risscr))
     {
         if ($valscr['stato'] == "C")
         {
             print "<center>Scrutinio chiuso!</center>";
-        }
-        else
+        } else
         //if (!$_SESSION['sostegno'])
         {
             if (!cattedra_sostegno($cattedra, $con))
@@ -1058,8 +979,7 @@ if (($cattedra != "") & ($numerorighe > 0))
                 print "<center><input type=submit name=b value='Registra proposte di voto'></center>";
             }
         }
-    }
-    else
+    } else
     {
         if (!cattedra_sostegno($cattedra, $con))
             print "<center><input type=submit name=b value='Registra proposte di voto'></center>";

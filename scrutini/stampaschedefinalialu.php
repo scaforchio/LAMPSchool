@@ -1,24 +1,26 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
@@ -39,7 +41,7 @@ $firmadirigente = stringa_html('firma');
 $periodo = stringa_html('periodo');
 //$periodo=2;
 $alunni = array();
-if ($idalunno!=$_SESSION['idutente'] && $tipoutente=='T')
+if ($idalunno != $_SESSION['idutente'] && $tipoutente == 'T')
 {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
@@ -49,26 +51,24 @@ if ($idalunno!=$_SESSION['idutente'] && $tipoutente=='T')
 // altrimenti solo l'alunno passato come parametro
 if ($idclasse != "")
 {
-    if ($periodo=='9')
+    if ($periodo == '9')
         $conddebito = " and idalunno in (select idalunno from tbl_esiti WHERE (validita='1' OR validita='2') AND esito=0) ";
     else
         $conddebito = "";
     $query = "select idalunno from tbl_alunni where idclasse=$idclasse $conddebito order by cognome,nome";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($val = mysqli_fetch_array($ris))
     {
         $alunni[] = $val['idalunno'];
     }
-}
-else
+} else
 {
     $alunni[] = $idalunno;
     $query = "select idclasse from tbl_alunni where idalunno=$idalunno";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($val = mysqli_fetch_array($ris))
     {
         $idclasse = $val['idclasse'];
-
     }
 }
 
@@ -78,8 +78,7 @@ else
 if ($firmadirigente != "" && $datastampa != "")
 {
     aggiorna_data_firma_scrutinio($datastampa, $firmadirigente, $periodo, $idclasse, $con);
-}
-else
+} else
 {
     $firmadirigente = estrai_firma_scrutinio($idclasse, $periodo, $con);
     $datastampa = estrai_data_stampa($idclasse, $periodo, $con);
@@ -89,7 +88,6 @@ stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigente, $gioas
 
 mysqli_close($con);
 
-
 function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente, $gioass)
 {
     @require("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -97,7 +95,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
     require_once("../lib/fpdf/fpdf.php");
     $schede = new FPDF();
     $schede->AddFont('palacescript', '', 'palacescript.php'); // Font del Ministero
-    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
     $datascrutinio = data_italiana(estrai_datascrutinio($classe, $periodo, $con));
 
@@ -128,9 +126,9 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
 
         $schede->SetFont('Arial', 'B', 10);
         /*  if ($numeroperiodi==3)
-             $per="trimestre";
+          $per="trimestre";
           else
-             $per="quadrimestre";
+          $per="quadrimestre";
           $per=converti_utf8($per); */
         $annoscolastico = $annoscol . "/" . ($annoscol + 1);
         $schede->setXY(20, 82);
@@ -145,13 +143,12 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         $query = "SELECT datanascita, codfiscale, denominazione FROM tbl_alunni,tbl_comuni
               WHERE tbl_alunni.idcomnasc=tbl_comuni.idcomune 
               AND idalunno=$alu";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         if ($val = mysqli_fetch_array($ris))
         {
             $datanascita = data_italiana($val['datanascita']);
             $codfiscale = $val['codfiscale'];
             $denominazione = converti_utf8($val['denominazione']);
-
         }
 
         // CLASSE
@@ -212,12 +209,12 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
 
         $query = "select * from tbl_esiti where idalunno='$alu'";
 
-        $risesi = eseguiQuery($con,$query);
+        $risesi = eseguiQuery($con, $query);
 
         if ($recesi = mysqli_fetch_array($risesi))
         {
             //$esito = decodifica_esito($recesi['esito'], $con);
-            $esito = estrai_esito($alu,$con);
+            $esito = estrai_esito($alu, $con);
             $idesito = $recesi['esito'];
             $votoammissione = $recesi['votoammissione'];
             $creditotot = $recesi['creditotot'];
@@ -238,19 +235,17 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         $schede->SetFont('Arial', "B", 10);
         $schede->Cell(172, 6, str_replace("|", " ", estrai_seconda_riga($esito)), "LR", 1, "C");
 
-        if ((($livello_scuola == '2' && decodifica_classe_no_spec($classe, $con) == 3) || ($livello_scuola == '3' & decodifica_classe_no_spec($classe, $con) == 8)) & (decodifica_passaggio($idesito, $con)==0))
+        if ((($livello_scuola == '2' && decodifica_classe_no_spec($classe, $con) == 3) || ($livello_scuola == '3' & decodifica_classe_no_spec($classe, $con) == 8)) & (decodifica_passaggio($idesito, $con) == 0))
         {
             $schede->setXY(20, $schede->getY());
             $schede->SetFont('Arial', 'B', 10);
             $schede->Cell(172, 6, converti_utf8("con giudizio di idoneità di " . $votoammissione . "/10"), "LR", 1, "C");
-        }
-        elseif (($livello_scuola == '4') && (decodifica_classe_no_spec($classe, $con) == 5) && (decodifica_passaggio($idesito, $con)==0))
+        } elseif (($livello_scuola == '4') && (decodifica_classe_no_spec($classe, $con) == 5) && (decodifica_passaggio($idesito, $con) == 0))
         {
             $schede->setXY(20, $schede->getY());
             $schede->SetFont('Arial', 'B', 10);
             $schede->Cell(172, 6, converti_utf8("con credito scolastico di " . $credito . " (totale: " . $creditotot . ")"), "LR", 1, "C");
-        }
-        elseif (($livello_scuola == '4') && (decodifica_classe_no_spec($classe, $con) == 4 || decodifica_classe_no_spec($classe, $con) == 3) && (decodifica_passaggio($idesito, $con)==0))
+        } elseif (($livello_scuola == '4') && (decodifica_classe_no_spec($classe, $con) == 4 || decodifica_classe_no_spec($classe, $con) == 3) && (decodifica_passaggio($idesito, $con) == 0))
         {
             $schede->setXY(20, $schede->getY());
             $schede->SetFont('Arial', 'B', 10);
@@ -276,8 +271,10 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         $schede->SetFont('Arial', '', 7);
         $schede->Cell(40, 3, $dicituradirigente, "", 0, "C");
 
-        if ($_SESSION['suffisso'] != "") $suff = $_SESSION['suffisso'] . "/";
-        else $suff = "";
+        if ($_SESSION['suffisso'] != "")
+            $suff = $_SESSION['suffisso'] . "/";
+        else
+            $suff = "";
         $schede->setXY(130, 250);
         $schede->Image('../abc/' . $suff . 'firmadirigente.png');
         $schede->setXY(90, 215);
@@ -285,21 +282,21 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
 
 
         /*
-                $schede->setXY(20, $schede->getY());
+          $schede->setXY(20, $schede->getY());
 
-                $schede->SetFont('Arial', 'B', 10);
-                $schede->Multicell(172, 6, converti_utf8("\nIl dirigente scolastico\n" . $firmadirigente . "\n\n\n\n\n\n"), "", "C");
+          $schede->SetFont('Arial', 'B', 10);
+          $schede->Multicell(172, 6, converti_utf8("\nIl dirigente scolastico\n" . $firmadirigente . "\n\n\n\n\n\n"), "", "C");
 
-                $schede->setXY(68, $schede->getY() - 25);
-                if ($_SESSION['suffisso'] != "") $suff = $_SESSION['suffisso'] . "/";
-                else $suff = "";
-                if (estrai_dirigente($con) == $firmadirigente)
-                {
-                    $schede->Image('../abc/' . $suff . 'firmadirigente.png');
-                }
-                $schede->setXY(140, $schede->getY() - 25);
-                $schede->Image('../abc/' . $suff . 'timbro.png');
-        */
+          $schede->setXY(68, $schede->getY() - 25);
+          if ($_SESSION['suffisso'] != "") $suff = $_SESSION['suffisso'] . "/";
+          else $suff = "";
+          if (estrai_dirigente($con) == $firmadirigente)
+          {
+          $schede->Image('../abc/' . $suff . 'firmadirigente.png');
+          }
+          $schede->setXY(140, $schede->getY() - 25);
+          $schede->Image('../abc/' . $suff . 'timbro.png');
+         */
 
         /*
          * SECONDA PAGINA
@@ -321,9 +318,9 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
 
         $schede->SetFont('Arial', 'B', 10);
         /*  if ($numeroperiodi==3)
-             $per="trimestre";
+          $per="trimestre";
           else
-             $per="quadrimestre";
+          $per="quadrimestre";
           $per=converti_utf8($per); */
         $annoscolastico = $annoscol . "/" . ($annoscol + 1);
         $schede->setXY(20, 32);
@@ -338,13 +335,12 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         $query = "SELECT datanascita, codfiscale, denominazione FROM tbl_alunni,tbl_comuni
               WHERE tbl_alunni.idcomnasc=tbl_comuni.idcomune
               AND idalunno=$alu";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         if ($val = mysqli_fetch_array($ris))
         {
             $datanascita = data_italiana($val['datanascita']);
             $codfiscale = $val['codfiscale'];
             $denominazione = converti_utf8($val['denominazione']);
-
         }
 
         // CLASSE
@@ -407,9 +403,8 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
            and tbl_cattnosupp.iddocente <> 1000000000
            and tbl_materie.progrpag < 99
            order by tbl_materie.progrpag,tbl_materie.sigla";
-        $rismat = eseguiQuery($con,$query);
+        $rismat = eseguiQuery($con, $query);
         while ($valmat = mysqli_fetch_array($rismat))
-
         {
             $denom = converti_utf8($valmat['denominazione']);
 
@@ -425,7 +420,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
               AND periodo='$numeroperiodi'
               AND idmateria=$idmateria";
 
-            $risvoti = eseguiQuery($con,$query);
+            $risvoti = eseguiQuery($con, $query);
 
             if ($recvoti = mysqli_fetch_array($risvoti))
             {
@@ -454,16 +449,12 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
                 {
                     $schede->SetY($y + 6);
                 }
-            }
-            else
+            } else
             {
                 $schede->SetFont('Arial', '', 7);
                 $y = $schede->GetY();
                 $schede->Cell(100, 6, "Ore assenza: " . $assenze, 0, 1);
-
             }
-
-
         }
         // AGGIUNGO IL VOTO DI COMPORTAMENTO
         $query = "SELECT denominazione,votounico,note FROM tbl_valutazionifinali,tbl_materie
@@ -472,7 +463,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
               AND periodo='$numeroperiodi'
               AND tbl_valutazionifinali.idmateria=-1
               ORDER BY denominazione";
-        $risvoti = eseguiQuery($con,$query);
+        $risvoti = eseguiQuery($con, $query);
 
         if ($recvoti = mysqli_fetch_array($risvoti))
         {
@@ -499,8 +490,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
                 {
                     $schede->SetY($y + 6);
                 }
-            }
-            else
+            } else
             {
                 $schede->Multicell(100, 6, "", 0, 1);
             }
@@ -509,10 +499,10 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         // ESTRAGGO IL NUMERO DI ASSENZE
 
 
-        if ($gioass=='yes')
+        if ($gioass == 'yes')
         {
             $query = "select count(*) as numassenze from tbl_assenze where idalunno=$alu";
-            $risasse = eseguiQuery($con,$query);
+            $risasse = eseguiQuery($con, $query);
 
             if ($recasse = mysqli_fetch_array($risasse))
             {
@@ -530,7 +520,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
             $query = "SELECT giudizio from tbl_giudizi
 						WHERE idalunno=$alu
 						AND periodo='$numeroperiodi'";
-            $risgiud = eseguiQuery($con,$query);
+            $risgiud = eseguiQuery($con, $query);
             if ($recgiud = mysqli_fetch_array($risgiud))
             {
 
@@ -543,11 +533,9 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
                     $schede->SetFont('Arial', '', 7);
                     $schede->Multicell(190, 4, $giudizio, 1, 1);
                 }
-
             }
             // ESITO
-        }
-        else
+        } else
         {
             // ESITO, CREDITO SCOLASTICO
         }
@@ -568,25 +556,24 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         $schede->SetFont('Arial', '', 7);
         $schede->Cell(40, 3, $dicituradirigente, "", 0, "C");
 
-        if ($_SESSION['suffisso'] != "") $suff = $_SESSION['suffisso'] . "/";
-        else $suff = "";
+        if ($_SESSION['suffisso'] != "")
+            $suff = $_SESSION['suffisso'] . "/";
+        else
+            $suff = "";
         $schede->setXY(130, 260);
         $schede->Image('../abc/' . $suff . 'firmadirigente.png');
         $schede->setXY(90, 225);
         $schede->Image('../abc/' . $suff . 'timbro.png');
-
-
     }
 
 
     $nomefile = "pagelle_" . decodifica_classe($classe, $con) . "_" . $periodo . ".pdf";
     $nomefile = str_replace(" ", "_", $nomefile);
 
-    $schede->Output($nomefile,"I");
+    $schede->Output($nomefile, "I");
 
     mysqli_close($con);
 }
-
 
 function elimina_cr($stringa)
 {
@@ -594,7 +581,6 @@ function elimina_cr($stringa)
     $strpul = str_replace(array("\n", "\r"), " ", $stringa);
     return $strpul;
 }
-
 
 function inserisci_new_line($stringa)
 {
@@ -610,8 +596,7 @@ function estrai_prima_riga($stringa)
     if ($posint != 0)
     {
         $str1 = substr($stringa, 0, $posint);
-    }
-    else
+    } else
     {
         $str1 = $stringa;
     }
@@ -625,12 +610,9 @@ function estrai_seconda_riga($stringa)
     if ($posint != 0)
     {
         $str2 = substr($stringa, $posint + 1);
-    }
-    else
+    } else
     {
         $str2 = "";
     }
     return converti_utf8($str2);
 }
-
-

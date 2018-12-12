@@ -40,7 +40,7 @@ $controllo = stringa_html('controllo');
 
 if ($controllo == md5($nomefilelog))
 {
-    
+
     daily_cron($suffisso, $con, $lavori);
     //print "\nCron $lavori eseguito";
     inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cron eseguito con lavori $lavori!", $nomefilelog, $suffisso);

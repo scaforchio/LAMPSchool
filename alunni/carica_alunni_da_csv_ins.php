@@ -304,7 +304,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                 // ALUNNO
                 // PRIMA SI CANCELLA L'ALUNNO, IL TUTORE E L'UTENTE CON LO STESSO IDTUTORE O IDUTENTE
                 $sqlt = "select idutente,idtutore from tbl_alunni where codfiscale='$codfiscale'";
-                $res = eseguiQuery($con,$sqlt);
+                $res = eseguiQuery($con, $sqlt);
 
                 if ($res)
                 {
@@ -326,12 +326,12 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                         if ($idutente > 0)
                         { // IMPORTANTE per non eliminare l'utente adminlamp
                             $sqlt = "delete from tbl_alunni $where";
-                            eseguiQuery($con,$sqlt);
+                            eseguiQuery($con, $sqlt);
                             //  $sqlt = "delete from tbl_tutori $where";
                             //  eseguiQuery($con,$sqlt);
                             // $sqlt = "delete from tbl_utenti where idutente=$idutente";
                             $sqlt = "delete from tbl_utenti $where";
-                            eseguiQuery($con,$sqlt);
+                            eseguiQuery($con, $sqlt);
                         }
                         mysqli_free_result($res);
                     }
@@ -343,7 +343,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                             VALUES ('$cognome','$nome','$dataNascita','$codfiscale','$comuneNascita','$comuneResidenza','$sesso','$codmeccanografico','$indirizzo','$telefono','$cellulare','$email')";
 
                 //print "<br/>" . inspref($res);
-                eseguiQuery($con,$res);
+                eseguiQuery($con, $res);
 
                 $idalunnoinserito = mysqli_insert_id($con);
 
@@ -358,7 +358,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                 // UTENTE
                 // PRIMA SI CANCELLA L'UTENTE ESISTENTE
                 $sqlt = "delete from tbl_utenti where idutente=$idalunnoinserito";
-                eseguiQuery($con,$sqlt);
+                eseguiQuery($con, $sqlt);
 
                 // POI SI INSERISCE IL RECORD NELLA TABELLA tbl_utenti;
                 $utente = "gen" . $idalunnoinserito;
@@ -377,22 +377,21 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                     print "<td align=center>$passwordalunno</td>";
                 }
                 $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idalunnoinserito','$utente',md5('" . md5($password) . "'),'T')";
-                eseguiQuery($con,$sqlt);
+                eseguiQuery($con, $sqlt);
                 $sqlt = "update tbl_alunni set idtutore=$idalunnoinserito,idutente=$idalunnoinserito where idalunno=$idalunnoinserito";
-                eseguiQuery($con,$sqlt);
+                eseguiQuery($con, $sqlt);
 
                 if ($livello_scuola == 4)
                 {
-                    $idutentealunno=$idalunnoinserito+2100000000;
-                $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idutentealunno','$utentealunno',md5('" . md5($passwordalunno) . "'),'L')";
-                $res = eseguiQuery($con,$sqlt);
-           
+                    $idutentealunno = $idalunnoinserito + 2100000000;
+                    $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idutentealunno','$utentealunno',md5('" . md5($passwordalunno) . "'),'L')";
+                    $res = eseguiQuery($con, $sqlt);
                 }
                 // Inseriamo nel file csv
-                if ($livello_scuola<4)
-                   fputcsv($fp, array($riga_tmp[$poscodf], $riga_tmp[$poscogn], $riga_tmp[$posnome], $riga_tmp[$posdata], $utente, $password), ";");
+                if ($livello_scuola < 4)
+                    fputcsv($fp, array($riga_tmp[$poscodf], $riga_tmp[$poscogn], $riga_tmp[$posnome], $riga_tmp[$posdata], $utente, $password), ";");
                 else
-                   fputcsv($fp, array($riga_tmp[$poscodf], $riga_tmp[$poscogn], $riga_tmp[$posnome], $riga_tmp[$posdata], $utente, $password,$utentealunno,$passwordalunno), ";"); 
+                    fputcsv($fp, array($riga_tmp[$poscodf], $riga_tmp[$poscogn], $riga_tmp[$posnome], $riga_tmp[$posdata], $utente, $password, $utentealunno, $passwordalunno), ";");
                 print "</tr>";
 
                 $numero_alunni_inseriti++;

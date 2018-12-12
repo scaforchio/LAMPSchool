@@ -1,6 +1,7 @@
 <?php
 
-function getIdMoodle($token, $domainname, $username) {
+function getIdMoodle($token, $domainname, $username)
+{
 
 
     /// SETUP - NEED TO BE CHANGED
@@ -36,8 +37,8 @@ function getIdMoodle($token, $domainname, $username) {
     return $id;
 }
 
-
-function cambiaPasswordMoodle($token, $domainname, $idutente, $username, $newpassword) {
+function cambiaPasswordMoodle($token, $domainname, $idutente, $username, $newpassword)
+{
 
     $functionname = 'core_user_update_users';
 
@@ -59,7 +60,8 @@ function cambiaPasswordMoodle($token, $domainname, $idutente, $username, $newpas
     //   print_r($resp);
 }
 
-function creaCategoriaMoodle($token, $domainname, $nomecategoria, $siglacategoria, $categoriagenitore) {
+function creaCategoriaMoodle($token, $domainname, $nomecategoria, $siglacategoria, $categoriagenitore)
+{
 
     $functionname = 'core_course_create_categories';
 
@@ -81,12 +83,13 @@ function creaCategoriaMoodle($token, $domainname, $nomecategoria, $siglacategori
     $restformat = ($restformat == 'json') ? '&moodlewsrestformat=' . $restformat : '';
     $resp = $curl->post($serverurl . $restformat, $params);
 
-   // print $resp;
+    // print $resp;
     $categoriacreata = json_decode($resp);
     return $categoriacreata[0]->id;
 }
 
-function creaUtenteMoodle($token, $domainname, $username, $password, $cognome, $nome, $email) {
+function creaUtenteMoodle($token, $domainname, $username, $password, $cognome, $nome, $email)
+{
 
 
     $functionname = 'core_user_create_users';
@@ -112,7 +115,8 @@ function creaUtenteMoodle($token, $domainname, $username, $password, $cognome, $
     return $resp;
 }
 
-function getCategoriaMoodle($token, $domainname, $siglacat) {
+function getCategoriaMoodle($token, $domainname, $siglacat)
+{
 
     $functionname = 'core_course_get_categories';
 
@@ -128,14 +132,16 @@ function getCategoriaMoodle($token, $domainname, $siglacat) {
     $resp = $curl->post($serverurl . $restformat, $richieste);
 
     $categorie = json_decode($resp);
-    foreach ($categorie as $categoria) {
+    foreach ($categorie as $categoria)
+    {
         if ($siglacat == $categoria->idnumber)
             return $categoria->id;
     }
     return -1;
 }
 
-function getCorsiMoodle($token, $domainname) {
+function getCorsiMoodle($token, $domainname)
+{
 
     $functionname = 'core_course_get_courses';
 
@@ -154,7 +160,8 @@ function getCorsiMoodle($token, $domainname) {
     return $resp;
 }
 
-function getIdCorsoMoodle($token, $domainname, $siglacorso) {
+function getIdCorsoMoodle($token, $domainname, $siglacorso)
+{
 
     $functionname = 'core_course_get_courses';
 
@@ -171,14 +178,16 @@ function getIdCorsoMoodle($token, $domainname, $siglacorso) {
     // print $resp;
     $corsi = json_decode($resp);
     $categorie = json_decode($resp);
-    foreach ($corsi as $corso) {
+    foreach ($corsi as $corso)
+    {
         if ($siglacorso == $corso->shortname)
             return $corso->id;
     }
     return -1;
 }
 
-function creaCorsoMoodle($token, $domainname, $nomecorso, $siglacorso, $categoria) {
+function creaCorsoMoodle($token, $domainname, $nomecorso, $siglacorso, $categoria)
+{
 
 
     $functionname = 'core_course_create_courses';
@@ -209,7 +218,8 @@ function creaCorsoMoodle($token, $domainname, $nomecorso, $siglacorso, $categori
     return $corsocreato[0]->id;
 }
 
-function aggiornaCategoriaCorso($token, $domainname, $idcorso, $idcategoria) {
+function aggiornaCategoriaCorso($token, $domainname, $idcorso, $idcategoria)
+{
 
 
     $functionname = 'core_course_update_courses';
@@ -233,7 +243,8 @@ function aggiornaCategoriaCorso($token, $domainname, $idcorso, $idcategoria) {
     return $resp;
 }
 
-function iscriviUtenteMoodle($token, $domainname, $idcorso, $idutente, $idruolo) {
+function iscriviUtenteMoodle($token, $domainname, $idcorso, $idutente, $idruolo)
+{
 
     // IDRUOLO    3 = docente,  5 = studente
 
@@ -260,7 +271,8 @@ function iscriviUtenteMoodle($token, $domainname, $idcorso, $idutente, $idruolo)
     // print $resp;
 }
 
-function disiscriviUtenteMoodle($token, $domainname, $idcorso, $idutente) {
+function disiscriviUtenteMoodle($token, $domainname, $idcorso, $idutente)
+{
 
 
     $functionname = 'enrol_manual_unenrol_users';
@@ -285,7 +297,8 @@ function disiscriviUtenteMoodle($token, $domainname, $idcorso, $idutente) {
     print $resp;
 }
 
-function getUtentiCorsoMoodle($token, $domainname, $idcorso) {
+function getUtentiCorsoMoodle($token, $domainname, $idcorso)
+{
 
     $functionname = 'core_enrol_get_enrolled_users';
     $params = array('courseid' => $idcorso);
@@ -302,7 +315,8 @@ function getUtentiCorsoMoodle($token, $domainname, $idcorso) {
     return $corsi;
 }
 
-function creaGruppoGlobaleMoodle($token, $domainname, $nomegruppo, $siglagruppo) {
+function creaGruppoGlobaleMoodle($token, $domainname, $nomegruppo, $siglagruppo)
+{
 
     $functionname = 'core_cohort_create_cohorts';
     $restformat = 'json';
@@ -331,30 +345,31 @@ function creaGruppoGlobaleMoodle($token, $domainname, $nomegruppo, $siglagruppo)
     return $gruppocreato[0]->id;
 }
 
-function aggiungiUtenteAGruppoGlobale($token, $domainname, $idgruppo, $username) {
+function aggiungiUtenteAGruppoGlobale($token, $domainname, $idgruppo, $username)
+{
 
-    
+
 
     $functionname = 'core_cohort_add_cohort_members';
 
     $restformat = 'json';
-    
+
     $categoria = new stdClass();
     $categoria->type = "idnumber";
     $categoria->value = $idgruppo;
-    
+
     $tipoutente = new stdClass();
     $tipoutente->type = "username";
     $tipoutente->value = $username;
-    
+
     $iscrizione1 = new stdClass();
     $iscrizione1->cohorttype = $categoria;
     $iscrizione1->usertype = $tipoutente;
-    
+
 
 
     $iscrizioni = array($iscrizione1);
-    
+
     $params = array('members' => $iscrizioni);
 
     //header('Content-Type: text/plain');
@@ -367,20 +382,22 @@ function aggiungiUtenteAGruppoGlobale($token, $domainname, $idgruppo, $username)
     print $resp;
 }
 
-
-function costruisciUsernameMoodle($idutente) {
-    if ($idutente >= 1000000000) {
+function costruisciUsernameMoodle($idutente)
+{
+    if ($idutente >= 1000000000)
+    {
         return "doc" . $_SESSION['suffisso'] . ($idutente - 1000000000);
-    } else {
+    } else
+    {
         return "al" . $_SESSION['suffisso'] . $idutente;
     }
 }
 
-function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle,$urlmoodle,$nome_scuola,$annoscol)
+function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle, $urlmoodle, $nome_scuola, $annoscol)
 {
 
     $query = "select * from tbl_classi where idclasse=$idclasse";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     $rec = mysqli_fetch_array($ris);
     $siglacategoria = $rec['idmoodle'];
     $anno = $rec['anno'];
@@ -389,7 +406,7 @@ function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle
     $specsigla = substr($specializzazione, 0, 3);
     $annoinizio = $annoscol;
     $query = "select * from tbl_materie where idmateria=$idmateria";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     $rec = mysqli_fetch_array($ris);
     $nomemateria = $rec['denominazione'];
     $siglamateria = $rec['sigla'];
@@ -443,7 +460,7 @@ function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle
 
     $utentiiscritti = getUtentiCorsoMoodle($tokenservizimoodle, $urlmoodle, $idcorso);
 
-    print "Utenti iscritti: ".$utentiiscritti."<br>";
+    print "Utenti iscritti: " . $utentiiscritti . "<br>";
 
     foreach ($utentiiscritti as $utenteiscritto)
     {
@@ -454,7 +471,7 @@ function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle
 // Iscrizione nuovi alunni e docenti al corso
 
     $query = "select * from tbl_cattnosupp where idmateria = $idmateria and idclasse = $idclasse and idalunno=0 and iddocente<>1000000000";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris))
     {
         // $usernamedocente="doc".$_SESSION['suffisso'].($rec["iddocente"]-1000000000);
@@ -466,7 +483,7 @@ function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle
     }
 
     $query = "select * from tbl_alunni where idclasse = $idclasse";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris))
     {
         // $usernamealunno="al".$_SESSION['suffisso'].($rec["idalunno"]);

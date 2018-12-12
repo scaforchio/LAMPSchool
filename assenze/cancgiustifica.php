@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -49,25 +51,22 @@ $idassenza = stringa_html('idassenza');
 $idritardo = stringa_html('idritardo');
 $iduscita = stringa_html('iduscita');
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
-if ($idassenza!='')
+if ($idassenza != '')
 {
     $query = "UPDATE tbl_assenze SET giustifica=0, datagiustifica=NULL, iddocentegiust=0 WHERE idassenza=$idassenza";
-    $risupd = eseguiQuery($con,$query);
-
+    $risupd = eseguiQuery($con, $query);
 }
-if ($idritardo!='')
+if ($idritardo != '')
 {
     $query = "UPDATE tbl_ritardi SET giustifica=0, datagiustifica=NULL, iddocentegiust=0 WHERE idritardo=$idritardo";
-    $risupd = eseguiQuery($con,$query);
-
+    $risupd = eseguiQuery($con, $query);
 }
-if ($iduscita!='')
+if ($iduscita != '')
 {
     $query = "UPDATE tbl_usciteanticipate SET giustifica=0, datagiustifica=NULL, iddocentegiust=0 WHERE iduscita=$iduscita";
-    $risupd = eseguiQuery($con,$query);
-
+    $risupd = eseguiQuery($con, $query);
 }
 
 print "

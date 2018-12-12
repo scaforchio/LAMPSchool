@@ -1,31 +1,31 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
-
-
 // DEFINIZIONE ARRAY PER MEMORIZZAZZIONE IN CSV
 $listamaterie = array();
 $listamaterie[] = "Alunno";
@@ -46,7 +46,7 @@ if ($tipoutente == "")
 $titolo = "Situazione scrutini";
 $script = '';
 
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
@@ -76,8 +76,7 @@ print ('
 if ($numeroperiodi == 2)
 {
     print('<tr><td width="50%"><b>Quadrimestre</b></td>');
-}
-else
+} else
 {
     print('<tr><td width="50%"><b>Trimestre</b></td>');
 }
@@ -88,16 +87,14 @@ echo("<option value=''>&nbsp;</option>");
 if ($periodo == '1')
 {
     echo("<option selected value='1'>Primo</option>");
-}
-else
+} else
 {
     echo("<option value='1'>Primo</option>");
 }
 if ($periodo == '2')
 {
     echo("<option selected value='2'>Secondo</option>");
-}
-else
+} else
 {
     echo("<option value='2'>Secondo</option>");
 }
@@ -107,23 +104,20 @@ if ($numeroperiodi == 3)
     if ($periodo == '3')
     {
         echo("<option selected value='3'>Terzo</option>");
-    }
-    else
+    } else
     {
         echo("<option value='3'>Terzo</option>");
     }
 }
-if ($livello_scuola=='4')
+if ($livello_scuola == '4')
 {
     if ($periodo == '9')
     {
         echo("<option selected value='9'>Scrutini integrativi</option>");
-    }
-    else
+    } else
     {
         echo("<option value='9'>Scrutini integrativi</option>");
     }
-
 }
 
 echo("</select>");
@@ -143,16 +137,15 @@ if (!$con)
     exit;
 }
 
-if ($periodo!="")
+if ($periodo != "")
 {
 //Esecuzione query
     $query = "SELECT * FROM tbl_scrutini,tbl_classi WHERE tbl_scrutini.idclasse=tbl_classi.idclasse and periodo=$periodo ORDER BY anno, sezione, specializzazione";  // 0=supplenza, -1=comportamento
 
-    if (!($ris = eseguiQuery($con,$query)))
+    if (!($ris = eseguiQuery($con, $query)))
     {
         print "Query fallita";
-    }
-    else
+    } else
     {
         print "<br>";
         print "<CENTER><TABLE BORDER='1'>";

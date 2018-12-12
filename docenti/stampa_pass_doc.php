@@ -38,7 +38,7 @@ if ($tipoutente == "")
 
 $numeropassword = stringa_html('numpass');
 
-$inviomail=stringa_html('email');
+$inviomail = stringa_html('email');
 
 $arr_iddoc = array();
 $arr_utdoc = array();
@@ -56,9 +56,9 @@ for ($i = 1; $i <= $numeropassword; $i++)
     $arr_pwdoc[] = stringa_html($pwdoc);
 }
 //  Richiamare funzione di stampa passando gli array come parametri
-stampa_pass_docente($arr_iddoc, $arr_utdoc, $arr_pwdoc,$inviomail);
+stampa_pass_docente($arr_iddoc, $arr_utdoc, $arr_pwdoc, $inviomail);
 
-function stampa_pass_docente($arriddoc, $arrutdoc, $arrpwdoc,$inviomail)
+function stampa_pass_docente($arriddoc, $arrutdoc, $arrpwdoc, $inviomail)
 {
     @require("../php-ini" . $_SESSION['suffisso'] . ".php");
     require_once("../lib/fpdf/fpdf.php");
@@ -82,43 +82,43 @@ function stampa_pass_docente($arriddoc, $arrutdoc, $arrpwdoc,$inviomail)
         $schede->Image('../abc/' . $suff . 'testata.jpg', NULL, NULL, 190, 43);
 
         $docente = estrai_dati_docente($iddoc, $con);
-        
+
         $maildocente = estrai_mail_docente($iddoc, $con);
         $testomail = "";
-        
+
         $schede->SetFont('Times', 'B', 10);
         $posY = 70;
         $schede->SetXY(105, $posY);
         $int = estrai_testo("passdoc00", $con);
         $schede->Cell(95, 8, converti_utf8($int) . " " . converti_utf8($docente), NULL, 1, "L");
-        $testomail="<br>$int<br>$docente<br><br>";
+        $testomail = "<br>$int<br>$docente<br><br>";
         $posY += 20;
 
         $schede->SetXY(10, $posY);
         $schede->SetFont('Times', '', 10);
         $comunicazione = estrai_testo("passdoc01", $con);
-        $testomail.=$comunicazione."<br>";
+        $testomail .= $comunicazione . "<br>";
         $schede->write(4, converti_utf8($comunicazione));
         $posY = $schede->GetY();
         $posY += 20;
         $schede->SetXY(10, $posY);
         $schede->SetFont('Times', 'B', 10);
         $schede->Cell(190, 8, converti_utf8("Utente: " . $arrutdoc[$cont]), NULL, 1, "C");
-        
-        $testomail.="<br>Utente: " . $arrutdoc[$cont]."<br>";
-        
+
+        $testomail .= "<br>Utente: " . $arrutdoc[$cont] . "<br>";
+
         $posY += 5;
         $schede->SetXY(10, $posY);
         $schede->SetFont('Times', 'B', 10);
         $schede->Cell(190, 8, converti_utf8("Password: " . $arrpwdoc[$cont]), NULL, 1, "C");
 
-        $testomail.="<br>Password: " . $arrpwdoc[$cont]."<br><br>";
+        $testomail .= "<br>Password: " . $arrpwdoc[$cont] . "<br><br>";
         $posY += 10;
         $schede->SetXY(10, $posY);
         $schede->SetFont('Times', '', 10);
 
         $comunicazione = estrai_testo("passdoc02", $con);
-        $testomail.=$comunicazione."<br>";
+        $testomail .= $comunicazione . "<br>";
         $schede->write(4, converti_utf8($comunicazione));
 
         $posY = $schede->GetY();
@@ -126,14 +126,14 @@ function stampa_pass_docente($arriddoc, $arrutdoc, $arrpwdoc,$inviomail)
         $schede->SetXY(10, $posY);
         $schede->SetFont('Times', '', 10);
         $comunicazione = "Distinti saluti";
-        $testomail.="<br>".$comunicazione."<br>";
+        $testomail .= "<br>" . $comunicazione . "<br>";
         $schede->MultiCell(190, 8, converti_utf8($comunicazione));
         $posY += 10;
 
         $schede->SetXY(10, $posY);
         $schede->SetFont('Times', '', 10);
         $comunicazione = "$comune_scuola, " . date('d') . "/" . date('m') . "/" . date('Y');
-        $testomail.="<br>".$comunicazione."<br>";
+        $testomail .= "<br>" . $comunicazione . "<br>";
         $schede->MultiCell(190, 8, converti_utf8($comunicazione));
         $posY += 20;
 
@@ -145,8 +145,8 @@ function stampa_pass_docente($arriddoc, $arrutdoc, $arrpwdoc,$inviomail)
         $schede->SetXY(105, $posY);
         $schede->SetFont('Times', 'B', 10);
         $schede->Cell(95, 8, converti_utf8($dirigente), NULL, 1, "C");
-        if ($inviomail=='S')
-            invia_mail($maildocente, "Password registro ".$_SESSION['suffisso'], $testomail);
+        if ($inviomail == 'S')
+            invia_mail($maildocente, "Password registro " . $_SESSION['suffisso'], $testomail);
         $cont++;
     }
     $nomefile = "PWDDocenti.pdf";

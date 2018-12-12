@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Aggiornamento dei parametri globali di LAMPSchool
  * i dati di accesso alla base dati sono scritti nel file newphp-ini.php
@@ -7,14 +8,12 @@
  * @copyright  Copyright (C) 2014 Renato Tamilio
  * @license    GNU Affero General Public License versione 3 o successivi; vedete agpl-3.0.txt
  */
-
 // require_once '../php-ini.php';
 require_once '../lib/funzioni.php';
 require_once 'funzioni_install.php';
 
 // Necessario solo per la Ver.1.9 per errata impostazione del parametro versioneprecedente nell'aggiornamento
 // alla 1.8.1
-
 //
 
 
@@ -26,8 +25,8 @@ stampa_testata_installer($titolo, '', '');
 
 
 /*
-    Se i controlli vanno a buon fine, scrive il nuovo file di configurazione ed aggiorna il database
-*/
+  Se i controlli vanno a buon fine, scrive il nuovo file di configurazione ed aggiorna il database
+ */
 
 $newfile = 'newphp-ini.php';
 
@@ -41,17 +40,15 @@ for ($i = 0; $i < count($elencoinstallazioni); $i++)
 
 
     $configfile = '../' . $fileinclude;
-    aggiorna($fileinclude, $configfile,$newfile,$json);
-
+    aggiorna($fileinclude, $configfile, $newfile, $json);
 }
 print "<form method='post' id='formInstall'></form>";
 stampaPulsanti('', '../index', '', 'Login');
 
-
-function aggiorna($fileinclude, $configfile,$newfile,$json)
+function aggiorna($fileinclude, $configfile, $newfile, $json)
 {
 // Preparazione del file newphp-ini.php che ha come modello il file php-ini.php
-    require_once "../".$fileinclude;
+    require_once "../" . $fileinclude;
 
 
     $str = file_get_contents('php-ini.php');
@@ -112,13 +109,12 @@ function aggiorna($fileinclude, $configfile,$newfile,$json)
         }
     }
 
-    $suffisso=substr($fileinclude,7,strlen($fileinclude) - 11);
+    $suffisso = substr($fileinclude, 7, strlen($fileinclude) - 11);
 
     if ($erroredb)
     {
         $stile . "importante";
-    }
-    else
+    } else
     {
         $stile = "importanteverde";
     }
@@ -128,13 +124,11 @@ function aggiorna($fileinclude, $configfile,$newfile,$json)
     if ($erroredb)
     {
         print $messaggioFinale . " NON effettuato correttamente :-(</div>";
-    }
-    else
+    } else
     {
         print $messaggioFinale . " completato :-)</div>";
     }
 }
-
 
 function elencafiles($dirname)
 {
@@ -149,11 +143,9 @@ function elencafiles($dirname)
             {
                 array_push($arrayfiles, $file);
             }
-
         }
         closedir($handle);
     }
     sort($arrayfiles);
     return $arrayfiles;
 }
-

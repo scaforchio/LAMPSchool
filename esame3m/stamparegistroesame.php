@@ -29,7 +29,8 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "") {
+if ($tipoutente == "")
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -52,7 +53,7 @@ $query = "select * from tbl_esami3m,tbl_escommissioni where
           tbl_esami3m.idcommissione=tbl_escommissioni.idescommissione";
 //       and idclasse=$idclasse";
 //print inspref($query);
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 $rec = mysqli_fetch_array($ris);
 
 
@@ -65,20 +66,23 @@ $orafine = substr($rec['orafine'], 0, 5);
 $luogo = $rec['luogoscrutinio'];
 $presidente = $rec['nomepresidente'] . " " . $rec['cognomepresidente'];
 $commissione = $rec['denominazione'];
-if ($rec['idsegretario'] != "" & $rec['idsegretario'] != 0) {
+if ($rec['idsegretario'] != "" & $rec['idsegretario'] != 0)
+{
     $segretario = estrai_dati_docente($rec['idsegretario'], $con);
-} else {
+} else
+{
     $segretario = "";
 }
 $query = "SELECT distinct cognome,nome,tbl_docenti.iddocente FROM tbl_escompcommissioni,tbl_docenti
         WHERE tbl_escompcommissioni.iddocente = tbl_docenti.iddocente
         AND idcommissione<>0
         ORDER BY cognome, nome";
-$risdoc = eseguiQuery($con,$query);
+$risdoc = eseguiQuery($con, $query);
 //$elencodocenti = "";
 $arrdocenti = array();
 // print inspref($query);
-while ($recdoc = mysqli_fetch_array($risdoc)) {
+while ($recdoc = mysqli_fetch_array($risdoc))
+{
     // $elencodocenti .= $recdoc['nome'] . " " . $recdoc['cognome'] . ", ";
     // RICERCA MATERIE
     $iddocentecomm = $recdoc['iddocente'];
@@ -94,8 +98,9 @@ while ($recdoc = mysqli_fetch_array($risdoc)) {
             . "and anno=$ultimoanno "
             . "and tbl_cattnosupp.iddocente=$iddocentecomm "
             . "and idalunno=0";
-    $rismat = eseguiQuery($con,$query);
-    while ($recmat = mysqli_fetch_array($rismat)) {
+    $rismat = eseguiQuery($con, $query);
+    while ($recmat = mysqli_fetch_array($rismat))
+    {
         $materie .= $recmat['denominazione'] . " ";
     }
     $arrdocenti[] = $recdoc['cognome'] . " " . $recdoc['nome'];
@@ -152,58 +157,69 @@ $query = "select *,tbl_alunni.idclasse as idclassealunno from tbl_esesiti, tbl_a
               where tbl_esesiti.idalunno = tbl_alunni.idalunno
               and tbl_alunni.idclasseesame = tbl_classi.idclasse
               and tbl_alunni.idclasseesame <> 0";
-$risesi = eseguiQuery($con,$query);
+$risesi = eseguiQuery($con, $query);
 // print inspref($query);
 
-while ($recesa = mysqli_fetch_array($risesi)) {
+while ($recesa = mysqli_fetch_array($risesi))
+{
 
 
-    if ($recesa['idclassealunno'] != 0) {
+    if ($recesa['idclassealunno'] != 0)
+    {
         $contatori['candidatiinterniammessi'] ++;
         $contatori['candidatitotaliammessi'] ++;
-    } else {
+    } else
+    {
 
         $contatori['candidatiesterniammessi'] ++;
         $contatori['candidatitotaliammessi'] ++;
     }
 
-    if ($recesa['idclassealunno'] != 0 & $recesa['votofinale'] > 0) {
+    if ($recesa['idclassealunno'] != 0 & $recesa['votofinale'] > 0)
+    {
         $contatori['candidatiinterniesaminati'] ++;
         $contatori['candidatitotaliesaminati'] ++;
     }
-    if ($recesa['idclassealunno'] == 0 & $recesa['votofinale'] > 0) {
+    if ($recesa['idclassealunno'] == 0 & $recesa['votofinale'] > 0)
+    {
         $contatori['candidatiesterniesaminati'] ++;
         $contatori['candidatitotaliesaminati'] ++;
     }
 
-    if ($recesa['idclassealunno'] != 0 & $recesa['votofinale'] == 0) {
+    if ($recesa['idclassealunno'] != 0 & $recesa['votofinale'] == 0)
+    {
         $contatori['candidatiinterniassing'] ++;
         $contatori['candidatiinterninonlicassenza'] ++;
         $contatori['candidatitotaliassenti'] ++;
         $contatori['candidatitotalinonlicenziati'] ++;
     }
-    if ($recesa['idclassealunno'] == 0 & $recesa['votofinale'] == 0) {
+    if ($recesa['idclassealunno'] == 0 & $recesa['votofinale'] == 0)
+    {
         $contatori['candidatiesterniassing'] ++;
         $contatori['candidatiesterninonlicassenza'] ++;
         $contatori['candidatitotaliassenti'] ++;
         $contatori['candidatitotalinonlicenziati'] ++;
     }
 
-    if ($recesa['idclassealunno'] != 0 & $recesa['votofinale'] > 5) {
+    if ($recesa['idclassealunno'] != 0 & $recesa['votofinale'] > 5)
+    {
         $contatori['candidatiinternilicenziati'] ++;
         $contatori['candidatitotalilicenziati'] ++;
     }
-    if ($recesa['idclassealunno'] == 0 & $recesa['votofinale'] > 5) {
+    if ($recesa['idclassealunno'] == 0 & $recesa['votofinale'] > 5)
+    {
         $contatori['candidatiesternilicenziati'] ++;
         $contatori['candidatitotalilicenziati'] ++;
     }
 
-    if ($recesa['idclassealunno'] != 0 & $recesa['votofinale'] < 6 & $recesa['votofinale'] > 0) {
+    if ($recesa['idclassealunno'] != 0 & $recesa['votofinale'] < 6 & $recesa['votofinale'] > 0)
+    {
         $contatori['candidatiinterninonlicesito'] ++;
         $contatori['candidatitotalinonlicenziati'] ++;
     }
 
-    if ($recesa['idclassealunno'] == 0 & $recesa['votofinale'] < 6 & $recesa['votofinale'] > 0) {
+    if ($recesa['idclassealunno'] == 0 & $recesa['votofinale'] < 6 & $recesa['votofinale'] > 0)
+    {
         $contatori['candidatiesterninonlicesito'] ++;
         $contatori['candidatitotalinonlicenziati'] ++;
     }
@@ -224,30 +240,34 @@ $numalu = 0;
 $query = "select distinct idclasseesame,anno, sezione, specializzazione from tbl_alunni,tbl_classi
           where tbl_alunni.idclasseesame = tbl_classi.idclasse
           order by specializzazione, sezione";
-$riscla = eseguiQuery($con,$query);
-while ($reccla = mysqli_fetch_array($riscla)) {
+$riscla = eseguiQuery($con, $query);
+while ($reccla = mysqli_fetch_array($riscla))
+{
     $idclasseesame = $reccla['idclasseesame'];
     $query = "select * from tbl_esesiti, tbl_alunni, tbl_classi
               where tbl_esesiti.idalunno = tbl_alunni.idalunno
               and tbl_alunni.idclasseesame = tbl_classi.idclasse
               and tbl_alunni.idclasseesame = $idclasseesame
               order by tbl_alunni.idclasse desc, cognome, nome, datanascita";
-    $risesi = eseguiQuery($con,$query);
+    $risesi = eseguiQuery($con, $query);
 
     $progrclasse = 0;
     $posYiniz = 0;
-    while ($recesa = mysqli_fetch_array($risesi)) {
+    while ($recesa = mysqli_fetch_array($risesi))
+    {
         $classe = decodifica_classe_no_spec($idclasseesame, $con, 1);
         $classe .= " $plesso_specializzazione ";
         $classe .= decodifica_classe_spec($idclasseesame, $con);
         $numalu++;
         $progrclasse++;
         //print $numalu;
-        if ($progrclasse % 2 != 0) {
+        if ($progrclasse % 2 != 0)
+        {
             $schede->AddPage();
             stampa_testata_registro($classe, $annoscolastico, $schede);
             $posYiniz = 20;
-        } else {
+        } else
+        {
 
             $posYiniz = 145;
         }
@@ -260,7 +280,8 @@ $schede->Output($nomefile, "I");
 
 mysqli_close($con);
 
-function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $dataverbale, $presidente) {
+function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $dataverbale, $presidente)
+{
     $schede->rect(20, $posYiniz, 180, 125);
     $schede->rect(20, $posYiniz, 60, 125);
     $schede->SetFont('Times', '', 10);
@@ -273,8 +294,9 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
     $schede->Cell(50, 10, "N. $numalunno", 0, 0, "C");
     $query = "SELECT * FROM tbl_alunni,tbl_esesiti
               WHERE tbl_alunni.idalunno=tbl_esesiti.idalunno and tbl_alunni.idalunno=$idalunno";
-    $ris = eseguiQuery($con,$query);
-    if ($val = mysqli_fetch_array($ris)) {
+    $ris = eseguiQuery($con, $query);
+    if ($val = mysqli_fetch_array($ris))
+    {
         $datanascita = data_italiana($val['datanascita']);
         $codfiscale = $val['codfiscale'];
 
@@ -289,13 +311,15 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
         $votofinale = $val['votofinale'];
         $giudiziocomplessivo = $val['giudiziocomplessivo'];
         $consiglioorientativo = $val['consorientcomm'];
-        if ($sesso == 'm') {
+        if ($sesso == 'm')
+        {
             if ($votofinale >= 6)
                 $esito = "esame superato";
             else
                 $esito = "esame non superato";
         }
-        else {
+        else
+        {
             if ($votofinale >= 6)
                 $esito = "esame superato";
             else
@@ -319,29 +343,35 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
     $schede->Cell(60, 7, converti_utf8("Abitante in " . $comuneresidenza), 0, 0, "L");
     $schede->setXY(20, $posYiniz + 59);
     $schede->Cell(60, 7, converti_utf8($indirizzo), 0, 0, "L");
-    if ($sesso == 'm') {
-        if ($classe != "") {
+    if ($sesso == 'm')
+    {
+        if ($classe != "")
+        {
             $schede->setXY(20, $posYiniz + 66);
             $schede->Cell(60, 7, converti_utf8("Ammesso in seguito a scrutinio"), 0, 0, "L");
             //  $schede->setXY(20, $posYiniz + 72);
             //  $schede->Cell(50, 7, converti_utf8($classe), 0, 0, "L");
-        } else {
+        } else
+        {
             $schede->setXY(20, $posYiniz + 66);
             $schede->Cell(60, 7, converti_utf8("Ammesso in seguito a domanda"), 0, 0, "L");
         }
-    } else {
-        if ($classe != "") {
+    } else
+    {
+        if ($classe != "")
+        {
             $schede->setXY(20, $posYiniz + 66);
             $schede->Cell(60, 7, converti_utf8("Ammessa in seguito a scrutinio"), 0, 0, "L");
             //  $schede->setXY(20, $posYiniz + 72);
             //  $schede->Cell(50, 7, converti_utf8($classe), 0, 0, "L");
-        } else {
+        } else
+        {
             $schede->setXY(20, $posYiniz + 66);
             $schede->Cell(60, 7, converti_utf8("Ammessa in seguito a domanda"), 0, 0, "L");
         }
     }
     $query = "select * from tbl_esmaterie where idclasse=$idclasse";
-    $rismat = eseguiQuery($con,$query);
+    $rismat = eseguiQuery($con, $query);
     $recmat = mysqli_fetch_array($rismat);
     $secondalingua = converti_utf8($recmat['m' . $recmat['num2lin'] . 'e']);
 
@@ -386,7 +416,8 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
     $schede->SetFont('Times', '', 8);
     $schede->Cell(120, 7, converti_utf8("Data $dataverbale"), 0, "L");
 
-    if ($_SESSION['suffisso'] != "") {
+    if ($_SESSION['suffisso'] != "")
+    {
         $suff = $_SESSION['suffisso'] . "/";
     } else
         $suff = "";
@@ -404,13 +435,15 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
     $schede->Cell(40, 3, $dicituradirigente, "", 0, "C");
 }
 
-function stampa_testata_registro($classe, $annoscolastico, &$schede) {
+function stampa_testata_registro($classe, $annoscolastico, &$schede)
+{
     $schede->SetFont('Times', '', 12);
     $schede->setXY(20, 10);
     $schede->Cell(170, 0, "Classe: $classe" . " - Anno scolastico " . $annoscolastico, 0, 0, "C");
 }
 
-function stampa_prima_pagina($annoscolastico, &$schede) {
+function stampa_prima_pagina($annoscolastico, &$schede)
+{
     $schede->AddPage();
     $schede->SetFont('Times', 'B', 20);
     $schede->setXY(20, 100);
@@ -426,7 +459,8 @@ function stampa_prima_pagina($annoscolastico, &$schede) {
     $schede->Cell(170, 0, converti_utf8("Anno scolastico " . $annoscolastico), 0, 0, "C");
 }
 
-function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$schede, $dataverbale, $presidente) {
+function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$schede, $dataverbale, $presidente)
+{
     $schede->AddPage();
 
     $posY = 8;
@@ -492,7 +526,7 @@ function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$sched
     $schede->setFont('Times', '', 8);
     $schede->setXY(105, $posY);
     $schede->Cell(15, 10, "ingiustificati", 1, 0, "C");
-    $schede->setFont('Times', '',8);
+    $schede->setFont('Times', '', 8);
     $schede->setXY(135, $posY);
     $schede->Cell(15, 5, "per esito", "LR", 0, "C");
     $schede->setFont('Times', '', 8);
@@ -618,8 +652,10 @@ function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$sched
     $schede->Cell(40, 7, "FIRMA", 1, 0, "L");
 
     $progrdoc = 0;
-    foreach ($elencodocenti as $docente) {
-        if ($posY > 240) {
+    foreach ($elencodocenti as $docente)
+    {
+        if ($posY > 240)
+        {
             $schede->AddPage();
             $posY = 20;
             $schede->setFont('Times', '', 10);
@@ -653,11 +689,12 @@ function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$sched
         $schede->Cell(40, 7, "", 1, 0, "L");
         $progrdoc++;
     }
-    $schede->setXY(30, $posY+20);
+    $schede->setXY(30, $posY + 20);
     $schede->SetFont('Times', '', 8);
     $schede->Cell(120, 7, converti_utf8("Data $dataverbale"), 0, "L");
 
-    if ($_SESSION['suffisso'] != "") {
+    if ($_SESSION['suffisso'] != "")
+    {
         $suff = $_SESSION['suffisso'] . "/";
     } else
         $suff = "";
@@ -673,6 +710,4 @@ function stampa_commissione($elencodocenti, $elencomaterie, &$contatori, &$sched
     $schede->setXY(140, $posY + 15);
     $schede->SetFont('Arial', '', 8);
     $schede->Cell(40, 3, $dicituradirigente, "", 0, "C");
-
-    
 }

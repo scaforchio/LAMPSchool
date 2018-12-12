@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 /*
   Copyright (C) 2018 Pietro Tamburrano
@@ -24,7 +25,7 @@ require_once '../lib/funzioni.php';
 
 $daticrud = array();
 // Tabella da modificare
-$daticrud['titolo']='GESTIONE AUTORIZZAZIONI USCITE';
+$daticrud['titolo'] = 'GESTIONE AUTORIZZAZIONI USCITE';
 
 
 $daticrud['tabella'] = "tbl_autorizzazioniuscite";
@@ -32,35 +33,35 @@ $daticrud['tabella'] = "tbl_autorizzazioniuscite";
 
 // Nome della tabella per visualizzazioni
 $daticrud['aliastabella'] = "Autorizzazioni uscite";
-$daticrud['larghezzatabella']= "80%";
+$daticrud['larghezzatabella'] = "80%";
 // Campo con l'id univoco per la tabella
 $daticrud['campochiave'] = "idautorizzazioneuscita";
 
 // Campi in base ai quali ordinare (specificare gli alias (14° valore nella descrizione del campo)
 // se ci sono campi con lo stesso nome)
-$daticrud['campiordinamento']= "cognalu,nomealu,data";
+$daticrud['campiordinamento'] = "cognalu,nomealu,data";
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
-$daticrud['condizione']= "true";// Campi in base ai quali ordinare
+$daticrud['condizione'] = "true"; // Campi in base ai quali ordinare
 
-$daticrud['abilitazionemodifica']=1;
-$daticrud['abilitazionecancellazione']=1;
-$daticrud['abilitazioneinserimento']=0;
+$daticrud['abilitazionemodifica'] = 1;
+$daticrud['abilitazionecancellazione'] = 1;
+$daticrud['abilitazioneinserimento'] = 0;
 
 // Dati per conferma cancellazione (0 senza conferma, 1 con conferma ed elenco dei campi da visualizzare per conferma)
 
-$daticrud['confermacancellazione'] = [1,''];
+$daticrud['confermacancellazione'] = [1, ''];
 // Vincoli per possibilità di cancellazione. Non devono esserci riferimenti nelle seguenti tabelle nel campo
 // specificato
-/*$daticrud['vincolicanc'] = [
-                            
-                            [inspref('tbl_noteindalu'),'idalunno'],
-                            [inspref('tbl_assenze'),'idlaunno']
-                            
-                           ];
+/* $daticrud['vincolicanc'] = [
 
-*/
+  [inspref('tbl_noteindalu'),'idalunno'],
+  [inspref('tbl_assenze'),'idlaunno']
+
+  ];
+
+ */
 /*
-// Significato valori
+  // Significato valori
  * 0 - nome campo tabella principale
  * 1 - ordine di visualizzazione in tabella (0 non visualizzata)
  * 2 - tabella esterna
@@ -81,17 +82,17 @@ $daticrud['confermacancellazione'] = [1,''];
 
 
 $daticrud['campi'] = [
-                      ['idalunno','1','tbl_alunni','idalunno','cognome,nome',0,'Alunno',1,'','',1,'','',1,'cognalu,nomealu',1],
-                      ['data','2','','','',10,'Data',2,'date','',1,'','',1,'',1],
-                      ['orauscita','3','','','',10,'Ora uscita',3,'time','',1,'','',1,'',1],
-                      ['iddocenteautorizzante','4','tbl_docenti','iddocente','cognome,nome',0,'Docente',4,'','',1,'','',1,'',1 ],
-                      ['testoautorizzazione','5','','','',100,'Autorizzazione',5,'text','',1,'','',0,'',0 ],
-                     ];
+    ['idalunno', '1', 'tbl_alunni', 'idalunno', 'cognome,nome', 0, 'Alunno', 1, '', '', 1, '', '', 1, 'cognalu,nomealu', 1],
+    ['data', '2', '', '', '', 10, 'Data', 2, 'date', '', 1, '', '', 1, '', 1],
+    ['orauscita', '3', '', '', '', 10, 'Ora uscita', 3, 'time', '', 1, '', '', 1, '', 1],
+    ['iddocenteautorizzante', '4', 'tbl_docenti', 'iddocente', 'cognome,nome', 0, 'Docente', 4, '', '', 1, '', '', 1, '', 1],
+    ['testoautorizzazione', '5', '', '', '', 100, 'Autorizzazione', 5, 'text', '', 1, '', '', 0, '', 0],
+];
 
 
 $_SESSION['daticrud'] = $daticrud;
 
-header("location: ../crudtabelle/CRUD.php?suffisso=".$_SESSION['suffisso']);
+header("location: ../crudtabelle/CRUD.php?suffisso=" . $_SESSION['suffisso']);
 
 //session_start();
 ///*

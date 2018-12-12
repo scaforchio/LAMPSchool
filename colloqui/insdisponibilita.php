@@ -42,17 +42,16 @@ $idorario = stringa_html('idorario');
 $note = stringa_html('note');
 
 $query = "select * from tbl_orericevimento where iddocente=$iddocente and idorario=$idorario";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if (mysqli_num_rows($ris) > 0)
 {
     $rec = mysqli_fetch_array($ris);
     $idoraric = $rec['idoraricevimento'];
     $query = "update tbl_orericevimento set note='$note',valido=1 where idoraricevimento=$idoraric";
-}
-else
+} else
     $query = "insert into tbl_orericevimento(iddocente,idorario,note)
               values ($iddocente,$idorario,'$note')";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 print ("
 

@@ -45,7 +45,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 // eseguiQuery($con,$query); 
 // VERIFICO PER OGNI ALUNNO SE E' DA INSERIRE NELLA LISTA DI DISTRIBUZIONE
 $query = "select idalunno from tbl_alunni";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($rec = mysqli_fetch_array($ris))
 {
     $nomecb = "cb" . $rec['idalunno'];
@@ -54,20 +54,20 @@ while ($rec = mysqli_fetch_array($ris))
     if ($tipo == 'A' || $tipo == 'SA')
         $query = "select * from tbl_diffusionecircolari where idcircolare=$idcircolare and idutente=" . $rec['idalunno'];
     else
-        $query = "select * from tbl_diffusionecircolari where idcircolare=$idcircolare and idutente=" . ($rec['idalunno']+2100000000);
-    
-    $ris2 = eseguiQuery($con,$query);
+        $query = "select * from tbl_diffusionecircolari where idcircolare=$idcircolare and idutente=" . ($rec['idalunno'] + 2100000000);
+
+    $ris2 = eseguiQuery($con, $query);
     if (mysqli_num_rows($ris2) == 0)
     {
         if ($ins == 'yes')
         {
             if ($tipo == 'L' || $tipo == 'SL')
                 $query = "insert into tbl_diffusionecircolari(idutente,idcircolare,datalettura,dataconfermalettura) 
-		        values (".($rec['idalunno']+2100000000).",$idcircolare,'','')";
+		        values (" . ($rec['idalunno'] + 2100000000) . ",$idcircolare,'','')";
             else
-            $query = "insert into tbl_diffusionecircolari(idutente,idcircolare,datalettura,dataconfermalettura) 
+                $query = "insert into tbl_diffusionecircolari(idutente,idcircolare,datalettura,dataconfermalettura) 
 		        values (" . $rec['idalunno'] . ",$idcircolare,'','')";
-            eseguiQuery($con,$query);
+            eseguiQuery($con, $query);
         }
     }
     else
@@ -75,10 +75,10 @@ while ($rec = mysqli_fetch_array($ris))
         if ($ins != 'yes')
         {
             if ($tipo == 'L' || $tipo == 'SL')
-            $query = "delete from tbl_diffusionecircolari where idcircolare=$idcircolare and idutente=" . ($rec['idalunno']+2100000000);
+                $query = "delete from tbl_diffusionecircolari where idcircolare=$idcircolare and idutente=" . ($rec['idalunno'] + 2100000000);
             else
                 $query = "delete from tbl_diffusionecircolari where idcircolare=$idcircolare and idutente=" . $rec['idalunno'];
-            eseguiQuery($con,$query);
+            eseguiQuery($con, $query);
         }
     }
 }

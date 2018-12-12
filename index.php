@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Pagina principale dell'applicazione web LAMPSchool.
  *
  * @copyright  Copyright (C) 2015 Renato Tamilio. Pietro Tamburrano
  * @license    GNU Affero General Public License versione 3 o successivi; vedete agpl-3.0.txt
  */
-
 // include ("funzioni.php");
 
 $elencoinstallazioni = array();
@@ -14,7 +14,7 @@ $elencoinstallazioni = elencafiles(".");
 if (isset($_GET['suffisso']))
     $suffisso = $_GET['suffisso'];
 else
-    $suffisso ='*';
+    $suffisso = '*';
 
 
 
@@ -32,7 +32,7 @@ for ($i = 0; $i < count($elencoinstallazioni); $i++)
 
 
         $query = "SELECT valore FROM " . $prefisso_tabelle . "tbl_parametri WHERE parametro='nome_scuola'";
-        $ris = mysqli_query($con, $query) or die("Errore ".$query);
+        $ris = mysqli_query($con, $query) or die("Errore " . $query);
         $rec = mysqli_fetch_array($ris);
         if ($rec['valore'] != "Scuola XYZ")
         {
@@ -40,7 +40,7 @@ for ($i = 0; $i < count($elencoinstallazioni); $i++)
             $suffissi[] = substr($fileinclude, 7, strlen($fileinclude) - 11);
 
             $query = "SELECT valore FROM " . $prefisso_tabelle . "tbl_parametri WHERE parametro='annoscol'";
-            $ris = mysqli_query($con, $query) or die("Errore ".$query);
+            $ris = mysqli_query($con, $query) or die("Errore " . $query);
             $rec = mysqli_fetch_array($ris);
             $anni[] = $rec['valore'];
         }
@@ -75,7 +75,6 @@ if ($suffisso != "*")
             header("location: login/login.php?suffisso=$suffisso");
         }
     }
-
 }
 
 
@@ -99,6 +98,7 @@ for ($i = 0; $i < count($scuole); $i++)
 
 print "</table>";
 print "</body></html>";
+
 //	
 
 
@@ -115,13 +115,9 @@ function elencafiles($dirname)
             {
                 array_push($arrayfiles, $file);
             }
-
         }
         closedir($handle);
     }
     sort($arrayfiles);
     return $arrayfiles;
 }
-
-
-

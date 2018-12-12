@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
-GNU Affero General Public License come pubblicata
-dalla Free Software Foundation; sia la versione 3,
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
 
@@ -57,40 +59,35 @@ print ("<select name='separatore'>");
 if ($arrpar[0] == '1')
 {
     print("<option value=';' selected> ; (punto e virgola)");
-}
-else
+} else
 {
     print("<option value=';'> ; (punto e virgola)");
 }
 if ($arrpar[0] == '2')
 {
     print("<option value=',' selected> , (virgola)");
-}
-else
+} else
 {
     print("<option value=','> , (virgola)");
 }
 if ($arrpar[0] == '3')
 {
     print("<option value='|' selected> | (pipe)");
-}
-else
+} else
 {
     print("<option value='|'> | (pipe)");
 }
 if ($arrpar[0] == '4')
 {
     print("<option value='/' selected> / (barra)");
-}
-else
+} else
 {
     print("<option value='/'> / (barra)");
 }
 if ($arrpar[0] == '5')
 {
     print("<option value='t' selected> TAB (tabulazione)");
-}
-else
+} else
 {
     print("<option value='t'> TAB (tabulazione)");
 }
@@ -103,24 +100,21 @@ print ("<select name='deli'>");
 if ($arrpar[1] == '0')
 {
     print("<option value='' selected> &nbsp; (nessuno)");
-}
-else
+} else
 {
     print("<option value=''> &nbsp; (nessuno)");
 }
 if ($arrpar[1] == '1')
 {
     print("<option value='v' selected> \" (virgolette)");
-}
-else
+} else
 {
     print("<option value='v'> \" (virgolette)");
 }
 if ($arrpar[1] == '2')
 {
     print("<option value='a' selected> ' (apice)");
-}
-else
+} else
 {
     print("<option value='a'> ' (apice)");
 }
@@ -134,8 +128,7 @@ print("<tr>
 if ($arrpar[2] == '1')
 {
     print("<input type='checkbox' name='intestazione' checked>");
-}
-else
+} else
 {
     print("<input type='checkbox' name='intestazione'>");
 }
@@ -146,7 +139,6 @@ print("                   <br>
 
 
 // Sovrascrittura alunni presenti?
-
 //TODO: Verificare errore di cancellazione utente adminlamp in alcuni casi di caricamento alunni con errore
 
 print("    <tr>
@@ -161,9 +153,9 @@ print("                   <br>
             <tr><td>&nbsp;</td></tr>");
 
 /*
-if ($arrpar[1]=='0')
-   print "<tr><td>Delimitatore</td><td><input type=text name= deli size=1 value='\"'</td><td>&nbsp;</td></tr>";
-*/
+  if ($arrpar[1]=='0')
+  print "<tr><td>Delimitatore</td><td><input type=text name= deli size=1 value='\"'</td><td>&nbsp;</td></tr>";
+ */
 print("            <tr>
 			<table border=1>
 				<tr class=prima>
@@ -175,8 +167,7 @@ for ($i = 1; $i <= 30; $i++)
     if ($i == $arrpar[3])
     {
         print "<option selected>$i</option>";
-    }
-    else
+    } else
     {
         print "<option>$i</option>";
     }
@@ -187,8 +178,7 @@ for ($i = 1; $i <= 30; $i++)
     if ($i == $arrpar[4])
     {
         print "<option selected>$i</option>";
-    }
-    else
+    } else
     {
         print "<option>$i</option>";
     }
@@ -199,8 +189,7 @@ for ($i = 1; $i <= 30; $i++)
     if ($i == $arrpar[5])
     {
         print "<option selected>$i</option>";
-    }
-    else
+    } else
     {
         print "<option>$i</option>";
     }
@@ -211,16 +200,14 @@ for ($i = 1; $i <= 30; $i++)
     if ($i == $arrpar[6])
     {
         print "<option selected>$i</option>";
-    }
-    else
+    } else
     {
         print "<option>$i</option>";
     }
 if ($arrpar[6] == 99)
 {
     print "<option selected value=99>NP</option>";
-}
-else
+} else
 {
     print "<option value=99>NP</option>";
 }
@@ -231,8 +218,7 @@ for ($i = 1; $i <= 30; $i++)
     if ($i == $arrpar[7])
     {
         print "<option selected>$i</option>";
-    }
-    else
+    } else
     {
         print "<option>$i</option>";
     }
@@ -243,16 +229,14 @@ for ($i = 1; $i <= 30; $i++)
     if ($i == $arrpar[8])
     {
         print "<option selected>$i</option>";
-    }
-    else
+    } else
     {
         print "<option>$i</option>";
     }
 if ($arrpar[8] == 99)
 {
     print "<option selected value=99>NP</option>";
-}
-else
+} else
 {
     print "<option value=99>NP</option>";
 }
@@ -263,16 +247,14 @@ for ($i = 1; $i <= 30; $i++)
     if ($i == $arrpar[9])
     {
         print "<option selected>$i</option>";
-    }
-    else
+    } else
     {
         print "<option>$i</option>";
     }
 if ($arrpar[9] == 99)
 {
     print "<option selected value=99>NP</option>";
-}
-else
+} else
 {
     print "<option value=99>NP</option>";
 }
@@ -283,16 +265,14 @@ for ($i = 1; $i <= 30; $i++)
     if ($i == $arrpar[10])
     {
         print "<option selected>$i</option>";
-    }
-    else
+    } else
     {
         print "<option>$i</option>";
     }
 if ($arrpar[10] == 99)
 {
     print "<option selected value=99>NP</option>";
-}
-else
+} else
 {
     print "<option value=99>NP</option>";
 }
@@ -303,16 +283,14 @@ for ($i = 1; $i <= 30; $i++)
     if ($i == $arrpar[11])
     {
         print "<option selected>$i</option>";
-    }
-    else
+    } else
     {
         print "<option>$i</option>";
     }
 if ($arrpar[11] == 99)
 {
     print "<option selected value=99>NP</option>";
-}
-else
+} else
 {
     print "<option value=99>NP</option>";
 }
@@ -323,16 +301,14 @@ for ($i = 1; $i <= 30; $i++)
     if ($i == $arrpar[12])
     {
         print "<option selected>$i</option>";
-    }
-    else
+    } else
     {
         print "<option>$i</option>";
     }
 if ($arrpar[12] == 99)
 {
     print "<option selected value=99>NP</option>";
-}
-else
+} else
 {
     print "<option value=99>NP</option>";
 }
@@ -343,16 +319,14 @@ for ($i = 1; $i <= 30; $i++)
     if ($i == $arrpar[13])
     {
         print "<option selected>$i</option>";
-    }
-    else
+    } else
     {
         print "<option>$i</option>";
     }
 if ($arrpar[13] == 99)
 {
     print "<option selected value=99>NP</option>";
-}
-else
+} else
 {
     print "<option value=99>NP</option>";
 }
@@ -363,16 +337,14 @@ for ($i = 1; $i <= 30; $i++)
     if ($i == $arrpar[14])
     {
         print "<option selected>$i</option>";
-    }
-    else
+    } else
     {
         print "<option>$i</option>";
     }
 if ($arrpar[14] == 99)
 {
     print "<option selected value=99>NP</option>";
-}
-else
+} else
 {
     print "<option value=99>NP</option>";
 }

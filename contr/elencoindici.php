@@ -1,17 +1,16 @@
-<?php session_start();
+<?php
+
+session_start();
 /**
  * Elenco degli indici del database
  *
  * @copyright  Copyright (C) 2014 Renato Tamilio
  * @license    GNU Affero General Public License versione 3 o successivi; vedete agpl-3.0.txt
  */
-
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
 //require_once '../lib/ db / query.php';
-
 //$lQuery = LQuery::getIstanza();
-
 // istruzioni per tornare alla pagina di login 
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
@@ -23,7 +22,7 @@ if ($tipoutente == "")
 }
 $titolo = "Elenco degli indici del database";
 $script = "";
-stampa_head($titolo, "", $script,"PMSD");
+stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
@@ -36,7 +35,7 @@ FROM information_schema.statistics
 WHERE table_schema = '$db_nome'
 GROUP BY 1,2";
 
-$rs = eseguiQuery($con,$query); //$lQuery->query($query);
+$rs = eseguiQuery($con, $query); //$lQuery->query($query);
 
 if ($rs)
 {
@@ -58,8 +57,7 @@ if ($rs)
         }
     }
     print "</TABLE></CENTER>";
-}
-else
+} else
 {
     print "Query fallita";
 }
@@ -70,7 +68,7 @@ LEFT JOIN information_schema.KEY_COLUMN_USAGE k ON i.CONSTRAINT_NAME = k.CONSTRA
 WHERE i.CONSTRAINT_TYPE = 'FOREIGN KEY' 
 AND i.TABLE_SCHEMA = '$db_nome'";
 
-$rs = eseguiQuery($con,$query);//$rs = $lQuery->query($query);
+$rs = eseguiQuery($con, $query); //$rs = $lQuery->query($query);
 
 if ($rs)
 {
@@ -93,8 +91,7 @@ if ($rs)
         }
     }
     print "</TABLE></CENTER>";
-}
-else
+} else
 {
     print "Query fallita";
 }

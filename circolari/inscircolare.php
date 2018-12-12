@@ -103,14 +103,14 @@ if ($filedainserire['tmp_name'] != "")
             $queryins = "insert into tbl_documenti
                                (descrizione, idtipodocumento,   datadocumento,   docbin,     docmd5,          docnome,    docsize,                       doctype)
                         values ('$descrizione','1000000005','$datainserimento','" . $data . "','" . $md5data . "','" . $nome . "','" . $filedainserire['size'] . "','$tipofile')";
-            $result = eseguiQuery($con,$queryins);
+            $result = eseguiQuery($con, $queryins);
             $iddocumento = mysqli_insert_id($con);
         } else
         {
             $queryins = "insert into tbl_documenti
                                (descrizione, idtipodocumento,   datadocumento,     docmd5,          docnome,    docsize,                       doctype)
                         values ('$descrizione','1000000005','$datainserimento','" . $md5data . "','" . $nome . "','" . $filedainserire['size'] . "','$tipofile')";
-            $result = eseguiQuery($con,$queryins);
+            $result = eseguiQuery($con, $queryins);
 
             $iddocumento = mysqli_insert_id($con);
             crea_file($filedainserire, $md5data);
@@ -120,7 +120,7 @@ if ($filedainserire['tmp_name'] != "")
         $queryins = "insert into tbl_circolari
                                (iddocumento,descrizione, destinatari,ricevuta, datainserimento,datafine)
                         values ('$iddocumento','$descrizione','$destinatari','$ricevuta','$datainserimento','')";
-        $result = eseguiQuery($con,$queryins);
+        $result = eseguiQuery($con, $queryins);
         $idcircolare = mysqli_insert_id($con);
 
         // INSERIMENTO LISTA DI DISTRIBUZIONE
@@ -146,13 +146,13 @@ if ($filedainserire['tmp_name'] != "")
             }
 
             $query = "select idutente from tbl_utenti " . $dest;
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             while ($rec = mysqli_fetch_array($ris))
             {
                 $idutente = $rec['idutente'];
                 $queryins = "insert into tbl_diffusionecircolari(idcircolare,idutente, datalettura, dataconfermalettura)
 											 values($idcircolare,$idutente,'','')";
-                eseguiQuery($con,$queryins);
+                eseguiQuery($con, $queryins);
             }
 
             //echo "<br><center><font color='green'>Il file " . basename($filedainserire['name']) . " è stato correttamente inserito nel Database.<br>";

@@ -85,7 +85,7 @@ if (!controlloAssemblee($idclasse, $dataassemblea, $con))
     print "<br/> <CENTER><b>Assemblea già effettuata per il mese indicato!</b></CENTER>";
 } else
 {
-    $resq = mysqli_query($con, inspref($assq));
+    $resq = eseguiQuery($con, $assq);
     if (!$resq)
     {
         print "<br/> <CENTER><b>Impossibile inserire richiesta nel database!</b></CENTER>";
@@ -109,14 +109,14 @@ if (!controlloAssemblee($idclasse, $dataassemblea, $con))
 mysqli_close($con);
 stampa_piede("");
 
-function controlloAssemblee($idclasse,$dataassemblea,$con)
+function controlloAssemblee($idclasse, $dataassemblea, $con)
 {
-    $meseassemblea=substr($dataassemblea,5,2);
-    $query="select count(*) as  numass from tbl_assemblee where idclasse=$idclasse and month(dataassemblea)=$meseassemblea and autorizzato<>2 and concesso1<>2";
-   // print inspref($query);
-    $ris=eseguiQuery($con,$query);
-    $rec=mysqli_fetch_array($ris);
-    if ($rec['numass']==0)
+    $meseassemblea = substr($dataassemblea, 5, 2);
+    $query = "select count(*) as  numass from tbl_assemblee where idclasse=$idclasse and month(dataassemblea)=$meseassemblea and autorizzato<>2 and concesso1<>2";
+    // print inspref($query);
+    $ris = eseguiQuery($con, $query);
+    $rec = mysqli_fetch_array($ris);
+    if ($rec['numass'] == 0)
         return true;
     else
         return false;

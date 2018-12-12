@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 /*
@@ -46,7 +47,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 $iddocente = stringa_html('idutente');
 $idclasse = stringa_html('idclasse');
-$mese = substr(stringa_html('mese'),0,2);
+$mese = substr(stringa_html('mese'), 0, 2);
 
 
 
@@ -60,7 +61,7 @@ print " <center><b>Classe </b><SELECT NAME='idclasse' ONCHANGE='classi.submit()'
 $query = "select idclasse, anno, sezione, specializzazione from tbl_classi
           order by anno, specializzazione, sezione";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -107,9 +108,9 @@ if ($mese != "")
     $mm = substr($mese, 0, 2);
     $query .= " AND month(dataassemblea)=$mm";
 }
-$query.=" order by dataassemblea DESC";
+$query .= " order by dataassemblea DESC";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 print "<br/><br/><center><table border ='1' cellpadding='5' class='smallchar'>";
 
 print "<tr class='prima'>
@@ -122,53 +123,50 @@ print "<tr class='prima'>
 if (mysqli_num_rows($ris) == 0)
 {
     print "<td colspan='8' align='center'><b><i>Nessuna assemblea da visualizzare</i></b></td>";
-}
-else
+} else
 {
     while ($data = mysqli_fetch_array($ris))
     {
-        
+
         //CLASSE
         print "<td>" . decodifica_classe($data['idclasse'], $con) . "";
         //DATA RICHIESTA
         print "<br>Rich.:" . data_italiana($data['datarichiesta']) . "<br>Eff.:" . data_italiana($data['dataassemblea']) . " ore:" . $data['orainizio'] . "-" . $data['orafine'];
         //ODG
-        
-         
-        print "<br>Doc.:<br><i>".estrai_dati_docente($data['docenteconcedente1'], $con);
+
+
+        print "<br>Doc.:<br><i>" . estrai_dati_docente($data['docenteconcedente1'], $con);
         if ($data['docenteconcedente2'] != 0)
         {
-            print "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".estrai_dati_docente($data['docenteconcedente2'],$con);
+            print "<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" . estrai_dati_docente($data['docenteconcedente2'], $con);
         }
         print "</i></td>";
-        
+
         // ODG
-       // print "<td align='center'><textarea>" . $data['odg'] . "\n" . estrai_dati_alunno_rid($data['rappresentante1'], $con) . "\n" . estrai_dati_alunno_rid($data['rappresentante2'], $con). "</textarea></td>";
-        print "<td>" . nl2br($data['odg']) . "<br><i>" . estrai_dati_alunno_rid($data['rappresentante1'], $con) . "<br>" . estrai_dati_alunno_rid($data['rappresentante2'], $con). "</i></td>";
-        
-        
+        // print "<td align='center'><textarea>" . $data['odg'] . "\n" . estrai_dati_alunno_rid($data['rappresentante1'], $con) . "\n" . estrai_dati_alunno_rid($data['rappresentante2'], $con). "</textarea></td>";
+        print "<td>" . nl2br($data['odg']) . "<br><i>" . estrai_dati_alunno_rid($data['rappresentante1'], $con) . "<br>" . estrai_dati_alunno_rid($data['rappresentante2'], $con) . "</i></td>";
+
+
         //AUTORIZZAZIONE
         print "<td>";
-        if ($data['autorizzato']==1)
-            print "<img src='../immagini/green_tick.gif'> <i>".estrai_dati_docente ($data['docenteautorizzante'], $con)."</i>";
-        if ($data['autorizzato']==2)
-            
-            print "<img src='../immagini/red_cross.gif'> <i>".estrai_dati_docente ($data['docenteautorizzante'], $con)."</i>";
-        print "<br>".$data['note'];
+        if ($data['autorizzato'] == 1)
+            print "<img src='../immagini/green_tick.gif'> <i>" . estrai_dati_docente($data['docenteautorizzante'], $con) . "</i>";
+        if ($data['autorizzato'] == 2)
+            print "<img src='../immagini/red_cross.gif'> <i>" . estrai_dati_docente($data['docenteautorizzante'], $con) . "</i>";
+        print "<br>" . $data['note'];
 
-        
+
 
         //VERBALE
         if ($data['consegna_verbale'] != 0)
         {
             print "<td>" . nl2br($data['verbale']) .
-                    "<br>SEGRETARIO: <i>" . estrai_dati_alunno_rid($data['alunnosegretario'], $con) ."</i>" .
+                    "<br>SEGRETARIO: <i>" . estrai_dati_alunno_rid($data['alunnosegretario'], $con) . "</i>" .
                     "<br>PRESIDENTE: <i> " . estrai_dati_alunno_rid($data['alunnopresidente'], $con) . "</i></td>";
-        }
-        else
+        } else
         {
-            if ($data['autorizzato']==1)
-                print "<td>&nbsp;<a href='annullaassemblea.php?idassemblea=".$data['idassemblea']."'>ANNULLA RICHIESTA</a></td>";
+            if ($data['autorizzato'] == 1)
+                print "<td>&nbsp;<a href='annullaassemblea.php?idassemblea=" . $data['idassemblea'] . "'>ANNULLA RICHIESTA</a></td>";
         }
 
         //COMMENTI

@@ -12,7 +12,6 @@ function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, 
     if ($contr)
     {
         controllo_privilegi($abil);
-
     }
 // Per la gestione del token
 // memorizza nel buffer tutto il codice inviati al client
@@ -38,28 +37,26 @@ function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, 
 </head>";
 }
 
-
 /*
-* Per restringere l'accesso ad una determinata pagina si può:
-* 1 - aggiungere come quarto parametro della funzione stampa_head() una stringa contenente i profili abilitati
-*     Es. "MA"=Admin e Impiegati -  "DS"=Docenti e Staff
-*     M - Adimn
-*     A - Impiegato
-*     T - Genitore o tutor
-*     D - Docente
-*     S - Staff
-*     P - Preside
-*     L - Alunno
-*
-* In mancanza del parametro o con il quinto parametro a false il controllo non verrà effettuato. Quest'ultimo caso è
-* utilizzato nella funzione di login dove il tipo di utente non è ancora conosciuto.
-*
-* 2 - aggiungere alla pagina il richiamo di controllo_privilegi con un parametro stringa come specificato sopra
-*
-*
-*
-*/
-
+ * Per restringere l'accesso ad una determinata pagina si può:
+ * 1 - aggiungere come quarto parametro della funzione stampa_head() una stringa contenente i profili abilitati
+ *     Es. "MA"=Admin e Impiegati -  "DS"=Docenti e Staff
+ *     M - Adimn
+ *     A - Impiegato
+ *     T - Genitore o tutor
+ *     D - Docente
+ *     S - Staff
+ *     P - Preside
+ *     L - Alunno
+ *
+ * In mancanza del parametro o con il quinto parametro a false il controllo non verrà effettuato. Quest'ultimo caso è
+ * utilizzato nella funzione di login dove il tipo di utente non è ancora conosciuto.
+ *
+ * 2 - aggiungere alla pagina il richiamo di controllo_privilegi con un parametro stringa come specificato sopra
+ *
+ *
+ *
+ */
 
 /**
  * Funzione che stampa l'intestazione della pagina
@@ -71,8 +68,6 @@ function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, 
  */
 function stampa_testata($funzione, $ct, $ns, $cs)
 { //,$ab="DSPM") {
-
-
     $annoscolastico = 'A.S. ' . $_SESSION['annoscol'] . " / " . ($_SESSION['annoscol'] + 1);
     $nome = str_replace(".php", "", basename($_SERVER['PHP_SELF']));
 
@@ -89,24 +84,19 @@ function stampa_testata($funzione, $ct, $ns, $cs)
     if ($tipoutente == 'D' | $tipoutente == 'P' | $tipoutente == 'S' | $tipoutente == 'A')
     {
         $descrizione .= $_SESSION['cognome'] . " " . $_SESSION['nome'];
-    }
-    elseif ($tipoutente == 'T')
+    } elseif ($tipoutente == 'T')
     {
         $descrizione .= 'Tutore alunno ' . $_SESSION['cognome'] . " " . $_SESSION['nome'];
-    }
-    elseif ($tipoutente == 'L')
+    } elseif ($tipoutente == 'L')
     {
         $descrizione .= 'Alunno ' . $_SESSION['cognome'] . " " . $_SESSION['nome'];
-    }
-    elseif ($tipoutente == 'M')
+    } elseif ($tipoutente == 'M')
     {
         $descrizione .= 'Admin';
-    }
-    elseif ($tipoutente == 'E')
+    } elseif ($tipoutente == 'E')
     {
         $descrizione .= 'ESAMI DI STATO';
-    }
-    else
+    } else
     {
         $descrizione .= 'Ospite';
     }
@@ -136,7 +126,6 @@ function stampa_testata($funzione, $ct, $ns, $cs)
     print "<div class='sottotitolo'>$ns<br/>$annoscolastico</div></div>\n";
     print "<div id='help'><a href='http://www.lampschool.net/help/help.php?modulo=$nome&tipoutente=$tipoutente' target='_blank'><img src='../immagini/help.png' title='HELP'></a></div>\n";
     print "<div id='funzione'>$funzione</div><br/>\n";
-
 }
 
 /**
@@ -145,7 +134,6 @@ function stampa_testata($funzione, $ct, $ns, $cs)
  * @param string $ver se viene valorizzato
  * @param boolean $csrf gestione CSRF abilitata
  */
-
 // function stampa_piede($ver = '', $csrf = true) // Gestione token abilitata
 function stampa_piede($ver = '', $csrf = false)   // Gestione token disabilitata
 {
@@ -154,8 +142,7 @@ function stampa_piede($ver = '', $csrf = false)   // Gestione token disabilitata
     if (strlen($ver) > 0)
     {
         $vers .= 'Ver. ' . $ver;
-    }
-    else
+    } else
     {
         if (isset($_SESSION['versione']))
         {
@@ -181,7 +168,6 @@ function stampa_piede($ver = '', $csrf = false)   // Gestione token disabilitata
     }
 }
 
-
 /**
  * Conversione in html del valore del parametro presente nel GET e/o nel POST
  * Prevenzione da un attacco XSS e SQL injection
@@ -196,16 +182,14 @@ function stringa_html($parametro = '', $doppiapici = true, $metodo = '')
     $stringa = '';
     $matrice = '';
 
-    
+
     if ($metodo == 'G')
     {
         $matrice = $_GET;
-    }
-    elseif ($metodo == 'P')
+    } elseif ($metodo == 'P')
     {
         $matrice = $_POST;
-    }
-    else
+    } else
     {
         $matrice = array_merge($_POST, $_GET);
     }
@@ -220,8 +204,7 @@ function stringa_html($parametro = '', $doppiapici = true, $metodo = '')
             if (!is_array($matrice[$parametro]))
             {
                 $stringa = elimina_apici($matrice[$parametro], $doppiapici);
-            }
-            else
+            } else
             {
                 // Per la gestione dei parametri di tipo SELECT html
 
@@ -277,8 +260,7 @@ function is_stringa_html($parametro = '')
     if (!is_array($tmp))
     {
         $valore = strlen($tmp) > 0;
-    }
-    else
+    } else
     {
         $valore = count($tmp);
     }
@@ -297,8 +279,7 @@ function csrfguard_generate_token($unique_form_name, $tokenSize = 128)
     if (function_exists("hash_algos") and in_array("sha512", hash_algos()))
     {
         $token = hash("sha512", mt_rand(0, mt_getrandmax()));
-    }
-    else
+    } else
     {
         $token = ' ';
 
@@ -309,8 +290,7 @@ function csrfguard_generate_token($unique_form_name, $tokenSize = 128)
             if ($r < 26)
             {
                 $c = chr(ord('a') + $r);
-            }
-            else
+            } else
             {
                 $c = chr(ord('0') + $r - 26);
             }
@@ -336,12 +316,10 @@ function csrfguard_validate_token($unique_form_name, $token_value)
     if ($token === false)
     {
         return true;
-    }
-    elseif ($token === $token_value)
+    } elseif ($token === $token_value)
     {
         $result = true;
-    }
-    else
+    } else
     {
         $result = false;
     }
@@ -408,9 +386,9 @@ function csrfguard_replace_links($link_data_html, $arrayToken)
         foreach ($matches as $m)
         {
             if (strpos($m[0], "login.php") !== false
-                or strpos($m[0], "help.php") !== false
-                or strpos($m[0], "info.php") !== false
-                or strpos($m[0], ".php") == false
+                    or strpos($m[0], "help.php") !== false
+                    or strpos($m[0], "info.php") !== false
+                    or strpos($m[0], ".php") == false
             )
             {
                 continue;
@@ -541,22 +519,20 @@ function goBackRiepilogoRegistro($conn = null, $label = 'Riepilogo registro', $s
             if ($sost == '')
             {
                 $query = "SELECT idclasse,datalezione FROM tbl_lezioni WHERE idlezione=" . stringa_html('idlezione');
-                $ris = eseguiQuery($conn,$query);
+                $ris = eseguiQuery($conn, $query);
                 $rec = mysqli_fetch_array($ris);
                 $gbIdclasse = $rec['idclasse'];
                 $gbGiorno = substr($rec['datalezione'], 8, 2);
                 $gbMeseanno = substr($rec['datalezione'], 5, 2) . " - " . substr($rec['datalezione'], 0, 4);
-            }
-            else
+            } else
             {
                 $query = "SELECT idclasse,datalezione FROM tbl_lezionicert WHERE idlezione=" . stringa_html('idlezione');
-                $ris = eseguiQuery($conn,$query);
+                $ris = eseguiQuery($conn, $query);
                 $rec = mysqli_fetch_array($ris);
                 $gbIdclasse = $rec['idclasse'];
                 $gbGiorno = substr($rec['datalezione'], 8, 2);
                 $gbMeseanno = substr($rec['datalezione'], 5, 2) . " - " . substr($rec['datalezione'], 0, 4);
             }
-
         }
         // print "tttt $gbIdclasse $gbGiorno $gbMeseanno";
         $linkIntero = " - <a href='$goback?cl=$gbIdclasse&idclasse=$gbIdclasse&gio=$gbGiorno&meseanno=$gbMeseanno'>$label</a> ";
@@ -569,8 +545,7 @@ function get_suffisso()
     if (isset($_SESSION['suffisso']))
     {
         return $_SESSION['suffisso'];
-    }
-    else
+    } else
     {
         return '';
     }
@@ -587,9 +562,7 @@ function controllo_privilegi($abil)
         header("location: ../login/login.php?suffisso=" . get_suffisso() . "&messaggio=Accesso non consentito alla funzione richiesta");
         die;
     }
-
 }
-
 
 /**
  * Sostituisce il prefisso tbl_ con il prefisso scelto al momento dell'installazione
@@ -612,10 +585,10 @@ function inspref($comando, $log = true)
         //print "LOG:".$_SESSION['logcompleto'];
         if (isset($_SESSION['logcompleto']))
         {
-            
+
             if ($_SESSION['logcompleto'] == "yes")
             {
-               // print "LOG:".$_SESSION['logcompleto'];
+                // print "LOG:".$_SESSION['logcompleto'];
                 $comandoreg = $comando;
                 $cmd = strtolower(substr($comandoreg, 0, 4));
 
@@ -629,17 +602,13 @@ function inspref($comando, $log = true)
                     if (get_suffisso() != "")
                     {
                         $suff = get_suffisso() . "/";
-                    }
-                    else $suff = "";
+                    } else
+                        $suff = "";
 
                     $comandoreg = elimina_spazi($comandoreg);
+
+                    inserisci_log($_SESSION['userid'] . "§" . date('m-d|H:i:s') . "§" . $_SESSION['indirizzoip'] . "§" . $comandoreg . "", $_SESSION['nomefilelog'], $_SESSION['suffisso']);
                     
-                    inserisci_log($_SESSION['userid'] . "§" . date('m-d|H:i:s') . "§" . $_SESSION['indirizzoip'] . "§" . $comandoreg . "",$_SESSION['nomefilelog'],$_SESSION['suffisso']);
-                    //$query = "insert into ". $prefisso_tabelle. "tbl_logacc(utente,dataacc,comando) values ('".
-                    //           $_SESSION['userid']. "','". date('m/d - H:i:s'). "','". elimina_apici($comandoreg). "')";
-                    //$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore di connessione");
-                    //$ris = mysqli_query($con,$query) or die("Errore in inserimento log!");
-                    //mysqli_close($con);
                 }
             }
 
@@ -648,8 +617,7 @@ function inspref($comando, $log = true)
                 $comandoreg = $comando;
                 $cmd = strtolower(substr($comandoreg, 0, 4));
 
-                if ($cmd == "inse" | $cmd == "upda" | $cmd == "dele" | $cmd == "sele"
-                    | $cmd == "INSE" | $cmd == "UPDA" | $cmd == "DELE" | $cmd == "SELE"
+                if ($cmd == "inse" | $cmd == "upda" | $cmd == "dele" | $cmd == "sele" | $cmd == "INSE" | $cmd == "UPDA" | $cmd == "DELE" | $cmd == "SELE"
                 )
                 {
                     // Non effettuo registrazione completa per caricamento documenti in db
@@ -660,8 +628,8 @@ function inspref($comando, $log = true)
                     if (get_suffisso() != "")
                     {
                         $suff = get_suffisso() . "/";
-                    }
-                    else $suff = "";
+                    } else
+                        $suff = "";
 
                     $comandoreg = elimina_spazi($comandoreg);
                     inserisci_log($_SESSION['userid'] . "§" . date('m-d|H:i:s') . "§" . $_SESSION['indirizzoip'] . "§" . $comandoreg . "");
@@ -709,18 +677,14 @@ function inserisci_log($testo, $nflog = "", $suff = "")
         if (get_suffisso() != "")
         {
             $suff = get_suffisso() . "/";
-        }
-        else $suff = "";
-    }
-    else
-        $suff=$suff."/";
+        } else
+            $suff = "";
+    } else
+        $suff = $suff . "/";
 
     // print "../lampschooldata/" . $suff . "00$nomefilelog.log";
-    error_log($testo . "\n", 3, "../lampschooldata/" . $suff . "0000$nomefilelog". date("Ymd") .".log");
-
-
+    error_log($testo . "\n", 3, "../lampschooldata/" . $suff . "0000$nomefilelog" . date("Ymd") . ".log");
 }
-
 
 /**
  * Legge il contenuto del file richiesto
@@ -766,12 +730,11 @@ function controlloNuovaVersione()
 function current_version($conn)
 {
     $query = "SELECT * FROM tbl_parametri WHERE parametro='versioneprecedente'";
-    $resp = eseguiQuery($conn,$query);
+    $resp = eseguiQuery($conn, $query);
     if ($resp == false || mysqli_num_rows($resp) == 0)
     {
         return false;
-    }
-    else
+    } else
     {
         $row = mysqli_fetch_array($resp);
         return $row['valore'];

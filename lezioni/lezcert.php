@@ -89,15 +89,13 @@ $giornosettimana = "";
 
 
 // print "Id lez. $idlezione";
-
-
 // print "ttttDATI RICEVUTI $cattedra $giorno $meseanno DAT $ms $anno";
 
 
 if ($idlezione != "")
 {
     $query = "select * from tbl_lezionicert where idlezione=$idlezione";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     $lez = mysqli_fetch_array($ris);
     $materia = $lez['idmateria'];
     $idclasse = $lez['idclasse'];
@@ -110,7 +108,7 @@ if ($idlezione != "")
 
     $query = "select idcattedra from tbl_cattnosupp where idalunno=$idalunno and idmateria=$materia and iddocente=$iddocente";
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($nom = mysqli_fetch_array($ris))
     {
         $cattedra = $nom['idcattedra'];
@@ -137,7 +135,7 @@ else
 
         $query = "select idalunno, idmateria from tbl_cattnosupp where idcattedra=$cattedra";
 
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         if ($nom = mysqli_fetch_array($ris))
         {
             $materia = $nom['idmateria'];
@@ -205,25 +203,25 @@ if ($provenienza == "" && $classeregistro == "")
 }
 require '../lib/aggiungi_giorni_a_select.php';
 /*
-for  ($g = 1; $g <= 31; $g++)
-{
-    if ($g < 10)
-    {
-        $gs = '0' . $g;
-    }
-    else
-    {
-        $gs = '' . $g;
-    }
-    if ($gs == $giorno)
-    {
-        echo("<option selected>$gs</option>");
-    }
-    else
-    {
-        echo("<option>$gs</option>");
-    }
-}
+  for  ($g = 1; $g <= 31; $g++)
+  {
+  if ($g < 10)
+  {
+  $gs = '0' . $g;
+  }
+  else
+  {
+  $gs = '' . $g;
+  }
+  if ($gs == $giorno)
+  {
+  echo("<option selected>$gs</option>");
+  }
+  else
+  {
+  echo("<option>$gs</option>");
+  }
+  }
  * 
  */
 echo("</select>");
@@ -239,41 +237,41 @@ if ($provenienza == "" && $classeregistro == "")
 }
 require '../lib/aggiungi_mesi_a_select.php';
 /*
-for  ($m = 9; $m <= 12; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = "0" . $m;
-    } else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscol");
-    } else
-    {
-        echo("<option>$ms - $annoscol");
-    }
-}
-$annoscolsucc = $annoscol + 1;
-for ($m = 1; $m <= 8; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = '0' . $m;
-    } else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscolsucc");
-    } else
-    {
-        echo("<option>$ms - $annoscolsucc");
-    }
-}
+  for  ($m = 9; $m <= 12; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = "0" . $m;
+  } else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscol");
+  } else
+  {
+  echo("<option>$ms - $annoscol");
+  }
+  }
+  $annoscolsucc = $annoscol + 1;
+  for ($m = 1; $m <= 8; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = '0' . $m;
+  } else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscolsucc");
+  } else
+  {
+  echo("<option>$ms - $annoscolsucc");
+  }
+  }
  * 
  */
 echo("</select>");
@@ -313,7 +311,7 @@ if ($materia != "" and $idclasse != "")
 }
 
 // print $query;
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($nom = mysqli_fetch_array($ris))
 {
     $iddocente = $nom["iddocente"];
@@ -372,7 +370,7 @@ if ($classeregistro == "")
 }
 
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if (mysqli_num_rows($ris) == 1)
 {
     $nom = mysqli_fetch_array($ris);
@@ -426,7 +424,7 @@ if ($idalunno != '' & $materia != '' & $giorno != '' & $mese != '')
     $query = "select idlezione, orainizio, numeroore from tbl_lezionicert
            where idalunno='$idalunno' and idmateria='$materia' and datalezione='$anno-$mese-$giorno'";
     // print inspref($query);
-    $reslezpres = eseguiQuery($con,$query);
+    $reslezpres = eseguiQuery($con, $query);
 
     if (mysqli_num_rows($reslezpres) > 0)
     {
@@ -597,7 +595,7 @@ if (!checkdate($m, $g, $a))
             }
             // print $query."<br/>";
 
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             $l = mysqli_fetch_array($ris);
 
             if ($l != NULL)
@@ -689,26 +687,6 @@ if (!checkdate($m, $g, $a))
 
             echo '</form>
        </tr>';
-            // Visualizzo firme attuali
-            /* $queryfirme="select cognome, nome from tbl_firme,tbl_docenti
-              where tbl_firme.iddocente=tbl_docenti.iddocente
-              and idlezione='$idlezione'";
-              $resfirme= mysqli_query($con,inspref($queryfirme)) or die(mysqli_error($con));
-              if (mysqli_num_rows($resfirme)>0)
-
-              {
-              print "<tr><td align=center><b>Firme:</b>";
-              while ($valfirme=mysqli_fetch_array($resfirme))
-              {
-              $cogn=$valfirme['cognome'];
-              $nome=$valfirme['nome'];
-              print "<br>$cogn $nome";
-              }
-              print "</td></tr>";
-              }
-             */
-
-
             echo '</table>';
         } else
         {
@@ -739,7 +717,7 @@ function occupata($oredisp, $i, $j, $maxore)
 function cattedra($id_ut_doc, $idmateria, $idalunno, $con)
 {
     $querycatt = "select * from tbl_cattnosupp where idalunno='$idalunno' and idmateria='$idmateria' and iddocente='$id_ut_doc' and iddocente<>1000000000";
-    $riscatt = mysqli_query($con, inspref($querycatt)) or die("Errore nella query: " . mysqli_error($con));
+    $riscatt = eseguiQuery($con,$querycatt);
     if (mysqli_num_rows($riscatt) > 0)
     {
         return true;

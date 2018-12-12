@@ -1,10 +1,12 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: pietro
  * Date: 16/06/15
  * Time: 18.26
  */
+
 /**
  * Controllo nella tabella delle firme se il docente ha firmato
  *
@@ -16,7 +18,7 @@
 function esiste_firma($idlezione, $iddocente, $conn)
 {
     $query = "SELECT * FROM tbl_firme WHERE idlezione='$idlezione' AND iddocente='$iddocente'";
-    $risfirma = eseguiQuery($conn,$query);
+    $risfirma = eseguiQuery($conn, $query);
 
     if (mysqli_num_rows($risfirma) > 0)
     {
@@ -40,7 +42,7 @@ function esiste_cattedra($idlezione, $iddocente, $conn)
              AND tbl_lezioni.idmateria=tbl_cattnosupp.idmateria
              AND tbl_lezioni.idclasse=tbl_cattnosupp.idclasse
              AND tbl_cattnosupp.iddocente='$iddocente'";
-    $risfirma = eseguiQuery($conn,$query);
+    $risfirma = eseguiQuery($conn, $query);
 
     if (mysqli_num_rows($risfirma) > 0)
     {
@@ -61,14 +63,13 @@ function cattedra_sostegno($idcattedra, $conn)
 {
     $query = "SELECT * FROM tbl_cattnosupp WHERE idcattedra='$idcattedra'";
     //print "TTTT ".inspref($query);
-    $riscatt = eseguiQuery($conn,$query);
+    $riscatt = eseguiQuery($conn, $query);
     $reccatt = mysqli_fetch_array($riscatt);
 
     if ($reccatt['idalunno'] != 0)
     {
         return true;
-    }
-    else
+    } else
     {
         return false;
     }
@@ -85,15 +86,14 @@ function cattedra_sost($iddocente, $idmateria, $idclasse, $conn)
 {
     $query = "SELECT * FROM tbl_cattnosupp WHERE iddocente='$iddocente' AND idmateria='$idmateria' AND idclasse='$idclasse' ";
     //print "TTTT ".inspref($query);
-    $riscatt = eseguiQuery($conn,$query);
+    $riscatt = eseguiQuery($conn, $query);
 
     $reccatt = mysqli_fetch_array($riscatt);
 
     if ($reccatt['idalunno'] != 0)
     {
         return true;
-    }
-    else
+    } else
     {
         return false;
     }
@@ -110,7 +110,7 @@ function cattedre_normali($iddocente, $conn)
 {
     $query = "SELECT * FROM tbl_cattnosupp WHERE iddocente='$iddocente' AND idalunno=0";
     // print "TTTT ".inspref($query);
-    $riscatt = eseguiQuery($conn,$query);
+    $riscatt = eseguiQuery($conn, $query);
 
     if (mysqli_num_rows($riscatt) > 0)
     {
@@ -118,8 +118,6 @@ function cattedre_normali($iddocente, $conn)
     }
 
     return false;
-
-
 }
 
 /**
@@ -133,7 +131,7 @@ function cattedre_sostegno($iddocente, $conn)
 {
     $query = "SELECT * FROM tbl_cattnosupp WHERE iddocente='$iddocente' AND idalunno<>0";
     //  print "TTTT ".inspref($query);
-    $riscatt = eseguiQuery($conn,$query);
+    $riscatt = eseguiQuery($conn, $query);
 
     if (mysqli_num_rows($riscatt) > 0)
     {
@@ -141,10 +139,7 @@ function cattedre_sostegno($iddocente, $conn)
     }
 
     return false;
-
-
 }
-
 
 /**
  * Controllo se una materia è seguita da un alunno nel caso sia
@@ -166,15 +161,13 @@ function segue_alunno_materia($idalunno, $idmateria, $conn)
                     and tbl_alunni.idclasse='$idclasse'
                     and tbl_gruppi.idmateria='$idmateria')";
 
-    $risgrualu = eseguiQuery($conn,$query);
+    $risgrualu = eseguiQuery($conn, $query);
     if (mysqli_num_rows($risgrualu) == 0)
     {
         $stampa = false;
     }
 
     return $stampa;
-
-
 }
 
 /**
@@ -188,7 +181,7 @@ function trova_cattedra($idalunno, $iddocente, $idmateria, $conn)
     $codcatt = 0;
     $query = "select idcattedra from tbl_cattnosupp where idalunno='$idalunno' and iddocente='$iddocente' and idmateria='$idmateria'";
 
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
 
     $codcatt = $rec['idcattedra'];
@@ -205,7 +198,7 @@ function trova_cattedra($idalunno, $iddocente, $idmateria, $conn)
 function estrai_id_materia($cattedra, $conn)
 {
     $query = "select * from tbl_cattnosupp where idcattedra='$cattedra'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $idmateria = $rec['idmateria'];
 
@@ -222,12 +215,13 @@ function estrai_id_classe($cattedra, $conn)
 {
     $query = "select * from tbl_cattnosupp where idcattedra='$cattedra'";
 
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $idclasse = $rec['idclasse'];
 
     return $idclasse;
 }
+
 /**
  * Fornisce il codice della cattedra
  *
@@ -241,12 +235,13 @@ function codice_cattedra($iddocente, $idclasse, $idmateria, $conn)
 {
     $query = "select * from tbl_cattnosupp
 	        where idclasse='$idclasse' and iddocente='$iddocente' and idmateria='$idmateria'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $idcattedra = $rec['idcattedra'];
 
     return $idcattedra;
 }
+
 /**
  *
  * @param int $iddocente
@@ -258,7 +253,7 @@ function is_docente_classe($iddocente, $idclasse, $conn)
 {
     $query = "select * from tbl_cattnosupp
 	        where iddocente='$iddocente' and idclasse='$idclasse' and idalunno=0";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
 
     if (mysqli_num_rows($ris) > 0)
     {
@@ -279,7 +274,7 @@ function is_docente_sostegno_classe($iddocente, $idclasse, $conn)
 {
     $query = "select * from tbl_cattnosupp
 	        where iddocente='$iddocente' and idclasse='$idclasse'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
 
     if (mysqli_num_rows($ris) > 0)
     {
@@ -288,9 +283,6 @@ function is_docente_sostegno_classe($iddocente, $idclasse, $conn)
 
     return false;
 }
-
-
-
 
 /**
  *
@@ -301,7 +293,7 @@ function is_docente_sostegno_classe($iddocente, $idclasse, $conn)
 function decodifica_materia($idmateria, $conn)
 {
     $query = "select * from tbl_materie where idmateria='$idmateria'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $datimateria = $rec['denominazione'];
 

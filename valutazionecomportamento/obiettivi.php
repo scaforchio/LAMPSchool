@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -29,7 +31,7 @@ if ($tipoutente == "")
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 $titolo = "Gestione obiettivi di comportamento";
@@ -50,7 +52,7 @@ $query = "SELECT count(*) AS numerovoti FROM tbl_valutazioniobcomp, tbl_valutazi
          WHERE tbl_valutazioniobcomp.idvalcomp = tbl_valutazionicomp.idvalcomp";
 
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 $nom = mysqli_fetch_array($ris);
 $votipresenti = false;
@@ -64,7 +66,7 @@ if ($nom['numerovoti'] > 0)
 
 
 $query = "SELECT * FROM tbl_compob ORDER BY numeroordine";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 print "<p align='center'>
           <font size=4 color='black'>Obiettivo </font>
           <form method='post' action='insobiettivi.php'>
@@ -86,7 +88,7 @@ while ($val = mysqli_fetch_array($ris))
                  tbl_valutazioniobcomp.idsubob = tbl_compsubob.idsubob
                  and tbl_compsubob.idobiettivo=tbl_compob.idobiettivo
                  and tbl_compob.idobiettivo=$idobiettivo";
-    $ris2 = eseguiQuery($con,$query);
+    $ris2 = eseguiQuery($con, $query);
     if (mysqli_num_rows($ris2) > 0)
     {
         $votipresenti = true;
@@ -97,8 +99,7 @@ while ($val = mysqli_fetch_array($ris))
         print "    SINTESI: <input type=text name=sint$numord value='$sintob' maxlength=80 size=80><br/>
                    <input type=hidden name=idob$numord value='$idobiettivo'>
                    <textarea cols=80 rows=3 name=est$numord>" . $val['obiettivo'] . "</textarea></td>";
-    }
-    else
+    } else
     {
         print "    SINTESI: <input type=text name=sintesi$numord value='$sintob' maxlength=80 size=80 disabled><br/>
                    <input type=hidden name=idob$numord value='$idobiettivo'>

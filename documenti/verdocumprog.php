@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -54,7 +56,7 @@ switch ($tipodoc)
 
 
 $script = "";
-stampa_head($titolo, "", $script,"PMSD");
+stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -65,12 +67,18 @@ $ordinamento = stringa_html('ordinamento');
 print "<form name='verpiani' action='verdocumprog.php?tipodoc=$tipodoc' method='post'>";
 print "<center>Ordinamento:";
 print "<select name='ordinamento'  ONCHANGE='verpiani.submit()'>";
-if ($ordinamento == "doc" | $ordinamento == "") $seledoc = ' selected';
-else $seledoc = '';
-if ($ordinamento == "mat") $selemat = ' selected';
-else $selemat = '';
-if ($ordinamento == "cla") $selecla = ' selected';
-else $selecla = '';
+if ($ordinamento == "doc" | $ordinamento == "")
+    $seledoc = ' selected';
+else
+    $seledoc = '';
+if ($ordinamento == "mat")
+    $selemat = ' selected';
+else
+    $selemat = '';
+if ($ordinamento == "cla")
+    $selecla = ' selected';
+else
+    $selecla = '';
 print "<option value='doc'$seledoc>Docenti</option>
        <option value='mat'$selemat>Materie</option>
        <option value='cla'$selecla>Classi</option>";
@@ -88,7 +96,7 @@ print ("
       <td><b>Docenti</b></td>
       <td><b>File</b></td>
       <td><b>Azione</b></td>");
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 switch ($ordinamento)
 {
     case "":
@@ -127,7 +135,7 @@ switch ($ordinamento)
         break;
 }
 // print $query;          
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
 
@@ -140,7 +148,7 @@ while ($nom = mysqli_fetch_array($ris))
         WHERE " . $nom['idmateria'] . " = tbl_documenti.idmateria
         AND " . $nom['idclasse'] . " = tbl_documenti.idclasse
         AND idtipodocumento=$tipodocumento";
-    $rispl = eseguiQuery($con,$query);
+    $rispl = eseguiQuery($con, $query);
     if ($recpl = mysqli_fetch_array($rispl))
     {
         print ("<td>");
@@ -154,18 +162,15 @@ while ($nom = mysqli_fetch_array($ris))
             echo "target='_blank'><img src='../immagini/view.jpg' alt='visualizza'></a>  ";
         }
         print "</td>";
-    }
-    else
+    } else
     {
         print "<td>&nbsp;</td><td>&nbsp;</td>";
     }
     print "</tr>";
-
-
 }
 
 print "</table>";
 
 mysqli_close($con);
-stampa_piede(""); 
+stampa_piede("");
 

@@ -1,23 +1,25 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
-/*Programma per la gestione dell'input di un alunno con parametro in ingresso "idcla"
-Imposta i colori dei link*/
+/* Programma per la gestione dell'input di un alunno con parametro in ingresso "idcla"
+  Imposta i colori dei link */
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 
@@ -36,13 +38,13 @@ $script = "<SCRIPT>
 				 $('#datacambioclasse').datepicker({ dateFormat: 'dd/mm/yy' });
 			});
                         </SCRIPT>";
-stampa_head($titolo, "", $script,"MASP");
+stampa_head($titolo, "", $script, "MASP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_alu_cla.php'>Elenco classi</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 $c = stringa_html('idcla');
 
 
-$idcomn="";
-$idcomr="";
+$idcomn = "";
+$idcomr = "";
 
 
 //connessione al server
@@ -57,11 +59,10 @@ $DB = true;
 if (!$DB)
 {
     print("<h1> Connessione al database fallita </h1>");
-}
-else
+} else
 {
     $sql = "SELECT idclasse FROM tbl_alunni ";
-    $result = eseguiQuery($con,$sql);
+    $result = eseguiQuery($con, $sql);
     if (!($res = mysqli_fetch_array($result)))
     {
         print("Attenzione campo nome mancante.");
@@ -79,14 +80,13 @@ else
     print ("<tr> <td> <i> Data di nascita</i><B><font color='#CC0000'>*</font></B></td> ");
 
     print ("<td> <input type='text'  name='gg' size='2'  maxlength='2' value=''> / <input type='text'  name='mm' size='2'  maxlength='2' value=''> / <input type='text' name='aa' size='4'  maxlength='4' value=''>(gg/mm/aaaa) </td> </tr>");
-    print   ("<tr> <td> <i>Comune o stato estero di nascita<font color='#cc0000'></font></i> </td> <td> <select name='idcomn'>");
+    print ("<tr> <td> <i>Comune o stato estero di nascita<font color='#cc0000'></font></i> </td> <td> <select name='idcomn'>");
     $sqla = "SELECT * FROM tbl_comuni WHERE statoestero='N' ORDER BY denominazione ";
-    $resa = eseguiQuery($con,$sqla);
+    $resa = eseguiQuery($con, $sqla);
     if (!$resa)
     {
         print ("<br/> <br/> <br/> <h2>a Impossibile visualizzare i dati </h2>");
-    }
-    else
+    } else
     {
         print ("<option value='9999'>");
         print ("<optgroup label='COMUNI ITALIANI'>");
@@ -97,23 +97,20 @@ else
             if ($idcomn == ($datal['idcomune']))
             {
                 print("<option value='" . $datal['idcomune'] . "' selected> " . $datal['denominazione'] . "");
-            }
-            else
+            } else
             {
                 print("<option value='" . $datal['idcomune'] . "'> " . $datal['denominazione'] . "");
             }
-
         }
         print ("</optgroup>");
     }
 
     $sqlb = "SELECT * FROM tbl_comuni WHERE statoestero='S' ORDER BY denominazione";
-    $resb = eseguiQuery($con,$sqlb);
+    $resb = eseguiQuery($con, $sqlb);
     if (!$resb)
     {
         print ("<br/> <br/> <br/> <h2>a Impossibile visualizzare i dati </h2>");
-    }
-    else
+    } else
     {
         print ("<optgroup label='STATI ESTERI'>");
         while ($datal = mysqli_fetch_array($resb))
@@ -122,28 +119,25 @@ else
             if ($idcomn == ($datal['idcomune']))
             {
                 print("<option value='" . $datal['idcomune'] . "' selected> " . $datal['denominazione'] . "");
-            }
-            else
+            } else
             {
                 print("<option value='" . $datal['idcomune'] . "'> " . $datal['denominazione'] . "");
             }
-
         }
         print ("</optgroup>");
     }
 
     print("</select> </td> </tr>");
-    print  ("<tr> <td> <i> Indirizzo</i></td>");
+    print ("<tr> <td> <i> Indirizzo</i></td>");
     print("<td> <input type='text' name='indirizzo' size='30' maxlength='30' value=''> </td> </tr>");
     mysqli_data_seek($resa, 0); // Ritorna all'inizio del resultset
     $resb = $resa; // Evita di rifare la query sui comuni : eseguiQuery($con,$sqlb);
     if (!$resb)
     {
         print ("<br/> <br/> <br/> <h2><b> Impossibile visualizzare i dati </b></h2>");
-    }
-    else
+    } else
     {
-        print  ("<tr> <td> <i>Comune di residenza<font color='#cc0000'></font></i> </td> <td> <select name='idcomr'>");
+        print ("<tr> <td> <i>Comune di residenza<font color='#cc0000'></font></i> </td> <td> <select name='idcomr'>");
         print("<option value='9999'>");
         while ($datbl_ = mysqli_fetch_array($resb))
         {
@@ -151,12 +145,10 @@ else
             if ($idcomr == ($datbl_['idcomune']))
             {
                 print("<option value='" . $datbl_['idcomune'] . "' selected> " . $datbl_['denominazione'] . "");
-            }
-            else
+            } else
             {
                 print("<option value='" . $datbl_['idcomune'] . "'> " . $datbl_['denominazione'] . "");
             }
-
         }
         print("</select> </td> </tr>");
     }
@@ -190,16 +182,15 @@ else
     print ("<tr> <td><i>Titolo ammissione</i> </td>");
     print (" <td> <input type='text' name='titoloammissione' size='50' maxlength='50'value=''> </td> </tr>");
     print ("<tr> <td><i>Sequenza iscrizione</i> </td>");
-   // print (" <td> <input type='number' name='sequenzaiscrizione' size='1' min='1' max='3' step='1'> </td> </tr>");
+    // print (" <td> <input type='number' name='sequenzaiscrizione' size='1' min='1' max='3' step='1'> </td> </tr>");
     print (" <td> <select name='sequenzaiscrizione'><option>1<option>2<option>3</option></select></td> </tr>");
 
     $sqlc = "SELECT * FROM tbl_classi ORDER BY specializzazione,sezione,anno";
-    $resc = eseguiQuery($con,$sqlc);
+    $resc = eseguiQuery($con, $sqlc);
     if (!$resc)
     {
         print ("<br/> <br/> <br/> <h2>Impossibile visualizzare i dati </h2>");
-    }
-    else
+    } else
     {
         print ("<tr> <td> <i>Classe</i><B><font color='#CC0000'>*</font></B> </td> <td> <select name='datc'>");
         print("<option value='0'>");
@@ -208,8 +199,7 @@ else
             if ($c == ($datc['idclasse']))
             {
                 print("<option value='" . $datc['idclasse'] . "' selected>" . $datc['anno'] . " " . $datc['sezione'] . " " . $datc['specializzazione'] . "");
-            }
-            else
+            } else
             {
                 print("<option value='" . $datc['idclasse'] . "'> " . $datc['anno'] . " " . $datc['sezione'] . " " . $datc['specializzazione'] . "");
             }
@@ -218,7 +208,6 @@ else
         print("<tr bgcolor='lightgrey'><td align='left'>Data inizio frequenza nella classe<br><small><b><span style=\"color: red; \">(Da compilare se l'alunno è arrivato ad A.S. già iniziato,<br>lasciare vuota se la classe è valida da inizio anno.</span>");
         print("</td>");
         print("<td align='left'><input type='text' name='datacambioclasse' id='datacambioclasse' maxlength='10' size='10'></td></tr>"); // TTTTT Da completare
-
     }
 
 

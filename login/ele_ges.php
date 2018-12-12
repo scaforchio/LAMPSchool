@@ -62,55 +62,55 @@ $_SESSION['versione'] = $json['versione'];
 //$_SESSION['indirizzomailfrom'] = $indirizzomailfrom;
 
 /*
-$_SESSION['g02'] = $g02;
-$_SESSION['g03'] = $g03;
-$_SESSION['g04'] = $g04;
-$_SESSION['g05'] = $g05;
-$_SESSION['g06'] = $g06;
-$_SESSION['g07'] = $g07;
-$_SESSION['g08'] = $g08;
-$_SESSION['g09'] = $g09;
-$_SESSION['g10'] = $g10;
-$_SESSION['giud02'] = $giud02;
-$_SESSION['giud03'] = $giud03;
-$_SESSION['giud04'] = $giud04;
-$_SESSION['giud05'] = $giud05;
-$_SESSION['giud06'] = $giud06;
-$_SESSION['giud07'] = $giud07;
-$_SESSION['giud08'] = $giud08;
-$_SESSION['giud09'] = $giud09;
-$_SESSION['giud10'] = $giud10;
-$_SESSION['gc01'] = $gc01;
-$_SESSION['gc02'] = $gc02;
-$_SESSION['gc03'] = $gc03;
-$_SESSION['gc04'] = $gc04;
-$_SESSION['gc05'] = $gc05;
-$_SESSION['gc06'] = $gc06;
-$_SESSION['gc07'] = $gc07;
-$_SESSION['gc08'] = $gc08;
-$_SESSION['gc09'] = $gc09;
-$_SESSION['gc10'] = $gc10;
-$_SESSION['giudcomp01'] = $giudcomp01;
-$_SESSION['giudcomp02'] = $giudcomp02;
-$_SESSION['giudcomp03'] = $giudcomp03;
-$_SESSION['giudcomp04'] = $giudcomp04;
-$_SESSION['giudcomp05'] = $giudcomp05;
-$_SESSION['giudcomp06'] = $giudcomp06;
-$_SESSION['giudcomp07'] = $giudcomp07;
-$_SESSION['giudcomp08'] = $giudcomp08;
-$_SESSION['giudcomp09'] = $giudcomp09;
-$_SESSION['giudcomp10'] = $giudcomp10;
-/*
-$_SESSION['classeregistro'] = "";  // Si riazzera quando si torna al menu così si capisce che non si è più in fase di registro
+  $_SESSION['g02'] = $g02;
+  $_SESSION['g03'] = $g03;
+  $_SESSION['g04'] = $g04;
+  $_SESSION['g05'] = $g05;
+  $_SESSION['g06'] = $g06;
+  $_SESSION['g07'] = $g07;
+  $_SESSION['g08'] = $g08;
+  $_SESSION['g09'] = $g09;
+  $_SESSION['g10'] = $g10;
+  $_SESSION['giud02'] = $giud02;
+  $_SESSION['giud03'] = $giud03;
+  $_SESSION['giud04'] = $giud04;
+  $_SESSION['giud05'] = $giud05;
+  $_SESSION['giud06'] = $giud06;
+  $_SESSION['giud07'] = $giud07;
+  $_SESSION['giud08'] = $giud08;
+  $_SESSION['giud09'] = $giud09;
+  $_SESSION['giud10'] = $giud10;
+  $_SESSION['gc01'] = $gc01;
+  $_SESSION['gc02'] = $gc02;
+  $_SESSION['gc03'] = $gc03;
+  $_SESSION['gc04'] = $gc04;
+  $_SESSION['gc05'] = $gc05;
+  $_SESSION['gc06'] = $gc06;
+  $_SESSION['gc07'] = $gc07;
+  $_SESSION['gc08'] = $gc08;
+  $_SESSION['gc09'] = $gc09;
+  $_SESSION['gc10'] = $gc10;
+  $_SESSION['giudcomp01'] = $giudcomp01;
+  $_SESSION['giudcomp02'] = $giudcomp02;
+  $_SESSION['giudcomp03'] = $giudcomp03;
+  $_SESSION['giudcomp04'] = $giudcomp04;
+  $_SESSION['giudcomp05'] = $giudcomp05;
+  $_SESSION['giudcomp06'] = $giudcomp06;
+  $_SESSION['giudcomp07'] = $giudcomp07;
+  $_SESSION['giudcomp08'] = $giudcomp08;
+  $_SESSION['giudcomp09'] = $giudcomp09;
+  $_SESSION['giudcomp10'] = $giudcomp10;
+  /*
+  $_SESSION['classeregistro'] = "";  // Si riazzera quando si torna al menu così si capisce che non si è più in fase di registro
 
-/*
+  /*
  * VARIABILI CHE SONO USATE NELLE FUNZIONI
  */
 
 //$_SESSION['giustifica_ritardi'] = $giustifica_ritardi;
 
 
-$_SESSION['classeregistro'] = ""; 
+$_SESSION['classeregistro'] = "";
 
 $indirizzoip = IndirizzoIpReale();
 $_SESSION['indirizzoip'] = $indirizzoip;
@@ -178,7 +178,7 @@ if (count($_POST))
     }
 
 
-    $result = eseguiQuery($con,$sql);
+    $result = eseguiQuery($con, $sql);
 
     if (mysqli_num_rows($result) <= 0)
     {
@@ -232,7 +232,7 @@ if (count($_POST))
         {
             //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
             $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . $_SESSION['idutente'] . "'";
-            $ris = eseguiQuery($con,$sql);
+            $ris = eseguiQuery($con, $sql);
 
             if ($val = mysqli_fetch_array($ris))
             {
@@ -248,7 +248,7 @@ if (count($_POST))
             //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
             $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . ($_SESSION['idutente'] - 2100000000) . "'";
 
-            $ris = eseguiQuery($con,$sql);
+            $ris = eseguiQuery($con, $sql);
 
             if ($val = mysqli_fetch_array($ris))
             {
@@ -269,7 +269,7 @@ if (count($_POST))
         if ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P')
         {
             $sql = "SELECT * FROM tbl_docenti WHERE idutente='" . $_SESSION['idutente'] . "'";
-            $ris = eseguiQuery($con,$sql);
+            $ris = eseguiQuery($con, $sql);
 
             if ($val = mysqli_fetch_array($ris))
             {
@@ -278,7 +278,7 @@ if (count($_POST))
             }
             // VERIFICO SE C'E' UNA DEROGA PER IL LIMITE DI INSERIMENTO
             $sql = "SELECT * FROM tbl_derogheinserimento WHERE iddocente='" . $_SESSION['idutente'] . "' AND DATA='" . date('Y-m-d') . "'";
-            $ris = eseguiQuery($con,$sql);
+            $ris = eseguiQuery($con, $sql);
 
             if (mysqli_num_rows($ris) > 0)
             {
@@ -292,7 +292,7 @@ if (count($_POST))
         if ($_SESSION['tipoutente'] == 'A')
         {
             $sql = "SELECT * FROM tbl_amministrativi WHERE idutente='" . $_SESSION['idutente'] . "'";
-            $ris = eseguiQuery($con,$sql);
+            $ris = eseguiQuery($con, $sql);
 
             if ($val = mysqli_fetch_array($ris))
             {
@@ -314,7 +314,7 @@ if (count($_POST))
         {
             $query = "SELECT dataacc FROM tbl_logacc
                    WHERE idlog = (SELECT max(idlog) FROM tbl_logacc)";
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             $rec = mysqli_fetch_array($ris);
             $dataultimoaccesso = $rec['dataacc'];
             $dataultimo = substr($dataultimoaccesso, 0, 10);
@@ -341,7 +341,7 @@ if (count($_POST))
 
         // Ricerca ultimo accesso
         $query = "select dataacc from " . $_SESSION["prefisso"] . "tbl_logacc where idlog=(select max(idlog) from " . $_SESSION["prefisso"] . "tbl_logacc where utente='$username' and comando='Accesso')";
-        $ris = eseguiQuery($con,$query,false);
+        $ris = eseguiQuery($con, $query, false);
         if (mysqli_num_rows($ris) == 0)
         {
             $ultimoaccesso = "";
@@ -364,9 +364,8 @@ if (count($_POST))
         {
             $sql = "INSERT INTO " . $_SESSION["prefisso"] . "tbl_logacc( utente , dataacc, comando,indirizzo) values('$username','" . date('Y/m/d - H:i') . "','Chiave universale','$indirizzoip')";
         }
-        // print $sql;
-        //.mysqli_query($con, $sql) or die("Errore in inserimento log!");
-        eseguiQuery($con, $sql,false);
+        
+        eseguiQuery($con, $sql, false);
     }
 }
 
@@ -376,7 +375,7 @@ if ($_SESSION['tipoutente'] != 'E')
     if ($password != md5(md5($chiaveuniversale) . $seme) && !$accessouniversale)
     {
         $sql = "SELECT unix_timestamp(ultimamodifica) AS ultmod FROM " . $_SESSION['prefisso'] . "tbl_utenti WHERE userid='" . $_SESSION['userid'] . "'";
-        $data = mysqli_fetch_array(eseguiQuery($con, $sql,false));
+        $data = mysqli_fetch_array(eseguiQuery($con, $sql, false));
         $dataultimamodifica = $data['ultmod'];
         $dataodierna = time();
         $giornidiff = differenza_giorni($dataultimamodifica, $dataodierna);
@@ -986,7 +985,7 @@ if ($cambiamentopassword)
         menu_item('../colloqui/visrichieste_doc.php', 'PRENOTAZIONI COLLOQUI');
         menu_item("../docenti/mod_contatto.php", 'AGGIORNA DATI DI CONTATTO');
         menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');
-        
+
         menu_item('../docenti/visorario.php', 'VISUALIZZA ORARIO');
         menu_item('../docenti/visoraridocenti.php', 'VISUALIZZA ORARIO DOCENTE');
         menu_title_end();
@@ -1470,7 +1469,7 @@ if ($cambiamentopassword)
 
         //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
         $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . $_SESSION['idutente'] . "'";
-        $ris = eseguiQuery($con,$sql);
+        $ris = eseguiQuery($con, $sql);
         if ($val = mysqli_fetch_array($ris))
         {
             $idstudente = $val["idalunno"];
@@ -1478,7 +1477,7 @@ if ($cambiamentopassword)
 
 
         $sql = "select * from tbl_alunni where idalunno='$idstudente'";
-        $ris = eseguiQuery($con,$sql);
+        $ris = eseguiQuery($con, $sql);
         if ($val = mysqli_fetch_array($ris))
         {
             $cognome = $val["cognome"];
@@ -1549,7 +1548,7 @@ if ($cambiamentopassword)
 
         //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
         $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . ($_SESSION['idutente'] - 2100000000) . "'";
-        $ris = eseguiQuery($con,$sql);
+        $ris = eseguiQuery($con, $sql);
         if ($val = mysqli_fetch_array($ris))
         {
             $idstudente = $val["idalunno"];
@@ -1557,7 +1556,7 @@ if ($cambiamentopassword)
 
 
         $sql = "select * from tbl_alunni where idalunno='$idstudente'";
-        $ris = eseguiQuery($con,$sql);
+        $ris = eseguiQuery($con, $sql);
         if ($val = mysqli_fetch_array($ris))
         {
             $cognome = $val["cognome"];
@@ -1789,13 +1788,13 @@ if ($cambiamentopassword)
 
         if ($tipoutente == "L")
         {
-            
+
 
             //
             //  ANNOTAZIONI RECENTI
             //
             
-            $idclassealunno = estrai_classe_alunno($_SESSION['idutente']-2100000000, $con);
+            $idclassealunno = estrai_classe_alunno($_SESSION['idutente'] - 2100000000, $con);
             $datalimiteinferiore = aggiungi_giorni(date('Y-m-d'), -5);
             $query = "select * from tbl_annotazioni
                 where idclasse=$idclassealunno

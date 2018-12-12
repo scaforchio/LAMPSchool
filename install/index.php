@@ -1,12 +1,12 @@
-<?php session_start();
+<?php
+
+session_start();
 /**
  * Aggiornamento di LAMPSchool per installazioni multiple
  *
  * @copyright  Copyright (C) 2014-2016 Renato Tamilio, Pietro Tamburrano
  * @license    GNU Affero General Public License versione 3 o successivi; vedete agpl-3.0.txt
  */
-
-
 $lista = array();
 
 if (!($dp = opendir("../")))
@@ -18,7 +18,6 @@ while ($file = readdir($dp))
 {
 
     $lista[] = $file;
-
 }
 
 sort($lista);
@@ -37,7 +36,6 @@ foreach ($lista as $nome)
             $nomeprimoini = $nome;
         }
     }
-
 }
 
 
@@ -45,8 +43,7 @@ if ($numfileini > 0)
 {
 
     @require_once "../" . $nomeprimoini;
-}
-else
+} else
 {
     $versioneprecedente = "";
 }
@@ -56,7 +53,7 @@ require_once 'funzioni_install.php';
 
 $json = leggeFileJSON('../lampschool.json');
 $titolo = 'Installazione di ' . $json['titolo'] . ' ' . $json['versione'];
-$_SESSION['versione']=$json['versione'];
+$_SESSION['versione'] = $json['versione'];
 $_SESSION['versioneprecedente'] = $versioneprecedente;
 
 
@@ -72,8 +69,7 @@ if ($json['versione'] == $versioneprecedente)
    </center>
    <form id='formInstall' method='post'>
    </form>";
-}
-else
+} else
 {
     if (isset($nome_scuola))
     {
@@ -84,8 +80,7 @@ else
               <form id='formInstall' method='post'>
               </form>";
         stampaPulsanti('', 'updateparametri', '', 'Aggiorna');
-    }
-    else
+    } else
     {
         print "
               <form id='formInstall' method='post'>

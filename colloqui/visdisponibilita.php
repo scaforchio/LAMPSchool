@@ -72,7 +72,7 @@ if ($_SESSION['tipoutente'] != 'T')
     //  Riempimento combobox delle tbl_classi
     //
 	$query = "select distinct tbl_classi.idclasse,anno,sezione,specializzazione from tbl_classi order by anno,sezione,specializzazione";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($nom = mysqli_fetch_array($ris))
     {
         print "<option value='";
@@ -103,7 +103,7 @@ else
 	        and tbl_cattnosupp.iddocente!=1000000000
 	        order by cognome,nome";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($_SESSION['tipoutente'] == 'T')
     print "<table border=1 align=center><tr class='prima'><td>Docente</td><td>Ricevimento</td><td>Appuntamento</td></tr>";
 else
@@ -120,7 +120,7 @@ while ($nom = mysqli_fetch_array($ris))
 			         where idclasse=$idclasse and iddocente=" . $nom['iddocente'] .
                 " and idalunno=0";
         // print inspref($query);        
-        $rismat = eseguiQuery($con,$query);
+        $rismat = eseguiQuery($con, $query);
         print "<small>";
         while ($recmat = mysqli_fetch_array($rismat))
         {
@@ -137,7 +137,7 @@ while ($nom = mysqli_fetch_array($ris))
             " and tbl_orericevimento.valido 
 		         order by giorno,inizio,fine";
 
-    $ris2 = eseguiQuery($con,$query);
+    $ris2 = eseguiQuery($con, $query);
     while ($nom2 = mysqli_fetch_array($ris2))
     {
         print giornodanum($nom2['giorno']) . " " . substr($nom2['inizio'], 0, 5) . "-" . substr($nom2["fine"], 0, 5) . "  " . $nom2['note'] . "<br>";

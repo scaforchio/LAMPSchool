@@ -68,7 +68,7 @@ if (!$DB)
 // VERIFICO SE E' IL PRIMO DOCENTE, IN QUESTO CASO AGGIUNGO 1000000 ALL'IDDOCENTE
 
 $que = "select * from tbl_docenti where iddocente>1000000000";
-$res = mysqli_query($con, inspref($que));
+$res = eseguiQuery($con,$que);
 if (mysqli_num_rows($res) == 0)
 {
     $iddocente = 1000000001;
@@ -130,7 +130,7 @@ if ($err == 1)
     print("</form></center>");
 } else
 {
-    $res = eseguiQuery($con,$query);
+    $res = eseguiQuery($con, $query);
 
     if (!$res)
     {
@@ -140,20 +140,20 @@ if ($err == 1)
         $iddocenteinserito = mysqli_insert_id($con);
         // Aggiorno l'idutente del docente
         $query = "update tbl_docenti set idutente=$iddocenteinserito where iddocente=$iddocenteinserito";
-        if (!$res = eseguiQuery($con,$query))
+        if (!$res = eseguiQuery($con, $query))
             die("Errore aggiornamento id utente del docente!");
         // INSERISCO ANCHE IL RECORD NELLA TABELLA DEGLI tbl_utenti
         $utente = "doc" . ($iddocenteinserito - 1000000000);
         $utentemoodle = "doc" . $_SESSION['suffisso'] . ($iddocenteinserito - 1000000000);
         $password = creapassword();
         $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$iddocenteinserito','$utente',md5('" . md5($password) . "'),'D')";
-        $res = eseguiQuery($con,$sqlt);
+        $res = eseguiQuery($con, $sqlt);
         if ($tokenservizimoodle != '')
         {
-            
-            if ($email== "")
+
+            if ($email == "")
                 $email = $usernamedocente . "@dominioemailfittizio.it";
-            
+
             $esito = creaUtenteMoodle($tokenservizimoodle, $urlmoodle, $utentemoodle, $password, $cognome, $nome, $email);
             print "<br>Esito: $esito";
             if ((strstr($esito, $utentemoodle) > -1))

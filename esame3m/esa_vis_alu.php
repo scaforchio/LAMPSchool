@@ -1,22 +1,24 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
-/*programma per la visualizzazione di un componente scelto di una classe con parametro in 
+/* programma per la visualizzazione di un componente scelto di una classe con parametro in 
   ingresso "idcla" e parametro in uscita "idal" */
 //connessione al server
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -76,7 +78,7 @@ if (!$db)
 
 $sq = "SELECT * FROM tbl_classi
        WHERE idclasse='$n' ";
-$res = mysqli_query($con, inspref($sq));
+$res = eseguiQuery($con,$sq);
 $dati1 = mysqli_fetch_array($res);
 
 //imposta la tabella del titolo
@@ -88,7 +90,7 @@ print("<table width='100%'>
 $sql = "SELECT * FROM tbl_alunni
        WHERE 1=1
        AND idclasseesame='$n' ORDER BY idclasse DESC,cognome,nome";
-$result = eseguiQuery($con,$sql);
+$result = eseguiQuery($con, $sql);
 
 
 
@@ -107,10 +109,9 @@ print ("</tr>");
 if (!(mysqli_num_rows($result) > 0))
 {
     print("<tr bgcolor='#cccccc'><td colspan='7'><center><b>Nessun alunno presente</b></td></tr>");
-}
-else
+} else
 {
-    $contatore=0;
+    $contatore = 0;
     while ($dati = mysqli_fetch_array($result))
     {
         $contatore++;
@@ -124,8 +125,7 @@ else
         if ($dati['certificato'])
         {
             print("<td><img src='../immagini/apply_small.png'></td>");
-        }
-        else
+        } else
         {
             print("<td>&nbsp;</td>");
         }
@@ -137,7 +137,6 @@ else
         print "</td>";
         print "</tr>";
     }
-
 }
 print("</table><br/>");
 print("<center>");
@@ -154,5 +153,5 @@ print"<br/>";
 
 mysqli_close($con);
 stampa_piede("");
-    
+
 

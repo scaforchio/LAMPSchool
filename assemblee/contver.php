@@ -51,11 +51,10 @@ $idclasse = stringa_html('idclasse');
 //
 //   Classi
 //
-
 //STAMPO TABELLA IN BASE ALLA CLASSE
 
 $query = "SELECT * FROM tbl_assemblee WHERE consegna_verbale=1 and visione_verbale=0";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 print "<br/><br/><center><table border ='1' cellpadding='5'>";
 
 print "<tr class='prima'>
@@ -68,17 +67,16 @@ print "<tr class='prima'>
 if (mysqli_num_rows($ris) == 0)
 {
     print "<td colspan='5' align='center'><b><i>Nessun verbale da visionare</i></b></td>";
-}
-else
+} else
 {
     while ($data = mysqli_fetch_array($ris))
     {
         print "<form action='registra_visione.php' method='POST'>";
-        
+
         // CLASSE
-        print "<td align='center'>" . decodifica_classe($data['idclasse'],$con);
+        print "<td align='center'>" . decodifica_classe($data['idclasse'], $con);
         //DATA RICHIESTA
-        print "<br>" . data_italiana($data['dataassemblea'])."<br>";
+        print "<br>" . data_italiana($data['dataassemblea']) . "<br>";
 
         //DOCENTI CONCEDENTI
         $doc = "SELECT cognome,nome FROM tbl_docenti WHERE iddocente=" . $data['docenteconcedente1'];
@@ -87,15 +85,15 @@ else
             $doc .= " OR iddocente=" . $data['docenteconcedente2'] . " ORDER BY cognome";
         }
         print "<br> DOC. CON. ";
-        $risdoc = eseguiQuery($con,$doc);
+        $risdoc = eseguiQuery($con, $doc);
         while ($datadoc = mysqli_fetch_array($risdoc))
         {
             print ($datadoc['cognome'] . "&nbsp;" . $datadoc['nome'] . "<br/>");
         }
-       
+
         //DOCENTE AUTORIZZANTE (se esiste)
         $doc = "SELECT cognome,nome FROM tbl_docenti WHERE iddocente=" . $data['docenteautorizzante'];
-        $risdoc = eseguiQuery($con,$doc);
+        $risdoc = eseguiQuery($con, $doc);
         $datadoc = mysqli_fetch_array($risdoc);
         print "<br>DOC. AUT. " . $datadoc['cognome'] . "&nbsp;" . $datadoc['nome'] . "</td>";
 
@@ -103,8 +101,7 @@ else
         if ($data['consegna_verbale'] == 0)
         {
             print "<td align='center'><img src='../immagini/red_cross.gif'></td>";
-        }
-        else
+        } else
         {
             print "<td>" . nl2br($data['verbale']) . "</td>";
         }
@@ -117,7 +114,7 @@ else
 
         //BOTTONE INVIO
         print "<td><input type='submit' value='Registra visione'>";
-        
+
         print "</td>";
         print "<input type='hidden' name='idassemblea' value='" . $data['idassemblea'] . "'>";
         print "<input type='hidden' name='iddocente' value='" . $iddocente . "'>";

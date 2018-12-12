@@ -50,10 +50,10 @@ $idassemblea = stringa_html('idassemblea');
 
 $segretario = stringa_html('segretario');
 $verbale = stringa_html('verbale');
-$oratermine= stringa_html('oratermine');
+$oratermine = stringa_html('oratermine');
 
 $query = "UPDATE tbl_assemblee SET verbale='" . $verbale . "', alunnosegretario=$segretario, oratermine='$oratermine' WHERE idassemblea=$idassemblea";
-$ris2 = eseguiQuery($con,$query);
+$ris2 = eseguiQuery($con, $query);
 
 header("Location: assricgen.php?idclasse=$idclasse");
 

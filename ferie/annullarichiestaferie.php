@@ -50,10 +50,10 @@ $prot = stringa_html('prot');
 // Concessione = 9 corrisponde a richiesta annullata.
 $query = "update tbl_richiesteferie set concessione=9 where idrichiestaferie=$prot";
 
-eseguiQuery($con,$query);
+eseguiQuery($con, $query);
 
 
-        print "<form method='post' id='formlez' action='esamerichferie.php'>
+print "<form method='post' id='formlez' action='esamerichferie.php'>
        <input type='submit' value='OK'>
        </form>
        <SCRIPT language='JavaScript'>
@@ -61,7 +61,7 @@ eseguiQuery($con,$query);
 	      document.getElementById('formlez').submit();
 	  }
        </SCRIPT>";
-    
+
 
 
 mysqli_close($con);

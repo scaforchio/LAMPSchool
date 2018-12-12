@@ -87,7 +87,7 @@ print('
 
 $query = "select idclasse, anno, sezione, specializzazione from tbl_classi where $annocomp order by anno, sezione, specializzazione";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -129,7 +129,7 @@ if ($idclasse != '')
         if ($annoclasse == 5)
             $livscuola = $livello_scuola;
         $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         while ($rec = mysqli_fetch_array($ris))
         {
             $competenzedes[] = $rec['compcheuropea'];
@@ -137,7 +137,7 @@ if ($idclasse != '')
         }
         $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
 
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         $numeroalunni = mysqli_num_rows($ris);
 
         if ($numeroalunni > 0)
@@ -157,7 +157,7 @@ if ($idclasse != '')
                 $proposteimportate = false;
                 $idalunno = $nom['idalunno'];
                 $query = "select * from tbl_certcompvalutazioni where idalunno='$idalunno'";
-                $ris2 = eseguiQuery($con,$query);
+                $ris2 = eseguiQuery($con, $query);
                 if (mysqli_num_rows($ris2) == 0)
                 {
                     if (importa_proposte($con, $idalunno, $livscuola))
@@ -194,10 +194,10 @@ if ($idclasse != '')
             if ($proposteimportate)
                 print "<center><font color='green'><big>Proposte importate!</big></font></center><br>";
             else
-                if ($ricarica!='yes')
-                   print "<center><font color='red'><big>Nessuna nuova proposta presente!</big></font></center><br>";
-                else
-                   print "<center><font color='green'><big>Proposte reimportate!</big></font></center><br>"; 
+            if ($ricarica != 'yes')
+                print "<center><font color='red'><big>Nessuna nuova proposta presente!</big></font></center><br>";
+            else
+                print "<center><font color='green'><big>Proposte reimportate!</big></font></center><br>";
             if ($scrutiniochiuso)
             {
                 print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse&data=$datastampa&firma=$firmadirig' target='_blank'>Stampa schede</a><br><br>";
@@ -208,13 +208,13 @@ if ($idclasse != '')
                                                  <input type='hidden' name='livscuola' value='$livscuola'>    
 						 <center><br>ATTENZIONE! La reimportazione delle proposte annullerà eventuali modifiche apportate.<br>
 						 <input type='submit' value='Ricarica proposte'></center></form>";
-                
-                
+
+
                 print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse' target='_blank'>Stampa schede</a><br><br>";
             }
         }
     }
-    if ($tipoutente=='A')
+    if ($tipoutente == 'A')
     {
         $competenzedes = array();
         $competenzecod = array();
@@ -226,7 +226,7 @@ if ($idclasse != '')
         if ($annoclasse == 5)
             $livscuola = $livello_scuola;
         $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         while ($rec = mysqli_fetch_array($ris))
         {
             $competenzedes[] = $rec['compcheuropea'];
@@ -239,7 +239,7 @@ if ($idclasse != '')
 
         $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
 
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         $numeroalunni = mysqli_num_rows($ris);
 
         if ($numeroalunni > 0)
@@ -286,13 +286,13 @@ if ($idclasse != '')
             }
             print "</table>";
 
-            
+
             if ($scrutiniochiuso)
             {
                 print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse&data=$datastampa&firma=$firmadirig' target='_blank'>Stampa schede</a><br><br>";
             } else
             {
-                
+
                 print "<br><br><center><a href='./stampacertcomp.php?classe=$idclasse' target='_blank'>Stampa schede</a><br><br>";
             }
         }

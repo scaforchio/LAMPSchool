@@ -1,21 +1,23 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo modificarlo 
-* secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo modificarlo
+ * secondo i termini della 
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 
@@ -45,17 +47,17 @@ $script = "<script type='text/javascript'>
                }
          //-->
          </script>";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
-$incrementovoto=0.25;
+$incrementovoto = 0.25;
 if (isset($solovotiinteri))
-if ($solovotiinteri=='yes')
-    $incrementovoto=1.00;
+    if ($solovotiinteri == 'yes')
+        $incrementovoto = 1.00;
 
 $cattedra = '';
 $giorno = '';
@@ -97,7 +99,7 @@ $giornosettimana = "";
 if ($idlezionegruppo != "")
 {
     $query = "select * from tbl_lezionigruppi where idlezionegruppo=$idlezionegruppo";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     $lez = mysqli_fetch_array($ris);
     $idgruppo = $lez['idgruppo'];
 
@@ -120,15 +122,13 @@ if ($idgruppo != "" & $giorno != "" & $meseanno != "") // & $orainizio!="")
 
     $query = "select iddocente, idmateria from tbl_gruppi where idgruppo=$idgruppo";
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($nom = mysqli_fetch_array($ris))
     {
         $materia = $nom['idmateria'];
         //   $idclasse=$nom['idclasse'];
         $iddocente = $nom['iddocente'];
     }
-
-
 }
 // }
 
@@ -165,32 +165,31 @@ echo('   <td width="50%">');
 if ($provenienza == "")
 {
     echo('   <select name="gio"  ONCHANGE="voti.submit()">');
-}
-else
+} else
 {
     echo('   <select name="gio"  disabled ONCHANGE="voti.submit()">');
 }
 require '../lib/aggiungi_giorni_a_select.php';
 /*
-for  ($g = 1; $g <= 31; $g++)
-{
-    if ($g < 10)
-    {
-        $gs = '0' . $g;
-    }
-    else
-    {
-        $gs = '' . $g;
-    }
-    if ($gs == $giorno)
-    {
-        echo("<option selected>$gs</option>");
-    }
-    else
-    {
-        echo("<option>$gs</option>");
-    }
-}
+  for  ($g = 1; $g <= 31; $g++)
+  {
+  if ($g < 10)
+  {
+  $gs = '0' . $g;
+  }
+  else
+  {
+  $gs = '' . $g;
+  }
+  if ($gs == $giorno)
+  {
+  echo("<option selected>$gs</option>");
+  }
+  else
+  {
+  echo("<option>$gs</option>");
+  }
+  }
  * 
  */
 
@@ -203,45 +202,45 @@ echo('   <select name="meseanno" ONCHANGE="voti.submit()">');
 //   echo('   <select name="meseanno" disabled ONCHANGE="voti.submit()">');
 require '../lib/aggiungi_mesi_a_select.php';
 /*
-for  ($m = 9; $m <= 12; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = "0" . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscol");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscol");
-    }
-}
-$annoscolsucc = $annoscol + 1;
-for ($m = 1; $m <= 8; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = '0' . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscolsucc");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscolsucc");
-    }
-}
+  for  ($m = 9; $m <= 12; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = "0" . $m;
+  }
+  else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscol");
+  }
+  else
+  {
+  echo("<option>$ms - $annoscol");
+  }
+  }
+  $annoscolsucc = $annoscol + 1;
+  for ($m = 1; $m <= 8; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = '0' . $m;
+  }
+  else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscolsucc");
+  }
+  else
+  {
+  echo("<option>$ms - $annoscolsucc");
+  }
+  }
  * 
  */
 echo("</select>");
@@ -266,25 +265,22 @@ if ($materia != "" and $idclasse != "")
         if (cattedra($id_ut_doc, $materia, $idclasse, $con))
         {
             $query = "select iddocente, cognome, nome from tbl_docenti where idutente=$id_ut_doc";
-        }
-        else
+        } else
         {
             $iddocente = $id_ut_doc;
             $query = "select iddocente, cognome, nome from tbl_docenti where idutente=$iddocente";
         }
-    }
-    else
+    } else
     {
         $query = "select iddocente, cognome, nome from tbl_docenti where idutente=$id_ut_doc";
     }
-}
-else
+} else
 {
     $query = "select iddocente, cognome, nome from tbl_docenti where idutente=$id_ut_doc";
 }
 
 // print $query;
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($nom = mysqli_fetch_array($ris))
 {
     $iddocente = $nom["iddocente"];
@@ -312,8 +308,7 @@ if ($provenienza == "")
         <td width="50%"><b>Gruppo</b></p></td>
         <td width="50%"> 
         <SELECT ID="gruppo" NAME="idgruppo" ONCHANGE="voti.submit()"><option value="">&nbsp;');
-}
-else
+} else
 {
     print('
         <tr>
@@ -330,7 +325,7 @@ $query = "select idgruppo,descrizione
         where iddocente=$iddocente 
         order by descrizione";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     $strvis = $nom['descrizione'];
@@ -344,7 +339,6 @@ while ($nom = mysqli_fetch_array($ris))
         print " selected";
     }
     print ">$strvis";
-
 }
 
 
@@ -362,7 +356,7 @@ if ($idgruppo != '' & $giorno != '' & $mese != '')
     $query = "select idlezionegruppo, orainizio, numeroore from tbl_lezionigruppi
            where idgruppo='$idgruppo' and datalezione='$anno-$mese-$giorno'";
 
-    $reslezpres = eseguiQuery($con,$query);
+    $reslezpres = eseguiQuery($con, $query);
 
     if (mysqli_num_rows($reslezpres) > 0)
     {
@@ -370,14 +364,12 @@ if ($idgruppo != '' & $giorno != '' & $mese != '')
         if ($orainizionew != "")
         {
             print "<select name='orainizioold' disabled ONCHANGE='voti.submit()'><option value=''>&nbsp;";
-        }
-        else
+        } else
         {
             if ($provenienza == "")
             {
                 print "<select name='orainizioold'  ONCHANGE='voti.submit()'><option value=''>&nbsp;";
-            }
-            else
+            } else
             {
                 print "<select name='orainizioold' disabled ONCHANGE='voti.submit()'><option value=''>&nbsp;";
             }
@@ -388,19 +380,15 @@ if ($idgruppo != '' & $giorno != '' & $mese != '')
             if ($strore != $orainizioold)
             {
                 print "<option>" . $strore;
-            }
-            else
+            } else
             {
                 print "<option selected>" . $strore;
-
             }
             for ($i = $vallezpres['orainizio']; $i <= ($vallezpres['orainizio'] - 1 + $vallezpres['numeroore']); $i++)
                 $oredisp[$i] = 1;
         }
         print "</select>";
-
-    }
-    else
+    } else
     {
         $orainizioold = "";
     }
@@ -413,14 +401,12 @@ if ($idgruppo != '' & $giorno != '' & $mese != '')
     if ($orainizioold != "")
     {
         print "<select name='orainizionew' disabled ONCHANGE='voti.submit()'><option value=''>&nbsp;";
-    }
-    else
+    } else
     {
         if ($provenienza == "")
         {
             print "<select name='orainizionew'  ONCHANGE='voti.submit()'><option value=''>&nbsp;";
-        }
-        else
+        } else
         {
             print "<select name='orainizionew' disabled ONCHANGE='voti.submit()'><option value=''>&nbsp;";
         }
@@ -436,8 +422,7 @@ if ($idgruppo != '' & $giorno != '' & $mese != '')
                 if ($strore != $orainizionew)
                 {
                     print "<option>$strore";
-                }
-                else
+                } else
                 {
                     print "<option selected>$strore";
                 }
@@ -464,16 +449,14 @@ echo('</td>
 if ($mese == "")
 {
     $m = 0;
-}
-else
+} else
 {
     $m = $mese;
 }
 if ($giorno == "")
 {
     $g = 0;
-}
-else
+} else
 {
     $g = $giorno;
 }
@@ -481,8 +464,7 @@ else
 if ($anno == "")
 {
     $a = 0;
-}
-else
+} else
 {
     $a = $anno;
 }
@@ -493,14 +475,12 @@ $giornosettimana = giorno_settimana($anno . "-" . $mese . "-" . $giorno);
 if (!checkdate($m, $g, $a))
 {
     print ("<center> <big><big>Data non corretta!</big></big> </center>");
-}
-else
+} else
 {
     if ($giornosettimana == "Dom")
     {
         print ("<center> <big><big>Il giorno selezionato &egrave; una domenica!</big></big> </center>");
-    }
-    else
+    } else
     {
         if (($idgruppo != "") & ($orainizioold != "" | $orainizionew != ""))
         {
@@ -508,7 +488,7 @@ else
             $classe = "";
 
             $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             if ($val = mysqli_fetch_array($ris))
             {
                 $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
@@ -523,8 +503,7 @@ else
             {
                 $postratt = strpos($orainizionew, "-");
                 $orainizio = substr($orainizionew, 0, $postratt);
-            }
-            else
+            } else
             {
                 $postratt = strpos($orainizioold, "-");
                 $orainizio = substr($orainizioold, 0, $postratt);
@@ -532,14 +511,13 @@ else
             if ($idlezionegruppo != "")
             {
                 $query = "select * from tbl_lezionigruppi where idlezionegruppo='$idlezionegruppo'";
-            }
-            else
+            } else
             {
                 $query = "select * from tbl_lezionigruppi where idgruppo=$idgruppo and orainizio='$orainizio' and datalezione='" . $anno . "-" . $mese . "-" . $giorno . "'";
             }
 
 
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             $l = mysqli_fetch_array($ris);
 
             if ($l != NULL)
@@ -549,8 +527,7 @@ else
                 $attivita = $l['attivita'];
                 $idlezionegruppo = $l['idlezionegruppo'];
                 // $iddocente=$l['iddocente'];
-            }
-            else
+            } else
             {
                 $numeroore = 0;
                 $argomenti = "";
@@ -580,8 +557,7 @@ else
                 $ini = substr($orainizionew, 0, $postratt);
                 $fin = substr($orainizionew, $postratt + 1);
                 $durata = 1 + ($fin - $ini);
-            }
-            else
+            } else
             {
                 $postratt = strpos($orainizioold, "-");
                 $ini = substr($orainizioold, 0, $postratt);
@@ -594,8 +570,7 @@ else
             {
                 print "<input type='hidden' name='argomenti' value='$argomenti'>";
                 print "<textarea cols=50 rows=10 disabled>";
-            }
-            else
+            } else
             {
                 print "<textarea cols=50 rows=10 name='argomenti'>";
             }
@@ -607,8 +582,7 @@ else
             {
                 print "<td><input type='hidden' name='attivita' value='$attivita'>";
                 print "<textarea cols=50 rows=10 disabled>";
-            }
-            else
+            } else
             {
                 print "<td><textarea cols=50 rows=10 name='attivita'>";
             }
@@ -631,8 +605,7 @@ else
   
             </tr>
            ";
-            }
-            else
+            } else
             {
                 print "<center><table class='smallchar' border='2'>
             <tr class='prima'>
@@ -664,7 +637,7 @@ else
             $query = "select * from tbl_valutazioniintermedie
           where idlezione
           in (select idlezione from tbl_lezioni where idlezionegruppo='$idlezionegruppo')";
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             while ($rec = mysqli_fetch_array($ris))
             {
                 $idaluvoti[] = $rec['idalunno'];
@@ -678,12 +651,11 @@ else
             $query = "select * from tbl_asslezione
           where idlezione in
           (select idlezione from tbl_lezioni where idlezionegruppo='$idlezionegruppo')";
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             while ($rec = mysqli_fetch_array($ris))
             {
                 $idaluasse[] = $rec['idalunno'];
                 $assenze[] = $rec['oreassenza'];
-
             }
 
             $query = "select tbl_alunni.idalunno,idclasse,cognome,nome,datanascita
@@ -691,7 +663,7 @@ else
              where tbl_gruppialunni.idalunno=tbl_alunni.idalunno
              and idgruppo=$idgruppo
              order by cognome, nome, datanascita";
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
 
 
             $numreg = 0;
@@ -702,8 +674,7 @@ else
                 if (!alunno_certificato($val['idalunno'], $con))
                 {
                     $cert = "";
-                }
-                else
+                } else
                 {
                     $cert = "<img src='../immagini/apply_small.png'>";
                 }
@@ -722,8 +693,7 @@ else
                 if ($assenzapresente != 0)
                 {
                     $oreassenza = $assenzapresente;
-                }
-                else
+                } else
                 {
                     $oreassenza = 0;
                 }
@@ -739,8 +709,7 @@ else
                     if ($i != $oreassenza)
                     {
                         print "<option>" . $i;
-                    }
-                    else
+                    } else
                     {
                         print "<option selected>" . $i;
                     }
@@ -764,8 +733,7 @@ else
                     $docente = $arrvoto[3];
                     $$voto_medio = voto_combinato($arrvoto[0], $con);
                     $altro_docente = ($docente != $id_ut_doc);
-                }
-                else
+                } else
                 {
                     $esiste_voto = false;
                 }
@@ -778,8 +746,7 @@ else
                         if (!$voto_medio & !$altro_docente)
                         {
                             echo '<select class="smallchar" name="votos' . $val["idalunno"] . '"><option value=99>&nbsp;';
-                        }
-                        else
+                        } else
                         {
                             echo '<select class="smallchar" name="votos' . $val["idalunno"] . '" disabled><option value=99>&nbsp;';
                         }
@@ -791,37 +758,32 @@ else
                                 if ($voto == $v)
                                 {
                                     echo '<option value=' . $v . ' selected>' . dec_to_mod($v);
-                                }
-                                else
+                                } else
                                 {
                                     echo '<option value=' . $v . '>' . dec_to_mod($v);
                                 }
                             }
-                        }
-                        else
+                        } else
                         {
                             for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                             {
                                 if ($voto == $v)
                                 {
                                     echo '<option value=' . $v . ' selected>' . dec_to_mod($v);
-                                }
-                                else
+                                } else
                                 {
                                     echo '<option value=' . $v . '>' . dec_to_mod($v);
                                 }
                             }
                         }
                         echo '</select>&nbsp';
-                    }
-                    else
+                    } else
                     {
                         echo '<input type="hidden" name="votos' . $val["idalunno"] . '" value="' . $voto . '">';
                     }
                     echo '<input class="smallchar" type="text" size=15 maxlength=150 name="giudizios' . $val["idalunno"] . '" value="' . $giudizio . '">
               </td>';
-                }
-                else
+                } else
                 {
                     echo '<td>';
                     if ($valutazionedecimale == 'yes')
@@ -834,8 +796,7 @@ else
 
                                 echo '<option value=' . $v . '>' . dec_to_mod($v);
                             }
-                        }
-                        else
+                        } else
                         {
                             for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                             {
@@ -846,8 +807,7 @@ else
 
 
                         echo '</select>&nbsp;';
-                    }
-                    else
+                    } else
                     {
                         echo '<input type="hidden" name="votos' . $val["idalunno"] . '" value=99>';
                     }
@@ -868,8 +828,7 @@ else
                     $docente = $arrvoto[3];
                     $voto_medio = voto_combinato($arrvoto[0], $con);
                     $altro_docente = ($docente != $id_ut_doc);
-                }
-                else
+                } else
                 {
                     $esiste_voto = false;
                 }
@@ -882,8 +841,7 @@ else
                         if (!$voto_medio & !$altro_docente)
                         {
                             echo '<select class="smallchar" name="votoo' . $val["idalunno"] . '"><option value=99>&nbsp;';
-                        }
-                        else
+                        } else
                         {
                             echo '<select class="smallchar" name="votoo' . $val["idalunno"] . '" disabled><option value=99>&nbsp;';
                         }
@@ -895,22 +853,19 @@ else
                                 if ($voto == $v)
                                 {
                                     echo '<option value=' . $v . ' selected>' . dec_to_mod($v);
-                                }
-                                else
+                                } else
                                 {
                                     echo '<option value=' . $v . '>' . dec_to_mod($v);
                                 }
                             }
-                        }
-                        else
+                        } else
                         {
                             for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                             {
                                 if ($voto == $v)
                                 {
                                     echo '<option value=' . $v . ' selected>' . dec_to_mod($v);
-                                }
-                                else
+                                } else
                                 {
                                     echo '<option value=' . $v . '>' . dec_to_mod($v);
                                 }
@@ -918,15 +873,13 @@ else
                         }
 
                         echo '</select>&nbsp';
-                    }
-                    else
+                    } else
                     {
                         echo '<input type="hidden" name="votoo' . $val["idalunno"] . '" value="' . $voto . '">';
                     }
                     echo '<input class="smallchar" type="text" size=15 maxlength=150 name="giudizioo' . $val["idalunno"] . '" value="' . $giudizio . '">
               </td>';
-                }
-                else
+                } else
                 {
                     echo '<td>';
                     if ($valutazionedecimale == 'yes')
@@ -939,8 +892,7 @@ else
 
                                 echo '<option value=' . $v . '>' . dec_to_mod($v);
                             }
-                        }
-                        else
+                        } else
                         {
                             for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                             {
@@ -950,8 +902,7 @@ else
                         }
 
                         echo '</select>&nbsp;';
-                    }
-                    else
+                    } else
                     {
                         echo '<input type="hidden" name="votoo' . $val["idalunno"] . '" value="' . $voto . '">';
                     }
@@ -972,8 +923,7 @@ else
                     $docente = $arrvoto[3];
                     $voto_medio = voto_combinato($arrvoto[0], $con);
                     $altro_docente = ($docente != $id_ut_doc);
-                }
-                else
+                } else
                 {
                     $esiste_voto = false;
                 }
@@ -986,8 +936,7 @@ else
                         if (!$voto_medio & !$altro_docente)
                         {
                             echo '<select class="smallchar" name="votop' . $val["idalunno"] . '"><option value=99>&nbsp;';
-                        }
-                        else
+                        } else
                         {
                             echo '<select class="smallchar" name="votop' . $val["idalunno"] . '" disabled><option value=99>&nbsp;';
                         }
@@ -998,22 +947,19 @@ else
                                 if ($voto == $v)
                                 {
                                     echo '<option value=' . $v . ' selected>' . dec_to_mod($v);
-                                }
-                                else
+                                } else
                                 {
                                     echo '<option value=' . $v . '>' . dec_to_mod($v);
                                 }
                             }
-                        }
-                        else
+                        } else
                         {
                             for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                             {
                                 if ($voto == $v)
                                 {
                                     echo '<option value=' . $v . ' selected>' . dec_to_mod($v);
-                                }
-                                else
+                                } else
                                 {
                                     echo '<option value=' . $v . '>' . dec_to_mod($v);
                                 }
@@ -1021,15 +967,13 @@ else
                         }
 
                         echo '</select>&nbsp';
-                    }
-                    else
+                    } else
                     {
                         echo '<input type="hidden" name="votop' . $val["idalunno"] . '" value="' . $voto . '">';
                     }
                     echo '<input class="smallchar" type="text" size=15 maxlength=150 name="giudiziop' . $val["idalunno"] . '" value="' . $giudizio . '">
               </td>';
-                }
-                else
+                } else
                 {
                     echo '<td>';
                     if ($valutazionedecimale == 'yes')
@@ -1041,8 +985,7 @@ else
                             {
                                 echo '<option value=' . $v . '>' . dec_to_mod($v);
                             }
-                        }
-                        else
+                        } else
                         {
                             for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                             {
@@ -1051,16 +994,13 @@ else
                         }
 
                         echo '</select>&nbsp;';
-                    }
-                    else
+                    } else
                     {
                         echo '<input type="hidden" name="votop' . $val["idalunno"] . '" value="' . $voto . '">';
                     }
                     echo '<input class="smallchar" type="text" size=15 maxlength=150 name="giudiziop' . $val["idalunno"] . '">
               </td>';
                 }
-
-
             }
             echo '</table></center>';
 
@@ -1084,8 +1024,7 @@ else
             if (controlla_scadenza($maxgiorniritardolez, $giorno, $mese, $anno))
             {
                 echo '<p align="center"><input type=submit name=b value="Inserisci lezione">';
-            }
-            else
+            } else
             {
                 print '<p align="center"><font color="red"><b>Tempo scaduto per modifica lezione! Rivolgersi a dirigente scolastico!</b></font></p>';
             }
@@ -1097,35 +1036,12 @@ else
 
             echo '
        </td></tr>';
-            // Visualizzo firme attuali
-            /* $queryfirme="select cognome, nome from tbl_firme,tbl_docenti
-                          where tbl_firme.iddocente=tbl_docenti.iddocente
-                          and idlezione='$idlezione'";
-             $resfirme= mysqli_query($con,inspref($queryfirme)) or die(mysqli_error($con));
-             if (mysqli_num_rows($resfirme)>0)
-
-             {
-                 print "<tr><td align=center><b>Firme:</b>";
-                 while ($valfirme=mysqli_fetch_array($resfirme))
-                 {
-                     $cogn=$valfirme['cognome'];
-                     $nome=$valfirme['nome'];
-                     print "<br>$cogn $nome";
-                 }
-                 print "</td></tr>";
-             }
-
-              */
 
             echo '</table></form>';
-
-
-        }
-        else
+        } else
         {
 
             print "";
-
         }
     }
 }
@@ -1154,7 +1070,6 @@ function ricerca_voto($idalunno, $tipo, $arridal, $arrtipov, $arrval, $arrgiud, 
     $arr_id_val[] = "";
     $arr_id_val[] = 0;
     return $arr_id_val;
-
 }
 
 function ricerca_assenza($idalunno, $arridal, $arrass)
@@ -1174,17 +1089,15 @@ function ricerca_assenza($idalunno, $arridal, $arrass)
 function voto_combinato($idvoto, $con)
 {
     $query = "select * from tbl_valutazioniabilcono where idvalint=$idvoto";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if (mysqli_num_rows($ris) > 0)
     {
         return true;
-    }
-    else
+    } else
     {
         return false;
     }
 }
-
 
 function occupata($oredisp, $i, $j, $maxore)
 {
@@ -1204,12 +1117,11 @@ function occupata($oredisp, $i, $j, $maxore)
 function orediassenza($durata, $idalunno, $data, $con)
 {
     $queryass = "select * from tbl_assenze where idalunno=$idalunno and data='$data'";
-    $risass = mysqli_query($con, inspref($queryass)) or die ("Errore nella query: " . mysqli_error($con));
+    $risass = eseguiQuery($con, $queryass);
     if (mysqli_num_rows($risass) > 0)
     {
         return $durata;
-    }
-    else
+    } else
     {
         return 0;
     }
@@ -1218,15 +1130,12 @@ function orediassenza($durata, $idalunno, $data, $con)
 function cattedra($id_ut_doc, $idmateria, $idclasse, $con)
 {
     $querycatt = "select * from tbl_cattnosupp where idclasse='$idclasse' and idmateria='$idmateria' and iddocente='$id_ut_doc' and iddocente<>1000000000";
-    $riscatt = mysqli_query($con, inspref($querycatt)) or die ("Errore nella query: " . mysqli_error($con));
+    $riscatt = eseguiQuery($con,$querycatt);
     if (mysqli_num_rows($riscatt) > 0)
     {
         return true;
-    }
-    else
+    } else
     {
         return false;
     }
 }
-
-

@@ -1,21 +1,23 @@
-<?php session_start();
+<?php
+
+session_start();
 
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -31,7 +33,7 @@ if ($tipoutente == "")
 
 $titolo = "Inserimento assenze";
 $script = "";
-stampa_head($titolo, "", $script,"MSPD");
+stampa_head($titolo, "", $script, "MSPD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -42,49 +44,47 @@ $data = $anno . "-" . $mese . "-" . $gio;
 //print $data;
 $idclasse = stringa_html('cl');
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
-$query = "SELECT idalunno AS al FROM tbl_alunni WHERE idalunno in (".estrai_alunni_classe_data($idclasse,$data,$con).")";
-$ris = eseguiQuery($con,$query);
+$query = "SELECT idalunno AS al FROM tbl_alunni WHERE idalunno in (" . estrai_alunni_classe_data($idclasse, $data, $con) . ")";
+$ris = eseguiQuery($con, $query);
 
 
 while ($id = mysqli_fetch_array($ris))
 {
-    $cambiamento=false;
+    $cambiamento = false;
     $idal = stringa_html('ass' . $id['al']) ? "on" : "off";
     if ($idal == "off")
     {
         $query = 'SELECT * FROM tbl_assenze WHERE idalunno=' . $id['al'] . ' AND data="' . $data . '"';
-        $rissel = eseguiQuery($con,$query);
+        $rissel = eseguiQuery($con, $query);
         if (mysqli_num_rows($rissel) > 0)
         {
             $query = 'DELETE FROM tbl_assenze WHERE idalunno=' . $id['al'] . ' AND data="' . $data . '"';
-            $risdel = eseguiQuery($con,$query);
+            $risdel = eseguiQuery($con, $query);
             // elimina_assenze_lezione($con,$id['al'],$data);
-            $cambiamento=true;
+            $cambiamento = true;
         }
     }
     if ($idal == "on")
     {
         $query = 'SELECT * FROM tbl_assenze WHERE idalunno=' . $id['al'] . ' AND data="' . $data . '"';
-        $riscer = eseguiQuery($con,$query);
+        $riscer = eseguiQuery($con, $query);
         if (mysqli_num_rows($riscer) == 0)
         {
             $query = 'INSERT INTO tbl_assenze(idalunno,data) VALUES(' . $id['al'] . ',"' . $data . '")';
-            $risins = eseguiQuery($con,$query);
-            $cambiamento=true;
+            $risins = eseguiQuery($con, $query);
+            $cambiamento = true;
         }
-
-
     }
     if ($cambiamento)
     {
         elimina_assenze_lezione($con, $id['al'], $data);
         inserisci_assenze_per_ritardi_uscite($con, $id['al'], $data);
     }
-   // ricalcola_uscite($con,$id['al'],$data,$data);
-   // ricalcola_assenze($con,$id['al'],$data,$data);
+    // ricalcola_uscite($con,$id['al'],$data,$data);
+    // ricalcola_assenze($con,$id['al'],$data,$data);
 }
 
 if ($_SESSION['regcl'] != "")
@@ -105,8 +105,7 @@ if ($_SESSION['regcl'] != "")
         <SCRIPT language='JavaScript'>
            document.getElementById('formass').submit();
         </SCRIPT>";
-}
-else
+} else
 {
     echo '
            <p align="center">

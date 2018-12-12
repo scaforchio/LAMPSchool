@@ -54,7 +54,7 @@ $codalunno = stringa_html('alunno');
 // prelevamento dati alunno
 // $rs = $lQuery->selectstar('tbl_alunni', 'idalunno=?', array($codalunno));
 $query = "select * from tbl_alunni where idalunno=$codalunno";
-$rs = eseguiQuery($con,$query);
+$rs = eseguiQuery($con, $query);
 if ($rs)
 {
     $val = mysqli_fetch_array($rs); // ->fetch();
@@ -68,13 +68,13 @@ if ($rs)
 
 // conteggio assenze
 $query1 = "select count(*) as numeroassenze from tbl_assenze where idalunno='$codalunno'";
-$ris1 = eseguiQuery($con,$query1); //$lQuery->query($query1);
+$ris1 = eseguiQuery($con, $query1); //$lQuery->query($query1);
 
 if ($val1 = mysqli_fetch_array($ris1)) //->fetch())
 {
 // conteggio assenze non giustificate
     $query2 = "select count(*) as numeroassenze from tbl_assenze where idalunno='$codalunno' and (isnull(giustifica) or giustifica=0)";
-    $ris2 = eseguiQuery($con,$query2); //$lQuery->query($query2);
+    $ris2 = eseguiQuery($con, $query2); //$lQuery->query($query2);
     $val2 = mysqli_fetch_array($ris2); //$ris2->fetch();
     echo ' 
  <tr>
@@ -85,7 +85,7 @@ if ($val1 = mysqli_fetch_array($ris1)) //->fetch())
 
 // conteggio ritardi
 $query3 = "select count(*) as numeroritardi from tbl_ritardi where idalunno='$codalunno'";
-$ris3 = eseguiQuery($con,$query3); //$lQuery->query($query3);
+$ris3 = eseguiQuery($con, $query3); //$lQuery->query($query3);
 
 if ($val3 = mysqli_fetch_array($ris3)) //$ris3->fetch())
 {
@@ -93,7 +93,7 @@ if ($val3 = mysqli_fetch_array($ris3)) //$ris3->fetch())
     //  if ($giustifica_ritardi=='yes')
     //  {
     $query4 = "select count(*) as numeroritardi from tbl_ritardi where idalunno='$codalunno' and (isnull(giustifica) or giustifica=0)";
-    $ris4 = eseguiQuery($con,$query4);
+    $ris4 = eseguiQuery($con, $query4);
     $val4 = mysqli_fetch_array($ris4);
     $numritnongiust = $val4['numeroritardi'];
     //  }
@@ -107,7 +107,7 @@ if ($val3 = mysqli_fetch_array($ris3)) //$ris3->fetch())
 
 // conteggio uscite anticipate
 $query5 = "select count(*) as numerouscite from tbl_usciteanticipate where idalunno='$codalunno'";
-$ris5 = eseguiQuery($con,$query5);
+$ris5 = eseguiQuery($con, $query5);
 
 if ($val5 = mysqli_fetch_array($ris5))
 {
@@ -123,7 +123,7 @@ print "<tr>";
 // elenco tbl_assenze
 echo "<td valign=top>";
 $query6 = "select * from tbl_assenze where idalunno='$codalunno' order by data desc";
-$ris6 = eseguiQuery($con,$query6);
+$ris6 = eseguiQuery($con, $query6);
 
 while ($val6 = mysqli_fetch_array($ris6))
 {
@@ -155,7 +155,7 @@ echo "</td>";
 // elenco tbl_ritardi
 echo "<td valign=top>";
 $query7 = "select * from tbl_ritardi where idalunno='$codalunno' order by data desc";
-$ris7 = eseguiQuery($con,$query7);
+$ris7 = eseguiQuery($con, $query7);
 
 while ($val7 = mysqli_fetch_array($ris7))
 {
@@ -186,16 +186,16 @@ echo "</td>";
 // elenco uscite
 echo "<td valign=top>";
 $query8 = "select * from tbl_usciteanticipate where idalunno='$codalunno' order by data desc";
-$ris8 = eseguiQuery($con,$query8);
+$ris8 = eseguiQuery($con, $query8);
 
 while ($val8 = mysqli_fetch_array($ris8))
 {
     $data = $val8["data"];
     echo ' ' . data_italiana($data) . '<br/>';
-    $query="select * from tbl_autorizzazioniuscite where idalunno=$codalunno and data='$data'";
-        $ris=eseguiQuery($con,$query);
-        if ($rec = mysqli_fetch_array($ris))
-            print "<small>".$rec['testoautorizzazione']."</small><br>";
+    $query = "select * from tbl_autorizzazioniuscite where idalunno=$codalunno and data='$data'";
+    $ris = eseguiQuery($con, $query);
+    if ($rec = mysqli_fetch_array($ris))
+        print "<small>" . $rec['testoautorizzazione'] . "</small><br>";
 }
 echo '
     </td>

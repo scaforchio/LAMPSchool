@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -31,12 +33,12 @@ if ($tipoutente == "")
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 $titolo = "Inserimento timbrature forzate";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='selealunnitimbraturaforzata.php'>Timbrature forzate</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $dest = array();
@@ -58,7 +60,7 @@ if ($datatimbratura == $dataoggi)   // PER EVIATRE CHE SI ATTIVI IN CASO DI INSE
     $query = "select count(*) as numtimbrature from tbl_timbrature where datatimbratura='$dataoggi' and idalunno in(select idalunno from tbl_alunni where idclasse<>0)";
 
 
-    if (!$ris = eseguiQuery($con,$query))
+    if (!$ris = eseguiQuery($con, $query))
     {
 
         die("errore query " . inspref($query, false));
@@ -79,30 +81,29 @@ if ($datatimbratura == $dataoggi)   // PER EVIATRE CHE SI ATTIVI IN CASO DI INSE
                       and idalunno NOT IN (select idalunno from tbl_presenzeforzate where data = '$dataoggi')
                       order by idalunno";
 
-        if (!$ris = eseguiQuery($con,$query))
+        if (!$ris = eseguiQuery($con, $query))
         {
 
             die("errore query " . inspref($query, false));
         }
-
     }
 }
 
 
 // Inserisco la timbratura forzata per l'alunno se non è già presente
 $query = "select * from tbl_timbrature where idalunno=$idalunno and tipotimbratura='$tipotimbratura' and datatimbratura='$datatimbratura' and oratimbratura='$oratimbratura'";
-$ris=eseguiQuery($con,$query);
-if (mysqli_num_rows($ris)==0)
+$ris = eseguiQuery($con, $query);
+if (mysqli_num_rows($ris) == 0)
 {
 
     $query = "insert into tbl_timbrature(idalunno,tipotimbratura,datatimbratura,oratimbratura,forzata) values ($idalunno,'$tipotimbratura','$datatimbratura','$oratimbratura',true)";
-    eseguiQuery($con,$query);
+    eseguiQuery($con, $query);
 
 
     if ($tipotimbratura == 'I')
     {
         $query = "delete from tbl_assenze where idalunno='$idalunno' and data='$datatimbratura'";
-        eseguiQuery($con,$query);
+        eseguiQuery($con, $query);
         elimina_assenze_lezione($con, $idalunno, $datatimbratura);
     }
 
@@ -111,13 +112,12 @@ if (mysqli_num_rows($ris)==0)
         if ($giustificauscite == 'yes')
         {
             $valgiust = 'false';
-        }
-        else
+        } else
         {
             $valgiust = 'true';
         }
         $query = "insert into tbl_usciteanticipate(idalunno,data,orauscita,giustifica) values ('$idalunno', '$datatimbratura', '$oratimbratura',$valgiust)";
-        eseguiQuery($con,$query);
+        eseguiQuery($con, $query);
         //ricalcola_uscite($con, $idalunno, $datatimbratura);
         elimina_assenze_lezione($con, $idalunno, $datatimbratura);
         inserisci_assenze_per_ritardi_uscite($con, $idalunno, $datatimbratura);
@@ -126,9 +126,9 @@ if (mysqli_num_rows($ris)==0)
     if ($tipotimbratura == 'R')
     {
         $query = "insert into tbl_ritardi(idalunno,data,oraentrata,autorizzato) values ('$idalunno', '$datatimbratura', '$oratimbratura',true)";
-        eseguiQuery($con,$query);
+        eseguiQuery($con, $query);
         $query = "delete from tbl_assenze where idalunno='$idalunno' and data='$datatimbratura'";
-        eseguiQuery($con,$query);
+        eseguiQuery($con, $query);
         //ricalcola_ritardi($con, $idalunno, $datatimbratura);
         elimina_assenze_lezione($con, $idalunno, $datatimbratura);
         inserisci_assenze_per_ritardi_uscite($con, $idalunno, $datatimbratura);
@@ -136,10 +136,9 @@ if (mysqli_num_rows($ris)==0)
 
 
     print "<br><br><center><b><font color='green'>Inserimento effettuato!</font></b>";
-}
-else
+} else
 {
-    inserisci_log($_SESSION['userid']."§" . date('m-d|H:i:s') . "§OMESSO INSERIMENTO TIMBRATURA FORZATA PER DUPLICAZIONE " . $matricola . "", $nomefilelog . "rp", $suff);
+    inserisci_log($_SESSION['userid'] . "§" . date('m-d|H:i:s') . "§OMESSO INSERIMENTO TIMBRATURA FORZATA PER DUPLICAZIONE " . $matricola . "", $nomefilelog . "rp", $suff);
     print "<br><br><center><b><font color='red'>Inserimento già effettuato in precedenza!</font></b>";
 }
 
@@ -150,15 +149,14 @@ function esiste_alunno($matricola, $conn)
 {
     $query = "select * from tbl_alunni where idalunno='$matricola' and idclasse<>0";
     // inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
-    if (!$ris = mysqli_query($conn, inspref($query, false)))
+    if (!$ris = eseguiQuery($conn,$query))
     {
         die("errore query " . inspref($query, false));
     }
     if (mysqli_num_rows($ris) != 0)
     {
         return true;
-    }
-    else
+    } else
     {
         return false;
     }
@@ -169,7 +167,7 @@ function esiste_assenza($dataodierna, $conn)
     $query = "select * from tbl_assenze where data='$dataodierna'";
     //  inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
 
-    if (!$ris = mysqli_query($conn, inspref($query, false)))
+    if (!$ris = eseguiQuery($conn,$query))
     {
         //  inserisci_log("Errore esecuzione query\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
         die("errore query " . inspref($query, false));
@@ -177,10 +175,8 @@ function esiste_assenza($dataodierna, $conn)
     if (mysqli_num_rows($ris) != 0)
     {
         return true;
-    }
-    else
+    } else
     {
         return false;
     }
 }
-

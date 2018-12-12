@@ -1,22 +1,24 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
-/*programma per l'inserimento di un docente
-riceve in ingresso i valori del docente*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
+/* programma per l'inserimento di un docente
+  riceve in ingresso i valori del docente */
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 
@@ -31,7 +33,7 @@ if ($tipoutente == "")
 
 $titolo = "Inserimento preside";
 $script = "";
-stampa_head($titolo, "", $script,"PMSD");
+stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -62,11 +64,10 @@ if (!$DB)
     exit;
 }
 // $query="insert into tbl_docenti (cognome,nome)values ('$cognome','$nome')";
-
 // VERIFICO SE ESISTE GIA' il PRESIDE
 
 $que = "SELECT * FROM tbl_docenti WHERE iddocente=1000000000";
-$res = mysqli_query($con, inspref($que));
+$res = eseguiQuery($con,$que);
 if (mysqli_num_rows($res) != 0)
 {
     print("<CENTER>Preside già presente!</CENTER>");
@@ -74,8 +75,7 @@ if (mysqli_num_rows($res) != 0)
     print("<center>");
     print("<INPUT TYPE='SUBMIT' VALUE='<< Indietro'>");
     print("</FORM></CENTER></BODY>");
-}
-else
+} else
 {
     $iddocente = 1000000000;
     $query = "insert into tbl_docenti (iddocente,cognome,nome,datanascita,idcomnasc,indirizzo,idcomres,telefono,telcel,email,idutente)values ('$iddocente','$cognome','$nome','$aa-$mm-$gg','$comnasc','$indirizzo','$comresi','$telefono','$cellulare','$email','$iddocente')";
@@ -88,8 +88,7 @@ else
     {
         $err = 1;
         $mes = "Il cognome non &egrave; stato inserito <br/>";
-    }
-    else
+    } else
     {
         if (controlla_stringa($cognome) == 1)
         {
@@ -102,8 +101,7 @@ else
     {
         $err = 1;
         $mes = $mes . " Il nome non &egrave; stato inserito <br/>";
-    }
-    else
+    } else
     {
         if (controlla_stringa($nome) == 1)
         {
@@ -133,17 +131,13 @@ else
         print(" <input type ='hidden' size='20' name='flag' value= '1'>");
         print("<INPUT TYPE='SUBMIT' VALUE='<< Indietro'>");
         print("</form><br/>");
-
-
-    }
-    else
+    } else
     {
-        $res = eseguiQuery($con,$query);
+        $res = eseguiQuery($con, $query);
         if (!$res)
         {
             print("<h2>Il preside non &egrave; stato inserito</h2>$query");
-        }
-        else
+        } else
         {
             $iddocenteinserito = mysqli_insert_id($con);
 
@@ -151,14 +145,13 @@ else
             $utente = "preside";
             $password = creapassword();
             $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('1000000000','$utente',md5('" . md5($password) . "'),'P')";
-            $res = eseguiQuery($con,$sqlt);
+            $res = eseguiQuery($con, $sqlt);
 
 
             print("<b><br/><center>Utente: <i>$utente</i><br/>Password: <i>$password</i> </b><br/>");
 
 
             print("<h2>Il preside è stato correttamente inserito</h2></center>");
-
         }
     }
 }

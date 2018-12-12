@@ -225,7 +225,7 @@ if (!$DB)
                 $datafine = aggiungi_giorni($datacambio, -1);
                 // print "ttt $datafine";
                 $querycambioclasse = "insert into tbl_cambiamenticlasse(idalunno,idclasse,datafine) values ($idalunnoinserito,0,'$datafine')";
-                eseguiQuery($con,$querycambioclasse);
+                eseguiQuery($con, $querycambioclasse);
             }
 
             $utente = "gen" . $idalunnoinserito;
@@ -237,15 +237,15 @@ if (!$DB)
                 $passwordalunno = creapassword();
             }
             $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idalunnoinserito','$utente',md5('" . md5($password) . "'),'T')";
-            $res = eseguiQuery($con,$sqlt);
+            $res = eseguiQuery($con, $sqlt);
             $sqlt = "update tbl_alunni set idtutore=$idalunnoinserito,idutente=$idalunnoinserito where idalunno=$idalunnoinserito";
-            $res = eseguiQuery($con,$sqlt);
+            $res = eseguiQuery($con, $sqlt);
 
             if ($livello_scuola == 4)
             {
                 $idutentealunno = $idalunnoinserito + 2100000000;
                 $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idutentealunno','$utentealunno',md5('" . md5($passwordalunno) . "'),'L')";
-                $res = eseguiQuery($con,$sqlt);
+                $res = eseguiQuery($con, $sqlt);
             }
 
             // print "risultato inserimento $idalunnoinserito<br/>";

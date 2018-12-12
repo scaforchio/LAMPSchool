@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -31,11 +33,11 @@ if ($tipoutente == "")
 
 $titolo = "Statistiche di inserimento dei dati per docente";
 $script = "";
-stampa_head($titolo, "", $script,"PMSD");
+stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 print ("
@@ -47,7 +49,7 @@ print ("
 //
 
 $query = "SELECT iddocente, cognome, nome FROM tbl_docenti ORDER BY cognome, nome";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 
 while ($nom = mysqli_fetch_array($ris))
@@ -73,10 +75,11 @@ while ($nom = mysqli_fetch_array($ris))
                   WHERE tbl_valutazioniintermedie.idalunno = tbl_alunni.idalunno
                   AND tbl_alunni.idclasse = tbl_classi.idclasse
                   AND iddocente = $iddocente;";
-        $ris4 = eseguiQuery($con,$query);
+        $ris4 = eseguiQuery($con, $query);
         $nom4 = mysqli_fetch_array($ris4);
         $numerovotidoc = $nom4["numerovoti"];
-        if ($numerovotidoc == "") $numerovotidoc = 0;
+        if ($numerovotidoc == "")
+            $numerovotidoc = 0;
         print (" - Voti inseriti: $numerovotidoc");
 
 
@@ -87,10 +90,11 @@ while ($nom = mysqli_fetch_array($ris))
         $query = "SELECT count( idlezione ) AS numerolezioni
                   FROM tbl_lezioni
                   WHERE iddocente = $iddocente;";
-        $ris5 = eseguiQuery($con,$query);
+        $ris5 = eseguiQuery($con, $query);
         $nom5 = mysqli_fetch_array($ris5);
         $numerolezionidoc = $nom5["numerolezioni"];
-        if ($numerolezionidoc == "") $numerolezionidoc = 0;
+        if ($numerolezionidoc == "")
+            $numerolezionidoc = 0;
         print (" - Lezioni inserite: $numerolezionidoc");
 
         print "</b></td></tr>";
@@ -102,7 +106,7 @@ while ($nom = mysqli_fetch_array($ris))
 
         $query = "select tbl_cattnosupp.idmateria, tbl_cattnosupp.idclasse,anno,sezione,specializzazione,denominazione
       from tbl_cattnosupp,tbl_classi,tbl_materie where iddocente=$iddocente and tbl_cattnosupp.idclasse=tbl_classi.idclasse and tbl_cattnosupp.idmateria=tbl_materie.idmateria order by anno, sezione, specializzazione";
-        $ris1 = eseguiQuery($con,$query);
+        $ris1 = eseguiQuery($con, $query);
         while ($nom1 = mysqli_fetch_array($ris1))
         {
             $idclasse = $nom1["idclasse"];
@@ -122,10 +126,11 @@ while ($nom = mysqli_fetch_array($ris))
                   AND tbl_alunni.idclasse = tbl_classi.idclasse
                   AND tbl_classi.idclasse = $idclasse
                   AND tbl_valutazioniintermedie.idmateria = $idmateria;";
-            $ris2 = eseguiQuery($con,$query);
+            $ris2 = eseguiQuery($con, $query);
             $nom2 = mysqli_fetch_array($ris2);
             $numerovoti = $nom2["numerovoti"];
-            if ($numerovoti == "") $numerovoti = 0;
+            if ($numerovoti == "")
+                $numerovoti = 0;
             print ("<td>Voti: $numerovoti</td>");
 
 
@@ -136,10 +141,11 @@ while ($nom = mysqli_fetch_array($ris))
             $query = "SELECT count( * ) AS numerolezioni
           FROM tbl_lezioni
           WHERE idclasse = $idclasse AND idmateria = $idmateria;";
-            $ris3 = eseguiQuery($con,$query);
+            $ris3 = eseguiQuery($con, $query);
             $nom3 = mysqli_fetch_array($ris3);
             $numerolezioni = $nom3["numerolezioni"];
-            if ($numerolezioni == "") $numerolezioni = 0;
+            if ($numerolezioni == "")
+                $numerolezioni = 0;
             print ("<td>Lezioni: $numerolezioni</td>");
 
 
@@ -155,12 +161,12 @@ print ("</td></tr>");
 print ("</table>");
 
 $query = "SELECT count( * ) AS numerovoti FROM tbl_valutazioniintermedie";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 $nom = mysqli_fetch_array($ris);
 $numerovotitot = $nom["numerovoti"];
 
 $query = "SELECT count( * ) AS numerolezioni FROM tbl_lezioni";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 $nom = mysqli_fetch_array($ris);
 $numerolezionitot = $nom["numerolezioni"];
 

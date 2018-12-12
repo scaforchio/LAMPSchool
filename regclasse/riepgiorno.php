@@ -170,7 +170,7 @@ echo('
       </td></tr>');
 
 echo('</table>');
- echo ('</form>');
+echo ('</form>');
 
 $dataoggi = "$anno-$mese-$giorno";
 $datadomani = aggiungi_giorni($dataoggi, 1);
@@ -184,7 +184,7 @@ if (giorno_settimana($dataieri) == "Dom")
 }
 if (giorno_settimana($datadomani) == "Dom" | (giorno_settimana($datadomani) == "Sab" & $giornilezsett == 5 ))
 {
-    
+
     if ($giornilezsett == 6)
         $datadomani = aggiungi_giorni($datadomani, +1);
     else
@@ -213,16 +213,14 @@ echo('<hr>');
 if ($mese == "")
 {
     $m = 0;
-}
-else
+} else
 {
     $m = $mese;
 }
 if ($giorno == "")
 {
     $g = 0;
-}
-else
+} else
 {
     $g = $giorno;
 }
@@ -230,8 +228,7 @@ else
 if ($anno == "")
 {
     $a = 0;
-}
-else
+} else
 {
     $a = $anno;
 }
@@ -249,8 +246,7 @@ $giornosettimana = giorno_settimana($anno . "-" . $mese . "-" . $giorno);
 if (!checkdate($m, $g, $a))
 {
     print ("<Center> <big><big>Data non corretta!</big></big> </center>");
-}
-else
+} else
 {
     if ($giornosettimana == "Dom")
     {

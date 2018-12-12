@@ -53,7 +53,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 $iddocente = $_SESSION['idutente'];
 $assaut = "SELECT * FROM tbl_assemblee WHERE docenteautorizzante=0 OR autorizzato=0";
-$ris1 = mysqli_query($con, inspref($assaut)) or die("Errore durante la connessione: " . mysqli_error($con) . "<br/>" . $assaut);
+$ris1 = eseguiQuery($con, $assaut);
 print "<CENTER><table border ='1' cellpadding='5'>";
 
 //ELENCO RICHIESTE ASSEMBLEE DA AUTORIZZARE
@@ -76,8 +76,7 @@ $i = 0;
 if (mysqli_num_rows($ris1) == 0)
 {
     print "<td colspan='9' align='center'><b><i>Nessuna assemblea da autorizzare</i></b></td>";
-}
-else
+} else
 {
     while ($dataass = mysqli_fetch_array($ris1))
     {
@@ -88,8 +87,7 @@ else
             {
                 $controllo = 1;
             }
-        }
-        else
+        } else
         {
             if ($dataass['concesso1'] == 1 and $dataass['concesso2'] == 1)
             {
@@ -100,29 +98,29 @@ else
         {
             print "<form action='registra_autorizzazione.php' method='GET'>";
             print "<tr>";
-            
+
             //AUTORIZZAZIONE ASSEMBLEA
             print "<td>Classe: ";
             print decodifica_classe($dataass['idclasse'], $con);
-            
-            
+
+
             //DATA RICHIESTA
             print "<br>Data rich.: " . data_italiana($dataass['datarichiesta']);
             //DATA ASSEMBLEA
             print "<br>Data ass.: " . data_italiana($dataass['dataassemblea']);
             // ORA ASSEMBLEA
-            print "<br>Ora: ".$dataass['orainizio']."-".$dataass['orafine']."</td>";
+            print "<br>Ora: " . $dataass['orainizio'] . "-" . $dataass['orafine'] . "</td>";
             //DOCENTI
             print "<td>";
-            if ($dataass['docenteconcedente1'] !=0)
+            if ($dataass['docenteconcedente1'] != 0)
             {
-                print estrai_dati_docente($dataass['docenteconcedente1'], $con)."<br>";
+                print estrai_dati_docente($dataass['docenteconcedente1'], $con) . "<br>";
             }
-            if ($dataass['docenteconcedente2'] !=0)
+            if ($dataass['docenteconcedente2'] != 0)
             {
-                print estrai_dati_docente($dataass['docenteconcedente2'], $con)."<br>";
+                print estrai_dati_docente($dataass['docenteconcedente2'], $con) . "<br>";
             }
-            
+
             print "</td>";
             //RAPPRESENTANTI
             $alu = "SELECT cognome,nome FROM tbl_alunni 
@@ -130,7 +128,7 @@ else
 					OR idalunno=" . $dataass['rappresentante2'] . "
 					ORDER BY cognome";
 
-            $risalu = eseguiQuery($con,$alu);
+            $risalu = eseguiQuery($con, $alu);
             print "<td>";
             while ($dataalu = mysqli_fetch_array($risalu))
             {
@@ -143,13 +141,13 @@ else
 
 
             //ORDINE DEL GIORNO
-            print "<td>".nl2br($dataass['odg'])."</td>";
+            print "<td>" . nl2br($dataass['odg']) . "</td>";
             // CONCESSIONE
             print "<td align='center'>";
-            $idclasse=$dataass['idclasse'];
-            $queryverifica="select * from tbl_assemblee where idclasse=$idclasse and autorizzato=1 and consegna_verbale=0";
-            $risverifica=mysqli_query($con,inspref($queryverifica));
-            if (mysqli_num_rows($risverifica)>0)
+            $idclasse = $dataass['idclasse'];
+            $queryverifica = "select * from tbl_assemblee where idclasse=$idclasse and autorizzato=1 and consegna_verbale=0";
+            $risverifica = eseguiQuery($con, $queryverifica);
+            if (mysqli_num_rows($risverifica) > 0)
                 print "<a href=javascript:Popup('visionaverbali.php?idclasse=$idclasse')><img src='../immagini/alert.png'></a><br>";
             print "                
             

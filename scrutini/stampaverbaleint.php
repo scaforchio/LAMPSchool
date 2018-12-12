@@ -1,26 +1,28 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 require_once("../lib/fpdf/fpdf.php");
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
@@ -43,12 +45,11 @@ $periodo = stringa_html("periodo");
 $schede = new FPDFPAG();
 // $schede->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
 // $schede->SetFont('DejaVu','',14);
-
 //
 // Estraggo tutti i valori per sostituzione parametri di stampa
 //
 $query = "select * from tbl_scrutini where idclasse=$idclasse and periodo=$periodo";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 $rec = mysqli_fetch_array($ris);
 
 $dataverbale = data_italiana($rec['dataverbale']);
@@ -82,9 +83,7 @@ if ($codsegretario != "")
     }
     // print "Segr. ".$codsegretario;
     $segretario = estrai_dati_docente($codsegretario, $con);
-
-}
-else
+} else
 {
     $segretario = "";
 }
@@ -101,8 +100,7 @@ if ($codpresidente != 1000000000)
 {
     $presidente = estrai_dati_docente($codpresidente, $con);
     $presid = $presidente . " (su delega del dirigente scolastico)";
-}
-else
+} else
 {
     $presidente = estrai_dirigente($con);
     $presid = $presidente;
@@ -110,8 +108,7 @@ else
 if ($numeroperiodi == 2)
 {
     $per = "quadrimestre";
-}
-else
+} else
 {
     $per = "trimestre";
 }
@@ -129,7 +126,7 @@ $query = "select distinct tbl_cattnosupp.iddocente, cognome, nome from tbl_cattn
         where tbl_cattnosupp.iddocente=tbl_docenti.iddocente
         and idclasse=$idclasse and tbl_cattnosupp.iddocente<>1000000000
         order by cognome, nome";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 $elencodocentititolari = array();
 while ($rec = mysqli_fetch_array($ris))
 {
@@ -137,7 +134,6 @@ while ($rec = mysqli_fetch_array($ris))
     {
         $elencodocentititolari[] = $rec['iddocente'];
     }
-
 }
 $numerodocentitit = count($elencodocentititolari);
 $elencodocentipresenti = array();
@@ -149,9 +145,7 @@ foreach ($elencodocentititolari as $doctit)
         $pos = strpos($sostituzioni, $doctit . "<");
         $codsost = substr($sostituzioni, $pos + 11, 10);
         $elencodocentipresenti[] = $codsost;
-    }
-
-    else
+    } else
     {
         $elencodocentipresenti[] = $doctit;
     }
@@ -160,7 +154,6 @@ foreach ($elencodocentititolari as $doctit)
 // $contopres=true;
 // if (in_array($codpresidente,$elencodocentipresenti))
 //   $contopres=false;
-
 //
 // Sostituisco i parametri nel testo
 //
@@ -217,8 +210,10 @@ $testo4 = str_replace("[orafine]", $orafine, $testo4);
 
 
 $schede->AddPage();
-if ($_SESSION['suffisso'] != "") $suff = $_SESSION['suffisso'] . "/";
-else $suff = "";
+if ($_SESSION['suffisso'] != "")
+    $suff = $_SESSION['suffisso'] . "/";
+else
+    $suff = "";
 $schede->Image('../abc/' . $suff . 'testata.jpg', NULL, NULL, 190, 43);
 
 
@@ -245,8 +240,7 @@ for ($i = 0; $i < $numerodocentitit; $i++)
     if ($elencodocentipresenti[$i] == $elencodocentititolari[$i])
     {
         $elencodocenti .= estrai_dati_docente($elencodocentipresenti[$i], $con) . ", ";
-    }
-    else
+    } else
     {
         $elencodocenti .= estrai_dati_docente($elencodocentipresenti[$i], $con) . " (in sostituzione di " . estrai_dati_docente($elencodocentititolari[$i], $con) . "), ";
     }
@@ -268,14 +262,14 @@ $annotazioni = "";
 $elencoalunni = estrai_alunni_classe_data($idclasse, $fineprimo, $con);
 
 $query = "select * from tbl_alunni where idalunno in ($elencoalunni) order by cognome, nome, datanascita";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($rec = mysqli_fetch_array($ris))
 {
     $idalunno = $rec['idalunno'];
     $datialunno = estrai_dati_alunno($idalunno, $con) . "\n";
     $annotazionialunno = "";
     $query = "select * from tbl_giudizi where idalunno=$idalunno and periodo=$periodo and giudizio<>''";
-    $risgiu = eseguiQuery($con,$query);
+    $risgiu = eseguiQuery($con, $query);
     if ($recgiu = mysqli_fetch_array($risgiu))
     {
         $annotazionialunno .= $recgiu['giudizio'] . "\n";
@@ -284,7 +278,7 @@ while ($rec = mysqli_fetch_array($ris))
 	        where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
 	        and idalunno=$idalunno and periodo=$periodo and note<>''
 	        order by tbl_materie.progrpag, denominazione";
-    $risnot = eseguiQuery($con,$query);
+    $risnot = eseguiQuery($con, $query);
     while ($recnot = mysqli_fetch_array($risnot))
     {
         $annotazionialunno .= $recnot['denominazione'] . ": ";
@@ -326,8 +320,7 @@ $schede->SetFont('Times', '', 10);
 if ($codpresidente == 1000000000)
 {
     $schede->Cell(95, 8, converti_utf8("Il dirigente scolastico"), NULL, 1, "C");
-}
-else
+} else
 {
     $schede->Cell(95, 8, converti_utf8("Il delegato del D.S."), NULL, 1, "C");
 }
@@ -338,14 +331,17 @@ $schede->SetFont('Times', 'B', 10);
 $schede->Cell(95, 8, converti_utf8($presidente), NULL, 1, "C");
 
 // TIMBRO E FIRMA
-$posY+=5;
-$suff="";
-if ($_SESSION['suffisso']!="") $suff=$_SESSION['suffisso']."/"; else $suff="";
-if (estrai_dirigente($con)==$presidente)
-    $schede->Image('../abc/'.$suff.'firmadirigente.png',120,$posY);
-$schede->SetY($schede->GetY()-20);
+$posY += 5;
+$suff = "";
+if ($_SESSION['suffisso'] != "")
+    $suff = $_SESSION['suffisso'] . "/";
+else
+    $suff = "";
+if (estrai_dirigente($con) == $presidente)
+    $schede->Image('../abc/' . $suff . 'firmadirigente.png', 120, $posY);
+$schede->SetY($schede->GetY() - 20);
 
-$schede->Image('../abc/'.$suff.'timbro.png',85,NULL);
+$schede->Image('../abc/' . $suff . 'timbro.png', 85, NULL);
 
 
 
@@ -368,7 +364,6 @@ for ($i = 0; $i < $numerodocentitit; $i++)
     }
     $schede->Cell(110, 8, converti_utf8($docentepresente), "B");
     $schede->Cell(70, 8, "", "B", 1);
-
 }
 
 

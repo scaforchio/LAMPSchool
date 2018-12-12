@@ -28,7 +28,8 @@ require_once '../lib/funzioni.php';
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 $iddocente = $_SESSION["idutente"];
 
-if ($tipoutente == "") {
+if ($tipoutente == "")
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -52,42 +53,43 @@ print "<tr class='prima'><td>Docente</td><td>Ore perm.</td><td>Giorni ferie</td>
 
 $query = "select * from tbl_docenti order by cognome, nome";
 
-$ris = eseguiQuery($con,$query);
-while ($rec = mysqli_fetch_array($ris)) {
+$ris = eseguiQuery($con, $query);
+while ($rec = mysqli_fetch_array($ris))
+{
 
     $iddoc = $rec['iddocente'];
     $nominativo = estrai_dati_docente($iddoc, $con);
 
-    /*$totaleore=calcolaOrePermesso($iddoc,$con);
-    $giorniferie = calcolaGiorniFerie($iddoc,$con);
-    $giorniperm = calcolaGiorniPermesso($iddoc,$con); */
-    
-    $totaleore = contaOrePermesso($iddoc,$con);
-    $totaleorerec = contaOreRecuperate($iddoc,$con);
-    $giorniferie = contaGiorniFerie($iddoc,$con);
-    $giorniperm = contaGiorniPermesso($iddoc,$con);
-    
-    
-  /*  $totaleore = 0;
-    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and subject LIKE '%permesso breve%'";
-    $risperm = eseguiQuery($con,$query);
-    while ($recperm = mysqli_fetch_array($risperm)) {
+    /* $totaleore=calcolaOrePermesso($iddoc,$con);
+      $giorniferie = calcolaGiorniFerie($iddoc,$con);
+      $giorniperm = calcolaGiorniPermesso($iddoc,$con); */
 
-        $mail = $recperm['testomail'];
-        $posizioneore = strpos($mail, "per un totale di ore") + 21;
-        // PREPARAZIONE STRINGA SINTETICA RICHIESTA
-        $periodo = $recperm['subject'];
-        //$posperiodo = strpos($testocompleto,"", $testocompleto)j
-        //str_replace("");
-        $oreperm = substr($mail, $posizioneore, 1) . "<br>";
+    $totaleore = contaOrePermesso($iddoc, $con);
+    $totaleorerec = contaOreRecuperate($iddoc, $con);
+    $giorniferie = contaGiorniFerie($iddoc, $con);
+    $giorniperm = contaGiorniPermesso($iddoc, $con);
 
-        $totaleore += $oreperm;
-    } */
-    if ($totaleorerec!='')
-        $recuperate="(Rec. $totaleorerec)";
+
+    /*  $totaleore = 0;
+      $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and subject LIKE '%permesso breve%'";
+      $risperm = eseguiQuery($con,$query);
+      while ($recperm = mysqli_fetch_array($risperm)) {
+
+      $mail = $recperm['testomail'];
+      $posizioneore = strpos($mail, "per un totale di ore") + 21;
+      // PREPARAZIONE STRINGA SINTETICA RICHIESTA
+      $periodo = $recperm['subject'];
+      //$posperiodo = strpos($testocompleto,"", $testocompleto)j
+      //str_replace("");
+      $oreperm = substr($mail, $posizioneore, 1) . "<br>";
+
+      $totaleore += $oreperm;
+      } */
+    if ($totaleorerec != '')
+        $recuperate = "(Rec. $totaleorerec)";
     else
-        $recuperate="";
-    if ($totaleore > 0 | $giorniferie > 0 | $giorniperm>0)
+        $recuperate = "";
+    if ($totaleore > 0 | $giorniferie > 0 | $giorniperm > 0)
         print "<tr><td>$nominativo</td><td>$totaleore $recuperate</td><td>$giorniferie</td><td>$giorniperm</td></tr>";
 }
 print "</table>";

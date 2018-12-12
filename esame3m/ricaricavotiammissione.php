@@ -24,7 +24,8 @@ session_start();
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "") {
+if ($tipoutente == "")
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -43,13 +44,16 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 // Esclusione alunni con esito negativo agli scrutini
 
 $query = "SELECT * FROM tbl_alunni WHERE idclasseesame<>'0' AND idclasse<>'0'";
-$ris = eseguiQuery($con,$query);
-while ($rec = mysqli_fetch_array($ris)) {
+$ris = eseguiQuery($con, $query);
+while ($rec = mysqli_fetch_array($ris))
+{
     $idtipoesito = estrai_idtipoesito($rec['idalunno'], $con);
-    if ($idtipoesito > 0) {
-        if (passaggio($idtipoesito, $con) != 0) {
+    if ($idtipoesito > 0)
+    {
+        if (passaggio($idtipoesito, $con) != 0)
+        {
             $query = "UPDATE tbl_alunni SET idclasseesame=0 WHERE idalunno=" . $rec['idalunno'];
-            eseguiQuery($con,$query);
+            eseguiQuery($con, $query);
         }
     }
 }
@@ -61,32 +65,37 @@ while ($rec = mysqli_fetch_array($ris)) {
 
 $query = "SELECT * FROM tbl_alunni
                       where tbl_alunni.idclasseesame=$idclasse";
-$risalu = eseguiQuery($con,$query);
+$risalu = eseguiQuery($con, $query);
 
-while ($recalu = mysqli_fetch_array($risalu)) {
+while ($recalu = mysqli_fetch_array($risalu))
+{
     $idalunno = $recalu['idalunno'];
 
     $votoammissione = 0;
     $inserimento = false;
     $query = "SELECT * FROM tbl_esiti
                       where idalunno=$idalunno";
-    $risesito = eseguiQuery($con,$query);
-    if ($recesito = mysqli_fetch_array($risesito)) {
+    $risesito = eseguiQuery($con, $query);
+    if ($recesito = mysqli_fetch_array($risesito))
+    {
 
         $votoammissione = $recesito['votoammissione'];
-    } else {
+    } else
+    {
         $votoammissione = 0;
     }
 
 
     $query = "select * from tbl_esesiti where idalunno=$idalunno";
-    $risric = eseguiQuery($con,$query);
-    if (mysqli_num_rows($risric) > 0) {
+    $risric = eseguiQuery($con, $query);
+    if (mysqli_num_rows($risric) > 0)
+    {
         $query = "update tbl_esesiti set votoammissione='$votoammissione' where idalunno=$idalunno";
-        eseguiQuery($con,$query);
-    } else {
+        eseguiQuery($con, $query);
+    } else
+    {
         $query = "insert into tbl_esesiti(idalunno,votoammissione) values ($idalunno,$votoammissione)";
-        eseguiQuery($con,$query);
+        eseguiQuery($con, $query);
     }
 }
 

@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -42,11 +44,11 @@ $script = "<script type='text/javascript'>
          //-->
          </script>";
 
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 print "<center>OBIETTIVI DI COMPORTAMENTO<br/>";
@@ -54,7 +56,7 @@ print "</center>";
 
 $query = "select * from tbl_compob order by numeroordine";
 // print inspref($query);
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 print "<font size=2>";
 while ($val = mysqli_fetch_array($ris))
@@ -66,18 +68,17 @@ while ($val = mysqli_fetch_array($ris))
     print "<br/><br/><b>$numord. $sintob</b><br>  $obiettivo";
 
     $query = "select * from tbl_compsubob where idobiettivo=$idobiettivo order by numeroordine";
-    $risabil = eseguiQuery($con,$query);
+    $risabil = eseguiQuery($con, $query);
     print "<font size=1>";
     while ($valabil = mysqli_fetch_array($risabil))
     {
         $sintsubob = $valabil["sintsubob"];
         $numordsubob = $valabil["numeroordine"];
-        $subob=$valabil["subob"];
+        $subob = $valabil["subob"];
 
 
 
-            print "<br/><i><b>$numord.$numordsubob $sintsubob</b><br> $subob</i>";
-
+        print "<br/><i><b>$numord.$numordsubob $sintsubob</b><br> $subob</i>";
     }
 
 

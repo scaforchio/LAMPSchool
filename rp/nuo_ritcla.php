@@ -1,22 +1,24 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
-/*Programma per la visualizzazione dell'elenco delle tbl_classi.*/
+/* Programma per la visualizzazione dell'elenco delle tbl_classi. */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -88,11 +90,10 @@ print "<tr> <td>";
 //TABELLA SEZIONE nome=tbl_sezioni
 print "<tr><td   ALIGN='CENTER'> Classe </td>";
 $q1 = "SELECT * FROM tbl_classi ORDER BY anno, sezione, specializzazione";
-if (!($reply = mysqli_query($con, inspref($q1))))
+if (!($reply = eseguiQuery($con,$q1)))
 {
     print "<td>Query fallita nelle tbl_sezioni</td>";
-}
-else
+} else
 {
     print "<td> <SELECT NAME='idclasse'>";
 
@@ -103,14 +104,13 @@ else
         {
             print "<option  value='" . $d1['idclasse'] . "'> " . $d1['anno'] . " " . $d1['sezione'] . " " . $d1['specializzazione'] . " ";
         }
-    }
-    else
+    } else
     {
         print "<option  value=0> Nessuna classe trovata";
     }
     print "</SELECT>";
 }
-print    "</td></tr>";
+print "</td></tr>";
 
 
 print "<tr><td>Data</td><td><input type='text' id='data'  class='datepicker' size='8' maxlength='10' name='data'></td></tr>";
@@ -118,11 +118,10 @@ print "<tr><td>Data</td><td><input type='text' id='data'  class='datepicker' siz
 print "<tr><td   ALIGN='CENTER'> Ora entrata </td>";
 $q1 = "SELECT DISTINCT inizio FROM tbl_orario
      WHERE inizio > (SELECT min(inizio) FROM tbl_orario where valido) and valido ORDER BY inizio";
-if (!($reply = mysqli_query($con, inspref($q1))))
+if (!($reply = eseguiQuery($con,$q1)))
 {
     print "<td>Query fallita nelle tbl_sezioni</td>";
-}
-else
+} else
 {
     print "<td> <SELECT NAME='ora'>";
 
@@ -137,7 +136,7 @@ else
 
     print "</SELECT>";
 }
-print    "</td></tr>";
+print "</td></tr>";
 
 print "<tr><td COLSPAN='2'><br/><CENTER>";
 print "<input type='submit' name='registra' value='Registra'> </CENTER>";

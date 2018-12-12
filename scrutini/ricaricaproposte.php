@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 //MODIFICA PER RICARICARE ANCHE IL VOTO DI COMPORTAMENTO - RIGA 63
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -36,22 +38,21 @@ stampa_testata("$titolo", "", "$nome_scuola", "$comune_scuola");
 
 $idscrutinio = stringa_html('idscrutinio');
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $query = "SELECT idclasse,periodo FROM tbl_scrutini WHERE idscrutinio=$idscrutinio";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 $rec = mysqli_fetch_array($ris);
 $idclasse = $rec['idclasse'];
 $periodo = $rec['periodo'];
 
 $query = "SELECT idalunno FROM tbl_alunni WHERE idclasse=$idclasse";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 while ($recalu = mysqli_fetch_array($ris))
 {
     $query = "DELETE FROM tbl_valutazionifinali WHERE idalunno=" . $recalu['idalunno'] . " and periodo=$periodo";
-    $risdel = eseguiQuery($con,$query);
-    
+    $risdel = eseguiQuery($con, $query);
 }
 
 //print "PERIODO $periodo";
@@ -60,29 +61,26 @@ $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,voto
 							  where tbl_proposte.idalunno=tbl_alunni.idalunno
 							  and idclasse=$idclasse and periodo=$periodo";
 
-$risins = eseguiQuery($con,$queryins);
+$risins = eseguiQuery($con, $queryins);
 // print ("Valutazioni!");
 // CALCOLO IL VOTO DI CONDOTTA PER TUTTI GLI ALUNNI(codice aggiunto per ricaricare voto comportamento)
 $query = "SELECT idalunno FROM tbl_alunni WHERE idclasse=$idclasse";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     $idal = $nom['idalunno'];
     $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,periodo)
 						 VALUES ($idal,-1," . calcola_media_condotta($idal, $periodo, $con) . ",$periodo)";
-    $risins = mysqli_query($con, inspref($queryins)) or die(mysqli_error());
-   // print ("Condotta:".$idal);
+    $risins = eseguiQuery($con,$queryins);
+    // print ("Condotta:".$idal);
 }
 //fine codice aggiunto
-
 //print "form";
-
 //die("Fine");
 if ($periodo != $numeroperiodi)
 {
     print "<form method='post' id='formricprop' action='riepvoti.php'>";
-}
-else
+} else
 {
     print "<form method='post' id='formricprop' action='riepvotifinali.php'>";
 }

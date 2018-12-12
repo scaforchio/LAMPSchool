@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -39,39 +41,38 @@ $script = "";
 $schede = new FPDF();
 
 // scelta classe se il docnete è coordinatore
-$docente=stringa_html("docente");
+$docente = stringa_html("docente");
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
-$condclassi=$condclassi= " true ";
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
+$condclassi = $condclassi = " true ";
 if ($docente != "")
 {
-    $strclassi="";
-    $query="select idclasse from tbl_classi where idcoordinatore=$docente";
-    $ris=eseguiQuery($con,$query);
-    while ($rec=mysqli_fetch_array($ris))
+    $strclassi = "";
+    $query = "select idclasse from tbl_classi where idcoordinatore=$docente";
+    $ris = eseguiQuery($con, $query);
+    while ($rec = mysqli_fetch_array($ris))
     {
-        $strclassi.= $rec['idclasse'].",";
+        $strclassi .= $rec['idclasse'] . ",";
     }
-    if ($strclassi!="")
-        $condclassi=" idclasse in (".substr($strclassi,0,strlen($strclassi)-1).")";
-
+    if ($strclassi != "")
+        $condclassi = " idclasse in (" . substr($strclassi, 0, strlen($strclassi) - 1) . ")";
 }
 
 
 $queryclasse = "SELECT idclasse,idcoordinatore FROM tbl_classi WHERE $condclassi ORDER BY anno, specializzazione, sezione";
-$riscla = mysqli_query($con, inspref($queryclasse));
+$riscla = eseguiQuery($con,$queryclasse);
 
 while ($reccla = mysqli_fetch_array($riscla))
 {
     $schede->AddPage();
 
     $idclasse = $reccla['idclasse'];
-    $daticoordinatore=estrai_dati_docente($reccla['idcoordinatore'],$con);
-    if ($_SESSION['suffisso']=="")
-        $suff="";
+    $daticoordinatore = estrai_dati_docente($reccla['idcoordinatore'], $con);
+    if ($_SESSION['suffisso'] == "")
+        $suff = "";
     else
-        $suff= $_SESSION['suffisso'] ."/";
-     $schede->Image("../abc/$suff"."testata.jpg", 20,10, 172, 25);
+        $suff = $_SESSION['suffisso'] . "/";
+    $schede->Image("../abc/$suff" . "testata.jpg", 20, 10, 172, 25);
 
 
     $denclasse = converti_utf8("Classe: " . decodifica_classe($idclasse, $con));
@@ -99,7 +100,7 @@ while ($reccla = mysqli_fetch_array($riscla))
                order by denominazione";
 
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     $posY = 68;
     while ($nom = mysqli_fetch_array($ris))
     {
@@ -116,15 +117,14 @@ while ($reccla = mysqli_fetch_array($riscla))
             //print "<br>";
             $query = "select tbl_cattnosupp.iddocente from tbl_cattnosupp,tbl_docenti
                         where idclasse=$idclasse and idmateria=" . $nom['idmateria'] .
-                " and idalunno=0 and tbl_cattnosupp.iddocente<>1000000000 and tbl_cattnosupp.iddocente=tbl_docenti.iddocente order by cognome";
+                    " and idalunno=0 and tbl_cattnosupp.iddocente<>1000000000 and tbl_cattnosupp.iddocente=tbl_docenti.iddocente order by cognome";
             // print inspref($query);
-            $rismat = eseguiQuery($con,$query);
+            $rismat = eseguiQuery($con, $query);
             $docenti = "";
             while ($recmat = mysqli_fetch_array($rismat))
             {
                 $docenti .= converti_utf8(estrai_dati_docente($recmat['iddocente'], $con) . "  ");
             }
-
         }
         $posY += 7;
         $schede->SetFont('arial', '', 8);
@@ -138,7 +138,6 @@ while ($reccla = mysqli_fetch_array($riscla))
         $schede->setXY(96, $posY);
         $schede->Cell(96, 7, "", "TBLR", 1, "");
         $posY += 7;
-
     }
 
     $posY += 4;
@@ -146,13 +145,10 @@ while ($reccla = mysqli_fetch_array($riscla))
     $schede->Cell(96, 7, "Il coordinatore di classe", "", 1, "C");
     $posY += 4;
     $schede->setXY(96, $posY);
-    $schede->Cell(96, 7, converti_utf8("(".$daticoordinatore.")"), "", 1, "C");
+    $schede->Cell(96, 7, converti_utf8("(" . $daticoordinatore . ")"), "", 1, "C");
     $posY += 7;
     $schede->setXY(96, $posY);
     $schede->Cell(96, 7, "____________________________________", "", 1, "C");
-
-
-
 }
 $schede->Output("firme.pdf", "I");
 mysqli_close($con);

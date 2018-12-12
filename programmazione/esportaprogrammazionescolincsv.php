@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 
@@ -34,18 +36,18 @@ $titolo = "Esportazione programmazione scolastica";
 $script = "";
 
 
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> -  $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $annoscolastico = $annoscol . "/" . ($annoscol + 1);
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 print "<center><b>Esportazione programmazione scolastica</b></center><br/><br/>";
 
 $cattedra = stringa_html('cattedra');
-$idmateria=stringa_html('idmateria') ;
-$anno=stringa_html('anno') ;
+$idmateria = stringa_html('idmateria');
+$anno = stringa_html('anno');
 
 print ("
    <form method='post' action='esportaprogrammazionescolincsv.php' name='comp'>
@@ -59,20 +61,19 @@ print ("
 
 
 
-$con=mysqli_connect($db_server,$db_user,$db_password,$db_nome) or die ("Errore durante la connessione: ".mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
-$query="select idmateria, denominazione from tbl_materie order by denominazione";
-$ris=eseguiQuery($con,$query);
-while($nom=mysqli_fetch_array($ris))
+$query = "select idmateria, denominazione from tbl_materie order by denominazione";
+$ris = eseguiQuery($con, $query);
+while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
     print ($nom["idmateria"]);
     print "'";
-    if ($idmateria==$nom["idmateria"])
-     print " selected";
+    if ($idmateria == $nom["idmateria"])
+        print " selected";
     print ">";
     print ($nom["denominazione"]);
-
 }
 
 print("
@@ -89,12 +90,12 @@ print("
 
 
 print("<td>   <select name='anno' ONCHANGE='comp.submit()'><option value=''>&nbsp;");
-for($a=1;$a<=($numeroanni);$a++)
+for ($a = 1; $a <= ($numeroanni); $a++)
 {
-    if ($a==$anno)
+    if ($a == $anno)
         print("<option selected>$a");
     else
-     print("<option value='$a'>$a");
+        print("<option value='$a'>$a");
 }
 echo("</select>");
 
@@ -105,14 +106,14 @@ print("    </form></td></tr><tr></table></form>");
 
 
 
-if ($idmateria!="" && $anno!="")
+if ($idmateria != "" && $anno != "")
 {
 
     // Programmazione istituto
 
 
-    $esisteprogrammazione=false;
-    $nf = "prog_".$idmateria."_anno_".$anno."_" . $_SESSION['suffisso'] . ".csv";
+    $esisteprogrammazione = false;
+    $nf = "prog_" . $idmateria . "_anno_" . $anno . "_" . $_SESSION['suffisso'] . ".csv";
     $nomefile = "$cartellabuffer/" . $nf;
     $fp = fopen($nomefile, 'w');
 
@@ -120,37 +121,34 @@ if ($idmateria!="" && $anno!="")
 
 
     $querycomp = "select * from tbl_competscol where anno=$anno and idmateria=$idmateria order by numeroordine";
-    $riscomp = mysqli_query($con,inspref($querycomp)) or die ("Errore: ".inspref($querycomp,false));
+    $riscomp = eseguiQuery($con,$querycomp);
 
-    while($reccomp=mysqli_fetch_array($riscomp))
+    while ($reccomp = mysqli_fetch_array($riscomp))
     {
-        $esisteprogrammazione=true;
-        fputcsv($fp,array("COMP",$reccomp['sintcomp'],$reccomp['competenza'],""), ";");
-        $idcompetenza=$reccomp['idcompetenza'];
+        $esisteprogrammazione = true;
+        fputcsv($fp, array("COMP", $reccomp['sintcomp'], $reccomp['competenza'], ""), ";");
+        $idcompetenza = $reccomp['idcompetenza'];
         $queryabil = "select * from tbl_abilscol where idcompetenza=$idcompetenza order by abil_cono,numeroordine";
-        $risabil = mysqli_query($con,inspref($queryabil)) or die ("Errore: ".inspref($queryabil,false));
-        while($recabil=mysqli_fetch_array($risabil))
+        $risabil = eseguiQuery($con,$queryabil);
+        while ($recabil = mysqli_fetch_array($risabil))
         {
-            $tipo="";
-            $obmin="";
-            if ($recabil['abil_cono']=='A')
-                $tipo="ABIL";
+            $tipo = "";
+            $obmin = "";
+            if ($recabil['abil_cono'] == 'A')
+                $tipo = "ABIL";
             else
-                $tipo="CONO";
+                $tipo = "CONO";
             if ($recabil['obminimi'])
-                $obmin="1";
+                $obmin = "1";
 
-            fputcsv($fp,array($tipo,$recabil['sintabilcono'],$recabil['abilcono'],$obmin), ";");
+            fputcsv($fp, array($tipo, $recabil['sintabilcono'], $recabil['abilcono'], $obmin), ";");
         }
-
-
     }
     fclose($fp);
     if ($esisteprogrammazione)
         print ("<br/><center>Apri programmazione scolastica:<a href='$cartellabuffer/$nf'><img src='../immagini/csv.png'></a></center>");
     else
         print ("<br/><center>Non c'è programmazione scolastica!</center>");
-
 }
 
 stampa_piede("");

@@ -1,19 +1,21 @@
-<?php session_start();
+<?php
+
+session_start();
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 
@@ -32,7 +34,7 @@ $script = "";
 stampa_head($titolo, "", $script, "E");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
-/*Programma per il cambiamento password.*/
+/* Programma per il cambiamento password. */
 
 //Connessione al server SQL
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
@@ -71,31 +73,27 @@ $rnpass = stringa_html('rnpass');
 if (md5($pwd) != $passwordesame)
 {
     print "<center>Password originale errata: verificare.</center>";
-}
-else
+} else
 {
 
     if ($npass != $rnpass)
     {
         print "<center>Le password inserite sono diverse tra loro!</center>";
-    }
-    else
+    } else
     {
 
         $query = "UPDATE tbl_parametri SET valore = md5('" . $npass . "') WHERE parametro='passwordesame'";
 
-        $result = eseguiQuery($con,$query);
+        $result = eseguiQuery($con, $query);
 
         if (mysqli_affected_rows($con) == 1)
         {
             print "<center>Password cambiata correttamente.</center>";
-        }
-        else
+        } else
         {
             print "<center>Errore nel database! Contattare il sistemista.</center>";
         }
     }
-
 }
 mysqli_close($con);
 stampa_piede("");

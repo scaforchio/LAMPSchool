@@ -27,7 +27,8 @@ session_start();
 // istruzioni per tornare alla pagina di login
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "") {
+if ($tipoutente == "")
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -99,11 +100,13 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='
 $n = stringa_html('idcla');
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
-if (!$con) {
+if (!$con)
+{
     print("<h1>Connessione al server fallita</h1>");
 }
 $db = true;
-if (!$db) {
+if (!$db)
+{
     print"<h1>Connessione nel database fallita</h1>";
 }
 $sq = "SELECT * FROM tbl_classi
@@ -120,7 +123,7 @@ print("<table width='100%'>
 $sql = "SELECT * FROM tbl_alunni,tbl_utenti
        WHERE tbl_alunni.idalunno=tbl_utenti.idutente 
        AND idclasse='$n'ORDER BY cognome,nome";
-$result = eseguiQuery($con,$sql);
+$result = eseguiQuery($con, $sql);
 
 if ($livello_scuola == '4')
     print "<div align='right'><br><input type='button' id='mv' value='Attiva reset password tutor' onclick='mostra()' />
@@ -154,11 +157,14 @@ print("<td align='center' ><b> Cert.</b> </td>");
 print("<td align='center' ><b> Note</b> </td>");
 print("<td align='center'><b> Azione </b></td>");
 print ("</tr>");
-if (!(mysqli_num_rows($result) > 0)) {
+if (!(mysqli_num_rows($result) > 0))
+{
     print("<tr bgcolor='#cccccc'><td colspan='7'><center><b>Nessun alunno presente</b></td></tr>");
-} else {
+} else
+{
     $contatore = 0;
-    while ($dati = mysqli_fetch_array($result)) {
+    while ($dati = mysqli_fetch_array($result))
+    {
         $contatore++;
         //comunicazione tra le tabelle tbl_alunni,tbl_comuni,tbl_tutori per il passaggio dei valori
         print("<tr class='oddeven'>");
@@ -167,29 +173,36 @@ if (!(mysqli_num_rows($result) > 0)) {
 
         print("<td>" . data_italiana($dati['datanascita']) . "</td>");
         print("<td>" . $dati['userid'] . "</td>");
-        if ($dati['telefono']) {
+        if ($dati['telefono'])
+        {
             print("<td>" . $dati['telefono'] . "</td>");
-        } else {
+        } else
+        {
             print("<td>" . $dati['telcel'] . "</td>");
         }
         print("<td><a href='MAILTO:" . $dati['email'] . "'>" . $dati['email'] . "</A></td>");
-        if ($dati['certificato']) {
+        if ($dati['certificato'])
+        {
             print("<td><img src='../immagini/apply_small.png'></td>");
-        } else {
+        } else
+        {
             print("<td>&nbsp;</td>");
         }
         print("<td>" . $dati['note'] . "</td>");
 
         print("<td><a href='vis_alu_mod.php?idal=" . $dati['idalunno'] . "'><img src='../immagini/modifica.png' title='Modifica'></a>");
         print "&nbsp;&nbsp;&nbsp;";
-        if (poss_canc_alu($dati['idalunno'], $con)) {
+        if (poss_canc_alu($dati['idalunno'], $con))
+        {
             print ("<a href='alu_conf.php?idal=" . $dati['idalunno'] . "?idcla=" . $dati['idclasse'] . "'><img src='../immagini/delete.png' title='Elimina'></a>");
-        } else {
+        } else
+        {
             print ("&nbsp;");
         }
         print("&nbsp;&nbsp;&nbsp;<a href='../password/rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera password tutor'  class='pwdreset'></a>");
         print("&nbsp;&nbsp;&nbsp;<a href='../password/alu_rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera password alunni'  class='pwdresetalu'></a>");
-        if ($tipoutente == 'P') {
+        if ($tipoutente == 'P')
+        {
             print("&nbsp;&nbsp;&nbsp;<a href='../contr/cambiautenteok.php?nuovoutente=" . $dati['userid'] . "'><img src='../immagini/alias.png' title='Assumi identità tutor'></a>");
         }
 

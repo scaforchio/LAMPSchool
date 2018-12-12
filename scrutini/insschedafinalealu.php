@@ -1,29 +1,29 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
-
-
 // DEFINIZIONE ARRAY PER MEMORIZZAZIONE IN CSV
 $listamaterie = array();
 $listamaterie[] = "Alunno";
@@ -52,7 +52,7 @@ $script = "<script type='text/javascript'>
          //-->
          </script>";
 
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
@@ -62,10 +62,10 @@ $periodo = stringa_html('periodo');
 $cl = stringa_html('cl');
 $provenienza = stringa_html('prov');
 $esito = stringa_html('esito');
-$integrativo = stringa_html('esitoint')!=''?stringa_html('esitoint'):0;
+$integrativo = stringa_html('esitoint') != '' ? stringa_html('esitoint') : 0;
 $media = stringa_html('mediah');
-$creditotot = stringa_html('creditotot')!=''?stringa_html('creditotot'):0;
-$credito = stringa_html('credito')!=''?stringa_html('credito'):0;
+$creditotot = stringa_html('creditotot') != '' ? stringa_html('creditotot') : 0;
+$credito = stringa_html('credito') != '' ? stringa_html('credito') : 0;
 $votoammissione = stringa_html('votoammissione');
 $validita = stringa_html('validita');
 
@@ -73,7 +73,7 @@ $querydel = "DELETE FROM tbl_valutazionifinali
            WHERE idalunno=$idalunno
            AND periodo=$periodo";
 
-$ris = mysqli_query($con, inspref($querydel)) or die(mysqli_error($con));
+$ris = eseguiQuery($con,$querydel);
 
 
 // ESTRAGGO TUTTE LE MATERIE PER LA CLASSE
@@ -85,7 +85,7 @@ and tbl_cattnosupp.iddocente <> 1000000000";
 
 $votiinseriti = false;
 // print inspref($query);
-$rismat = eseguiQuery($con,$query);
+$rismat = eseguiQuery($con, $query);
 while ($val = mysqli_fetch_array($rismat))
 {
     $idmateria = $val['idmateria'];
@@ -95,12 +95,12 @@ while ($val = mysqli_fetch_array($rismat))
 
     $votounico = stringa_html($schevotounico);
     $note = stringa_html($schenote);
-    $ass = stringa_html($scheass)!=''?stringa_html($scheass):0;
+    $ass = stringa_html($scheass) != '' ? stringa_html($scheass) : 0;
     if (($votounico != '' & $votounico != '99' & $votounico != NULL))
     {
         $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,assenze,note,periodo, codsissi)
 	                 VALUES ('$idalunno','$idmateria','$votounico','$ass','" . elimina_apici($note) . "','$periodo',0)";
-        $risins = eseguiQuery($con,$queryins);
+        $risins = eseguiQuery($con, $queryins);
         $votiinseriti = true;
     }
 }
@@ -116,7 +116,7 @@ if ($votiinseriti)
 
     $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,periodo,note, codsissi)
 	                 VALUES ('$idalunno','$idmateria','$voto','$periodo','$note',0)";
-    $risins = eseguiQuery($con,$queryins);
+    $risins = eseguiQuery($con, $queryins);
 }
 
 // INSERISCO GIUDIZIO GENERALE
@@ -128,12 +128,12 @@ $querydel = "DELETE FROM tbl_giudizi
 
 // print inspref($querydel);           
 
-$ris = mysqli_query($con, inspref($querydel)) or die(mysqli_error($con));
+$ris = eseguiQuery($con,$querydel);
 
 $giudizio = $_POST['giudizio'];
 $queryins = "INSERT into tbl_giudizi(idclasse,idalunno,periodo,giudizio)
 	                 VALUES ('$cl','$idalunno','$periodo','" . elimina_apici($giudizio) . "')";
-$risins = eseguiQuery($con,$queryins);
+$risins = eseguiQuery($con, $queryins);
 
 // INSERISCO ESITO SCRUTINIO
 
@@ -143,12 +143,12 @@ $querydel = "DELETE FROM tbl_esiti
 
 // print inspref($querydel);           
 
-$ris = mysqli_query($con, inspref($querydel)) or die("Errore:".inspref($querydel,false)." ".mysqli_error($con));
+$ris = eseguiQuery($con,$querydel);
 
 $giudizio = $_POST['giudizio'];
 $queryins = "INSERT into tbl_esiti(idclasse,idalunno,esito, integrativo, media,creditotot, credito,votoammissione,validita)
 	                 VALUES ('$cl','$idalunno','$esito','$integrativo','$media','$creditotot','$credito','$votoammissione','$validita')";
-$risins = eseguiQuery($con,$queryins);
+$risins = eseguiQuery($con, $queryins);
 
 
 if ($provenienza == 'tab')
@@ -163,8 +163,7 @@ if ($provenienza == 'tab')
         <SCRIPT language='JavaScript'>
            document.getElementById('formscr').submit();
         </SCRIPT>";
-}
-else
+} else
 {
     print ("
          <form method='post' id='formscr' action='schedafinalealu.php'>
@@ -176,7 +175,6 @@ else
         <SCRIPT language='JavaScript'>
            document.getElementById('formscr').submit();
         </SCRIPT>");
-
 }
 
 mysqli_close($con);

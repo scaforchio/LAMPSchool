@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 $suffisso = $_GET['suffisso'];
 if ($suffisso == "")
 {
@@ -24,11 +26,10 @@ if (!isset($_SESSION['suffisso']))
     $_SESSION['suffisso'] = $suffisso;
 else
 {
-    if ($suffisso!=$_SESSION['suffisso'])
-        die( "<br><br><center><b>ERRORE! Già loggato in altra scheda su registro diverso!</b></center>");
-    
+    if ($suffisso != $_SESSION['suffisso'])
+        die("<br><br><center><b>ERRORE! Già loggato in altra scheda su registro diverso!</b></center>");
 }
-    
+
 // @require_once("../php-ini".$_SESSION['suffisso'].".php");
 @require_once("../lib/funzioni.php");
 
@@ -39,7 +40,7 @@ $_SESSION["annoscol"] = $annoscol; //prende la variabile presente nella sessione
 $_SESSION['versione'] = $versioneprecedente;
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 
- if (!isset($_SESSION["tipoutente"]))
+if (!isset($_SESSION["tipoutente"]))
 {
     $_SESSION["tipoutente"] = "O";
 }
@@ -53,7 +54,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 $classe = stringa_html("classe");
 
 // scelta classe
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 print ("
@@ -71,7 +72,7 @@ print("
 //  Riempimento combobox delle tbl_classi
 //
 $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY anno,sezione,specializzazione";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -117,7 +118,7 @@ if ($classe != "")
 			  and tbl_classi.idclasse = $classe
 			  order by anno, specializzazione,sezione, denominazione";
     //print inspref($query);
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($nom = mysqli_fetch_array($ris))
     {
 
@@ -136,8 +137,6 @@ if ($classe != "")
 
         print "</td>";
         print"</tr>";
-
-
     }
 
     print "</table>";

@@ -58,7 +58,7 @@ $query = "SELECT * FROM tbl_alunni LEFT JOIN tbl_classi
          ON tbl_alunni.idclasse=tbl_classi.idclasse
          ORDER BY cognome,nome,anno, sezione, specializzazione";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 //print "tttt ".inspref($query);
 print "<form name='selealu' action='visvalpre.php' method='post'>";
 print "<table align='center'>";
@@ -112,7 +112,7 @@ if ($periodo == 'secondo')
 if ($idalunno != '')
 {
     $query = "select * from tbl_alunni where idalunno=$idalunno";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     if ($val = mysqli_fetch_array($ris))
     {
@@ -123,7 +123,7 @@ if ($idalunno != '')
 
     // prelevamento voti
     $query = "select * from tbl_valutazioniintermedie, tbl_materie where tbl_valutazioniintermedie.idmateria=tbl_materie.idmateria and idalunno=$idalunno $seledata order by denominazione, data desc";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     // print $query;
     if (mysqli_num_rows($ris) > 0)
     {
@@ -183,13 +183,13 @@ if ($idalunno != '')
 
     print "<br>";
 
-    $rs1 = mysqli_query($con, inspref("select * from tbl_alunni where idalunno=$idalunno"));
-    $rs2 = mysqli_query($con, inspref("select count(*) as numerotblassenze from tbl_assenze where idalunno=$idalunno $seledata"));
-    $rs3 = mysqli_query($con, inspref("select count(*) as numerotblritardi from tbl_ritardi where idalunno=$idalunno $seledata"));
-    $rs4 = mysqli_query($con, inspref("select count(*) as numerouscite from tbl_usciteanticipate where idalunno=$idalunno $seledata"));
-    $rs5 = mysqli_query($con, inspref("select * from tbl_assenze where idalunno=$idalunno $seledata order by data desc"));
-    $rs6 = mysqli_query($con, inspref("select * from tbl_ritardi where idalunno=$idalunno $seledata order by data desc"));
-    $rs7 = mysqli_query($con, inspref("select * from tbl_usciteanticipate where idalunno=$idalunno $seledata order by data desc"));
+    $rs1 = eseguiQuery($con,"select * from tbl_alunni where idalunno=$idalunno");
+    $rs2 = eseguiQuery($con,"select count(*) as numerotblassenze from tbl_assenze where idalunno=$idalunno $seledata");
+    $rs3 = eseguiQuery($con,"select count(*) as numerotblritardi from tbl_ritardi where idalunno=$idalunno $seledata");
+    $rs4 = eseguiQuery($con,"select count(*) as numerouscite from tbl_usciteanticipate where idalunno=$idalunno $seledata");
+    $rs5 = eseguiQuery($con,"select * from tbl_assenze where idalunno=$idalunno $seledata order by data desc");
+    $rs6 = eseguiQuery($con,"select * from tbl_ritardi where idalunno=$idalunno $seledata order by data desc");
+    $rs7 = eseguiQuery($con,"select * from tbl_usciteanticipate where idalunno=$idalunno $seledata order by data desc");
 
 
     // print "<center><i>Dati aggiornati al ".data_italiana($ultimoaggiornamento).".</i></center>
@@ -282,10 +282,10 @@ if ($idalunno != '')
         {
             $data = $val7["data"];
             echo ' ' . data_italiana($data) . ' ' . giorno_settimana($data) . '<br/> ';
-            $query="select * from tbl_autorizzazioniuscite where idalunno=$idalunno and data='$data'";
-        $ris=eseguiQuery($con,$query);
-        if ($rec = mysqli_fetch_array($ris))
-            print "<small>".$rec['testoautorizzazione']."</small><br>";
+            $query = "select * from tbl_autorizzazioniuscite where idalunno=$idalunno and data='$data'";
+            $ris = eseguiQuery($con, $query);
+            if ($rec = mysqli_fetch_array($ris))
+                print "<small>" . $rec['testoautorizzazione'] . "</small><br>";
         }
     }
     echo '
@@ -295,7 +295,7 @@ if ($idalunno != '')
 
 
 
-    $rasstot = mysqli_query($con, inspref("select sum(oreassenza) as assenzetotali from tbl_asslezione where idalunno=$idalunno"));
+    $rasstot = eseguiQuery($con,"select sum(oreassenza) as assenzetotali from tbl_asslezione where idalunno=$idalunno");
     $rec = mysqli_fetch_array($rasstot);
     $numerooreasstotali = $rec['assenzetotali'];
 
@@ -305,14 +305,14 @@ if ($idalunno != '')
     //
 
     $query = "select idclasse from tbl_alunni where idalunno=$idalunno";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     $rec = mysqli_fetch_array($ris);
     $codclasse = $rec['idclasse'];
 
     // prelevamento dati alunno
 
     $query = "select * from tbl_alunni,tbl_classi where tbl_alunni.idclasse=tbl_classi.idclasse and idalunno='$idalunno'";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     echo '<table border=1 align="center" width="800"  >';
 
@@ -336,7 +336,7 @@ if ($idalunno != '')
 					and tbl_noteindalu.idalunno=$idalunno $seledata
 					order by tbl_notealunno.data desc";
     // print inspref($query);
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query di selezione nota: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
     $c = mysqli_num_rows($ris);
 
@@ -381,7 +381,7 @@ if ($idalunno != '')
                                         $seledata
 					order by tbl_noteclasse.data desc";
     // print $query."<br/>";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore nella query di selezione nota: " . mysqli_error($con));
+    $ris = eseguiQuery($con,$query);
 
     $c = mysqli_num_rows($ris);
 

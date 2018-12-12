@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -40,7 +42,7 @@ if ($tipoutente == "")
     die;
 }
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $titolo = "Selezione alunni con presenza forzata";
 
@@ -103,21 +105,21 @@ jQuery(function($){
 			 });
 </script>
 ";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 /*
-$rissms=array();
-$rissms=verifica_numero_sms_residui($utentesms,$passsms);
-$smsresidui=$rissms['classic_sms'];
-$smsresidui=floor($smsresidui*($costosmsclassic/$costosmsplus));
-if ($smsresidui>1000)
-   $color='green';
-else if ($smsresidui>500)
-   $color='orange';
-else
-   $color='red';      
-print "<center><b><font color='$color' size='4'>SMS residui: $smsresidui</font></center></b>";
-*/
+  $rissms=array();
+  $rissms=verifica_numero_sms_residui($utentesms,$passsms);
+  $smsresidui=$rissms['classic_sms'];
+  $smsresidui=floor($smsresidui*($costosmsclassic/$costosmsplus));
+  if ($smsresidui>1000)
+  $color='green';
+  else if ($smsresidui>500)
+  $color='orange';
+  else
+  $color='red';
+  print "<center><b><font color='$color' size='4'>SMS residui: $smsresidui</font></center></b>";
+ */
 
 print "<center>Gli alunni selezionati risulteranno presenti anche in assenza di timbratura (gite, stage, attività esterne, ecc.)</center><br>";
 print "<form method='post' action='selealunnipresenza.php' name='selealu'>";
@@ -132,7 +134,7 @@ print "   <tr>
 
 // Riempimento combo box tbl_classi
 $query = "SELECT DISTINCT anno FROM tbl_classi ORDER BY anno";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -144,7 +146,6 @@ while ($nom = mysqli_fetch_array($ris))
     }
     print ">";
     print ($nom["anno"]);
-
 }
 
 print("
@@ -157,7 +158,7 @@ print "   <tr>
       <td width='50%'>
       <SELECT ID='cl' NAME='sezione' ONCHANGE='selealu.submit()'><option value=''>&nbsp;</option>";
 $query = "SELECT DISTINCT sezione FROM tbl_classi ORDER BY sezione";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -169,7 +170,6 @@ while ($nom = mysqli_fetch_array($ris))
     }
     print ">";
     print ($nom["sezione"]);
-
 }
 
 print("
@@ -182,7 +182,7 @@ print "   <tr>
       <td width='50%'>
       <SELECT NAME='specializzazione' ONCHANGE='selealu.submit()'><option value=''>&nbsp;</option>";
 $query = "SELECT DISTINCT specializzazione FROM tbl_classi ORDER BY specializzazione";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -194,7 +194,6 @@ while ($nom = mysqli_fetch_array($ris))
     }
     print ">";
     print ($nom["specializzazione"]);
-
 }
 
 print("
@@ -234,7 +233,7 @@ print ("
    <p align='center'>
    
    <table align='center' border='1'>
-   <tr class='prima'><td>Cognome Nome</td><td>Classe</td><td>Presenza</td></tr>");
+   <tr class='prima'><td>N.</td><td>Cognome Nome</td><td>Classe</td><td>Presenza</td></tr>");
 //if ($idclasse=='')
 //    $query="select * from tbl_docenti order by cognome,nome";
 //else
@@ -243,12 +242,14 @@ $query = "select distinct tbl_alunni.idalunno,cognome, nome, datanascita, anno, 
             where tbl_alunni.idclasse=tbl_classi.idclasse
             $sele
             order by anno,sezione,specializzazione,cognome,nome";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
+$numero=0;
 while ($rec = mysqli_fetch_array($ris))
 {
+    $numero++;
 
     print "<tr>";
-    print "     <td>" . $rec['cognome'] . " " . $rec['nome']. " (" . data_italiana($rec['datanascita']) . ")</td>";
+    print " <td>$numero</td>    <td>" . $rec['cognome'] . " " . $rec['nome'] . " (" . data_italiana($rec['datanascita']) . ")</td>";
     print "<td>" . $rec['anno'] . " " . $rec['sezione'] . " " . $rec['specializzazione'] . "</td>";
 
     print "<td align='center'><input type='checkbox' name='pres" . $rec['idalunno'] . "'></td>";

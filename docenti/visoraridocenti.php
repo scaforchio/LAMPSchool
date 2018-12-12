@@ -55,7 +55,7 @@ print ("
 
 //  $sqld= "SELECT * FROM tbl_docenti WHERE NOT sostegno ORDER BY cognome, nome";
 $sqld = "SELECT * FROM tbl_docenti ORDER BY cognome, nome";
-$resd = eseguiQuery($con,$sqld);
+$resd = eseguiQuery($con, $sqld);
 if (!$resd)
 {
     print ("<br/> <br/> <br/> <h2>Impossibile visualizzare i dati </h2>");
@@ -95,7 +95,7 @@ tbl_oooclassilezioni.idlezione=tbl_ooolezioni.idlezione AND
 tbl_oooclassilezioni.idclasse=tbl_oooclassi.idclasse AND
 emaildocente='$maildocente'";
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if (mysqli_num_rows($ris) == 0)
         print "<br><center><b>ORARIO NON PRESENTE PER DOCENTE CON MAIL $maildocente</b></center><br><br>";
     else
@@ -122,9 +122,9 @@ emaildocente='$maildocente'";
             idgiorno='$g' AND
             (idora='$o' OR (idora='$oraprec' AND durata>60))";
 
-                $ris = eseguiQuery($con,$query);
+                $ris = eseguiQuery($con, $query);
                 if ($rec = mysqli_fetch_array($ris))
-                    print ("<td align='center'>" .inspref($query). $rec['nomeclasse'] . "<br>" . $rec['nomemateria'] . "<br>" . $rec['nomeaula'] . "</td>");
+                    print ("<td align='center'>" . inspref($query) . $rec['nomeclasse'] . "<br>" . $rec['nomemateria'] . "<br>" . $rec['nomeaula'] . "</td>");
                 else
                     print "<td></td>";
             }

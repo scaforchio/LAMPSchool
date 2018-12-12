@@ -86,10 +86,9 @@ if ($classeregistro == "")
 {
     $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY specializzazione, sezione, anno";
     print "<option value=''>&nbsp;";
-}
-else
+} else
     $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi where idclasse=$classeregistro ORDER BY specializzazione, sezione, anno";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 while ($nom = mysqli_fetch_array($ris))
 {
@@ -121,33 +120,32 @@ echo('   <td width="50%">');
 if ($classeregistro == "")
 {
     echo('   <select name="gio"  ONCHANGE="tbl_assenze.submit()">');
-}
-else
+} else
 {
     print ("<input type='hidden' name='gio' value='$giorno'>");
     echo('   <select name="gio" disabled>');
 }
 require '../lib/aggiungi_giorni_a_select.php';
 /*
-for  ($g = 1; $g <= 31; $g++)
-{
-    if ($g < 10)
-    {
-        $gs = '0' . $g;
-    }
-    else
-    {
-        $gs = '' . $g;
-    }
-    if ($gs == $giorno)
-    {
-        echo("<option selected>$gs</option>");
-    }
-    else
-    {
-        echo("<option>$gs</option>");
-    }
-}
+  for  ($g = 1; $g <= 31; $g++)
+  {
+  if ($g < 10)
+  {
+  $gs = '0' . $g;
+  }
+  else
+  {
+  $gs = '' . $g;
+  }
+  if ($gs == $giorno)
+  {
+  echo("<option selected>$gs</option>");
+  }
+  else
+  {
+  echo("<option>$gs</option>");
+  }
+  }
  * 
  */
 echo("</select>");
@@ -156,53 +154,52 @@ echo("</select>");
 if ($classeregistro == "")
 {
     echo('   <select name="meseanno" ONCHANGE="tbl_assenze.submit()">');
-}
-else
+} else
 {
     print ("<input type='hidden' name='meseanno' value='$mese'>");
     echo('   <select name="meseanno" disabled>');
 }
 require '../lib/aggiungi_mesi_a_select.php';
 /*
-for  ($m = 9; $m <= 12; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = "0" . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscol</option>");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscol</option>");
-    }
-}
-$annoscolsucc = $annoscol + 1;
-for ($m = 1; $m <= 8; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = '0' . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscolsucc</option>");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscolsucc</option>");
-    }
-}
+  for  ($m = 9; $m <= 12; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = "0" . $m;
+  }
+  else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscol</option>");
+  }
+  else
+  {
+  echo("<option>$ms - $annoscol</option>");
+  }
+  }
+  $annoscolsucc = $annoscol + 1;
+  for ($m = 1; $m <= 8; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = '0' . $m;
+  }
+  else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscolsucc</option>");
+  }
+  else
+  {
+  echo("<option>$ms - $annoscolsucc</option>");
+  }
+  }
  * 
  */
 
@@ -222,16 +219,14 @@ echo("
 if ($mese == "")
 {
     $m = 0;
-}
-else
+} else
 {
     $m = $mese;
 }
 if ($giorno == "")
 {
     $g = 0;
-}
-else
+} else
 {
     $g = $giorno;
 }
@@ -239,8 +234,7 @@ else
 if ($anno == "")
 {
     $a = 0;
-}
-else
+} else
 {
     $a = $anno;
 }
@@ -252,16 +246,16 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
     $data = $a . "-" . $m . "-" . $g;
     $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
-    $elencoalunni=estrai_alunni_classe_data($idclasse, $data, $con);
+    $elencoalunni = estrai_alunni_classe_data($idclasse, $data, $con);
     $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($val = mysqli_fetch_array($ris))
     {
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
     }
     $query = "SELECT idalunno AS al FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     $c = mysqli_fetch_array($ris);
 
@@ -293,7 +287,7 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
 
     // $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
     $query = "SELECT * FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     $cont = 0;
     while ($val = mysqli_fetch_array($ris))
     {
@@ -305,8 +299,7 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
         if ($val['autentrata'] != "")
         {
             $autoentr = "<br><small>Perm. ingr.: " . $val['autentrata'] . "</small>";
-        }
-        else
+        } else
         {
             $autoentr = "";
         }
@@ -318,7 +311,7 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
         // VERIFICA PRESENZA FORZATA
         $querypf = 'SELECT * FROM tbl_presenzeforzate WHERE idalunno = ' . $val["idalunno"] . ' AND data = "' . $a . '-' . $m . '-' . $g . '"';
 
-        $rispf = mysqli_query($con, inspref($querypf)) or die("Errore nella query: " . mysqli_error($con));
+        $rispf = eseguiQuery($con, $querypf);
         if ($valpf = mysqli_fetch_array($rispf))
         {
             print " disabled";
@@ -327,7 +320,7 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
         // Codice per ricerca tbl_assenze già inserite
         $queryass = 'SELECT * FROM tbl_assenze WHERE idalunno = ' . $val["idalunno"] . ' AND data = "' . $a . '-' . $m . '-' . $g . '"';
 
-        $risass = mysqli_query($con, inspref($queryass)) or die("Errore nella query: " . mysqli_error($con));
+        $risass = eseguiQuery($con, $queryass);
         if ($valass = mysqli_fetch_array($risass))
         {
             print " checked";
@@ -350,7 +343,7 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
                 where idalunno=" . $val['idalunno'] . "
                 and data< '$a-$m-$g'
                 and (isnull(giustifica) or giustifica=0)";
-        $risassing = eseguiQuery($con,$query);
+        $risassing = eseguiQuery($con, $query);
         $valassing = mysqli_fetch_array($risassing);
         $numero_assenze_ing = $valassing['numassingiust'];
         if ($numero_assenze_ing > 0)
@@ -368,20 +361,17 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
 	      <p align="center"><input type=hidden value=' . $m . ' name=mese>
           <p align="center"><input type=hidden value=' . $a . ' name=anno>
       </form>';
-}
-else
+} else
 {
     if ($giornosettimana == "Dom")
     {
         print("<center><big><big>Il giorno selezionato &egrave; una domenica</big></big></center>");
-    }
-    else
+    } else
     {
         if ($nome == "")
         {
             print("");
-        }
-        else
+        } else
         {
             print("<center><big><big>La data selezionata non &egrave; valida</big></big></center>");
         }

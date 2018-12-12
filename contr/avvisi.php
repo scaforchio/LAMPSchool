@@ -1,24 +1,26 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
-/*programma per l'inserimento di un avviso
-riceve in ingresso iddocente*/
+/* programma per l'inserimento di un avviso
+  riceve in ingresso iddocente */
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 
@@ -59,7 +61,7 @@ $(function() {
 });
 </script>';
 }
-stampa_head($titolo, "", $script,"SPMA");
+stampa_head($titolo, "", $script, "SPMA");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_avvisi.php'>ELENCO AVVISI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $inizio = stringa_html('inizio');
@@ -103,8 +105,7 @@ if ($idavviso == '')
     if (strpos($destin, "D") === false)
     {
         echo("<option value='D'>Docenti</option>");
-    }
-    else
+    } else
     {
         echo("<option value='D' selected>Docenti</option>");
     }
@@ -112,8 +113,7 @@ if ($idavviso == '')
     if (strpos($destin, "S") === false)
     {
         echo("<option value='S'>Staff di presidenza</option>");
-    }
-    else
+    } else
     {
         echo("<option value='S' selected>Staff di presidenza</option>");
     }
@@ -121,17 +121,15 @@ if ($idavviso == '')
     if (strpos($destin, "T") === false)
     {
         echo("<option value='T'>Genitori e tutor</option>");
-    }
-    else
+    } else
     {
         echo("<option value='T' selected>Genitori e tutor</option>");
     }
-    
+
     if (strpos($destin, "L") === false)
     {
         echo("<option value='L'>Alunni</option>");
-    }
-    else
+    } else
     {
         echo("<option value='L' selected>Alunni</option>");
     }
@@ -140,8 +138,7 @@ if ($idavviso == '')
     if (strpos($destin, "A") === false)
     {
         echo("<option value='A'>Amministrativi</option>");
-    }
-    else
+    } else
     {
         echo("<option value='A' selected>Amministrativi</option>");
     }
@@ -155,11 +152,10 @@ if ($idavviso == '')
     print("<INPUT TYPE='SUBMIT' VALUE='Inserisci'>");
 
     print("</FORM></CENTER>");
-}
-else
+} else
 {
     $query = "select * from tbl_avvisi where idavviso=$idavviso";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($val = mysqli_fetch_array($ris))
     {
         $inizio = $val['inizio'];
@@ -184,8 +180,7 @@ else
         if (strpos($destin, "D") === false)
         {
             echo("<option value='D'>Docenti</option>");
-        }
-        else
+        } else
         {
             echo("<option value='D' selected>Docenti</option>");
         }
@@ -193,8 +188,7 @@ else
         if (strpos($destin, "S") === false)
         {
             echo("<option value='S'>Staff di presidenza</option>");
-        }
-        else
+        } else
         {
             echo("<option value='S' selected>Staff di presidenza</option>");
         }
@@ -202,8 +196,7 @@ else
         if (strpos($destin, "T") === false)
         {
             echo("<option value='T'>Genitori e tutor</option>");
-        }
-        else
+        } else
         {
             echo("<option value='T' selected>Genitori e tutor</option>");
         }
@@ -211,18 +204,16 @@ else
         if (strpos($destin, "L") === false)
         {
             echo("<option value='L'>Alunni</option>");
-        }
-        else
+        } else
         {
             echo("<option value='L' selected>Alunni</option>");
         }
-        
-        
+
+
         if (strpos($destin, "A") === false)
         {
             echo("<option value='A'>Amministrativi</option>");
-        }
-        else
+        } else
         {
             echo("<option value='A' selected>Amministrativi</option>");
         }

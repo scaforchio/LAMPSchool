@@ -46,10 +46,10 @@ $nominativodirigente = estrai_dati_docente(1000000000, $con);
 $prot = stringa_html('prot');
 $conc = stringa_html('conc');
 
-if ($conc==3)  // ASSENZA PER MOTIVI DI SERVIZIO
+if ($conc == 3)  // ASSENZA PER MOTIVI DI SERVIZIO
 {
-    $conc=1;
-    $senzaconteggio=true;
+    $conc = 1;
+    $senzaconteggio = true;
 }
 if ($conc == 0)
     $esito = "<br><br><b>Vista la domanda: NON SI CONCEDE!<br><br><center>Il Dirigente Scolastico<br>$nominativodirigente</b></center>";
@@ -57,13 +57,13 @@ if ($conc == 1)
     $esito = "<br><br><b>Vista la domanda: SI CONCEDE!<br><br><center>Il Dirigente Scolastico<br>$nominativodirigente</b></center>";
 
 if (!$senzaconteggio)
-   $query = "update tbl_richiesteferie set concessione=$conc, testomail=concat(testomail,'" . $esito . "') where idrichiestaferie=$prot";
+    $query = "update tbl_richiesteferie set concessione=$conc, testomail=concat(testomail,'" . $esito . "') where idrichiestaferie=$prot";
 else
-   $query = "update tbl_richiesteferie set concessione=$conc, numerogiorni=0, orepermessobreve=0, testomail=concat(testomail,'" . $esito . "') where idrichiestaferie=$prot"; 
-eseguiQuery($con,$query);
+    $query = "update tbl_richiesteferie set concessione=$conc, numerogiorni=0, orepermessobreve=0, testomail=concat(testomail,'" . $esito . "') where idrichiestaferie=$prot";
+eseguiQuery($con, $query);
 
 $query = "select * from tbl_richiesteferie where idrichiestaferie=$prot";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 $rec = mysqli_fetch_array($ris);
 
 $iddocente = $rec['iddocente'];
@@ -71,7 +71,7 @@ $subject = $rec['subject'];
 $testomail = $rec['testomail'];
 
 $query = "select email from tbl_docenti where iddocente=$iddocente";
-$risemail = eseguiQuery($con,$query);
+$risemail = eseguiQuery($con, $query);
 $recemail = mysqli_fetch_array($risemail);
 $indirizzomaildocente = $recemail['email'];
 
@@ -79,9 +79,9 @@ if ($conc != 2)
 {
     $esitomailprotocollo = invia_mail($indirizzomailassenze, $subject, $testomail);
     $esitomaildocente = invia_mail($indirizzomaildocente, $subject, $testomail);
-    if (($conc == 1) && $mailresponsabilesostituzioni!='')
+    if (($conc == 1) && $mailresponsabilesostituzioni != '')
     {
-        $esitomailresponsabile=invia_mail($mailresponsabilesostituzioni, $subject, "Richiesta in oggetto specificata accolta dal D.S.");
+        $esitomailresponsabile = invia_mail($mailresponsabilesostituzioni, $subject, "Richiesta in oggetto specificata accolta dal D.S.");
         //print "Esito $esitomailresponsabile";
         //die();
     }
@@ -100,7 +100,7 @@ if ($conc != 2)
             print "Errore nell'invio della mail al protocollo.";
         if (!$esitomaildocente)
             print "Errore nell'invio della mail al docente.";
-        
+
         print "<br><br><form method='post' id='formlez' action='esamerichferie.php'>
        <center><input type='submit' value='OK'></center>
        </form>";

@@ -1,21 +1,23 @@
-<?php session_start();
+<?php
+
+session_start();
 
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -35,17 +37,17 @@ $classeregistro = $_SESSION['classeregistro'];
 $titolo = "Inserimento e modifica annotazioni";
 $script = "";
 
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $idannotazione = stringa_html('idannotazione');
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 if ($idannotazione != "")   // se si arriva dalla pagina della ricerca
 {
     $query = "SELECT * FROM tbl_annotazioni WHERE idannotazione=" . $idannotazione . " ";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     $nom = mysqli_fetch_array($ris);
     $idclasse = $nom['idclasse'];
     // $but = stringa_html('visass');
@@ -54,8 +56,7 @@ if ($idannotazione != "")   // se si arriva dalla pagina della ricerca
     $anno = substr($nom['data'], 0, 4);
     // $but = stringa_html('visass');
     $iddocente = $nom['iddocente'];
-}
-else
+} else
 {
     $idclasse = stringa_html('idclasse');
     $giorno = stringa_html('gio');
@@ -104,13 +105,12 @@ print ('
 if ($classeregistro == "")
 {
     $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY specializzazione, sezione, anno";
-}
-else
+} else
 {
     $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi where idclasse=$classeregistro ORDER BY specializzazione, sezione, anno";
 }
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -143,8 +143,7 @@ echo('   <td width="50%">');
 if ($classeregistro == "")
 {
     echo('   <select name="gio" ONCHANGE="tbl_noteclasse.submit()">');
-}
-else
+} else
 {
     print ("<input type='hidden' name='gio' value='$giorno'>");
     echo('   <select name="gio" disabled>');
@@ -156,53 +155,52 @@ echo("</select>");
 if ($classeregistro == "")
 {
     echo('   <select name="mese" ONCHANGE="tbl_noteclasse.submit()">');
-}
-else
+} else
 {
     print ("<input type='hidden' name='mese' value='$mese'>");
     echo('   <select name="mese" disabled>');
 }
 require '../lib/aggiungi_mesi_a_select.php';
 /*
-for  ($m = 9; $m <= 12; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = '0' . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscol");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscol");
-    }
-}
-$annoscolsucc = $annoscol + 1;
-for ($m = 1; $m <= 8; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = '0' . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscolsucc");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscolsucc");
-    }
-}
+  for  ($m = 9; $m <= 12; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = '0' . $m;
+  }
+  else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscol");
+  }
+  else
+  {
+  echo("<option>$ms - $annoscol");
+  }
+  }
+  $annoscolsucc = $annoscol + 1;
+  for ($m = 1; $m <= 8; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = '0' . $m;
+  }
+  else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscolsucc");
+  }
+  else
+  {
+  echo("<option>$ms - $annoscolsucc");
+  }
+  }
  * 
  */
 echo("</select></td></tr>");
@@ -211,16 +209,14 @@ echo("</select></td></tr>");
 //
 //  Fine visualizzazione della data
 //
-
 // Riempimento combo box tbl_docenti
 print "<tr><td width='50%'><p align='center'><b>Docente</b></p></td><td>";
 $query = "SELECT iddocente,cognome,nome FROM tbl_docenti ORDER BY cognome, nome";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($tipoutente == 'P' | $tipoutente == 'S')
 {
     echo("<select name='iddocente' ONCHANGE='tbl_noteclasse.submit()'>");
-}
-else
+} else
 {
     echo("<select name='iddocente' ONCHANGE='tbl_noteclasse.submit()' disabled>");
 }
@@ -237,7 +233,6 @@ while ($nom = mysqli_fetch_array($ris))
     print ($nom["cognome"]);
     print "&nbsp;";
     print($nom["nome"]);
-
 }
 
 echo('
@@ -261,16 +256,14 @@ echo('</form></td>
 if ($mese == "")
 {
     $m = 0;
-}
-else
+} else
 {
     $m = $mese;
 }
 if ($giorno == "")
 {
     $g = 0;
-}
-else
+} else
 {
     $g = $giorno;
 }
@@ -278,8 +271,7 @@ else
 if ($anno == "")
 {
     $a = 0;
-}
-else
+} else
 {
     $a = $anno;
 }
@@ -289,12 +281,12 @@ else
 
 if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
 {
-    $c=NULL;
+    $c = NULL;
     if ($idannotazione != "")
     {
         //$idclasse = $nome;
         //$classe = "";
-        $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+        $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
         //   $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
@@ -305,7 +297,7 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
         // $query = "select * from tbl_annotazioni where idclasse='$idclasse' and data='$data' and iddocente='$iddocente'";
         $query = "select * from tbl_annotazioni where idannotazione='$idannotazione'";
         //  print $query;
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
 
         $c = mysqli_fetch_array($ris);
     }
@@ -319,28 +311,24 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
         echo "<center>Visibile a tutti i genitori della classe<input type='checkbox' name='visibile'></center>";
         echo "<center>Visibile a tutti gli alunni della classe<input type='checkbox' name='visibilealu'></center>";
         echo "</td>";
-
-
-    }
-    else
+    } else
     {
         echo "<form method='get' action='insannotaz.php'>
           <table border=2 align='center'><tr class=prima><td align='center'><b>Annotazione</b></td></tr><tr><td>";
         echo "<textarea  cols=60 rows=10 name ='testo'>";
         echo $c['testo'];
         echo "</textarea><br/><br>";
-        
-        
-        if ($c['visibilitagenitori']==true)
+
+
+        if ($c['visibilitagenitori'] == true)
             echo "<center>Visibile a tutti i genitori della classe<input type='checkbox' name='visibile' checked></center>";
         else
             echo "<center>Visibile a tutti i genitori della classe<input type='checkbox' name='visibile'></center>";
-        if ($c['visibilitaalunni']==true)
+        if ($c['visibilitaalunni'] == true)
             echo "<center>Visibile a tutti gli alunni della classe<input type='checkbox' name='visibilealu' checked></center>";
         else
             echo "<center>Visibile a tutti gli alunni delal classe<input type='checkbox' name='visibilealu'></center>";
         echo "</td>";
-
     }
     echo '</tr></table>';
 
@@ -358,22 +346,18 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
           <p align="center"><input type=hidden value=' . $idannotazione . ' name=idannotazione>
           </form>
          ';
-
-
 }
 else
 {
     if ($giornosettimana == "Dom")
     {
         print("<Center> <big><big>Il giorno selezionato &egrave; una domenica<small><small> </center>");
-    }
-    else
+    } else
     {
         if ($idclasse == "")
         {
             print("");
-        }
-        else
+        } else
         {
             print("<Center> <big><big>La data selezionata non &egrave; valida<small><small> </center>");
         }
@@ -382,5 +366,5 @@ else
 // fine if
 
 mysqli_close($con);
-stampa_piede(""); 
+stampa_piede("");
 

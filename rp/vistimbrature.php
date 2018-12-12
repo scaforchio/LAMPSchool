@@ -123,7 +123,7 @@ $query = "select idalunno,cognome,nome,datanascita,tbl_alunni.idclasse from tbl_
         . "where tbl_alunni.idclasse=tbl_classi.idclasse "
         . "and tbl_alunni.idclasse<>0 "
         . "order by cognome, nome, datanascita";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 echo("<select name='idalunno' ONCHANGE='timbrature.submit()'><option value=''>&nbsp");
 while ($nom = mysqli_fetch_array($ris))
 {
@@ -141,7 +141,7 @@ while ($nom = mysqli_fetch_array($ris))
     print "&nbsp;&nbsp;";
     print(decodifica_classe($nom["idclasse"], $con));
     print "&nbsp;&nbsp;";
-    print("(".$nom['idalunno'].")");
+    print("(" . $nom['idalunno'] . ")");
 }
 echo "</select></td></tr>";
 //}
@@ -160,7 +160,7 @@ if ($idalunno != "")
 	        where idalunno=$idalunno
 	        order by datatimbratura desc, oratimbratura desc";
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
 
     if (mysqli_num_rows($ris) > 0)
@@ -173,8 +173,7 @@ if ($idalunno != "")
             print "<tr><td>" . data_italiana($rec['datatimbratura']) . "</td><td>" . substr($rec['oratimbratura'], 0, 5) . "</td><td align='center'>" . $rec['tipotimbratura'] . "</td><td>" . $rec['ultimamodifica'] . "</td><td align='center'>" . $forz . "</td></tr>";
         }
         print "</table>";
-    }
-    else
+    } else
     {
 
         print("<center><b><br>Nessuna timbratura presente!</b></center>");

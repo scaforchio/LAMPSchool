@@ -1,26 +1,28 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 require_once("../lib/fpdf/fpdf.php");
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
@@ -43,7 +45,6 @@ $schede = new FPDFPAG();
 $schede->AliasNbPages();
 // $schede->AddFont('DejaVu','','DejaVuSansCondensed.ttf',true);
 // $schede->SetFont('DejaVu','',14);
-
 //
 // Estraggo tutti i valori per sostituzione parametri di stampa
 //
@@ -51,7 +52,7 @@ $query = "select * from tbl_esami3m,tbl_escommissioni where
           tbl_esami3m.idcommissione=tbl_escommissioni.idescommissione
           and idclasse=$idclasse";
 // print inspref($query);
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 $rec = mysqli_fetch_array($ris);
 
 
@@ -67,15 +68,14 @@ $commissione = $rec['denominazione'];
 if ($rec['idsegretario'] != "" & $rec['idsegretario'] != 0)
 {
     $segretario = estrai_dati_docente($rec['idsegretario'], $con);
-}
-else
+} else
 {
     $segretario = "";
 }
 $query = "SELECT cognome,nome FROM tbl_escompcommissioni,tbl_docenti
         WHERE tbl_escompcommissioni.iddocente = tbl_docenti.iddocente
         AND idcommissione=" . $rec['idcommissione'];
-$risdoc = mysqli_query($con, inspref($query)) or die("Errore: ".inspref($query,false));
+$risdoc = eseguiQuery($con,$query);
 $elencodocenti = "";
 $arrdocenti = array();
 while ($recdoc = mysqli_fetch_array($risdoc))
@@ -102,46 +102,46 @@ $testo4 = str_replace("\r", "", $testo4);
 
 /*
 
-$query = "select distinct tbl_cattnosupp.iddocente, cognome, nome from tbl_cattnosupp,tbl_docenti
-        where tbl_cattnosupp.iddocente=tbl_docenti.iddocente
-        and idclasse=$idclasse and tbl_cattnosupp.iddocente<>1000000000
-        order by cognome, nome";
-$ris = eseguiQuery($con,$query);
-$elencodocentititolari = array();
-while ($rec = mysqli_fetch_array($ris))
-{
-    if (!(strpos($sostituzioni, "§" . $rec['iddocente']) > -1))
-    {
-        $elencodocentititolari[] = $rec['iddocente'];
-    }
+  $query = "select distinct tbl_cattnosupp.iddocente, cognome, nome from tbl_cattnosupp,tbl_docenti
+  where tbl_cattnosupp.iddocente=tbl_docenti.iddocente
+  and idclasse=$idclasse and tbl_cattnosupp.iddocente<>1000000000
+  order by cognome, nome";
+  $ris = eseguiQuery($con,$query);
+  $elencodocentititolari = array();
+  while ($rec = mysqli_fetch_array($ris))
+  {
+  if (!(strpos($sostituzioni, "§" . $rec['iddocente']) > -1))
+  {
+  $elencodocentititolari[] = $rec['iddocente'];
+  }
 
-}
-$numerodocentitit = count($elencodocentititolari);
-$elencodocentipresenti = array();
+  }
+  $numerodocentitit = count($elencodocentititolari);
+  $elencodocentipresenti = array();
 
-foreach ($elencodocentititolari as $doctit)
-{
-    if (strpos($sostituzioni, $doctit . "<") > 0)
-    {
-        $pos = strpos($sostituzioni, $doctit . "<");
-        $codsost = substr($sostituzioni, $pos + 11, 10);
-        $elencodocentipresenti[] = $codsost;
-    }
+  foreach ($elencodocentititolari as $doctit)
+  {
+  if (strpos($sostituzioni, $doctit . "<") > 0)
+  {
+  $pos = strpos($sostituzioni, $doctit . "<");
+  $codsost = substr($sostituzioni, $pos + 11, 10);
+  $elencodocentipresenti[] = $codsost;
+  }
 
-    else
-    {
-        $elencodocentipresenti[] = $doctit;
-    }
-}
+  else
+  {
+  $elencodocentipresenti[] = $doctit;
+  }
+  }
 
-// $contopres=true;
-// if (in_array($codpresidente,$elencodocentipresenti))
-//   $contopres=false;
+  // $contopres=true;
+  // if (in_array($codpresidente,$elencodocentipresenti))
+  //   $contopres=false;
 
-//
-// Sostituisco i parametri nel testo
-//
-*/
+  //
+  // Sostituisco i parametri nel testo
+  //
+ */
 $testo1 = str_replace("[presidente]", $presidente, $testo1);
 $testo1 = str_replace("[classe]", $classe, $testo1);
 $testo1 = str_replace("[orainizio]", $orainizio, $testo1);
@@ -201,8 +201,8 @@ $schede->AddPage();
 if ($_SESSION['suffisso'] != "")
 {
     $suff = $_SESSION['suffisso'] . "/";
-}
-else $suff = "";
+} else
+    $suff = "";
 $schede->Image('../abc/' . $suff . 'testata.jpg', NULL, NULL, 190, 43);
 
 
@@ -225,12 +225,12 @@ $posY = $schede->GetY();
 $posY += 5;
 
 /*
-$schede->SetXY(10, $posY);
-$schede->SetFont('Times', '', 10);
-$schede->write(4, converti_utf8($elencodocenti));
-$posY = $schede->GetY();
-$posY += 5;
-*/
+  $schede->SetXY(10, $posY);
+  $schede->SetFont('Times', '', 10);
+  $schede->write(4, converti_utf8($elencodocenti));
+  $posY = $schede->GetY();
+  $posY += 5;
+ */
 
 
 $schede->SetXY(10, $posY);
@@ -239,52 +239,52 @@ $schede->write(4, converti_utf8($testo2));
 $posY = $schede->GetY();
 $posY += 2;
 /*
-$annotazioni = "";
-if ($periodo=='9')
-    $conddebito = " and idalunno in (select idalunno from tbl_esiti WHERE (validita='1' OR validita='2') AND esito=0) ";
-else
-    $conddebito = "";
+  $annotazioni = "";
+  if ($periodo=='9')
+  $conddebito = " and idalunno in (select idalunno from tbl_esiti WHERE (validita='1' OR validita='2') AND esito=0) ";
+  else
+  $conddebito = "";
 
-$query = "select * from tbl_alunni where idclasseesame=$idclasse $conddebito order by cognome, nome, datanascita";
-$ris = eseguiQuery($con,$query);
-while ($rec = mysqli_fetch_array($ris))
-{
-    $idalunno = $rec['idalunno'];
-    $datialunno = estrai_dati_alunno($idalunno, $con) . "\n";
-    $annotazionialunno = "";
-    $query = "select * from tbl_giudizi where idalunno=$idalunno and periodo=$numeroperiodi and giudizio<>''";
-    $risgiu = eseguiQuery($con,$query);
-    if ($recgiu = mysqli_fetch_array($risgiu))
-    {
-        $annotazionialunno .= $recgiu['giudizio'] . "\n";
-    }
-    $query = "select * from tbl_valutazionifinali,tbl_materie
-	        where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
-	        and idalunno=$idalunno and periodo=$numeroperiodi and note<>''
-	        order by tbl_materie.progrpag, denominazione";
-    $risnot = eseguiQuery($con,$query);
-    while ($recnot = mysqli_fetch_array($risnot))
-    {
-        $annotazionialunno .= $recnot['denominazione'] . ": ";
-        $annotazionialunno .= $recnot['note'] . "\n";
-    }
-    if ($annotazionialunno != "")
-    {
-        $annotazioni .= $datialunno . $annotazionialunno;
-    }
-}
+  $query = "select * from tbl_alunni where idclasseesame=$idclasse $conddebito order by cognome, nome, datanascita";
+  $ris = eseguiQuery($con,$query);
+  while ($rec = mysqli_fetch_array($ris))
+  {
+  $idalunno = $rec['idalunno'];
+  $datialunno = estrai_dati_alunno($idalunno, $con) . "\n";
+  $annotazionialunno = "";
+  $query = "select * from tbl_giudizi where idalunno=$idalunno and periodo=$numeroperiodi and giudizio<>''";
+  $risgiu = eseguiQuery($con,$query);
+  if ($recgiu = mysqli_fetch_array($risgiu))
+  {
+  $annotazionialunno .= $recgiu['giudizio'] . "\n";
+  }
+  $query = "select * from tbl_valutazionifinali,tbl_materie
+  where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
+  and idalunno=$idalunno and periodo=$numeroperiodi and note<>''
+  order by tbl_materie.progrpag, denominazione";
+  $risnot = eseguiQuery($con,$query);
+  while ($recnot = mysqli_fetch_array($risnot))
+  {
+  $annotazionialunno .= $recnot['denominazione'] . ": ";
+  $annotazionialunno .= $recnot['note'] . "\n";
+  }
+  if ($annotazionialunno != "")
+  {
+  $annotazioni .= $datialunno . $annotazionialunno;
+  }
+  }
 
-if ($annotazioni != "")
-{
-    $annotazioni = "Si riportano annotazioni sugli alunni di seguito elencati:\n" . $annotazioni;
-}
+  if ($annotazioni != "")
+  {
+  $annotazioni = "Si riportano annotazioni sugli alunni di seguito elencati:\n" . $annotazioni;
+  }
 
-$schede->SetXY(10, $posY);
-$schede->SetFont('Times', '', 10);
-$schede->write(4, converti_utf8($annotazioni));
-$posY = $schede->GetY();
-$posY += 5;
-*/
+  $schede->SetXY(10, $posY);
+  $schede->SetFont('Times', '', 10);
+  $schede->write(4, converti_utf8($annotazioni));
+  $posY = $schede->GetY();
+  $posY += 5;
+ */
 
 
 // ESITI POSITIVI
@@ -294,7 +294,7 @@ $query = "select * from tbl_esesiti,tbl_alunni
         and tbl_alunni.idclasseesame = $idclasse
         and tbl_esesiti.votofinale>=6
         order by idclasse DESC, cognome, nome, datanascita";
-$risesi = eseguiQuery($con,$query);
+$risesi = eseguiQuery($con, $query);
 $numdalic = mysqli_num_rows($risesi);
 if ($numdalic > 0)
 {
@@ -304,8 +304,6 @@ if ($numdalic > 0)
     $schede->Cell(170, 5, converti_utf8("Candidati dche hanno superato l'esame n. $numdalic"));
     $posY = $schede->GetY();
     $posY += 8;
-
-
 }
 while ($recesi = mysqli_fetch_array($risesi))
 {
@@ -323,8 +321,7 @@ while ($recesi = mysqli_fetch_array($risesi))
     if ($recesi['consorientcomm'] == '')
     {
         $riga .= " - Si conferma il giudizio orientativo: " . $recesi['consorientcons'];
-    }
-    else
+    } else
     {
         $riga .= " - Il consiglio orientativo proposto dal Consiglio di Classe (" . $recesi['consorientcons'] . ") viene cambiato in: " . $recesi['consorientcomm'];
     }
@@ -345,7 +342,7 @@ $query = "select * from tbl_esesiti,tbl_alunni
         and tbl_alunni.idclasseesame = $idclasse
         and tbl_esesiti.votofinale<6
         order by idclasse DESC, cognome, nome, datanascita";
-$risesi = eseguiQuery($con,$query);
+$risesi = eseguiQuery($con, $query);
 $numnondalic = mysqli_num_rows($risesi);
 if ($numnondalic > 0)
 {
@@ -384,7 +381,7 @@ $query = "select * from tbl_esesiti,tbl_alunni
         and tbl_esesiti.votofinale<=6
         and tbl_esesiti.ammissioneterza
         order by cognome, nome, datanascita";
-$risesi = eseguiQuery($con,$query);
+$risesi = eseguiQuery($con, $query);
 $numterza = mysqli_num_rows($risesi);
 if ($numterza > 0)
 {
@@ -398,7 +395,6 @@ if ($numterza > 0)
     $schede->Cell(170, 5, converti_utf8("che non hanno superato le prove d'esame:"));
     $posY = $schede->GetY();
     $posY += 8;
-
 }
 while ($recesi = mysqli_fetch_array($risesi))
 {
@@ -437,21 +433,20 @@ $posY += 5;
 $schede->SetXY(105, $posY);
 $schede->SetFont('Times', '', 10);
 /*
-if ($codpresidente == 1000000000)
-{
-    $schede->Cell(95, 8, converti_utf8("Il dirigente scolastico"), NULL, 1, "C");
-}
-else
-{
-    $schede->Cell(95, 8, converti_utf8("Il delegato del D.S."), NULL, 1, "C");
-}
-*/
-$posfinY=$schede->getY();
-if ($posfinY<120)
+  if ($codpresidente == 1000000000)
+  {
+  $schede->Cell(95, 8, converti_utf8("Il dirigente scolastico"), NULL, 1, "C");
+  }
+  else
+  {
+  $schede->Cell(95, 8, converti_utf8("Il delegato del D.S."), NULL, 1, "C");
+  }
+ */
+$posfinY = $schede->getY();
+if ($posfinY < 120)
 {
     $posY += 5;
-}
-else
+} else
 {
     $schede->AddPage();
     $posY = 20;
@@ -459,13 +454,13 @@ else
 $schede->SetXY(20, $posY);
 $schede->SetFont('Times', 'B', 10);
 $schede->Cell(50, 8, converti_utf8("Il segretario"), NULL, 1, "C");
-$posY +=5;
+$posY += 5;
 $schede->SetXY(20, $posY);
 $schede->Cell(50, 8, converti_utf8("($segretario)"), NULL, 1, "C");
 $schede->Line(20, $posY + 20, 70, $posY + 20);
 
 
-$posY-=5;
+$posY -= 5;
 $schede->setXY(80, $posY);
 $schede->Image('../abc/' . $suff . 'timbro.png');
 
@@ -473,7 +468,7 @@ $schede->Image('../abc/' . $suff . 'timbro.png');
 $schede->SetXY(125, $posY);
 $schede->SetFont('Times', 'B', 10);
 $schede->Cell(50, 8, converti_utf8("Il presidente"), NULL, 1, "C");
-$posY+=5;
+$posY += 5;
 $schede->SetXY(125, $posY);
 $schede->Cell(50, 8, converti_utf8("($presidente)"), NULL, 1, "C");
 $schede->Line(125, $posY + 20, 175, $posY + 20);
@@ -494,30 +489,30 @@ foreach ($arrdocenti as $nominativodocente)
 }
 // $schede->FooterAll();
 /*
-$schede->AddPage();
-$posY = 20;
-$schede->SetFont('Times', '', 12);
-$schede->setXY(10, $posY);
-$verbale = converti_utf8("Firma docenti presenti allo scrutinio, classe $classe");
-$schede->MultiCell(190, 8, $verbale, NULL, "C");
-$posY += 10;
+  $schede->AddPage();
+  $posY = 20;
+  $schede->SetFont('Times', '', 12);
+  $schede->setXY(10, $posY);
+  $verbale = converti_utf8("Firma docenti presenti allo scrutinio, classe $classe");
+  $schede->MultiCell(190, 8, $verbale, NULL, "C");
+  $posY += 10;
 
-$schede->SetFont('Times', '', 10);
-for ($i = 0; $i < $numerodocentitit; $i++)
-{
-    $docentepresente = estrai_dati_docente($elencodocentipresenti[$i], $con);
-    if ($elencodocentipresenti[$i] != $elencodocentititolari[$i])
-    {
-        $docentepresente .= " (in sost. di " . estrai_dati_docente($elencodocentititolari[$i], $con) . ")";
-    }
-    $schede->Cell(110, 8, converti_utf8($docentepresente), "B");
-    $schede->Cell(70, 8, "", "B", 1);
+  $schede->SetFont('Times', '', 10);
+  for ($i = 0; $i < $numerodocentitit; $i++)
+  {
+  $docentepresente = estrai_dati_docente($elencodocentipresenti[$i], $con);
+  if ($elencodocentipresenti[$i] != $elencodocentititolari[$i])
+  {
+  $docentepresente .= " (in sost. di " . estrai_dati_docente($elencodocentititolari[$i], $con) . ")";
+  }
+  $schede->Cell(110, 8, converti_utf8($docentepresente), "B");
+  $schede->Cell(70, 8, "", "B", 1);
 
-}
+  }
 
 
-//$schede->FooterAll();
-*/
+  //$schede->FooterAll();
+ */
 $nomefile = "verbale_esame_" . $idclasse . ".pdf";
 $schede->Output($nomefile, "I");
 

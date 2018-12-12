@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -83,7 +85,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 $but = stringa_html('visass');
 
 $meseanno = stringa_html('mese');  // In effetti contiene sia il mese che l'anno
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 // Divido il mese dall'anno
@@ -144,21 +146,20 @@ print ("</form>");
 
 /*
   echo('   <select name="anno">');
-    for($a=$annoscol;$a<=($annoscol+1);$a++)
-    {
-      if ($a==$anno)
-         echo("<option selected>$a");
-      else
-         echo("<option>$a");
-    } 
-    echo("</select>");  
-*/
+  for($a=$annoscol;$a<=($annoscol+1);$a++)
+  {
+  if ($a==$anno)
+  echo("<option selected>$a");
+  else
+  echo("<option>$a");
+  }
+  echo("</select>");
+ */
 
 
 //
 //  Fine visualizzazione della data
 //
-
 //if ($nome!="")
 
 echo('
@@ -175,8 +176,7 @@ echo('    </td>
 if ($mese == "")
 {
     $m = 0;
-}
-else
+} else
 {
     $m = $mese;
 }
@@ -184,31 +184,29 @@ else
 if ($anno == "")
 {
     $a = 0;
-}
-else
+} else
 {
     $a = $anno;
 }
 
 
 // print($nome." -   ". $g.$m.$a.$giornosettimana);
-
 //    $idclasse=$nome;
 $classe = "";
 $oresettimanali = 0;
 $numoretot = 0;
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 /*
- $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
- $ris=eseguiQuery($con,$query);
- if($val=mysqli_fetch_array($ris))
- {
-    $classe=$val["anno"]." ".$val["sezione"]." ".$val["specializzazione"];
-    $oresettimanali=$val["oresett"];
-    $numoretot=33*$oresettimanali;  // 33 = numero settimane di lezione convenzionale
+  $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
+  $ris=eseguiQuery($con,$query);
+  if($val=mysqli_fetch_array($ris))
+  {
+  $classe=$val["anno"]." ".$val["sezione"]." ".$val["specializzazione"];
+  $oresettimanali=$val["oresett"];
+  $numoretot=33*$oresettimanali;  // 33 = numero settimane di lezione convenzionale
   }
-*/
+ */
 
 echo "<p align='center'>
           <font size=4 color='black'>Ore di lezione svolte nel periodo $datainizio - $datafine</font>
@@ -224,12 +222,12 @@ print ("<td><font size=1><center>Ore totali</td></tr>");
 
 
 $query = "SELECT * FROM tbl_docenti order by cognome,nome";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($val = mysqli_fetch_array($ris))
 {
 
     $iddocente = $val["iddocente"];
-    $sostegno= $val["sostegno"];
+    $sostegno = $val["sostegno"];
     $seledata = "";
     if ($datainizio != "")
     {
@@ -241,73 +239,39 @@ while ($val = mysqli_fetch_array($ris))
         $seledata = $seledata . " and datalezione <= '" . data_to_db($datafine) . "' ";
     }
 
-/*    $querygru="select sum(tbl_lezionigruppi.numeroore) as totoregruppi from tbl_firme,tbl_lezioni,tbl_lezionigruppi
-            where tbl_firme.idlezione=tbl_lezioni.idlezione
-            and tbl_lezioni.idlezionegruppo=tbl_lezionigruppi.idlezionegruppo
-            and tbl_firme.iddocente=$iddocente
-            $seledata"; */
-/*
-    $querygru="select sum(numeroore) as totorenorm from tbl_firme,tbl_lezioni
-               where tbl_firme.idlezione=tbl_lezioni.idlezione
-               and tbl_firme.iddocente=$iddocente
-               and isnull(idlezionegruppo)
-                   $seledata";
 
-    $risgru=mysqli_query($con,inspref($querygru)) or die("Errore: ".inspref($querygru,false));
-    $recgru=mysqli_fetch_array($risgru);
-    $orenorm=$recgru['totorenorm'];
-
-
-    if ($orenorm=="")
-        $orenorm=0;
-
-
-    $querygru="select sum(numeroore) as totoregruppi from tbl_lezionigruppi
-            where idlezionegruppo in
-                 (select idlezionegruppo from tbl_firme,tbl_lezioni
-                   where tbl_firme.idlezione=tbl_lezioni.idlezione
-                   and tbl_firme.iddocente=$iddocente
-                   $seledata)";
-
-    $risgru=mysqli_query($con,inspref($querygru)) or die("Errore: ".inspref($querygru,false));
-    $recgru=mysqli_fetch_array($risgru);
-    $oregruppo=$recgru['totoregruppi'];
-    if ($oregruppo=="")
-        $oregruppo=0;
-*/
-    $arrlezioni=array();
-    $querylez="select * from tbl_firme,tbl_lezioni
+    $arrlezioni = array();
+    $querylez = "select * from tbl_firme,tbl_lezioni
                where tbl_firme.idlezione=tbl_lezioni.idlezione
                and tbl_firme.iddocente=$iddocente
                $seledata";
 
-    $rislez=mysqli_query($con,inspref($querylez)) or die("Errore: ".inspref($querylez,false));
-    while($reclez=mysqli_fetch_array($rislez))
+    $rislez = eseguiQuery($con, $querylez);
+    while ($reclez = mysqli_fetch_array($rislez))
     {
-        $datalez=$reclez['datalezione'];
-        $orainizio=$reclez['orainizio'];
-        $numeroore=$reclez['numeroore'];
-        for ($i=$orainizio;$i<($orainizio+$numeroore);$i++)
+        $datalez = $reclez['datalezione'];
+        $orainizio = $reclez['orainizio'];
+        $numeroore = $reclez['numeroore'];
+        for ($i = $orainizio; $i < ($orainizio + $numeroore); $i++)
         {
-            $indicearray=$datalez.$i;
-            $arrlezioni[$indicearray]=1;
-
+            $indicearray = $datalez . $i;
+            $arrlezioni[$indicearray] = 1;
         }
     }
 
 
 
-    $orenorm=count($arrlezioni);
+    $orenorm = count($arrlezioni);
 
 
-    $arrlezionicert=array();
-    $querylezcert="select * from tbl_lezionicert
+    $arrlezionicert = array();
+    $querylezcert = "select * from tbl_lezionicert
                where tbl_lezionicert.iddocente=$iddocente
                and idlezionenorm=0
                $seledata";
     if ($sostegno)
     {
-        $rislezcert = mysqli_query($con, inspref($querylezcert)) or die("Errore: " . inspref($querylezcert, false));
+        $rislezcert = eseguiQuery($con,$querylezcert);
         while ($reclezcert = mysqli_fetch_array($rislezcert))
         {
             $datalez = $reclezcert['datalezione'];
@@ -317,17 +281,15 @@ while ($val = mysqli_fetch_array($ris))
             {
                 $indicearray = $datalez . $i;
                 $arrlezionicert[$indicearray] = 1;
-
             }
         }
 
         $orecert = count($arrlezionicert);
-    }
-    else
-        $orecert=0;
+    } else
+        $orecert = 0;
     // $orenorm$orenorm;
 
-    $orenorm+=$orecert;
+    $orenorm += $orecert;
 
     echo '
              <tr>
@@ -335,11 +297,7 @@ while ($val = mysqli_fetch_array($ris))
                 <td><font size=1><b> ' . $val["nome"] . '    </b></td>
 
                 ';
-        print "<td><center>$orenorm</td></tr>";
-
-
-
-
+    print "<td><center>$orenorm</td></tr>";
 }
 
 echo '</table>';
@@ -348,5 +306,5 @@ echo '</table>';
 // fine if
 
 mysqli_close($con);
-stampa_piede(""); 
+stampa_piede("");
 

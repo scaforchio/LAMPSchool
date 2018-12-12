@@ -1,22 +1,24 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
-/*programma per l'inserimento o modifica di un avviso
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
+/* programma per l'inserimento o modifica di un avviso
+ */
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 
@@ -31,7 +33,7 @@ if ($tipoutente == "")
 
 $titolo = "Inserimento collegamenti web";
 $script = "";
-stampa_head($titolo, "", $script,"PMSD");
+stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_collegamenti.php'>ELENCO COLLEGAMENTI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -82,26 +84,20 @@ if ($err == 1)
     print(" <input type ='hidden' name='testo' value='$testo'>");
     print("<center><INPUT TYPE='SUBMIT' VALUE='<< Indietro'></center>");
     print("</form><br/>");
-
-
-}
-else
+} else
 {
     if ($idavviso == '')
     {
         $sqlt = "insert into tbl_collegamenti(descrizione, link, destinatari) values ('$oggetto','$testo','$destin')";
-        $res = eseguiQuery($con,$sqlt);
+        $res = eseguiQuery($con, $sqlt);
 
         print("<center><h2>Collegamento inserito correttamente</h2>");
-
-    }
-    else
+    } else
     {
         $sqlt = "update tbl_collegamenti set descrizione='$oggetto',link='$testo',destinatari='$destin' where idcollegamento=$idavviso";
-        $res = eseguiQuery($con,$sqlt);
+        $res = eseguiQuery($con, $sqlt);
 
         print("<center><h2>Collegamento modificato correttamente</h2>");
-
     }
 }
 stampa_piede("");

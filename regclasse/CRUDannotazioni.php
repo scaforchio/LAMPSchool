@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 /*
   Copyright (C) 2018 Pietro Tamburrano
@@ -31,15 +32,15 @@ $daticrud['aliastabella'] = "Annotazioni su registro";
 $daticrud['campochiave'] = "idannotazione";
 
 // Campi in base ai quali ordinare
-$daticrud['campiordinamento']= "anno,sezione,specializzazione,data";
+$daticrud['campiordinamento'] = "anno,sezione,specializzazione,data";
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
-$daticrud['condizione']= inspref("true");// Campi in base ai quali ordinare
+$daticrud['condizione'] = inspref("true"); // Campi in base ai quali ordinare
 
-$daticrud['abilitazionemodifica']=1;
+$daticrud['abilitazionemodifica'] = 1;
 
 // Dati per conferma cancellazione (0 senza conferma, 1 con conferma ed elenco dei campi da visualizzare per conferma)
 
-$daticrud['confermacancellazione'] = [1,''];
+$daticrud['confermacancellazione'] = [1, ''];
 // Vincoli per possibilità di cancellazione. Non devono esserci riferimenti nelle seguenti tabelle nel campo
 // specificato
 //$daticrud['vincolicanc'] = [
@@ -49,14 +50,11 @@ $daticrud['confermacancellazione'] = [1,''];
 //                            
 //                           ];
 $daticrud['vincolicanc'] = [
-                            
-                           
-                            
-                           ];
+];
 
 
 /*
-// Significato valori
+  // Significato valori
  * 0 - nome campo tabella principale
  * 1 - ordine di visualizzazione in tabella (0 non visualizzata)
  * 2 - tabella esterna
@@ -74,14 +72,13 @@ $daticrud['vincolicanc'] = [
  */
 
 $daticrud['campi'] = [
-                      ['idclasse','1',inspref('tbl_classi'),'idclasse','anno,sezione,specializzazione',0,'Classe',1,'','',1,'','',1],
-                      ['iddocente','3',inspref('tbl_docenti'),'iddocente','cognome,nome',0,'Docente',2,'','',1,'','',1],
-                      ['data','2','','','',10,'Data annotazione',3,'date','',1,'','',1],
-                      ['testo','4','','','50',1,'Testo annotazione',4,'text','',1,'1','9',1 ],
-                      ['visibilitagenitori','5','','','',50,'Visibile a tutti i genitori della classe',5,'boolean','',1,'','',0 ],
-                      ['visibilitaalunni','6','','','',50,'Visibile a tutti gli alunni della classe',6,'boolean','',1,'','',0 ]
-    
-                     ];
+    ['idclasse', '1', inspref('tbl_classi'), 'idclasse', 'anno,sezione,specializzazione', 0, 'Classe', 1, '', '', 1, '', '', 1],
+    ['iddocente', '3', inspref('tbl_docenti'), 'iddocente', 'cognome,nome', 0, 'Docente', 2, '', '', 1, '', '', 1],
+    ['data', '2', '', '', '', 10, 'Data annotazione', 3, 'date', '', 1, '', '', 1],
+    ['testo', '4', '', '', '50', 1, 'Testo annotazione', 4, 'text', '', 1, '1', '9', 1],
+    ['visibilitagenitori', '5', '', '', '', 50, 'Visibile a tutti i genitori della classe', 5, 'boolean', '', 1, '', '', 0],
+    ['visibilitaalunni', '6', '', '', '', 50, 'Visibile a tutti gli alunni della classe', 6, 'boolean', '', 1, '', '', 0]
+];
 
 
 
@@ -89,6 +86,6 @@ $daticrud['campi'] = [
 
 $_SESSION['daticrud'] = $daticrud;
 
-header("location: ../crudtabelle/CRUD.php?suffisso=".$_SESSION['suffisso']);
+header("location: ../crudtabelle/CRUD.php?suffisso=" . $_SESSION['suffisso']);
 
 

@@ -1,24 +1,26 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
@@ -42,7 +44,7 @@ $periodo = stringa_html('periodo');
 
 
 /* if ($firmadirigente=="")
-    $firmadirigente=converti_utf8(restituisci_dirigente($con)); */
+  $firmadirigente=converti_utf8(restituisci_dirigente($con)); */
 
 
 $alunni = array();
@@ -51,23 +53,22 @@ $alunni = array();
 // altrimenti solo l'alunno passato come parametro
 if ($idclasse != "")
 {
-    if ($periodo=='9')
+    if ($periodo == '9')
         $conddebito = " and idalunno in (select idalunno from tbl_esiti WHERE (validita='1' OR validita='2') AND esito=0) ";
     else
         $conddebito = "";
     $query = "select idalunno from tbl_alunni where idclasse=$idclasse $conddebito order by cognome,nome";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($val = mysqli_fetch_array($ris))
     {
         $alunni[] = $val['idalunno'];
     }
-}
-else
+} else
 {
 
     $alunni[] = $idalunno;
     $query = "select idclasse from tbl_alunni where idalunno=$idalunno";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($val = mysqli_fetch_array($ris))
     {
         $idclasse = $val['idclasse'];
@@ -77,22 +78,20 @@ else
 /*
  * Salvo o leggo i dati di modifica delle stampe
  */
-if ($firmadirigente!="" && $datastampa!="")
+if ($firmadirigente != "" && $datastampa != "")
 {
-  //  print "tttt $datastampa $firmadirigente $periodo $idclasse";
+    //  print "tttt $datastampa $firmadirigente $periodo $idclasse";
     aggiorna_data_firma_scrutinio($datastampa, $firmadirigente, $periodo, $idclasse, $con);
-}
-else
+} else
 {
-    $firmadirigente=estrai_firma_scrutinio($idclasse,$periodo,$con);
-    $datastampa=data_italiana(estrai_data_stampa($idclasse,$periodo,$con));
+    $firmadirigente = estrai_firma_scrutinio($idclasse, $periodo, $con);
+    $datastampa = data_italiana(estrai_data_stampa($idclasse, $periodo, $con));
 }
 
 
 stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigente);
 
 mysqli_close($con);
-
 
 function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 {
@@ -102,22 +101,20 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
     global $schede;
     $schede = new FPDF();
     $schede->AddFont('palacescript', '', 'palacescript.php'); // Font del Ministero
-    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
-  //  $datascrutinio = data_italiana(estrai_datascrutinio($classe, $periodo, $con));
+    //  $datascrutinio = data_italiana(estrai_datascrutinio($classe, $periodo, $con));
     $nomeclasse = decodifica_classe($classe, $con);
     $annoclasse = substr($nomeclasse, 0, 1);
     if ($livello_scuola != "3")
     {
         $livello = $livello_scuola;
-    }
-    else
+    } else
     {
         if ($annoclasse > 5)
         {
             $livello = 2;
-        }
-        else
+        } else
         {
             $livello = 1;
         }
@@ -160,8 +157,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
         if ($istitutostatale == "yes")
         {
             $statale = "statale";
-        }
-        else
+        } else
         {
             $statale = "\r\n";
         }
@@ -193,9 +189,9 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
         $datiscuola .= "\r\n" . $codicemeccanografico;
         $datiscuola .= "\r\n" . $indirizzoscuola;
         if (isset($capscuola))
-           $datiscuola .= "\r\n" .$capscuola." ".$comune_scuola . " ($provincia)";
+            $datiscuola .= "\r\n" . $capscuola . " " . $comune_scuola . " ($provincia)";
         else
-            $datiscuola .= "\r\n" .$comune_scuola . " ($provincia)";
+            $datiscuola .= "\r\n" . $comune_scuola . " ($provincia)";
         $schede->MultiCell(142, 5, converti_utf8($datiscuola), 1, 'C');
 
         // TESTATA
@@ -203,8 +199,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
         if ($livello == 4)
         {
             $testata = "Pagella scolastica";
-        }
-        else
+        } else
         {
             $testata = "Documento di valutazione\r\nanno scolastico $annoscol/" . ($annoscol + 1);
         }
@@ -222,7 +217,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
         $query = "SELECT * FROM tbl_alunni,tbl_comuni
                 WHERE tbl_alunni.idcomnasc=tbl_comuni.idcomune
                 AND idalunno=$alu";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         if ($val = mysqli_fetch_array($ris))
         {
             $datanascita = data_italiana($val['datanascita']);
@@ -230,8 +225,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             if ($val['statoestero'] == 'N')
             {
                 $comunenascita = converti_utf8($val['denominazione']);
-            }
-            else
+            } else
             {
                 $comunenascita = "";
             }
@@ -240,10 +234,9 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             if ($val['statoestero'] == 'S')
             {
                 $provinciaalunno = converti_utf8($val['denominazione']);
-            }
-            else
+            } else
             {
-                $provinciaalunno = estrai_sigla_provincia($val['idcomune'],$con);
+                $provinciaalunno = estrai_sigla_provincia($val['idcomune'], $con);
             }
         }
 
@@ -353,18 +346,20 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
         {
             $schede->setXY(20, 170);
             $schede->SetFont('Arial', 'B', 10);
-            $schede->Cell(172, 8, "Iscritto/a alla classe: " . converti_utf8(decodifica_classe($classe, $con,1)), "TLBR", 0, "C");
-        }
-        else
+            $schede->Cell(172, 8, "Iscritto/a alla classe: " . converti_utf8(decodifica_classe($classe, $con, 1)), "TLBR", 0, "C");
+        } else
         {
             //TODO: Aggiungere la gestione dei campi seguenti in inserimentoe modifica alunni
 
             $numeroregistro = $val['numeroregistro'];
-            if ($numeroregistro == "") $numeroregistro = "****";
+            if ($numeroregistro == "")
+                $numeroregistro = "****";
             $provenienza = $val['provenienza'];
-            if ($provenienza == "") $provenienza = "****";
+            if ($provenienza == "")
+                $provenienza = "****";
             $titoloammissione = $val['titoloammissione'];
-            if ($titoloammissione == "") $titoloammissione = "****";
+            if ($titoloammissione == "")
+                $titoloammissione = "****";
             if ($val['sequenzaiscrizione'] == 1)
             {
                 $voltaiscrizione = "PRIMA";
@@ -498,15 +493,11 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $schede->setXY(20, 204);
             $schede->SetFont('Arial', '', 7);
             $schede->Cell(172, 2, " ", "LBR", 0, "C");
-
-
         }
 
 
         // ******* FINE PRIMA PAGINA  *********
-
         // ******* ESTRAZIONE DATI VALUTAZIONI ************
-
         // CREAZIONE ARRAY
         $idmat = array();
         $denmat = array();
@@ -530,7 +521,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                   AND tbl_materie.progrpag<99 AND tbl_materie.idmateria>0
                   AND idalunno=$alu
                   ORDER BY tbl_materie.progrpag,denominazione";
-            $risvoti = eseguiQuery($con,$query);
+            $risvoti = eseguiQuery($con, $query);
             while ($recvoti = mysqli_fetch_array($risvoti))
             {
                 $idmat[] = $recvoti['idmateria'];
@@ -543,7 +534,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                           WHERE idalunno=$alu
                           AND periodo='1'
                           AND idmateria=" . $recvoti['idmateria'];
-                $risvotipre = eseguiQuery($con,$query);
+                $risvotipre = eseguiQuery($con, $query);
                 if ($recvotipre = mysqli_fetch_array($risvotipre))
                 {
                     $votu1[] = $recvotipre['votounico'];
@@ -552,8 +543,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                     $voto1[] = $recvotipre['votoorale'];
                     $ass1[] = $recvotipre['assenze'];
                     $not1[] = $recvotipre['note'];
-                }
-                else
+                } else
                 {
                     $votu1[] = '';
                     $vots1[] = '';
@@ -562,8 +552,6 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                     $ass1[] = '';
                     $not1[] = '';
                 }
-
-
             }
 
             $nummaterie = mysqli_num_rows($risvoti);
@@ -621,8 +609,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 {
                     $vot1nst = $votu1[$i] . " / 10";
                     $vot1lst = dec_to_pag($votu1[$i]) . "/dieci";
-                }
-                else
+                } else
                 {
                     $vot1nst = "";
                     $vot1lst = dec_to_pag($votu1[$i]);
@@ -632,8 +619,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 {
                     $vot2nst = $votu2[$i] . " / 10";
                     $vot2lst = dec_to_pag($votu2[$i]) . "/dieci";
-                }
-                else
+                } else
                 {
                     $vot2nst = "";
                     $vot2lst = dec_to_pag($votu2[$i]);
@@ -665,18 +651,16 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 $schede->Cell($lar, $alt, $vot2lst, "TBLR", 0, "C");
                 $posX += $lar;
                 $posY += $alt;
-
-
             }
-/*
-            if (($nummaterie % 7) > 5)
-            {
-                $schede->AddPage();
-                $numpag++;
-                stampa_elementi_fissi($schede, $numpag, $cognome, $nome, $codfiscale, $codicemeccanografico, $annoscol, $datastampa, $livello, $firmadirigente, true);
-                $posY = 25;
-            }
-*/
+            /*
+              if (($nummaterie % 7) > 5)
+              {
+              $schede->AddPage();
+              $numpag++;
+              stampa_elementi_fissi($schede, $numpag, $cognome, $nome, $codfiscale, $codicemeccanografico, $annoscol, $datastampa, $livello, $firmadirigente, true);
+              $posY = 25;
+              }
+             */
             // AGGIUNGO I VOTI DEL COMPORTAMENTO
             $votocomp1 = "";
             $votocomp2 = "";
@@ -684,9 +668,9 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
               WHERE idalunno=$alu
               AND periodo='1'
               AND idmateria=-1";
-            $risvoti = eseguiQuery($con,$query);
-            $giudiziocomp1="";
-            $votocomp1="";
+            $risvoti = eseguiQuery($con, $query);
+            $giudiziocomp1 = "";
+            $votocomp1 = "";
             if ($recvoti = mysqli_fetch_array($risvoti))
             {
                 $votocomp1 = $recvoti['votounico'];
@@ -697,7 +681,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
               WHERE idalunno=$alu
               AND periodo='$numeroperiodi'
               AND idmateria=-1";
-            $risvoti = eseguiQuery($con,$query);
+            $risvoti = eseguiQuery($con, $query);
 
             if ($recvoti = mysqli_fetch_array($risvoti))
             {
@@ -736,40 +720,40 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 $schede->Cell($lar, $alt, "Giudizio", "TBLR", 0, "L");
                 $posX += $lar;
 
-              /*  $lar = 20;
-                $schede->SetXY($posX, $posY);
-                $schede->SetFont("Arial", 'B', 10);
-                $schede->Cell($lar, $alt, $votocomp1 . " / 10", "TBLR", 0, "C");
-                $posX += $lar;
-              */
+                /*  $lar = 20;
+                  $schede->SetXY($posX, $posY);
+                  $schede->SetFont("Arial", 'B', 10);
+                  $schede->Cell($lar, $alt, $votocomp1 . " / 10", "TBLR", 0, "C");
+                  $posX += $lar;
+                 */
 
                 $lar = 55;
                 $schede->SetXY($posX, $posY);
                 $schede->SetFont("Arial", 'B', 10);
-                $schede->Cell($lar, $alt, dec_to_pag($votocomp1) , "TBLR", 0, "C");
+                $schede->Cell($lar, $alt, dec_to_pag($votocomp1), "TBLR", 0, "C");
                 $posX += $lar;
 
-             /*   $lar = 20;
-                $schede->SetXY($posX, $posY);
-                $schede->SetFont("Arial", 'B', 10);
-                $schede->Cell($lar, $alt, $votocomp2 . " / 10", "TBLR", 0, "C");
-                $posX += $lar;
-*/
+                /*   $lar = 20;
+                  $schede->SetXY($posX, $posY);
+                  $schede->SetFont("Arial", 'B', 10);
+                  $schede->Cell($lar, $alt, $votocomp2 . " / 10", "TBLR", 0, "C");
+                  $posX += $lar;
+                 */
 
                 $lar = 55;
                 $schede->SetXY($posX, $posY);
                 $schede->SetFont("Arial", 'B', 10);
-                $schede->Cell($lar, $alt, dec_to_pag($votocomp2) , "TBLR", 0, "C");
+                $schede->Cell($lar, $alt, dec_to_pag($votocomp2), "TBLR", 0, "C");
                 $posX += $lar;
                 $posY += $alt;
             }
 
             // AGGIUNGO I GIUDIZI SUL COMPORTAMENTO
-            
-            if ($livello==1)
+
+            if ($livello == 1)
             {
-                $giudiziocomp1=dec_to_pag($votocomp1)."  ".$giudiziocomp1;
-                $giudiziocomp2=dec_to_pag($votocomp2)."  ".$giudiziocomp2;
+                $giudiziocomp1 = dec_to_pag($votocomp1) . "  " . $giudiziocomp1;
+                $giudiziocomp2 = dec_to_pag($votocomp2) . "  " . $giudiziocomp2;
             }
             $posX = 20;
             $schede->SetXY($posX, $posY);
@@ -791,10 +775,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $schede->SetFont("Arial", 'B', 10);
             $schede->MultiCell($lar, $alt, converti_utf8($giudiziocomp2), "TBLR", "C");
             $posY += $alt;
-
-
-        }
-        else
+        } else
         {
             $schede->AddPage();
 
@@ -844,17 +825,21 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                           AND periodo='1'
                           AND tbl_materie.progrpag<99 AND tbl_materie.idmateria>0
                           ORDER BY tbl_materie.progrpag, denominazione";
-            $risvoti = eseguiQuery($con,$query);
+            $risvoti = eseguiQuery($con, $query);
             while ($recvoti = mysqli_fetch_array($risvoti))
             {
                 $votu = $recvoti['votounico'];
-                if ($votu == 99) $votu = "";
+                if ($votu == 99)
+                    $votu = "";
                 $vots = $recvoti['votoscritto'];
-                if ($vots == 99) $vots = "";
+                if ($vots == 99)
+                    $vots = "";
                 $votp = $recvoti['votopratico'];
-                if ($votp == 99) $votp = "";
+                if ($votp == 99)
+                    $votp = "";
                 $voto = $recvoti['votoorale'];
-                if ($voto == 99) $voto = "";
+                if ($voto == 99)
+                    $voto = "";
                 $ass = $recvoti['assenze'];
                 $not = $recvoti['note'];
                 $den = $recvoti['denominazione'];
@@ -907,7 +892,6 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 $lar = 12;
                 $schede->Cell($lar, $alt, $ass, "TBLR", 0, "C");
                 $posY += $alt;
-
             }
 
             // AGGIUNGO IL VOTO DEL COMPORTAMENTO
@@ -916,13 +900,12 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
               WHERE idalunno=$alu
               AND periodo='1'
               AND idmateria=-1";
-            $risvoti = eseguiQuery($con,$query);
+            $risvoti = eseguiQuery($con, $query);
 
             if ($recvoti = mysqli_fetch_array($risvoti))
             {
                 $votocomp = $recvoti['votounico'];
-            }
-            else
+            } else
             {
                 $votocomp = "";
             }
@@ -984,15 +967,14 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $schede->Cell(172, $alt, "ANNOTAZIONI (4)", "TBLR", 0, "C");
             $posY += $alt;
             $query = "select giudizio from tbl_giudizi where periodo='1' and idalunno=$alu";
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             $schede->SetFont("Arial", '', 9);
             if ($rec = mysqli_fetch_array($ris))
             {
                 $annotaz = $rec['giudizio'];
                 $schede->SetXY($posX, $posY);
                 $schede->MultiCell(172, 5, $annotaz, "TBLR", "J");
-            }
-            else
+            } else
             {
                 $annotaz = "========== ========== ========== ==========";
                 $schede->SetXY($posX, $posY);
@@ -1051,13 +1033,14 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                           AND periodo='$numeroperiodi'
                           AND tbl_materie.progrpag<99 AND tbl_materie.idmateria>0
                           ORDER BY tbl_materie.progrpag, denominazione";
-            $risvoti = eseguiQuery($con,$query);
+            $risvoti = eseguiQuery($con, $query);
             $numvoti = 0;
             while ($recvoti = mysqli_fetch_array($risvoti))
             {
                 $numvoti++;
                 $votu = $recvoti['votounico'];
-                if ($votu == 99) $votu = "";
+                if ($votu == 99)
+                    $votu = "";
 
                 $ass = $recvoti['assenze'];
                 $not = $recvoti['note'];
@@ -1081,7 +1064,6 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 
 
                 $posY += $alt;
-
             }
 
             $righevuote = 19 - $numvoti;
@@ -1101,8 +1083,6 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 $lar = 15;
                 $schede->Cell($lar, $alt, "", "TBLR", 0, "C");
                 $posY += $alt;
-
-
             }
             // AGGIUNGO IL VOTO DEL COMPORTAMENTO
 
@@ -1110,12 +1090,11 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
               WHERE idalunno=$alu
               AND periodo='$numeroperiodi'
               AND idmateria=-1";
-            $risvoti = eseguiQuery($con,$query);
+            $risvoti = eseguiQuery($con, $query);
 
             if ($recvoti = mysqli_fetch_array($risvoti))
             {
                 $votocomp = $recvoti['votounico'];
-
             }
 
             $posX = 20;
@@ -1144,14 +1123,13 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $posY += $alt;
             $schede->SetFont("Arial", '', 9);
             $query = "select giudizio from tbl_giudizi where periodo='$numeroperiodi' and idalunno=$alu";
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             if ($rec = mysqli_fetch_array($ris))
             {
                 $annotaz = $rec['giudizio'];
                 $schede->SetXY($posX, $posY);
                 $schede->MultiCell(172, 5, $annotaz, "TBLR", "J");
-            }
-            else
+            } else
             {
                 $annotaz = "========== ========== ========== ==========";
                 $schede->SetXY($posX, $posY);
@@ -1166,7 +1144,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $esito = "";
             $decesito = "";
             $query = "SELECT * from tbl_esiti where idalunno=$alu";
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             if ($rec = mysqli_fetch_array($ris))
             {
                 $votoammissione = $rec['votoammissione'];
@@ -1179,14 +1157,11 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                     if (decodifica_passaggio($esito, $con) == 0)
                     {
                         $decesito = "Ammesso";
-                    }
-                    else
+                    } else
                     {
                         $decesito = "Non ammesso";
                     }
                 }
-
-
             }
 
             $posX = 152;
@@ -1248,8 +1223,6 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $schede->SetXY($posX, $posY);
             $schede->Cell(40, $alt, $decesito, "BLR", 0, "L");
             $posY += $alt;
-
-
         }
 
 // ******* INIZIO QUARTA PAGINA  *********
@@ -1313,10 +1286,10 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $posY = $schede->GetY();
 
 
-          //TODO: Verificare modalità registrazione e dare possibilità di cambiare la data dello scrutinio
+            //TODO: Verificare modalità registrazione e dare possibilità di cambiare la data dello scrutinio
             $datascrutinio = estrai_data_stampa($classe, $numeroperiodi, $con);
-           // print "tttt $datascrutinio $numeroperiodi $classe";
-           // $datascrutinio = $datastampa;
+            // print "tttt $datascrutinio $numeroperiodi $classe";
+            // $datascrutinio = $datastampa;
             $luogodata = converti_utf8("$comune_scuola, " . data_italiana($datascrutinio));
 
             $schede->setXY(20, $posY);
@@ -1356,18 +1329,15 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $schede->SetFont('Arial', 'B', 10);
             $esito = str_replace("|", " ", estrai_esito($alu, $con));
             $schede->Cell(172, 6, converti_utf8("l'alunno/a é stato/a $esito ."), "", 0, "C");
-
-        }
-        else
+        } else
         {
             if ($livello == 2)
             {
                 //$legge = "(Art.2, comma 10 del D.P.R. n. 122/2009)";
                 $legge = "(D.M. n. 62/2017)";
-            }
-            else
+            } else
             {
-               // $legge = "(Art.14, comma 7 del D.P.R. n. 122/2009)";
+                // $legge = "(Art.14, comma 7 del D.P.R. n. 122/2009)";
                 $legge = "(D.M. n. 62/2017)";
             }
 
@@ -1414,7 +1384,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $schede->Cell(172, 10, "$val3  non ha frequentato per almeno tre quarti dell'orario annuale.", "BLR", 0, "L");
             $posY += 10;
 
-            if ($livello==4)
+            if ($livello == 4)
             {
                 $posY += 15;
                 $schede->setXY(20, $posY);
@@ -1433,10 +1403,9 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 $schede->SetFont('Arial', 'B', 10);
                 $esito = str_replace("|", " ", estrai_esito($alu, $con));
                 $schede->Cell(172, 6, converti_utf8("l'alunno/a é stato/a $esito .(7)"), "", 0, "C");
-            }
-            else
+            } else
             {
-                if ($annoclasse==3 | $annoclasse==8)
+                if ($annoclasse == 3 | $annoclasse == 8)
                 {
                     $posY += 15;
                     $schede->setXY(20, $posY);
@@ -1463,12 +1432,12 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                     $schede->Cell(86, 6, "Voto (in cifre e in lettere)", "BL", 0, "C");
 
                     $schede->setXY(106, $posY);
-                    $votoammissione=estrai_voto_ammissione($alu,$con);
+                    $votoammissione = estrai_voto_ammissione($alu, $con);
                     $schede->SetFont('Arial', 'B', 10);
-                    $schede->Cell(86, 6, "$votoammissione/10  ".dec_to_pag($votoammissione)."/decimi", "BR", 0, "C");
+                    $schede->Cell(86, 6, "$votoammissione/10  " . dec_to_pag($votoammissione) . "/decimi", "BR", 0, "C");
 
 
-                    $posY+=20;
+                    $posY += 20;
                     $schede->setXY(20, $posY);
 
 
@@ -1513,30 +1482,28 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                     $schede->SetFont('Arial', 'B', 10);
                     $esito = str_replace("|", " ", estrai_esito($alu, $con));
                     $schede->Cell(172, 6, converti_utf8("l'alunno/a é stato/a $esito ."), "", 0, "C");
-
                 }
             }
 
             // TTT
-
         }
         // DICITURE NOTE
-        if ($livello==1)
+        if ($livello == 1)
         {
 
-            $diciture="(1) La firma è omessa ai sensi dell'art. 3, D.to Lgs. 12.02.1993, n.39.
+            $diciture = "(1) La firma è omessa ai sensi dell'art. 3, D.to Lgs. 12.02.1993, n.39.
                        \n(2) Giudizio formulato secondo le modalità deliberate  dal Collegio dei docenti, ai sensi dell'Art. 2, comma 8, del D.P.R. n. 122/2009.";
         }
-        if ($livello==2)
+        if ($livello == 2)
         {
 
-            $diciture="(1) La firma è omessa ai sensi dell'art. 3, D.to Lgs. 12.02.1993, n.39.
+            $diciture = "(1) La firma è omessa ai sensi dell'art. 3, D.to Lgs. 12.02.1993, n.39.
                        \n(2) Specifica nota illustrativa di cui all'Art. , comma 8, del D.P.R. n. 122/2009.";
         }
-        if ($livello==4)
-    {
+        if ($livello == 4)
+        {
 
-        $diciture="(1) PROMOZIONE; IDONEITA'; QUALIFICA; Idoneità all'ultima classe a seguito di esito positivo all'esame preliminare  e mancato superamento esami di Stato.
+            $diciture = "(1) PROMOZIONE; IDONEITA'; QUALIFICA; Idoneità all'ultima classe a seguito di esito positivo all'esame preliminare  e mancato superamento esami di Stato.
                        \n(2) PRIMA; SECONDA; TERZA.
                        \n(3) La firma è omessa ai sensi dell'art. 3, D.to Lgs. 12.02.1993, n.39.
                        \n(4) Il riquadro può essere utilizzato anche: per l'annotazione delle materie Art. 4, comma 6 del D.P.R. 122/2009; per l'annotazione prevista dall'Art. 9, comma 1 del D.P.R. 122/2009; per eventuali altre annotazioni o
@@ -1544,12 +1511,11 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                        \n(5) Per le classi terminali indicare: ammesso/a agli esami - non ammesso/a agli esami.
                        \n(6) Solo per esami di qualifica professionale.
                        \n(7) promosso/a - non promosso/a. Per le classi terminali indicare: ammesso/a - non ammesso/a.";
-    }
-        $schede->SetXY(20,250);
+        }
+        $schede->SetXY(20, 250);
         $schede->SetFont('Arial', '', 5);
-        $schede->MultiCell(172,1,converti_utf8($diciture),0,"L");
+        $schede->MultiCell(172, 1, converti_utf8($diciture), 0, "L");
 // FINE QUARTA PAGINA
-
         // Cella della materia
     }
 
@@ -1559,8 +1525,6 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
     $schede->Output($nomefile, "I");
 
     mysqli_close($con);
-
-
 }
 
 function stampa_elementi_fissi(&$schede, $numpagina, $cognome, $nome, $codfiscale, $codicemeccanografico, $annoscol, $datastampa, $livello, $firmadirigente, $genitori = false)
@@ -1668,7 +1632,6 @@ function stampa_elementi_fissi(&$schede, $numpagina, $cognome, $nome, $codfiscal
         $schede->Cell(1, 3, " ", "BR", 0, "C");
     }
     // FIRME
-
     // DATA E DIRIGENTE
 
     $luogodata = converti_utf8("$comune_scuola, $datastampa");
@@ -1685,7 +1648,6 @@ function stampa_elementi_fissi(&$schede, $numpagina, $cognome, $nome, $codfiscal
         $schede->setXY(20, 245);
         $schede->SetFont('Arial', '', 7);
         $schede->Cell(40, 3, "Il(i) genitore(i) o chi ne fa le veci", "", 0, "C");
-
     }
 
     $schede->setXY(140, 240);
@@ -1696,8 +1658,7 @@ function stampa_elementi_fissi(&$schede, $numpagina, $cognome, $nome, $codfiscal
     if ($livello == 1 | $livello == 2)
     {
         $dicituradirigente = "Il Dirigente Scolastico (1)";
-    }
-    else
+    } else
     {
         $dicituradirigente = "Il Dirigente Scolastico (3)";
     }
@@ -1706,10 +1667,12 @@ function stampa_elementi_fissi(&$schede, $numpagina, $cognome, $nome, $codfiscal
     $schede->Cell(40, 3, $dicituradirigente, "", 0, "C");
 
 
-    if ($_SESSION['suffisso'] != "") $suff = $_SESSION['suffisso'] . "/";
-    else $suff = "";
-  //  $schede->setXY(120, 250);
-  //  $schede->Image('../abc/' . $suff . 'firmadirigente.png');
+    if ($_SESSION['suffisso'] != "")
+        $suff = $_SESSION['suffisso'] . "/";
+    else
+        $suff = "";
+    //  $schede->setXY(120, 250);
+    //  $schede->Image('../abc/' . $suff . 'firmadirigente.png');
     $schede->setXY(90, 215);
     $schede->Image('../abc/' . $suff . 'timbro.png');
 
@@ -1723,14 +1686,12 @@ function stampa_elementi_fissi(&$schede, $numpagina, $cognome, $nome, $codfiscal
     return;
 }
 
-
 function elimina_cr($stringa)
 {
 
     $strpul = str_replace(array("\n", "\r"), " ", $stringa);
     return $strpul;
 }
-
 
 function inserisci_new_line($stringa)
 {
@@ -1746,8 +1707,7 @@ function estrai_prima_riga($stringa)
     if ($posint != 0)
     {
         $str1 = substr($stringa, 0, $posint);
-    }
-    else
+    } else
     {
         $str1 = $stringa;
     }
@@ -1761,12 +1721,9 @@ function estrai_seconda_riga($stringa)
     if ($posint != 0)
     {
         $str2 = substr($stringa, $posint + 1);
-    }
-    else
+    } else
     {
         $str2 = "";
     }
     return $str2;
 }
-  
-

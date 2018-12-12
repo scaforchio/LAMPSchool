@@ -70,7 +70,7 @@ if ($iddocente != "")
            and iddocente='$iddocente'
            and idalunno=" . $_SESSION['idutente'] . "
            and tbl_prenotazioni.data>'$dataoggi'";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
 
     while ($rec = mysqli_fetch_array($ris))
@@ -87,7 +87,7 @@ if ($iddocente != "")
            where tbl_orericevimento.idorario=tbl_orario.idorario
            and tbl_orericevimento.valido=1 
            and iddocente='$iddocente'";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     while ($rec = mysqli_fetch_array($ris))
     {
@@ -130,8 +130,8 @@ if ($iddocente != "")
                     $idprenotazione = id_prenotazione($dataattuale, $idore[$i], $con);
                     //     
                     //      if ($stato[0] == 0 & ($dataattuale<=$datafinecolloqui) & numero_colloqui_docente($iddocente,$idore[$i],$dataattuale,$con)<$numeromassimocolloqui)
-                    $ncd=numero_colloqui_docente($iddocente, $idore[$i], $dataattuale, $con);
-                   // print "NCD $ncd NMC $numeromassimocolloqui idore ".$idore[$i];
+                    $ncd = numero_colloqui_docente($iddocente, $idore[$i], $dataattuale, $con);
+                    // print "NCD $ncd NMC $numeromassimocolloqui idore ".$idore[$i];
                     if (($stato[0] == 0) & ($ncd < $numeromassimocolloqui))
                         print "<td align=center><input type='radio' name='giorno' value='$dataattuale|" . $idore[$i] . "'></td><td>&nbsp;</td><td>&nbsp;</td>";
                     else
@@ -176,7 +176,7 @@ function esiste_prenotazione($data, $idoraric, $conn)
 	        and valido
 	        and idalunno=" . $_SESSION['idutente'] . "
 	        and idoraricevimento=$idoraric";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     if (mysqli_num_rows($ris) > 0)
     {
         $rec = mysqli_fetch_array($ris);
@@ -184,8 +184,7 @@ function esiste_prenotazione($data, $idoraric, $conn)
         $statoprenotazione[1] = $rec['note'];
 
         return $statoprenotazione;
-    }
-    else
+    } else
         return $statoprenotazione;
 }
 
@@ -197,21 +196,20 @@ function id_prenotazione($data, $idoraric, $conn)
 	        and valido
 	        and idalunno=" . $_SESSION['idutente'] . "
 	        and idoraricevimento=$idoraric";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     if (mysqli_num_rows($ris) > 0)
     {
         $rec = mysqli_fetch_array($ris);
         $idprenotazione = $rec['idprenotazione'];
         return $idprenotazione;
-    }
-    else
+    } else
         return 0;
 }
 
 function giorno_sospensione_colloqui($data, $conn)
 {
     $query = "select data from tbl_sospensionicolloqui where data='$data'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     if (mysqli_num_rows($ris) > 0)
         return true;
     // if ($data=="2017-11-21")

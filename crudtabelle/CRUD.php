@@ -39,7 +39,7 @@ foreach ($campiordinamento as $campoord)
 //print "Stringa $stringaopzioniord";
 $stringaopzioniord = substr($stringaopzioniord, 0, strlen($stringaopzioniord) - 1);
 
-$stringaopzioniord = "[".$stringaopzioniord."]";
+$stringaopzioniord = "[" . $stringaopzioniord . "]";
 //$strcampiordinamento = implode(",", $daticrud['campiordinamento']);
 
 
@@ -51,7 +51,7 @@ $script = "<link rel='stylesheet' type='text/css' href='../lib/js/datatables/dat
            <script> 
            $(document).ready( function () {
                  $('#tabelladati').DataTable({
-                     'order':".$stringaopzioniord.",
+                     'order':" . $stringaopzioniord . ",
                      'pageLength': 100,
                      'language': {
                                    'search': 'Filtra risultati:',
@@ -92,7 +92,6 @@ $strcampi = substr($strcampi, 0, strlen($strcampi) - 2);
 $strcondizione = " and " . $daticrud['condizione'];
 
 // Campi per ordinamento in visualizzazione
-
 // Costruzione query
 $query = "select " . $daticrud['campochiave'] . ", $strcampi from " . $daticrud['tabella'] . " where true " . $strcondizione;
 // print $query;

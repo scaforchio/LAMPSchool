@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
@@ -32,10 +34,10 @@ if ($tipoutente == "")
 
 $titolo = "Riepilogo registro di classe settimana";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $giorno = '';
 $meseanno = '';
@@ -70,26 +72,26 @@ $mese = substr($meseanno, 0, 2);
 $giornosettimana = "";
 
 /*
-if ($idlezione!="" & $giorno!="" & $meseanno!="" )
-{
-	 $mese=substr($meseanno,0,2);
-    $anno=substr($meseanno,5,4);
-   
-     //  $giornosettimana=giorno_settimana($anno."-".$mese."-".$giorno);
-       
-    $query="select idclasse, idmateria from tbl_cattnosupp where idcattedra=$cattedra";
-       
-       $ris=eseguiQuery($con,$query);
-       if($nom=mysqli_fetch_array($ris))
-       {
-           $materia=$nom['idmateria'];
-           $idclasse=$nom['idclasse'];
-       }
-       
-      
-   }
-}
-*/
+  if ($idlezione!="" & $giorno!="" & $meseanno!="" )
+  {
+  $mese=substr($meseanno,0,2);
+  $anno=substr($meseanno,5,4);
+
+  //  $giornosettimana=giorno_settimana($anno."-".$mese."-".$giorno);
+
+  $query="select idclasse, idmateria from tbl_cattnosupp where idcattedra=$cattedra";
+
+  $ris=eseguiQuery($con,$query);
+  if($nom=mysqli_fetch_array($ris))
+  {
+  $materia=$nom['idmateria'];
+  $idclasse=$nom['idclasse'];
+  }
+
+
+  }
+  }
+ */
 
 
 if ($giorno == '')
@@ -178,44 +180,44 @@ $giosett = giorno_settimana($dataoggi);
 switch ($giosett)
 {
     case "Dom":
-        $lun = aggiungi_giorni($dataoggi,-6);
-        $sab = aggiungi_giorni($dataoggi,-1);
+        $lun = aggiungi_giorni($dataoggi, -6);
+        $sab = aggiungi_giorni($dataoggi, -1);
         break;
     case "Lun":
-        $lun = aggiungi_giorni($dataoggi,0);
-        $sab = aggiungi_giorni($dataoggi,5);
+        $lun = aggiungi_giorni($dataoggi, 0);
+        $sab = aggiungi_giorni($dataoggi, 5);
         break;
     case "Mar":
-        $lun = aggiungi_giorni($dataoggi,-1);
-        $sab = aggiungi_giorni($dataoggi,4);
+        $lun = aggiungi_giorni($dataoggi, -1);
+        $sab = aggiungi_giorni($dataoggi, 4);
         break;
     case "Mer":
-        $lun = aggiungi_giorni($dataoggi,-2);
-        $sab = aggiungi_giorni($dataoggi,3);
+        $lun = aggiungi_giorni($dataoggi, -2);
+        $sab = aggiungi_giorni($dataoggi, 3);
         break;
     case "Gio":
-        $lun = aggiungi_giorni($dataoggi,-3);
-        $sab = aggiungi_giorni($dataoggi,2);
+        $lun = aggiungi_giorni($dataoggi, -3);
+        $sab = aggiungi_giorni($dataoggi, 2);
         break;
     case "Ven":
-        $lun = aggiungi_giorni($dataoggi,-4);
-        $sab = aggiungi_giorni($dataoggi,1);
+        $lun = aggiungi_giorni($dataoggi, -4);
+        $sab = aggiungi_giorni($dataoggi, 1);
         break;
     case "Sab":
-        $lun = aggiungi_giorni($dataoggi,-5);
-        $sab = aggiungi_giorni($dataoggi,0);
+        $lun = aggiungi_giorni($dataoggi, -5);
+        $sab = aggiungi_giorni($dataoggi, 0);
         break;
 }
 
 
 print "<br><center>";
-if ($lun>=$datainiziolezioni) print ("<a href='riepsett.php?gio=$gioieri&meseanno=$maieri&idclasse=$idclasse'><img src='../immagini/indietro.png'></a>");
+if ($lun >= $datainiziolezioni)
+    print ("<a href='riepsett.php?gio=$gioieri&meseanno=$maieri&idclasse=$idclasse'><img src='../immagini/indietro.png'></a>");
 print ("&nbsp;&nbsp;&nbsp;");
-if ($sab<$datafinelezioni)print ("<a href='riepsett.php?gio=$giodomani&meseanno=$madomani&idclasse=$idclasse'><img src='../immagini/avanti.png'></a>");
+if ($sab < $datafinelezioni)
+    print ("<a href='riepsett.php?gio=$giodomani&meseanno=$madomani&idclasse=$idclasse'><img src='../immagini/avanti.png'></a>");
 print "</center>";
 //print ("<br><center><a href='riepsett.php?gio=$gioieri&meseanno=$maieri&idclasse=$idclasse'><img src='../immagini/indietro.png'></a>&nbsp;&nbsp;&nbsp;<a href='riepsett.php?gio=$giodomani&meseanno=$madomani&idclasse=$idclasse'><img src='../immagini/avanti.png'></a></center>");
-
-
 //       <table align="center">
 //       <td>');
 //     //     <p align="center"><input type="submit" value="Visualizza voti" name="b"></p>
@@ -226,16 +228,14 @@ echo('</form><hr>');
 if ($mese == "")
 {
     $m = 0;
-}
-else
+} else
 {
     $m = $mese;
 }
 if ($giorno == "")
 {
     $g = 0;
-}
-else
+} else
 {
     $g = $giorno;
 }
@@ -243,8 +243,7 @@ else
 if ($anno == "")
 {
     $a = 0;
-}
-else
+} else
 {
     $a = $anno;
 }
@@ -306,27 +305,26 @@ else
                 $fi = 0;
                 break;
         }
-        if ($giornilezsett==5) $fi--;
+        if ($giornilezsett == 5)
+            $fi--;
         for ($i = $in; $i <= $fi; $i++)
         {
             if ($i > 0)
             {
                 $strop = "+" . $i . " day";
-            }
-            else
+            } else
             {
                 $strop = $i . " day";
             }
             $newdate = strtotime($strop, strtotime($datarichiesta)); // facciamo l'operazione
             $newdate = date('Y-m-d', $newdate); //trasformiamo la data nel formato accettato dal db YYYY-MM-DD
 
-            if ($newdate>=$datainiziolezioni & $newdate<=$datafinelezioni  & (!giorno_festa($newdate,$con)))
-                stampa_reg_classe($newdate, $idclasse, $iddocente, $numeromassimoore, $con, true, $gestcentrassenze,$giustificauscite);
+            if ($newdate >= $datainiziolezioni & $newdate <= $datafinelezioni & (!giorno_festa($newdate, $con)))
+                stampa_reg_classe($newdate, $idclasse, $iddocente, $numeromassimoore, $con, true, $gestcentrassenze, $giustificauscite);
             else
-                if (giorno_festa($newdate,$con))
-                    print "<b><hr><br><center><font color='red'>".data_italiana($newdate)." - ".estrai_festa($newdate,$con)."</font></center><br><hr></b>";
+            if (giorno_festa($newdate, $con))
+                print "<b><hr><br><center><font color='red'>" . data_italiana($newdate) . " - " . estrai_festa($newdate, $con) . "</font></center><br><hr></b>";
         }
-
     }
 }
 

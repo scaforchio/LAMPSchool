@@ -1,26 +1,28 @@
-<?php session_start();
+<?php
+
+session_start();
 
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 /*
-     Programma per l'inserimento delle tbl_cattnosupp
-*/
+  Programma per l'inserimento delle tbl_cattnosupp
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -41,16 +43,15 @@ stampa_head($titolo, "", $script, "MASP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='cat_sost.php'>Gestione cattedre</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 $sql = "DELETE FROM tbl_cattnosupp WHERE iddocente = '" . stringa_html('docente') . "' AND idalunno<>0";
-$ris = eseguiQuery($con,$sql);
+$ris = eseguiQuery($con, $sql);
 if (mysqli_affected_rows($con) == 0)
 {
     print("\n<FONT SIZE='+2'> <CENTER>Vecchi dati non presenti! </CENTER></FONT>");
-}
-else
+} else
 {
     print("\n<FONT SIZE='+2'> <CENTER>Vecchi dati cancellati!</CENTER> </FONT>");
 }
@@ -77,11 +78,10 @@ if ($doc != "")
                 foreach ($tbl_materie as $mat)
                 {
                     $sql = "INSERT INTO tbl_cattnosupp(iddocente, idmateria, idclasse,idalunno) values ('$doc','$mat','" . estrai_classe_alunno($alu, $con) . "','$alu')";
-                    if ($ris = eseguiQuery($con,$sql))
+                    if ($ris = eseguiQuery($con, $sql))
                     {
                         print("Inserita materia " . decodifica_materia($mat, $con) . " per alunno " . estrai_alunno_data($alu, $con) . ".<br/>");
-                    }
-                    else
+                    } else
                     {
                         print("Errore in inserimento!");
                     }
@@ -90,25 +90,23 @@ if ($doc != "")
         }
     }
     print("<big><center>Inserimento completato!");
-}
-else
+} else
 {
     print("<big><center>Nessun dato da inserire!");
 }
 
 
 // print "<Center>Inserite $cont cattedre!</Center>!";
-
 // INSERISCO LE CATTEDRE PER LE SUPPLENZE
 $querydel = "DELETE FROM tbl_cattsupp WHERE 1=1";
-eseguiQuery($con,$querydel);
+eseguiQuery($con, $querydel);
 // print inspref($querydel);
 $querysupp = "INSERT INTO tbl_cattsupp(iddocente,idmateria,idclasse)
 SELECT iddocente, 0, idclasse
 FROM tbl_docenti, tbl_classi";
 
 // print inspref($querysupp);
-mysqli_query($con, inspref($querysupp)) or die (inspref($querysupp));
+eseguiQuery($con, $querysupp);
 
 
 mysqli_close($con);

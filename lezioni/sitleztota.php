@@ -75,7 +75,7 @@ if ($codlez != "")
 {
     $query = "select * from tbl_lezioni where idlezione=$codlez";
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     $lez = mysqli_fetch_array($ris);
     $idmateria = $lez['idmateria'];
     $idclasse = $lez['idclasse'];
@@ -106,7 +106,7 @@ if ($codlez != "")
 //   Recupero cattedra da idlezione
 //
     $query = "select idcattedra from tbl_cattnosupp where idclasse=$idclasse and idmateria=$idmateria and iddocente=$iddocente";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($nom = mysqli_fetch_array($ris))
     {
         $catt = $nom['idcattedra'];
@@ -150,7 +150,7 @@ else
         if ($catt <> "")
         {
             $query = "select idclasse, idmateria from tbl_cattnosupp where idcattedra=$catt";
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             if ($nom = mysqli_fetch_array($ris))
             {
                 $mat = $nom['idmateria'];
@@ -176,7 +176,7 @@ print ('
 //
 $query = "select iddocente, cognome, nome from tbl_docenti where idutente=$id_ut_doc";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($nom = mysqli_fetch_array($ris))
 {
     $iddocente = $nom["iddocente"];
@@ -217,7 +217,7 @@ $strvisold = "";  // Per evitare duplicati nel caso di cattedre di sostegno
 // su stessa classe e stessa materia
 
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     $strvis = $nom['anno'] . "&nbsp;" . $nom['sezione'] . "&nbsp;" . $nom['specializzazione'] . "&nbsp;-&nbsp;" . $nom['denominazione'];
@@ -283,7 +283,7 @@ echo("</td></tr>");
 
 print('</table></form>');
 $query = 'select * from tbl_classi where idclasse="' . $idclasse . '" ';
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($val = mysqli_fetch_array($ris))
     $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
 
@@ -302,7 +302,7 @@ if ($per != "" & $catt != "")
              and tbl_alunni.idclasse=$idcl
              and tbl_gruppi.idmateria=$idmat
              and tbl_gruppi.iddocente=$iddocente";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($rec = mysqli_fetch_array($ris))
         $idgruppo = $rec['idgruppo'];
     //
@@ -310,7 +310,7 @@ if ($per != "" & $catt != "")
 
 
     $query = 'select * from tbl_classi where idclasse="' . $idclasse . '" ';
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($val = mysqli_fetch_array($ris))
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
 
@@ -341,7 +341,7 @@ if ($per != "" & $catt != "")
     }
 
     $query = "select sum(numeroore) as numtotore from tbl_lezioni where idclasse='" . $idclasse . "' and idmateria='" . $idmateria . "' " . $perioquery;
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($val = mysqli_fetch_array($ris))
         $oretotalilezione = $val["numtotore"];
 
@@ -395,7 +395,7 @@ if ($per != "" & $catt != "")
 
     $query = "select idlezione,datalezione, numeroore, orainizio from tbl_lezioni where idclasse='" . $idclasse . "' and idmateria='" . $idmateria . "' " . $perioquery . " order by datalezione,orainizio";
 
-    $rislez = eseguiQuery($con,$query);
+    $rislez = eseguiQuery($con, $query);
 
     while ($reclez = mysqli_fetch_array($rislez))
     {
@@ -479,7 +479,7 @@ if ($per != "" & $catt != "")
         $query = "select * from tbl_alunni 
                where idclasse='$idclasse' 
                      and idalunno in (select idalunno from tbl_cattnosupp where iddocente='$id_ut_doc' and idmateria='$idmateria' and idclasse='$idclasse') order by cognome, nome, datanascita";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     $numeroalunno = 0;
     while ($val = mysqli_fetch_array($ris))
     {
@@ -507,7 +507,7 @@ if ($per != "" & $catt != "")
 
         $queryprop = 'select * from tbl_proposte where idalunno=' . $val['idalunno'] . ' and idmateria =' . $idmateria . ' and periodo="' . $perio . '"';
 
-        $risprop = mysqli_query($con, inspref($queryprop)) or die("Errore nella query: " . mysqli_error($con));
+        $risprop = eseguiQuery($con,$queryprop);
         if ($valprop = mysqli_fetch_array($risprop))
         {
 
@@ -533,7 +533,7 @@ if ($per != "" & $catt != "")
               where tbl_asslezione.idlezione=tbl_lezioni.idlezione
               and tbl_lezioni.idmateria=$idmateria and idclasse=$idclasse and idalunno=" . $val['idalunno'] . $perioquery . " order by idlezione";
         //print inspref($query);    
-        $risass = eseguiQuery($con,$query);
+        $risass = eseguiQuery($con, $query);
         $ass = array();
         $leza = array();
         while ($recass = mysqli_fetch_array($risass))
@@ -547,7 +547,7 @@ if ($per != "" & $catt != "")
               and idmateria=$idmateria " . $perioquery . " order by idlezione";
 
         // print inspref($query);
-        $risvot = eseguiQuery($con,$query);
+        $risvot = eseguiQuery($con, $query);
         $vot = array();   // Voti da visualizzare
         $lezv = array();  // Idlezioni
 

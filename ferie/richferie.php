@@ -97,7 +97,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
-$nominativo= estrai_dati_docente($_SESSION['idutente'], $con);
+$nominativo = estrai_dati_docente($_SESSION['idutente'], $con);
 print "
         <style>
 			

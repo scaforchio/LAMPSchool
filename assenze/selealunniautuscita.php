@@ -110,7 +110,7 @@ print "   <tr>
 
 // Riempimento combo box tbl_classi
 $query = "SELECT * FROM tbl_classi ORDER BY anno, sezione, specializzazione";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -147,7 +147,7 @@ if ($idclasse != "")
                  or testo like '%può uscire alle%')
                  and data = '" . date('Y-m-d') . "'
                  and idclasse=$idclasse";
-    $res = eseguiQuery($con,$query);
+    $res = eseguiQuery($con, $query);
 
     print "<br><fieldset value='Autorizzazioni già concesse'><legend>Autorizzazioni gi&agrave; concesse</legend><small>";
     while ($rec = mysqli_fetch_array($res))
@@ -179,13 +179,13 @@ if ($idclasse != "")
             . "</select>";
     print "<fieldset value='Dati privati'><legend>Dati privati</legend>";
     print "Cognome e nome richiedente <input type='text' name='richiedente'> , telefono contattato <input type='text' name='recapito'>";
-    
-    
+
+
     // FINE MODIFICHE
     print "<br>per <input type='text' name='motivo' maxlength='200' size='80'><br><br>";
     print "</fieldset>";
-   // if ($gesttimbrature == 'no')
-        print "Uscita contestuale ad autorizzazione: <input type='checkbox' name='uscitacont'><br><br>";
+    // if ($gesttimbrature == 'no')
+    print "Uscita contestuale ad autorizzazione: <input type='checkbox' name='uscitacont'><br><br>";
 
 
     print "<br><br><center><input type='button' value='Seleziona tutti' onclick='checkTutti()'>
@@ -201,8 +201,8 @@ if ($idclasse != "")
             where tbl_alunni.idclasse=$idclasse
 
             order by cognome, nome, datanascita";
-    
-    $ris = eseguiQuery($con,$query);
+
+    $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris))
     {
         print "<tr>";
@@ -222,7 +222,7 @@ if ($idclasse != "")
         $seledata = " data <= '" . $fineprimo . "' ";
         $queryusc = "select count(*) as numusc from tbl_usciteanticipate where idalunno = '" . $rec["idalunno"] . "' and" . $seledata;
         //print inspref($queryusc);
-        $risusc = eseguiQuery($con,$queryusc);
+        $risusc = eseguiQuery($con, $queryusc);
 
         while ($ass = mysqli_fetch_array($risusc))
         {
@@ -233,7 +233,7 @@ if ($idclasse != "")
         $seledata = " data > '" . $fineprimo . "' ";
         $queryusc = "select count(*) as numusc from tbl_usciteanticipate where idalunno = '" . $rec["idalunno"] . "' and" . $seledata;
         //print inspref($queryusc);
-        $risusc = eseguiQuery($con,$queryusc);
+        $risusc = eseguiQuery($con, $queryusc);
         while ($ass = mysqli_fetch_array($risusc))
         {
             $numuscprimo = $ass['numusc'];

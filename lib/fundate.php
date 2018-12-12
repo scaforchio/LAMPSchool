@@ -55,8 +55,7 @@ function ControlloData($data)
     if (!preg_match("/^[0-9]{2}\/[0-9]{2}\/[0-9]{4}$/", $data))
     {
         return false;
-    }
-    else
+    } else
     {
         $arrayData = explode("/", $data);
         $Giorno = $arrayData[0];
@@ -65,8 +64,7 @@ function ControlloData($data)
         if (!checkdate($Mese, $Giorno, $Anno))
         {
             return false;
-        }
-        else
+        } else
         {
             return true;
         }
@@ -84,8 +82,7 @@ function ItaAme2Ita($data)
     if (ControlloData($d))
     {
         return $d;
-    }
-    else
+    } else
     {
         $d = data_italiana($d);
         return $d;
@@ -230,12 +227,11 @@ function differenza_giorni($data_iniziale, $data_finale)
 function giorno_festa($datafest, $conn)
 {
     $query = "select * from tbl_festivita where data='$datafest'";
-    $ris = mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query) . mysqli_error($conn));
+    $ris = eseguiQuery($conn,$query);
     if (mysqli_num_rows($ris) > 0)
     {
         return true;
-    }
-    else
+    } else
     {
         return false;
     }
@@ -250,7 +246,7 @@ function giorno_festa($datafest, $conn)
 function estrai_festa($datafest, $conn)
 {
     $query = "select * from tbl_festivita where data='$datafest'";
-    $ris = mysqli_query($conn, inspref($query)) or die("Errore: " . inspref($query) . mysqli_error($conn));
+    $ris = eseguiQuery($conn,$query);
     if ($rec = mysqli_fetch_array($ris))
     {
         return $rec['note'];
@@ -311,7 +307,7 @@ function aggiungi_giorni($datainglese, $giorni)
 function orainizio($h, $g, $conn)
 {
     $query = "select inizio from tbl_orario where giorno='$g' and ora='$h' and valido";
-    $ris = mysqli_query($conn, inspref($query)) or die("Errore:" . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     return $rec['inizio'];
 }
@@ -322,7 +318,7 @@ function orainizio($h, $g, $conn)
 function orafine($h, $g, $conn)
 {
     $query = "select fine from tbl_orario where giorno=$g and ora=$h and valido";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     return $rec['fine'];
 }
@@ -339,7 +335,7 @@ function giorni_lezione_tra_date($datainizio, $datafine, $conn)
 {
     $query = "select distinct datalezione from tbl_lezioni
             where datalezione>='$datainizio' and datalezione<='$datafine'";
-    $ris = mysqli_query($conn, inspref($query)) or die("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $giornilezione = mysqli_num_rows($ris);
 
     return $giornilezione;
@@ -375,7 +371,7 @@ function calcola_numero_ore($data, $idclasse, $conn)
 {
     $numore = 0;
     $query = "select sum(numeroore) as totore from tbl_lezioni where datalezione='$data' and idclasse='$idclasse' order by orainizio";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
 
     return $rec['totore'];
@@ -527,18 +523,16 @@ function estrai_ora_inizio_giornata($data, $idclasse, $conn)
     if ($data != "0000-00-00")
     {
         $query = "select min(orainizio) as oraini from tbl_lezioni where datalezione='$data' and idclasse='$idclasse'";
-        $risora = mysqli_query($conn, inspref($query)) or die("Errore:" . inspref($query));
+        $risora = eseguiQuery($conn,$query);
         // print "tttt $query ".mysqli_num_rows($risora);
         if ($recora = mysqli_fetch_array($risora))
         {
             return $recora['oraini'];
-        }
-        else
+        } else
         {
             return 0;
         }
-    }
-    else
+    } else
         return 0;
     //return $oraini;
 }
@@ -550,7 +544,7 @@ function estrai_ora_inizio_giornata($data, $idclasse, $conn)
 function estrai_ora_fine_giornata($data, $idclasse, $conn)
 {
     $query = "select max(orainizio+numeroore-1) as orafin from tbl_lezioni where datalezione='$data' and idclasse='$idclasse'";
-    $risora = eseguiQuery($conn,$query);
+    $risora = eseguiQuery($conn, $query);
     if ($recora = mysqli_fetch_array($risora))
     {
         $orafin = $recora['orafin'];
@@ -562,20 +556,19 @@ function aggiorna_data_firma_scrutinio($datastampa, $firmadirigente, $periodo, $
 {
     $query = "update tbl_scrutini set datastampa='" . data_to_db($datastampa) . "',firmadirigente='$firmadirigente' where periodo='$periodo' and idclasse='$classe'";
     // print $query;
-    eseguiQuery($conn,$query);
+    eseguiQuery($conn, $query);
 }
 
 function estrai_data_stampa($idclasse, $periodo, $conn)
 {
     $query = "select datastampa from tbl_scrutini where periodo='$periodo' and idclasse='$idclasse'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $data = $rec['datastampa'];
     if ($data != "0000-00-00")
     {
         return $data;
-    }
-    else
+    } else
     {
         return date('Y-m-d');
     }
@@ -625,7 +618,7 @@ function controlla_scadenza($numgiornirit, $giornolez, $meselez, $annolez)
 function estrai_data_lezione($idlezione, $conn)
 {
     $query = "select datalezione from tbl_lezioni where idlezione=$idlezione";
-    $ris = mysqli_query($conn, inspref($query)) or die("Errore nella query: " . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $datalezione = $rec['datalezione'];
     return $datalezione;
@@ -658,11 +651,11 @@ function numero_colloqui_docente($iddocente, $idoraric, $datapren, $conn)
 	      where data='$datapren' 
 	      and tbl_prenotazioni.valido=1
 	      and tbl_prenotazioni.idoraricevimento=$idoraric";
-   // print inspref($query);
-    $ris = mysqli_query($conn, inspref($query)) or die("Errore " . inspref($query, false));
+    // print inspref($query);
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $numpren = $rec['numpren'];
-   // print " num pren $numpren";
+    // print " num pren $numpren";
     return $numpren;
 }
 
@@ -671,7 +664,7 @@ function numero_colloqui_massimi_docente($iddocente, $conn)
 
     $query = "select nummaxcolloqui from tbl_docenti
 	        where iddocente=$iddocente";
-    $ris = mysqli_query($conn, inspref($query)) or die("errore $query");
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $numpren = $rec['nummaxcolloqui'];
     return $numpren;

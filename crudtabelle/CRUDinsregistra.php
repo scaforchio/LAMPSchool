@@ -46,29 +46,29 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 // COSTRUZIONE QUERY DI INSERIMENTO
 
-$elencocampi="";
-$elencovalori="";
-$valori= stringa_html('campo');
+$elencocampi = "";
+$elencovalori = "";
+$valori = stringa_html('campo');
 
 foreach ($daticrud['campi'] as $c)
-    $elencocampi.=$c[0].", ";
+    $elencocampi .= $c[0] . ", ";
 
 foreach ($valori as $v)
-    $elencovalori.="'$v', ";
-        
+    $elencovalori .= "'$v', ";
+
 //print $elencocampi;
 $elencocampi = substr($elencocampi, 0, strlen($elencocampi) - 2);
 $elencovalori = substr($elencovalori, 0, strlen($elencovalori) - 2);
 //print "<br>$elencovalori";
 
-$queryins = "insert into ".$daticrud['tabella']."($elencocampi) values ($elencovalori)";
+$queryins = "insert into " . $daticrud['tabella'] . "($elencocampi) values ($elencovalori)";
 print $queryins;
-eseguiQuery($con,$queryins);
+eseguiQuery($con, $queryins);
 inserisci_log($_SESSION['userid'] . "§" . date('m-d|H:i:s') . "§" . $_SESSION['indirizzoip'] . "§" . $queryins . "");
-                    
+
 // TTTT Aggiungere al log
 
-header("location: ../crudtabelle/CRUD.php?suffisso=".$_SESSION['suffisso']);
+header("location: ../crudtabelle/CRUD.php?suffisso=" . $_SESSION['suffisso']);
 
 stampa_piede("");
 mysqli_close($con);

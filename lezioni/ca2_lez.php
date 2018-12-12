@@ -1,24 +1,26 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
-/*programma per la cancellazione di un docente
-riceve in ingresso i dati del docente*/
+/* programma per la cancellazione di un docente
+  riceve in ingresso i dati del docente */
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 
@@ -34,7 +36,7 @@ if ($tipoutente == "")
 
 $titolo = "Cancellazione lezione";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_lez.php'>ELENCO LEZIONI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -56,27 +58,26 @@ if (!$DB)
     exit;
 }
 $f = "DELETE FROM tbl_firme WHERE idlezione='$idlezione' and iddocente='$iddocente'";
-$res = mysqli_query($con, inspref($f)) or die ("Cancellazione firme fallita!");
+$res = eseguiQuery($con,$f);
 
 $q = "SELECT * FROM tbl_firme where idlezione='$idlezione'";
-$res = mysqli_query($con, inspref($q)) or die ("Errore ricerca firme!");
+$res = eseguiQuery($con,$q);
 if (mysqli_num_rows($res) == 0)
 {
     $f = "DELETE FROM tbl_asslezione WHERE idlezione='$idlezione'";
-    $res = mysqli_query($con, inspref($f)) or die ("Cancellazione assenze fallita!");
+    $res = eseguiQuery($con,$f);
     $f = "DELETE FROM tbl_valutazioniintermedie WHERE idlezione='$idlezione'";
-    $res = mysqli_query($con, inspref($f)) or die ("Cancellazione valutazioni fallita!");
+    $res = eseguiQuery($con,$f);
     $f = "DELETE FROM tbl_lezioni WHERE idlezione='$idlezione'";
-    $res = mysqli_query($con, inspref($f)) or die ("Cancellazione lezione fallita!");
+    $res = eseguiQuery($con,$f);
     $f = "DELETE FROM tbl_osssist WHERE idlezione='$idlezione'";
-    $res = mysqli_query($con, inspref($f)) or die ("Cancellazione osservazioni sistematiche fallita!");
-}
-else
+    $res = eseguiQuery($con,$f);
+} else
 {
     $f = "DELETE FROM tbl_valutazioniintermedie WHERE idlezione='$idlezione' and iddocente='$iddocente'";
-    $res = mysqli_query($con, inspref($f)) or die ("Cancellazione valutazioni fallita!");
+    $res = eseguiQuery($con,$f);
     $f = "DELETE FROM tbl_osssist WHERE idlezione='$idlezione' and iddocente='$iddocente'";
-    $res = mysqli_query($con, inspref($f)) or die ("Cancellazione osservazioni sistematiche fallita!");
+    $res = eseguiQuery($con,$f);
 }
 //header("location: ../lezioni/vis_lez.php?iddocente=$iddocente");
 print "

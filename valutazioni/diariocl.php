@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -31,7 +33,7 @@ if ($tipoutente == "")
 
 $titolo = "Diario di classe";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $idnota = stringa_html('idnota');
@@ -39,11 +41,11 @@ $idclasse = stringa_html('idclasse');
 
 if ($idnota != "")   // se si arriva dalla pagina della ricerca
 {
-    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
     $query = "SELECT * FROM tbl_diariocl WHERE iddiariocl=" . $idnota . "";
-    $ris = mysqli_query($con, inspref($query)) or die("Errore:" . inspref($query,false));
+    $ris = eseguiQuery($con,$query);
     $nom = mysqli_fetch_array($ris);
     $idclasse = $nom['idclasse'];
     // $but = stringa_html('visass');
@@ -52,9 +54,7 @@ if ($idnota != "")   // se si arriva dalla pagina della ricerca
     $anno = substr($nom['data'], 0, 4);
     // $but = stringa_html('visass');
     $iddocente = $nom['iddocente'];
-
-}
-else
+} else
 {
     $idclasse = stringa_html('idclasse');
     $giorno = stringa_html('gio');
@@ -94,7 +94,7 @@ print ('
       <option value="">&nbsp;  ');
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 // Riempimento combo box tbl_classi
@@ -105,7 +105,7 @@ $query = "select distinct tbl_classi.idclasse,anno,sezione,specializzazione
         where tbl_classi.idclasse=tbl_cattnosupp.idclasse
         and tbl_cattnosupp.iddocente=$iddocente
         order by specializzazione, sezione, anno";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -132,68 +132,65 @@ echo('
 //
 //   Inizio visualizzazione della data
 //
-    echo('      <tr>
+echo('      <tr>
       <td width="50%"><p align="center"><b>Data (gg/mm/aaaa)</b></p></td>');
 
 
-    echo('   <td width="50%">');
-    echo('   <select name="gio" ONCHANGE="tbl_diariocl.submit()">');
-    require '../lib/aggiungi_giorni_a_select.php';
-    echo("</select>");
+echo('   <td width="50%">');
+echo('   <select name="gio" ONCHANGE="tbl_diariocl.submit()">');
+require '../lib/aggiungi_giorni_a_select.php';
+echo("</select>");
 
-    echo('   <select name="mese" ONCHANGE="tbl_diariocl.submit()">');
-    require '../lib/aggiungi_mesi_a_select.php';
-    /*
-    for  ($m = 9; $m <= 12; $m++)
-    {
-        if ($m < 10)
-        {
-            $ms = '0' . $m;
-        }
-        else
-        {
-            $ms = '' . $m;
-        }
-        if ($ms == $mese)
-        {
-            echo("<option selected>$ms - $annoscol");
-        }
-        else
-        {
-            echo("<option>$ms - $annoscol");
-        }
-    }
-    $annoscolsucc = $annoscol + 1;
-    for ($m = 1; $m <= 8; $m++)
-    {
-        if ($m < 10)
-        {
-            $ms = '0' . $m;
-        }
-        else
-        {
-            $ms = '' . $m;
-        }
-        if ($ms == $mese)
-        {
-            echo("<option selected>$ms - $annoscolsucc");
-        }
-        else
-        {
-            echo("<option>$ms - $annoscolsucc");
-        }
-    }
-     * 
-     */
-    echo("</select></td></tr>");
+echo('   <select name="mese" ONCHANGE="tbl_diariocl.submit()">');
+require '../lib/aggiungi_mesi_a_select.php';
+/*
+  for  ($m = 9; $m <= 12; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = '0' . $m;
+  }
+  else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscol");
+  }
+  else
+  {
+  echo("<option>$ms - $annoscol");
+  }
+  }
+  $annoscolsucc = $annoscol + 1;
+  for ($m = 1; $m <= 8; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = '0' . $m;
+  }
+  else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscolsucc");
+  }
+  else
+  {
+  echo("<option>$ms - $annoscolsucc");
+  }
+  }
+ * 
+ */
+echo("</select></td></tr>");
 
 
 //
 //  Fine visualizzazione della data
 //
-
-
-
 //   Fine riempimento combo box tbl_docenti
 
 echo('</table>
@@ -210,16 +207,14 @@ echo('     </td>
 if ($mese == "")
 {
     $m = 0;
-}
-else
+} else
 {
     $m = $mese;
 }
 if ($giorno == "")
 {
     $g = 0;
-}
-else
+} else
 {
     $g = $giorno;
 }
@@ -227,8 +222,7 @@ else
 if ($anno == "")
 {
     $a = 0;
-}
-else
+} else
 {
     $a = $anno;
 }
@@ -238,7 +232,7 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
 {
 
     $classe = "";
-    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
     //   $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
@@ -248,7 +242,7 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
     //  print $iddocente;
     $query = "select * from tbl_diariocl where idclasse=$idclasse and data='$data' and iddocente=$iddocente";
     //  print $query;
-    $ris = mysqli_query($con, inspref($query)) or die ("Errore: " . inspref($query,false));
+    $ris = eseguiQuery($con,$query);
 
     $c = mysqli_fetch_array($ris);
 
@@ -260,8 +254,7 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
         echo "";
         echo "</textarea><br/>";
         echo "</td>";
-    }
-    else
+    } else
     {
         echo "<form method='post' action='insdiariocl.php'>
              <table border=2 align='center'><tr class=prima><td align='center'><b>Osservazioni</b></td></tr><tr><td>";
@@ -273,16 +266,16 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
 
     // VISUALIZZO EVENTUALI ANNOTAZIONI GIA' PRESENTI
 
-    $query="select * from tbl_diariocl where idclasse=$idclasse and data='$data' order by oraultmod desc";
-    $risprec=eseguiQuery($con,$query);
-    if (mysqli_num_rows($risprec)>0)
+    $query = "select * from tbl_diariocl where idclasse=$idclasse and data='$data' order by oraultmod desc";
+    $risprec = eseguiQuery($con, $query);
+    if (mysqli_num_rows($risprec) > 0)
     {
 
         print "<tr><td>";
-        while($recprec=mysqli_fetch_array($risprec))
+        while ($recprec = mysqli_fetch_array($risprec))
         {
-            print $recprec['testo']."<br>";
-            print "<p align='right'><i>".estrai_dati_docente($recprec['iddocente'],$con). " - ". data_italiana(substr($recprec['oraultmod'],0,10))." ".substr($recprec['oraultmod'],11,5)."</i></p>";
+            print $recprec['testo'] . "<br>";
+            print "<p align='right'><i>" . estrai_dati_docente($recprec['iddocente'], $con) . " - " . data_italiana(substr($recprec['oraultmod'], 0, 10)) . " " . substr($recprec['oraultmod'], 11, 5) . "</i></p>";
         }
         print "</td></tr>";
     }
@@ -302,23 +295,19 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
 
           </form>
          ';
-
-}
-else
+} else
 {
     if ($giornosettimana == "Dom")
     {
         print("<Center> <big><big>Il giorno selezionato &egrave; una domenica<small><small> </center>");
-    }
-    else
+    } else
     {
 
-            print("<Center> <big><big>La data selezionata non &egrave; valida<small><small> </center>");
-
+        print("<Center> <big><big>La data selezionata non &egrave; valida<small><small> </center>");
     }
 }
 // fine if
 
 mysqli_close($con);
-stampa_piede(""); 
+stampa_piede("");
 

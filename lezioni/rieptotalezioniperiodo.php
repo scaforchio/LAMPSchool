@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -54,11 +56,10 @@ $mat = '';
 
 $idgruppo = '';
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 // CODICE PER GESTIONE RICHIAMO DA RIEPILOGO
-
 //$idlezione = stringa_html('idlezione');
 
 $datalezione = stringa_html('data');
@@ -72,8 +73,7 @@ if ($numeroperiodi == 2)
     if ($datalezione <= $fineprimo)
     {
         $per = "Primo";
-    }
-    else
+    } else
     {
         $per = "Secondo";
     }
@@ -83,14 +83,12 @@ if ($numeroperiodi == 3)
     if ($datalezione <= $fineprimo)
     {
         $per = "Primo";
-    }
-    else
+    } else
     {
         if ($datalezione <= $finesecondo)
         {
             $per = "Secondo";
-        }
-        else
+        } else
         {
             $per = "Terzo";
         }
@@ -109,7 +107,7 @@ $query = "select distinct tbl_gruppi.idgruppo from tbl_gruppialunni,tbl_alunni,t
              and tbl_alunni.idclasse=$idcl
              and tbl_gruppi.idmateria=$idmat
              and tbl_gruppi.iddocente=$iddocente";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($rec = mysqli_fetch_array($ris))
 {
     $idgruppo = $rec['idgruppo'];
@@ -119,7 +117,7 @@ if ($rec = mysqli_fetch_array($ris))
 
 
 $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($val = mysqli_fetch_array($ris))
 {
     $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
@@ -150,12 +148,12 @@ if ($per == "Terzo")
 }
 
 $query = "SELECT sum(numeroore) AS numtotore FROM tbl_lezioni WHERE idclasse='" . $idclasse . "' AND idmateria='" . $idmateria . "' " . $perioquery;
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($val = mysqli_fetch_array($ris))
 {
     $oretotalilezione = $val["numtotore"];
 }
-$materia=decodifica_materia($idmateria,$con);
+$materia = decodifica_materia($idmateria, $con);
 
 print (" Materia: $materia <br>Totale ore di lezione $per quadrimestre : $oretotalilezione<br/>");
 
@@ -183,21 +181,21 @@ $giornilezione = array();
 /*  $perioquery="and true";
   if ($per=="Primo")
   {
-      $perioquery=" and datalezione <= '".$fineprimo."'" ;
+  $perioquery=" and datalezione <= '".$fineprimo."'" ;
   }
   if ($per=="Secondo" & $numeroperiodi==2)
   {
-      $perioquery=" and datalezione > '".$fineprimo."'" ;
+  $perioquery=" and datalezione > '".$fineprimo."'" ;
   }
   if ($per=="Secondo" & $numeroperiodi==3)
   {
-      $perioquery=" and datalezione > '".$fineprimo."' and datalezione <=  '".$finesecondo."'";
+  $perioquery=" and datalezione > '".$fineprimo."' and datalezione <=  '".$finesecondo."'";
   }
   if ($per=="Terzo")
   {
-     $perioquery=" and datalezione > '".$finesecondo."'" ;
+  $perioquery=" and datalezione > '".$finesecondo."'" ;
   }
-*/
+ */
 
 
 // SELEZIONO LE DATE DELLE LEZIONI INSERITE
@@ -205,10 +203,9 @@ $giornilezione = array();
 
 $query = "SELECT idlezione,datalezione, numeroore, orainizio FROM tbl_lezioni WHERE idclasse='" . $idclasse . "' AND idmateria='" . $idmateria . "' " . $perioquery . " ORDER BY datalezione,orainizio";
 
-$rislez = eseguiQuery($con,$query);
+$rislez = eseguiQuery($con, $query);
 
 while ($reclez = mysqli_fetch_array($rislez))
-
 {
     $gio = substr($reclez['datalezione'], 8, 2);
     $mes = substr($reclez['datalezione'], 5, 2);
@@ -217,8 +214,7 @@ while ($reclez = mysqli_fetch_array($rislez))
     if (strlen($reclez['orainizio']) > 1)
     {
         $orainizio = $reclez['orainizio'];
-    }
-    else
+    } else
     {
         $orainizio = "0" . $reclez['orainizio'];
     }
@@ -227,8 +223,6 @@ while ($reclez = mysqli_fetch_array($rislez))
     //  print "tttt:".$giorno."<br>";
 
     $giornilezione[] = $giorno;
-
-
 }
 
 $perioquery = "and true";
@@ -259,7 +253,6 @@ foreach ($giornilezione as $gg)
 {
     $strore = (substr($gg, 8, 2) / 1) . ">" . ((substr($gg, 20, 1) + substr($gg, 8, 2) - 1));
     print "<td rowspan=2><font size=1><center>" . giorno_settimana(substr($gg, 10, 10)) . "<br/>" . substr($gg, 6, 2) . "<br/>" . substr($gg, 4, 2) . "<br/>$strore</td>";
-
 }
 
 print "<td rowspan=2 align='center' valign='middle'><font size=1><b>Ass.<br/>tot.</b></font></td></tr>";
@@ -284,8 +277,7 @@ if (!$sost)
     if ($idgruppo == '')
     {
         $query = "select * from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
-    }
-    else
+    } else
     {
         $query = "select tbl_alunni.idalunno,cognome,nome,datanascita
                   from tbl_gruppi,tbl_gruppialunni,tbl_alunni
@@ -304,16 +296,14 @@ else
                where idclasse='$idclasse' 
                      and idalunno in (select idalunno from tbl_cattnosupp where iddocente='$id_ut_doc' and idmateria='$idmateria' and idclasse='$idclasse') order by cognome, nome, datanascita";
 }
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 $numeroalunno = 0;
 while ($val = mysqli_fetch_array($ris))
 {
     if ($numeroalunno % 2 == 1)
     {
         print(" <tr bgcolor='f0f0f0'>");
-    }
-
-    else
+    } else
     {
         print(" <tr bgcolor='ffffff'>");
     }
@@ -321,8 +311,7 @@ while ($val = mysqli_fetch_array($ris))
     if (!alunno_certificato($val['idalunno'], $con))
     {
         $cert = "";
-    }
-    else
+    } else
     {
         $cert = "<img src='../immagini/apply_small.png'>";
     }
@@ -331,14 +320,17 @@ while ($val = mysqli_fetch_array($ris))
               <td align='center'><font size=1><b> " . data_italiana($val['datanascita']) . " </b></td>");
 
 
-    if ($per == "Primo") $perio = '1';
-    if ($per == "Secondo") $perio = '2';
-    if ($per == "Terzo") $perio = '3';
+    if ($per == "Primo")
+        $perio = '1';
+    if ($per == "Secondo")
+        $perio = '2';
+    if ($per == "Terzo")
+        $perio = '3';
 
 
     $queryprop = 'SELECT * FROM tbl_proposte WHERE idalunno=' . $val['idalunno'] . ' AND idmateria =' . $idmateria . ' AND periodo="' . $perio . '"';
 
-    $risprop = mysqli_query($con, inspref($queryprop)) or die ("Errore nella query: " . mysqli_error($con));
+    $risprop = eseguiQuery($con,$queryprop);
     if ($valprop = mysqli_fetch_array($risprop))
     {
 
@@ -347,8 +339,7 @@ while ($val = mysqli_fetch_array($ris))
         print "<td><font size=1><center><b>" . dec_to_vot($valprop['pratico']) . "</b></td>";
         print "<td><font size=1><center><b>" . dec_to_vot($valprop['unico']) . "</b></td>";
         print "<td><font size=1><center><b>" . dec_to_vot($valprop['condotta']) . "</b></td>";
-    }
-    else
+    } else
     {
         print "<td><b>&nbsp;</b></td>";
         print "<td><b>&nbsp;</b></td>";
@@ -365,7 +356,7 @@ while ($val = mysqli_fetch_array($ris))
               where tbl_asslezione.idlezione=tbl_lezioni.idlezione
               and tbl_lezioni.idmateria=$idmateria and idclasse=$idclasse and idalunno=" . $val['idalunno'] . $perioquery . " order by idlezione";
     //print inspref($query);
-    $risass = eseguiQuery($con,$query);
+    $risass = eseguiQuery($con, $query);
     $ass = array();
     $leza = array();
     while ($recass = mysqli_fetch_array($risass))
@@ -379,7 +370,7 @@ while ($val = mysqli_fetch_array($ris))
               and idmateria=$idmateria " . $perioquery . " order by idlezione";
 
     // print inspref($query);
-    $risvot = eseguiQuery($con,$query);
+    $risvot = eseguiQuery($con, $query);
     $vot = array();   // Voti da visualizzare
     $lezv = array();  // Idlezioni
 
@@ -390,16 +381,14 @@ while ($val = mysqli_fetch_array($ris))
         if ($recvot['iddocente'] != $iddocente)
         {
             $visvoto .= "&nbsp;<u>";
-        }
-        else
+        } else
         {
             $visvoto .= "&nbsp;";
         }
         if ($recvot['voto'] >= 6)
         {
             $visvoto .= "<font color='green' size='1'>" . dec_to_mod($recvot['voto']) . "<sub>" . $recvot['tipo'] . "</sub></font>";
-        }
-        else
+        } else
         {
             $visvoto .= "<font color='red' size='1'>" . dec_to_mod($recvot['voto']) . "<sub>" . $recvot['tipo'] . "</sub></font>";
         }
@@ -432,7 +421,6 @@ while ($val = mysqli_fetch_array($ris))
         if ($voti != "")
         {
             print "$voti";
-
         }
 
 
@@ -444,11 +432,9 @@ while ($val = mysqli_fetch_array($ris))
     // Fine codice per ricerca tbl_assenze già inserite
 
     print"</tr>";
-
 }
 
 echo '</table>';
-
 
 // fine if
 
@@ -476,7 +462,6 @@ function ricerca_voti($vot, $lez, $idlez)
     return $trovato;
 }
 
-
 mysqli_close($con);
-stampa_piede(""); 
+stampa_piede("");
 

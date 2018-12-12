@@ -24,7 +24,8 @@ session_start();
 // istruzioni per tornare alla pagina di login se non c'è una sessione valida
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "") {
+if ($tipoutente == "")
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -107,17 +108,21 @@ $datainizio = stringa_html("datainizio");
 $datafine = stringa_html("datafine");
 
 $dataoggi = date("d/m/Y");
-if ($datainizio == "") {
+if ($datainizio == "")
+{
     $datainizio = data_italiana($datainiziolezioni);
 }
-if ($datafine == "") {
+if ($datafine == "")
+{
     $datafine = $dataoggi;
 }
 
-if ($mese == '') {
+if ($mese == '')
+{
     $mese = date('m');
 }
-if ($anno == '') {
+if ($anno == '')
+{
     $anno = date('Y');
 }
 
@@ -134,16 +139,19 @@ print ("
 
 
 $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY specializzazione, sezione, anno";
-if ($tipoutente == 'D') {
+if ($tipoutente == 'D')
+{
     $query = "SELECT DISTINCT tbl_classi.idclasse,anno,sezione,specializzazione FROM tbl_classi
            WHERE idcoordinatore=" . $_SESSION['idutente'] . " ORDER BY anno,sezione,specializzazione";
 }
-$ris = eseguiQuery($con,$query);
-while ($nom = mysqli_fetch_array($ris)) {
+$ris = eseguiQuery($con, $query);
+while ($nom = mysqli_fetch_array($ris))
+{
     print "<option value='";
     print ($nom["idclasse"]);
     print "'";
-    if ($nome == $nom["idclasse"]) {
+    if ($nome == $nom["idclasse"])
+    {
         print " selected";
     }
     print ">";
@@ -170,7 +178,8 @@ print("
 
 print ("</table>");
 
-if ($nome != "") {
+if ($nome != "")
+{
     echo('
  
     <table align="center">
@@ -182,15 +191,19 @@ if ($nome != "") {
  
     ');
 
-    if ($mese == "") {
+    if ($mese == "")
+    {
         $m = 0;
-    } else {
+    } else
+    {
         $m = $mese;
     }
 
-    if ($anno == "") {
+    if ($anno == "")
+    {
         $a = 0;
-    } else {
+    } else
+    {
         $a = $anno;
     }
 
@@ -205,12 +218,14 @@ if ($nome != "") {
 
     $seledata = "";
     $seledatalezione = "";
-    if ($datainizio != "") {
+    if ($datainizio != "")
+    {
         $seledata = $seledata . " and data >= '" . data_to_db($datainizio) . "' ";
         $seledatalezione = $seledatalezione . " and datalezione >= '" . data_to_db($datainizio) . "' ";
     }
 
-    if ($datafine != "") {
+    if ($datafine != "")
+    {
         $seledata = $seledata . " and data <= '" . data_to_db($datafine) . "' ";
         $seledatalezione = $seledatalezione . " and datalezione <= '" . data_to_db($datafine) . "' ";
     }
@@ -223,12 +238,14 @@ if ($nome != "") {
                where idclasse=$idclasse
                $seledatalezione";
 
-    $rislez = mysqli_query($con, inspref($querylez)) or die("Errore: " . inspref($querylez, false));
-    while ($reclez = mysqli_fetch_array($rislez)) {
+    $rislez = eseguiQuery($con, $querylez);
+    while ($reclez = mysqli_fetch_array($rislez))
+    {
         $datalez = $reclez['datalezione'];
         $orainizio = $reclez['orainizio'];
         $numeroore = $reclez['numeroore'];
-        for ($i = $orainizio; $i < ($orainizio + $numeroore); $i++) {
+        for ($i = $orainizio; $i < ($orainizio + $numeroore); $i++)
+        {
             $indicearray = $datalez . $i;
             $arrlezioni[$indicearray] = 1;
         }
@@ -238,17 +255,19 @@ if ($nome != "") {
 
 
     $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-    $ris = eseguiQuery($con,$query);
-    if ($val = mysqli_fetch_array($ris)) {
+    $ris = eseguiQuery($con, $query);
+    if ($val = mysqli_fetch_array($ris))
+    {
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
         $oresettimanali = $val["oresett"];
         $numoretot = round(33.333 * $oresettimanali);  // 33 = numero settimane di lezione convenzionale
     }
     $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     $c = mysqli_fetch_array($ris);
-    if ($c == NULL) {
+    if ($c == NULL)
+    {
         echo '
                     <p align="center">
 		    <font size=4 color="black">Nessun alunno presente nella classe </font>
@@ -271,8 +290,9 @@ if ($nome != "") {
 
 
     $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
-    $ris = eseguiQuery($con,$query);
-    while ($val = mysqli_fetch_array($ris)) {
+    $ris = eseguiQuery($con, $query);
+    while ($val = mysqli_fetch_array($ris))
+    {
         $idalunno = $val["idalunno"];
         echo '
              <tr>
@@ -285,19 +305,22 @@ if ($nome != "") {
         $queryrit = "SELECT count(*) AS numrit FROM tbl_ritardi WHERE idalunno = '" . $val['idalunno'] . "' " . $seledata;
         $queryusc = "SELECT count(*) AS numusc FROM tbl_usciteanticipate WHERE idalunno = '" . $val["idalunno"] . "' " . $seledata;
 
-        $risass = mysqli_query($con, inspref($queryass)) or die("Errore nella query: " . mysqli_error($con));
-        $risrit = mysqli_query($con, inspref($queryrit)) or die("Errore nella query: " . mysqli_error($con));
+        $risass = eseguiQuery($con, $queryass);
+        $risrit = eseguiQuery($con, $queryrit);
         $numritardibrevi = calcola_ritardi_brevi($val['idalunno'], $con, $ritardobreve, $seledata);
-        $risusc = eseguiQuery($con,$queryusc);
-        while ($ass = mysqli_fetch_array($risass)) {
+        $risusc = eseguiQuery($con, $queryusc);
+        while ($ass = mysqli_fetch_array($risass))
+        {
 
             $numass = $ass['numass'];
         }
-        while ($rit = mysqli_fetch_array($risrit)) {
+        while ($rit = mysqli_fetch_array($risrit))
+        {
             $numrit = $rit['numrit'];
         }
 
-        while ($usc = mysqli_fetch_array($risusc)) {
+        while ($usc = mysqli_fetch_array($risusc))
+        {
 
             $numusc = $usc['numusc'];
         }

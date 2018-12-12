@@ -43,10 +43,10 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
-$incrementovoto=0.25;
+$incrementovoto = 0.25;
 if (isset($solovotiinteri))
-if ($solovotiinteri=='yes')
-    $incrementovoto=1.00;
+    if ($solovotiinteri == 'yes')
+        $incrementovoto = 1.00;
 
 $cattedra = stringa_html('cattedra');
 
@@ -109,7 +109,7 @@ print ("
 
 $query = "select iddocente, cognome, nome from tbl_docenti where iddocente='$iddocente'";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 
 if ($nom = mysqli_fetch_array($ris))
@@ -139,7 +139,7 @@ print("
 
 
 $query = "select idcattedra,tbl_classi.idclasse,tbl_materie.idmateria, anno, sezione, specializzazione, denominazione from tbl_cattnosupp, tbl_classi, tbl_materie where iddocente='$iddocente' and tbl_cattnosupp.idalunno=0 and tbl_cattnosupp.idclasse=tbl_classi.idclasse and tbl_cattnosupp.idmateria = tbl_materie.idmateria order by anno, sezione, specializzazione, denominazione";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -200,7 +200,7 @@ if ($idclasse != '' & $iddocente != '' & $idmateria != '' & $giorno != '' & $mes
              and tbl_alunni.idclasse=$idclasse
              and tbl_gruppi.idmateria=$idmateria
              and tbl_gruppi.iddocente=$iddocente";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($rec = mysqli_fetch_array($ris))
     {
         $idgruppo = $rec['idgruppo'];
@@ -212,16 +212,13 @@ if ($idclasse != '' & $iddocente != '' & $idmateria != '' & $giorno != '' & $mes
 if (!checkdate($mese, $giorno, $anno))
 {
     print "<center>Il giorno selezionato non è valido.</center>";
-}
-elseif (($giornosettimana == "Dom"))
+} elseif (($giornosettimana == "Dom"))
 {
     print "<center>Il giorno selezionato è una domenica.</center>";
-}
-elseif ($cattedra == "")
+} elseif ($cattedra == "")
 {
     print "";
-}
-else
+} else
 {
 
     // CARICO I VOTI GIA' INSERITI
@@ -248,7 +245,7 @@ else
                    FROM tbl_valutazioniobcomp, tbl_valutazionicomp
                      WHERE tbl_valutazioniobcomp.idvalcomp=tbl_valutazionicomp.idvalcomp
                      AND data='" . $data . "' AND idmateria=$idmateria AND iddocente=$iddocente";
-    $risval = mysqli_query($con, inspref($queryval)) or die("Errore nella query: " . mysqli_error($con));
+    $risval = eseguiQuery($con,$queryval);
 
     while ($valval = mysqli_fetch_array($risval))
     {
@@ -267,8 +264,7 @@ else
         $query = "select idalunno,cognome,nome,datanascita from tbl_alunni
           where idclasse=$idclasse
           order by cognome, nome, datanascita";
-    }
-    else
+    } else
     {
 
         $query = "select tbl_alunni.idalunno,cognome,nome,datanascita
@@ -280,7 +276,7 @@ else
              and tbl_gruppi.idgruppo= $idgruppo";
     }
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($val = mysqli_fetch_array($ris))
     {
 
@@ -311,22 +307,19 @@ else
                         if ($voto == $v)
                         {
                             echo '<option value=' . $v . ' selected>' . dec_to_mod($v);
-                        }
-                        else
+                        } else
                         {
                             echo '<option value=' . $v . '>' . dec_to_mod($v);
                         }
                     }
-                }
-                else
+                } else
                 {
                     for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                     {
                         if ($voto == $v)
                         {
                             echo '<option value=' . $v . ' selected>' . dec_to_mod($v);
-                        }
-                        else
+                        } else
                         {
                             echo '<option value=' . $v . '>' . dec_to_mod($v);
                         }
@@ -334,8 +327,7 @@ else
                 }
                 echo "</select>
 									  </td>";
-            }
-            else
+            } else
             {
 
                 echo "<td>
@@ -347,8 +339,7 @@ else
 
                         echo '<option value=' . $v . '>' . dec_to_mod($v);
                     }
-                }
-                else
+                } else
                 {
                     for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
                     {
@@ -388,7 +379,7 @@ print "</center>";
 
 $query = "select * from tbl_compob order by numeroordine";
 // print inspref($query);
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 print "<font size=1>";
 print "<table border='1'>";
@@ -401,7 +392,7 @@ while ($val = mysqli_fetch_array($ris))
     print "<tr valign='top'><td><b>$numord. $sintob</b><br> <small> $obiettivo</small></td>";
 
     $query = "select * from tbl_compsubob where idobiettivo=$idobiettivo order by numeroordine";
-    $risabil = eseguiQuery($con,$query);
+    $risabil = eseguiQuery($con, $query);
     print "<font size=1>";
     while ($valabil = mysqli_fetch_array($risabil))
     {
@@ -457,7 +448,7 @@ function riempi_array_codici_valsubob($conn)
 		        ORDER BY noob, nosubob";
 
 
-    $res = eseguiQuery($conn,$query);
+    $res = eseguiQuery($conn, $query);
 
     while ($val = mysqli_fetch_array($res))
     {

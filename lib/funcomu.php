@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: pietro
@@ -17,14 +18,13 @@ function estraicodcomune($codcatastale, $conn)
 {
     $idcomune = 0;
     $sqlt = "select idcomune from tbl_comuni where codcatastale='$codcatastale'";
-    $res = mysqli_query($conn, inspref($sqlt));
+    $res = eseguiQuery($conn,$sqlt);
 
     if (mysqli_num_rows($res) > 0)
     {
         $rec = mysqli_fetch_array($res);
         $idcomune = $rec['idcomune'];
-    }
-    else
+    } else
     {
         $idcomune = 9999; // NON DEFINITO;
     }
@@ -43,14 +43,13 @@ function estraidenocomune($codcatastale, $conn)
 {
     $denocomune = "";
     $sqlt = "select denominazione from tbl_comuni where codcatastale='$codcatastale'";
-    $res = mysqli_query($conn, inspref($sqlt));
+    $res = eseguiQuery($conn,$sqlt);
 
     if (mysqli_num_rows($res) > 0)
     {
         $rec = mysqli_fetch_array($res);
         $denocomune = $rec['denominazione'];
-    }
-    else
+    } else
     {
         $denocomune = 'NON DEFINITO';
     }
@@ -69,14 +68,13 @@ function decodifica_comune($idcomune, $conn)
 {
     $denocomune = "";
     $sqlt = "select denominazione from tbl_comuni where idcomune='$idcomune'";
-    $res = mysqli_query($conn, inspref($sqlt));
+    $res = eseguiQuery($conn,$sqlt);
 
     if (mysqli_num_rows($res) > 0)
     {
         $rec = mysqli_fetch_array($res);
         $denocomune = $rec['denominazione'];
-    }
-    else
+    } else
     {
         $denocomune = 'NON DEFINITO';
     }
@@ -96,8 +94,7 @@ function controlla_codistat($cod)
     if (!(is_string($car)))
     {
         return 1;
-    }
-    else
+    } else
     {
         $car = substr($cod, 1, 3);
         if (!(is_numeric($car)))
@@ -111,31 +108,26 @@ function controlla_codistat($cod)
     }
 }
 
-
-
 function estrai_sigla_provincia($idcomune, $conn)
 {
-    
+
     $query = "select codiceistat from tbl_comuni where idcomune='$idcomune'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $codiceistat = $rec['codiceistat'];
-    
+
     $lung = strlen($codiceistat);
     $codprovincia = substr($codiceistat, 0, $lung - 3);
-    
-    
-    if ($codprovincia!="")
+
+
+    if ($codprovincia != "")
     {
         $query = "select siglaprovincia from tbl_province where codprovincia='$codprovincia'";
-        $ris = mysqli_query($conn, inspref($query)) or die("Errore:" . mysqli_error($conn) . " " . inspref($query));
+        $ris = eseguiQuery($conn,$query);
         $rec = mysqli_fetch_array($ris);
         return $rec['siglaprovincia'];
-    }
-    else
+    } else
     {
         return "";
     }
-
 }
-

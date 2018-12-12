@@ -70,7 +70,7 @@ $querydel = "DELETE FROM tbl_valutazionifinali
            WHERE idalunno=$idalunno
            AND periodo=$periodo";
 // print inspref($querydel);           
-$ris = mysqli_query($con, inspref($querydel)) or die(mysqli_error($con).inspref($querydel));
+$ris = eseguiQuery($con,$querydel);
 
 
 
@@ -82,7 +82,7 @@ and tbl_cattnosupp.iddocente <> 1000000000";
 
 $votiinseriti = false;
 // print inspref($query);
-$rismat = eseguiQuery($con,$query);
+$rismat = eseguiQuery($con, $query);
 while ($val = mysqli_fetch_array($rismat))
 {
     $idmateria = $val['idmateria'];
@@ -108,7 +108,7 @@ while ($val = mysqli_fetch_array($rismat))
     {
         $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,codsissi,votoscritto,votoorale,votopratico,assenze,note,periodo)
 						 VALUES ('$idalunno','$idmateria','$votounico','','$votoscritto','$votoorale','$votopratico','$ass','" . elimina_apici($note) . "','$periodo')";
-        $risins = eseguiQuery($con,$queryins);
+        $risins = eseguiQuery($con, $queryins);
         $votiinseriti = true;
     }
 }
@@ -124,7 +124,7 @@ $note = stringa_html($schenote);
 
 $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,codsissi,votounico,periodo,note)
 	                 VALUES ('$idalunno','$idmateria','','$voto','$periodo','$note')";
-$risins = eseguiQuery($con,$queryins);
+$risins = eseguiQuery($con, $queryins);
 //}
 // INSERISCO GIUDIZIO GENERALE
 
@@ -135,12 +135,12 @@ $querydel = "DELETE FROM tbl_giudizi
 
 // print inspref($querydel);           
 
-$ris = mysqli_query($con, inspref($querydel)) or die(mysqli_error($con).inspref($querydel));
+$ris = eseguiQuery($con,$querydel);
 
 $giudizio = $_POST['giudizio'];
 $queryins = "INSERT into tbl_giudizi(idclasse,idalunno,periodo,giudizio)
 	                 VALUES ('$cl','$idalunno','$periodo','" . elimina_apici($giudizio) . "')";
-$risins = eseguiQuery($con,$queryins);
+$risins = eseguiQuery($con, $queryins);
 
 if ($provenienza == 'tab')
 {
@@ -154,8 +154,7 @@ if ($provenienza == 'tab')
         <SCRIPT language='JavaScript'>
            document.getElementById('formscr').submit();
         </SCRIPT>";
-}
-else
+} else
 {
     print ("
          <form method='post' id='formscr' action='schedaalu.php'>

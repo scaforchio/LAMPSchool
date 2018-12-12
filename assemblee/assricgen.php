@@ -56,12 +56,11 @@ $idalunno = $_SESSION['idstudente'];
 $idclasse = estrai_classe_alunno($idalunno, $con);
 
 $query = "select * from tbl_classi where rappresentante1=$idalunno or rappresentante2=$idalunno";
-$riscontr = eseguiQuery($con,$query);
+$riscontr = eseguiQuery($con, $query);
 if (mysqli_num_rows($riscontr) != 0)
 {
     $alurapp = true;
-}
-else
+} else
 {
     $alurapp = false;
 }
@@ -69,15 +68,14 @@ else
 $queryass = "SELECT * FROM tbl_assemblee 
 			 WHERE idclasse = $idclasse
 			 ORDER BY idassemblea DESC";
-$risass = eseguiQuery($con,$queryass);
+$risass = eseguiQuery($con, $queryass);
 if (mysqli_num_rows($risass) == 0)
 {
     print "<br/><CENTER><b>Non hai richiesto/effettuato ancora nessuna assemblea</b>";
-}
-else
+} else
 {
     $classe = "SELECT anno,sezione,specializzazione FROM tbl_classi WHERE idclasse=$idclasse";
-    $risclasse = mysqli_query($con, inspref($classe));
+    $risclasse = eseguiQuery($con, $classe);
     $val = mysqli_fetch_array($risclasse);
 //print "<center><b>PROVA</b></center><br/>";
     print "<center><b>Riepilogo assemblee " . $val['anno'] . $val['sezione'] . "&nbsp;" . $val['specializzazione'] . "</b></center><br/>";
@@ -118,7 +116,7 @@ else
 		        OR idalunno=" . $dataass['rappresentante2'] . "
 		        ORDER BY cognome";
 
-        $risalu = eseguiQuery($con,$alu);
+        $risalu = eseguiQuery($con, $alu);
         print "<td>";
         $numerorappresentantirichiedenti = 0;
         while ($dataalu = mysqli_fetch_array($risalu))
@@ -144,7 +142,7 @@ else
             $doc .= " OR iddocente=" . $dataass['docenteconcedente2'] . " ORDER BY cognome";
         }
         print "<td>";
-        $risdoc = eseguiQuery($con,$doc);
+        $risdoc = eseguiQuery($con, $doc);
         $cont = 1;
         while ($datadoc = mysqli_fetch_array($risdoc))
         {
@@ -154,31 +152,26 @@ else
                 {
                     $fontin = "<font color=green>";
                     $fontfi = "</font>";
-                }
-                else if ($dataass['concesso1'] == 2)
+                } else if ($dataass['concesso1'] == 2)
                 {
                     $fontin = "<font color=red>";
                     $fontfi = "</font>";
-                }
-                else
+                } else
                 {
                     $fontin = "";
                     $fontfi = "";
                 }
-            }
-            else
+            } else
             {
                 if ($dataass['concesso2'] == 1)
                 {
                     $fontin = "<font color=green>";
                     $fontfi = "</font>";
-                }
-                else if ($dataass['concesso2'] == 2)
+                } else if ($dataass['concesso2'] == 2)
                 {
                     $fontin = "<font color=red>";
                     $fontfi = "</font>";
-                }
-                else
+                } else
                 {
                     $fontin = "";
                     $fontfi = "";
@@ -195,14 +188,12 @@ else
         if ($dataass['autorizzato'] == 0)
         {
             print "<td align='center'>&nbsp; </td>";
-        }
-        else
+        } else
         {
             if ($dataass['autorizzato'] == 2)
             {
                 print "<td><center><img src='../immagini/red_cross.gif'></center><br>" . nl2br($dataass['note']) . "<br><i>" . estrai_dati_docente($dataass['docenteautorizzante'], $con) . "</i></td>";
-            }
-            else
+            } else
             {
                 print "<td><center><img src='../immagini/green_tick.gif'></center><br>" . nl2br($dataass['note']) . "<br><i>" . estrai_dati_docente($dataass['docenteautorizzante'], $con) . "</i></td>";
             }
@@ -215,14 +206,12 @@ else
             {
                 print "<td align='center'><img src='../immagini/red_cross.gif'>";
                 print "<br/><a href='insver.php?idassemblea=" . $dataass['idassemblea'] . "&idclasse=$idclasse'>Inserisci verbale!</a>";
-            }
-            else
+            } else
             {
                 if ($dataass['verbale'] == '' and $dataass['autorizzato'] == 1 and date('Y-m-d') == $dataass['dataassemblea'])
                 {
                     print "<td><br/><a href='insver.php?idassemblea=" . $dataass['idassemblea'] . "&idclasse=$idclasse'>INSERISCI</a>";
-                }
-                else
+                } else
                 {
                     if (date('Y-m-d') < $dataass['dataassemblea'])
                         print "<td align='center'>&nbsp;";
@@ -236,8 +225,7 @@ else
                         if ($dataass['oratermine'] != "00:00:00")
                         {
                             print "<br>Ora termine: " . substr($dataass['oratermine'], 0, 5) . "<br>";
-                        }
-                        else
+                        } else
                         {
                             print "<br>";
                         }
@@ -245,7 +233,7 @@ else
                         $alu = "SELECT cognome,nome FROM tbl_alunni
 				WHERE idalunno=" . $dataass['alunnosegretario'];
 
-                        $risalu = eseguiQuery($con,$alu);
+                        $risalu = eseguiQuery($con, $alu);
                         $dataalu = mysqli_fetch_array($risalu);
                         print "<center>SEGRETARIO<br>" . $dataalu['cognome'] . "&nbsp;" . $dataalu['nome'] . "</center><br>";
 
@@ -255,17 +243,15 @@ else
                             $alu = "SELECT cognome,nome FROM tbl_alunni
 				WHERE idalunno=" . $dataass['alunnopresidente'];
 
-                            $risalu = mysqli_query($con, inspref($alu)) or die("Erore" . inspref($alu));
+                            $risalu = eseguiQuery($con, $alu);
                             $dataalu = mysqli_fetch_array($risalu);
                             print "<center>PRESIDENTE<br>" . $dataalu['cognome'] . "&nbsp;" . $dataalu['nome'] . "</center>";
-                        }
-                        else
+                        } else
                         {
                             if ($idalunno != $dataass['alunnosegretario'])
                             {
                                 print "<center><a href='registra_firmapresidente.php?idassemblea=$idassemblea'>CONFERMA E TRASMETTI VERBALE</a></center>";
-                            }
-                            else
+                            } else
                             {
                                 print "<center><a href='insver.php?idassemblea=$idassemblea'>CORREGGI VERBALE</a></center><br><br><center>PRESIDENTE<br>Firma non presente!<br>Verbale non ancora trasmesso!";
                             }
@@ -273,8 +259,7 @@ else
                     }
                 }
             }
-        }
-        else  // Alunno non rappresentante
+        } else  // Alunno non rappresentante
         {
             if ($dataass['alunnopresidente'] != 0 & $dataass['alunnosegretario'] != 0)
                 print "<td align='center'>" . $dataass['verbale'] . "";

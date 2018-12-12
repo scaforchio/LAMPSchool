@@ -147,14 +147,15 @@ if ($tipoutente == 'D')
                                        where idcoordinatore=" . $_SESSION['idutente'] . ")
          ORDER BY cognome,nome,anno, sezione, specializzazione
          ";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 print "<form name='selealu' action='deroghe.php' method='post'>";
 print "<table align='center'>";
 print "<tr><td>Alunno</td>";
 print "<td>";
 print "<select name='idalunno' ONCHANGE='selealu.submit();'><option value=''>&nbsp;</option>";
-while ($rec = mysqli_fetch_array($ris)) {
+while ($rec = mysqli_fetch_array($ris))
+{
     if ($idalunno == $rec['idalunno'])
         $sele = " selected";
     else
@@ -172,7 +173,8 @@ print "
 
 // VISUALIZZAZIONE ELENCO DOCENTI
 
-if ($idalunno != "") {
+if ($idalunno != "")
+{
 
     print ("
    <form method='post' action='insderoga.php' name='listadistr'>
@@ -191,20 +193,23 @@ if ($idalunno != "") {
       <tr>");
 
     // Array con numero ore di lezione per ogni giorno della settimana
-    $ris = mysqli_query($con, inspref("SELECT giorno, COUNT(*) AS ore FROM tbl_orario WHERE valido = 1 GROUP BY giorno ORDER BY giorno"));
+    $ris = eseguiQuery($con,"SELECT giorno, COUNT(*) AS ore FROM tbl_orario WHERE valido = 1 GROUP BY giorno ORDER BY giorno");
     $orelez = array();
-    while ($res = mysqli_fetch_assoc($ris)) {
+    while ($res = mysqli_fetch_assoc($ris))
+    {
         array_push($orelez, $res["ore"] - 1);
     }
     $giorni = array("Luned&igrave;", "Marted&igrave;", "Mercoled&igrave;", "Gioved&igrave;", "Venerd&igrave;", "Sabato", "Domenica");
 
     // Maschera di inserimento dati
-    for ($i = 0; $i < $giornilezsett; $i++) {
-      //  print("<input type='hidden' name='ore" . ($i + 1) . "' value='0'>");
+    for ($i = 0; $i < $giornilezsett; $i++)
+    {
+        //  print("<input type='hidden' name='ore" . ($i + 1) . "' value='0'>");
         print("<tr>");
         print("<td><label><input type='checkbox' name='giorno" . ($i + 1) . "' class='giornocheckbox' data-idgiorno='" . ($i + 1) . "' checked>$giorni[$i]</label></td>");
         print("<td><select class='oreselect' name='ore" . ($i + 1) . "' data-idgiorno='" . ($i + 1) . "' data-maxore='$orelez[$i]' style='width: 100%' disabled>");
-        for ($j = 0; $j <= $orelez[$i]; $j++) {
+        for ($j = 0; $j <= $orelez[$i]; $j++)
+        {
             print("<option value='" . ($j) . "'>" . ($j) . "</option>");
         }
 

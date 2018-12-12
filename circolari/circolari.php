@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -27,18 +29,18 @@ $iddocente = $_SESSION["idutente"];
 $sostegno = $_SESSION["sostegno"];
 
 $solocertificati = false;
-/*$tipo=stringa_html("tipo");
+/* $tipo=stringa_html("tipo");
 
-if ($tipo=='pei')
-   $solocertificati=true;
-*/
+  if ($tipo=='pei')
+  $solocertificati=true;
+ */
 if ($tipoutente == "")
 {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $destinatari = stringa_html('destinatari');
 $titolo = "Gestione circolari";
@@ -76,7 +78,7 @@ $script .= "<script>
 	                 
 	             });
 </script>";
-stampa_head($titolo, "", $script,"MSPA");
+stampa_head($titolo, "", $script, "MSPA");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -156,8 +158,7 @@ print ("
 if ($destinatari == '')
 {
     print "<option value='' selected>&nbsp;</option>";
-}
-else
+} else
 {
     print "<option value=''>&nbsp;</option>";
 }
@@ -168,64 +169,56 @@ else
 if ($destinatari == 'A')
 {
     print "<option value='A' selected>Tutti i genitori</option>";
-}
-else
+} else
 {
     print "<option value='A'>Tutti i genitori</option>";
 }
 if ($destinatari == 'D')
 {
     print "<option value='D' selected>Tutti i docenti</option>";
-}
-else
+} else
 {
     print "<option value='D'>Tutti i docenti</option>";
 }
 if ($destinatari == 'I')
 {
     print "<option value='I' selected>Tutti gli impiegati</option>";
-}
-else
+} else
 {
     print "<option value='I'>Tutti gli impiegati</option>";
 }
 if ($destinatari == 'L')
 {
     print "<option value='L' selected>Tutti gli alunni</option>";
-}
-else
+} else
 {
     print "<option value='L'>Tutti gli alunni</option>";
 }
 if ($destinatari == 'SA')
 {
     print "<option value='SA' selected>Selezione genitori</option>";
-}
-else
+} else
 {
     print "<option value='SA'>Selezione genitori</option>";
 }
 if ($destinatari == 'SD')
 {
     print "<option value='SD' selected>Selezione docenti</option>";
-}
-else
+} else
 {
     print "<option value='SD'>Selezione docenti</option>";
 }
 if ($destinatari == 'SI')
 {
     print "<option value='SI' selected>Selezione impiegati</option>";
-}
-else
+} else
 {
     print "<option value='SI'>Selezione impiegati</option>";
 }
 if ($destinatari == 'SL')
 {
     print "<option value='SL' selected>Selezione alunni</option>";
-}
-else
+} else
 {
     print "<option value='SL'>Selezione alunni</option>";
 }
@@ -237,8 +230,7 @@ print "</table></form>";
 if ($destinatari != "")
 {
     $dest = " and destinatari='$destinatari' ";
-}
-else
+} else
 {
     $dest = " ";
 }
@@ -263,18 +255,18 @@ $query = "select idcircolare,tbl_circolari.iddocumento,ricevuta,tbl_circolari.de
 			  $dest
 			  order by datainserimento desc";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
 
 
     print "<tr><td>" . $nom['descrizione'] .
-        "</td><td>" . decod_dest($nom['destinatari']) .
-        "</td><td>" . (($nom['ricevuta'] == 1) ? 'Sì' : 'No') .
-        "</td><td>" . data_italiana($nom['datainserimento']) .
-        "</td><td>" . $nom["docnome"] .
-        "<font size=1> (" . $nom["docsize"] . ") bytes</font></td>" .
-        "<td><a href='actions.php?action=download&Id=" . $nom["iddocumento"] . "' target='_blank'><img src='../immagini/download.jpg' alt='scarica'></a> ";
+            "</td><td>" . decod_dest($nom['destinatari']) .
+            "</td><td>" . (($nom['ricevuta'] == 1) ? 'Sì' : 'No') .
+            "</td><td>" . data_italiana($nom['datainserimento']) .
+            "</td><td>" . $nom["docnome"] .
+            "<font size=1> (" . $nom["docsize"] . ") bytes</font></td>" .
+            "<td><a href='actions.php?action=download&Id=" . $nom["iddocumento"] . "' target='_blank'><img src='../immagini/download.jpg' alt='scarica'></a> ";
 
     if (in_array($nom["doctype"], $visualizzabili))
     {

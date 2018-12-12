@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Funzioni per le installazioni o gli aggiornamenti
  *
@@ -19,7 +20,6 @@
  *  1 - Non si riesce a connettere al database
  *  3 - Non esistono le tabelle con il prefisso dato
  */
-
 function check_db($db_server, $db_user, $db_password, $db_name, $pref)
 {
     $errore = 0;
@@ -28,15 +28,13 @@ function check_db($db_server, $db_user, $db_password, $db_name, $pref)
     if (!$con)
     {
         $errore = 1;
-    }
-    else
+    } else
     {
 
         if (mysqli_num_rows(mysqli_query($con, "SHOW TABLES LIKE '" . $pref . "tbl_parametri'")))
         {
             $errore = 0;
-        }
-        else
+        } else
         {
             $errore = 3;
         }
@@ -46,7 +44,6 @@ function check_db($db_server, $db_user, $db_password, $db_name, $pref)
     return $errore;
 }
 
-
 /**
  * Stampa la testata solo per la fase di installazione o di aggiornamento
  *
@@ -54,8 +51,6 @@ function check_db($db_server, $db_user, $db_password, $db_name, $pref)
  * @param string $sottotitolo
  * @param string $funzione
  */
-
-
 function stampa_testata_installer($titolo, $sottotitolo, $funzione)
 {
     print "
@@ -74,7 +69,6 @@ function stampa_testata_installer($titolo, $sottotitolo, $funzione)
  *
  * @return string contenuto i tag html
  */
-
 function getCssJavascript()
 {
     return "
@@ -118,7 +112,6 @@ function stampaPulsanti($indietro, $avanti, $testoIndietro = 'Indietro', $testoA
  * @param array $credenzialiDB dati per la connessione al database
  * @return boolean true se non ci sono errori
  */
-
 function remove_comments(&$output)
 {
     $lines = explode("\n", $output);
@@ -170,8 +163,7 @@ function remove_remarks($sql)
             if (isset($lines[$i][0]) && $lines[$i][0] != "#")
             {
                 $output .= $lines[$i] . "\n";
-            }
-            else
+            } else
             {
                 $output .= "\n";
             }
@@ -181,7 +173,6 @@ function remove_remarks($sql)
     }
 
     return $output;
-
 }
 
 //
@@ -222,8 +213,7 @@ function split_sql_file($sql, $delimiter)
                 $output[] = $tokens[$i];
                 // save memory.
                 $tokens[$i] = "";
-            }
-            else
+            } else
             {
                 // incomplete sql statement. keep adding tokens until we have a complete one.
                 // $temp will hold what we have so far.
@@ -258,8 +248,7 @@ function split_sql_file($sql, $delimiter)
                         $complete_stmt = true;
                         // make sure the outer loop continues at the right point.
                         $i = $j;
-                    }
-                    else
+                    } else
                     {
                         // even number of unescaped quotes. We still don't have a complete statement.
                         // (1 odd and 1 even always make an odd)
@@ -267,7 +256,6 @@ function split_sql_file($sql, $delimiter)
                         // save memory.
                         $tokens[$j] = "";
                     }
-
                 } // for..
             } // else
         }
@@ -275,6 +263,7 @@ function split_sql_file($sql, $delimiter)
 
     return $output;
 }
+
 function esecuzioneFile($nomefilesql, $credenzialiDB)
 {
 
@@ -284,87 +273,81 @@ function esecuzioneFile($nomefilesql, $credenzialiDB)
     $sql_query = remove_remarks($sql_query);
     $sql_query = split_sql_file($sql_query, ';');
     $connessione = mysqli_connect(
-        $credenzialiDB['server'],
-        $credenzialiDB['user'],
-        $credenzialiDB['password'],
-        $credenzialiDB['nomedb']);
+            $credenzialiDB['server'], $credenzialiDB['user'], $credenzialiDB['password'], $credenzialiDB['nomedb']);
     mysqli_set_charset($connessione, "utf8");
 
 
     //$i = 1;
     foreach ($sql_query as $sql)
     {
-        $pref=$credenzialiDB['prefisso'];
+        $pref = $credenzialiDB['prefisso'];
 
-        $sql=str_replace("tbl_",$pref."tbl_",$sql);
+        $sql = str_replace("tbl_", $pref . "tbl_", $sql);
 
         mysqli_query($connessione, $sql) or die("Errore nella query" . $sql);
-
     }
-
-
 }
-/*function esecuzioneFile($nomefilesql, $credenzialiDB)
-{
-    $erroredb = false;
 
-    if (file_exists($nomefilesql))
-    {
-        $sql = file($nomefilesql);
-        $connection = mysqli_connect(
-            $credenzialiDB['server'],
-            $credenzialiDB['user'],
-            $credenzialiDB['password'],
-            $credenzialiDB['nomedb']);
-        mysqli_set_charset($connection, "utf8");
+/* function esecuzioneFile($nomefilesql, $credenzialiDB)
+  {
+  $erroredb = false;
 
-        // mysqli_query($connection,"BEGIN");
-        $query = '';
+  if (file_exists($nomefilesql))
+  {
+  $sql = file($nomefilesql);
+  $connection = mysqli_connect(
+  $credenzialiDB['server'],
+  $credenzialiDB['user'],
+  $credenzialiDB['password'],
+  $credenzialiDB['nomedb']);
+  mysqli_set_charset($connection, "utf8");
 
-        foreach ($sql as $line)
-        {
-            $tsl = trim($line); // si cancellano gli spazi a inizio e fine riga
+  // mysqli_query($connection,"BEGIN");
+  $query = '';
 
-            if ($sql != '' && substr($tsl, 0, 2) != "--" && substr($tsl, 0, 1) != '#')
-            { // Salta le righe con commenti
-                $query .= $line;
+  foreach ($sql as $line)
+  {
+  $tsl = trim($line); // si cancellano gli spazi a inizio e fine riga
 
-                if (preg_match('/;\s*$/', $line))
-                { // ; a fine riga obbligatorio
-                    $query = str_replace("tbl_", $credenzialiDB['prefisso'] . "tbl_", $query);
-                    mysqli_query($connection, $query);
-                    $err = mysqli_error($connection);
-                    $erroredb = !empty($err);
+  if ($sql != '' && substr($tsl, 0, 2) != "--" && substr($tsl, 0, 1) != '#')
+  { // Salta le righe con commenti
+  $query .= $line;
 
-                    if ($erroredb)
-                    {
-                        print '<p>Errore: ' . $err . '</p>';
-                        print '<p>Query fallita: ' . $query . '</p>';
+  if (preg_match('/;\s*$/', $line))
+  { // ; a fine riga obbligatorio
+  $query = str_replace("tbl_", $credenzialiDB['prefisso'] . "tbl_", $query);
+  mysqli_query($connection, $query);
+  $err = mysqli_error($connection);
+  $erroredb = !empty($err);
 
-                        // Ripristina il backup del file di configurazione
-                        copy('php-ini.php.bkp', '../php-ini.php');
+  if ($erroredb)
+  {
+  print '<p>Errore: ' . $err . '</p>';
+  print '<p>Query fallita: ' . $query . '</p>';
 
-                        break;
-                    }
-                    $query = '';
-                }
-            }
-        }
-        //if (!$erroredb)
-        //    mysqli_query($connection,"COMMIT");
-        //else
-        //    mysqli_query($connection,"ROLLBACK");
+  // Ripristina il backup del file di configurazione
+  copy('php-ini.php.bkp', '../php-ini.php');
 
-        mysqli_close($connection);
-    }
-    else
-    {
-        $erroredb = true;
-    }
+  break;
+  }
+  $query = '';
+  }
+  }
+  }
+  //if (!$erroredb)
+  //    mysqli_query($connection,"COMMIT");
+  //else
+  //    mysqli_query($connection,"ROLLBACK");
 
-    return $erroredb;
-}*/
+  mysqli_close($connection);
+  }
+  else
+  {
+  $erroredb = true;
+  }
 
+  return $erroredb;
+  } */
 
 /**
  * Esecuzione del file sql
@@ -373,8 +356,6 @@ function esecuzioneFile($nomefilesql, $credenzialiDB)
  * @param array $credenzialiDB dati per la connessione al database
  * @return boolean true se non ci sono errori
  */
-
-
 function esecuzionePHP($credenzialiDB, $versione)
 {
     $erroredb = false;
@@ -383,24 +364,22 @@ function esecuzionePHP($credenzialiDB, $versione)
     /*  if ($versione=="1.5")
       {
 
-          $connection = mysqli_connect(
-                  $credenzialiDB['server'],
-                  $credenzialiDB['user'],
-                  $credenzialiDB['password'],
-                  $credenzialiDB['nomedb']);
-          $query="ALTER TABLE ".$credenzialiDB['prefisso']."tbl_tipiesiti CHANGE id_tipoesito idtipoesito INT( 11 ) NOT NULL AUTO_INCREMENT ";
+      $connection = mysqli_connect(
+      $credenzialiDB['server'],
+      $credenzialiDB['user'],
+      $credenzialiDB['password'],
+      $credenzialiDB['nomedb']);
+      $query="ALTER TABLE ".$credenzialiDB['prefisso']."tbl_tipiesiti CHANGE id_tipoesito idtipoesito INT( 11 ) NOT NULL AUTO_INCREMENT ";
 
-          try
-          {
-                 mysqli_query($connection,$query);
-            }
-          catch(Exception $e)
-          {
-                 $erroredb = $e;
-            }
-            mysqli_close($connection);
-       } */
+      try
+      {
+      mysqli_query($connection,$query);
+      }
+      catch(Exception $e)
+      {
+      $erroredb = $e;
+      }
+      mysqli_close($connection);
+      } */
     return $erroredb;
 }
-
-

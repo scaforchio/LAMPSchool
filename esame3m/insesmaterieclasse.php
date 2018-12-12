@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 //Visualizzazione classi
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -66,10 +68,10 @@ $m8m = stringa_html('m8m');
 $m9s = stringa_html('m9s');
 $m9e = stringa_html('m9e');
 $m9m = stringa_html('m9m');
-$secondalingua=stringa_html('secondalingua');
-$invalsi=stringa_html('invalsi');
+$secondalingua = stringa_html('secondalingua');
+$invalsi = stringa_html('invalsi');
 $query = "SELECT * FROM tbl_esmaterie where idclasse=$idclasse";
-$ris = mysqli_query($con, inspref($query)) or die("Errore:".inspref($query,false)." ".mysqli_error($con));
+$ris = eseguiQuery($con,$query);
 
 
 if (mysqli_num_rows($ris) != 0)
@@ -89,16 +91,13 @@ if (mysqli_num_rows($ris) != 0)
               m9s='$m9s', m9e='$m9e', m9m='$m9m',
               num2lin='$secondalingua', numpni='0'
               where idclasse=$idclasse";
-    eseguiQuery($con,$query);
-}
-else
+    eseguiQuery($con, $query);
+} else
 {
     // INSERIMENTO
     $query = "INSERT INTO tbl_esmaterie(idclasse,m1s,m1e,m1m,m2s,m2e,m2m,m3s,m3e,m3m,m4s,m4e,m4m,m5s,m5e,m5m,m6s,m6e,m6m,m7s,m7e,m7m,m8s,m8e,m8m,m9s,m9e,m9m,num2lin,numpni)
               VALUES($idclasse,'$m1s','$m1e','$m1m','$m2s','$m2e','$m2m','$m3s','$m3e','$m3m','$m4s','$m4e','$m4m','$m5s','$m5e','$m5m','$m6s','$m6e','$m6m','$m7s','$m7e','$m7m','$m8s','$m8e','$m8m','$m9s','$m9e','$m9m','$secondalingua','0')";
-    mysqli_query($con, inspref($query)) or die("Errore:".inspref($queryins,false)." ".mysqli_error($con));
-
-
+    eseguiQuery($con,$query);
 }
 
 

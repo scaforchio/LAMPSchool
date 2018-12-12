@@ -72,7 +72,7 @@ function estrai_testo($tipotesto, $conn)
 {
     $query = "select valore from tbl_testi where nometesto='$tipotesto'";
 
-    $ris = mysqli_query($conn, inspref($query)) or die("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     if ($rec = mysqli_fetch_array($ris))
     {
         $dato = $rec['valore'];
@@ -93,7 +93,7 @@ function estrai_testo_modificato($tipotesto, $parametro, $valore, $conn)
 {
     $query = "select valore from tbl_testi where nometesto='$tipotesto'";
 
-    $ris = mysqli_query($conn, inspref($query)) or die("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     if ($rec = mysqli_fetch_array($ris))
     {
         $dato = $rec['valore'];
@@ -310,7 +310,7 @@ function Verifica_CodiceFiscale($cf)
 function estrai_lezione_gruppo($idlezione, $conn)
 {
     $query = "select idlezionegruppo from tbl_lezioni where idlezione='$idlezione'";
-    $ris = mysqli_query($conn, inspref($query)) or die("Errore nella query: " . mysqli_error($conn) . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $idlezionegruppo = $rec['idlezionegruppo'];
 
@@ -368,14 +368,14 @@ function inserisci_parametri($messaggio, $con)
 {
 
     $qp = "SELECT DISTINCT nomeparametro FROM tbl_paramcomunicazpers";
-    $risp = mysqli_query($con, inspref($qp));
+    $risp = eseguiQuery($con,$qp);
     while ($recp = mysqli_fetch_array($risp))
     {
 
         $nomeparametro = $recp['nomeparametro'];
 // print "tttt $nomeparametro <br>";
         $query = "SELECT valore FROM tbl_paramcomunicazpers WHERE nomeparametro='$nomeparametro' and idutente=" . $_SESSION['idutente'];
-        $rispc = eseguiQuery($con,$query);
+        $rispc = eseguiQuery($con, $query);
         $valper = "";
         if ($recpf = mysqli_fetch_array($rispc))
         {
@@ -409,7 +409,7 @@ function daily_cron($suffisso, $con, $lavori)
     if (substr($lavori, 1, 1) == '1')  //Cancellazione valutazioni anomale
     {
         $query = "DELETE FROM tbl_valutazioniintermedie WHERE voto>99";
-        eseguiQuery($con,$query);
+        eseguiQuery($con, $query);
         inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cancellazione voti anomali", $nomefilelog, $suffisso);
     }
 
@@ -423,24 +423,24 @@ function daily_cron($suffisso, $con, $lavori)
 
 // Verifico che non ci siano sospensioni
         $query = "SELECT * FROM tbl_sospinviosms WHERE datasosp='" . date('Y-m-d') . "'";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         if (mysqli_num_rows($ris) > 0)
         {
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Invio SMS assenze sospeso per la giornata odierna", $nomefilelog, $suffisso);
         } else
         {
             $querytot = "SELECT count(*) as numalunni FROM tbl_alunni WHERE idclasse<>0";
-            $ristotalunni = mysqli_query($con, inspref($querytot));
+            $ristotalunni = eseguiQuery($con,$querytot);
             $rectotalunni = mysqli_fetch_array($ristotalunni);
             $numtotalealunni = $rectotalunni['numalunni'];
 
-            $ris = mysqli_query($con, inspref("SELECT valore FROM tbl_parametri WHERE parametro='utentesms'"));
+            $ris = eseguiQuery($con,"SELECT valore FROM tbl_parametri WHERE parametro='utentesms'");
             $rec = mysqli_fetch_array($ris);
             $utentesms = $rec['valore'];
-            $ris = mysqli_query($con, inspref("SELECT valore FROM tbl_parametri WHERE parametro='passsms'"));
+            $ris = eseguiQuery($con,"SELECT valore FROM tbl_parametri WHERE parametro='passsms'");
             $rec = mysqli_fetch_array($ris);
             $passsms = $rec['valore'];
-            $ris = mysqli_query($con, inspref("SELECT valore FROM tbl_parametri WHERE parametro='testatasms'"));
+            $ris = eseguiQuery($con,"SELECT valore FROM tbl_parametri WHERE parametro='testatasms'");
             $rec = mysqli_fetch_array($ris);
             $testatasms = $rec['valore'];
 
@@ -450,7 +450,7 @@ function daily_cron($suffisso, $con, $lavori)
                       and tbl_alunni.idclasse=tbl_classi.idclasse
                       and data='$dataoggi'";
 
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
 
             $destinatari = array();
 
@@ -487,13 +487,13 @@ function daily_cron($suffisso, $con, $lavori)
                     {
                         $query = "insert into tbl_testisms(testo, idinvio, idutente)
 				              values ('$messaggio','" . $result['id'] . "','" . $_SESSION['idutente'] . "')";
-                        eseguiQuery($con,$query);
+                        eseguiQuery($con, $query);
                         $idtestosms = mysqli_insert_id($con);
                         for ($i = 0; $i < count($destinatari); $i++)
                         {
                             $query = "insert into tbl_sms(tipo,iddestinatario,idinvio,celldestinatario, idtestosms)
 					  values ('ass'," . $iddest[$i] . ",'" . $result['id'] . "','" . $destinatari[$i]['recipient'] . "',$idtestosms)";
-                            eseguiQuery($con,$query);
+                            eseguiQuery($con, $query);
                         }
                         print "<br><br><center><b><font color='green'>$contasmsass SMS assenze correttamente inviati!</font></b>";
                     } else
@@ -518,7 +518,7 @@ function daily_cron($suffisso, $con, $lavori)
                   idalunno in (select idalunno from tbl_alunni where idclasse=0)
                   OR
                   idalunno not in (select idalunno from tbl_alunni)";
-        eseguiQuery($con,$query);
+        eseguiQuery($con, $query);
         inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cancellazione alunni non più presenti da gruppi", $nomefilelog, $suffisso);
     }
     if (substr($lavori, 4, 1) == '1')  //Invio mail presenza nuove richieste ferie
@@ -528,16 +528,16 @@ function daily_cron($suffisso, $con, $lavori)
         inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§INVIO MAIL RICHIESTE FERIE", $nomefilelog, $suffisso);
 
         $query = "SELECT * FROM tbl_richiesteferie WHERE isnull(concessione)";
-        $risferie = eseguiQuery($con,$query);
+        $risferie = eseguiQuery($con, $query);
         if (mysqli_num_rows($risferie) > 0)
         {
 
             $query = "select email from tbl_docenti where iddocente=1000000000";
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             $rec = mysqli_fetch_array($ris);
             $mailpreside = $rec['email'];
             $query = "select valore from tbl_parametri where parametro='indirizzomailfrom'";
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             $rec = mysqli_fetch_array($ris);
             $mailfrom = $rec['valore'];
             $oggetto = "Nuove richieste ferie per " . $_SESSION['suffisso'];
@@ -567,7 +567,7 @@ function daily_cron($suffisso, $con, $lavori)
             AND idalunno NOT IN (select idalunno from tbl_assenze where data='" . date('Y-m-d') . "')
             ";
 
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             while ($rec = mysqli_fetch_array($ris))
             {
                 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§ASSENZE ALUNNO " . $rec['idalunno'], $nomefilelog, $suffisso);
@@ -581,7 +581,7 @@ function daily_cron($suffisso, $con, $lavori)
             AND idalunno NOT IN (select idalunno from tbl_assenze where data>='$datalimiteinferiore')
             ";
 
-            $ris = eseguiQuery($con,$query);
+            $ris = eseguiQuery($con, $query);
             while ($rec = mysqli_fetch_array($ris))
             {
                 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§RITARDI ALUNNO " . $rec['idalunno'], $nomefilelog, $suffisso);
@@ -594,7 +594,7 @@ function daily_cron($suffisso, $con, $lavori)
 function estrai_materia_lezione($idlezione, $conn)
 {
     $query = "select * from tbl_lezioni where idlezione='$idlezione'";
-    $ris = mysqli_query($conn, inspref($query)) or die("Errore nella query: " . inspref($query));
+    $ris = eseguiQuery($conn,$query);
     $rec = mysqli_fetch_array($ris);
     $idmateria = $rec['idmateria'];
     return $idmateria;

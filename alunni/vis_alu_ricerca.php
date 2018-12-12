@@ -1,22 +1,24 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
-/*programma per la visualizzazione di un componente scelto di una classe con parametro in 
+/* programma per la visualizzazione di un componente scelto di una classe con parametro in 
   ingresso "idcla" e parametro in uscita "idal" */
 //connessione al server
 
@@ -63,7 +65,7 @@ print "<form action='vis_alu_ricerca.php' method='POST'>
         </form>";
 
 
-if (strlen($strcogn) > 1 | strlen($strnome) > 1 | strlen ($codice))
+if (strlen($strcogn) > 1 | strlen($strnome) > 1 | strlen($codice))
 {
 //imposta la tabella del titolo
     print("<table width='100%'>
@@ -71,8 +73,8 @@ if (strlen($strcogn) > 1 | strlen($strnome) > 1 | strlen ($codice))
 		   <td align ='center' bgcolor='white'><strong><font size='+1'>Alunni trovati</td>
 		</tr>
 		</table> <br/><br/>");
-    if ($codice=='')
-    $sql = "SELECT * FROM tbl_alunni,tbl_utenti
+    if ($codice == '')
+        $sql = "SELECT * FROM tbl_alunni,tbl_utenti
             WHERE tbl_alunni.idalunno=tbl_utenti.idutente
             AND cognome LIKE '%$strcogn%' AND nome LIKE '%$strnome%'
             ORDER BY cognome,nome";
@@ -81,7 +83,7 @@ if (strlen($strcogn) > 1 | strlen($strnome) > 1 | strlen ($codice))
             WHERE tbl_alunni.idalunno=tbl_utenti.idutente
             AND idalunno=$codice
             ORDER BY cognome,nome";
-    $result = eseguiQuery($con,$sql);
+    $result = eseguiQuery($con, $sql);
     print"<center>";
     print("<table border=1>");
     print("<tr class='prima'>");
@@ -98,8 +100,7 @@ if (strlen($strcogn) > 1 | strlen($strnome) > 1 | strlen ($codice))
     if (!(mysqli_num_rows($result) > 0))
     {
         print("<tr bgcolor='#cccccc'><td colspan='9'><center><b>Nessun alunno presente</b></td></tr>");
-    }
-    else
+    } else
     {
         while ($dati = mysqli_fetch_array($result))
         {
@@ -114,8 +115,7 @@ if (strlen($strcogn) > 1 | strlen($strnome) > 1 | strlen ($codice))
             if ($dati['certificato'])
             {
                 print("<td><img src='../immagini/apply_small.png'></td>");
-            }
-            else
+            } else
             {
                 print("<td>&nbsp;</td>");
             }
@@ -124,15 +124,13 @@ if (strlen($strcogn) > 1 | strlen($strnome) > 1 | strlen ($codice))
             if (poss_canc_alu($dati['idalunno'], $con))
             {
                 print ("<td><a href='alu_conf.php?idal=" . $dati['idalunno'] . "&idcla=" . $dati['idclasse'] . "'><img src='../immagini/delete.png'></a></td>");
-            }
-            else
+            } else
             {
                 print ("<td>&nbsp;</td>");
             }
             print("<td><a href='../password/rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'>Rig. password tutor</a>&nbsp;<a href='../password/alu_rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'>Rig. password alunno</a></td>");
             print("</tr>");
         }
-
     }
     print("</table><br/>");
 
@@ -150,5 +148,5 @@ if (strlen($strcogn) > 1 | strlen($strnome) > 1 | strlen ($codice))
 }
 mysqli_close($con);
 stampa_piede("");
-    
+
 

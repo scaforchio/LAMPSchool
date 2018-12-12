@@ -1,10 +1,12 @@
 <?php
+
 session_start();
 @require_once("../lib/funzioni.php");
 $suffisso = stringa_html('suffisso');
 @require_once("../php-ini" . $suffisso . ".php");
 
-if ($suffisso != "") {
+if ($suffisso != "")
+{
     $suff = $suffisso . "/";
 } else
     $suff = "";
@@ -12,39 +14,38 @@ if ($suffisso != "") {
 $indirizzoip = IndirizzoIpReale();
 
 
-$dataultagg= stringa_html('dataultagg');
-$oraultagg= stringa_html('oraultagg');
+$dataultagg = stringa_html('dataultagg');
+$oraultagg = stringa_html('oraultagg');
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 // tttt
 $query = "SELECT * FROM tbl_alunni, tbl_classi
           WHERE oraultimamodifica> '$dataultagg $oraultagg'
               AND tbl_alunni.idclasse=tbl_classi.idclasse
          ";
-$querynorm=inspref($query);
+$querynorm = inspref($query);
 
 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Eseguita query $querynorm", $nomefilelog . "rp", $suff);
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Richiesto aggiornamento alunni da $dataultagg $oraultagg", $nomefilelog . "rp", $suff);
 
 
 while ($rec = mysqli_fetch_array($ris))
 {
-    $stringa="";
-    $stringa.= $rec['idalunno']."|";
-    $stringa.=  $rec['cognome']."|";
-    $stringa.=  $rec['nome']."|";
-    
-    $classe=substr($rec['anno'],0,1).substr($rec['sezione'],0,1).substr($rec['specializzazione'],0,1);
-    $stringa.=  $classe."|";
-    $stringa.=  "0|";
-    $stringa.=  "08:10|08:10|08:10|08:10|08:10|08:10";
-    $stringa.=  ";<br>";
+    $stringa = "";
+    $stringa .= $rec['idalunno'] . "|";
+    $stringa .= $rec['cognome'] . "|";
+    $stringa .= $rec['nome'] . "|";
+
+    $classe = substr($rec['anno'], 0, 1) . substr($rec['sezione'], 0, 1) . substr($rec['specializzazione'], 0, 1);
+    $stringa .= $classe . "|";
+    $stringa .= "0|";
+    $stringa .= "08:10|08:10|08:10|08:10|08:10|08:10";
+    $stringa .= ";<br>";
     print $stringa;
-    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Inviato alunno ".$rec['idalunno'], $nomefilelog . "rp", $suff);
-    
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Inviato alunno " . $rec['idalunno'], $nomefilelog . "rp", $suff);
 }
 
 
@@ -53,27 +54,26 @@ $query = "SELECT * FROM tbl_alunni
               AND (idclasse=0)
          ";
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 
 
 while ($rec = mysqli_fetch_array($ris))
 {
-    $stringa="";
-    $stringa.= $rec['idalunno']."|";
-    $stringa.=  $rec['cognome']."|";
-    $stringa.=  $rec['nome']."|";
-    $stringa.=  "000|";
-    $stringa.=  "0|";
-    $stringa.=  "08:10|08:10|08:10|08:10|08:10|08:10";
-    $stringa.=  ";<br>";
+    $stringa = "";
+    $stringa .= $rec['idalunno'] . "|";
+    $stringa .= $rec['cognome'] . "|";
+    $stringa .= $rec['nome'] . "|";
+    $stringa .= "000|";
+    $stringa .= "0|";
+    $stringa .= "08:10|08:10|08:10|08:10|08:10|08:10";
+    $stringa .= ";<br>";
     print $stringa;
-    
-inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Inviato alunno ".$rec['idalunno'], $nomefilelog . "rp", $suff);
 
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Inviato alunno " . $rec['idalunno'], $nomefilelog . "rp", $suff);
 }
- 
- 
+
+
 print "FINE";
 mysqli_close($con);
 

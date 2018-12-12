@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: pietro
  * Date: 17/06/15
  * Time: 8.29
  */
-
 
 /**
  *
@@ -16,7 +16,7 @@
 function estrai_dati_docente($iddocente, $conn)
 {
     $query = "select * from tbl_docenti where iddocente='$iddocente'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $datidocente = $rec['cognome'] . " " . $rec['nome'];
 
@@ -32,13 +32,12 @@ function estrai_dati_docente($iddocente, $conn)
 function estrai_mail_docente($iddocente, $conn)
 {
     $query = "select * from tbl_docenti where iddocente='$iddocente'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $maildocente = $rec['email'];
 
     return $maildocente;
 }
-
 
 /**
  *
@@ -49,13 +48,12 @@ function estrai_mail_docente($iddocente, $conn)
 function estrai_dati_amministrativo($idamministrativo, $conn)
 {
     $query = "select * from tbl_amministrativi where idamministrativo='$idamministrativo'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $datiamm = $rec['cognome'] . " " . $rec['nome'];
 
     return $datiamm;
 }
-
 
 /**
  *
@@ -66,7 +64,7 @@ function estrai_dati_amministrativo($idamministrativo, $conn)
 function docente_sostegno($iddocente, $conn)
 {
     $query = "select * from tbl_docenti where iddocente='$iddocente'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $datidocente = $rec['sostegno'];
 
@@ -79,36 +77,31 @@ function docente_sostegno($iddocente, $conn)
  * @param object $conn Connessione al db
  * @return boolean
  */
-
 function estrai_docente_coordinatore($iddocente, $conn)
 {
     $query = "select * from tbl_classi where idcoordinatore='$iddocente'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     if (mysqli_num_rows($ris) > 0)
     {
         return true;
-    }
-    else
+    } else
     {
         return false;
     }
 }
-
 
 function verifica_classe_coordinata($iddocente, $idclasse, $conn)
 {
     $query = "select * from tbl_classi where idcoordinatore='$iddocente' and idclasse='$idclasse'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     if (mysqli_num_rows($ris) > 0)
     {
         return true;
-    }
-    else
+    } else
     {
         return false;
     }
 }
-
 
 /**
  *
@@ -119,32 +112,33 @@ function verifica_classe_coordinata($iddocente, $idclasse, $conn)
 function estrai_dirigente($conn)
 {
     $query = "SELECT nome,cognome FROM tbl_docenti WHERE iddocente=1000000000";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $datidirigente = $rec['nome'] . " " . $rec['cognome'];
 
     return $datidirigente;
 }
 
-function lezione_sostegno($idlezione,$iddocente,$con)
+function lezione_sostegno($idlezione, $iddocente, $con)
 {
-    
-    $query="select * from tbl_lezionicert where idlezionenorm='$idlezione' and iddocente='$iddocente'";
-    $ris=mysqli_query($con,inspref($query)) or die ("Errore".inspref($query));
-    
-    
-    if (mysqli_num_rows($ris)>0)
+
+    $query = "select * from tbl_lezionicert where idlezionenorm='$idlezione' and iddocente='$iddocente'";
+    $ris = eseguiQuery($con,$query);
+
+
+    if (mysqli_num_rows($ris) > 0)
         return true;
     else
         return false;
 }
 
-function calcolaOrePermesso($iddoc,$con)
+function calcolaOrePermesso($iddoc, $con)
 {
     $totaleore = 0;
     $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and subject LIKE '%permesso breve%'";
-    $risperm = eseguiQuery($con,$query);
-    while ($recperm = mysqli_fetch_array($risperm)) {
+    $risperm = eseguiQuery($con, $query);
+    while ($recperm = mysqli_fetch_array($risperm))
+    {
 
         $mail = $recperm['testomail'];
         $posizioneore = strpos($mail, "per un totale di ore") + 21;
@@ -159,12 +153,13 @@ function calcolaOrePermesso($iddoc,$con)
     return $totaleore;
 }
 
-function calcolaGiorniPermesso($iddoc,$con)
+function calcolaGiorniPermesso($iddoc, $con)
 {
     $totalegiorni = 0;
     $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Permesso retribuito%'";
-    $risperm = eseguiQuery($con,$query);
-    while ($recperm = mysqli_fetch_array($risperm)) {
+    $risperm = eseguiQuery($con, $query);
+    while ($recperm = mysqli_fetch_array($risperm))
+    {
 
         $mail = $recperm['testomail'];
         $posizionegiorni = strpos($mail, "alla S.V. di assentarsi per n.") + 34;
@@ -179,12 +174,13 @@ function calcolaGiorniPermesso($iddoc,$con)
     return $totalegiorni;
 }
 
-function calcolaGiorniFerie($iddoc,$con)
+function calcolaGiorniFerie($iddoc, $con)
 {
     $totalegiorni = 0;
     $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Ferie%'";
-    $risperm = eseguiQuery($con,$query);
-    while ($recperm = mysqli_fetch_array($risperm)) {
+    $risperm = eseguiQuery($con, $query);
+    while ($recperm = mysqli_fetch_array($risperm))
+    {
 
         $mail = $recperm['testomail'];
         $posizionegiorni = strpos($mail, "alla S.V. di assentarsi per n.") + 34;
@@ -199,39 +195,40 @@ function calcolaGiorniFerie($iddoc,$con)
     return $totalegiorni;
 }
 
-
-function contaOreRecuperate($iddoc,$con)
+function contaOreRecuperate($iddoc, $con)
 {
-    
+
     $query = "select sum(numeroore) as recuperate from tbl_recuperipermessi where iddocente=$iddoc";
-    $risperm = eseguiQuery($con,$query);
-    $recperm = mysqli_fetch_array($risperm) ;
+    $risperm = eseguiQuery($con, $query);
+    $recperm = mysqli_fetch_array($risperm);
     return $recperm['recuperate'];
 }
-        
-function contaOrePermesso($iddoc,$con)
+
+function contaOrePermesso($iddoc, $con)
 {
     $totaleore = 0;
     $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and subject LIKE '%permesso breve%'";
-    $risperm = eseguiQuery($con,$query);
-    while ($recperm = mysqli_fetch_array($risperm)) {
+    $risperm = eseguiQuery($con, $query);
+    while ($recperm = mysqli_fetch_array($risperm))
+    {
 
         $oreperm = $recperm['orepermessobreve'];
-        
+
 
         $totaleore += $oreperm;
     }
     return $totaleore;
 }
 
-function contaGiorniPermesso($iddoc,$con)
+function contaGiorniPermesso($iddoc, $con)
 {
     $totalegiorni = 0;
     $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Permesso retribuito%'";
-    $risperm = eseguiQuery($con,$query);
-    while ($recperm = mysqli_fetch_array($risperm)) {
+    $risperm = eseguiQuery($con, $query);
+    while ($recperm = mysqli_fetch_array($risperm))
+    {
 
-        
+
         $giorniperm = $recperm['numerogiorni'];
         // print "GP $giorniperm $posizionegiorni ";
         $totalegiorni += $giorniperm;
@@ -239,16 +236,17 @@ function contaGiorniPermesso($iddoc,$con)
     return $totalegiorni;
 }
 
-function contaGiorniFerie($iddoc,$con)
+function contaGiorniFerie($iddoc, $con)
 {
     $totalegiorni = 0;
     $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Ferie%'";
-    $risperm = eseguiQuery($con,$query);
-    while ($recperm = mysqli_fetch_array($risperm)) {
+    $risperm = eseguiQuery($con, $query);
+    while ($recperm = mysqli_fetch_array($risperm))
+    {
 
-        
+
         $giorniferie = $recperm['numerogiorni'];
-        
+
         $totalegiorni += $giorniferie;
     }
     return $totalegiorni;

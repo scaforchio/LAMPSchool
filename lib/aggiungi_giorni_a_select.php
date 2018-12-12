@@ -6,15 +6,20 @@
  * and open the template in the editor.
  */
 
-for ($g = 1; $g <= 31; $g++) {
-    if ($g < 10) {
+for ($g = 1; $g <= 31; $g++)
+{
+    if ($g < 10)
+    {
         $gs = '0' . $g;
-    } else {
+    } else
+    {
         $gs = '' . $g;
     }
-    if ($gs == $giorno) {
+    if ($gs == $giorno)
+    {
         echo("<option selected>$gs</option>");
-    } else {
+    } else
+    {
         echo("<option>$gs</option>");
     }
 }

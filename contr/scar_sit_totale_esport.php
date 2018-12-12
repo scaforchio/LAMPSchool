@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -43,7 +45,7 @@ $lista = array();
 // MEMORIZZO L'ELENCO DELLE CATTEDRE DA SALVARE
 $cattedre = is_stringa_html('cattedre') ? stringa_html('cattedre') : array();
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 if (is_stringa_html('tab'))
@@ -76,12 +78,12 @@ if (is_stringa_html('not'))
 
     fputcsv($fp, array('*** NOTE DISCIPLINARI ***'), ";");
     generanote($cattedra, $fp, $con);
-
 }
 
 fclose($fp);
 mysqli_close($con);
 header("location: " . $nomefile);
+
 // stampa_piede(""); 
 
 function generatabellone($catt, $file, $con)
@@ -95,7 +97,7 @@ function generatabellone($catt, $file, $con)
     and tbl_cattnosupp.idmateria=tbl_materie.idmateria 
     and tbl_cattnosupp.iddocente=tbl_docenti.iddocente
     and tbl_cattnosupp.idcattedra=$catt";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($val = mysqli_fetch_array($ris))
     {
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
@@ -116,14 +118,13 @@ function generatabellone($catt, $file, $con)
         $query = "select sum(numeroore) as numtotore from tbl_firme,tbl_lezioni
                where tbl_firme.idlezione=tbl_lezioni.idlezione
                and tbl_lezioni.idclasse='$idclasse' and tbl_firme.iddocente='$iddocente' and idmateria='$idmateria' " . $perioquery;
-        $risore = eseguiQuery($con,$query);
+        $risore = eseguiQuery($con, $query);
         if ($valore = mysqli_fetch_array($risore))
         {
 
             $oretotalilezione = isset($valore["numtotore"]) ? $valore["numtotore"] : 0;
 
             $lista[] = "$docente - $materia - $classe - $oretotalilezione ore";
-
         }
 
         fputcsv($file, $lista, ";");
@@ -132,7 +133,7 @@ function generatabellone($catt, $file, $con)
         $query = "select tbl_firme.idlezione,datalezione, numeroore,orainizio from tbl_firme, tbl_lezioni
        where tbl_firme.idlezione=tbl_lezioni.idlezione
        and tbl_lezioni.idclasse='$idclasse' and tbl_firme.iddocente='$iddocente' and idmateria='$idmateria' " . $perioquery . " order by datalezione";
-        $rislez = eseguiQuery($con,$query);
+        $rislez = eseguiQuery($con, $query);
         while ($reclez = mysqli_fetch_array($rislez))
         {
             $gio = substr($reclez['datalezione'], 8, 2);
@@ -142,26 +143,26 @@ function generatabellone($catt, $file, $con)
             $giornilezione[] = $gio;
         }
         /*     // AGGIUNGO AI GIORNI DI LEZIONE LE GIORNATE IN CUI SONO PRESENTI VALUTAZIONI
-             $query="select distinct data from tbl_valutazioniintermedie,tbl_alunni where tbl_valutazioniintermedie.idalunno=tbl_alunni.idalunno and idclasse='".$idclasse."' and iddocente='$iddocente' and idmateria='".$idmateria."' ".$perioquery." order by data";
-             $risvot=eseguiQuery($con,$query);
-             while ($recvot=mysqli_fetch_array($risvot))
-             {
-                $presente=false;
-                foreach($giornilezione as $ggia)
-                {
-                   if (substr($ggia,6,2)==substr($recvot['data'],8,2) & substr($ggia,4,2)==substr($recvot['data'],5,2))
-                      $presente=true;
-                }
-                if (!$presente)
-                {
-                   $gio=substr($recvot['data'],8,2);
-                   $mes=substr($recvot['data'],5,2);
-                   $ann=substr($recvot['data'],0,4);
-                   $gio=$ann.$mes.$gio.$recvot['data']."0"."00000000000";
-                   $giornilezione[]=$gio;
-                }
-             }
-             */
+          $query="select distinct data from tbl_valutazioniintermedie,tbl_alunni where tbl_valutazioniintermedie.idalunno=tbl_alunni.idalunno and idclasse='".$idclasse."' and iddocente='$iddocente' and idmateria='".$idmateria."' ".$perioquery." order by data";
+          $risvot=eseguiQuery($con,$query);
+          while ($recvot=mysqli_fetch_array($risvot))
+          {
+          $presente=false;
+          foreach($giornilezione as $ggia)
+          {
+          if (substr($ggia,6,2)==substr($recvot['data'],8,2) & substr($ggia,4,2)==substr($recvot['data'],5,2))
+          $presente=true;
+          }
+          if (!$presente)
+          {
+          $gio=substr($recvot['data'],8,2);
+          $mes=substr($recvot['data'],5,2);
+          $ann=substr($recvot['data'],0,4);
+          $gio=$ann.$mes.$gio.$recvot['data']."0"."00000000000";
+          $giornilezione[]=$gio;
+          }
+          }
+         */
         // ORDINO I GIORNI DI LEZIONE
         sort($giornilezione);
         // MEMORIZZO I GIORNI DI LEZIONE
@@ -182,14 +183,13 @@ function generatabellone($catt, $file, $con)
                  where tbl_asslezione.idalunno=tbl_alunni.idalunno
                  and tbl_alunni.idclasse=$idclasse 
                  and idmateria=$idmateria order by idlezione";
-        $risass = mysqli_query($con, inspref($queryass)) or die ("Errore nella query: " . mysqli_error($con));
+        $risass = eseguiQuery($con, $queryass);
         while ($valass = mysqli_fetch_array($risass))
         {
 
             $assore[] = $valass['oreassenza'];
             //   print ($valass['data']."|".$valass['idalunno']);
             $assid[] = $valass['idlezione'] . "|" . $valass['idalunno'];
-
         }
 
         // ESTRAGGO I VOTI DEGLI ALUNNI
@@ -201,19 +201,18 @@ function generatabellone($catt, $file, $con)
                  and tbl_alunni.idclasse=$idclasse 
                  and idmateria=$idmateria 
                  order by idlezione";
-        $risvot = mysqli_query($con, inspref($queryvot)) or die ("Errore nella query: " . mysqli_error($con));
+        $risvot = eseguiQuery($con,$queryvot);
         while ($valvot = mysqli_fetch_array($risvot))
         {
 
             $votval[] = $valvot['voto'];
             //   print ($valass['data']."|".$valass['idalunno']);
             $votid[] = $valvot['idlezione'] . "|" . $valvot['tipo'] . "|" . $valvot['idalunno'];
-
         }
 
 
         $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
-        $risalu = eseguiQuery($con,$query);
+        $risalu = eseguiQuery($con, $query);
 
         while ($valalu = mysqli_fetch_array($risalu))
         {
@@ -247,8 +246,7 @@ function generatabellone($catt, $file, $con)
                     if ($votval[$pos] != 99)
                     {
                         $stringagiorno .= dec_to_csv($votval[$pos]) . "s ";
-                    }
-                    else
+                    } else
                     {
                         $stringagiorno .= "Gi.s. ";
                     }
@@ -262,8 +260,7 @@ function generatabellone($catt, $file, $con)
                     if ($votval[$pos] != 99)
                     {
                         $stringagiorno .= dec_to_csv($votval[$pos]) . "o ";
-                    }
-                    else
+                    } else
                     {
                         $stringagiorno .= "Gi.o. ";
                     }
@@ -277,8 +274,7 @@ function generatabellone($catt, $file, $con)
                     if ($votval[$pos] != 99)
                     {
                         $stringagiorno .= dec_to_csv($votval[$pos]) . "p ";
-                    }
-                    else
+                    } else
                     {
                         $stringagiorno .= "Gi.p. ";
                     }
@@ -315,7 +311,7 @@ function generaargomenti($catt, $file, $con)
     and tbl_cattnosupp.idmateria=tbl_materie.idmateria 
     and tbl_cattnosupp.iddocente=tbl_docenti.iddocente
     and tbl_cattnosupp.idcattedra=$catt";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if ($val = mysqli_fetch_array($ris))
     {
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
@@ -334,14 +330,13 @@ function generaargomenti($catt, $file, $con)
         //   $lista[]=$materia;
 
         $query = "select sum(numeroore) as numtotore from tbl_lezioni where idclasse='" . $idclasse . "' and iddocente='$iddocente' and idmateria='" . $idmateria . "' " . $perioquery;
-        $risore = eseguiQuery($con,$query);
+        $risore = eseguiQuery($con, $query);
         if ($valore = mysqli_fetch_array($risore))
         {
 
             $oretotalilezione = isset($valore["numtotore"]) ? $valore["numtotore"] : 0;
 
             $lista[] = "$docente - $materia - $classe - $oretotalilezione ore";
-
         }
 
         fputcsv($file, $lista, ";");
@@ -349,7 +344,7 @@ function generaargomenti($catt, $file, $con)
 
         $query = "select * from tbl_lezioni where idclasse=$idclasse and idmateria=$idmateria order by datalezione";
 
-        $risarg = eseguiQuery($con,$query);
+        $risarg = eseguiQuery($con, $query);
         while ($recarg = mysqli_fetch_array($risarg))
         {
             $arrarg = array();
@@ -362,9 +357,7 @@ function generaargomenti($catt, $file, $con)
             {
                 fputcsv($file, array($recarg['attivita']), ";");
             }
-
         }
-
     }
 
     fputcsv($file, array(""), ";");
@@ -377,7 +370,7 @@ function generanote($catt, $file, $con)
     $lista = array();
 
     $query = "SELECT * FROM tbl_classi ORDER BY anno, sezione, specializzazione";
-    $riscla = eseguiQuery($con,$query);
+    $riscla = eseguiQuery($con, $query);
     while ($valcla = mysqli_fetch_array($riscla))
     {
 
@@ -390,7 +383,7 @@ function generanote($catt, $file, $con)
                         WHERE tbl_noteclasse.iddocente=tbl_docenti.iddocente
                         AND idclasse=" . $valcla['idclasse'] . " ORDER BY data";
         // print (inspref($querynotecla));
-        $risnotecla = mysqli_query($con, inspref($querynotecla));
+        $risnotecla = eseguiQuery($con,$querynotecla);
         while ($valnotecla = mysqli_fetch_array($risnotecla))
         {
             $data = data_italiana($valnotecla['data']);
@@ -412,8 +405,8 @@ function generanote($catt, $file, $con)
                 AND tbl_noteindalu.idalunno=tbl_alunni.idalunno
                 AND tbl_notealunno.iddocente=tbl_docenti.iddocente
                 AND tbl_notealunno.idclasse = " . $valcla['idclasse'] .
-            " ORDER BY data";
-        $risnotealu = mysqli_query($con, inspref($querynotealu));
+                " ORDER BY data";
+        $risnotealu = eseguiQuery($con,$querynotealu);
 
         while ($valnotealu = mysqli_fetch_array($risnotealu))
         {
@@ -423,13 +416,7 @@ function generanote($catt, $file, $con)
             $testo = $valnotealu['testo'];
             $provvedimenti = $valnotecla['provvedimenti'];
             fputcsv($file, array($data, $docente, $alunno, $testo, $provvedimenti), ";");
-
         }
         fputcsv($file, array(""), ";");
     }
-
-
 }
-
-
-

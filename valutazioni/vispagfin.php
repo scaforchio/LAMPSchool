@@ -1,21 +1,23 @@
-<?php session_start();
+<?php
+
+session_start();
 
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma è distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma è distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 //
 //    VISUALIZZAZIONE DELLE VALUTAZIONI PER I GENITORI
@@ -35,19 +37,18 @@ if ($tipoutente == "")
 
 $titolo = "Visualizzazione pagella finale";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAPT");
+stampa_head($titolo, "", $script, "SDMAPT");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $codalunno = $_SESSION['idstudente'];
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // prelevamento dati alunno
-
 // prelevamento dati alunno
 
 $query = "select * from tbl_alunni where idalunno=$codalunno";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 // echo '<table border=1 align="center" width="800"  >';
 
@@ -60,13 +61,17 @@ if ($val = mysqli_fetch_array($ris))
     $classe = $val["idclasse"];
 }
 
-$annoclasse= decodifica_anno_classe($classe, $con);
+$annoclasse = decodifica_anno_classe($classe, $con);
 
-$certificazione=false;
-if ($annoclasse==5 & $livello_scuola==1) $certificazione=true;
-if ($annoclasse==5 & $livello_scuola==3) $certificazione=true;
-if ($annoclasse==3 & $livello_scuola==2) $certificazione=true;
-if ($annoclasse==8 & $livello_scuola==3) $certificazione=true;
+$certificazione = false;
+if ($annoclasse == 5 & $livello_scuola == 1)
+    $certificazione = true;
+if ($annoclasse == 5 & $livello_scuola == 3)
+    $certificazione = true;
+if ($annoclasse == 3 & $livello_scuola == 2)
+    $certificazione = true;
+if ($annoclasse == 8 & $livello_scuola == 3)
+    $certificazione = true;
 
 
 if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
@@ -81,7 +86,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
           where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
           and idalunno=$codalunno and tbl_materie.progrpag<>100 and periodo = $numeroperiodi order by tbl_materie.progrpag";
 
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         // print $query;
         if (mysqli_num_rows($ris) > 0)
         {
@@ -90,7 +95,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
             while ($val = mysqli_fetch_array($ris))
             {
                 $query = "SELECT * FROM tbl_materie WHERE idmateria = " . $val['idmateria'];
-                $rismat = eseguiQuery($con,$query);
+                $rismat = eseguiQuery($con, $query);
                 $recmat = mysqli_fetch_array($rismat);
                 $materia = $recmat['denominazione'];
 
@@ -103,8 +108,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
                 if ($val['votounico'] < 6 | ($val['votounico'] > 10 & $val['votounico'] < 16)) // is_numeric($val['votoscritto']))
                 {
                     print "<font color=red><b>";
-                }
-                else
+                } else
                 {
                     print "<font color=green><b>";
                 }
@@ -113,16 +117,16 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
                 print "<td align=center>&nbsp;";
                 print $val['note'];
                 print "</td>";
-               // print "<td align=center>&nbsp;";
-               // print $val['assenze'];
-               // print "</td>";
+                // print "<td align=center>&nbsp;";
+                // print $val['assenze'];
+                // print "</td>";
                 print "</tr>";
             }
 
             // Cerco il giudizio
 
             $query = "select * from tbl_giudizi where idalunno = $codalunno and periodo = '$numeroperiodi'";
-            $risgiu = eseguiQuery($con,$query);
+            $risgiu = eseguiQuery($con, $query);
             if ($recgiu = mysqli_fetch_array($risgiu))
             {
                 print "<tr class='prima'><td colspan=7 align=center><b>Giudizio complessivo</b></td></tr>";
@@ -148,18 +152,15 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
             }
 
             print "&nbsp;&nbsp;&nbsp;<a href='../scrutini/stampacriteri.php?periodo=$per&classe=$classe' target='_blank'><img src='../immagini/stampaCRI.png'></a></center>";
-
-
         }
-    }
-    else
+    } else
     {
         // prelevamento voti
         $query = "SELECT * from tbl_valutazionifinali,tbl_materie
           where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
           and idalunno=$codalunno and tbl_materie.progrpag<>100 and periodo = $numeroperiodi order by tbl_materie.progrpag";
 
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
         // print $query;
         if (mysqli_num_rows($ris) > 0)
         {
@@ -168,7 +169,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
             while ($val = mysqli_fetch_array($ris))
             {
                 $query = "SELECT * FROM tbl_materie WHERE idmateria = " . $val['idmateria'];
-                $rismat = eseguiQuery($con,$query);
+                $rismat = eseguiQuery($con, $query);
                 $recmat = mysqli_fetch_array($rismat);
                 $materia = $recmat['denominazione'];
 
@@ -181,8 +182,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
                 if ($val['votounico'] < 6 | ($val['votounico'] > 10 & $val['votounico'] < 16)) // is_numeric($val['votoscritto']))
                 {
                     print "<font color=red><b>";
-                }
-                else
+                } else
                 {
                     print "<font color=green><b>";
                 }
@@ -200,7 +200,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
             // Cerco il giudizio
 
             $query = "select * from tbl_giudizi where idalunno = $codalunno and periodo = '$numeroperiodi'";
-            $risgiu = eseguiQuery($con,$query);
+            $risgiu = eseguiQuery($con, $query);
             if ($recgiu = mysqli_fetch_array($risgiu))
             {
                 print "<tr class='prima'><td colspan=7 align=center><b>Giudizio complessivo</b></td></tr>";
@@ -227,16 +227,12 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
 
 
             print "&nbsp;&nbsp;&nbsp;<a href='../scrutini/stampacriteri.php?periodo=$per&classe=$classe' target='_blank'><img src='../immagini/stampaCRI.png'></a></center>";
-        }
-
-
-        else
+        } else
         {
             print("<br/><big><big><center>Non ci sono voti registrati!</center><small><small><br/>");
         }
     }
-}
-else
+} else
 {
     print("<br/><big><big><center>Scrutinio non ancora chiuso!</center><small><small><br/>");
 }

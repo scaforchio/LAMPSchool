@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
@@ -33,22 +35,22 @@ $goback = goBackRiepilogoRegistro();
 $classeregistro = $_SESSION['classeregistro'];
 $titolo = "Inserimento e modifica note individuali";
 $script = "";
-stampa_head($titolo,"",$script,"SDMAP");
+stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $idnota = stringa_html('idnota');
 $notacl = "";
 $provvedimenti = "";
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 if ($idnota != "")   // se si arriva dalla pagina della ricerca
 {
-    
+
 
     $query = "SELECT * FROM tbl_notealunno WHERE idnotaalunno=" . $idnota;
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     $nom = mysqli_fetch_array($ris);
     $nome = $nom['idclasse'];
     // $but = stringa_html('visass');
@@ -59,9 +61,7 @@ if ($idnota != "")   // se si arriva dalla pagina della ricerca
     $iddocente = $nom['iddocente'];
     $notacl = $nom['testo'];
     $provvedimenti = $nom['provvedimenti'];
-
-}
-else
+} else
 {
     $nome = stringa_html('idclasse');
     $giorno = stringa_html('gio');
@@ -78,9 +78,9 @@ else
     $mese = substr($meseanno, 0, 2);
     $anno = substr($meseanno, 5, 4);
 }
-if ($nome!='')
+if ($nome != '')
 {
-$coordinatoreclasse= verifica_classe_coordinata($_SESSION['idutente'], $nome, $con);
+    $coordinatoreclasse = verifica_classe_coordinata($_SESSION['idutente'], $nome, $con);
 // print "Coordinatore $coordinatoreclasse";
 }
 $data = $anno . "-" . $mese . "-" . $giorno;
@@ -113,8 +113,7 @@ print ('
 if ($idnota == "")
 {
     print("<SELECT ID='cl' NAME='idclasse' ONCHANGE='tbl_notealunno.submit()'>");
-}
-else
+} else
 {
     print("<SELECT ID='cl' NAME='idclasse' disabled>");
 }
@@ -127,13 +126,12 @@ print "<option value=''>&nbsp;";
 if ($classeregistro == "")
 {
     $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY specializzazione, sezione, anno";
-}
-else
+} else
 {
     $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi where idclasse=$classeregistro ORDER BY specializzazione, sezione, anno";
 }
 
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {
     print "<option value='";
@@ -166,8 +164,8 @@ echo(' <table align=center>
 
 
 echo('   <td width="50%">');
-if ($classeregistro=="")
-   echo("<select name='gio'>");
+if ($classeregistro == "")
+    echo("<select name='gio'>");
 else
 {
     print "<input type='hidden' name='gio' value='$giorno'>'";
@@ -175,54 +173,54 @@ else
 }
 require '../lib/aggiungi_giorni_a_select.php';
 echo("</select>");
-if ($classeregistro=="")
-   echo("   <select name='mese'>");
+if ($classeregistro == "")
+    echo("   <select name='mese'>");
 else
 {
-   print("<input type='hidden' name='mese' value='$meseanno'>
+    print("<input type='hidden' name='mese' value='$meseanno'>
           <select name='mese' disabled>");
 }
 require '../lib/aggiungi_mesi_a_select.php';
 /*
-for  ($m = 9; $m <= 12; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = '0' . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscol");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscol");
-    }
-}
-$annoscolsucc = $annoscol + 1;
-for ($m = 1; $m <= 8; $m++)
-{
-    if ($m < 10)
-    {
-        $ms = '0' . $m;
-    }
-    else
-    {
-        $ms = '' . $m;
-    }
-    if ($ms == $mese)
-    {
-        echo("<option selected>$ms - $annoscolsucc");
-    }
-    else
-    {
-        echo("<option>$ms - $annoscolsucc");
-    }
-}
+  for  ($m = 9; $m <= 12; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = '0' . $m;
+  }
+  else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscol");
+  }
+  else
+  {
+  echo("<option>$ms - $annoscol");
+  }
+  }
+  $annoscolsucc = $annoscol + 1;
+  for ($m = 1; $m <= 8; $m++)
+  {
+  if ($m < 10)
+  {
+  $ms = '0' . $m;
+  }
+  else
+  {
+  $ms = '' . $m;
+  }
+  if ($ms == $mese)
+  {
+  echo("<option selected>$ms - $annoscolsucc");
+  }
+  else
+  {
+  echo("<option>$ms - $annoscolsucc");
+  }
+  }
  * 
  */
 echo("</select></td></tr>");
@@ -233,16 +231,14 @@ print "<input type=hidden name=idnota value=$idnota>";
 //
 //  Fine visualizzazione della data
 //
-
 // Riempimento combo box tbl_docenti
 print "<tr><td width='50%'><p align='center'><b>Docente</b></p></td><td>";
 $query = "SELECT iddocente,cognome,nome FROM tbl_docenti ORDER BY cognome, nome";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 if ($tipoutente == 'P' | $tipoutente == 'S')
 {
     echo("<select name='iddocente'>");
-}
-else
+} else
 {
     echo("<select name='iddocente' disabled>");
 }
@@ -262,7 +258,6 @@ while ($nom = mysqli_fetch_array($ris))
     print ($nom["cognome"]);
     print "&nbsp;";
     print($nom["nome"]);
-
 }
 
 //   Fine riempimento combo box tbl_docenti
@@ -276,16 +271,14 @@ echo("</table>
 if ($mese == "")
 {
     $m = 0;
-}
-else
+} else
 {
     $m = $mese;
 }
 if ($giorno == "")
 {
     $g = 0;
-}
-else
+} else
 {
     $g = $giorno;
 }
@@ -293,8 +286,7 @@ else
 if ($anno == "")
 {
     $a = 0;
-}
-else
+} else
 {
     $a = $anno;
 }
@@ -305,18 +297,16 @@ else
 if (!checkdate($m, $g, $a))
 {
     print "Data non valida!";
-}
-else
+} else
 {
     if ($giornosettimana == "Dom")
     {
         print "Il giorno selezionato è una domenica!";
-    }
-    else
+    } else
     {
         $idclasse = $nome;
         $classe = "";
-        $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+        $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
         //   $query='select * from tbl_classi where idclasse="'.$idclasse.'" ';
@@ -327,7 +317,6 @@ else
         //  $query="select * from tbl_notealunno where idclasse=$idclasse and data='$data' and iddocente=$iddocente";
         //  print $query;
 //    $ris=eseguiQuery($con,$query);
-
         //  if ($c=mysqli_fetch_array($ris))
         //  {
 //		 $notacl=$c['testo'];
@@ -343,8 +332,7 @@ else
         if ($tipoutente == "S" | $tipoutente == "P" | $coordinatoreclasse)
         {
             echo "<textarea  cols=60 rows=10 name ='provvedimenti'>";
-        }
-        else
+        } else
         {
             echo "<textarea  cols=60 rows=10 name ='provvedimenti' disabled>";
         }
@@ -359,7 +347,7 @@ else
         $query = "select idalunno,cognome,nome,datanascita from tbl_alunni where
                   idalunno IN (" . estrai_alunni_classe_data($nome, $anno . "-" . $mese . "-" . $giorno, $con) . ")
                   order by cognome, nome, datanascita";
-        $ris = eseguiQuery($con,$query);
+        $ris = eseguiQuery($con, $query);
 
         echo("<select multiple size=10 name='idalunno[]'>");
         while ($nom = mysqli_fetch_array($ris))
@@ -367,8 +355,7 @@ else
             if (!alunno_certificato($nom['idalunno'], $con))
             {
                 $cert = "";
-            }
-            else
+            } else
             {
                 $cert = " (*)";
             }
@@ -385,7 +372,6 @@ else
             print($nom["nome"]);
             print "&nbsp;&nbsp;&nbsp;";
             print(data_italiana($nom["datanascita"]) . $cert);
-
         }
 
         echo("
@@ -416,15 +402,12 @@ stampa_piede("");
 function esiste_nota_alunno($idalunno, $idnota, $con)
 {
     $query = "select * from tbl_noteindalu where idnotaalunno='$idnota' and idalunno='$idalunno'";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     if (mysqli_num_rows($ris) > 0)
     {
         return true;
-    }
-    else
+    } else
     {
         return false;
     }
-}  
-  
-
+}

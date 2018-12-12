@@ -22,7 +22,7 @@ session_start();
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"];
 $userid = $_SESSION["userid"]; //prende la variabile presente nella sessione
-$idutente=$_SESSION['idutente'];
+$idutente = $_SESSION['idutente'];
 // print "USERID $idutente";
 if ($tipoutente == "")
 {
@@ -72,31 +72,28 @@ $rnpass = stringa_html('rnpass');
 //Esecuzione query
 $sql = "SELECT * FROM tbl_utenti WHERE userid='" . $ute . "' AND  password=md5('" . $pwd . "')";
 
-$result = eseguiQuery($con,$sql);
+$result = eseguiQuery($con, $sql);
 if (mysqli_num_rows($result) <= 0)
 {
     print "<center>Nome utente e password non risultano presenti: verificare.</center>";
-}
-else
+} else
 {
     $rec = mysqli_fetch_array($result);
     $passwordprecedenti = $rec['passprecedenti'];
     if ($npass != $rnpass | $npass == $pwd)
     {
         print "<center>Le password inserite sono diverse tra loro o coincidono con la vecchia password!</center>";
-    }
-    else
+    } else
     {
         $penultimapassword = substr($passwordprecedenti, strlen($passwordprecedenti) - 33, 32);
         if ($penultimapassword == md5(md5($npass))) // CONTROLLO CHE NON SIA STATA USATA DI RECENTE
         {
             print "<center>Le password inserita è stata usata di recente!<center>";
-        }
-        else
+        } else
         {
-            $query = "UPDATE tbl_utenti SET password = '".md5(md5($npass))."',passprecedenti=concat(passprecedenti,md5('" . $pwd . "'),'|') WHERE userid='" . $ute . "'";
+            $query = "UPDATE tbl_utenti SET password = '" . md5(md5($npass)) . "',passprecedenti=concat(passprecedenti,md5('" . $pwd . "'),'|') WHERE userid='" . $ute . "'";
 
-            $result = eseguiQuery($con,$query);
+            $result = eseguiQuery($con, $query);
 
             if (mysqli_affected_rows($con) == 1)
             {
@@ -105,16 +102,14 @@ else
                     $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $ute);
                     cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $ute, $npass);
                     print "<center>Password cambiata correttamente anche per l'elearning per utente $ute ($idmoodle).</center>";
-                }
-                else if (($tipoutente == 'D' | $tipoutente == 'S') & $tokenservizimoodle != '')
+                } else if (($tipoutente == 'D' | $tipoutente == 'S') & $tokenservizimoodle != '')
                 {
-                    $ndocente=$idutente-1000000000;
-                    $ute = "doc".$_SESSION['suffisso']. $ndocente;
+                    $ndocente = $idutente - 1000000000;
+                    $ute = "doc" . $_SESSION['suffisso'] . $ndocente;
                     $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $ute);
                     cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $ute, $npass);
                     print "<center>Password cambiata correttamente anche per l'elearning per utente $ute ($idmoodle).</center>";
-                }
-                else
+                } else
                     print "<center>Password cambiata correttamente.</center>";
             }
             else

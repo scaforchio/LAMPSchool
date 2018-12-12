@@ -1,4 +1,6 @@
-<?php session_start();
+<?php
+
+session_start();
 /**
  * Nuova installazione o aggiornamento di LAMPSchool
  *

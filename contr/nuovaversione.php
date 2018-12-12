@@ -1,11 +1,12 @@
-<?php session_start();
+<?php
+
+session_start();
 /**
  * Elenco degli indici del database
  *
  * @copyright  Copyright (C) 2014 Renato Tamilio
  * @license    GNU Affero General Public License versione 3 o successivi; vedete agpl-3.0.txt
  */
-
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
 
@@ -21,7 +22,7 @@ if ($tipoutente == "")
 }
 $titolo = "Controllo nuova versione LAMPSchool";
 $script = "";
-stampa_head($titolo, "", $script,"PMSD");
+stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $risultato = controlloNuovaVersione();
@@ -31,8 +32,7 @@ $nuovaVersione = $risultato['versione'];
 if ($esito)
 {
     print "<center><h3>E' disponibile sul sito di LAMPSchool la versione $nuovaVersione</h3></center>";
-}
-else
+} else
 {
     print "<center><h3>Questa versione di LAMPSchool &egrave; la pi&ugrave; recente.</h3></center>";
 }

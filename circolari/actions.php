@@ -49,13 +49,13 @@ if ($Circ != "")
 //					and idutente=$Ute
 //					and (isnull(datalettura) or datalettura='0000-00-00')";
 //					
-$querylett = "update tbl_diffusionecircolari
+    $querylett = "update tbl_diffusionecircolari
 					set datalettura='$dataoggi'
 					where idcircolare=$Circ
 					and idutente=$Ute
 					and (isnull(datalettura) or datalettura='0000-00-00')";
     //  die("tttt".inspref($querylett));
-    eseguiQuery($con,$querylett);
+    eseguiQuery($con, $querylett);
 }
 
 if (!isset($_GET))
@@ -66,7 +66,7 @@ if ($_GET["action"] && $_GET["Id"] && is_numeric($_GET["Id"]))
 
     $query = "select docbin, docnome, doctype,docmd5 from tbl_documenti where iddocumento = '$Id'";
 
-    $select = eseguiQuery($con,$query);
+    $select = eseguiQuery($con, $query);
 
     $result = mysqli_fetch_array($select);
 
@@ -111,7 +111,6 @@ if ($_GET["action"] && $_GET["Id"] && is_numeric($_GET["Id"]))
                 header("Content-Type: $type");
                 header("Content-Disposition: inline; filename=" . $name);
                 readfile($destinazione);
-                
             }
             break;
 
@@ -163,7 +162,7 @@ if ($_GET["action"] && $_GET["Id"] && is_numeric($_GET["Id"]))
             break;
     } // endswitch
 // CHIUDIAMO LA CONNESSIONE
-} 
+}
 mysqli_close($con);
 // stampa_piede("");
 

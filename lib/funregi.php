@@ -81,7 +81,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
               datalezione='$data' and idclasse='$idclasse'
               and $no>=orainizio and $no<=(orainizio+numeroore-1)";
         // print inspref($query);
-        $ris = eseguiQuery($conn,$query);
+        $ris = eseguiQuery($conn, $query);
         // CONTROLLO EVENTUALI ERRORI DI SOVRAPPOSIZIONE
         // $riscontr=$ris;
         $numrighe = mysqli_num_rows($ris);
@@ -131,7 +131,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 and tbl_firme.iddocente=tbl_docenti.iddocente
                 and datalezione='$data' and idclasse='$idclasse'
                 and $no>=orainizio and $no<=(orainizio+numeroore-1)";
-        $ris = eseguiQuery($conn,$query);
+        $ris = eseguiQuery($conn, $query);
         print "<td>";
         while ($rec = mysqli_fetch_array($ris))
         {
@@ -146,7 +146,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
               from tbl_lezioni
               where datalezione='$data' and idclasse='$idclasse'
               and $no>=orainizio and $no<=(orainizio+numeroore-1)";
-        $ris = eseguiQuery($conn,$query);
+        $ris = eseguiQuery($conn, $query);
         print "<td>";
         while ($rec = mysqli_fetch_array($ris))
         {
@@ -185,7 +185,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 and data< '$data'
                 and (isnull(giustifica) or giustifica=0)";
 
-                $risgiu = eseguiQuery($conn,$query);
+                $risgiu = eseguiQuery($conn, $query);
                 $recgiu = mysqli_fetch_array($risgiu);
                 $numingiust = $recgiu['numassingiust'];
 
@@ -193,7 +193,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 where idalunno in ($elencoalunni)
                 and data<= '$data'
                 and (isnull(giustifica) or giustifica=0)";
-                $risgiu = eseguiQuery($conn,$query);
+                $risgiu = eseguiQuery($conn, $query);
                 $recgiu = mysqli_fetch_array($risgiu);
                 $numingiust += $recgiu['numritingiust'];
                 if ($giustificauscite == 'yes')
@@ -202,7 +202,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 where idalunno in ($elencoalunni)
                 and data<= '$data'
                 and (isnull(giustifica) or giustifica=0)";
-                    $risgiu = eseguiQuery($conn,$query);
+                    $risgiu = eseguiQuery($conn, $query);
                     $recgiu = mysqli_fetch_array($risgiu);
                     $numingiust += $recgiu['numuscingiust'];
                 }
@@ -246,7 +246,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  where
                  tbl_assenze.idalunno=tbl_alunni.idalunno
                  and data='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ")";
-    $res = eseguiQuery($conn,$query);
+    $res = eseguiQuery($conn, $query);
     $numalunni = mysqli_num_rows($res);
     $conta = 0;
     while ($rec = mysqli_fetch_array($res))
@@ -266,7 +266,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  where
                  tbl_ritardi.idalunno=tbl_alunni.idalunno
                  and data='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ") and autorizzato";
-        $res = eseguiQuery($conn,$query);
+        $res = eseguiQuery($conn, $query);
         $numalunni = mysqli_num_rows($res);
         if ($numalunni > 0)
         {
@@ -292,7 +292,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  where
                  tbl_ritardi.idalunno=tbl_alunni.idalunno
                  and data='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ") and not autorizzato";
-        $res = eseguiQuery($conn,$query);
+        $res = eseguiQuery($conn, $query);
         $numalunni = mysqli_num_rows($res);
         if ($numalunni > 0)
         {
@@ -316,7 +316,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  where
                  tbl_ritardi.idalunno=tbl_alunni.idalunno
                  and data='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ")";
-        $res = eseguiQuery($conn,$query);
+        $res = eseguiQuery($conn, $query);
         $numalunni = mysqli_num_rows($res);
         if ($numalunni > 0)
         {
@@ -342,7 +342,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  where
                  tbl_usciteanticipate.idalunno=tbl_alunni.idalunno
                  and data='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ")";
-    $res = eseguiQuery($conn,$query);
+    $res = eseguiQuery($conn, $query);
     $numalunni = mysqli_num_rows($res);
     if ($numalunni > 0)
     {
@@ -371,7 +371,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  where
                  tbl_assenze.idalunno=tbl_alunni.idalunno
                  and datagiustifica='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ")";
-    $res = eseguiQuery($conn,$query);
+    $res = eseguiQuery($conn, $query);
     $numalunni = mysqli_num_rows($res);
     $conta = 0;
     while ($rec = mysqli_fetch_array($res))
@@ -390,7 +390,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  where
                  tbl_ritardi.idalunno=tbl_alunni.idalunno
                  and datagiustifica='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ")";
-    $res = eseguiQuery($conn,$query);
+    $res = eseguiQuery($conn, $query);
     $numalunni = mysqli_num_rows($res);
     if ($numalunni > 0)
     {
@@ -414,7 +414,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  where
                  tbl_usciteanticipate.idalunno=tbl_alunni.idalunno
                  and datagiustifica='$data' and tbl_alunni.idalunno in (" . $elencoalunni . ")";
-    $res = eseguiQuery($conn,$query);
+    $res = eseguiQuery($conn, $query);
     $numalunni = mysqli_num_rows($res);
     if ($numalunni > 0)
     {
@@ -441,7 +441,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  from tbl_noteclasse,tbl_docenti
                  where tbl_noteclasse.iddocente=tbl_docenti.iddocente
                  and data='$data' and idclasse='$idclasse'";
-    $res = eseguiQuery($conn,$query);
+    $res = eseguiQuery($conn, $query);
     while ($rec = mysqli_fetch_array($res))
     {
         print "" . $rec['testo'] . "(<i>" . $rec['cognome'] . " " . $rec['nome'] . "</i>)<br><b>" . $rec['provvedimenti'] . "</b><br><br>";
@@ -453,13 +453,13 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  from tbl_notealunno,tbl_docenti
                  where tbl_notealunno.iddocente=tbl_docenti.iddocente
                  and data='$data' and idclasse='$idclasse'";
-    $res = eseguiQuery($conn,$query);
+    $res = eseguiQuery($conn, $query);
     while ($rec = mysqli_fetch_array($res))
     {
         $queryal = "SELECT idalunno
                           FROM tbl_noteindalu
                           WHERE idnotaalunno=" . $rec['idnotaalunno'];
-        $resalu = mysqli_query($conn, inspref($queryal)) or die(mysqli_error($conn));
+        $resalu = eseguiQuery($conn,$queryal);
         $numalunni = mysqli_num_rows($resalu);
         $conta = 0;
         print "[Alunni: ";
@@ -486,7 +486,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                  from tbl_annotazioni,tbl_docenti
                  where tbl_annotazioni.iddocente=tbl_docenti.iddocente
                  and data='$data' and idclasse='$idclasse'";
-    $res = eseguiQuery($conn,$query);
+    $res = eseguiQuery($conn, $query);
     while ($rec = mysqli_fetch_array($res))
     {
         print "" . $rec['testo'] . "<br>(<i>" . $rec['cognome'] . " " . $rec['nome'] . "</i>)<br>";
@@ -502,7 +502,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
             and data='$data'
             and tbl_alunni.idalunno in ($elencoalunni)
             order by motivo,cognome, nome";
-    $risprf = eseguiQuery($conn,$query);
+    $risprf = eseguiQuery($conn, $query);
     // print "tttt ".inspref($query);
     $elencopresenti = "";
     if (mysqli_num_rows($risprf) > 0)
@@ -544,7 +544,7 @@ function esiste_lezione($data, $con)
 
     $query = "select idlezione from tbl_lezioni where datalezione='$data'";
 
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     if (mysqli_num_rows($ris) > 0)
         return true;

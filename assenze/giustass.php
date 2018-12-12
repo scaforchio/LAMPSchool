@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -40,7 +42,7 @@ $script = "<script type='text/javascript'>
  //-->
 </script>";
 
-stampa_head($titolo, "", $script,"SPD");
+stampa_head($titolo, "", $script, "SPD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 // stampa_head($titolo,"",$script);
@@ -50,19 +52,19 @@ $data = stringa_html('data');
 
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 //print  "TTTT IDCLASSE $idclasse DATA $data <br>";
-$elencoalunni= estrai_alunni_classe_data($idclasse, $data, $con);
+$elencoalunni = estrai_alunni_classe_data($idclasse, $data, $con);
 //print "ELENCO: $elencoalunni";
 $query = "SELECT idalunno FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 while ($recalu = mysqli_fetch_array($ris))
 {
     $idalunno = $recalu['idalunno'];
     $query = 'SELECT * FROM tbl_assenze WHERE idalunno="' . $idalunno . '" AND (isnull(giustifica) or giustifica=0) ORDER BY data ';
-    $risass = eseguiQuery($con,$query);
-    
+    $risass = eseguiQuery($con, $query);
+
     if (mysqli_num_rows($risass) > 0)
     {
         while ($val = mysqli_fetch_array($risass))
@@ -71,25 +73,24 @@ while ($recalu = mysqli_fetch_array($ris))
             if ($idgiu == "on")
             {
                 $query = "UPDATE tbl_assenze SET giustifica=1, datagiustifica='" . $data . "', iddocentegiust=" . $_SESSION['idutente'] . " WHERE idassenza=" . $val['idassenza'] . "";
-                eseguiQuery($con,$query);
+                eseguiQuery($con, $query);
             }
         }
     }
     $giorno = estraigiorno($data);
     $meseanno = estraimese($data) . ' - ' . estraianno($data);
-
 }
 
 
 $query = "SELECT idalunno FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 
 while ($recalu = mysqli_fetch_array($ris))
 {
     $idalunno = $recalu['idalunno'];
     $query = 'SELECT * FROM tbl_ritardi WHERE idalunno="' . $idalunno . '" AND (isnull(giustifica) or giustifica=0) ORDER BY data ';
 
-    $risass = eseguiQuery($con,$query);
+    $risass = eseguiQuery($con, $query);
     if (mysqli_num_rows($risass) > 0)
     {
 
@@ -101,27 +102,26 @@ while ($recalu = mysqli_fetch_array($ris))
             {
                 $query = "UPDATE tbl_ritardi SET giustifica=1, datagiustifica='" . $data . "', iddocentegiust=" . $_SESSION['idutente'] . " WHERE idritardo=" . $val['idritardo'] . "";
                 // die ("$query");
-                eseguiQuery($con,$query);
+                eseguiQuery($con, $query);
             }
         }
     }
     $giorno = estraigiorno($data);
     $meseanno = estraimese($data) . ' - ' . estraianno($data);
-
 }
 
 
-if ($giustificauscite=='yes')
+if ($giustificauscite == 'yes')
 {
     $query = "SELECT idalunno FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
 
     while ($recalu = mysqli_fetch_array($ris))
     {
         $idalunno = $recalu['idalunno'];
         $query = 'SELECT * FROM tbl_usciteanticipate WHERE idalunno="' . $idalunno . '" AND (isnull(giustifica) or giustifica=0) ORDER BY data ';
 
-        $risass = eseguiQuery($con,$query);
+        $risass = eseguiQuery($con, $query);
         if (mysqli_num_rows($risass) > 0)
         {
 
@@ -133,13 +133,12 @@ if ($giustificauscite=='yes')
                 {
                     $query = "UPDATE tbl_usciteanticipate SET giustifica=1, datagiustifica='" . $data . "', iddocentegiust=" . $_SESSION['idutente'] . " WHERE iduscita=" . $val['iduscita'] . "";
                     // die ("$query");
-                    eseguiQuery($con,$query);
+                    eseguiQuery($con, $query);
                 }
             }
         }
         $giorno = estraigiorno($data);
         $meseanno = estraimese($data) . ' - ' . estraianno($data);
-
     }
 }
 
@@ -165,7 +164,6 @@ if ($_SESSION['regcl'] != "")
 			  }
 			  </SCRIPT>
          ";
-
 }
 
 // fine if

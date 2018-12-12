@@ -67,7 +67,7 @@ if (!$DB)
 //Esecuzione query
 $sql = "select * from tbl_utenti where userid='$ute'";
 // print inspref($sql);
-$result = eseguiQuery($con,$sql);
+$result = eseguiQuery($con, $sql);
 
 if (mysqli_num_rows($result) <= 0)
 {
@@ -75,8 +75,7 @@ if (mysqli_num_rows($result) <= 0)
     print "<center> <form action='../login/ele_ges.php' method='POST'>";
     print "<input type='submit' name='Home' value='HOME'>";
     print "</form> </center>";
-}
-else
+} else
 {
     if ($pas != $pas2)
     {
@@ -84,25 +83,23 @@ else
         print "<center> <form action='../login/ele_ges.php' method='POST'>";
         print "<input type='submit' name='Home' value='HOME'>";
         print "</form> </center>";
-    }
-    else
+    } else
     {
         // $query="update tbl_utenti set password = md5('$pas') where userid='$ute'";
         print "PASSWORD $pas";
         $query = "update tbl_utenti set passprecedenti=concat(passprecedenti,password,'|'),password = md5(md5('" . $pas . "')) where userid='" . $ute . "'";
         // print $query;
-        $result = eseguiQuery($con,$query);
+        $result = eseguiQuery($con, $query);
         if (mysqli_affected_rows($con) == 1)
         {
             print ("<center><br/>Password cambiata correttamente.<br/></center>");
-            if ($tokenservizimoodle != '' & substr($ute,0,2)=='al')
+            if ($tokenservizimoodle != '' & substr($ute, 0, 2) == 'al')
             {
                 $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $ute);
                 print "IDMOODLE $idmoodle";
                 cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $ute, $pas);
             }
-        }
-        else
+        } else
         {
             print ("<center><br/>Password uguale a quella presente!<br/></center>");
         }

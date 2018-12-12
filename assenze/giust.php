@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -49,18 +51,17 @@ $meseanno = stringa_html('meseanno');
 $mese = substr($meseanno, 0, 2);
 $anno = substr($meseanno, 5, 4);
 $data = $anno . "-" . $mese . "-" . $giorno;
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
-$elencoalunni=estrai_alunni_classe_data($idclasse, $data, $con);
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
+$elencoalunni = estrai_alunni_classe_data($idclasse, $data, $con);
 //PRINT "TTTT ELENCO: $elencoalunni";
 $query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN ($elencoalunni)  ORDER BY cognome, nome, datanascita";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 print "<form name='giustass' method='post' action='giustass.php'>";
 
 if ($giustificauscite == 'no')
 {
     print ("<table width='100%' border='1'><tr class='prima'><td width='50%'>ASSENZE</td><td width='50%'>RITARDI</td></tr>");
-}
-else
+} else
 {
     print ("<table width='100%' border='1'><tr class='prima'><td width='33%'>ASSENZE</td><td width='33%'>RITARDI</td><td width='34%'>USCITE ANTICIPATE</td></tr>");
 }
@@ -71,11 +72,12 @@ while ($recalu = mysqli_fetch_array($ris))
     $idalunno = $recalu['al'];
     $firmapropria = $recalu['firmapropria'];
     $query = "select * from tbl_assenze where idalunno=$idalunno and data < '" . $data . "' and (isnull(giustifica) or giustifica=0) order by data ";
-    $risass = eseguiQuery($con,$query);
+    $risass = eseguiQuery($con, $query);
     if (mysqli_num_rows($risass) > 0)
     {
         $datialunno = estrai_dati_alunno($idalunno, $con);
-        if ($firmapropria) $datialunno .= "<br><small>(autorizzato a firma delle giustifiche)</small>";
+        if ($firmapropria)
+            $datialunno .= "<br><small>(autorizzato a firma delle giustifiche)</small>";
         print "<center>$datialunno</center>";
         print "<table align='center' border='1'>
 			   <tr class='prima'>
@@ -89,38 +91,37 @@ while ($recalu = mysqli_fetch_array($ris))
         }
 
         print "</table><br>";
-
     }
-
 }
 
 print ("</td>");
 
 print ("<td valign='top'>");
 $query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
-$ris = eseguiQuery($con,$query);
+$ris = eseguiQuery($con, $query);
 while ($recalu = mysqli_fetch_array($ris))
 {
 
     $idalunno = $recalu['al'];
     $firmapropria = $recalu['firmapropria'];
     $query = "select * from tbl_ritardi where idalunno=$idalunno and data <= '" . $data . "' and (isnull(giustifica) or giustifica=0) order by data ";
-    $risass = eseguiQuery($con,$query);
+    $risass = eseguiQuery($con, $query);
     if (mysqli_num_rows($risass) > 0)
     {
         $datialunno = estrai_dati_alunno($idalunno, $con);
-        if ($firmapropria) $datialunno .= "<br><small>(autorizzato a firma delle giustifiche)</small>";
+        if ($firmapropria)
+            $datialunno .= "<br><small>(autorizzato a firma delle giustifiche)</small>";
         print "<center>$datialunno</center>";
-        /*print "<table align='center' border='1'>
-			   <tr class='prima'>
-				   <td align='center'>Data ritardo</td>
-				   <td align='center'>Giustifica</td>
-			   </tr>
-		   ";
-        while($val=mysqli_fetch_array($risass))
-        {
-            print "<tr><td align='center'>".giorno_settimana($val['data'])." ".data_italiana($val['data'])."</td><td align='center'><input type=checkbox name='giurit".$val['idritardo']."'></td></tr>";
-        }*/
+        /* print "<table align='center' border='1'>
+          <tr class='prima'>
+          <td align='center'>Data ritardo</td>
+          <td align='center'>Giustifica</td>
+          </tr>
+          ";
+          while($val=mysqli_fetch_array($risass))
+          {
+          print "<tr><td align='center'>".giorno_settimana($val['data'])." ".data_italiana($val['data'])."</td><td align='center'><input type=checkbox name='giurit".$val['idritardo']."'></td></tr>";
+          } */
         print "<table align='center' border='1'>
 			   <tr class='prima'>
 				   <td align='center'>Data ritardo</td>
@@ -133,9 +134,7 @@ while ($recalu = mysqli_fetch_array($ris))
             print "<tr><td align='center'>" . giorno_settimana($val['data']) . " " . data_italiana($val['data']) . "</td><td align='center'>" . $val['oraentrata'] . "</td><td align='center'><input type=checkbox name='giurit" . $val['idritardo'] . "'></td></tr>";
         }
         print "</table><br>";
-
     }
-
 }
 
 print ("</td>");
@@ -144,18 +143,19 @@ if ($giustificauscite == 'yes')
 {
     print ("<td valign='top'>");
     $query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
-    $ris = eseguiQuery($con,$query);
+    $ris = eseguiQuery($con, $query);
     while ($recalu = mysqli_fetch_array($ris))
     {
 
         $idalunno = $recalu['al'];
         $firmapropria = $recalu['firmapropria'];
         $query = "select * from tbl_usciteanticipate where idalunno=$idalunno and data <= '" . $data . "' and (isnull(giustifica) or giustifica=0) order by data ";
-        $risass = eseguiQuery($con,$query);
+        $risass = eseguiQuery($con, $query);
         if (mysqli_num_rows($risass) > 0)
         {
             $datialunno = estrai_dati_alunno($idalunno, $con);
-            if ($firmapropria) $datialunno .= "<br><small>(autorizzato a firma delle giustifiche)</small>";
+            if ($firmapropria)
+                $datialunno .= "<br><small>(autorizzato a firma delle giustifiche)</small>";
             print "<center>$datialunno</center>";
             print "<table align='center' border='1'>
 			   <tr class='prima'>
@@ -170,9 +170,7 @@ if ($giustificauscite == 'yes')
             }
 
             print "</table><br>";
-
         }
-
     }
 
     print ("</td>");
@@ -189,5 +187,5 @@ print "<center><input type=submit value='Registra giustificazioni'></center></fo
 // fine if
 
 mysqli_close($con);
-stampa_piede(""); 
+stampa_piede("");
 

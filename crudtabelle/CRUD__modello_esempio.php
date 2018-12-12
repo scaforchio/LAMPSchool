@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 /*
   Copyright (C) 2018 Pietro Tamburrano
@@ -24,12 +25,12 @@ require_once '../lib/funzioni.php';
 
 $daticrud = array();
 // Tabella da modificare
-$daticrud['titolo']='GESTIONE CLASSI';
+$daticrud['titolo'] = 'GESTIONE CLASSI';
 
 
 $daticrud['tabella'] = ("tbl_classi");
 
-$daticrud['larghezzatabella']= "80%";
+$daticrud['larghezzatabella'] = "80%";
 // Nome della tabella per visualizzazioni
 $daticrud['aliastabella'] = "classi";
 // Campo con l'id univoco per la tabella
@@ -37,48 +38,47 @@ $daticrud['campochiave'] = "idclasse";
 
 // Campi in base ai quali ordinare (specificare gli alias (14° valore nella descrizione del campo)
 // se ci sono campi con lo stesso nome)
-$daticrud['campiordinamento']= "anno,specializzazione,sezione";
+$daticrud['campiordinamento'] = "anno,specializzazione,sezione";
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
-$daticrud['condizione']= "true";
+$daticrud['condizione'] = "true";
 
-$daticrud['abilitazionemodifica']=1;
-$daticrud['abilitazionecancellazione']=1;
-$daticrud['abilitazioneinserimento']=1;
+$daticrud['abilitazionemodifica'] = 1;
+$daticrud['abilitazionecancellazione'] = 1;
+$daticrud['abilitazioneinserimento'] = 1;
 
 // Dati per conferma cancellazione (0 senza conferma, 1 con conferma ed elenco dei campi da visualizzare per conferma)
 
-$daticrud['confermacancellazione'] = [1,''];
+$daticrud['confermacancellazione'] = [1, ''];
 // Vincoli per possibilità di cancellazione. Non devono esserci riferimenti nelle seguenti tabelle nel campo
 // specificato
 $daticrud['vincolicanc'] = [
-                            
-                            ['tbl_alunni','idclasse'],
-                            ['tbl_competalu','idclasse'],
-                            ['tbl_competdoc','idclasse'],
-                            ['tbl_documenti','idclasse'],
-                            ['tbl_entrateclassi','idclasse'],
-                            ['tbl_esiti','idclasse'],
-                            ['tbl_esami3m','idclasse'],
-                            ['tbl_esmaterie','idclasse'],
-                            ['tbl_giudizi','idclasse'],
-                            ['tbl_lezioni','idclasse'],
-                            ['tbl_lezionicert','idclasse'],
-                            ['tbl_notealunno','idclasse'],
-                            ['tbl_noteclasse','idclasse'],
-                            ['tbl_osssist','idclasse'],
-                            ['tbl_scrutini','idclasse'],
-                            ['tbl_valutazionicomp','idclasse'],
-                            ['tbl_valutazioniintermedie','idclasse'],
-                            ['tbl_annotazioni','idclasse'],
-                            ['tbl_assemblee','idclasse'],
-                            ['tbl_cambiamenticlasse','idclasse'],
-                            ['tbl_cattnosupp','idclasse'],
-                            ['tbl_cattsupp','idclasse']
-                                                       ];
+    ['tbl_alunni', 'idclasse'],
+    ['tbl_competalu', 'idclasse'],
+    ['tbl_competdoc', 'idclasse'],
+    ['tbl_documenti', 'idclasse'],
+    ['tbl_entrateclassi', 'idclasse'],
+    ['tbl_esiti', 'idclasse'],
+    ['tbl_esami3m', 'idclasse'],
+    ['tbl_esmaterie', 'idclasse'],
+    ['tbl_giudizi', 'idclasse'],
+    ['tbl_lezioni', 'idclasse'],
+    ['tbl_lezionicert', 'idclasse'],
+    ['tbl_notealunno', 'idclasse'],
+    ['tbl_noteclasse', 'idclasse'],
+    ['tbl_osssist', 'idclasse'],
+    ['tbl_scrutini', 'idclasse'],
+    ['tbl_valutazionicomp', 'idclasse'],
+    ['tbl_valutazioniintermedie', 'idclasse'],
+    ['tbl_annotazioni', 'idclasse'],
+    ['tbl_assemblee', 'idclasse'],
+    ['tbl_cambiamenticlasse', 'idclasse'],
+    ['tbl_cattnosupp', 'idclasse'],
+    ['tbl_cattsupp', 'idclasse']
+];
 
 
 /*
-// Significato valori
+  // Significato valori
  * 0 - nome campo tabella principale
  * 1 - ordine di visualizzazione in tabella (0 non visualizzata)
  * 2 - tabella esterna
@@ -100,17 +100,17 @@ $daticrud['vincolicanc'] = [
  */
 
 $daticrud['campi'] = [
-                      ['anno','1','','','',1,'Anno',1,'number','',1,'1',$numeroanni,0,'',1],
-                      ['sezione','2','tbl_sezioni','denominazione','denominazione',1,'Sezione',2,'','',1,'','',1,'sezione',1],
-                      ['specializzazione','3','tbl_specializzazioni','denominazione','denominazione',1,$plesso_specializzazione,3,'','',1,'','',1,'specializzazione',1],
-                      ['oresett',4,'','','',2,"Ore settimanali",4,'number','',1,'20','48',0,'',0],
-                      ['idcoordinatore',5,'tbl_docenti','iddocente','cognome,nome',0,'Docente',5,'','',0,'','',1,'',0,'select distinct(iddocente) from tbl_cattnosupp where idclasse=' ],
-                      ['rappresentante1',6,'tbl_alunni','idalunno','cognome,nome',0,'Primo rappresentante',6,'','',0,'','',1,'cognalu1,nomealu1',0,'select distinct(idalunno) from tbl_alunni where idclasse=' ],
-                      ['rappresentante2',7,'tbl_alunni','idalunno','cognome,nome',0,'Secondo rappresentante',7,'','',0,'','',0,'cognalu2,nomealu2',0,'select distinct(idalunno) from tbl_alunni where idclasse=']
-                     ];
+    ['anno', '1', '', '', '', 1, 'Anno', 1, 'number', '', 1, '1', $numeroanni, 0, '', 1],
+    ['sezione', '2', 'tbl_sezioni', 'denominazione', 'denominazione', 1, 'Sezione', 2, '', '', 1, '', '', 1, 'sezione', 1],
+    ['specializzazione', '3', 'tbl_specializzazioni', 'denominazione', 'denominazione', 1, $plesso_specializzazione, 3, '', '', 1, '', '', 1, 'specializzazione', 1],
+    ['oresett', 4, '', '', '', 2, "Ore settimanali", 4, 'number', '', 1, '20', '48', 0, '', 0],
+    ['idcoordinatore', 5, 'tbl_docenti', 'iddocente', 'cognome,nome', 0, 'Docente', 5, '', '', 0, '', '', 1, '', 0, 'select distinct(iddocente) from tbl_cattnosupp where idclasse='],
+    ['rappresentante1', 6, 'tbl_alunni', 'idalunno', 'cognome,nome', 0, 'Primo rappresentante', 6, '', '', 0, '', '', 1, 'cognalu1,nomealu1', 0, 'select distinct(idalunno) from tbl_alunni where idclasse='],
+    ['rappresentante2', 7, 'tbl_alunni', 'idalunno', 'cognome,nome', 0, 'Secondo rappresentante', 7, '', '', 0, '', '', 0, 'cognalu2,nomealu2', 0, 'select distinct(idalunno) from tbl_alunni where idclasse=']
+];
 
 
 $_SESSION['daticrud'] = $daticrud;
 
-header("location: ../crudtabelle/CRUD.php?suffisso=".$_SESSION['suffisso']);
+header("location: ../crudtabelle/CRUD.php?suffisso=" . $_SESSION['suffisso']);
 

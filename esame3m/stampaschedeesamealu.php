@@ -1,24 +1,26 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
@@ -49,22 +51,22 @@ if ($idalunno != $_SESSION['idutente'] && $tipoutente == 'T')
 if ($idclasse != "")
 {
     $query = "select idalunno from tbl_alunni where idclasseesame=$idclasse order by idclasse DESC, cognome,nome";
-    $ris = eseguiQuery($con,$query);;
+    $ris = eseguiQuery($con, $query);
+    ;
     while ($val = mysqli_fetch_array($ris))
     {
         $alunni[] = $val['idalunno'];
     }
-}
-else
+} else
 {
 
     $alunni[] = $idalunno;
     $query = "select idclasseesame from tbl_alunni where idalunno=$idalunno";
-    $ris = eseguiQuery($con,$query);;
+    $ris = eseguiQuery($con, $query);
+    ;
     if ($val = mysqli_fetch_array($ris))
     {
         $idclasse = $val['idclasseesame'];
-
     }
 }
 
@@ -74,8 +76,7 @@ else
 if ($firmadirigente != "" && $datastampa != "")
 {
     aggiorna_data_firma_scrutinio($datastampa, $firmadirigente, $periodo, $idclasse, $con);
-}
-else
+} else
 {
     $firmadirigente = estrai_firma_scrutinio($idclasse, $periodo, $con);
     $datastampa = estrai_data_stampa($idclasse, $periodo, $con);
@@ -85,7 +86,6 @@ stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigente, $gioas
 
 mysqli_close($con);
 
-
 function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigente, $gioass)
 {
     @require("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -94,18 +94,20 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
     $schede = new FPDFPAG();
     $schede->AliasNbPages();
     $schede->AddFont('palacescript', '', 'palacescript.php'); // Font del Ministero
-    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
     $datascrutinio = data_italiana(estrai_datascrutinio($idclasse, $periodo, $con));
 
 
     $query = "select * from tbl_esami3m where idclasse=$idclasse";
-    $risesa = eseguiQuery($con,$query);;
+    $risesa = eseguiQuery($con, $query);
+    ;
     $recesa = mysqli_fetch_array($risesa);
 
 
     $query = "select * from tbl_esmaterie where idclasse=$idclasse";
-    $rismat = eseguiQuery($con,$query);;
+    $rismat = eseguiQuery($con, $query);
+    ;
     $recmat = mysqli_fetch_array($rismat);
 
 
@@ -116,7 +118,8 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
     foreach ($alunni as $alu)
     {
         $query = "select * from tbl_esesiti where idalunno=$alu";
-        $ris = eseguiQuery($con,$query);;
+        $ris = eseguiQuery($con, $query);
+        ;
         $rec = mysqli_fetch_array($ris);
 
 
@@ -146,9 +149,9 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
 
         $schede->SetFont('Arial', 'B', 14);
         /*  if ($numeroperiodi==3)
-             $per="trimestre";
+          $per="trimestre";
           else
-             $per="quadrimestre";
+          $per="quadrimestre";
           $per=converti_utf8($per); */
         $annoscolastico = $annoscol . "/" . ($annoscol + 1);
         $schede->setXY(20, 82);
@@ -164,7 +167,8 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
         $query = "SELECT datanascita, codfiscale, denominazione,idcomnasc FROM tbl_alunni,tbl_comuni
               WHERE tbl_alunni.idcomnasc=tbl_comuni.idcomune 
               AND idalunno=$alu";
-        $ris = eseguiQuery($con,$query);;
+        $ris = eseguiQuery($con, $query);
+        ;
         if ($val = mysqli_fetch_array($ris))
         {
             $datanascita = data_italiana($val['datanascita']);
@@ -174,12 +178,10 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
             if (substr($codfiscale, 9, 2) > '35')
             {
                 $sesso = 'f';
-            }
-            else
+            } else
             {
                 $sesso = 'm';
             }
-
         }
 
 
@@ -188,8 +190,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
         if ($sesso == 'f')
         {
             $cand = "Candidata";
-        }
-        else
+        } else
         {
             $cand = "Candidato";
         }
@@ -211,8 +212,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
         if ($sesso == 'f')
         {
             $cand = "Nata il ";
-        }
-        else
+        } else
         {
             $cand = "Nato il ";
         }
@@ -244,12 +244,12 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
 
 
         $schede->setXY(60, 175);
-    /*    $schede->SetFont('Arial', 'B', 12);
-        $schede->Cell(100, 6, "Prima lingua straniera:", 0, 0, 'C');
-        $schede->setXY(60, 185);
-        $schede->SetFont('Arial', 'B', 12);
-        $schede->Cell(100, 6, $primalingua, 0, 0, 'C');
-        $schede->setXY(60, 200); */
+        /*    $schede->SetFont('Arial', 'B', 12);
+          $schede->Cell(100, 6, "Prima lingua straniera:", 0, 0, 'C');
+          $schede->setXY(60, 185);
+          $schede->SetFont('Arial', 'B', 12);
+          $schede->Cell(100, 6, $primalingua, 0, 0, 'C');
+          $schede->setXY(60, 200); */
         $schede->SetFont('Arial', 'B', 12);
         $schede->Cell(100, 6, "Lingue straniere:", 0, 0, 'C');
         $schede->setXY(60, 185);
@@ -267,8 +267,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
         if ($sesso == 'm')
         {
             $schede->Cell(100, 6, converti_utf8("Il candidato è stato ammesso agli esami di licenza con il seguente giudizio di idoneità:"), 0, 0, 'L');
-        }
-        else
+        } else
         {
             $schede->Cell(100, 6, converti_utf8("La candidata è stata ammessa agli esami di licenza con il seguente giudizio di idoneità:"), 0, 0, 'L');
         }
@@ -308,60 +307,60 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
         $schede->setXY($posX, $posY);
 
         $schede->SetFont('Arial', 'B', 12);
-        $testata="Prova scritta di " . $recmat['m1e'];
-        $testata.= " - Prova scelta: ".$rec['provasceltam1'];
-        $testata.= " - valutazione complessiva  " . $rec['votom1'];
-        $schede->Cell(170,7, converti_utf8($testata),"TLR",0,"C");
-        $schede->setXY($posX, $posY+7);
+        $testata = "Prova scritta di " . $recmat['m1e'];
+        $testata .= " - Prova scelta: " . $rec['provasceltam1'];
+        $testata .= " - valutazione complessiva  " . $rec['votom1'];
+        $schede->Cell(170, 7, converti_utf8($testata), "TLR", 0, "C");
+        $schede->setXY($posX, $posY + 7);
         $schede->SetFont('Arial', '', 10);
-        $schede->MultiCell(170, 5, converti_utf8($rec['criteri1']),"BLR");
+        $schede->MultiCell(170, 5, converti_utf8($rec['criteri1']), "BLR");
 
-        $pY=$schede->GetY();
-        $schede->SetXY($posX,$pY);
+        $pY = $schede->GetY();
+        $schede->SetXY($posX, $pY);
         $schede->SetFont('Arial', 'B', 12);
-        $testata="Prova scritta di " . $recmat['m2e'];
-        $testata.= " - Prova scelta: ".$rec['provasceltam2'];
-        $testata.= " - valutazione complessiva  " . $rec['votom2'];
-        $schede->Cell(170,7, converti_utf8($testata),"TLR",0,"C");
-        $schede->setXY($posX, $pY+7);
+        $testata = "Prova scritta di " . $recmat['m2e'];
+        $testata .= " - Prova scelta: " . $rec['provasceltam2'];
+        $testata .= " - valutazione complessiva  " . $rec['votom2'];
+        $schede->Cell(170, 7, converti_utf8($testata), "TLR", 0, "C");
+        $schede->setXY($posX, $pY + 7);
         $schede->SetFont('Arial', '', 10);
-        $schede->MultiCell(170, 5, converti_utf8($rec['criteri2']),"BLR");
+        $schede->MultiCell(170, 5, converti_utf8($rec['criteri2']), "BLR");
 
-        $pY=$schede->GetY();
-        $schede->SetXY($posX,$pY);
+        $pY = $schede->GetY();
+        $schede->SetXY($posX, $pY);
         $schede->SetFont('Arial', 'B', 12);
-        $testata="Prova scritta di " . $recmat['m3e'];
-        $testata.= " - Prova scelta: ".$rec['provasceltam3'];
-        $testata.= " - valutazione complessiva  " . $rec['votom3'];
-        $schede->Cell(170,7, converti_utf8($testata),"TLR",0,"C");
-        $schede->setXY($posX, $pY+7);
+        $testata = "Prova scritta di " . $recmat['m3e'];
+        $testata .= " - Prova scelta: " . $rec['provasceltam3'];
+        $testata .= " - valutazione complessiva  " . $rec['votom3'];
+        $schede->Cell(170, 7, converti_utf8($testata), "TLR", 0, "C");
+        $schede->setXY($posX, $pY + 7);
         $schede->SetFont('Arial', '', 10);
-        $schede->MultiCell(170, 5, converti_utf8($rec['criteri3']),"BLR");
+        $schede->MultiCell(170, 5, converti_utf8($rec['criteri3']), "BLR");
 
-        $pY=$schede->GetY();
-        $schede->SetXY($posX,$pY);
+        $pY = $schede->GetY();
+        $schede->SetXY($posX, $pY);
         $schede->SetFont('Arial', 'B', 12);
-        $testata="Prova scritta di " . $recmat['m' . $recmat['num2lin'] . 'e'];
-        $testata.= " - Prova scelta: ".$rec['provasceltam'. $recmat['num2lin']];
-        $testata.= " - valutazione complessiva  " . $rec['votom'. $recmat['num2lin']];
-        $schede->Cell(170,7, converti_utf8($testata),"TLR",0,"C");
-        $pY=$schede->GetY();
-        $schede->setXY($posX, $pY+7);
+        $testata = "Prova scritta di " . $recmat['m' . $recmat['num2lin'] . 'e'];
+        $testata .= " - Prova scelta: " . $rec['provasceltam' . $recmat['num2lin']];
+        $testata .= " - valutazione complessiva  " . $rec['votom' . $recmat['num2lin']];
+        $schede->Cell(170, 7, converti_utf8($testata), "TLR", 0, "C");
+        $pY = $schede->GetY();
+        $schede->setXY($posX, $pY + 7);
         $schede->SetFont('Arial', '', 10);
-        $schede->MultiCell(170, 5, converti_utf8($rec['criteri'. $recmat['num2lin']]),"BLR");
+        $schede->MultiCell(170, 5, converti_utf8($rec['criteri' . $recmat['num2lin']]), "BLR");
 
-      /*  $pY=$schede->GetY();
-        $schede->SetXY($posX,$pY);
-        $schede->SetFont('Arial', 'B', 12);
-        $testata="Prova scritta nazionale";
-        $testata.= " - valutazione complessiva  " . $rec['votom'. $recmat['numpni']];
-        $schede->Cell(170,7, converti_utf8($testata),"TLR",0,"C");
-        $schede->setXY($posX, $pY+7);
-        $testo="Matematica: ".  $rec['votopnimat'];
-        $testo.="\n\nItaliano: ".$rec['votopniita']."\n\n";
-        $schede->SetFont('Arial', '', 10);
-        $schede->MultiCell(170, 5, converti_utf8($testo),"BLR");
-*/
+        /*  $pY=$schede->GetY();
+          $schede->SetXY($posX,$pY);
+          $schede->SetFont('Arial', 'B', 12);
+          $testata="Prova scritta nazionale";
+          $testata.= " - valutazione complessiva  " . $rec['votom'. $recmat['numpni']];
+          $schede->Cell(170,7, converti_utf8($testata),"TLR",0,"C");
+          $schede->setXY($posX, $pY+7);
+          $testo="Matematica: ".  $rec['votopnimat'];
+          $testo.="\n\nItaliano: ".$rec['votopniita']."\n\n";
+          $schede->SetFont('Arial', '', 10);
+          $schede->MultiCell(170, 5, converti_utf8($testo),"BLR");
+         */
 
         $schede->AddPage();
         // TERZA PAGINA
@@ -373,45 +372,45 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
         $schede->Cell(170, 6, converti_utf8("PROVA ORALE - COLLOQUIO MULTIDISCIPLINARE"), 0, 0, 'L');
 
         $posY = 20;
-        $schede->SetXY($posX,$posY);
+        $schede->SetXY($posX, $posY);
         $schede->SetFont('Arial', 'B', 12);
-        $testata="Traccia del colloquio";
-        $schede->Cell(170,7, converti_utf8($testata),"TLR",0,"C");
-        $schede->setXY($posX, $posY+7);
+        $testata = "Traccia del colloquio";
+        $schede->Cell(170, 7, converti_utf8($testata), "TLR", 0, "C");
+        $schede->setXY($posX, $posY + 7);
         $schede->SetFont('Arial', '', 10);
-        $schede->MultiCell(170, 5, converti_utf8($rec['tracciacolloquio']),"BLR");
+        $schede->MultiCell(170, 5, converti_utf8($rec['tracciacolloquio']), "BLR");
 
 
-        $pY=$schede->GetY();
-        $schede->SetXY($posX,$pY);
+        $pY = $schede->GetY();
+        $schede->SetXY($posX, $pY);
         $schede->SetFont('Arial', 'B', 12);
-        $testata="Giudizio del colloquio orale";
-        $schede->Cell(170,7, converti_utf8($testata),"TLR",0,"C");
-        $schede->setXY($posX, $pY+7);
+        $testata = "Giudizio del colloquio orale";
+        $schede->Cell(170, 7, converti_utf8($testata), "TLR", 0, "C");
+        $schede->setXY($posX, $pY + 7);
         $schede->SetFont('Arial', '', 10);
-        $schede->MultiCell(170, 5, converti_utf8($rec['giudiziocolloquio']),"LR");
-        $pY=$schede->GetY();
-        $schede->SetXY($posX,$pY);
+        $schede->MultiCell(170, 5, converti_utf8($rec['giudiziocolloquio']), "LR");
+        $pY = $schede->GetY();
+        $schede->SetXY($posX, $pY);
         $schede->SetFont('Arial', 'B', 12);
-        $testata="Giudizio del colloquio orale";
-        $schede->Cell(170,7, converti_utf8(converti_utf8("Valutazione complessiva colloquio   " . $rec['votoorale'] . "  (" . dec_to_pag($rec['votoorale']) . ")")),"BLR",0,"C");
-/*
-        $posY += 90;
-        $schede->Rect($posX, $posY, 170, 70);
-        $schede->SetFont('Arial', '', 12);
-        $schede->setXY($posX, $posY);
-        $schede->Cell(170, 6, converti_utf8("Giudizio del colloquio orale:"), 0, 0, 'L');
-        $schede->SetFont('Arial', '', 10);
-        $schede->setXY($posX, $posY + 10);
-        $schede->MultiCell(170, 6, converti_utf8($rec['giudiziocolloquio']));
-        $schede->SetFont('Arial', '', 12);
-        $schede->setXY($posX, $posY + 60);
-        $schede->Cell(170, 6, converti_utf8("Valutazione complessiva colloquio   " . $rec['votoorale'] . "  ( " . dec_to_pag($rec['votoorale']) . " )"));
-        $schede->setXY($posX, $posY + 80);
+        $testata = "Giudizio del colloquio orale";
+        $schede->Cell(170, 7, converti_utf8(converti_utf8("Valutazione complessiva colloquio   " . $rec['votoorale'] . "  (" . dec_to_pag($rec['votoorale']) . ")")), "BLR", 0, "C");
+        /*
+          $posY += 90;
+          $schede->Rect($posX, $posY, 170, 70);
+          $schede->SetFont('Arial', '', 12);
+          $schede->setXY($posX, $posY);
+          $schede->Cell(170, 6, converti_utf8("Giudizio del colloquio orale:"), 0, 0, 'L');
+          $schede->SetFont('Arial', '', 10);
+          $schede->setXY($posX, $posY + 10);
+          $schede->MultiCell(170, 6, converti_utf8($rec['giudiziocolloquio']));
+          $schede->SetFont('Arial', '', 12);
+          $schede->setXY($posX, $posY + 60);
+          $schede->Cell(170, 6, converti_utf8("Valutazione complessiva colloquio   " . $rec['votoorale'] . "  ( " . dec_to_pag($rec['votoorale']) . " )"));
+          $schede->setXY($posX, $posY + 80);
 
-*/
-        $pY=$schede->GetY();
-        $schede->SetXY($posX,$pY+10);
+         */
+        $pY = $schede->GetY();
+        $schede->SetXY($posX, $pY + 10);
         $schede->Cell(170, 6, "Data, " . data_italiana($rec['datacolloquio']));
 
 
@@ -431,29 +430,28 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
         $schede->Cell(170, 7, converti_utf8("Giudizio complessivo"), "TLR", 'C');
         $schede->SetFont('Arial', '', 10);
         $schede->setXY($posX, $posY + 7);
-        $schede->MultiCell(170, 5, converti_utf8($rec['giudiziocomplessivo']),"BLR");
-        $pY=$schede->GetY();
-        $schede->SetXY($posX,$pY);
+        $schede->MultiCell(170, 5, converti_utf8($rec['giudiziocomplessivo']), "BLR");
+        $pY = $schede->GetY();
+        $schede->SetXY($posX, $pY);
         $schede->SetFont('Arial', 'B', 12);
         $schede->setXY($posX, $posY + 60);
         if ($rec['lode'])
         {
             $lode = " con lode ";
-        }
-        else
+        } else
         {
             $lode = " ";
         }
 
 
         $schede->setXY($posX, $pY);
-        $schede->Cell(170, 6, converti_utf8("Valutazione complessiva dell'Esame di Stato  " . $rec['votofinale'] . "  (" . dec_to_pag($rec['votofinale']) . ") $lode."),"LR");
+        $schede->Cell(170, 6, converti_utf8("Valutazione complessiva dell'Esame di Stato  " . $rec['votofinale'] . "  (" . dec_to_pag($rec['votofinale']) . ") $lode."), "LR");
         $schede->setXY($posX, $pY + 6);
         $schede->SetFont('Arial', '', 12);
-        $schede->Cell(170, 6, converti_utf8("Si consiglia la frequenza di (Consiglio orientativo):"),"TLR", 0, 'L');
+        $schede->Cell(170, 6, converti_utf8("Si consiglia la frequenza di (Consiglio orientativo):"), "TLR", 0, 'L');
         $schede->SetXY($posX, $pY + 12);
         $schede->SetFont('Arial', '', 10);
-        $schede->MultiCell(170, 6, converti_utf8($rec['consorientcomm']),"BLR");
+        $schede->MultiCell(170, 6, converti_utf8($rec['consorientcomm']), "BLR");
 
         // Sottocommissione
         $idcommissione = $recesa['idcommissione'];
@@ -464,9 +462,9 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
                 where tbl_escompcommissioni.idcommissione=tbl_escommissioni.idescommissione
                 and tbl_escompcommissioni.iddocente=tbl_docenti.iddocente
                 and tbl_escompcommissioni.idcommissione=$idcommissione";
-        $riscom = eseguiQuery($con,$query);
+        $riscom = eseguiQuery($con, $query);
         $cont = 0;
-        $posYiniz=$schede->GetY();
+        $posYiniz = $schede->GetY();
         while ($reccom = mysqli_fetch_array($riscom))
         {
 
@@ -477,16 +475,15 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
             $cognomedocente = $reccom['cognome'];
 
             $posX = 20 + ($cont % 3 * 55);
-            $posY = $posYiniz+18 + (floor($cont / 3) * 18);
+            $posY = $posYiniz + 18 + (floor($cont / 3) * 18);
 
             $schede->setXY($posX, $posY);
             $schede->Line($posX, $posY, $posX + 50, $posY);
             $schede->Cell(50, 4, converti_utf8($nomedocente . " " . $cognomedocente), 0, 0, "C");
             $cont++;
-
         }
 
-        $posY=$schede->getY()+10;
+        $posY = $schede->getY() + 10;
         // Risultato esame
 
         if ($rec['votofinale'] >= 6)
@@ -496,8 +493,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
             {
                 $cand = "la candidata";
                 $dich = "ha superato l'esame";
-            }
-            else
+            } else
             {
                 $cand = "il candidato";
                 $dich = "ha superato l'esame";
@@ -509,24 +505,20 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
             {
                 $esito .= " con LODE ";
             }
-
-        }
-        else
+        } else
         {
             $schede->setXY(20, $posY);
             if ($sesso == 'f')
             {
                 $cand = "la candidata";
                 $dich = "non ha superato l'esame";
-            }
-            else
+            } else
             {
                 $cand = "il candidato";
                 $dich = "non ha superato l'esame";
             }
 
             $esito = "La Commissione plenaria, visto il curriculum scolastico e le risultanze dell’esame, delibera che $cand " . decodifica_alunno($alu, $con) . " $dich ";
-
         }
         $esito .= ".";
         $schede->SetFont('Arial', '', 12);
@@ -535,35 +527,33 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
         // STAMPA PARTE TERMINALE
         $datastampa = data_italiana($recesa['datascrutinio']);
         $luogodata = converti_utf8("$comune_scuola, $datastampa");
-        $schede->setXY(20, $posY+30);
+        $schede->setXY(20, $posY + 30);
         $schede->SetFont('Arial', '', 10);
         $schede->Cell(70, 5, $luogodata, "", 0, "L");
 
-        $schede->setXY(140, $posY+40);
+        $schede->setXY(140, $posY + 40);
         $schede->SetFont('Arial', '', 10);
         $schede->Cell(40, 5, converti_utf8($nomepresidente . " " . $cognomepresidente), "B", 0, "C");
 
         $dicituradirigente = "IL PRESIDENTE";
-        $schede->setXY(140, $posY+45);
+        $schede->setXY(140, $posY + 45);
         $schede->SetFont('Arial', '', 7);
         $schede->Cell(40, 3, $dicituradirigente, "", 0, "C");
 
         if ($_SESSION['suffisso'] != "")
         {
             $suff = $_SESSION['suffisso'] . "/";
-        }
-        else $suff = "";
+        } else
+            $suff = "";
 
-        $schede->setXY(90, $posY+45);
+        $schede->setXY(90, $posY + 45);
         $schede->Image('../abc/' . $suff . 'timbro.png');
-
-
     }
 
-    if (count($alunni)>1)
+    if (count($alunni) > 1)
         $nomefile = "schede_esame_" . decodifica_classe($idclasse, $con) . ".pdf";
     else
-        $nomefile = "scheda_esame_" . decodifica_alunno($alunni[0],$con) . ".pdf";
+        $nomefile = "scheda_esame_" . decodifica_alunno($alunni[0], $con) . ".pdf";
 
     $nomefile = str_replace(" ", "_", $nomefile);
     $schede->Output($nomefile, "I");
@@ -571,14 +561,12 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
     mysqli_close($con);
 }
 
-
 function elimina_cr($stringa)
 {
 
     $strpul = str_replace(array("\n", "\r"), " ", $stringa);
     return $strpul;
 }
-
 
 function inserisci_new_line($stringa)
 {
@@ -594,8 +582,7 @@ function estrai_prima_riga($stringa)
     if ($posint != 0)
     {
         $str1 = substr($stringa, 0, $posint);
-    }
-    else
+    } else
     {
         $str1 = $stringa;
     }
@@ -609,12 +596,9 @@ function estrai_seconda_riga($stringa)
     if ($posint != 0)
     {
         $str2 = substr($stringa, $posint + 1);
-    }
-    else
+    } else
     {
         $str2 = "";
     }
     return converti_utf8($str2);
 }
-
-

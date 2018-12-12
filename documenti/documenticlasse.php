@@ -1,20 +1,22 @@
-<?php session_start();
+<?php
+
+session_start();
 
 /*
-Copyright (C) 2015 Pietro Tamburrano
-Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della 
-GNU Affero General Public License come pubblicata 
-dalla Free Software Foundation; sia la versione 3, 
-sia (a vostra scelta) ogni versione successiva.
+  Copyright (C) 2015 Pietro Tamburrano
+  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
+  GNU Affero General Public License come pubblicata
+  dalla Free Software Foundation; sia la versione 3,
+  sia (a vostra scelta) ogni versione successiva.
 
-Questo programma é distribuito nella speranza che sia utile 
-ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di 
-POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE. 
-Vedere la GNU Affero General Public License per ulteriori dettagli.
+  Questo programma é distribuito nella speranza che sia utile
+  ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
+  POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
+  Vedere la GNU Affero General Public License per ulteriori dettagli.
 
-Dovreste aver ricevuto una copia della GNU Affero General Public License
-in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
-*/
+  Dovreste aver ricevuto una copia della GNU Affero General Public License
+  in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
+ */
 
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
@@ -36,7 +38,7 @@ if ($tipoutente == "")
     die;
 }
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $idclasse = stringa_html('idclasse');
 $idalunno = stringa_html('idalunno');
@@ -75,7 +77,7 @@ $script .= "<script>
 	                 $('#datadocumento').datepicker({ dateFormat: 'dd/mm/yy' });
 	             });
 </script>";
-stampa_head($titolo, "", $script,"PMSD");
+stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 
@@ -103,12 +105,11 @@ print ("
 
 $iddocente = $_SESSION['idutente'];
 
-if ($tipoutente!='S' && $tipoutente != 'P')
+if ($tipoutente != 'S' && $tipoutente != 'P')
     $query = "select distinct tbl_classi.idclasse,anno,sezione,specializzazione
         from tbl_classi,tbl_cattnosupp
         where tbl_classi.idcoordinatore=$iddocente
         order by specializzazione, sezione, anno";
-
 else
     $query = "select idclasse,anno,sezione,specializzazione
         from tbl_classi
@@ -167,13 +168,13 @@ if ($idclasse != "")
 
 
         print "<tr><td>" . $nom['descrdoc'] .
-            "</td><td>" . $nom['descrtipo'];
+                "</td><td>" . $nom['descrtipo'];
 
         print "</td><td>" . data_italiana($nom['datadocumento']) .
-            "</td><td>" . estrai_dati_docente($nom['iddocente'], $con) .
-            "</td><td>" . $nom["docnome"] .
-            "<font size=1> (" . $nom["docsize"] . ") bytes</font></td>" .
-            "<td><a href='actionsdocum.php?action=download&Id=" . $nom["iddocumento"] . "' target='_blank'><img src='../immagini/download.jpg' alt='scarica'></a> ";
+                "</td><td>" . estrai_dati_docente($nom['iddocente'], $con) .
+                "</td><td>" . $nom["docnome"] .
+                "<font size=1> (" . $nom["docsize"] . ") bytes</font></td>" .
+                "<td><a href='actionsdocum.php?action=download&Id=" . $nom["iddocumento"] . "' target='_blank'><img src='../immagini/download.jpg' alt='scarica'></a> ";
 
         if (in_array($nom["doctype"], $visualizzabili))
         {
@@ -197,8 +198,8 @@ if ($idclasse != "")
     //
 
     $querytd = "select * from tbl_tipidocumenti where idtipodocumento<1000000000";
-    $ristd=eseguiQuery($con,$querytd);
-    if (mysqli_num_rows($ristd)>0)
+    $ristd = eseguiQuery($con, $querytd);
+    if (mysqli_num_rows($ristd) > 0)
     {
 
         print "<br><br>";
@@ -245,15 +246,12 @@ if ($idclasse != "")
         print "<center><br><input type='submit' value='Invia file selezionato'></center>";
         print "</form>";
         print "</fieldset>";
-    }
-    else
+    } else
     {
         print "<br><br><center><b>Non sono stati definiti tipi di documento!</b></center>";
-
     }
-
 }
 
 mysqli_close($con);
-stampa_piede(""); 
+stampa_piede("");
 
