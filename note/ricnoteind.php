@@ -121,74 +121,12 @@ echo('      <tr>
 echo('   <td width="50%">');
 echo('   <select name="gio" ONCHANGE="tbl_notealunno.submit()"><option value="">&nbsp');
 require '../lib/aggiungi_giorni_a_select.php';
-/*
-  for  ($g = 1; $g <= 31; $g++)
-  {
-  if ($g < 10)
-  {
-  $gs = '0' . $g;
-  }
-  else
-  {
-  $gs = '' . $g;
-  }
-  if ($gs == $giorno)
-  {
-  echo("<option selected>$gs</option>");
-  }
-  else
-  {
-  echo("<option>$gs</option>");
-  }
-  }
- * 
- */
+
 echo("</select>");
 
 echo('   <select name="mese" ONCHANGE="tbl_notealunno.submit()"><option value="">&nbsp');
 require '../lib/aggiungi_mesi_a_select.php';
-/*
-  for  ($m = 9; $m <= 12; $m++)
-  {
-  if ($m < 10)
-  {
-  $ms = '0' . $m;
-  }
-  else
-  {
-  $ms = '' . $m;
-  }
-  if ($ms == $mese)
-  {
-  echo("<option selected>$ms - $annoscol");
-  }
-  else
-  {
-  echo("<option>$ms - $annoscol");
-  }
-  }
-  $annoscolsucc = $annoscol + 1;
-  for ($m = 1; $m <= 8; $m++)
-  {
-  if ($m < 10)
-  {
-  $ms = '0' . $m;
-  }
-  else
-  {
-  $ms = '' . $m;
-  }
-  if ($ms == $mese)
-  {
-  echo("<option selected>$ms - $annoscolsucc");
-  }
-  else
-  {
-  echo("<option>$ms - $annoscolsucc");
-  }
-  }
- * 
- */
+
 echo("</select></td></tr>");
 
 
@@ -261,24 +199,6 @@ echo('</form></td>
 </table><hr>
  
     ');
-
-/*
-  if ($mese=="")
-  $m=0;
-  else
-  $m=$mese;
-  if ($giorno=="")
-  $g=0;
-  else
-  $g=$giorno;
-
-  if ($anno=="")
-  $a=0;
-  else
-  $a=$anno;
- */
-
-// print($nome." -   ". $m.$g.$a.$giornosettimana);
 
 
 $stringaricerca = " true ";

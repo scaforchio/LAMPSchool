@@ -116,10 +116,14 @@ foreach ($daticrud['campi'] as $c)
             print "<td><select name='campo[]" . $posarr . "'$richiesto$disabilitato><option value=''>&nbsp</option>";
             // $query per selezione elementi della select
             if ($c[16] != '')
-                $subquery = " where " . $c[3] . " in(" . $c[16] . "'$chiaveprincipale')";
+                $subquery1 = " and " . $c[3] . " in(" . $c[16] . "'$chiaveprincipale')";
             else
-                $subquery = '';
-            $query = "select " . $c[3] . "," . $c[4] . " from " . $c[2] . "$subquery order by " . $c[4];
+                $subquery1 = '';
+            if ($c[17] != '')
+                $subquery2 = " and " . $c[3] . " in(" . $c[17] . ")";
+            else
+                $subquery2 = '';
+            $query = "select " . $c[3] . "," . $c[4] . " from " . $c[2] . " where true $subquery1 $subquery2 order by " . $c[4];
             print $query;
             $ris = eseguiQuery($con, $query);
             while ($rec = mysqli_fetch_array($ris))

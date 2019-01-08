@@ -33,6 +33,48 @@ function decodifica_classe($idclasse, $conn1, $normalizzazione = 0)
     return $daticlasse;
 }
 
+
+function estraiAprifila2($idclasse, $conn)
+{
+    $query = "select aprifila2 from tbl_classi where idclasse='$idclasse'";
+    $ris = eseguiQuery($conn, $query);
+    $rec = mysqli_fetch_array($ris);
+
+    return $rec['aprifila2'];
+    
+}
+function estraiChiudifila1($idclasse, $conn)
+{
+    $query = "select chiudifila1 from tbl_classi where idclasse='$idclasse'";
+    $ris = eseguiQuery($conn, $query);
+    $rec = mysqli_fetch_array($ris);
+
+    return $rec['chiudifila1'];
+    
+}
+function estraiChiudifila2($idclasse, $conn)
+{
+    $query = "select chiudifila2 from tbl_classi where idclasse='$idclasse'";
+    $ris = eseguiQuery($conn, $query);
+    $rec = mysqli_fetch_array($ris);
+
+    return $rec['chiudifila2'];
+    
+}
+function estraiAprifila1($idclasse, $conn)
+{
+    $query = "select aprifila1 from tbl_classi where idclasse='$idclasse'";
+    $ris = eseguiQuery($conn, $query);
+    $rec = mysqli_fetch_array($ris);
+
+    return $rec['aprifila1'];
+    
+}
+
+
+
+
+
 /**
  * Restituisce l'anno della classe
  *

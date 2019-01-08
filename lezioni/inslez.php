@@ -371,6 +371,10 @@ if (!$flagsovrapposizione)
         }
     }
 }
+
+$query = "DELETE FROM tbl_valutazioniintermedie WHERE voto>99";
+eseguiQuery($con, $query);
+
 echo "<p align='center'>";
 /*
   if ($provenienza != "")  //ritorno a riepilogo

@@ -477,6 +477,8 @@ if ($cambiamentopassword)
         menu_item('../regclasse/riepsett.php', 'VISUALIZZA SETTIMANA');
         menu_item('../regclasse/annotaz.php', 'ANNOTAZIONI SU REGISTRO');
         menu_item('../regclasse/ricannotaz.php', 'RICERCA ANNOTAZIONI');
+        menu_item('../regclasse/CRUDannotazioni.php?mod=1&can=1&ins=1', 'GESTIONE ANNOTAZIONI');
+        menu_item('../classi/CRUDevacuazione.php', 'NOMINE ALUNNI PER EVACUAZIONI');
         menu_item('../evacuazione/evacuazione.php', 'MODULO EVACUAZIONE');
         // menu_item("../assemblee/assdoc.php?iddocente=$idutente", 'ASSEMBLEE DI CLASSE');
         if ($livello_scuola == '4')
@@ -555,15 +557,7 @@ if ($cambiamentopassword)
 
             menu_title_end();
         }
-        // MODIFICA PER PROF. FINI
-        /*  if ($idutente == 1000000030)
-          {
-          menu_title_begin('FUNZIONI COMMISSARIO');
-
-          menu_item('../valutazioni/riepvoticlasse.php', 'SITUAZIONE VOTI MEDI PER CLASSE');
-          menu_title_end();
-          }
-         */
+        
 
         if (estrai_docente_coordinatore($idutente, $con))
         {
@@ -684,7 +678,9 @@ if ($cambiamentopassword)
         menu_item('../regclasse/riepsett.php', 'VISUALIZZA SETTIMANA');
         menu_item('../regclasse/annotaz.php', 'ANNOTAZIONI SU REGISTRO');
         menu_item('../regclasse/ricannotaz.php', 'RICERCA ANNOTAZIONI');
+        menu_item('../regclasse/CRUDannotazioni.php?mod=1&can=1&ins=1', 'GESTIONE ANNOTAZIONI');
         menu_item('../regclasse/stamparegiclasse.php', 'STAMPA REGISTRI DI CLASSE');
+        menu_item('../classi/CRUDevacuazione.php', 'NOMINE ALUNNI PER EVACUAZIONI');
         menu_item('../evacuazione/evacuazione.php', 'MODULO EVACUAZIONE');
 
         menu_title_end();
@@ -999,6 +995,7 @@ if ($cambiamentopassword)
         menu_item('../regclasse/riepsett.php', 'VISUALIZZA SETTIMANA');
         menu_item('../regclasse/annotaz.php', 'ANNOTAZIONI SU REGISTRO');
         menu_item('../regclasse/ricannotaz.php', 'RICERCA ANNOTAZIONI');
+        menu_item('../regclasse/CRUDannotazioni.php?mod=1&can=1&ins=1', 'GESTIONE ANNOTAZIONI');
         menu_item('../regclasse/stamparegiclasse.php', 'STAMPA REGISTRI DI CLASSE');
         if ($maxgiorniritardolez < 300)
         {

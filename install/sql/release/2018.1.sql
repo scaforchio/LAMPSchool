@@ -349,7 +349,11 @@ CREATE TABLE IF NOT EXISTS tbl_classi (
   idcoordinatore int(11) DEFAULT '0',
   rappresentante1 int(11) DEFAULT '0',
   rappresentante2 int(11) DEFAULT '0',
-  idmoodle char(5) DEFAULT ''
+  idmoodle char(5) DEFAULT '',
+  aprifila1 int(11) DEFAULT 0,
+  aprifila2 int(11) DEFAULT 0,
+  chiudifila1 int(11) DEFAULT 0,
+  chiudifila2 int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

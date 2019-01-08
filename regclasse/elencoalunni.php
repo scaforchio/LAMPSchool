@@ -52,11 +52,17 @@ $rs = eseguiQuery($con, $query);
 $esistono = false;
 if (mysqli_num_rows($rs) > 0)
 {
-    print "<table align='center' border='1'><tr class='prima'><td>N.</td><td>Cognome</td><td>Nome</td><td>Data nascita</td><td>Cod. Fisc.</td></tr>";
+    print "<table align='center' border='1'><tr class='prima'><td>N.</td><td>Cognome</td><td>Nome</td><td>Data nascita</td><td>Cod. Fisc.</td><td>Funz.</td></tr>";
     $cont = 1;
     while ($rec = mysqli_fetch_array($rs))
     {
         print "<tr><td>$cont</td><td>" . $rec['cognome'] . "</td><td>" . $rec['nome'] . "</td><td>" . data_italiana($rec['datanascita']) . "</td><td>" . $rec['codfiscale'] . "</td>";
+        if ($rec['idalunno'] == estraiAprifila1($idclasse, $con) | $rec['idalunno'] == estraiAprifila2($idclasse, $con))
+            print "<td>A.F.</td>";
+        elseif ($rec['idalunno'] == estraiChiudifila1($idclasse, $con) | $rec['idalunno'] == estraiChiudifila2($idclasse, $con))
+            print "<td>C.F.</td>";
+        else
+            print "<td></td>";
         $cont++;
     }
 } else

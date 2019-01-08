@@ -236,11 +236,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
     print "<tr><td valign='top'>";
 
     // ASSENTI
-    /*   $query = "select cognome,nome
-      from tbl_assenze,tbl_alunni
-      where
-      tbl_assenze.idalunno=tbl_alunni.idalunno
-      and data='$data' and idclasse=$idclasse"; */
+
     $query = "select cognome,nome
                  from tbl_assenze,tbl_alunni
                  where
@@ -459,7 +455,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
         $queryal = "SELECT idalunno
                           FROM tbl_noteindalu
                           WHERE idnotaalunno=" . $rec['idnotaalunno'];
-        $resalu = eseguiQuery($conn,$queryal);
+        $resalu = eseguiQuery($conn, $queryal);
         $numalunni = mysqli_num_rows($resalu);
         $conta = 0;
         print "[Alunni: ";
@@ -505,6 +501,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
     $risprf = eseguiQuery($conn, $query);
     // print "tttt ".inspref($query);
     $elencopresenti = "";
+    $numeropresenti = mysqli_num_rows($risprf);
     if (mysqli_num_rows($risprf) > 0)
     {
         $recprf = mysqli_fetch_array($risprf);
@@ -515,7 +512,10 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
             if ($motivo != $recprf['motivo'])
             {
                 $elencopresenti = substr($elencopresenti, 0, strlen($elencopresenti) - 2);
-                print "Gli alunni $elencopresenti non sono in classe per $motivo.<br>";
+                if ($numeropresenti > 1)
+                    print "Gli alunni $elencopresenti non sono in classe per $motivo.<br>";
+                else
+                    print "L'alunno $elencopresenti non &egrave; in classe per $motivo.<br>";
                 $elencopresenti = "";
             }
 
@@ -523,7 +523,10 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
             $elencopresenti .= $recprf['nominativo'] . ", ";
         }
         $elencopresenti = substr($elencopresenti, 0, strlen($elencopresenti) - 2);
-        print "Gli alunni $elencopresenti non sono in classe per $motivo.";
+        if ($numeropresenti > 1)
+            print "Gli alunni $elencopresenti non sono in classe per $motivo.<br>";
+        else
+            print "L'alunno $elencopresenti non &egrave; in classe per $motivo.<br>";
         $elencopresenti = "";
     }
     print "</td>";

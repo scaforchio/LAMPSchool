@@ -84,7 +84,7 @@ if ($codlez != '')
 }
 if ($ope == 'I')
 {
-    $ris3 = eseguiQuery($con, $sql);
+    $ris3 = eseguiQuery($con, $query);
     $codlez = mysqli_insert_id($con);
 
     // Inserimento firma

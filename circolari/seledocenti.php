@@ -205,12 +205,18 @@ print ("
 //if ($idclasse=='')
 //    $query="select * from tbl_docenti order by cognome,nome";
 //else
+if ($sele!='')
 $query = "select distinct tbl_docenti.iddocente,cognome, nome 
             from tbl_cattnosupp,tbl_docenti,tbl_classi
             where tbl_cattnosupp.iddocente=tbl_docenti.iddocente
             and tbl_cattnosupp.idclasse=tbl_classi.idclasse
             and tbl_docenti.iddocente<>1000000000
             $sele
+            order by cognome,nome";
+else
+    $query = "select tbl_docenti.iddocente,cognome, nome 
+            from tbl_docenti
+            where tbl_docenti.iddocente<>1000000000
             order by cognome,nome";
 $ris = eseguiQuery($con, $query);
 while ($rec = mysqli_fetch_array($ris))

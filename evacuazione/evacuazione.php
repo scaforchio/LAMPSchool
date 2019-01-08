@@ -136,88 +136,14 @@ print ('         <tr>
 echo('   <td width="50%">');
 echo('   <select name="gio" ONCHANGE="evacuazione.submit()">');
 require '../lib/aggiungi_giorni_a_select.php';
-/*
-  for  ($g = 1; $g <= 31; $g++)
-  {
-  if ($g < 10)
-  {
-  $gs = '0' . $g;
-  }
-  else
-  {
-  $gs = '' . $g;
-  }
-  if ($gs == $giorno)
-  {
-  echo("<option selected>$gs</option>");
-  }
-  else
-  {
-  echo("<option>$gs</option>");
-  }
-  }
- * 
- */
+
 echo("</select>");
 
 echo('   <select name="meseanno" ONCHANGE="evacuazione.submit()">');
 require '../lib/aggiungi_mesi_a_select.php';
-/*
-  for  ($m = 9; $m <= 12; $m++)
-  {
-  if ($m < 10)
-  {
-  $ms = "0" . $m;
-  }
-  else
-  {
-  $ms = '' . $m;
-  }
-  if ($ms == $mese)
-  {
-  echo("<option selected>$ms - $annoscol</option>");
-  }
-  else
-  {
-  echo("<option>$ms - $annoscol</option>");
-  }
-  }
-  $annoscolsucc = $annoscol + 1;
-  for ($m = 1; $m <= 8; $m++)
-  {
-  if ($m < 10)
-  {
-  $ms = '0' . $m;
-  }
-  else
-  {
-  $ms = '' . $m;
-  }
-  if ($ms == $mese)
-  {
-  echo("<option selected>$ms - $annoscolsucc</option>");
-  }
-  else
-  {
-  echo("<option>$ms - $annoscolsucc</option>");
-  }
-  }
- * 
- */
 echo("</select>");
 
 
-/*
-  echo('   <select name="anno">');
-  for($a=$annoscol;$a<=($annoscol+1);$a++)
-  {
-  if ($a==$anno)
-  echo("<option selected>$a");
-  else
-  echo("<option>$a");
-  }
-  echo("</select>");
- */
 //
 //  Fine visualizzazione della data
 //
@@ -368,9 +294,10 @@ if (!checkdate($m, $g, $a))
             // ELENCO ALUNNI PER APPELLO
             print('<center><b><big>ELENCO ALUNNI</big></b></center></br>');
             print('<table align="center" width="40%" border="1">');
-            print("<tr><td align='center'><b> N.</b> </td>");
+            print("<tr class='prima'><td align='center'><b> N.</b> </td>");
             print("<td align='center'><b> Cognome</b> </td>");
-            print("<td align='center'><b> Nome</b> </td></tr>");
+            print("<td align='center'><b> Nome</b> </td>");
+            print("<td align='center'><b> Funzione</b> </td></tr>");
             $contatore = 0;
             while ($dati = mysqli_fetch_array($ris))
             {
@@ -385,6 +312,15 @@ if (!checkdate($m, $g, $a))
         <td width="45%">');
                 print($dati['nome']);
                 print('</td>');
+                
+                if ($dati['idalunno'] == estraiAprifila1($idclasse, $con) | $dati['idalunno'] == estraiAprifila2($idclasse, $con))
+            print "<td>A.F.</td>";
+        elseif ($dati['idalunno'] == estraiChiudifila1($idclasse, $con) | $dati['idalunno'] == estraiChiudifila2($idclasse, $con))
+            print "<td>C.F.</td>";
+        else
+            print "<td></td>";
+                
+                
             }
             print('</table></br>');
 
@@ -395,7 +331,7 @@ if (!checkdate($m, $g, $a))
               <tr>
               <td width="50%"><b>Aula occupata al momento dell\'evacuazione: </b></td>
               <td width="50%">');
-            print('<input type="text" name="aula" size="25" ONCHANGE="evacuazione.submit()" value="');
+            print('<input type="text" name="aula" size="25" value="');
             print("$aula");
             print('"></td></tr>');
 
@@ -440,7 +376,7 @@ if (!checkdate($m, $g, $a))
             echo('</SELECT>');
 
             // INDICARE LUOGO
-            print('<b>&nbsp;&nbsp;&nbsp; Indicare luogo: </b><input type="text" name="luogononinaula" size="15" ONCHANGE="evacuazione.submit()" value="');
+            print('<b>&nbsp;&nbsp;&nbsp; Indicare luogo: </b><input type="text" name="luogononinaula" size="15" value="');
             print("$luogononinaula");
             print('"></td></tr>');
 
@@ -480,7 +416,7 @@ if (!checkdate($m, $g, $a))
               <tr>
               <td width="50%"><b>Indicare altre persone presenti: </b></td>
               <td width="50%">');
-                print('<input type="text" name="altrepersone" size="20" ONCHANGE="evacuazione.submit()" value="');
+                print('<input type="text" name="altrepersone" size="20" value="');
                 print("$altrepersone");
                 print('"></td></tr>');
             }
@@ -529,7 +465,7 @@ if (!checkdate($m, $g, $a))
                 print($n + 1);
                 print('" NAME="disperso');
                 print($n + 1);
-                print('" ONCHANGE="evacuazione.submit()"><option value="">&nbsp;');
+                print('""><option value="">&nbsp;');
                 while ($dati = mysqli_fetch_array($ris))
                 {
                     print "<option value='";
@@ -556,7 +492,7 @@ if (!checkdate($m, $g, $a))
               <tr>
               <td width="50%"><b>Alunno apri fila: </b></td>
               <td width="50%">
-              <SELECT ID="aprifila" NAME="aprifila" ONCHANGE="evacuazione.submit()"><option value="">&nbsp;');
+              <SELECT ID="aprifila" NAME="aprifila"><option value="">&nbsp;');
             while ($dati = mysqli_fetch_array($ris))
             {
                 print "<option value='";
@@ -576,7 +512,7 @@ if (!checkdate($m, $g, $a))
               <tr>
               <td width="50%"><b>Alunno chiudi fila: </b></td>
               <td width="50%">
-              <SELECT ID="chiudifila" NAME="chiudifila" ONCHANGE="evacuazione.submit()"><option value="">&nbsp;');
+              <SELECT ID="chiudifila" NAME="chiudifila"><option value="">&nbsp;');
             while ($dati = mysqli_fetch_array($ris))
             {
                 print "<option value='";
@@ -597,7 +533,7 @@ if (!checkdate($m, $g, $a))
                 <tr>
                 <td width="50%"><b>Zona di raccolta: </b></td>
                 <td width="50%">');
-            print('<input type="text" name="zonaraccolta" size="25" ONCHANGE="evacuazione.submit()" value="');
+            print('<input type="text" name="zonaraccolta" size="25" value="');
             print("$zonaraccolta");
             print('"></td></tr>');
 
@@ -605,7 +541,7 @@ if (!checkdate($m, $g, $a))
                 <tr>
                 <td width="50%"><b>Tipo di emergenza: </b></td>
                 <td width="50%">');
-            print('<input type="text" name="tipoemergenza" size="25" ONCHANGE="evacuazione.submit()" value="');
+            print('<input type="text" name="tipoemergenza" size="25" value="');
             print("$tipoemergenza");
             print('"></td></tr>');
 
@@ -615,12 +551,12 @@ if (!checkdate($m, $g, $a))
             $sql_doc = "SELECT * FROM tbl_docenti ,tbl_utenti
         WHERE tbl_docenti.iddocente=tbl_utenti.idutente
         ORDER BY cognome,nome";
-            $ris_doc = eseguiQuery($con,$sql_doc);
+            $ris_doc = eseguiQuery($con, $sql_doc);
             print('
                 <tr>
                 <td width="50%"><b>Insegnante: </b></td>
                 <td width="50%">
-                <SELECT ID="insegnante" NAME="insegnante" ONCHANGE="evacuazione.submit()"><option value="">&nbsp;');
+                <SELECT ID="insegnante" NAME="insegnante"><option value="">&nbsp;');
             while ($dati = mysqli_fetch_array($ris_doc))
             {
                 print "<option value='";

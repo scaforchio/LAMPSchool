@@ -61,7 +61,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 // INSERIMENTO, CANCELLAZIONE O UPDATE DATI LEZIONE   DA RIVEDERE PER INSERIMENTO PRESENZA
 $ope = '';
 $querylett = "select iddocente,idmateria from tbl_gruppi where idgruppo=$idgruppo";
-$ris = eseguiQuery($con,$querylett);
+$ris = eseguiQuery($con, $querylett);
 $rec = mysqli_fetch_array($ris);
 $iddocente = $rec['iddocente'];
 $idmateria = $rec['idmateria'];
@@ -92,7 +92,7 @@ if ($idlezionegruppo != '')
 if ($ope == 'I')
 {
     // INSERISCO LA LEZIONE DEL GRUPPO
-    $ris = eseguiQuery($con,$query1);
+    $ris = eseguiQuery($con, $query1);
     $idlezionegruppo = mysqli_insert_id($con);  // RICAVO L'ID DELLA LEZIONE DI GRUPPO
     // RICAVO LE CLASSI DEL GRUPPO
     $query = "select distinct idclasse from tbl_gruppialunni,tbl_alunni
@@ -127,15 +127,15 @@ if ($ope == 'I')
 if ($ope == 'U')
 {
 
-    $ris3 = eseguiQuery($con,$query1);
-    $ris4 = eseguiQuery($con,$query2);
+    $ris3 = eseguiQuery($con, $query1);
+    $ris4 = eseguiQuery($con, $query2);
 
     print "<center><b>Aggiornamento effettuato!</b></center>";
 }
 if ($ope == 'D')
 {
-    $ris3 = eseguiQuery($con,$query1);
-    $ris4 = eseguiQuery($con,$query2);
+    $ris3 = eseguiQuery($con, $query1);
+    $ris4 = eseguiQuery($con, $query2);
     print "<center><b>Cancellazione effettuata!</b></center>";
 }
 
@@ -164,7 +164,7 @@ while ($id = mysqli_fetch_array($ris))
     } else
     {
         $queryinslez = "insert into tbl_lezioni(idclasse,datalezione,iddocente,idmateria,idlezionegruppo,numeroore,orainizio,argomenti,attivita) values ('$idclasse','$data','$iddocente','$idmateria','$idlezionegruppo','$numeroore','$orainizio','$argomenti','$attivita')";
-        $risins = eseguiQuery($con,$queryinslez);
+        $risins = eseguiQuery($con, $queryinslez);
         $idlezione = mysqli_insert_id($con);
         $queryinsfirma = "insert into tbl_firme(idlezione,iddocente) values ('$idlezione','$iddocente')";
         $risinsfirma = eseguiQuery($con, $queryinsfirma);
@@ -172,41 +172,12 @@ while ($id = mysqli_fetch_array($ris))
     }
 
 
-    /*
-      $query = 'SELECT * FROM tbl_asslezione WHERE idalunno=' . $id['al'] . ' AND idlezione="' . $idlezione . '"';
-      $rissel = eseguiQuery($con,$query);
-      if (mysqli_num_rows($rissel) > 0)
-      {
-      $query = "DELETE FROM tbl_asslezione WHERE idalunno='" . $id['al'] . "' AND idlezione='" . $idlezione . "'";
-      $ris2 = eseguiQuery($con,$query);
-      }
-      if ($ope == 'U' | $ope == 'I')
-      {
-      if ($assal != "0")
-      {
-      if ($assal <= $numeroore)
-      {
-      $query = "INSERT INTO tbl_asslezione(idalunno,idmateria,data,oreassenza,idlezione)
-      VALUES(" . $id['al'] . "," . $idmateria . ",'" . $data . "','" . $assal . "','" . $idlezione . "')";
-
-      $ris3 = eseguiQuery($con,$query);
-      }
-      else
-      {
-      $query = "INSERT INTO tbl_asslezione(idalunno,idmateria,data,oreassenza,idlezione)
-      VALUES(" . $id['al'] . "," . $materia . ",'" . $data . "','" . $numeroore . "','" . $idlezione . "')";
-
-      $ris4 = eseguiQuery($con,$query);
-      print "Ore di assenza cambiate per alunno " . $id['al'];
-      }
-      }
-      }
-     */
+    $idal = $id['al'];
     //
     //   INSERIMENTO VOTI SCRITTI
     //
 
-    $idal = $id['al'];
+    
     $va = "votos" . $idal;
 
     $ga = "giudizios" . $idal;
@@ -367,21 +338,11 @@ while ($id = mysqli_fetch_array($ris))
     }
 }
 
+$query = "DELETE FROM tbl_valutazioniintermedie WHERE voto>99";
+eseguiQuery($con, $query);
 
 echo "<p align='center'>";
 
-/*   print "
-  <form method='post' id='formlez' action='../lezionigruppo/lezgru.php'>
-  <input type='hidden' name='gio' value='$gi'>
-  <input type='hidden' name='meseanno' value='$ma'>
-  <input type='hidden' name='idgruppo' value='$idgruppo'>
-  </form>
-  <SCRIPT language='JavaScript'>
-  {
-  document.getElementById('formlez').submit();
-  }
-  </SCRIPT>";
- */
 print ('
 			<form method="post" action="lezgru.php">
 			<p align="center">');

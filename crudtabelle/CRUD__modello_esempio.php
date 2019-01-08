@@ -97,6 +97,9 @@ $daticrud['vincolicanc'] = [
  * 15 - modifica disabilitata
  * 16 - condizione selezione dei valori della tabella esterna, select che restituisce un elenco di valori chiave primaria 
  *      della tabella esterna con riferimento alla chiave primaria della tabella principale
+ * 17 - condizione di selezione dei valori della tabella esterna basata su un valore ricavabile
+ *      in fase di preparazione dei daticrud (Es. iddocente, tipoutente, ecc.)
+ 
  */
 
 $daticrud['campi'] = [

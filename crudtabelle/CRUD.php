@@ -18,7 +18,9 @@ if ($tipoutente == "")
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
+
 $daticrud = $_SESSION['daticrud'];
+ordina_array_su_campo_sottoarray($daticrud['campi'], 1);
 $titolo = $daticrud['titolo'];
 
 // PREPARAZIONE OPZIONE ORDINAMENTO INIZIALE
@@ -31,9 +33,11 @@ foreach ($campiordinamento as $campoord)
     foreach ($daticrud['campi'] as $campo)
     {
         //print "DATI $campoord ".$campo[0];
+        
         if ($campoord == $campo[0])
             $stringaopzioniord .= "[$indicecampo,'asc'],";
-        $indicecampo++;
+       
+           $indicecampo++;
     }
 }
 //print "Stringa $stringaopzioniord";
@@ -76,7 +80,7 @@ stampa_head($titolo, "", $script, "PMSDA");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
-ordina_array_su_campo_sottoarray($daticrud['campi'], 1);
+
 
 $strcampi = "";
 $strtabelle = $daticrud['tabella'] . ", ";
@@ -97,7 +101,7 @@ $query = "select " . $daticrud['campochiave'] . ", $strcampi from " . $daticrud[
 // print $query;
 $ris = eseguiQuery($con, $query);
 if ($daticrud['abilitazioneinserimento'] == 1)
-    print "<br><center><a href='CRUDmodifica.php?id=0'><b>INSERISCI NUOVO</b></a></center><br><br>";
+    print "<br><center><a href='CRUDmodifica.php?id=0'><b>INSERISCI</b></a></center><br><br>";
 
 print "<table id='tabelladati' class='display' width='" . $daticrud['larghezzatabella'] . "'>";
 // Visualizzazione intestazioni

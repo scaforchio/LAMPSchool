@@ -52,8 +52,11 @@ $valori = stringa_html('campo');
 $cont = 0;
 foreach ($daticrud['campi'] as $c)
 {
-    $elencocampivalori .= $c[0] . " = '" . $valori[$cont] . "', ";
-    $cont++;
+    if ($c[7] != 0)
+    {
+        $elencocampivalori .= $c[0] . " = '" . $valori[$cont] . "', ";
+        $cont++;
+    }
 }
 $elencocampivalori = substr($elencocampivalori, 0, strlen($elencocampivalori) - 2);
 $queryupd = "update " . $daticrud['tabella'] . " set $elencocampivalori where " . $daticrud['campochiave'] . " = '$id'";

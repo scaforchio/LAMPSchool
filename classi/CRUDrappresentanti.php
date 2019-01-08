@@ -53,28 +53,7 @@ $daticrud['confermacancellazione'] = [1, ''];
 // Vincoli per possibilità di cancellazione. Non devono esserci riferimenti nelle seguenti tabelle nel campo
 // specificato
 $daticrud['vincolicanc'] = [
-    [('tbl_alunni'), 'idclasse'],
-    [('tbl_competalu'), 'idclasse'],
-    [('tbl_competdoc'), 'idclasse'],
-    [('tbl_documenti'), 'idclasse'],
-    [('tbl_entrateclassi'), 'idclasse'],
-    [('tbl_esiti'), 'idclasse'],
-    [('tbl_esami3m'), 'idclasse'],
-    [('tbl_esmaterie'), 'idclasse'],
-    [('tbl_giudizi'), 'idclasse'],
-    [('tbl_lezioni'), 'idclasse'],
-    [('tbl_lezionicert'), 'idclasse'],
-    [('tbl_notealunno'), 'idclasse'],
-    [('tbl_noteclasse'), 'idclasse'],
-    [('tbl_osssist'), 'idclasse'],
-    [('tbl_scrutini'), 'idclasse'],
-    [('tbl_valutazionicomp'), 'idclasse'],
-    [('tbl_valutazioniintermedie'), 'idclasse'],
-    [('tbl_annotazioni'), 'idclasse'],
-    [('tbl_assemblee'), 'idclasse'],
-    [('tbl_cambiamenticlasse'), 'idclasse'],
-    [('tbl_cattnosupp'), 'idclasse'],
-    [('tbl_cattsupp'), 'idclasse']
+    
 ];
 
 
@@ -105,7 +84,7 @@ $daticrud['campi'] = [
     ['sezione', '2', ('tbl_sezioni'), 'denominazione', 'denominazione', 1, 'Sezione', 2, '', '', 1, '', '', 1, 'sezione', 1],
     ['specializzazione', '3', ('tbl_specializzazioni'), 'denominazione', 'denominazione', 1, $plesso_specializzazione, 3, '', '', 1, '', '', 1, 'specializzazione', 1],
     ['oresett', 4, '', '', '', 2, "Ore settimanali", 4, 'number', '', 1, '20', '48', 0, '', 1, ''],
-    ['idcoordinatore', 5, ('tbl_docenti'), 'iddocente', 'cognome,nome', 0, 'Docente', 5, '', '', 0, '', '', 1, '', 1, ('select distinct(iddocente) from tbl_cattnosupp where idclasse=')],
+    ['idcoordinatore', 5, ('tbl_docenti'), 'iddocente', 'cognome,nome', 0, 'Coordinatore', 5, '', '', 0, '', '', 1, '', 1, ('select distinct(iddocente) from tbl_cattnosupp where idclasse=')],
     ['rappresentante1', 6, ('tbl_alunni'), 'idalunno', 'cognome,nome', 0, 'Primo rappresentante', 6, '', '', 0, '', '', 0, 'cognalu1,nomealu1', 0, ('select distinct(idalunno) from tbl_alunni where idclasse=')],
     ['rappresentante2', 7, ('tbl_alunni'), 'idalunno', 'cognome,nome', 0, 'Secondo rappresentante', 7, '', '', 0, '', '', 0, 'cognalu2,nomealu2', 0, ('select distinct(idalunno) from tbl_alunni where idclasse=')]
 ];
