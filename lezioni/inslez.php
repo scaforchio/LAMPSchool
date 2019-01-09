@@ -42,8 +42,8 @@ $gio = stringa_html('gio');
 $mese = stringa_html('mese');
 
 $anno = stringa_html('anno');
-$codlez = stringa_html('codlezione');
-$materia = stringa_html('materia');
+$idlezione = stringa_html('codlezione');
+$idmateria = stringa_html('materia');
 $iddocente = stringa_html('iddocente');
 $idgruppo = stringa_html('idgruppo');
 $data = $anno . "-" . $mese . "-" . $gio;
@@ -64,22 +64,22 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 // INSERIMENTO, CANCELLAZIONE O UPDATE DATI LEZIONE   DA RIVEDERE PER INSERIMENTO PRESENZA
 $ope = '';
 
-if ($codlez != '')
+if ($idlezione != '')
 {
 
     if ((($argomenti != "") | ($attivita != "")) | ($numeroore != ""))
     {
         $ope = 'U';
-        $query = "update tbl_lezioni set numeroore='$numeroore',orainizio='$orainizio',argomenti='$argomenti',attivita='$attivita' where idlezione=$codlez";
+        $query = "update tbl_lezioni set numeroore='$numeroore',orainizio='$orainizio',argomenti='$argomenti',attivita='$attivita' where idlezione=$idlezione";
     } else
     {
         $ope = 'D';
-        $query = "delete from tbl_lezioni where idlezione=$codlez";
+        $query = "delete from tbl_lezioni where idlezione=$idlezione";
     }
 } else
 {
     $ope = 'I';
-    $query = "insert into tbl_lezioni(idclasse,datalezione,iddocente,idmateria,numeroore,orainizio,argomenti,attivita) values ('$idclasse','$data','$iddocente','$materia','$numeroore','$orainizio','" . elimina_apici($argomenti) . "','" . elimina_apici($attivita) . "')";
+    $query = "insert into tbl_lezioni(idclasse,datalezione,iddocente,idmateria,numeroore,orainizio,argomenti,attivita) values ('$idclasse','$data','$iddocente','$idmateria','$numeroore','$orainizio','" . elimina_apici($argomenti) . "','" . elimina_apici($attivita) . "')";
 }
 
 //
@@ -93,7 +93,7 @@ if ($ope == 'I')
 
     if ($ris3 = eseguiQuery($con, $query))
     {
-        $codlez = mysqli_insert_id($con);
+        $idlezione = mysqli_insert_id($con);
     } else
     {
         //
@@ -105,21 +105,21 @@ if ($ope == 'I')
         $flagsovrapposizione = true;
         $query = "select idlezione from tbl_lezioni where
 			          idclasse=$idclasse and
-			          idmateria=$materia and 
+			          idmateria=$idmateria and 
 			          datalezione='$data' and
 			          orainizio=$orainizio and
 			          numeroore=$numeroore";
         $rislez = eseguiQuery($con, $query);
         $rec = mysqli_fetch_array($rislez);
-        $codlez = $rec['idlezione'];
+        $idlezione = $rec['idlezione'];
     }
 
 
     // Inserimento firma con preventiva cancellazione di firma eventualmente già esistente
 
-    $queryinsfirma = "delete from tbl_firme where iddocente=$iddocente and idlezione=$codlez";
+    $queryinsfirma = "delete from tbl_firme where iddocente=$iddocente and idlezione=$idlezione";
     $ris4 = eseguiQuery($con, $queryinsfirma);
-    $queryinsfirma = "insert into tbl_firme(idlezione,iddocente) values ('$codlez','$iddocente')";
+    $queryinsfirma = "insert into tbl_firme(idlezione,iddocente) values ('$idlezione','$iddocente')";
     $ris4 = eseguiQuery($con, $queryinsfirma);
     print "<div style=\"text-align: center;\"><b>Inserimento effettuato!</b></div>";
 }
@@ -130,7 +130,7 @@ if ($ope == 'U')
      */
 
     $queryselmod = "select oraultmod from tbl_lezioni where
-              idlezione=$codlez";
+              idlezione=$idlezione";
     $rislezmod = eseguiQuery($con, $queryselmod);
     $recmod = mysqli_fetch_array($rislezmod);
     $ultimamodificaprecedente = $recmod['oraultmod'];
@@ -148,9 +148,9 @@ if ($ope == 'U')
         $ris3 = eseguiQuery($con, $query);
 
         // Aggiorno il timestamp della firma
-        $queryinsfirma = "delete from tbl_firme where iddocente=$iddocente and idlezione=$codlez";
+        $queryinsfirma = "delete from tbl_firme where iddocente=$iddocente and idlezione=$idlezione";
         $ris4 = eseguiQuery($con, $queryinsfirma);
-        $queryinsfirma = "insert into tbl_firme(idlezione,iddocente) values ('$codlez','$iddocente')";
+        $queryinsfirma = "insert into tbl_firme(idlezione,iddocente) values ('$idlezione','$iddocente')";
         $ris4 = eseguiQuery($con, $queryinsfirma);
 
         print "<div style=\"text-align: center;\"><b>Aggiornamento effettuato!</b></div>";
@@ -185,12 +185,12 @@ if (!$flagsovrapposizione)
 
     if ($idgruppo == "")
     {
-        if (!cattedra_sost($iddocente, $materia, $idclasse, $con))
+        if (!cattedra_sost($iddocente, $idmateria, $idclasse, $con))
         {
             $query = "SELECT idalunno AS al FROM tbl_alunni WHERE idalunno IN (" . estrai_alunni_classe_data($idclasse, $data, $con) . ")";
         } else
         {
-            $query = "select idalunno as al from tbl_cattnosupp where idclasse=$idclasse and iddocente=$iddocente and idmateria=$materia";
+            $query = "select idalunno as al from tbl_cattnosupp where idclasse=$idclasse and iddocente=$iddocente and idmateria=$idmateria";
         }
     } else
     {
@@ -205,179 +205,7 @@ if (!$flagsovrapposizione)
 
     while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
     {
-        //
-        //   INSERIMENTO VOTI SCRITTI
-        //
-
-        $idal = $id['al'];
-        $va = "votos" . $idal;
-
-        $ga = "giudizios" . $idal;
-
-        $votoal = is_stringa_html($va) ? stringa_html($va) : 999;  // Se 999 vuol dire che è un voto medio
-
-        $giudal = stringa_html($ga);
-        if ($votoal == 99 && $giudal == '')  // Il giudizio è da cancellare
-        {
-            $query = 'SELECT * FROM tbl_valutazioniintermedie WHERE idalunno=' . $idal . ' AND idlezione="' . $codlez . '" AND tipo="S"';
-
-            $rissel = eseguiQuery($con, $query);
-            if (mysqli_num_rows($rissel) > 0)
-            {
-                $query = "delete from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$codlez' and tipo='S'";
-                $risd = eseguiQuery($con, $query);
-            }
-        } else
-        {
-
-            // Verifico se il voto già c'è
-            $query = "select idvalint from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$codlez' and tipo='S'";
-
-            $risric = eseguiQuery($con, $query);
-            if ($rec = mysqli_fetch_array($risric))
-            {
-                $idvalint = $rec['idvalint'];
-            } else
-            {
-                $idvalint = 0;
-            }
-            if ($idvalint != 0)
-            {
-                if ($votoal != 999)
-                {
-                    $query = "update tbl_valutazioniintermedie set voto=$votoal, giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$codlez' and tipo='S'";
-                    $risup = eseguiQuery($con, $query);
-                } else
-                {
-                    $query = "update tbl_valutazioniintermedie set giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$codlez' and tipo='S'";
-                    $risup = eseguiQuery($con, $query);
-                }
-            } else
-            {
-                // Inserisco voti non già esistenti
-                if ($votoal != 999)
-                {
-                    $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
-							values(" . $idal . ",$materia,$iddocente,$idclasse,'$codlez','$data','S',$votoal,'$giudal')";
-                    $risins = eseguiQuery($con, $query);
-                }
-            }
-        }
-
-        //
-        //   INSERIMENTO VOTI ORALI
-        //
-
-
-        $va = "votoo" . $idal;
-
-        $ga = "giudizioo" . $idal;
-
-        $votoal = is_stringa_html($va) ? stringa_html($va) : 999;
-
-        $giudal = stringa_html($ga);
-        if ($votoal == 99 && $giudal == '')
-        {
-            $query = "SELECT * FROM tbl_valutazioniintermedie WHERE idalunno=" . $idal . " AND idlezione=" . $codlez . " AND tipo='O'";
-            $rissel = eseguiQuery($con, $query);
-            if (mysqli_num_rows($rissel) > 0)
-            {
-                $query = "delete from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$codlez' and tipo='O'";
-                $risd = eseguiQuery($con, $query);
-            }
-        } else
-        {
-
-            // Verifico se il voto già c'è
-            $query = "select idvalint from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$codlez' and tipo='O'";
-
-            $risric = eseguiQuery($con, $query);
-            if ($rec = mysqli_fetch_array($risric))
-            {
-                $idvalint = $rec['idvalint'];
-            } else
-            {
-                $idvalint = 0;
-            }
-            if ($idvalint != 0)
-            {
-                if ($votoal != 999)
-                {
-                    $query = "update tbl_valutazioniintermedie set voto=$votoal, giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$codlez' and tipo='O'";
-                    $risup = eseguiQuery($con, $query);
-                } else
-                {
-                    $query = "update tbl_valutazioniintermedie set giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$codlez' and tipo='O'";
-                    $risup = eseguiQuery($con, $query);
-                }
-            } else
-            {
-                // Inserisco voti non già esistenti
-                if ($votoal != 999)
-                {
-                    $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
-							values(" . $idal . ",$materia,$iddocente,$idclasse,'$codlez','$data','O',$votoal,'$giudal')";
-                    $risins = eseguiQuery($con, $query);
-                }
-            }
-        }
-
-
-        //
-        //   INSERIMENTO VOTI PRATICI
-        //
-
-        $va = "votop" . $idal;
-
-        $ga = "giudiziop" . $idal;
-
-        $votoal = is_stringa_html($va) ? stringa_html($va) : 999;
-
-        $giudal = stringa_html($ga);
-        if ($votoal == 99 && $giudal == '')
-        {
-            $query = 'SELECT * FROM tbl_valutazioniintermedie WHERE idalunno=' . $idal . ' AND idlezione="' . $codlez . '" AND tipo="P"';
-            $rissel = eseguiQuery($con, $query);
-            if (mysqli_num_rows($rissel) > 0)
-            {
-                $query = "delete from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$codlez' and tipo='P'";
-                $risd = eseguiQuery($con, $query);
-            }
-        } else
-        {
-            // Verifico se il voto già c'è
-            $query = "select idvalint from tbl_valutazioniintermedie where idalunno=" . $idal . " and idlezione='$codlez' and tipo='P'";
-
-            $risric = eseguiQuery($con, $query);
-            if ($rec = mysqli_fetch_array($risric))
-            {
-                $idvalint = $rec['idvalint'];
-            } else
-            {
-                $idvalint = 0;
-            }
-            if ($idvalint != 0)
-            {
-                if ($votoal != 999)
-                {
-                    $query = "update tbl_valutazioniintermedie set voto=$votoal, giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$codlez' and tipo='P'";
-                    $risup = eseguiQuery($con, $query);
-                } else
-                {
-                    $query = "update tbl_valutazioniintermedie set giudizio='$giudal' where idalunno=" . $idal . " and idlezione='$codlez' and tipo='P'";
-                    $risup = eseguiQuery($con, $query);
-                }
-            } else
-            {
-                // Inserisco voti non già esistenti
-                if ($votoal != 999)
-                {
-                    $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
-							values(" . $idal . ",$materia,$iddocente,$idclasse,'$codlez','$data','P',$votoal,'$giudal')";
-                    $risins = eseguiQuery($con, $query);
-                }
-            }
-        }
+        @require '../lib/req_salva_voti.php';
     }
 }
 
@@ -389,11 +217,11 @@ echo "<p align='center'>";
   {
   if ($provenienza == 'argo')
   {
-  print ("<br/><font size=1><a href='riepargom.php?idlezione=" . $codlez . "'>Ritorna a riepilogo</a><br/>");
+  print ("<br/><font size=1><a href='riepargom.php?idlezione=" . $idlezione . "'>Ritorna a riepilogo</a><br/>");
   }
   else
   {
-  print ("<br/><font size=1><a href='sitleztota.php?idlezione=" . $codlez . "'>Ritorna a riepilogo</a><br/>");
+  print ("<br/><font size=1><a href='sitleztota.php?idlezione=" . $idlezione . "'>Ritorna a riepilogo</a><br/>");
   }
   }
   else
@@ -457,7 +285,7 @@ if ($_SESSION['regcl'] != "")
     // Se la lezione non è stata cancellata si passa il codice
     if ($ope != 'D')
     {
-        print ('<p align="center"><input type=hidden value=' . $codlez . ' name=idlezione>');
+        print ('<p align="center"><input type=hidden value=' . $idlezione . ' name=idlezione>');
     }
 
     print('<input type="submit" value="OK" name="b"></p></form>');

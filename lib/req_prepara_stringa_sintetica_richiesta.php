@@ -1,8 +1,7 @@
 <?php
 
 $testocompleto = $rec['testomail'];
-//$posperiodo = strpos($testocompleto,"", $testocompleto)
-//str_replace("");
+
 print "<td><small><small>$testocompleto<big><big></td>";
 $concesso = $rec['concessione'];
 print "<td align='center' valign='middle'>";

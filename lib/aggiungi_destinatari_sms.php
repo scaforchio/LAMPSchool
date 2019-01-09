@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 if (strpos($rec['telcel'], "+") != FALSE)
 {
     $dest = array();
@@ -29,7 +23,6 @@ if (strpos($rec['telcel'], "+") != FALSE)
     $dest['recipient'] = "39" . trim($destalu); // .$rec['telcel'];
     $dest['nome'] = $rec['nome'] . " " . $rec['cognome'];
     $iddest[] = $rec['idalunno'];
-
     $destinatari[] = $dest;
     $contasmsass++;
     $invio = true;
