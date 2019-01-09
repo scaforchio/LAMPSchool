@@ -118,7 +118,7 @@ if ($ope == 'I')
     // Inserimento firma con preventiva cancellazione di firma eventualmente già esistente
 
     $queryinsfirma = "delete from tbl_firme where iddocente=$iddocente and idlezione=$codlez";
-    $ris4 = eseguiQuery($con,$queryinsfirma);
+    $ris4 = eseguiQuery($con, $queryinsfirma);
     $queryinsfirma = "insert into tbl_firme(idlezione,iddocente) values ('$codlez','$iddocente')";
     $ris4 = eseguiQuery($con, $queryinsfirma);
     print "<div style=\"text-align: center;\"><b>Inserimento effettuato!</b></div>";
@@ -131,7 +131,7 @@ if ($ope == 'U')
 
     $queryselmod = "select oraultmod from tbl_lezioni where
               idlezione=$codlez";
-    $rislezmod = eseguiQuery($con,$queryselmod);
+    $rislezmod = eseguiQuery($con, $queryselmod);
     $recmod = mysqli_fetch_array($rislezmod);
     $ultimamodificaprecedente = $recmod['oraultmod'];
 
@@ -255,9 +255,12 @@ if (!$flagsovrapposizione)
             } else
             {
                 // Inserisco voti non già esistenti
-                $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
+                if ($votoal != 999)
+                {
+                    $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
 							values(" . $idal . ",$materia,$iddocente,$idclasse,'$codlez','$data','S',$votoal,'$giudal')";
-                $risins = eseguiQuery($con, $query);
+                    $risins = eseguiQuery($con, $query);
+                }
             }
         }
 
@@ -310,9 +313,12 @@ if (!$flagsovrapposizione)
             } else
             {
                 // Inserisco voti non già esistenti
-                $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
+                if ($votoal != 999)
+                {
+                    $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
 							values(" . $idal . ",$materia,$iddocente,$idclasse,'$codlez','$data','O',$votoal,'$giudal')";
-                $risins = eseguiQuery($con, $query);
+                    $risins = eseguiQuery($con, $query);
+                }
             }
         }
 
@@ -364,16 +370,16 @@ if (!$flagsovrapposizione)
             } else
             {
                 // Inserisco voti non già esistenti
-                $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
+                if ($votoal != 999)
+                {
+                    $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
 							values(" . $idal . ",$materia,$iddocente,$idclasse,'$codlez','$data','P',$votoal,'$giudal')";
-                $risins = eseguiQuery($con, $query);
+                    $risins = eseguiQuery($con, $query);
+                }
             }
         }
     }
 }
-
-$query = "DELETE FROM tbl_valutazioniintermedie WHERE voto>99";
-eseguiQuery($con, $query);
 
 echo "<p align='center'>";
 /*

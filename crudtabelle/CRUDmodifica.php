@@ -54,7 +54,7 @@ if ($id != 0)
     print "<form name='form1' action='CRUDmodregistra.php' method='POST'>";
 else
     print "<form name='form1' action='CRUDinsregistra.php' method='POST'>";
-print "<CENTER><table border ='0'>";
+print "<table border ='0' align='center'>";
 
 $chiaveprincipale = $recgen[$daticrud['campochiave']];
 $posarr = 0;
@@ -104,7 +104,7 @@ foreach ($daticrud['campi'] as $c)
             {
                 $valore = $recgen[$c[0]];
                 print "<td>";
-                print "<input type='" . $c[8] . "' value='" . $recgen[$c[0]] . "' name='campo[]" . $posarr . "' size='" . $c[5] . "' " . "' maxlength='" . $c[5] . "' min='" . $c[11] . "' " . "' max='" . $c[12] . "'$richiesto$disabilitato>";
+                print "<input type='" . $c[8] . "' value='" . $recgen[$c[0]] . "' name='campo[]" . $posarr . "' size='" . $c[5] . "' maxlength='" . $c[5] . "' min='" . $c[11] . "'  max='" . $c[12] . "'$richiesto$disabilitato>";
                 if ($c[15] == 1)
                     print "<input type='hidden' name='campo[]" . $posarr . "' value='$valore'>";
                 print "</td></tr>";
@@ -113,7 +113,7 @@ foreach ($daticrud['campi'] as $c)
         else
         {
             $valore = $recgen[$c[0]];
-            print "<td><select name='campo[]" . $posarr . "'$richiesto$disabilitato><option value=''>&nbsp</option>";
+            print "<td><select name='campo[]" . $posarr . "'$richiesto$disabilitato><option value=''>&nbsp;</option>";
             // $query per selezione elementi della select
             if ($c[16] != '')
                 $subquery1 = " and " . $c[3] . " in(" . $c[16] . "'$chiaveprincipale')";
@@ -123,7 +123,11 @@ foreach ($daticrud['campi'] as $c)
                 $subquery2 = " and " . $c[3] . " in(" . $c[17] . ")";
             else
                 $subquery2 = '';
-            $query = "select " . $c[3] . "," . $c[4] . " from " . $c[2] . " where true $subquery1 $subquery2 order by " . $c[4];
+            if ($c[18]==1)
+                $distinct="DISTINCT ";
+            else
+                $distinct="";
+            $query = "select $distinct" . $c[3] . "," . $c[4] . " from " . $c[2] . " where true $subquery1 $subquery2 order by " . $c[4];
             print $query;
             $ris = eseguiQuery($con, $query);
             while ($rec = mysqli_fetch_array($ris))

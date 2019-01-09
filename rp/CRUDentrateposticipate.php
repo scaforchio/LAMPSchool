@@ -25,55 +25,34 @@ require_once '../lib/funzioni.php';
 
 $daticrud = array();
 // Tabella da modificare
-$daticrud['titolo'] = 'GESTIONE CLASSI';
+$daticrud['titolo'] = 'GESTIONE ENTRATE POSTICIPATE CLASSI';
 
 
-$daticrud['tabella'] = ("tbl_classi");
+$daticrud['tabella'] = ("tbl_entrateclassi");
 
 $daticrud['larghezzatabella'] = "80%";
 // Nome della tabella per visualizzazioni
 $daticrud['aliastabella'] = "classi";
 // Campo con l'id univoco per la tabella
-$daticrud['campochiave'] = "idclasse";
+$daticrud['campochiave'] = "identrataclasse";
 
 // Campi in base ai quali ordinare (specificare gli alias (14° valore nella descrizione del campo)
 // se ci sono campi con lo stesso nome)
-$daticrud['campiordinamento'] = "anno,specializzazione,sezione";
+$daticrud['campiordinamento'] = "data";
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
 $daticrud['condizione'] = "true";
 
-$daticrud['abilitazionemodifica'] = 1;
+$daticrud['abilitazionemodifica'] = 0;
 $daticrud['abilitazionecancellazione'] = 1;
 $daticrud['abilitazioneinserimento'] = 1;
 
 // Dati per conferma cancellazione (0 senza conferma, 1 con conferma ed elenco dei campi da visualizzare per conferma)
 
-$daticrud['confermacancellazione'] = [1, ''];
+$daticrud['confermacancellazione'] = [0, ''];
 // Vincoli per possibilità di cancellazione. Non devono esserci riferimenti nelle seguenti tabelle nel campo
 // specificato
 $daticrud['vincolicanc'] = [
-    ['tbl_alunni', 'idclasse'],
-    ['tbl_competalu', 'idclasse'],
-    ['tbl_competdoc', 'idclasse'],
-    ['tbl_documenti', 'idclasse'],
-    ['tbl_entrateclassi', 'idclasse'],
-    ['tbl_esiti', 'idclasse'],
-    ['tbl_esami3m', 'idclasse'],
-    ['tbl_esmaterie', 'idclasse'],
-    ['tbl_giudizi', 'idclasse'],
-    ['tbl_lezioni', 'idclasse'],
-    ['tbl_lezionicert', 'idclasse'],
-    ['tbl_notealunno', 'idclasse'],
-    ['tbl_noteclasse', 'idclasse'],
-    ['tbl_osssist', 'idclasse'],
-    ['tbl_scrutini', 'idclasse'],
-    ['tbl_valutazionicomp', 'idclasse'],
-    ['tbl_valutazioniintermedie', 'idclasse'],
-    ['tbl_annotazioni', 'idclasse'],
-    ['tbl_assemblee', 'idclasse'],
-    ['tbl_cambiamenticlasse', 'idclasse'],
-    ['tbl_cattnosupp', 'idclasse'],
-    ['tbl_cattsupp', 'idclasse']
+    
 ];
 
 
@@ -99,17 +78,15 @@ $daticrud['vincolicanc'] = [
  *      della tabella esterna con riferimento alla chiave primaria della tabella principale
  * 17 - condizione di selezione dei valori della tabella esterna basata su un valore ricavabile
  *      in fase di preparazione dei daticrud (Es. iddocente, tipoutente, ecc.)
- * 18 - clausola distinct nella selezione dei valori della tabella esterna (1-sì, 0-no) 
+ * 18 - clausola distinct nella selezione dei valori della tabella esterna (1-sì, 0-no)
+ 
  */
 
 $daticrud['campi'] = [
-    ['anno', '1', '', '', '', 1, 'Anno', 1, 'number', '', 1, '1', $numeroanni, 0, '', 1],
-    ['sezione', '2', 'tbl_sezioni', 'denominazione', 'denominazione', 1, 'Sezione', 2, '', '', 1, '', '', 1, 'sezione', 1],
-    ['specializzazione', '3', 'tbl_specializzazioni', 'denominazione', 'denominazione', 1, $plesso_specializzazione, 3, '', '', 1, '', '', 1, 'specializzazione', 1],
-    ['oresett', 4, '', '', '', 2, "Ore settimanali", 4, 'number', '', 1, '20', '48', 0, '', 0],
-    ['idcoordinatore', 5, 'tbl_docenti', 'iddocente', 'cognome,nome', 0, 'Docente', 5, '', '', 0, '', '', 1, '', 0, 'select distinct(iddocente) from tbl_cattnosupp where idclasse='],
-    ['rappresentante1', 6, 'tbl_alunni', 'idalunno', 'cognome,nome', 0, 'Primo rappresentante', 6, '', '', 0, '', '', 1, 'cognalu1,nomealu1', 0, 'select distinct(idalunno) from tbl_alunni where idclasse='],
-    ['rappresentante2', 7, 'tbl_alunni', 'idalunno', 'cognome,nome', 0, 'Secondo rappresentante', 7, '', '', 0, '', '', 0, 'cognalu2,nomealu2', 0, 'select distinct(idalunno) from tbl_alunni where idclasse=']
+    ['idclasse', 1, 'tbl_classi', 'idclasse', 'anno,sezione,specializzazione', 1, 'Classe', 1, '', '', 0, '', '', 1, '', 0],
+    ['data', 2, '', '', '', 1, 'Data', 2, 'date', '', 1, '', '', 0, '', 1],
+    ['ora', 3, 'tbl_orario', 'inizio', 'inizio', 1, 'Ora', 3, '', '', 1, '', '', 0, '', 1,'','',1]
+    
 ];
 
 

@@ -223,9 +223,12 @@ while ($id = mysqli_fetch_array($ris))
         } else
         {
             // Inserisco voti non già esistenti
-            $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
+            if ($votoal != 999)
+            {
+                $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
 				  values(" . $idal . ",$idmateria,$iddocente,$idclasse,'$idlezione','$data','S',$votoal,'$giudal')";
-            $risins = eseguiQuery($con, $query);
+                $risins = eseguiQuery($con, $query);
+            }
         }
     }
 
@@ -278,9 +281,12 @@ while ($id = mysqli_fetch_array($ris))
         } else
         {
             // Inserisco voti non già esistenti
-            $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
+            if ($votoal != 999)
+            {
+                $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
 				  values(" . $idal . ",$idmateria,$iddocente,$idclasse,'$idlezione','$data','O',$votoal,'$giudal')";
-            $risins = eseguiQuery($con, $query);
+                $risins = eseguiQuery($con, $query);
+            }
         }
     }
 
@@ -331,15 +337,15 @@ while ($id = mysqli_fetch_array($ris))
         } else
         {
             // Inserisco voti non già esistenti
-            $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
+            if ($votoal != 999)
+            {
+                $query = "insert into tbl_valutazioniintermedie(idalunno,idmateria,iddocente,idclasse,idlezione,data,tipo,voto,giudizio)
 				  values(" . $idal . ",$idmateria,$iddocente,$idclasse,'$idlezione','$data','P',$votoal,'$giudal')";
-            $risins = eseguiQuery($con, $query);
+                $risins = eseguiQuery($con, $query);
+            }
         }
     }
 }
-
-$query = "DELETE FROM tbl_valutazioniintermedie WHERE voto>99";
-eseguiQuery($con, $query);
 
 echo "<p align='center'>";
 
