@@ -77,7 +77,7 @@ if (!($result))
          <td width="50%"><b>Data (gg/mm/aaaa)</b></td>');
     echo('   <td width="50%">');
     echo('   <select name="giorno">');
-    require '../lib/aggiungi_giorni_a_select.php';
+    require '../lib/req_aggiungi_giorni_a_select.php';
     /*
       for  ($g = 1; $g <= 31; $g++)
       {
@@ -103,7 +103,7 @@ if (!($result))
     echo("</select>");
 
     echo('<select name="meseanno">');
-    require '../lib/aggiungi_mesi_a_select.php';
+    require '../lib/req_aggiungi_mesi_a_select.php';
     /*
       for  ($m = 9; $m <= 12; $m++)
       {

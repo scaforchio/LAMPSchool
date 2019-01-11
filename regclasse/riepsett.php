@@ -124,11 +124,11 @@ print ('         <tr>
 
 echo('   <td width="50%">');
 echo('   <select name="gio" ONCHANGE="voti.submit()">');
-require '../lib/aggiungi_giorni_a_select.php';
+require '../lib/req_aggiungi_giorni_a_select.php';
 echo("</select>");
 
 echo('   <select name="meseanno" ONCHANGE="voti.submit()">');
-require '../lib/aggiungi_mesi_a_select.php';
+require '../lib/req_aggiungi_mesi_a_select.php';
 
 echo("</select>");
 
@@ -156,7 +156,7 @@ print('
 //  Riempimento combobox delle classi
 //
 
-require '../lib/aggiungi_classi_a_select.php';
+require '../lib/req_aggiungi_classi_a_select.php';
 echo('
       </SELECT>
       </td></tr>');

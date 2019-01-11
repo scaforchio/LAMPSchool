@@ -38,7 +38,8 @@ $daticrud['campochiave'] = "idclasse";
 
 // Campi in base ai quali ordinare (specificare gli alias (14° valore nella descrizione del campo)
 // se ci sono campi con lo stesso nome)
-$daticrud['campiordinamento'] = "anno,specializzazione,sezione";
+// Aggiungere DESC in caso di ordinamento inverso
+$daticrud['campiordinamento'] = "anno DESC,specializzazione,sezione";
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
 $daticrud['condizione'] = "true";
 

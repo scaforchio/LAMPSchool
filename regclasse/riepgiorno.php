@@ -79,29 +79,6 @@ $mese = substr($meseanno, 0, 2);
 
 $giornosettimana = "";
 
-/*
-  if ($idlezione!="" & $giorno!="" & $meseanno!="" )
-  {
-  $mese=substr($meseanno,0,2);
-  $anno=substr($meseanno,5,4);
-
-  //  $giornosettimana=giorno_settimana($anno."-".$mese."-".$giorno);
-
-  $query="select idclasse, idmateria from tbl_cattnosupp where idcattedra=$cattedra";
-
-  $ris=eseguiQuery($con,$query);
-  if($nom=mysqli_fetch_array($ris))
-  {
-  $materia=$nom['idmateria'];
-  $idclasse=$nom['idclasse'];
-  }
-
-
-  }
-  }
- */
-
-
 if ($giorno == '')
 {
     $giorno = date('d');
@@ -121,7 +98,7 @@ print ('
          <p align="center">
          <table align="center">');
 
-print ('         <tr>
+print (' <tr>
          <td width="50%"><b>Data (gg/mm/aaaa)</b></td>');
 
 
@@ -132,12 +109,12 @@ print ('         <tr>
 
 echo('   <td width="50%">');
 echo('   <select name="gio" ONCHANGE="voti.submit()">');
-require '../lib/aggiungi_giorni_a_select.php';
+require '../lib/req_aggiungi_giorni_a_select.php';
 
 echo("</select>");
 
 echo('   <select name="meseanno" ONCHANGE="voti.submit()">');
-require '../lib/aggiungi_mesi_a_select.php';
+require '../lib/req_aggiungi_mesi_a_select.php';
 echo("</select>");
 
 
@@ -163,7 +140,7 @@ print('
 //  Riempimento combobox delle classi
 //
 
-require '../lib/aggiungi_classi_a_select.php';
+require '../lib/req_aggiungi_classi_a_select.php';
 
 echo('
       </SELECT>
@@ -234,13 +211,7 @@ if ($anno == "")
 }
 
 $giornosettimana = giorno_settimana($anno . "-" . $mese . "-" . $giorno);
-//if ($cattedra!="")
-//{
-//   $query="select * from tbl_cattnosupp where iddocente='$iddocente' and idclasse='$idclasse' and idmateria='$materia'";
-//   // print inspref($query);
-//   $ris=eseguiQuery($con,$query);
-//   $numerorighe=mysqli_num_rows($ris);
-//}
+
 
 
 if (!checkdate($m, $g, $a))
@@ -252,9 +223,7 @@ if (!checkdate($m, $g, $a))
     {
         print ("<Center> <big><big>Il giorno selezionato &egrave; una domenica!</big></big> </center>");
     }
-// else if (($anno.$mese.$giorno)>date("Ymd"))
-//   print ("<Center> <big><big>Data selezionata maggiore della data odierna!</big></big> </center>");   
-    else
+   else
     {
         if (($idclasse != ""))
         {

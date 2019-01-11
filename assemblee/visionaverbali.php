@@ -90,7 +90,7 @@ print "</select>";
 
 print " <center><b>Mese </b><SELECT NAME='mese' ONCHANGE='classi.submit()'><option value=''>&nbsp;";
 
-require '../lib/aggiungi_mesi_a_select.php';
+require '../lib/req_aggiungi_mesi_a_select.php';
 
 echo("</select>");
 

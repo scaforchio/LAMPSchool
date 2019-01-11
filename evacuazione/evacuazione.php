@@ -135,12 +135,12 @@ print ('         <tr>
 
 echo('   <td width="50%">');
 echo('   <select name="gio" ONCHANGE="evacuazione.submit()">');
-require '../lib/aggiungi_giorni_a_select.php';
+require '../lib/req_aggiungi_giorni_a_select.php';
 
 echo("</select>");
 
 echo('   <select name="meseanno" ONCHANGE="evacuazione.submit()">');
-require '../lib/aggiungi_mesi_a_select.php';
+require '../lib/req_aggiungi_mesi_a_select.php';
 echo("</select>");
 
 

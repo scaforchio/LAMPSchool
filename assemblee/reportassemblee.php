@@ -68,7 +68,7 @@ print " <center><b>Mese </b><SELECT NAME='mese' ONCHANGE='classi.submit()'><opti
 
 
 
-require '../lib/aggiungi_mesi_a_select.php';
+require '../lib/req_aggiungi_mesi_a_select.php';
 echo("</select>");
 
 print ("</form>");

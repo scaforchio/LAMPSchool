@@ -470,7 +470,7 @@ function daily_cron($suffisso, $con, $lavori)
 
                 if (!$asspre & $telcel != "")
                 {
-                    require 'aggiungi_destinatari_sms.php';
+                    require 'req_aggiungi_destinatari_sms.php';
                 }
             }
 

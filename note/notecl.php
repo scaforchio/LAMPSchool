@@ -156,7 +156,7 @@ if ($classeregistro == "")
     print ("<input type='hidden' name='gio' value='$giorno'>");
     echo('   <select name="gio" ONCHANGE="tbl_noteclasse.submit()" disabled>');
 }
-require '../lib/aggiungi_giorni_a_select.php';
+require '../lib/req_aggiungi_giorni_a_select.php';
 /*
   for  ($g = 1; $g <= 31; $g++)
   {
@@ -188,7 +188,7 @@ if ($classeregistro == "")
     print ("<input type='hidden' name='mese' value='$mese'>");
     echo('   <select name="mese" ONCHANGE="tbl_noteclasse.submit()" disabled>');
 }
-require '../lib/aggiungi_mesi_a_select.php';
+require '../lib/req_aggiungi_mesi_a_select.php';
 /*
   for  ($m = 9; $m <= 12; $m++)
   {

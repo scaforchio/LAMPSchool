@@ -22,7 +22,7 @@ session_start();
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
-@require "../lib/assegna_parametri_a_sessione.php";
+@require "../lib/req_assegna_parametri_a_sessione.php";
 
 $suffisso = stringa_html('suffisso');
 $_SESSION['suffisso'] = $suffisso;

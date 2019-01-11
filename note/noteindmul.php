@@ -171,7 +171,7 @@ else
     print "<input type='hidden' name='gio' value='$giorno'>'";
     print ("<select name='gio' disabled>");
 }
-require '../lib/aggiungi_giorni_a_select.php';
+require '../lib/req_aggiungi_giorni_a_select.php';
 echo("</select>");
 if ($classeregistro == "")
     echo("   <select name='mese'>");
@@ -180,7 +180,7 @@ else
     print("<input type='hidden' name='mese' value='$meseanno'>
           <select name='mese' disabled>");
 }
-require '../lib/aggiungi_mesi_a_select.php';
+require '../lib/req_aggiungi_mesi_a_select.php';
 /*
   for  ($m = 9; $m <= 12; $m++)
   {

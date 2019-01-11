@@ -176,11 +176,11 @@ print ("
 
 print("   <td width='50%'>");
 print("   <select name='gio'  ONCHANGE='valabil.submit()'>");
-require '../lib/aggiungi_giorni_a_select.php';
+require '../lib/req_aggiungi_giorni_a_select.php';
 print("</select>");
 
 print("   <select name='mese' ONCHANGE='valabil.submit()'>");
-require '../lib/aggiungi_mesi_a_select.php';
+require '../lib/req_aggiungi_mesi_a_select.php';
 
 print("</select>");
 

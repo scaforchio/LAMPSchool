@@ -49,7 +49,7 @@ try
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
 // Passaggio dei parametri nella sessione
-@require "../lib/assegna_parametri_a_sessione.php";
+@require "../lib/req_assegna_parametri_a_sessione.php";
 
 
 

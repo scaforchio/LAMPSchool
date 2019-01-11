@@ -30,14 +30,25 @@ $campiordinamento = explode(",", $daticrud['campiordinamento']);
 foreach ($campiordinamento as $campoord)
 {
     $indicecampo = 0;
+    $arrord = explode(" ", $campoord);
+    $tipoord = $arrord[1];
+    $campoord= $arrord[0];
+    // print "DATI $campoord ".$tipoord;
     foreach ($daticrud['campi'] as $campo)
     {
-        //print "DATI $campoord ".$campo[0];
-        
-        if ($campoord == $campo[0])
-            $stringaopzioniord .= "[$indicecampo,'asc'],";
-       
-           $indicecampo++;
+        // print "DATI $campoord ".$campo[0];
+        // print "DATI $campoord ".$tipoord[1];
+        if ($tipoord == '' | $tipoord == 'ASC' | $tipoord == 'asc')
+        {
+            if ($campoord == $campo[0])
+                $stringaopzioniord .= "[$indicecampo,'asc'],";
+        }
+        else
+        {
+            if ($campoord == $campo[0])
+                $stringaopzioniord .= "[$indicecampo,'desc'],";
+        }
+        $indicecampo++;
     }
 }
 //print "Stringa $stringaopzioniord";
