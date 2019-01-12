@@ -554,3 +554,18 @@ function esiste_lezione($data, $con)
     else
         return false;
 }
+
+function esiste__assenza($data, $con)
+{
+
+    $query = "select * from tbl_assenze where data='$data'";
+
+    $ris = eseguiQuery($con, $query);
+
+    if (mysqli_num_rows($ris) > 0)
+        return true;
+    else
+        return false;
+}
+ 
+ 

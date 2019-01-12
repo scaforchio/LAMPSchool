@@ -86,7 +86,6 @@ $daticrud['campi'] = [
     ['idclasse', 1, 'tbl_classi', 'idclasse', 'anno,sezione,specializzazione', 1, 'Classe', 1, '', '', 0, '', '', 1, '', 0],
     ['data', 2, '', '', '', 1, 'Data', 2, 'date', '', 1, '', '', 0, '', 1],
     ['ora', 3, 'tbl_orario', 'inizio', 'inizio', 1, 'Ora', 3, '', '', 1, '', '', 0, '', 1,'','',1]
-    
 ];
 
 

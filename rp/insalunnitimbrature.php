@@ -69,7 +69,7 @@ if ($datatimbratura == $dataoggi)   // PER EVIATRE CHE SI ATTIVI IN CASO DI INSE
     $val = mysqli_fetch_array($ris);
     $numtimbrature = $val['numtimbrature'];
 
-    $esiste_assenza = esiste_assenza($dataoggi, $con);
+    $esiste_assenza = esiste__assenza($dataoggi, $con);
 
     // INSERIMENTO ASSENZE PER TUTTI ALLA PRIMA TIMBRATURA
     if (($numtimbrature == 0) && esiste_alunno($idalunno, $con) && (!$esiste_assenza))
@@ -161,7 +161,7 @@ function esiste_alunno($matricola, $conn)
         return false;
     }
 }
-
+/*
 function esiste_assenza($dataodierna, $conn)
 {
     $query = "select * from tbl_assenze where data='$dataodierna'";
@@ -180,3 +180,4 @@ function esiste_assenza($dataodierna, $conn)
         return false;
     }
 }
+*/

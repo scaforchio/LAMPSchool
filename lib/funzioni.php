@@ -559,7 +559,7 @@ function daily_cron($suffisso, $con, $lavori)
         $codicevicario = $_SESSION['codicevicario'];
         $codicevicario = 1000000000 + $codicevicario;
 
-        if (esiste_lezione(date('Y-m-d'), $con))
+        if (esiste__assenza(date('Y-m-d'), $con))  // Se non ci sono assenze vuol dire che non ci sono state lezioni!?
         {
             $query = "SELECT DISTINCT idalunno FROM tbl_ritardi
             WHERE (isnull(giustifica) or giustifica=0) AND data< '$datalimiteinferiore'

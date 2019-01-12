@@ -1,22 +1,23 @@
 <?php
 
 // session_start();
+
 @require_once("../lib/funzioni.php");
 $suffisso = stringa_html('suffisso');
 @require_once("../php-ini" . $suffisso . ".php");
 if ($suffisso != "")
-{
     $suff = $suffisso . "/";
-} else
+else
     $suff = "";
+
+inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Invio dati", $nomefilelog . "rp", $suff);
 
 //session_start();
 //$_SESSION['nomefilelog']=$nomefilelog;
-//$_SESSION['suffisso']=$suffisso;
-$indirizzoip = IndirizzoIpReale();
+//$_SESSION['suffisso']=$suffisso;$indirizzoip = IndirizzoIpReale();
 //if (!$_SESSION['abilitata']=='yes')
 //{
-//    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') ."§$indirizzoip §Richiesta trasmissione negata!", $nomefilelog."rp");
+//   inserisci_log("LAMPSchool§" . date('m-d|H:i:s') ."§$indirizzoip §Richiesta trasmissione negata!", $nomefilelog."rp");
 //    die("Errore di mancata abilitazione!");
 //
 //}
@@ -76,7 +77,7 @@ if ($chiavegenerata != $chiavericevuta)
 
 
     $query = "select count(*) as numtimbrature from tbl_timbrature where datatimbratura='$dataoggi' and idalunno in(select idalunno from tbl_alunni where idclasse<>0)";
-//inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "", $nomefilelog."rp",$suff);
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "", $nomefilelog . "rp", $suff);
 
     if (!$ris = eseguiQuery($con, $query))
     {
@@ -88,7 +89,7 @@ if ($chiavegenerata != $chiavericevuta)
     $numtimbrature = $val['numtimbrature'];
 
     $esiste_assenza = esiste_assenza($dataoggi, $con, $nomefilelog, $suff);
-
+    //$esiste_assenza=true;
     $arrtimb = array();
 
     $m1 = substr($m1, 0, strlen($m1) - 1); // ELIMINO il ; finale per non avere un elemento vuoto alla fine dell'array
@@ -292,7 +293,7 @@ function esiste_alunno($matricola, $conn, $nomefilelog, $suff)
 {
     $query = "select * from tbl_alunni where idalunno='$matricola' and idclasse<>0";
     //inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "", $nomefilelog."rp",$suff);
-    if (!$ris = eseguiQuery($con, $query))
+    if (!$ris = eseguiQuery($conn, $query))
     {
         inserisci_log("Errore esecuzione query" . inspref($query, false), $nomefilelog . "rp", $suff);
         //die("errore query " . inspref($query, false));
@@ -318,7 +319,6 @@ function esiste_assenza($dataodierna, $conn, $nomefilelog, $suff)
     }
     if (mysqli_num_rows($ris) != 0)
     {
-
         return true;
     } else
     {

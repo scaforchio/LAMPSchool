@@ -48,12 +48,11 @@ $script = "<script src='../lib/js/popupjquery.js'></script>
 $script .= "<script>
 
 $(document).ready(function(){
-
-				 $('input[name^=\"oraentrata\"]').datetimepicker({
+        			 $('input[name^=\"oraentrata\"]').datetimepicker({
 						formatTime: 'H:i',
 						format: 'H:i',
 						step: 5,
-                        datepicker:false
+                                    datepicker:false
 					});
 			 });
 

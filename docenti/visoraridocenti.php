@@ -124,7 +124,7 @@ emaildocente='$maildocente'";
 
                 $ris = eseguiQuery($con, $query);
                 if ($rec = mysqli_fetch_array($ris))
-                    print ("<td align='center'>" . inspref($query) . $rec['nomeclasse'] . "<br>" . $rec['nomemateria'] . "<br>" . $rec['nomeaula'] . "</td>");
+                    print ("<td align='center'>" . $rec['nomeclasse'] . "<br>" . $rec['nomemateria'] . "<br>" . $rec['nomeaula'] . "</td>");
                 else
                     print "<td></td>";
             }
