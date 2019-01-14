@@ -85,5 +85,5 @@ $daticrud['campi'] = [
 
 $_SESSION['daticrud'] = $daticrud;
 
-header("location: ../crudtabelle/CRUD.php?suffisso=" . $_SESSION['suffisso']);
+header("location: ../lib/CRUD.php?suffisso=" . $_SESSION['suffisso']);
 

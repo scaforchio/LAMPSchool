@@ -67,7 +67,7 @@ print $queryupd;
 eseguiQuery($con, $queryupd);
 inserisci_log($_SESSION['userid'] . "§" . date('m-d|H:i:s') . "§" . $_SESSION['indirizzoip'] . "§" . $queryupd . "");
 
-header("location: ../crudtabelle/CRUD.php?suffisso=" . $_SESSION['suffisso']);
+header("location: ../lib/CRUD.php?suffisso=" . $_SESSION['suffisso']);
 
 stampa_piede("");
 mysqli_close($con);

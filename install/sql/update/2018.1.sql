@@ -46,7 +46,6 @@ UPDATE tbl_annotazioni set visibilitaalunni=0 where isnull(visibilitaalunni);
 
 ALTER TABLE tbl_assemblee ADD rapportoperdirigente text AFTER commenti_verbale;
 
-
 CREATE TABLE IF NOT EXISTS tbl_recuperipermessi (
   idrecupero int(11),
   iddocente int(11),
@@ -62,7 +61,6 @@ ALTER TABLE tbl_recuperipermessi
 MODIFY idrecupero int(11) AUTO_INCREMENT;
 
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'codicevicario', '', 'Codice del docente con funzioni di vicario','');
-
 
 ALTER TABLE tbl_classi
 ADD aprifila1 int(11) DEFAULT 0,

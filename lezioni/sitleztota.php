@@ -480,9 +480,11 @@ if ($per != "" & $catt != "")
                where idclasse='$idclasse' 
                      and idalunno in (select idalunno from tbl_cattnosupp where iddocente='$id_ut_doc' and idmateria='$idmateria' and idclasse='$idclasse') order by cognome, nome, datanascita";
     $ris = eseguiQuery($con, $query);
+    
     $numeroalunno = 0;
     while ($val = mysqli_fetch_array($ris))
     {
+        
         if ($numeroalunno % 2 == 1)
             print(" <tr bgcolor='f0f0f0'>");
         else

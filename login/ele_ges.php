@@ -36,15 +36,25 @@ if ($urlattuale == substr($urlorigine, 0, strlen($urlattuale)))
     $origineok = true;
 }
 
-try
+if (isset($_SESSION['suffisso']))
 {
+    require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
+    require_once '../lib/funzioni.php';
+}
+else
+{
+    print "<br><br><b><big><center>Sessione scaduta!</center></big></b>";
+    print "<br><b><big><center>Rieffettuare il <a href='../login.php'>login</a>.</center></big></b>";
+}
+/*try
+{ 
     require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
     require_once '../lib/funzioni.php';
 } catch (Exception $e)
 {
     print "<br><br><b><big><center>Sessione scaduta!</center></big></b>";
-    print "<br><b><big><center>Rieffettuare il <a href='../pianif.php'>login</a>.</center></big></b>";
-}
+    print "<br><b><big><center>Rieffettuare il <a href='../login.php'>login</a>.</center></big></b>";
+}*/
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
