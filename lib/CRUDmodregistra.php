@@ -43,7 +43,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='
 ordina_array_su_campo_sottoarray($daticrud['campi'], 7);
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore connessione!");
 
-// COSTRUZIONE QUERY DI INSERIMENTO
+// COSTRUZIONE QUERY DI INSERIMENTO 
 
 $elencocampivalori = "";
 

@@ -29,7 +29,8 @@ session_start();
 
 //  istruzioni per tornare alla pagina di login se non c'è una sessione valida
 ////session_start();
-$tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
+$tipoutente = $_SESSION["tipoutente"];
+$idutente = $_SESSION['idutente'];//prende la variabile presente nella sessione
 if ($tipoutente == "")
 {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
@@ -57,7 +58,12 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 $query = "SELECT * FROM tbl_alunni LEFT JOIN tbl_classi
          ON tbl_alunni.idclasse=tbl_classi.idclasse
          ORDER BY cognome,nome,anno, sezione, specializzazione";
-
+if ($tipoutente=='D')
+    $query = "SELECT * FROM tbl_alunni LEFT JOIN tbl_classi
+         ON tbl_alunni.idclasse=tbl_classi.idclasse
+         WHERE tbl_alunni.idclasse IN (SELECT idclasse from tbl_classi WHERE idcoordinatore=$idutente)
+         ORDER BY cognome,nome,anno, sezione, specializzazione
+         ";
 $ris = eseguiQuery($con, $query);
 //print "tttt ".inspref($query);
 print "<form name='selealu' action='visvalpre.php' method='post'>";

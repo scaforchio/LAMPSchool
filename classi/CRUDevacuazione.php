@@ -83,8 +83,8 @@ $daticrud['vincolicanc'] = [
  *      della tabella esterna con riferimento alla chiave primaria della tabella principale
  */
 
-if ($_SESSION['tipoutente'] == 'D')
-    $selezioneclasse = "select idclasse from tbl_classi where idcoordinatore=$iddocente";
+//if ($_SESSION['tipoutente'] == 'D')
+//    $selezioneclasse = "select idclasse from tbl_classi where idcoordinatore=$iddocente";
 
 $daticrud['campi'] = [
     ['idclasse', '1', ('tbl_classi'), 'idclasse', 'anno,sezione,specializzazione', 0, 'Classe', 1, '', '', 1, '', '', 1,'',1],

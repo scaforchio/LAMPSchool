@@ -938,7 +938,7 @@ function creaFileCSV($idclasse, $periodo, $elencoalunni, &$alu, &$mattipo, &$val
     $nf = str_replace(" ", "_", $nf);
     $nomefile = "$cartellabuffer/" . $nf;
     $fp = fopen($nomefile, 'w');
-    $query = "SELECT distinct tbl_materie.idmateria,sigla,tipovalutazione FROM tbl_cattnosupp,tbl_materie
+    $query = "SELECT distinct tbl_materie.idmateria,sigla,tipovalutazione,progrpag FROM tbl_cattnosupp,tbl_materie
            WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
            and tbl_cattnosupp.idclasse=$idclasse
            and tbl_cattnosupp.iddocente <> 1000000000

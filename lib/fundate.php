@@ -333,8 +333,14 @@ function orafine($h, $g, $conn)
  */
 function giorni_lezione_tra_date($datainizio, $datafine, $conn)
 {
+  /*  $query = "select distinct datalezione from tbl_lezioni
+            where datalezione>='$datainizio' and datalezione<='$datafine'"; */
+    
+    // AGGIUNTO IL CONTROLLO SULLA TBL_FESTIVITA per evitare di conteggiare giorni
+    // in cui non c'è scuola ma con lezioni già inserite (vedi ad esempio giorni di chiusura per neve)
     $query = "select distinct datalezione from tbl_lezioni
-            where datalezione>='$datainizio' and datalezione<='$datafine'";
+            where datalezione>='$datainizio' and datalezione<='$datafine' and 
+            datalezione not in(select data from tbl_festivita)";
     $ris = eseguiQuery($conn,$query);
     $giornilezione = mysqli_num_rows($ris);
 
@@ -342,7 +348,7 @@ function giorni_lezione_tra_date($datainizio, $datafine, $conn)
 }
 
 /**
- * RESTITUISCE I GIORNI EFFETTIVI DI LEZIONE TRA DUE DATE (INCLUSE)
+ * RESTITUISCE IL GIORNO DI LEZIONE SOTTRAENDO UN CERTO NUMERO DI GIORNI)
  *
  * @param string $datainizio
  * @param string $datafine

@@ -54,6 +54,7 @@ if ($id != 0)
     print "<form name='form1' action='CRUDmodregistra.php' method='POST'>";
 else
     print "<form name='form1' action='CRUDinsregistra.php' method='POST'>";
+
 print "<table border ='0' align='center'>";
 
 $chiaveprincipale = $recgen[$daticrud['campochiave']];
@@ -155,8 +156,6 @@ print "</table>";
 print "<center><br><input type='hidden' name='id' value='$id'><input type='submit' name='registra' value='Registra'> </CENTER>";
 
 print "</form>";
-
-
 
 stampa_piede("");
 mysqli_close($con);

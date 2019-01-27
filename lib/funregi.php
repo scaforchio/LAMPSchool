@@ -54,11 +54,11 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
             {
                 print "<center><br><a href='../lezioni/lez.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&meseanno=$mese'>Lezioni</a>&nbsp;&nbsp;&nbsp;<a href='../lezioni/lezsupp.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&meseanno=$mese&cattedra=$cattedra'>Supplenze</a></center>";
             }
-        } else
+        } /*else
         {
 
             print "<center><br><a href='../lezioni/lez.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&meseanno=$mese'>Lezioni</a></center>";
-        }
+        } */
     }
     // FINE MODIFICA ANTE TOKEN
     print "<table align='center' border=1 width=100% class=smallchar>

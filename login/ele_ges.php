@@ -44,7 +44,7 @@ if (isset($_SESSION['suffisso']))
 else
 {
     print "<br><br><b><big><center>Sessione scaduta!</center></big></b>";
-    print "<br><b><big><center>Rieffettuare il <a href='../login.php'>login</a>.</center></big></b>";
+    print "<br><b><big><center>Rieffettuare il <a href='../'>login</a>.</center></big></b>";
 }
 /*try
 { 
@@ -574,10 +574,12 @@ if ($cambiamentopassword)
             menu_title_begin('FUNZIONI COORDINATORE');
 
             menu_item('../valutazioni/riepvoticlasse.php', 'SITUAZIONE VOTI MEDI PER CLASSE');
+            menu_item('../valutazioni/visvalpre.php', 'SITUAZIONE ALUNNO');
             menu_item('../note/stampanote.php', 'STAMPA NOTE PER CLASSE');
             menu_item('../assenze/sitassmens.php', 'SITUAZIONE MENSILE ASSENZE');
             menu_item('../assenze/sitasstota.php', 'SITUAZIONE TOTALE ASSENZE');
             menu_item('../assenze/deroghe.php', 'DEROGHE ASSENZE');
+            menu_item('../alunni/CRUD_autorizzazioni.php', 'Gestione autorizzazioni ad uscita anticipata con classe');
             menu_item('../assenze/visderoghe.php', 'SITUAZIONE DEROGHE ASSENZE');
             menu_item('../scrutini/riepvoti.php', 'TABELLONE SCRUTINI INTERMEDI');
             menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
@@ -961,7 +963,8 @@ if ($cambiamentopassword)
 
         menu_item('../alunni/attr_classe.php', 'Attribuisci classe ad alunni');
         menu_item('../alunni/vis_alu_ricerca.php', 'Ricerca alunni');
-        menu_item('../alunni/autorizzazioni.php', 'Visualizza deroghe ed autorizzazioni');
+        //menu_item('../alunni/autorizzazioni.php', 'Visualizza deroghe ed autorizzazioni');
+        menu_item('../alunni/CRUD_autorizzazioni.php', 'Gestione autorizzazioni');
         menu_item('../segreteria/vis_imp.php', 'IMPIEGATI DI SEGRETERIA');
         menu_item('../docenti/vis_doc.php', 'DOCENTI');
         menu_item('../colloqui/disponibilita.php', 'DISPONIBIL. DOCENTI');
@@ -1026,6 +1029,7 @@ if ($cambiamentopassword)
         menu_item('../assenze/sitasstota.php', 'SITUAZIONE TOTALE');
         menu_item('../assenze/sitassprob.php', 'SITUAZIONI PROBLEMATICHE');
         menu_item('../assenze/sitassperclassi.php', 'PERCENTUALI PER CLASSE');
+        menu_item('../assenze/sitgiustifiche.php', 'VISUALIZZA MANCANZA GIUSTIFICHE');
         menu_separator("");
         menu_item('../rp/vistimbrature.php', 'VISUALIZZA TIMBRATURE');
         menu_item('../rp/selealunnipresenza.php', 'FORZA PRESENZA ALUNNI');
@@ -1033,6 +1037,7 @@ if ($cambiamentopassword)
         menu_item('../rp/selealunnitimbraturaforzata.php', 'FORZA TIMBRATURE');
         menu_item('../rp/autorizzaritardo.php', 'AUTORIZZA ENTRATA IN RITARDO');
         menu_item('../rp/elencotimbratureforzate.php', 'REPORT FORZATURE');
+        
 
 
         menu_separator("");
@@ -1059,9 +1064,7 @@ if ($cambiamentopassword)
         menu_title_begin('LEZIONI');
         menu_item('../lezioni/sitleztota.php', 'TABELLONE RIEPILOGO');
         menu_item('../lezioni/riepargom.php', 'RIEPILOGO ARGOMENTI');
-
         menu_title_end();
-
 
         menu_title_begin('NOTE DISCIPLINARI');
         menu_item('../note/notecl.php', 'NOTE DI CLASSE');
@@ -1094,6 +1097,7 @@ if ($cambiamentopassword)
             menu_item('../consorientativo/cotabellone.php', 'CONSIGLI ORIENTATIVI');
         }
         menu_title_end();
+
         if ($livello_scuola != 4)
         {
             menu_title_begin('CERTIFICAZIONE COMPETENZE');
@@ -1102,7 +1106,6 @@ if ($cambiamentopassword)
             menu_title_end();
         }
         menu_title_begin('PROGRAMMI');
-
         menu_item('../programmazione/visprogrdo.php', 'VISUALIZZA PROGRAMMI DOCENTI');
         menu_item('../programmazione/visprogrsc.php', 'VISUALIZZA PROGRAMMI SCOLAST.');
         menu_title_end();
@@ -1136,7 +1139,7 @@ if ($cambiamentopassword)
         //  menu_item("../alunni/carica_alunni_da_csv.php?par=$par", "Carica alunni da file CSV generico");
         menu_item('../alunni/attr_classe.php', 'Attribuisci classe ad alunni');
         menu_item('../alunni/vis_alu_ricerca.php', 'Ricerca alunni');
-        menu_item('../alunni/autorizzazioni.php', 'Visualizza deroghe ed autorizzazioni');
+        menu_item('../alunni/CRUD_autorizzazioni.php', 'Gestione autorizzazioni');
         menu_item('../segreteria/vis_imp.php', 'IMPIEGATI DI SEGRETERIA');
         menu_item('../docenti/vis_doc.php', 'DOCENTI');
         menu_item('../docenti/attrruolos.php', 'Attribuisci ruolo Staff di presidenza a docente');
@@ -1152,15 +1155,12 @@ if ($cambiamentopassword)
         menu_item('../documenti/stampafirmaprogrammi.php', 'STAMPE PER PRESA VISIONE PROGRAMMI');
         menu_item('../documenti/documenti.php', 'DOCUMENTI ALUNNO');
         menu_item('../documenti/documenticlasse.php', 'DOCUMENTI CLASSE');
-
-
         menu_title_end();
+
         menu_title_begin('VALUTAZIONE COMPETENZE');
         menu_item('../valutazioni/sitvalalu.php', 'VISUALIZZA SITUAZIONE ALUNNO');
         menu_item('../valutazioni/sitvalobi.php', 'VISUALIZZA SITUAZ. PER OBIETT.');
-
         menu_title_end();
-
 
         menu_title_begin('GESTIONE UTENTI');
         menu_item('../password/gestpwd.php', 'Cambia password utente');

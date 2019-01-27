@@ -114,7 +114,7 @@ if ($mese != "")
 
 
             //COMMENTI
-            print "<td width=55%>" . nl2br($data['rapportoperdirigente']) . "</td>";
+            print "<td width=55%>" . /*nl2br*/($data['rapportoperdirigente']) . "</td>";
 
 
             print "</tr>";

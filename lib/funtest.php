@@ -211,8 +211,9 @@ function stringa_html($parametro = '', $doppiapici = true, $metodo = '')
                 foreach ($matrice[$parametro] as $key => $value)
                 {
                     $stringa = elimina_apici($matrice[$parametro], $doppiapici);
+                   //  $stringa = elimina_apici($key => $value, $doppiapici);
                 }
-                $stringa = $matrice[$parametro]; // restituisce la matrice
+                //$stringa = $matrice[$parametro]; // restituisce la matrice
             }
         }
     }

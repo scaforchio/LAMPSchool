@@ -33,7 +33,6 @@ function decodifica_classe($idclasse, $conn1, $normalizzazione = 0)
     return $daticlasse;
 }
 
-
 function estraiAprifila2($idclasse, $conn)
 {
     $query = "select aprifila2 from tbl_classi where idclasse='$idclasse'";
@@ -41,8 +40,8 @@ function estraiAprifila2($idclasse, $conn)
     $rec = mysqli_fetch_array($ris);
 
     return $rec['aprifila2'];
-    
 }
+
 function estraiChiudifila1($idclasse, $conn)
 {
     $query = "select chiudifila1 from tbl_classi where idclasse='$idclasse'";
@@ -50,8 +49,8 @@ function estraiChiudifila1($idclasse, $conn)
     $rec = mysqli_fetch_array($ris);
 
     return $rec['chiudifila1'];
-    
 }
+
 function estraiChiudifila2($idclasse, $conn)
 {
     $query = "select chiudifila2 from tbl_classi where idclasse='$idclasse'";
@@ -59,8 +58,8 @@ function estraiChiudifila2($idclasse, $conn)
     $rec = mysqli_fetch_array($ris);
 
     return $rec['chiudifila2'];
-    
 }
+
 function estraiAprifila1($idclasse, $conn)
 {
     $query = "select aprifila1 from tbl_classi where idclasse='$idclasse'";
@@ -68,12 +67,7 @@ function estraiAprifila1($idclasse, $conn)
     $rec = mysqli_fetch_array($ris);
 
     return $rec['aprifila1'];
-    
 }
-
-
-
-
 
 /**
  * Restituisce l'anno della classe
@@ -172,9 +166,26 @@ function estrai_classe_lezione($idlezione, $conn)
     $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
 
-
-
-
     $idclasse = $rec['idclasse'];
     return $idclasse;
+}
+
+function estrai_classi_coordinate($iddocente, $conn)
+{
+    $elenco = "";
+    // print "ttt $data <br>";
+    // SE LA DATA E' QUELLA ODIERNA POSSO SELEZIONARE DALLA COMPOSIZIONE DELLA CLASSE
+
+
+    $query = "select idclasse from tbl_classi where idcoordinatore='$iddocente'";
+    // print "TTTT ".inspref($query)."<br>";
+    $ris = eseguiQuery($conn, $query);
+    while ($rec = mysqli_fetch_array($ris))
+    {
+        $elenco .= $rec['idclasse'] . ",";
+    }
+
+    // ELIMINO L'ULTIMA VIRGOLA
+    $elenco = substr($elenco, 0, strlen($elenco) - 1);
+    return $elenco;
 }
