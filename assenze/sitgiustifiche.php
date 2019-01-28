@@ -78,6 +78,7 @@ $query = "SELECT count(*) as nang,cognome, nome,tbl_alunni.idalunno,dataammonizi
             AND tbl_assenze.idalunno=tbl_alunni.idalunno AND tbl_alunni.idclasse=tbl_classi.idclasse
             AND tbl_alunni.idclasse<>0
             AND tbl_assenze.idalunno NOT IN (select idalunno from tbl_assenze where data>='$datalimiteinferiore')
+            AND tbl_assenze.idalunno NOT IN (select idalunno from tbl_presenzeforzate where data>='$datalimiteinferiore')    
             GROUP BY tbl_alunni.idalunno,dataammonizione
             ORDER BY cognome, nome, tbl_alunni.idalunno, data desc";
 
@@ -115,10 +116,12 @@ if (mysqli_num_rows($ris) > 0)
         if ($dataammonizione == NULL)
             $query = "SELECT * from tbl_assenze where idalunno=" . $val['idalunno'] . " AND dataammonizione IS NULL AND (isnull(giustifica) or giustifica=0) "
                     . "        AND idalunno NOT IN (select idalunno from tbl_assenze where data>='$datalimiteinferiore')"
+                    . "        AND idalunno NOT IN (select idalunno from tbl_presenzeforzate where data>='$datalimiteinferiore') "
                     . "        order by data desc";
         else
             $query = "SELECT * from tbl_assenze where idalunno=" . $val['idalunno'] . " AND dataammonizione ='$dataammonizione' AND (isnull(giustifica) or giustifica=0) "
-                    . "AND idalunno NOT IN (select idalunno from tbl_assenze where data>='$datalimiteinferiore')"
+                    . " AND idalunno NOT IN (select idalunno from tbl_assenze where data>='$datalimiteinferiore')"
+                    . " AND idalunno NOT IN (select idalunno from tbl_presenzeforzate where data>='$datalimiteinferiore') "
                     . "order by data desc";
         $risasse = eseguiQuery($con, $query);
         while ($recasse = mysqli_fetch_array($risasse))
@@ -159,6 +162,7 @@ $query = "SELECT count(*) as nrng,cognome, nome,tbl_alunni.idalunno,dataammonizi
             AND tbl_ritardi.idalunno=tbl_alunni.idalunno AND tbl_alunni.idclasse=tbl_classi.idclasse
             AND tbl_alunni.idclasse<>0
             AND tbl_ritardi.idalunno NOT IN (select idalunno from tbl_assenze where data='" . date('y-m-d') . "')
+            AND tbl_ritardi.idalunno NOT IN (select idalunno from tbl_presenzeforzate where data='" . date('y-m-d') . "')
             GROUP BY tbl_alunni.idalunno,dataammonizione
             ORDER BY cognome, nome, tbl_alunni.idalunno, data desc
             ";
@@ -199,11 +203,13 @@ if (mysqli_num_rows($ris) > 0)
          */
         if ($dataammonizione == NULL)
             $query = "SELECT * from tbl_ritardi where idalunno=" . $val['idalunno'] . " AND dataammonizione IS NULL AND (isnull(giustifica) or giustifica=0) "
-                    . "AND data< '$datalimiteinferiore' AND idalunno NOT IN (select idalunno from tbl_assenze where data='" . date('y-m-d') . "')"
+                    . "AND data< '$datalimiteinferiore' AND idalunno NOT IN (select idalunno from tbl_assenze where data='" . date('y-m-d') . "') "
+                    . "AND idalunno NOT IN (select idalunno from tbl_presenzeforzate where data='" . date('y-m-d') . "') "
                     . "order by data desc";
         else
             $query = "SELECT * from tbl_ritardi where idalunno=" . $val['idalunno'] . " AND dataammonizione ='$dataammonizione' AND (isnull(giustifica) or giustifica=0) "
                     . "AND data< '$datalimiteinferiore' AND idalunno NOT IN (select idalunno from tbl_assenze where data='" . date('y-m-d') . "')"
+                    . "AND idalunno NOT IN (select idalunno from tbl_presenzeforzate where data='" . date('y-m-d') . "') "
                     . "order by data desc";
         $risasse = eseguiQuery($con, $query);
         while ($recasse = mysqli_fetch_array($risasse))

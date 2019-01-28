@@ -565,6 +565,8 @@ function daily_cron($suffisso, $con, $lavori)
             WHERE (isnull(giustifica) or giustifica=0) AND data< '$datalimiteinferiore'
             AND isnull(dataammonizione)    
             AND idalunno NOT IN (select idalunno from tbl_assenze where data='" . date('Y-m-d') . "')
+            AND idalunno NOT In (select idalunno from tbl_presenzeforzate where data='" . date('Y-m-d') . "') 
+                
             ";
 
             $ris = eseguiQuery($con, $query);
@@ -579,6 +581,7 @@ function daily_cron($suffisso, $con, $lavori)
             AND isnull(dataammonizione)
             AND data< '$datalimiteinferiore'
             AND idalunno NOT IN (select idalunno from tbl_assenze where data>='$datalimiteinferiore')
+            AND idalunno NOT In (select idalunno from tbl_presenzeforzate where data>='$datalimiteinferiore')    
             ";
 
             $ris = eseguiQuery($con, $query);

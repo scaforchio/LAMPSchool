@@ -57,7 +57,7 @@ if (($provvedimenti != "") | ($notacl != ""))
 {
     $ins = true;
     $query = "insert into tbl_noteclasse(data,idclasse,iddocente,testo,provvedimenti) values ('$data',$idclasse,$iddocente,'" . elimina_apici($notacl) . "','" . elimina_apici($provvedimenti) . "')";
-    $ris3 = eseguiQuery($con, $sql);
+    $ris3 = eseguiQuery($con, $query);
 }
 if ($ins)
     if ($numerorighe == 1)

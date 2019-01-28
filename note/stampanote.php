@@ -33,7 +33,15 @@ if ($tipoutente == "")
 
 
 $titolo = "Stampa note";
-$script = "";
+$script = "<script>
+            function printPage()
+            {
+               if (window.print)
+                  window.print();
+               else
+                  alert('Spiacente! il tuo browser non supporta la stampa diretta!');
+            }
+         </script>";
 $idclasse = stringa_html('classe');
 $periodo = stringa_html('periodo');
 stampa_head($titolo, "", $script, "SDMAP");
@@ -137,7 +145,7 @@ if ($idclasse != "")
     $ris = eseguiQuery($con, $query);
     $cla = mysqli_fetch_array($ris);
 
-    print ("<center><b><br>Note&nbsp;della&nbsp;classe&nbsp;" . $cla['anno'] . "&nbsp;" . $cla['sezione'] . "&nbsp;" . $cla['specializzazione'] . "<br/><br/>");
+    print ("<center><b><br>Note&nbsp;della&nbsp;classe&nbsp;" . $cla['anno'] . "&nbsp;" . $cla['sezione'] . "&nbsp;" . $cla['specializzazione'] . "</b><br/><br/>");
 
 //
 //  VISUALIZZO LE NOTE DI CLASSE
@@ -200,15 +208,15 @@ if ($idclasse != "")
         print "<table border=1 width=95%>";
         while ($rec = mysqli_fetch_array($ris))
         {
-            print "<tr class='prima'><td colspan=2><small><center><b> Nota del docente&nbsp;" . $rec['cogndocente'] . "&nbsp;" . $rec['nomedocente'] . "&nbsp;in&nbsp;data&nbsp;" . data_italiana($rec['data']) . "</td></tr>";
+            print "<tr class='prima'><td colspan=2><center><b> Nota del docente&nbsp;" . $rec['cogndocente'] . "&nbsp;" . $rec['nomedocente'] . "&nbsp;in&nbsp;data&nbsp;" . data_italiana($rec['data']) ."</b></td></tr>";
             print("<tr>");
 
             print("<td width=50%><small>");
             print("" . $rec['testo'] . "");
-            print("</td>");
+            print("</small></td>");
             print("<td width=50%><small>");
             print("" . $rec['provvedimenti'] . "");
-            print("</td></tr>");
+            print("</small></td></tr>");
         }
         print "</table>";
     }
@@ -220,37 +228,47 @@ if ($idclasse != "")
 
 
     if ($periodo == "Primo")
-        $query = "select idnotaalunno, data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti
-                from tbl_notealunno, tbl_docenti 
+        $query = "select tbl_noteindalu.idnotaalunno, data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno,tbl_alunni.datanascita as dnalunno
+                from tbl_notealunno, tbl_docenti, tbl_noteindalu, tbl_alunni
                 where tbl_notealunno.iddocente=tbl_docenti.iddocente
+                and tbl_noteindalu.idnotaalunno=tbl_notealunno.idnotaalunno
+                and tbl_noteindalu.idalunno=tbl_alunni.idalunno
                 and tbl_notealunno.idclasse = $idclasse and data <= '" . $fineprimo . "'
-                order by data,idnotaalunno";
+                order by cognalunno,nomealunno,data";
 
     if ($periodo == "Secondo" & $numeroperiodi == 2)
-        $query = "select idnotaalunno, data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti
-                from tbl_notealunno, tbl_docenti 
+        $query = "select tbl_noteindalu.idnotaalunno, data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno,tbl_alunni.datanascita as dnalunno
+                from tbl_notealunno, tbl_docenti, tbl_noteindalu, tbl_alunni
                 where tbl_notealunno.iddocente=tbl_docenti.iddocente
+                and tbl_noteindalu.idnotaalunno=tbl_notealunno.idnotaalunno
+                and tbl_noteindalu.idalunno=tbl_alunni.idalunno
                 and tbl_notealunno.idclasse = $idclasse and data > '" . $fineprimo . "'
-                order by data,idnotaalunno";
+                order by cognalunno,nomealunno,dnalunno,data";
 
     if ($periodo == "Secondo" & $numeroperiodi == 3)
-        $query = "select idnotaalunno, data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti
-                from tbl_notealunno, tbl_docenti 
+        $query = "select tbl_noteindalu.idnotaalunno, data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno,tbl_alunni.datanascita as dnalunno
+                from tbl_notealunno, tbl_docenti, tbl_noteindalu, tbl_alunni
                 where tbl_notealunno.iddocente=tbl_docenti.iddocente
+                and tbl_noteindalu.idnotaalunno=tbl_notealunno.idnotaalunno
+                and tbl_noteindalu.idalunno=tbl_alunni.idalunno
                 and tbl_notealunno.idclasse = $idclasse and  data >  '" . $fineprimo . "' and data <=  '" . $finesecondo . "'
-                order by data,idnotaalunno";
+                order by cognalunno,nomealunno,dnalunno,data";
     if ($periodo == "Terzo")
-        $query = "select idnotaalunno, data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti
-                from tbl_notealunno, tbl_docenti 
+        $query = "select tbl_noteindalu.idnotaalunno, data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno,tbl_alunni.datanascita as dnalunno
+                from tbl_notealunno, tbl_docenti, tbl_noteindalu, tbl_alunni
                 where tbl_notealunno.iddocente=tbl_docenti.iddocente
+                and tbl_noteindalu.idnotaalunno=tbl_notealunno.idnotaalunno
+                and tbl_noteindalu.idalunno=tbl_alunni.idalunno
                 and tbl_notealunno.idclasse = $idclasse and data > '" . $finesecondo . "'
-                order by data,idnotaalunno";
+                order by cognalunno,nomealunno,dnalunno,data";
     if ($periodo == "Tutti")
-        $query = "select idnotaalunno, data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti
-                from tbl_notealunno, tbl_docenti 
+        $query = "select tbl_noteindalu.idnotaalunno, data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno,tbl_alunni.datanascita as dnalunno
+                from tbl_notealunno, tbl_docenti, tbl_noteindalu, tbl_alunni
                 where tbl_notealunno.iddocente=tbl_docenti.iddocente
+                and tbl_noteindalu.idnotaalunno=tbl_notealunno.idnotaalunno
+                and tbl_noteindalu.idalunno=tbl_alunni.idalunno
                 and tbl_notealunno.idclasse = $idclasse
-                order by data,idnotaalunno";
+                order by cognalunno,nomealunno,dnalunno,data";
 
 
     $ris = eseguiQuery($con, $query);
@@ -268,11 +286,16 @@ if ($idclasse != "")
         echo "<center><b><br/>NOTE INDIVIDUALI</b></center><br/>";
         print "<br><table border=1 width=95%>";
 
+        $datialunno = "";
 
         while ($rec = mysqli_fetch_array($ris))
         {
-
-            print "<tr class='prima'><td colspan=2><center><small><b>Nota del docente&nbsp;" . $rec['cogndocente'] . "&nbsp;" . $rec['nomedocente'] . "&nbsp;in data&nbsp;" . data_italiana($rec['data']);
+            if ($datialunno != $rec['cognalunno'] . $rec['nomealunno'] . $rec['dnalunno'])
+            {
+                print "<tr class='prima'><td colspan=2 align=center><b><br>" . $rec['cognalunno'] ." ". $rec['nomealunno'] ." (". $rec['dnalunno'] . ")<br><br></b></td></tr>";
+                $datialunno = $rec['cognalunno'] . $rec['nomealunno'] . $rec['dnalunno'];
+            }
+            print "<tr><td colspan=2><center><b>Nota del docente&nbsp;" . $rec['cogndocente'] . "&nbsp;" . $rec['nomedocente'] . "&nbsp;in data&nbsp;" . data_italiana($rec['data']);
 
             $queryalu = "select tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno, tbl_alunni.datanascita as dataalunno                  from tbl_noteindalu, tbl_alunni
                 where tbl_noteindalu.idnotaalunno=" . $rec['idnotaalunno'] .
@@ -280,39 +303,31 @@ if ($idclasse != "")
             $risalu = eseguiQuery($con, $queryalu);
             $elencoalunni = "";
             if (mysqli_num_rows($risalu) > 1)
-                $elencoalunni = "Alunni: ";
-            else
-                $elencoalunni = "Alunno: ";
-            while ($recalu = mysqli_fetch_array($risalu))
             {
-                $elencoalunni .= $recalu['cognalunno'] . "&nbsp;" . $recalu['nomealunno'] . "&nbsp;(" . data_italiana($recalu['dataalunno']) . "), ";
-            }
-            $elencoalunni = substr($elencoalunni, 0, strlen($elencoalunni) - 2);  // Elimino la virgola finale
-            print ("<br/>$elencoalunni</td></tr>");
+                $elencoalunni = "Alunni: ";
+
+                while ($recalu = mysqli_fetch_array($risalu))
+                {
+                    $elencoalunni .= $recalu['cognalunno'] . "&nbsp;" . $recalu['nomealunno'] . "&nbsp;(" . data_italiana($recalu['dataalunno']) . "), ";
+                }
+                $elencoalunni = substr($elencoalunni, 0, strlen($elencoalunni) - 2);
+                print ("<br/>$elencoalunni");// Elimino la virgola finale
+            } 
+            print "<br></b></td></tr>";
+            
             print ("<tr>");
 
             print("<td width=50%><small>");
             print("" . $rec['testo'] . "");
-            print("</td>");
+            print("</small></td>");
             print("<td width=50%><small>");
             print("" . $rec['provvedimenti'] . "");
-            print("</td></tr>");
+            print("</small></td></tr>");
         }
         print "</table>";
     }
-
-    print "
-    <form method='post' action='stanote.php' target='_blank' name='stanote'>
-    <table align='center'>
-      <td>
-         <input type='hidden' name='classe' value='$idclasse'>
-         <input type='hidden' name='periodo' value='$periodo'>
-        <p align='center'><input type='submit' value='Stampa' name='b' onclick='Popup(stanote.php)'></p>
-     </form></td>
-   
-</table><hr>
+print "<br><center><img src='../immagini/stampa.png' onClick='printPage();'</center>";
  
-    ";
 }
 
 mysqli_close($con);
