@@ -100,7 +100,6 @@ if ($iddocente != '')
        WHERE 
        tbl_firme.idlezione=tbl_lezioni.idlezione
        AND tbl_lezioni.idclasse=tbl_classi.idclasse
-       
        AND tbl_lezioni.idmateria=tbl_materie.idmateria
        AND tbl_firme.iddocente=$iddocente
        AND tbl_lezioni.idmateria=0

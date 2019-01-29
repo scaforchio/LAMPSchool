@@ -72,7 +72,7 @@ function estrai_testo($tipotesto, $conn)
 {
     $query = "select valore from tbl_testi where nometesto='$tipotesto'";
 
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     if ($rec = mysqli_fetch_array($ris))
     {
         $dato = $rec['valore'];
@@ -93,7 +93,7 @@ function estrai_testo_modificato($tipotesto, $parametro, $valore, $conn)
 {
     $query = "select valore from tbl_testi where nometesto='$tipotesto'";
 
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     if ($rec = mysqli_fetch_array($ris))
     {
         $dato = $rec['valore'];
@@ -310,7 +310,7 @@ function Verifica_CodiceFiscale($cf)
 function estrai_lezione_gruppo($idlezione, $conn)
 {
     $query = "select idlezionegruppo from tbl_lezioni where idlezione='$idlezione'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $idlezionegruppo = $rec['idlezionegruppo'];
 
@@ -368,7 +368,7 @@ function inserisci_parametri($messaggio, $con)
 {
 
     $qp = "SELECT DISTINCT nomeparametro FROM tbl_paramcomunicazpers";
-    $risp = eseguiQuery($con,$qp);
+    $risp = eseguiQuery($con, $qp);
     while ($recp = mysqli_fetch_array($risp))
     {
 
@@ -430,17 +430,17 @@ function daily_cron($suffisso, $con, $lavori)
         } else
         {
             $querytot = "SELECT count(*) as numalunni FROM tbl_alunni WHERE idclasse<>0";
-            $ristotalunni = eseguiQuery($con,$querytot);
+            $ristotalunni = eseguiQuery($con, $querytot);
             $rectotalunni = mysqli_fetch_array($ristotalunni);
             $numtotalealunni = $rectotalunni['numalunni'];
 
-            $ris = eseguiQuery($con,"SELECT valore FROM tbl_parametri WHERE parametro='utentesms'");
+            $ris = eseguiQuery($con, "SELECT valore FROM tbl_parametri WHERE parametro='utentesms'");
             $rec = mysqli_fetch_array($ris);
             $utentesms = $rec['valore'];
-            $ris = eseguiQuery($con,"SELECT valore FROM tbl_parametri WHERE parametro='passsms'");
+            $ris = eseguiQuery($con, "SELECT valore FROM tbl_parametri WHERE parametro='passsms'");
             $rec = mysqli_fetch_array($ris);
             $passsms = $rec['valore'];
-            $ris = eseguiQuery($con,"SELECT valore FROM tbl_parametri WHERE parametro='testatasms'");
+            $ris = eseguiQuery($con, "SELECT valore FROM tbl_parametri WHERE parametro='testatasms'");
             $rec = mysqli_fetch_array($ris);
             $testatasms = $rec['valore'];
 
@@ -597,7 +597,7 @@ function daily_cron($suffisso, $con, $lavori)
 function estrai_materia_lezione($idlezione, $conn)
 {
     $query = "select * from tbl_lezioni where idlezione='$idlezione'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $idmateria = $rec['idmateria'];
     return $idmateria;
@@ -672,8 +672,14 @@ function ordina_array_su_campo_sottoarray(&$arr, $nc)
 function eseguiQuery($con, $query, $inspref = true)
 {
     if ($inspref)
-        $ris = mysqli_query($con, inspref($query)) or die("<br>Errore: " . mysqli_error($con) . " <br> Query: " . inspref($query, false));
+        $ris = mysqli_query($con, inspref($query)) or gestisciErrore("******<br>".date('m-d|H:i:s')."§".$_SESSION['idutente']."<br>Errore: " . mysqli_error($con) . " <br> Query: " . inspref($query, false)."<br>******", $con);
     else
-        $ris = mysqli_query($con, $query) or die("<br>Errore: " . mysqli_error($con) . " <br> Query: " . $query);
+        $ris = mysqli_query($con, $query) or gestisciErrore("******<br>".date('m-d|H:i:s')."§".$_SESSION['idutente']."<br>Errore: " . mysqli_error($con) . " <br> Query: " . $query."<br>******", $con);
     return $ris;
+}
+
+function gestisciErrore($errore, $con)
+{
+    inserisci_log($errore,$_SESSION['nomefilelog']."er");
+    die("<br><br><center><b>Attenzione! Errore di sistema.<br>Avvisare un sistemista.</b><center>");
 }

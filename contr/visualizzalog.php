@@ -73,6 +73,11 @@ if ($tipo == 'R.P.')
     $selrp = 'selected';
     $sufftipo = 'rp';
 }
+if ($tipo == 'ERR.')
+{
+    $selerr = 'selected';
+    $sufftipo = 'er';
+}
 stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
@@ -84,7 +89,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 print "<form name='sceglilog' method='post' action='visualizzalog.php'>";
 
 print "<br><br><center><input type='date' name='datalog' value='$datalog' ONCHANGE=sceglilog.submit()><br><input type='date' name='datafinelog' value='$datafinelog' ONCHANGE=sceglilog.submit()><br>"
-        . "  <select name='tipo' ONCHANGE=sceglilog.submit()><option $selweb>WEB</option><option $selapp>APP</option><option $selrp>R.P.</option></select></center>";
+        . "  <select name='tipo' ONCHANGE=sceglilog.submit()><option $selweb>WEB</option><option $selapp>APP</option><option $selrp>R.P.</option><option $selerr>ERR.</option></select></center>";
 print "</form>";
 
 

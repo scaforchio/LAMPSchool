@@ -172,7 +172,7 @@ if ($nummaterie > 0)
         // INSERISCO LA CONDOTTA
         $schede->setXY($posX, $posY);
         $schede->SetFont('Arial', 'B', 7);
-        $schede->Cell($larghcol, $altriga, converti_utf8("COMP"), 1, NULL, "C");
+        $schede->Cell($larghcol*2, $altriga, converti_utf8("COMP"), 1, NULL, "C");
         $posX += $larghcol;
     }
 
@@ -217,7 +217,7 @@ if ($nummaterie > 0)
         // INSERISCO LA CONDOTTA
         $schede->setXY($posX, $posY);
         $schede->SetFont('Arial', 'B', 7);
-        $schede->Cell($larghcol, $altriga, converti_utf8("U"), 1, NULL, "C");
+        $schede->Cell($larghcol*2, $altriga, converti_utf8("U"), 1, NULL, "C");
         $posX += $larghcol;
     }
 
@@ -266,7 +266,7 @@ if ($nummaterie > 0)
             $votounico = ricerca_voto($idalunno, -1, $codalunni, $codmaterie, $voti, $votoO, $votoS, $votoP);
             $schede->setXY($posX, $posY);
             $schede->SetFont('Arial', '', 8);
-            $schede->Cell($larghcol, $altriga, converti_utf8($votounico), 1, NULL, "C");
+            $schede->Cell($larghcol*2, $altriga, converti_utf8($votounico), 1, NULL, "C");
             $posX += $larghcol;
         }
     }
