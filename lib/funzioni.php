@@ -672,14 +672,14 @@ function ordina_array_su_campo_sottoarray(&$arr, $nc)
 function eseguiQuery($con, $query, $inspref = true)
 {
     if ($inspref)
-        $ris = mysqli_query($con, inspref($query)) or gestisciErrore("******<br>".date('m-d|H:i:s')."§".$_SESSION['idutente']."<br>Errore: " . mysqli_error($con) . " <br> Query: " . inspref($query, false)."<br>******", $con);
+        $ris = mysqli_query($con, inspref($query)) or gestisciErrore("******<br>".basename($_SERVER['PHP_SELF'])."<br>".date('m-d|H:i:s')."§".$_SESSION['idutente']."<br>Errore: " . mysqli_error($con) . " <br> Query: " . inspref($query, false)."<br>", $con);
     else
-        $ris = mysqli_query($con, $query) or gestisciErrore("******<br>".date('m-d|H:i:s')."§".$_SESSION['idutente']."<br>Errore: " . mysqli_error($con) . " <br> Query: " . $query."<br>******", $con);
+        $ris = mysqli_query($con, $query) or gestisciErrore("******<br>".basename($_SERVER['PHP_SELF'])."<br>".date('m-d|H:i:s')."§".$_SESSION['idutente']."<br>Errore: " . mysqli_error($con) . " <br> Query: " . $query."<br>", $con);
     return $ris;
 }
 
 function gestisciErrore($errore, $con)
 {
     inserisci_log($errore,$_SESSION['nomefilelog']."er");
-    die("<br><br><center><b>Attenzione! Errore di sistema.<br>Avvisare un sistemista.</b><center>");
+    die("<br><br><center><b><font color='red>Attenzione! Errore di sistema.<br>Contattare il referente per il registro!</font></b><center>");
 }

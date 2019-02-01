@@ -23,7 +23,7 @@ require_once '../lib/funzioni.php';
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
-
+$soloclasse= stringa_html('soloclasse');
 $daticrud = array();
 // Tabella da modificare
 $daticrud['titolo'] = 'GESTIONE AUTORIZZAZIONI ED ESONERI';
@@ -43,7 +43,7 @@ $daticrud['campochiave'] = "idalunno";
 $daticrud['campiordinamento'] = "cognome, nome, datanascita";
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
 $daticrud['condizione'] = "idclasse<>0";
-if ($_SESSION['tipoutente'] == 'D')
+if ($soloclasse=='yes')
 {
     $iddocente = $_SESSION['idutente'];
     $elencoclassi = estrai_classi_coordinate($iddocente, $con);
@@ -91,7 +91,8 @@ $daticrud['vincolicanc'] = [
  *      in fase di preparazione dei daticrud (Es. iddocente, tipoutente, ecc.)
  * 18 - clausdistinct - clausola distinct nella selezione dei valori della tabella esterna (1-sì, 0-no) 
  */
-if ($_SESSION['tipoutente'] != 'D')
+if ($soloclasse!='yes')
+
 {
     $daticrud['campi'] = [
         ['0' => 'cognome', '1' => '1', '5' => 30, '6' => 'Cognome', '7' => 1, '8' => 'text', '15' => 1],

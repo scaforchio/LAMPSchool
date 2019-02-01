@@ -579,7 +579,7 @@ if ($cambiamentopassword)
             menu_item('../assenze/sitassmens.php', 'SITUAZIONE MENSILE ASSENZE');
             menu_item('../assenze/sitasstota.php', 'SITUAZIONE TOTALE ASSENZE');
             menu_item('../assenze/deroghe.php', 'DEROGHE ASSENZE');
-            menu_item('../alunni/CRUD_autorizzazioni.php', 'Gestione autorizzazioni ad uscita anticipata con classe');
+            menu_item('../alunni/CRUD_autorizzazioni.php?soloclasse=yes', 'Gestione autorizzazioni ad uscita anticipata con classe');
             menu_item('../assenze/visderoghe.php', 'SITUAZIONE DEROGHE ASSENZE');
             menu_item('../scrutini/riepvoti.php', 'TABELLONE SCRUTINI INTERMEDI');
             menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
@@ -790,6 +790,7 @@ if ($cambiamentopassword)
             menu_item('../note/stampanote.php', 'STAMPA NOTE PER CLASSE');
             menu_item('../scrutini/riepvoti.php', 'TABELLONE SCRUTINI INTERMEDI');
             menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
+            menu_item('../alunni/CRUD_autorizzazioni.php?soloclasse=yes', 'Gestione autorizzazioni ad uscita anticipata con classe');
             if ($livello_scuola == '4')
             {
                 menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
@@ -1636,7 +1637,7 @@ if ($cambiamentopassword)
         {
             if ($tipoutente == 'S' | $tipoutente == 'P')
             {
-                $query = "SELECT DISTINCT * FROM tbl_assemblee 
+                $query = "SELECT DISTINCT * FROM tbl_assemblee
 				  WHERE (autorizzato=0) 
 				  AND ((docenteconcedente1!=0 AND concesso1=1) AND (docenteconcedente2=0) OR (docenteconcedente2!=0 AND concesso2=1))";
                 $ris = eseguiQuery($con, $query);

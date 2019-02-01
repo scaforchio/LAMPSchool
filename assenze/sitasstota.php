@@ -135,7 +135,7 @@ print ("
    <tr>
       <td width='50%'><center><b>Classe</b></center></td>
       <td width='50%'>
-      <SELECT ID='cl' NAME='cl' ONCHANGE='tbl_assenze.submit()'> <option>&nbsp ");
+      <SELECT ID='cl' NAME='cl' ONCHANGE='tbl_assenze.submit()'> <option value=''>&nbsp ");
 
 
 $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY specializzazione, sezione, anno";
