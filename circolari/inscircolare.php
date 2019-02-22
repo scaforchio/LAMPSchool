@@ -124,10 +124,14 @@ if ($filedainserire['tmp_name'] != "")
         $idcircolare = mysqli_insert_id($con);
 
         // INSERIMENTO LISTA DI DISTRIBUZIONE
-        if ($destinatari == 'A' || $destinatari == 'I' || $destinatari == 'D' || $destinatari == 'L')
+        if ($destinatari == 'A' || $destinatari == 'I' || $destinatari == 'D' || $destinatari == 'L' || $destinatari == 'T')
         {
             $dest = '';
 
+             if ($destinatari == 'T')
+            {
+                $dest = "where tipo in ('T','S','D','L')";
+            }
             if ($destinatari == 'A')
             {
                 $dest = "where tipo in ('T')";

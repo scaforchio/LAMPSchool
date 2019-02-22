@@ -99,6 +99,23 @@ if ($idcircolare != "")
     }
     print "</tr>";
 
+    if ($dest == 'T')
+    {
+        $query1 = "select * from tbl_diffusionecircolari,tbl_docenti
+               where tbl_diffusionecircolari.idutente=tbl_docenti.iddocente
+               and idcircolare=$idcircolare
+               order by cognome,nome";
+        $query2 = "select * from tbl_diffusionecircolari,tbl_alunni,tbl_classi
+               where tbl_diffusionecircolari.idutente=tbl_alunni.idalunno
+               and idcircolare=$idcircolare
+               and tbl_alunni.idclasse=tbl_classi.idclasse
+               order by anno,sezione,specializzazione,cognome,nome";
+        $query3 = "select * from tbl_diffusionecircolari,tbl_alunni,tbl_classi
+               where tbl_diffusionecircolari.idutente=(tbl_alunni.idalunno+2100000000)
+               and idcircolare=$idcircolare
+               and tbl_alunni.idclasse=tbl_classi.idclasse
+               order by anno,sezione,specializzazione,cognome,nome";
+    }
 
     if ($dest == 'D' | $dest == 'SD')
     {
@@ -132,34 +149,121 @@ if ($idcircolare != "")
     }
     // print "tttt $dest";
     // print inspref($query);
-    $ris = eseguiQuery($con, $query);
-    while ($rec = mysqli_fetch_array($ris))
+    if ($dest != 'T')
     {
+        $ris = eseguiQuery($con, $query);
+        while ($rec = mysqli_fetch_array($ris))
+        {
 
-        print ("<tr><td>" . $rec['cognome'] . "&nbsp;" . $rec['nome']);
-        if ($dest == 'A' | $dest == 'SA' | $dest == 'L' | $dest == 'SL')
-        {
-            print (" - " . decodifica_classe(estrai_classe_alunno($rec['idalunno'], $con), $con) . " - " . data_italiana($rec['datanascita']));
-        }
-        print "</td>";
-        if ($rec['datalettura'] != '0000-00-00')
-        {
-            print ("<td>" . data_italiana($rec['datalettura']) . "</td>");
-        } else
-        {
-            print ("<td>&nbsp;</td>");
-        }
-        if ($ricevuta)
-        {
-            if ($rec['dataconfermalettura'] != '0000-00-00')
+            print ("<tr><td>" . $rec['cognome'] . "&nbsp;" . $rec['nome']);
+            if ($dest == 'A' | $dest == 'SA' | $dest == 'L' | $dest == 'SL')
             {
-                print ("<td>" . data_italiana($rec['dataconfermalettura']) . "</td>");
+                print (" - " . decodifica_classe(estrai_classe_alunno($rec['idalunno'], $con), $con) . " - " . data_italiana($rec['datanascita']));
+            }
+            print "</td>";
+            if ($rec['datalettura'] != '0000-00-00')
+            {
+                print ("<td>" . data_italiana($rec['datalettura']) . "</td>");
             } else
             {
                 print ("<td>&nbsp;</td>");
             }
+            if ($ricevuta)
+            {
+                if ($rec['dataconfermalettura'] != '0000-00-00')
+                {
+                    print ("<td>" . data_italiana($rec['dataconfermalettura']) . "</td>");
+                } else
+                {
+                    print ("<td>&nbsp;</td>");
+                }
+            }
+            print "</tr>";
         }
-        print "</tr>";
+    }
+    else
+    {
+        $ris = eseguiQuery($con, $query1);
+        while ($rec = mysqli_fetch_array($ris))
+        {
+
+            print ("<tr><td>DOC. " . $rec['cognome'] . "&nbsp;" . $rec['nome']);
+            
+            print "</td>";
+            if ($rec['datalettura'] != '0000-00-00')
+            {
+                print ("<td>" . data_italiana($rec['datalettura']) . "</td>");
+            } else
+            {
+                print ("<td>&nbsp;</td>");
+            }
+            if ($ricevuta)
+            {
+                if ($rec['dataconfermalettura'] != '0000-00-00')
+                {
+                    print ("<td>" . data_italiana($rec['dataconfermalettura']) . "</td>");
+                } else
+                {
+                    print ("<td>&nbsp;</td>");
+                }
+            }
+            print "</tr>";
+        }
+        $ris = eseguiQuery($con, $query2);
+        while ($rec = mysqli_fetch_array($ris))
+        {
+
+            print ("<tr><td>TUT. " . $rec['cognome'] . "&nbsp;" . $rec['nome']);
+            print (" - " . decodifica_classe(estrai_classe_alunno($rec['idalunno'], $con), $con) . " - " . data_italiana($rec['datanascita']));
+        
+            print "</td>";
+            if ($rec['datalettura'] != '0000-00-00')
+            {
+                print ("<td>" . data_italiana($rec['datalettura']) . "</td>");
+            } else
+            {
+                print ("<td>&nbsp;</td>");
+            }
+            if ($ricevuta)
+            {
+                if ($rec['dataconfermalettura'] != '0000-00-00')
+                {
+                    print ("<td>" . data_italiana($rec['dataconfermalettura']) . "</td>");
+                } else
+                {
+                    print ("<td>&nbsp;</td>");
+                }
+            }
+            print "</tr>";
+        }
+        $ris = eseguiQuery($con, $query3);
+        while ($rec = mysqli_fetch_array($ris))
+        {
+
+            print ("<tr><td>ALU. " . $rec['cognome'] . "&nbsp;" . $rec['nome']);
+            print (" - " . decodifica_classe(estrai_classe_alunno($rec['idalunno'], $con), $con) . " - " . data_italiana($rec['datanascita']));
+        
+            print "</td>";
+            if ($rec['datalettura'] != '0000-00-00')
+            {
+                print ("<td>" . data_italiana($rec['datalettura']) . "</td>");
+            } else
+            {
+                print ("<td>&nbsp;</td>");
+            }
+            if ($ricevuta)
+            {
+                if ($rec['dataconfermalettura'] != '0000-00-00')
+                {
+                    print ("<td>" . data_italiana($rec['dataconfermalettura']) . "</td>");
+                } else
+                {
+                    print ("<td>&nbsp;</td>");
+                }
+                
+            }
+            print "</tr>";
+        }
     }
     print "</table>";
 }

@@ -111,6 +111,7 @@ print "<tr>";
 print "<td><input type='text' maxlength='100' size='30' name='descrizione'></td>";
 print "<td><SELECT NAME='destinatari'>
                 
+                <option value='T'>Tutti (alunni, genitori e docenti)</option> 
                 <option value='L'>Tutti gli alunni</option> 
                 <option value='A'>Tutti i genitori</option> 
                 <option value='D'>Tutti i docenti</option>
@@ -166,6 +167,13 @@ if ($destinatari == '')
 //   print "<option value='O' selected>Tutti</option>";
 //else
 //   print "<option value='O'>Tutti</option>";     
+if ($destinatari == 'T')
+{
+    print "<option value='T' selected>Tutti (alunni, genitori e docenti)</option>";
+} else
+{
+    print "<option value='T'>Tutti (alunni, genitori e docenti)</option>";
+}
 if ($destinatari == 'A')
 {
     print "<option value='A' selected>Tutti i genitori</option>";

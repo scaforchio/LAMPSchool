@@ -623,6 +623,10 @@ function decod_dest($tipodest)
 {
 //if ($tipodest=='O')
 //   return "Tutti";
+    if ($tipodest == 'T')
+    {
+        return "Tutti (alunni, genitori e docenti)";
+    }
     if ($tipodest == 'D')
     {
         return "Tutti i docenti";
