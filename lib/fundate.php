@@ -227,7 +227,7 @@ function differenza_giorni($data_iniziale, $data_finale)
 function giorno_festa($datafest, $conn)
 {
     $query = "select * from tbl_festivita where data='$datafest'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     if (mysqli_num_rows($ris) > 0)
     {
         return true;
@@ -246,7 +246,7 @@ function giorno_festa($datafest, $conn)
 function estrai_festa($datafest, $conn)
 {
     $query = "select * from tbl_festivita where data='$datafest'";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     if ($rec = mysqli_fetch_array($ris))
     {
         return $rec['note'];
@@ -307,7 +307,7 @@ function aggiungi_giorni($datainglese, $giorni)
 function orainizio($h, $g, $conn)
 {
     $query = "select inizio from tbl_orario where giorno='$g' and ora='$h' and valido";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     return $rec['inizio'];
 }
@@ -333,15 +333,15 @@ function orafine($h, $g, $conn)
  */
 function giorni_lezione_tra_date($datainizio, $datafine, $conn)
 {
-  /*  $query = "select distinct datalezione from tbl_lezioni
-            where datalezione>='$datainizio' and datalezione<='$datafine'"; */
-    
+    /*  $query = "select distinct datalezione from tbl_lezioni
+      where datalezione>='$datainizio' and datalezione<='$datafine'"; */
+
     // AGGIUNTO IL CONTROLLO SULLA TBL_FESTIVITA per evitare di conteggiare giorni
     // in cui non c'è scuola ma con lezioni già inserite (vedi ad esempio giorni di chiusura per neve)
     $query = "select distinct datalezione from tbl_lezioni
             where datalezione>='$datainizio' and datalezione<='$datafine' and 
             datalezione not in(select data from tbl_festivita)";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $giornilezione = mysqli_num_rows($ris);
 
     return $giornilezione;
@@ -529,7 +529,7 @@ function estrai_ora_inizio_giornata($data, $idclasse, $conn)
     if ($data != "0000-00-00")
     {
         $query = "select min(orainizio) as oraini from tbl_lezioni where datalezione='$data' and idclasse='$idclasse'";
-        $risora = eseguiQuery($conn,$query);
+        $risora = eseguiQuery($conn, $query);
         // print "tttt $query ".mysqli_num_rows($risora);
         if ($recora = mysqli_fetch_array($risora))
         {
@@ -624,7 +624,7 @@ function controlla_scadenza($numgiornirit, $giornolez, $meselez, $annolez)
 function estrai_data_lezione($idlezione, $conn)
 {
     $query = "select datalezione from tbl_lezioni where idlezione=$idlezione";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $datalezione = $rec['datalezione'];
     return $datalezione;
@@ -658,7 +658,7 @@ function numero_colloqui_docente($iddocente, $idoraric, $datapren, $conn)
 	      and tbl_prenotazioni.valido=1
 	      and tbl_prenotazioni.idoraricevimento=$idoraric";
     // print inspref($query);
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $numpren = $rec['numpren'];
     // print " num pren $numpren";
@@ -670,8 +670,35 @@ function numero_colloqui_massimi_docente($iddocente, $conn)
 
     $query = "select nummaxcolloqui from tbl_docenti
 	        where iddocente=$iddocente";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $numpren = $rec['nummaxcolloqui'];
     return $numpren;
+}
+
+function maggiorenne($datanascita)
+{
+    $cm = Date("m"); /*  corrente mese */
+    $cg = Date("d"); /* giorno di oggi */
+    $ca = Date("Y"); /* anno corrente */
+    $aa = $ca - 18; /* minimo anno per la maggiore etÃ  */
+    $annonasc = substr($datanascita, 0, 4);
+    $mesenasc = substr($datanascita, 5, 2);
+    $giornasc = substr($datanascita, 8, 2);
+    if (($ca - $annonasc) > 18)
+        return true;
+    elseif ($annonasc == $aa)
+    {
+        if ($mesenasc < $cm)
+            return true;
+        elseif (mesenasc == $cm)
+        {
+            if ($giornasc <= $cg)
+                return true;
+            else
+                return false;
+        } else
+            return false;
+    } else
+        return false;
 }

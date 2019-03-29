@@ -714,7 +714,7 @@ if ($cambiamentopassword)
         menu_separator("");
         menu_item('../rp/vistimbrature.php', 'VISUALIZZA TIMBRATURE');
         menu_item('../rp/selealunnipresenza.php', 'FORZA PRESENZA ALUNNI');
-        menu_item('../rp/vispresenzeforzate.php', 'VISUALIZZA PRESENZE FORZATE');
+        menu_item('../rp/CRUDpresenzeforzate.php', 'VISUALIZZA PRESENZE FORZATE');
         menu_item('../rp/selealunnitimbraturaforzata.php', 'FORZA TIMBRATURE');
         menu_item('../rp/elencotimbratureforzate.php', 'REPORT FORZATURE');
 
@@ -1035,7 +1035,7 @@ if ($cambiamentopassword)
         menu_separator("");
         menu_item('../rp/vistimbrature.php', 'VISUALIZZA TIMBRATURE');
         menu_item('../rp/selealunnipresenza.php', 'FORZA PRESENZA ALUNNI');
-        menu_item('../rp/vispresenzeforzate.php', 'VISUALIZZA PRESENZE FORZATE');
+        menu_item('../rp/CRUDpresenzeforzate.php', 'VISUALIZZA PRESENZE FORZATE');
         menu_item('../rp/selealunnitimbraturaforzata.php', 'FORZA TIMBRATURE');
         menu_item('../rp/autorizzaritardo.php', 'AUTORIZZA ENTRATA IN RITARDO');
         menu_item('../rp/elencotimbratureforzate.php', 'REPORT FORZATURE');
@@ -1673,6 +1673,7 @@ if ($cambiamentopassword)
 							  where tbl_diffusionecircolari.idcircolare=tbl_circolari.idcircolare
 							  and idutente='" . $_SESSION['idutente'] . "'
 							  and (isnull(datalettura) or datalettura='0000-00-00')
+                                                          and (isnull(dataconfermalettura) or dataconfermalettura='0000-00-00')
 							  and datainserimento<='$dataoggi'";
         // print "tttt ".inspref($query);
         $ris = eseguiQuery($con, $query);

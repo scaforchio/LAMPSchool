@@ -57,7 +57,7 @@ if (mysqli_num_rows($rs) > 0)
     while ($rec = mysqli_fetch_array($rs))
     {
         print "<tr><td>$cont</td><td>" . $rec['cognome'] . "</td><td>" . $rec['nome'] . "</td><td>" . data_italiana($rec['datanascita']) . "</td><td>" . $rec['codfiscale'] . "</td>";
-        
+
         if ($rec['idalunno'] == estraiAprifila1($idclasse, $con) | $rec['idalunno'] == estraiAprifila2($idclasse, $con))
             print "<td>A.F.</td>";
         elseif ($rec['idalunno'] == estraiChiudifila1($idclasse, $con) | $rec['idalunno'] == estraiChiudifila2($idclasse, $con))
@@ -65,9 +65,11 @@ if (mysqli_num_rows($rs) > 0)
         else
             print "<td></td>";
         if ($rec['autuscitaantclasse'])
-           print "<td><b>S</b></td>";
+            print "<td><b>S</b></td>";
+        elseif (maggiorenne($rec['datanascita']))
+            print "<td><b>MAGG.</b></td>";
         else
-           print "<td><b>N</b></td>";
+            print "<td><b>N</b></td>";
         $cont++;
     }
 } else

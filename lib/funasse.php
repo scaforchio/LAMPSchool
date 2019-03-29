@@ -689,6 +689,7 @@ function inserisciAmmonizioneGiustAssenze($idalunno, $iddocente, $datalimiteinfe
     eseguiQuery($con, $query);
     $elenco = substr($elenco, 0, strlen($elenco) - 1);
     $idclasse = estrai_classe_alunno($idalunno, $con);
+    $sesso = estrai_sesso_alunno($idalunno, $con);
     //$iddocente = $_SESSION['idutente'];
     if (strlen($elenco) > 7)
         $numero = "alle assenze";

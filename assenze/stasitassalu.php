@@ -231,10 +231,10 @@ while ($val8 = mysqli_fetch_array($ris8))
             echo " (Amm. " . data_italiana($val8['dataammonizione']) . ")";
         echo '</font><br/>';
     }
-    $query = "select * from tbl_autorizzazioniuscite where idalunno=$codalunno and data='$data'";
+    /* $query = "select * from tbl_autorizzazioniuscite where idalunno=$codalunno and data='$data'";
     $ris = eseguiQuery($con, $query);
     if ($rec = mysqli_fetch_array($ris))
-        print "<small>" . $rec['testoautorizzazione'] . "</small><br>";
+        print "<small>" . $rec['testoautorizzazione'] . "</small><br>"; */
     //*****Fine modifica Roby
 }
 echo '
