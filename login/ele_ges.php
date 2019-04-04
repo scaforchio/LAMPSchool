@@ -671,6 +671,20 @@ if ($cambiamentopassword)
             menu_title_end();
         }
         menu_separator("&nbsp;");
+        if ($tokenservizimoodle != "" & docente_gestore_moodle($idutente,$con))
+        {
+            menu_title_begin('GESTIONE MOODLE');
+            menu_item('../moodle/esporta_moodle.php', 'ESPORTA DATI PER MOODLE');
+            menu_item('../moodle/creacorsimoodle.php', 'CREA E SINCRONIZZA CORSI MOODLE');
+            menu_item('../moodle/creacorsimoodleclasse.php', 'CREA E SINCRONIZZA CORSI MOODLE PER CLASSE');
+            menu_item('../moodle/rigenerapasswordmoodle.php', 'RIGENERA PASSWORD MOODLE ALUNNI');
+            menu_item('../moodle/rigenerapasswordmoodledoc.php', 'RIGENERA PASSWORD MOODLE DOCENTI');
+            menu_item('../moodle/sincronizzautenti.php', 'AGGIUNGI NUOVI UTENTI A MOODLE');
+            menu_item('../moodle/seleiscrizionecorsi.php', 'ISCRIVI STUDENTI A CORSO MOODLE');
+            menu_item('../moodle/seleiscrizionecorsidoc.php', 'ISCRIVI DOCENTI A CORSO MOODLE');
+            menu_title_end();
+        }
+        
         menu_title_begin('ALTRO');
         menu_item('../password/cambpwd.php', 'CAMBIAMENTO PROPRIA PASSWORD');
         menu_item('../circolari/viscircolari.php', 'LEGGI CIRCOLARI');
@@ -902,9 +916,9 @@ if ($cambiamentopassword)
 
         menu_title_end();
 
-        if ($tokenservizimoodle != "")
+        if ($tokenservizimoodle != "" & docente_gestore_moodle($idutente,$con))
         {
-            menu_title_begin('INTERFACCIA CON MOODLE');
+            menu_title_begin('GESTIONE MOODLE');
             menu_item('../moodle/esporta_moodle.php', 'ESPORTA DATI PER MOODLE');
             menu_item('../moodle/creacorsimoodle.php', 'CREA E SINCRONIZZA CORSI MOODLE');
             menu_item('../moodle/creacorsimoodleclasse.php', 'CREA E SINCRONIZZA CORSI MOODLE PER CLASSE');
@@ -1331,7 +1345,7 @@ if ($cambiamentopassword)
         menu_title_end();
         if ($tokenservizimoodle != "")
         {
-            menu_title_begin('INTERFACCIA CON MOODLE');
+            menu_title_begin('GESTIONE MOODLE');
             menu_item('../moodle/esporta_moodle.php', 'ESPORTA DATI PER MOODLE');
             menu_item('../moodle/creacorsimoodle.php', 'CREA E SINCRONIZZA CORSI MOODLE');
             menu_item('../moodle/creacorsimoodleclasse.php', 'CREA E SINCRONIZZA CORSI MOODLE PER CLASSE');

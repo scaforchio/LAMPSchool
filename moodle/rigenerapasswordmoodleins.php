@@ -42,7 +42,7 @@ $script = "<script type='text/javascript'>
                   alert('Spiacente! il tuo browser non supporta la stampa diretta!');            }
          //-->
          </script>";
-stampa_head($titolo, "", $script, "MSP");
+stampa_head($titolo, "", $script, "MSPD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 

@@ -111,9 +111,11 @@ print(" <td><input type ='text' size='20' name='email'></td></tr>");
 
 print ("<tr><td>Sostegno</td><td><select name='sostegno'>");
 print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
-
 print ("</select></td></tr>");
 
+print ("<tr><td>Gestione moodle</td><td><select name='gestoremoodle'>");
+print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
+print ("</select></td></tr>");
 
 print("</table><br/>");
 print("<INPUT TYPE='SUBMIT' VALUE='Inserisci'>");

@@ -544,7 +544,8 @@ CREATE TABLE IF NOT EXISTS tbl_docenti (
   email varchar(50) DEFAULT NULL,
   idutente int(11) DEFAULT '0',
   sostegno tinyint(1) DEFAULT '0',
-  nummaxcolloqui tinyint(1) DEFAULT '5'
+  nummaxcolloqui tinyint(1) DEFAULT '5',
+  gestoremoodle tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

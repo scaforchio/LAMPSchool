@@ -70,9 +70,10 @@ $indirizzo = stringa_html('indirizzo');
 $comresi = stringa_html('idcomr');
 $email = stringa_html('email');
 $sostegno = stringa_html('sostegno');
+$gestoremoodle= stringa_html('gestoremoodle');
 $telefono = stringa_html('telefono');
 $cellulare = stringa_html('telcel');
-$s = "UPDATE tbl_docenti SET cognome='$cognome',nome='$nome',datanascita='$aa-$mm-$gg',idcomnasc='$comnasc',indirizzo='$indirizzo',idcomres='$comresi',telefono='$telefono',telcel='$cellulare',email='$email',sostegno='$sostegno' WHERE iddocente=$iddocente";
+$s = "UPDATE tbl_docenti SET cognome='$cognome',nome='$nome',datanascita='$aa-$mm-$gg',idcomnasc='$comnasc',indirizzo='$indirizzo',idcomres='$comresi',telefono='$telefono',telcel='$cellulare',email='$email',sostegno='$sostegno',gestoremoodle='$gestoremoodle' WHERE iddocente=$iddocente";
 
 if (!$cognome)
 {

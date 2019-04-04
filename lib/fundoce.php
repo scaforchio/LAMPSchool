@@ -71,6 +71,17 @@ function docente_sostegno($iddocente, $conn)
     return $datidocente;
 }
 
+
+
+function docente_gestore_moodle($iddocente, $conn)
+{
+    $query = "select * from tbl_docenti where iddocente='$iddocente'";
+    $ris = eseguiQuery($conn, $query);
+    $rec = mysqli_fetch_array($ris);
+    $datidocente = $rec['gestoremoodle'];
+
+    return $datidocente;
+}
 /**
  *
  * @param int $iddocente

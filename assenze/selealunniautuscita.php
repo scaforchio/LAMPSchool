@@ -196,7 +196,7 @@ if ($idclasse != "")
            <table align='center' border='1'>
            <tr class='prima'><td>Cognome Nome</td><td>Autorizzazione</td><td>Prec. uscite</td></tr>";
 
-    $query = "select idalunno,cognome, nome, datanascita,firmapropria
+    $query = "select idalunno,cognome, nome, datanascita,firmapropria,autuscita
             from tbl_alunni
             where tbl_alunni.idclasse=$idclasse
 
@@ -211,6 +211,10 @@ if ($idclasse != "")
         {
 
             print "<small> (Autorizz. a firma propria)</small>";
+        }
+        if ($rec['autuscita']!="")
+        {
+            print "<small><br>".$rec['autuscita']."</small>";
         }
         print "</td>";
 

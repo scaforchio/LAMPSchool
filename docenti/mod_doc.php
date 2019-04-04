@@ -140,6 +140,12 @@ else
     else
         print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");
     print ("</select></td></tr>");
+    print ("<tr><td>Gestione Moodle</td><td><select name='gestoremoodle'>");
+    if (!$Data['gestoremoodle'])
+        print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
+    else
+        print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");
+    print ("</select></td></tr>");
     print("</table><br/>");
     print("<INPUT TYPE='SUBMIT' VALUE='Modifica'>");
     print("</form><br/>");
