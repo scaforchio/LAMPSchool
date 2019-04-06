@@ -45,35 +45,24 @@ $script = "";
 stampa_head($titolo, "", $script, "MSPD");
 
 
-print "<center><B>Elenco alunni della " . decodifica_classe($idclasse, $con) . "</B><br><br></center>";
+print "<center><B>Elenco alunni non in presenza forzata della " . decodifica_classe($idclasse, $con) . "</B><br><br></center>";
 // prelevamento dati alunno
 // $rs = $lQuery->selectstar('tbl_alunni', 'idalunno=?', array($codalunno));
-$query = "select * from tbl_alunni where idclasse=$idclasse order by cognome, nome, datanascita";
+$query = "select * from tbl_alunni where idclasse=$idclasse "
+        . "and idalunno in (". estrai_alunni_classe_data($idclasse, $data, $con).") and idalunno not in (select idalunno from tbl_presenzeforzate where data='$data') order by cognome, nome, datanascita";
+
 $rs = eseguiQuery($con, $query);
 $esistono = false;
 if (mysqli_num_rows($rs) > 0)
 {
-    print "<table align='center' border='1'><tr class='prima'><td>N.</td><td>Cognome</td><td>Nome</td><td>Data nascita</td><td>Cod. Fisc.</td><td>Funz.</td><td>Aut.<br>usc.<br>ant.</td></tr>";
+    print "<table align='center' border='1'><tr class='prima'><td>N.</td><td>Cognome</td><td>Nome</td><td>Data nascita</td></tr>";
     $cont = 1;
     while ($rec = mysqli_fetch_array($rs))
     {
-        print "<tr><td>$cont</td><td>" . $rec['cognome'] . "</td><td>" . $rec['nome'] . "</td><td>" . data_italiana($rec['datanascita']) . "</td><td>" . $rec['codfiscale'] . "</td>";
-
-        if ($rec['idalunno'] == estraiAprifila1($idclasse, $con) | $rec['idalunno'] == estraiAprifila2($idclasse, $con))
-            print "<td>A.F.</td>";
-        elseif ($rec['idalunno'] == estraiChiudifila1($idclasse, $con) | $rec['idalunno'] == estraiChiudifila2($idclasse, $con))
-            print "<td>C.F.</td>";
-        else
-            print "<td></td>";
-        if ($rec['autuscitaantclasse'])
-            print "<td><b>S</b></td>";
-        elseif (maggiorenne($rec['datanascita']))
-            print "<td><b>MAGG.</b></td>";
-        else
-            print "<td><b>N</b></td>";
+        print "<tr><td>$cont</td><td>" . $rec['cognome'] . "</td><td>" . $rec['nome'] . "</td><td>" . data_italiana($rec['datanascita']) . "</td></tr>";
         $cont++;
     }
 } else
-    print "<BR><br><b><i><center>Nessun alunno presente!</b></i></center>";
+    print "<BR><br><b><i><center>Nessun alunno deve essere presente in aula!</b></i></center>";
 mysqli_close($con);
 

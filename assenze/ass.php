@@ -126,28 +126,7 @@ if ($classeregistro == "")
     echo('   <select name="gio" disabled>');
 }
 require '../lib/req_aggiungi_giorni_a_select.php';
-/*
-  for  ($g = 1; $g <= 31; $g++)
-  {
-  if ($g < 10)
-  {
-  $gs = '0' . $g;
-  }
-  else
-  {
-  $gs = '' . $g;
-  }
-  if ($gs == $giorno)
-  {
-  echo("<option selected>$gs</option>");
-  }
-  else
-  {
-  echo("<option>$gs</option>");
-  }
-  }
- * 
- */
+
 echo("</select>");
 
 
@@ -160,48 +139,6 @@ if ($classeregistro == "")
     echo('   <select name="meseanno" disabled>');
 }
 require '../lib/req_aggiungi_mesi_a_select.php';
-/*
-  for  ($m = 9; $m <= 12; $m++)
-  {
-  if ($m < 10)
-  {
-  $ms = "0" . $m;
-  }
-  else
-  {
-  $ms = '' . $m;
-  }
-  if ($ms == $mese)
-  {
-  echo("<option selected>$ms - $annoscol</option>");
-  }
-  else
-  {
-  echo("<option>$ms - $annoscol</option>");
-  }
-  }
-  $annoscolsucc = $annoscol + 1;
-  for ($m = 1; $m <= 8; $m++)
-  {
-  if ($m < 10)
-  {
-  $ms = '0' . $m;
-  }
-  else
-  {
-  $ms = '' . $m;
-  }
-  if ($ms == $mese)
-  {
-  echo("<option selected>$ms - $annoscolsucc</option>");
-  }
-  else
-  {
-  echo("<option>$ms - $annoscolsucc</option>");
-  }
-  }
- * 
- */
 
 echo("</select>");
 

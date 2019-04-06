@@ -490,9 +490,6 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
 
     // Cerco presenti 'forzati'
 
-
-
-
     $query = "select concat(concat(cognome,' '),nome) as nominativo, motivo from tbl_presenzeforzate,tbl_alunni
             where tbl_presenzeforzate.idalunno = tbl_alunni.idalunno
             and data='$data'
@@ -528,6 +525,11 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
         else
             print "L'alunno $elencopresenti non &egrave; in classe per $motivo.<br>";
         $elencopresenti = "";
+        // CREO LINK PER VISUALIZZAZIONE ALUNNI CHE RESTANO IN CLASSE
+        if ($stampacollegamenti)
+        {
+           print "<a href=javascript:Popup('presentiinaula.php?idclasse=$idclasse&data=$data')>(Visualizza elenco presenti in aula)</a>";
+        }
     }
     print "</td>";
 
@@ -567,5 +569,4 @@ function esiste__assenza($data, $con)
     else
         return false;
 }
- 
  
