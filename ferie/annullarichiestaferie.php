@@ -37,18 +37,20 @@ if ($tipoutente == "")
 
 $titolo = "Annullamento richiesta ferie";
 $script = "";
-stampa_head($titolo, "", $script, "SD");
+stampa_head($titolo, "", $script, "SDP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $nominativodirigente = estrai_dati_docente(1000000000, $con);
 $prot = stringa_html('prot');
+$mf = stringa_html('mf');
 
 
-//$query = "delete from tbl_richiesteferie where idrichiestaferie=$prot";
-// Concessione = 9 corrisponde a richiesta annullata.
-$query = "update tbl_richiesteferie set concessione=9 where idrichiestaferie=$prot";
+if ($mf == 'yes')  // Effettuata da preside o staff per mancata fruizione
+    $query = "update tbl_richiesteferie set annullata=1 where idrichiestaferie=$prot";
+else  // Effettuata dal docente prima dell'autorizzazione
+    $query = "update tbl_richiesteferie set concessione=9 where idrichiestaferie=$prot";
 
 eseguiQuery($con, $query);
 
@@ -61,8 +63,6 @@ print "<form method='post' id='formlez' action='esamerichferie.php'>
 	      document.getElementById('formlez').submit();
 	  }
        </SCRIPT>";
-
-
 
 mysqli_close($con);
 stampa_piede("");

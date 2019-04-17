@@ -146,7 +146,7 @@ function lezione_sostegno($idlezione, $iddocente, $con)
 function calcolaOrePermesso($iddoc, $con)
 {
     $totaleore = 0;
-    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and subject LIKE '%permesso breve%'";
+    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and not annullata and subject LIKE '%permesso breve%'";
     $risperm = eseguiQuery($con, $query);
     while ($recperm = mysqli_fetch_array($risperm))
     {
@@ -167,7 +167,7 @@ function calcolaOrePermesso($iddoc, $con)
 function calcolaGiorniPermesso($iddoc, $con)
 {
     $totalegiorni = 0;
-    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Permesso retribuito%'";
+    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and not annullata and testomail LIKE '%Permesso retribuito%'";
     $risperm = eseguiQuery($con, $query);
     while ($recperm = mysqli_fetch_array($risperm))
     {
@@ -188,7 +188,7 @@ function calcolaGiorniPermesso($iddoc, $con)
 function calcolaGiorniFerie($iddoc, $con)
 {
     $totalegiorni = 0;
-    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Ferie%'";
+    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and not annullata and testomail LIKE '%Ferie%'";
     $risperm = eseguiQuery($con, $query);
     while ($recperm = mysqli_fetch_array($risperm))
     {
@@ -204,6 +204,7 @@ function calcolaGiorniFerie($iddoc, $con)
         $totalegiorni += $giorniferie;
     }
     return $totalegiorni;
+    
 }
 
 function contaOreRecuperate($iddoc, $con)
@@ -218,14 +219,11 @@ function contaOreRecuperate($iddoc, $con)
 function contaOrePermesso($iddoc, $con)
 {
     $totaleore = 0;
-    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and subject LIKE '%permesso breve%'";
+    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and not annullata and subject LIKE '%permesso breve%'";
     $risperm = eseguiQuery($con, $query);
     while ($recperm = mysqli_fetch_array($risperm))
     {
-
         $oreperm = $recperm['orepermessobreve'];
-
-
         $totaleore += $oreperm;
     }
     return $totaleore;
@@ -234,7 +232,7 @@ function contaOrePermesso($iddoc, $con)
 function contaGiorniPermesso($iddoc, $con)
 {
     $totalegiorni = 0;
-    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Permesso retribuito%'";
+    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and not annullata and testomail LIKE '%Permesso retribuito%'";
     $risperm = eseguiQuery($con, $query);
     while ($recperm = mysqli_fetch_array($risperm))
     {
@@ -250,7 +248,7 @@ function contaGiorniPermesso($iddoc, $con)
 function contaGiorniFerie($iddoc, $con)
 {
     $totalegiorni = 0;
-    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and testomail LIKE '%Ferie%'";
+    $query = "select * from tbl_richiesteferie where iddocente=$iddoc and concessione=1 and not annullata and testomail LIKE '%Ferie%'";
     $risperm = eseguiQuery($con, $query);
     while ($recperm = mysqli_fetch_array($risperm))
     {

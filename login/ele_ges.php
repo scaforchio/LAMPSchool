@@ -692,7 +692,7 @@ if ($cambiamentopassword)
         menu_item("../docenti/mod_contatto.php", 'AGGIORNA DATI DI CONTATTO');
         menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');
         menu_item('../ferie/richferie.php', 'RICHIESTA ASTENSIONE DAL LAVORO');
-        menu_item('../ferie/esamerichferie.php', 'ESAMINA RICHIESTE FERIE');
+        menu_item('../ferie/esameproprierichferie.php', 'ESAMINA RICHIESTE FERIE');
         menu_item('../docenti/visorario.php', 'VISUALIZZA ORARIO');
         menu_title_end();
     }
@@ -998,7 +998,8 @@ if ($cambiamentopassword)
 
         menu_title_begin('GESTIONE PERMESSI');
         menu_item('../ferie/richferie.php', 'RICHIESTA ASTENSIONE DAL LAVORO');
-        menu_item('../ferie/esamerichferie.php', 'ESAME PROPRIE RICHIESTE FERIE');
+        menu_item('../ferie/esamerichferie.php', 'ESAME RICHIESTE FERIE');
+        menu_item('../ferie/esameproprierichferie.php', 'ESAME PROPRIE RICHIESTE FERIE');
         menu_item('../ferie/visrichferie.php', 'VISIONA ASTENSIONI APPROVATE DAL D.S.');
         menu_item('../ferie/visorepermesso.php', 'TOTALI ASTENSIONI DOCENTI');
         menu_item('../ferie/CRUDrecuperi.php', 'GESTIONE RECUPERI');

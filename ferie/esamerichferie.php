@@ -36,7 +36,7 @@ if ($tipoutente == "")
 
 $titolo = "Esame richieste ferie";
 $script = "";
-stampa_head($titolo, "", $script, "PSD");
+stampa_head($titolo, "", $script, "PS");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
@@ -80,10 +80,29 @@ if ($tipoutente == 'P')
     print "<br>";
 } else
 {
-    print "<br><center><b>ESITO PROPRIE RICHIESTE ASTENSIONE DAL LAVORO</b></center><br><br>";
+    print "<br><center><b>ESAME RICHIESTE ASTENSIONE DAL LAVORO</b></center><br><br>";
     print "<table border='1' align='center'>";
     print "<tr class='prima'><td>Prot.</td><td>Docente</td><td>Richiesta</td><td>Concessione</td></tr>";
-    $query = "select * from tbl_richiesteferie where iddocente=$iddocente and (concessione<>9 or isnull(concessione)) order by idrichiestaferie desc";
+    // TTTT
+    $query = "select * from tbl_richiesteferie where not isnull(concessione) order by idrichiestaferie desc";
+    $ris = eseguiQuery($con,$query);
+    while ($rec = mysqli_fetch_array($ris))
+    {
+        print "<tr>";
+        $prot = $rec['idrichiestaferie'];
+        print "<td>$prot</td>";
+
+        $totaleore = calcolaOrePermesso($rec['iddocente'], $con);
+        $giorniferie = calcolaGiorniFerie($rec['iddocente'], $con);
+        $giorniperm = calcolaGiorniPermesso($rec['iddocente'], $con);
+
+
+
+        print "<td>" . estrai_dati_docente($rec['iddocente'], $con) . "<small><br><br>PRECEDENTI:<br>Ore perm.: $totaleore <br>Ferie: $giorniferie <br>Perm.: $giorniperm <big></td>";
+        require "../lib/req_prepara_stringa_sintetica_richiesta.php";
+    }
+    $query = "select * from tbl_richiesteferie where concessione=0 or concessione=1 order by idrichiestaferie desc";
+
     $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris))
     {
@@ -91,25 +110,7 @@ if ($tipoutente == 'P')
         $prot = $rec['idrichiestaferie'];
         print "<td>$prot</td>";
         print "<td>" . estrai_dati_docente($rec['iddocente'], $con) . "</td>";
-        // PREPARAZIONE STRINGA SINTETICA RICHIESTA
-        $testocompleto = $rec['testomail'];
-        //$posperiodo = strpos($testocompleto,"", $testocompleto)
-        //str_replace("");
-        print "<td><small><small>$testocompleto<big><big></td>";
-        $concesso = $rec['concessione'];
-        print "<td align='center' valign='middle'>";
-        if ($concesso == NULL)
-            print "Non ancora esaminata!<br><br><a href='annullarichiestaferie.php?prot=$prot'>ANNULLA</a></td>";
-        else
-        if ($concesso == 1)
-            print "Accettata!</td>";
-        else
-        if ($concesso == 0)
-            print "Rifiutata!</td>";
-        else
-            print "Recarsi dal preside per chiarimenti!</td>";
-
-        print "</tr>";
+        require "../lib/req_prepara_stringa_sintetica_richiesta.php";
     }
     print "</table>";
     print "<br>";

@@ -1253,6 +1253,7 @@ CREATE TABLE IF NOT EXISTS tbl_richiesteferie (
   concessione tinyint NULL DEFAULT NULL,
   numerogiorni TINYINT NOT NULL DEFAULT 0, 
   orepermessobreve TINYINT NOT NULL DEFAULT 0,
+  annullata tinyint NOT NULL DEFAULT 0,
   oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
   
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
