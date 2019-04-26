@@ -77,6 +77,10 @@ ALTER TABLE tbl_docenti ADD gestoremoodle tinyint(1) DEFAULT '0';
 
 ALTER TABLE tbl_richiesteferie
 ADD annullata tinyint NOT NULL DEFAULT 0;
+
+
+ALTER TABLE tbl_entrateclassi
+ADD idannotazione int(11) NOT NULL DEFAULT 0;
 --
 -- LASCIARE SEMPRE ALLA FINE
 UPDATE tbl_parametri set valore='2018.1' where parametro='versioneprecedente';

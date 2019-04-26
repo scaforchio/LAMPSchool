@@ -56,7 +56,18 @@ if (!$DB)
     exit;
 };
 
-//Esecuzione query
+// Lettura dati entrata posticipata.
+$querylett="select idannotazione from tbl_entrateclassi where identrataclasse=".stringa_html('idritcla');
+$ris = eseguiQuery($con, $querylett);
+$rec = mysqli_fetch_array($ris);
+$idannotazione= $rec['idannotazione'];
+
+$querycancannot="delete from tbl_annotazioni where idannotazione=$idannotazione";
+eseguiQuery($con, $querycancannot);
+//$testo="La classe il $data entra alle $ora.";
+
+
+//Esecuzione query cancellazione entrata posticipata
 $eli = "delete from tbl_entrateclassi where identrataclasse=" . stringa_html('idritcla');
 $ris = eseguiQuery($con, $eli);
 if (!($ris))

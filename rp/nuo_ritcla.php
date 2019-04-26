@@ -139,7 +139,7 @@ if (!($reply = eseguiQuery($con,$q1)))
 print "</td></tr>";
 
 print "<tr><td COLSPAN='2'><br/><CENTER>";
-print "<input type='submit' name='registra' value='Registra'> </CENTER>";
+print "<input type='submit' name='registra' value='Registra ingresso e annotazione'> </CENTER>";
 print "</CENTER></td></TR><TR><TD COLSPAN='2'>&nbsp;</TD></TR>";
 print "</form>";
 

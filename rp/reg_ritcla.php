@@ -60,17 +60,32 @@ $data = stringa_html('data');
 $ora = stringa_html('ora');
 
 
-//Esecuzione query finale
+//Esecuzione query per inserimento entrata posticipata
 $sql = "INSERT INTO tbl_entrateclassi (idclasse, data, ora) VALUES ";
 $sql .= "('$idclasse','" . data_to_db($data) . "','$ora')";
+eseguiQuery($con, $sql);
+print $sql."<br>";
+$identrata = mysqli_insert_id($con);
 
-if (!($ris = eseguiQuery($con, $sql)))
-{
-    print("\n<FONT SIZE='+2'> <CENTER>Inserimento non eseguito </CENTER></FONT>");
-} else
-{
-    // print("\n<FONT SIZE='+2'> <CENTER>Inserimento eseguito</CENTER> </FONT>");
-    print "
+
+//Esecuzione query per inserimento annotazione
+
+
+$testo = "La classe il $data entra alle $ora.";
+
+$sql = "INSERT INTO tbl_annotazioni (idclasse, iddocente, data, visibilitagenitori, visibilitaalunni, testo) VALUES ";
+$sql .= "('$idclasse','" . $_SESSION['idutente'] . "','" . data_to_db($data) . "',1,1,'$testo')";
+
+eseguiQuery($con, $sql);
+print $sql."<br>";
+$idannotazione = mysqli_insert_id($con);
+// AGGIORNAMENTO ENTRATA POSTICIPATA CON idannotazione
+
+$sql = "update tbl_entrateclassi set idannotazione=$idannotazione where identrataclasse=$identrata";
+print $sql;
+eseguiQuery($con, $sql);
+print $sql."<br>";
+print "
                  <form method='post' id='formdoc' action='./vis_ritcla.php'>
                  
                  </form> 
@@ -79,8 +94,6 @@ if (!($ris = eseguiQuery($con, $sql)))
                      document.getElementById('formdoc').submit();
                  }
                  </SCRIPT>";
-}
-
 
 
 stampa_piede("");

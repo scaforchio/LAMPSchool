@@ -582,7 +582,8 @@ CREATE TABLE IF NOT EXISTS tbl_entrateclassi (
   identrataclasse int(11),
   idclasse int(11),
   data date,
-  ora time
+  ora time,
+  idannotazione int(11) not null default 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
