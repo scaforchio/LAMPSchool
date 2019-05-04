@@ -64,7 +64,7 @@ $ora = stringa_html('ora');
 $sql = "INSERT INTO tbl_entrateclassi (idclasse, data, ora) VALUES ";
 $sql .= "('$idclasse','" . data_to_db($data) . "','$ora')";
 eseguiQuery($con, $sql);
-print $sql."<br>";
+//print $sql."<br>";
 $identrata = mysqli_insert_id($con);
 
 
@@ -77,14 +77,14 @@ $sql = "INSERT INTO tbl_annotazioni (idclasse, iddocente, data, visibilitagenito
 $sql .= "('$idclasse','" . $_SESSION['idutente'] . "','" . data_to_db($data) . "',1,1,'$testo')";
 
 eseguiQuery($con, $sql);
-print $sql."<br>";
+//print $sql."<br>";
 $idannotazione = mysqli_insert_id($con);
 // AGGIORNAMENTO ENTRATA POSTICIPATA CON idannotazione
 
 $sql = "update tbl_entrateclassi set idannotazione=$idannotazione where identrataclasse=$identrata";
-print $sql;
+//print $sql;
 eseguiQuery($con, $sql);
-print $sql."<br>";
+//print $sql."<br>";
 print "
                  <form method='post' id='formdoc' action='./vis_ritcla.php'>
                  

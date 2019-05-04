@@ -152,8 +152,8 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
     $schede->SetFont('Times', 'B', 10);
     $schede->Cell(190, 6, converti_utf8("Il Dirigente Scolastico"), NULL, 1, "C");
     $schede->SetFont('Times', '', 9);
-    $schede->MultiCell(190, 6, converti_utf8("Visto il decreto legislativo 13 aprile 2017, n. 62 e, in particolare, l'articolo 9;"));
-    $schede->MultiCell(190, 6, converti_utf8("Visto il decreto ministeriale 3 ottobre 2017, n. 742, concernente l'adozione del modello nazionale di certificazione delle competenze per le scuole del primo ciclo di istruzione;"));
+    //$schede->MultiCell(190, 6, converti_utf8("Visto il decreto legislativo 13 aprile 2017, n. 62 e, in particolare, l'articolo 9;"));
+    //$schede->MultiCell(190, 6, converti_utf8("Visto il decreto ministeriale 3 ottobre 2017, n. 742, concernente l'adozione del modello nazionale di certificazione delle competenze per le scuole del primo ciclo di istruzione;"));
 
     if ($tiposcheda == 1)
     {
