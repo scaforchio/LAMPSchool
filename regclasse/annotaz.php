@@ -327,7 +327,7 @@ if (($idclasse != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")
         if ($c['visibilitaalunni'] == true)
             echo "<center>Visibile a tutti gli alunni della classe<input type='checkbox' name='visibilealu' checked></center>";
         else
-            echo "<center>Visibile a tutti gli alunni delal classe<input type='checkbox' name='visibilealu'></center>";
+            echo "<center>Visibile a tutti gli alunni della classe<input type='checkbox' name='visibilealu'></center>";
         echo "</td>";
     }
     echo '</tr></table>';

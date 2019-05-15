@@ -1474,6 +1474,22 @@ CREATE TABLE IF NOT EXISTS tbl_usciteanticipate (
   oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella tbl_entrateclassi
+--
+
+CREATE TABLE IF NOT EXISTS tbl_usciteclassi (
+  iduscitaclasse int(11),
+  idclasse int(11),
+  data date,
+  ora time,
+  idannotazione int(11) not null default 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 --
 -- Struttura della tabella tbl_usciteanticipate
 --
@@ -1791,6 +1807,9 @@ ADD PRIMARY KEY (iddocumento);
 --
 ALTER TABLE tbl_entrateclassi
 ADD PRIMARY KEY (identrataclasse);
+
+ALTER TABLE tbl_usciteclassi
+ADD PRIMARY KEY (iduscitaclasse);
 
 --
 -- Indexes for table tbl_esiti
@@ -2221,6 +2240,9 @@ MODIFY iddocumento int(11) AUTO_INCREMENT;
 --
 ALTER TABLE tbl_entrateclassi
 MODIFY identrataclasse int(11) AUTO_INCREMENT;
+
+ALTER TABLE tbl_usciteclassi
+MODIFY iduscitaclasse int(11) AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table tbl_esiti
 --

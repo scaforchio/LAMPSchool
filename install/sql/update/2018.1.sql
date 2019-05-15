@@ -81,7 +81,23 @@ ADD annullata tinyint NOT NULL DEFAULT 0;
 
 ALTER TABLE tbl_entrateclassi
 ADD idannotazione int(11) NOT NULL DEFAULT 0;
---
+
+
+CREATE TABLE IF NOT EXISTS tbl_usciteclassi (
+  iduscitaclasse int(11),
+  idclasse int(11),
+  data date,
+  ora time,
+  idannotazione int(11) not null default 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE tbl_usciteclassi
+ADD PRIMARY KEY (iduscitaclasse);
+
+
+ALTER TABLE tbl_usciteclassi
+MODIFY iduscitaclasse int(11) AUTO_INCREMENT;
+
 -- LASCIARE SEMPRE ALLA FINE
 UPDATE tbl_parametri set valore='2018.1' where parametro='versioneprecedente';
 -- LASCIARE SEMPRE ALLA FINE

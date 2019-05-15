@@ -718,6 +718,7 @@ if ($cambiamentopassword)
         menu_item('../assenze/CRUDautorizzazioniuscite.php', 'GESTIONE AUTORIZZAZIONI USCITE');
         menu_item('../rp/autorizzaritardo.php', 'AUTORIZZA ENTRATA IN RITARDO');
         menu_item('../rp/vis_ritcla.php', 'ENTRATE POSTICIPATE CLASSI');
+        menu_item('../rp/vis_usccla.php', 'USCITE ANTICIPATE CLASSI');
         // menu_item('../rp/CRUDentrateposticipate.php', 'ENTRATE POSTICIPATE CLASSI');
         menu_item('../assenze/sitgiustifiche.php', 'VISUALIZZA MANCANZA GIUSTIFICHE');
         
