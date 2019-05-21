@@ -181,7 +181,7 @@ if ($val = mysqli_fetch_array($ris))
 {
     $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
     $oresettimanali = $val["oresett"];
-    $numoretot = round(33.333 * $oresettimanali);  // 33 = numero settimane di lezione convenzionale
+    $numoretot = round(33 * $oresettimanali);  // 33.3333 = numero settimane di lezione convenzionale
 }
 
 
@@ -219,7 +219,7 @@ while ($val = mysqli_fetch_array($ris))
         $numusc = $usc['numusc'];
     }
 
-    $numoretot = round(33.333 * $oresettimanali);
+    $numoretot = round(33 * $oresettimanali);   // 33.3333
     $numoregio = $oresettimanali / $giornilezsett; //calcolo ore medie giornaliere
     $oreassenza = calcola_ore_assenza($idalunno, $datainizio, $datafine, $con);
 

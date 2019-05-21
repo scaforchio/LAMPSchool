@@ -578,6 +578,7 @@ if ($cambiamentopassword)
             menu_item('../note/stampanote.php', 'STAMPA NOTE PER CLASSE');
             menu_item('../assenze/sitassmens.php', 'SITUAZIONE MENSILE ASSENZE');
             menu_item('../assenze/sitasstota.php', 'SITUAZIONE TOTALE ASSENZE');
+            menu_item('../assenze/sitassprob.php', 'SITUAZIONI PROBLEMATICHE ASSENZE');
             menu_item('../assenze/deroghe.php', 'DEROGHE ASSENZE');
             menu_item('../alunni/CRUD_autorizzazioni.php?soloclasse=yes', 'Gestione autorizzazioni ad uscita anticipata con classe');
             menu_item('../assenze/visderoghe.php', 'SITUAZIONE DEROGHE ASSENZE');
@@ -806,6 +807,7 @@ if ($cambiamentopassword)
             menu_item('../note/stampanote.php', 'STAMPA NOTE PER CLASSE');
             menu_item('../scrutini/riepvoti.php', 'TABELLONE SCRUTINI INTERMEDI');
             menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
+            
             menu_item('../alunni/CRUD_autorizzazioni.php?soloclasse=yes', 'Gestione autorizzazioni ad uscita anticipata con classe');
             if ($livello_scuola == '4')
             {

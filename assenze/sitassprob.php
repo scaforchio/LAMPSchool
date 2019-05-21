@@ -221,7 +221,7 @@ if ($perclim != '')
       {
       $classe=$val["anno"]." ".$val["sezione"]." ".$val["specializzazione"];
       $oresettimanali=$val["oresett"];
-      $numoretot=33*$oresettimanali;  // 33 = numero settimane di lezione convenzionale
+      $numoretot=33*$oresettimanali;  // 33.3333 = numero settimane di lezione convenzionale
       }
      */
 
@@ -239,8 +239,15 @@ if ($perclim != '')
           <td><font size=1><b> Data di nascita </b></td><td><b>Classe</b></td>';
     print ("<td><font size=1><center>Ass</td><td><font size=1><center>Rit (Ent. Post.)</td><td><font size=1><center>Usc</td><td align=center><font size=1>Perc. ass.<br/>su monte ore<br/>della classe</td></tr>");
 
-
-    $query = "SELECT * FROM tbl_alunni,tbl_classi WHERE
+    if ($tipoutente='D')
+        $query = "SELECT * FROM tbl_alunni,tbl_classi WHERE
+            tbl_alunni.idclasse=tbl_classi.idclasse 
+            AND tbl_alunni.idclasse IN
+                   (SELECT idclasse from tbl_classi where idcoordinatore=".$_SESSION['idutente'].")
+                       ORDER BY specializzazione,anno,sezione,cognome,nome,datanascita";
+  
+    else        
+        $query = "SELECT * FROM tbl_alunni,tbl_classi WHERE
             tbl_alunni.idclasse=tbl_classi.idclasse AND tbl_alunni.idclasse<>'' ORDER BY specializzazione,anno,sezione,cognome,nome,datanascita";
     $ris = eseguiQuery($con, $query);
     while ($val = mysqli_fetch_array($ris))
@@ -251,7 +258,7 @@ if ($perclim != '')
         {
             $classe = $valcla["anno"] . " " . $valcla["sezione"] . " " . $valcla["specializzazione"];
             $oresettimanali = $valcla["oresett"];
-            $numoretot = round(33.333 * $oresettimanali);  // 33 = numero settimane di lezione convenzionale
+            $numoretot = round(33 * $oresettimanali);  // 33 = numero settimane di lezione convenzionale
         }
         $idalunno = $val["idalunno"];
 
@@ -275,7 +282,7 @@ if ($perclim != '')
 
         $risass = eseguiQuery($con, $queryass);
         $risrit = eseguiQuery($con, $queryrit);
-        $risentpost = eseguiQuery($con,$queryentpost);
+        $risentpost = eseguiQuery($con, $queryentpost);
 
         $risusc = eseguiQuery($con, $queryusc);
         while ($ass = mysqli_fetch_array($risass))
@@ -298,7 +305,7 @@ if ($perclim != '')
         }
 
         // TTTT  Da completare con il calcolo della percentuale Verificare perchè le date sotto danno sette giorni
-        $numoretot = round(33.333 * $oresettimanali);
+        $numoretot = round(33 * $oresettimanali); // 33.3333 ?
         $numoregio = $oresettimanali / $giornilezsett;
 
 
