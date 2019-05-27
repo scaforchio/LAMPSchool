@@ -74,16 +74,16 @@ while ($id = mysqli_fetch_array($ris))
             if ($numeroore == '')
                 $numeroore = 0;
             if ($tipoutente == 'D')
-                $query = "insert into tbl_ritardi(idalunno,data,oraentrata,numeroore) values('$idalunno','$data','$oraentrata','$numeroore')";
+                $query = "insert into tbl_ritardi(idalunno,data,oraentrata) values('$idalunno','$data','$oraentrata')";
             if ($tipoutente == 'P' | $tipoutente == 'S')
-                $query = "insert into tbl_ritardi(idalunno,data,oraentrata,numeroore,autorizzato) values('$idalunno','$data','$oraentrata','$numeroore',true)";
+                $query = "insert into tbl_ritardi(idalunno,data,oraentrata,autorizzato) values('$idalunno','$data','$oraentrata',true)";
             $ris2 = eseguiQuery($con, $query);
             $query = "delete from tbl_assenze where idalunno='$idalunno' and data='$data'";
             $ris3 = eseguiQuery($con, $query);
         }
         else
         {
-            $query = "update tbl_ritardi set oraentrata='$oraentrata', numeroore='$numeroore' where idritardo=$idritardo";
+            $query = "update tbl_ritardi set oraentrata='$oraentrata' where idritardo=$idritardo";
             eseguiQuery($con, $query);
         }
         $cambiamento = true;

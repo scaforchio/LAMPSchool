@@ -47,13 +47,13 @@ if ($Circ != "")
 //					set datalettura='$dataoggi'
 //					where idcircolare=$Circ
 //					and idutente=$Ute
-//					and (isnull(datalettura) or datalettura='0000-00-00')";
+//					and (isnull(datalettura) or datalettura<'2000-01-01')";
 //					
     $querylett = "update tbl_diffusionecircolari
 					set datalettura='$dataoggi'
 					where idcircolare=$Circ
 					and idutente=$Ute
-					and (isnull(datalettura) or datalettura='0000-00-00')";
+					and (isnull(datalettura) or datalettura<'2000-01-01')";
     //  die("tttt".inspref($querylett));
     eseguiQuery($con, $querylett);
 }

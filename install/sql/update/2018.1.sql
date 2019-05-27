@@ -72,7 +72,7 @@ ADD chiudifila2 int(11) DEFAULT 0;
 ALTER TABLE tbl_alunni
 ADD autuscitaantclasse tinyint(1) DEFAULT '0' AFTER firmapropria;
 
-
+ALTER TABLE tbl_docenti CHANGE datanascita datanascita DATE NULL DEFAULT NULL;
 ALTER TABLE tbl_docenti ADD gestoremoodle tinyint(1) DEFAULT '0';
 
 ALTER TABLE tbl_richiesteferie

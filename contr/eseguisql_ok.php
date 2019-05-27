@@ -151,7 +151,7 @@ function esecuzioneSQL($comandisql, $con)
     //$i = 1;
     foreach ($sql_query as $sql)
     {
-
+        
         $ris = eseguiQuery($con,$sql);
 
         print "<br><b>Eseguito: " . inspref($sql, false) . "</b><br><br>";

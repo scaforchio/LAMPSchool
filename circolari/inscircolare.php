@@ -118,8 +118,8 @@ if ($filedainserire['tmp_name'] != "")
 
         // INSERIMENTO CIRCOLARE
         $queryins = "insert into tbl_circolari
-                               (iddocumento,descrizione, destinatari,ricevuta, datainserimento,datafine)
-                        values ('$iddocumento','$descrizione','$destinatari','$ricevuta','$datainserimento','')";
+                               (iddocumento,descrizione, destinatari,ricevuta, datainserimento)
+                        values ('$iddocumento','$descrizione','$destinatari','$ricevuta','$datainserimento')";
         $result = eseguiQuery($con, $queryins);
         $idcircolare = mysqli_insert_id($con);
 
@@ -154,8 +154,8 @@ if ($filedainserire['tmp_name'] != "")
             while ($rec = mysqli_fetch_array($ris))
             {
                 $idutente = $rec['idutente'];
-                $queryins = "insert into tbl_diffusionecircolari(idcircolare,idutente, datalettura, dataconfermalettura)
-											 values($idcircolare,$idutente,'','')";
+                $queryins = "insert into tbl_diffusionecircolari(idcircolare,idutente)
+											 values($idcircolare,$idutente)";
                 eseguiQuery($con, $queryins);
             }
 
