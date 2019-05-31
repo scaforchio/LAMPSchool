@@ -54,7 +54,8 @@ else  // Effettuata dal docente prima dell'autorizzazione
 
 eseguiQuery($con, $query);
 
-
+if ($mf== 'yes')
+{
 print "<form method='post' id='formlez' action='esamerichferie.php'>
        <input type='submit' value='OK'>
        </form>
@@ -63,6 +64,18 @@ print "<form method='post' id='formlez' action='esamerichferie.php'>
 	      document.getElementById('formlez').submit();
 	  }
        </SCRIPT>";
-
+}
+else
+{
+    print "<form method='post' id='formlez' action='richferie.php'>
+       <input type='submit' value='OK'>
+       </form>
+       <SCRIPT language='JavaScript'>
+	  {
+	      document.getElementById('formlez').submit();
+	  }
+       </SCRIPT>";
+}
+    
 mysqli_close($con);
 stampa_piede("");

@@ -168,8 +168,9 @@ if ($idalunno != '')
                 }
                 print("<tr bgcolor=$colore>");
                 print("<td>$data</td>");
+                if ($voto>=6) $colore='green'; else $colore='red';
                 print("<td align=center>$tipo</td>");
-                print("<td align=center>$voto</td>");
+                print("<td align=center><font color='$colore'><b>$voto</b></font></td>");
                 print("<td>$giudizio</td>");
                 print("</tr>");
             }

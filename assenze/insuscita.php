@@ -106,7 +106,7 @@ while ($id = mysqli_fetch_array($ris))
         }
         else
         {
-            $query = "update tbl_usciteanticipate set orauscita='$orauscita', numeroore='$numeroore' where iduscita=$iduscita";
+            $query = "update tbl_usciteanticipate set orauscita='$orauscita' where iduscita=$iduscita";
             eseguiQuery($con, $query);
         }
         $cambiamento = true;

@@ -62,11 +62,11 @@ while ($rec = mysqli_fetch_array($ris))
         if ($ins == 'yes')
         {
             if ($tipo == 'L' || $tipo == 'SL')
-                $query = "insert into tbl_diffusionecircolari(idutente,idcircolare,datalettura,dataconfermalettura) 
-		        values (" . ($rec['idalunno'] + 2100000000) . ",$idcircolare,'','')";
+                $query = "insert into tbl_diffusionecircolari(idutente,idcircolare) 
+		        values (" . ($rec['idalunno'] + 2100000000) . ",$idcircolare)";
             else
-                $query = "insert into tbl_diffusionecircolari(idutente,idcircolare,datalettura,dataconfermalettura) 
-		        values (" . $rec['idalunno'] . ",$idcircolare,'','')";
+                $query = "insert into tbl_diffusionecircolari(idutente,idcircolare) 
+		        values (" . $rec['idalunno'] . ",$idcircolare)";
             eseguiQuery($con, $query);
         }
     }

@@ -78,7 +78,7 @@ while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
     $pratico = stringa_html($vp);
     $unico = stringa_html($vu);
     $condotta = stringa_html($vc);
-    $assenze = stringa_html($as);
+    $assenze = stringa_html($as)!=''?stringa_html($as):0;
     $note = stringa_html($no);
 
     $query = 'DELETE FROM tbl_proposte WHERE idalunno=' . $id['al'] . ' AND periodo="' . $periodo . '" AND idmateria="' . $materia . '"';
