@@ -94,7 +94,7 @@ $script = "<script>
 							}
                   else
                      {
-                         media.value = 'N.C.';
+                         media.value = 'N.V.';
                          mediah.value = 0;
 					 }
                       
@@ -105,13 +105,6 @@ stampa_head($titolo, "", $script, "SDMAP");
 
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
-
-//if ($giorno=='')
-//   $giorno=date('d');
-//if ($mese=='')
-//   $mese=date('m');
-//if ($anno=='')
-//   $anno=date('Y');
 
 
 print ('
@@ -617,14 +610,37 @@ if ($nome != "" & $idalunno != "")
 
         print "</td>";
     }
-
+    if ($livello_scuola == '4')
+    {
+        if (decodifica_classe($idclasse, $con) == 3)
+        {
+            $credmin = 7;
+            $credmax = 12;
+            $credmintot = 7;
+            $credmaxtot = 12;
+        }
+        if (decodifica_classe($idclasse, $con) == 4)
+        {
+            $credmin = 8;
+            $credmax = 13;
+            $credmintot = 15;
+            $credmaxtot = 25;
+        }
+        if (decodifica_classe($idclasse, $con) == 5)
+        {
+            $credmin = 7;
+            $credmax = 15;
+            $credmintot = 22;
+            $credmaxtot = 40;
+        }
+    }
     if (($livello_scuola == '4' & decodifica_classe_no_spec($idclasse, $con) > 2))
     {
         print "<td align='center'>";
 
 
         print "<select name='credito'><option value='0'></option>";
-        for ($i = 1; $i <= 10; $i++)
+        for ($i = $credmin; $i <= $credmax; $i++)
         {
             if ($i == $credito)
             {
@@ -644,7 +660,7 @@ if ($nome != "" & $idalunno != "")
 
 
         print "<select name='creditotot'><option value='0'></option>";
-        for ($i = 1; $i <= 25; $i++)
+        for ($i = $credmintot; $i <= $credmaxtot; $i++)
         {
             if ($i == $creditotot)
             {

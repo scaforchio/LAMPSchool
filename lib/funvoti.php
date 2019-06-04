@@ -239,7 +239,7 @@ function dec_to_csv($voto)
     if ($voto == 99)
         return "Annotaz.";
     if ($voto == 11)
-        return "N.C.";
+        return "N.V.";
     if ($voto == 12)
         return $_SESSION['g02'];
     if ($voto == 13)
@@ -310,7 +310,7 @@ function dec_to_vot($voto)
     if ($voto == 10)
         return "10";
     if ($voto == 11)
-        return "N.C.";
+        return "N.V.";
     if ($voto == 12)
         return $_SESSION['g02'];
     if ($voto == 13)

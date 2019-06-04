@@ -66,14 +66,14 @@ $integrativo = stringa_html('esitoint') != '' ? stringa_html('esitoint') : 0;
 $media = stringa_html('mediah');
 $creditotot = stringa_html('creditotot') != '' ? stringa_html('creditotot') : 0;
 $credito = stringa_html('credito') != '' ? stringa_html('credito') : 0;
-$votoammissione = stringa_html('votoammissione');
+$votoammissione = stringa_html('votoammissione') != '' ? stringa_html('votoammissione') : 0;
 $validita = stringa_html('validita');
 
 $querydel = "DELETE FROM tbl_valutazionifinali
            WHERE idalunno=$idalunno
            AND periodo=$periodo";
 
-$ris = eseguiQuery($con,$querydel);
+$ris = eseguiQuery($con, $querydel);
 
 
 // ESTRAGGO TUTTE LE MATERIE PER LA CLASSE
@@ -128,7 +128,7 @@ $querydel = "DELETE FROM tbl_giudizi
 
 // print inspref($querydel);           
 
-$ris = eseguiQuery($con,$querydel);
+$ris = eseguiQuery($con, $querydel);
 
 $giudizio = $_POST['giudizio'];
 $queryins = "INSERT into tbl_giudizi(idclasse,idalunno,periodo,giudizio)
@@ -143,7 +143,7 @@ $querydel = "DELETE FROM tbl_esiti
 
 // print inspref($querydel);           
 
-$ris = eseguiQuery($con,$querydel);
+$ris = eseguiQuery($con, $querydel);
 
 $giudizio = $_POST['giudizio'];
 $queryins = "INSERT into tbl_esiti(idclasse,idalunno,esito, integrativo, media,creditotot, credito,votoammissione,validita)

@@ -397,7 +397,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         $schede->Cell(190, 8, "VALUTAZIONI FINALI", NULL, 1, "C");
         $posY += 7;
         $schede->setY($posY);
-        $query = "SELECT distinct tbl_materie.idmateria,sigla,denominazione,tipovalutazione FROM tbl_cattnosupp,tbl_materie
+        $query = "SELECT distinct tbl_materie.idmateria,sigla,denominazione,tipovalutazione,tbl_materie.progrpag FROM tbl_cattnosupp,tbl_materie
            WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
            and tbl_cattnosupp.idclasse=$classe
            and tbl_cattnosupp.iddocente <> 1000000000
