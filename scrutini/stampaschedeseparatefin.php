@@ -102,7 +102,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
         // STAMPO LE SCHEDE SEPARATE
 
 
-        $query = "SELECT distinct tbl_materie.idmateria,sigla,denominazione,tipovalutazione FROM tbl_cattnosupp,tbl_materie
+        $query = "SELECT distinct tbl_materie.idmateria,tbl_materie.progrpag,sigla,denominazione,tipovalutazione FROM tbl_cattnosupp,tbl_materie
            WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
            and tbl_cattnosupp.idclasse=$classe
            and tbl_cattnosupp.iddocente <> 1000000000

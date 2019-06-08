@@ -45,7 +45,7 @@ $nominativo = estrai_dati_docente($_SESSION['idutente'], $con);
 
 print "<br><center><b>RICHIESTE ASTENSIONE DAL LAVORO APPROVATE DAL DIRIGENTE</b></center><br><br>";
 print "<table border='1' align='center'>";
-print "<tr class='prima'><td>Prot.</td><td>Docente</td><td>Periodo</td></tr>";
+print "<tr class='prima'><td>Prot.</td><td>Docente</td><td>Periodo</td><td>Ann.</td></tr>";
 // TTTT
 $query = "select * from tbl_richiesteferie where concessione=1 order by idrichiestaferie desc";
 $ris = eseguiQuery($con, $query);
@@ -53,6 +53,7 @@ while ($rec = mysqli_fetch_array($ris))
 {
     print "<tr>";
     $prot = $rec['idrichiestaferie'];
+    $annullata = $rec['annullata'];
     print "<td>$prot</td>";
     print "<td>" . estrai_dati_docente($rec['iddocente'], $con) . "</td>";
     // PREPARAZIONE STRINGA SINTETICA RICHIESTA
@@ -60,7 +61,10 @@ while ($rec = mysqli_fetch_array($ris))
     //$posperiodo = strpos($testocompleto,"", $testocompleto)
     //str_replace("");
     print "<td><small><small>$periodo<big><big></td>";
-
+    if (!$annullata)
+        print "<td>&nbsp;</td>";
+    else
+        print "<td>NON FRUITA</td>";
 
     print "</tr>";
 }

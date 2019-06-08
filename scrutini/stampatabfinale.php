@@ -289,14 +289,21 @@ if ($nummaterie > 0)
             for ($nummat = 0; $nummat < count($codmat); $nummat++)
             {
                 $cm = $codmat[$nummat];
-
+                //print "Sono qui.<br> $idalunno $cm ";
                 $votounico = ricerca_voto($idalunno, $cm, $codalunni, $codmaterie, $voti);
+                //print "Votounico $votounico stv$stampavoti stv";
                 $schede->setXY($posX, $posY);
                 $schede->SetFont('Arial', '', 8);
                 if ($stampavoti)
+                {
+                    //print "vero";
                     $schede->Cell($larghcol, $altriga, converti_utf8(dec_to_vot($votounico)), 1, NULL, "C");
-                else
+                }
+                    else
+                    {
+                      //  print "falso";
                     $schede->Cell($larghcol, $altriga, "", 1, NULL, "C");
+                    }
                 $posX += $larghcol;
             }
             // INSERISCO IL VOTO DI CONDOTTA
