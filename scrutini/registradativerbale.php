@@ -92,6 +92,7 @@ while ($recdoc = mysqli_fetch_array($risdoc))
     }
 }
 
+if ($segretario=='') $segretario=0;
 
 $query = "UPDATE tbl_scrutini SET dataverbale='" . data_to_db($dataverbale) . "',orainizioscrutinio='$orainizioscrutinio',
          orafinescrutinio='$orafinescrutinio',luogoscrutinio='$luogoscrutinio',sostituzioni='$sostituzioni',

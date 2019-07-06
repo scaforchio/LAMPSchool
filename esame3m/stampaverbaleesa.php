@@ -318,7 +318,7 @@ while ($recesi = mysqli_fetch_array($risesi))
     {
         $riga .= " (M) ";
     }
-    if ($recesi['consorientcomm'] == '')
+    if ($recesi['consorientcomm'] == '' | ($recesi['consorientcomm'] == $recesi['consorientcons']))
     {
         $riga .= " - Si conferma il giudizio orientativo: " . $recesi['consorientcons'];
     } else

@@ -311,20 +311,22 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
         $votofinale = $val['votofinale'];
         $giudiziocomplessivo = $val['giudiziocomplessivo'];
         $consiglioorientativo = $val['consorientcomm'];
-        if ($sesso == 'm')
-        {
+        if ($consiglioorientativo=='')
+            $consiglioorientativo = $val['consorientcons'];
+    //    if ($sesso == 'm')
+    //    {
             if ($votofinale >= 6)
-                $esito = "esame superato";
+                $esito = "ha superato l'esame";
             else
-                $esito = "esame non superato";
-        }
-        else
-        {
-            if ($votofinale >= 6)
-                $esito = "esame superato";
-            else
-                $esito = "esame non superato";
-        }
+                $esito = "non ha superato l'esame";
+    //    }
+    //    else
+    //    {
+    //        if ($votofinale >= 6)
+    //            $esito = "ha superato l'esame";
+    //        else
+    //            $esito = "non ha superato l'esame";
+    //    }
         if ($idclasse != 0)
             $classe = decodifica_classe($idclasse, $con);
         else
@@ -391,10 +393,10 @@ function stampa_alunno($idalunno, $numalunno, $posYiniz, $con, &$schede, $datave
     else
         $schede->Cell(120, 7, converti_utf8("Il Presidente, sulla base del giudizio della commissione dichiara che la candidata"), 0, 0, "C");
     $schede->setXY(80, $posYiniz + 21);
-    if ($sesso == 'm')
-        $schede->Cell(120, 7, converti_utf8("$cognome $nome é stato $esito"), 0, 0, "C");
-    else
-        $schede->Cell(120, 7, converti_utf8("$cognome $nome é stata $esito"), 0, 0, "C");
+  //  if ($sesso == 'm')
+  //      $schede->Cell(120, 7, converti_utf8("$cognome $nome $esito"), 0, 0, "C");
+  //  else
+        $schede->Cell(120, 7, converti_utf8("$cognome $nome $esito"), 0, 0, "C");
     $schede->setXY(80, $posYiniz + 28);
 
     $schede->Cell(120, 7, converti_utf8("con la valutazione di $votofinale / 10"), 0, 0, "C");

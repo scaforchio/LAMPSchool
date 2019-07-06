@@ -728,6 +728,7 @@ if ($cambiamentopassword)
         menu_item('../assenze/sitasstota.php', 'SITUAZIONE TOTALE');
         menu_item('../assenze/sitassprob.php', 'SITUAZIONI PROBLEMATICHE');
         menu_item('../assenze/sitassperclassi.php', 'PERCENTUALI PER CLASSE');
+        menu_item('../assenze/sitmensassalu.php', 'ASSENZE MENSILI ALUNNO');
         menu_separator("");
         menu_item('../rp/vistimbrature.php', 'VISUALIZZA TIMBRATURE');
         menu_item('../rp/selealunnipresenza.php', 'FORZA PRESENZA ALUNNI');
@@ -1442,10 +1443,14 @@ if ($cambiamentopassword)
         menu_item('../valutazionecomportamento/modiobiettivo.php', 'CORREGGI OBIETTIVO');
         menu_item('../valutazionecomportamento/modisubobiettivo.php', 'CORREGGI SUB-OBIETTIVO');
         menu_title_end();
-
+        menu_title_begin('ASSENZE');
+        
+        menu_item('../assenze/sitmensassalu.php', 'ASSENZE MENSILI ALUNNO');
+        menu_title_end();
         menu_title_begin('SCRUTINI');
         menu_item('../scrutini/riepvoti.php', 'SCRUTINI INTERMEDI');
         menu_item('../scrutini/riepvotifinali.php', 'SCRUTINI FINALI');
+        
         if ($livello_scuola == '4')
         {
             menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');

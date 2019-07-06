@@ -1,6 +1,6 @@
 <?php
-
 session_start();
+
 /*
   Copyright (C) 2018 Pietro Tamburrano
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
