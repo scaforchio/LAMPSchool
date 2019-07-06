@@ -1,4 +1,4 @@
- NOTE DI INSTALLAZIONE Ver. 2018
+ NOTE DI INSTALLAZIONE Ver. 2019
  ===============================
 
  Per l'installazione da zero, singola o multi-ambiente, del software:
@@ -10,8 +10,8 @@
  venirsi a trovare parecchie, distinte istanze di Lampschool,
  consigliamo di adottare un sistema che le renda facilmente riconoscibili.
  Un'idea potrebbe essere quella di inserire l'anno scolastico
- all'interno del nome, ad esempio: /lampschool_2014_2015,
- oppure /registro_2015_2016 e poi /registro_2016_2017 e così via.
+ all'interno del nome, ad esempio: /lampschool_2018_2019,
+ oppure /registro_2019_2020 e così via.
 
  Prima di proseguire è necessario accertarsi che le cartelle
  abc, install, lampschooldata e buffer siano scrivibili.
@@ -25,9 +25,9 @@
  degli errori con i menù dinamici all' interno del registro),
  dovremo digitare nella barra degli indirizzi il percorso esatto,
  che avrà una forma simile a questa:
- http://www.miodominio.it/registro_2016_2017/install/
+ http://www.miodominio.it/registro_2019_2020/install/
  oppure questo, più completo:
- http://www.miodominio.it/registro_2016_2017/install/index.php.
+ http://www.miodominio.it/registro_2019_2020/install/index.php.
  A questo punto partirà la procedura di installazione.
 
  Il primo passaggio prevede, da parte del programma d'installazione,
@@ -60,8 +60,8 @@
  Nulla vieta di installare più registri sullo stesso d-base,
  basta semplicemente distinguere le varie tabelle attraverso, appunto, il prefisso
  che siamo chiamati ad inserire a questo punto dell'installazione.
- Consigliamo di adottare un prefisso simile al seguente: as1617_ che l'anno successivo
- diventerà as1718_ e via dicendo.
+ Consigliamo di adottare un prefisso simile al seguente: as1920_ che l'anno successivo
+ diventerà as2021_ e via dicendo.
  L'underscore serve per separare e distinguere facilmente il prefisso dal nome della tabella.
  A questo punto basta premere il pulsante e il programma d'installazione procederà
  alla creazione nel d-base delle tabelle necessarie e alla creazione
@@ -111,7 +111,7 @@
  Per lanciare il programma è necessario accedere via browser
  (sempre Chrome o Firefox) alla cartella principale di LAMPSchool.
  L'indirizzo da digitare nella barra degli indirizzi potrebbe essere
- simile a questo http://www.miodominio.it/registro_2018_2019/
+ simile a questo http://www.miodominio.it/registro_2019_2020/
  a seconda di come abbiamo denominato la cartella contenente
  l'installazione del nostro registro elettronico.
  Facendo click sul logo di LAMPschool si arriva alla pagina di login.

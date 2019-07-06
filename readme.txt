@@ -1,4 +1,4 @@
-LAMPSchool Ver. 2018
+LAMPSchool Ver. 2019
 ====================
 
 Possibilità di blocco temporale a inserimento e modifica delle lezioni

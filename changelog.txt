@@ -1,3 +1,9 @@
+VER. 2019
+=========
+
+- Debugging vari 
+- Miglioramenti vari
+
 VER. 2018
 =========
 
