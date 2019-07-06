@@ -40,13 +40,13 @@ $iddocente = stringa_html('codice');
 $cognome = stringa_html('cognome');
 //print $cognome;
 $nome = stringa_html('nome');
-$aa = stringa_html('datadinasca');
-$gg = stringa_html('datadinascg');
-$mm = stringa_html('datadinascm');
+$aa = stringa_html('datadinasca')!=''?stringa_html('datadinasca'):'0001';
+$gg = stringa_html('datadinascg')!=''?stringa_html('datadinascg'):'01';
+$mm = stringa_html('datadinascm')!=''?stringa_html('datadinascm'):'01';
 
-$comnasc = stringa_html('idcomn');
+$comnasc = stringa_html('idcomn')!=''?stringa_html('idcomn'):'0';
 $indirizzo = stringa_html('indirizzo');
-$comresi = stringa_html('idcomr');
+$comresi = stringa_html('idcomr')!=''?stringa_html('idcomr'):'0';
 $email = stringa_html('email');
 $sostegno = stringa_html('sostegno');
 $gestoremoodle = stringa_html('gestoremoodle');
@@ -76,7 +76,7 @@ if (mysqli_num_rows($res) == 0)
 
     $query = "insert into tbl_docenti (iddocente,cognome,nome,datanascita,idcomnasc,indirizzo,idcomres,telefono,telcel,email,sostegno,gestoremoodle,idutente) values ('$iddocente','$cognome','$nome','$aa-$mm-$gg','$comnasc','$indirizzo','$comresi','$telefono','$cellulare','$email','$sostegno','$gestoremoodle','$iddocente')";
 } else
-    $query = "insert into tbl_docenti (iddocente,cognome,nome,datanascita,idcomnasc,indirizzo,idcomres,telefono,telcel,email,sostegno,gestoremoodle) values ('$iddocente','$cognome','$nome','$aa-$mm-$gg','$comnasc','$indirizzo','$comresi','$telefono','$cellulare','$email','$sostegno','$gestoremoodle')";
+    $query = "insert into tbl_docenti (cognome,nome,datanascita,idcomnasc,indirizzo,idcomres,telefono,telcel,email,sostegno,gestoremoodle) values ('$cognome','$nome','$aa-$mm-$gg','$comnasc','$indirizzo','$comresi','$telefono','$cellulare','$email','$sostegno','$gestoremoodle')";
 $err = 0;
 $b = 0;
 $flag = 0;

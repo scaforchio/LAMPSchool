@@ -114,7 +114,7 @@ foreach ($daticrud['campi'] as $c)
         else
         {
             $valore = $recgen[$c[0]];
-            print "<td><select name='campo[]" . $posarr . "'$richiesto$disabilitato><option value=''>&nbsp;</option>";
+            print "<td><select name='campo[]" . $posarr . "'$richiesto$disabilitato><option value='0'>&nbsp;</option>";
             // $query per selezione elementi della select
             if ($c[16] != '')
                 $subquery1 = " and " . $c[3] . " in(" . $c[16] . "'$chiaveprincipale')";

@@ -40,13 +40,13 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 $iddocente = stringa_html('codice');
 $cognome = stringa_html('cognome');
 $nome = stringa_html('nome');
-$aa = stringa_html('datadinasca');
-$gg = stringa_html('datadinascg');
-$mm = stringa_html('datadinascm');
+$aa = stringa_html('datadinasca')!=''?stringa_html('datadinasca'):'0001';
+$gg = stringa_html('datadinascg')!=''?stringa_html('datadinascg'):'01';
+$mm = stringa_html('datadinascm')!=''?stringa_html('datadinascm'):'01';
 
-$comnasc = stringa_html('idcomn');
+$comnasc = stringa_html('idcomn')!=''?stringa_html('idcomn'):'0';
 $indirizzo = stringa_html('indirizzo');
-$comresi = stringa_html('idcomr');
+$comresi = stringa_html('idcomr')!=''?stringa_html('idcomr'):'0';
 $email = stringa_html('email');
 $telefono = stringa_html('telefono');
 $cellulare = stringa_html('telcel');
