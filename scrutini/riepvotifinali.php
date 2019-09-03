@@ -313,6 +313,7 @@ if ($idclasse != "")
 
     if ($livello_scuola == 1 & $annoclasse == 5)
         $classeterminale = true;
+
     if ($livello_scuola == 2 & $annoclasse == 3)
         $classeterminale = true;
 
@@ -355,7 +356,7 @@ if ($idclasse != "")
         }
 
         $queryver = "SELECT * FROM tbl_scrutini WHERE idclasse=$idclasse AND periodo='$numper'";
-        $risver = eseguiQuery($con,$queryver);
+        $risver = eseguiQuery($con, $queryver);
         if (!($valver = mysqli_fetch_array($risver)))
         {
 
@@ -373,7 +374,7 @@ if ($idclasse != "")
             $criteri = estrai_testo('criterival', $con);
             $queryscr = "INSERT into tbl_scrutini(idclasse,periodo,datascrutinio,stato,orainizioscrutinio,orafinescrutinio,dataverbale,sostituzioni,segretario,datastampa,firmadirigente,testo1,testo2,testo3,testo4,criteri)
 	                VALUES ($idclasse,$numper,'" . date("Y-m-d") . "','A','00:00','00:00','" . date("Y-m-d") . "','','0','" . date("Y-m-d") . "',0,'','','','','')";
-            $risscr = eseguiQuery($con,$queryscr);
+            $risscr = eseguiQuery($con, $queryscr);
             $idscrutinio = mysqli_insert_id($con);
         } else
         {
@@ -431,7 +432,7 @@ if ($idclasse != "")
         $mattipo = array();
         $valutazioni = array();
         // RICHIAMO LA FUNZIONE PER LA CREAZIONE DEL FILE CSV
-        $numerovalutazioni = creaFileCSV($idclasse, $numeroperiodi, $alunni, $mattipo, $valutazioni, $con);
+        $numerovalutazioni = creaFileCSV($idclasse, $numeroperiodi,$scrutiniintegrativi, $alunni, $mattipo, $valutazioni, $con);
 
         // SELEZIONO LE MATERIE
         $query = "SELECT distinct tbl_materie.idmateria,tbl_materie.progrpag,sigla,tipovalutazione FROM tbl_cattnosupp,tbl_materie
@@ -631,13 +632,13 @@ if ($idclasse != "")
             print "<tr class='prima'><td>Docente</td><td>Sostituito da</td><td>Segretario</td><td>Sost. da suppl.</td></tr>";
             $querydoc = "SELECT DISTINCT cognome,nome,iddocente FROM tbl_docenti
 				WHERE iddocente=1000000000";
-            $risdoc = eseguiQuery($con,$querydoc);
+            $risdoc = eseguiQuery($con, $querydoc);
             while ($recdoc = mysqli_fetch_array($risdoc))
             {
                 print "<tr><td>" . $recdoc['cognome'] . " " . $recdoc['nome'] . "</td><td>";
                 $querysost = "SELECT DISTINCT cognome,nome,iddocente FROM tbl_docenti
 							WHERE iddocente<>" . $recdoc['iddocente'] . " ORDER BY cognome,nome";
-                $rissost = eseguiQuery($con,$querysost);
+                $rissost = eseguiQuery($con, $querysost);
                 print "<select name='docsost" . $recdoc['iddocente'] . "' $abilscr><option value=''>&nbsp;</option>";
                 while ($recsost = mysqli_fetch_array($rissost))
                 {
@@ -666,13 +667,13 @@ if ($idclasse != "")
 				AND tbl_cattnosupp.iddocente<>1000000000
 				ORDER BY cognome,nome
 				";
-            $risdoc = eseguiQuery($con,$querydoc);
+            $risdoc = eseguiQuery($con, $querydoc);
             while ($recdoc = mysqli_fetch_array($risdoc))
             {
                 print "<tr><td>" . $recdoc['cognome'] . " " . $recdoc['nome'] . "</td><td>";
                 $querysost = "SELECT DISTINCT cognome,nome,iddocente FROM tbl_docenti
 							WHERE iddocente<>" . $recdoc['iddocente'] . " ORDER BY cognome,nome";
-                $rissost = eseguiQuery($con,$querysost);
+                $rissost = eseguiQuery($con, $querysost);
                 print "<select name='docsost" . $recdoc['iddocente'] . "' $abilscr><option value=''>&nbsp;</option>";
                 while ($recsost = mysqli_fetch_array($rissost))
                 {
@@ -814,7 +815,7 @@ if ($idclasse != "")
             $mattipo = array();
             $valutazioni = array();
             // RICHIAMO LA FUNZIONE PER LA CREAZIONE DEL FILE CSV
-            $numerovalutazioni = creaFileCSV($idclasse, $numeroperiodi, $alunni, $mattipo, $valutazioni, $con);
+            $numerovalutazioni = creaFileCSV($idclasse, $numeroperiodi, $scrutiniintegrativi,$alunni, $mattipo, $valutazioni, $con);
 
 
 
@@ -969,7 +970,7 @@ function ricerca_assenze($idalunno, $idmateria, $alu, $mattipi, $assenze)
     return 0;
 }
 
-function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
+function creaFileCSV($idclasse, $numeroperiodi,$scrutiniintegrativi, &$alu, &$mattipo, &$valu, $conn)
 {
 
     //
@@ -1104,8 +1105,15 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
         fputcsv($fp, $intestazione, ";");
     }
 
-
-    $query = "SELECT idalunno, cognome, nome, datanascita,idcomnasc,codfiscale from tbl_alunni where idclasse=$idclasse ORDER BY cognome, nome, datanascita";
+    if ($scrutiniintegrativi)
+    {
+        $query = "SELECT * FROM tbl_alunni WHERE idclasse='$idclasse'
+                           and idalunno in (select idalunno from tbl_esiti WHERE (validita='1' OR validita='2') AND esito=0)
+                           ORDER BY cognome,nome,datanascita";
+    } else
+    {
+        $query = "SELECT idalunno, cognome, nome, datanascita,idcomnasc,codfiscale from tbl_alunni where idclasse=$idclasse ORDER BY cognome, nome, datanascita";
+    }
     $ris = eseguiQuery($conn, $query);
 
     while ($rec = mysqli_fetch_array($ris))
@@ -1127,7 +1135,7 @@ function creaFileCSV($idclasse, $numeroperiodi, &$alu, &$mattipo, &$valu, $conn)
         $nominativo[] = estrai_sigla_provincia($rec['idcomnasc'], $conn);
         // ESTRAGGO I DATI DELLA CLASSE
         $querycla = "select * from tbl_classi where idclasse=$idclasse";
-        $riscla = eseguiQuery($conn,$querycla);
+        $riscla = eseguiQuery($conn, $querycla);
         $reccla = mysqli_fetch_array($riscla);
 
         $classe = 0;
