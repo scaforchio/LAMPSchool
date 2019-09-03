@@ -47,12 +47,12 @@ if (mysqli_num_rows($ris) > 0)
 {
     $query = "UPDATE tbl_parametri SET valore='yes' WHERE parametro='sola_lettura'";
     //$query=str_replace("tbl_", $prefisso_tabelle. "tbl_", $query);
-    eseguiQuery($con, $querylett);
+    eseguiQuery($con, $query);
 } else
 {
     $query = "INSERT INTO tbl_parametri(parametro,valore) VALUES ('sola_lettura','yes')";
     //$query=str_replace("tbl_", $prefisso_tabelle. "tbl_", $query);
-    eseguiQuery($con, $querylett);
+    eseguiQuery($con, $query);
 }
 
 print "<br><center><b>Registro in modalità sola lettura!</b></center>";

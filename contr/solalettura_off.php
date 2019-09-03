@@ -47,12 +47,12 @@ if (mysqli_num_rows($ris) > 0)
 {
     $query = "UPDATE tbl_parametri SET valore='no' WHERE parametro='sola_lettura'";
     $query = str_replace("tbl_", $prefisso_tabelle . "tbl_", $query); // NECESSARIO IN QUANTO NON FUNZIONA inspref in modalità solalettura
-    eseguiQuery($con, $query);
+    mysqli_query($con, $query);
 } else
 {
     $query = "INSERT INTO tbl_parametri(parametro,valore) VALUES ('sola_lettura','no')";
     $query = str_replace("tbl_", $prefisso_tabelle . "tbl_", $query); // NECESSARIO IN QUANTO NON FUNZIONA inspref in modalità solalettura
-    eseguiQuery($con, $query);
+    mysqli_query($con, $query);
 }
 
 
