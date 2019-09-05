@@ -146,8 +146,13 @@ $querydel = "DELETE FROM tbl_esiti
 $ris = eseguiQuery($con, $querydel);
 
 $giudizio = $_POST['giudizio'];
-$queryins = "INSERT into tbl_esiti(idclasse,idalunno,esito, integrativo, media,creditotot, credito,votoammissione,validita)
+if ($esito != "") // $esito sarà uguale a '' per scrutini integrativi
+    $queryins = "INSERT into tbl_esiti(idclasse,idalunno,esito, integrativo, media,creditotot, credito,votoammissione,validita)
 	                 VALUES ('$cl','$idalunno','$esito','$integrativo','$media','$creditotot','$credito','$votoammissione','$validita')";
+else
+    $queryins = "INSERT into tbl_esiti(idclasse,idalunno,integrativo, media,creditotot, credito,votoammissione,validita)
+	                 VALUES ('$cl','$idalunno','$integrativo','$media','$creditotot','$credito','$votoammissione','$validita')";
+
 $risins = eseguiQuery($con, $queryins);
 
 
