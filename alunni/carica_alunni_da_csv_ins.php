@@ -312,28 +312,50 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                     if (mysqli_num_rows($res) > 0)
                     { // Se esiste si cancella nelle 3 tabelle
                         $colonna = mysqli_fetch_array($res);
-                        $idutente = $colonna['idtutore']; // prima si prova con idtutore
+
+
+                        // INIZIO MODIFICA
+                        $idutente = $colonna['idutente']; // prima si prova con idtutore
 
                         if ($idutente > 0)
                         { // IMPORTANTE per non eliminare l'utente adminlamp
-                            $where = "where idtutore=$idutente";
-                        } else
-                        { // poi con idutente
-                            $idutente = $colonna['idutente'];
                             $where = "where idutente=$idutente";
-                        }
 
-                        if ($idutente > 0)
-                        { // IMPORTANTE per non eliminare l'utente adminlamp
+
+
                             $sqlt = "delete from tbl_alunni $where";
                             eseguiQuery($con, $sqlt);
-                            //  $sqlt = "delete from tbl_tutori $where";
-                            //  eseguiQuery($con,$sqlt);
-                            // $sqlt = "delete from tbl_utenti where idutente=$idutente";
+
                             $sqlt = "delete from tbl_utenti $where";
                             eseguiQuery($con, $sqlt);
                         }
                         mysqli_free_result($res);
+
+                        // FINE MODIFICA
+
+                        /*
+                         *                      $idutente = $colonna['idtutore']; // prima si prova con idtutore
+                          if ($idutente > 0)
+                          { // IMPORTANTE per non eliminare l'utente adminlamp
+                          $where = "where idtutore=$idutente";
+                          } else
+                          { // poi con idutente
+                          $idutente = $colonna['idutente'];
+                          $where = "where idutente=$idutente";
+                          }
+
+                          if ($idutente > 0)
+                          { // IMPORTANTE per non eliminare l'utente adminlamp
+                          $sqlt = "delete from tbl_alunni $where";
+                          eseguiQuery($con, $sqlt);
+                          //  $sqlt = "delete from tbl_tutori $where";
+                          //  eseguiQuery($con,$sqlt);
+                          // $sqlt = "delete from tbl_utenti where idutente=$idutente";
+                          $sqlt = "delete from tbl_utenti $where";
+                          eseguiQuery($con, $sqlt);
+                          }
+                          mysqli_free_result($res);
+                         * */
                     }
                 }
 
