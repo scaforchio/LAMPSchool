@@ -19,6 +19,7 @@ session_start();
  */
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
+
 @require_once("../lib/funzioni.php");
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
@@ -60,7 +61,7 @@ if (($notacl != ""))
 {
     $ins = true;
     $query = "insert into tbl_osssist(data,idclasse,iddocente,testo,idalunno) values ('$data',$idclasse,$iddocente,'" . elimina_apici($notacl) . "',$idalunno)";
-    $ris3 = eseguiQuery($con, $sql);
+    $ris3 = eseguiQuery($con, $query);
     $idoss = mysqli_insert_id($con);
 }
 if ($ins)

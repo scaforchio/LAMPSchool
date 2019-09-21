@@ -76,7 +76,7 @@ if (mysqli_num_rows($res) == 0)
 
     $query = "insert into tbl_amministrativi (idamministrativo,cognome,nome,datanascita,idcomnasc,indirizzo,idcomres,telefono,telcel,email,idutente) values ('$idamministrativo','$cognome','$nome','$aa-$mm-$gg','$comnasc','$indirizzo','$comresi','$telefono','$cellulare','$email','$idamministrativo')";
 } else
-    $query = "insert into tbl_amministrativi (idamministrativo,cognome,nome,datanascita,idcomnasc,indirizzo,idcomres,telefono,telcel,email) values ('$idamministrativo','$cognome','$nome','$aa-$mm-$gg','$comnasc','$indirizzo','$comresi','$telefono','$cellulare','$email')";
+    $query = "insert into tbl_amministrativi (cognome,nome,datanascita,idcomnasc,indirizzo,idcomres,telefono,telcel,email) values ('$cognome','$nome','$aa-$mm-$gg','$comnasc','$indirizzo','$comresi','$telefono','$cellulare','$email')";
 $err = 0;
 $b = 0;
 $flag = 0;
@@ -98,7 +98,7 @@ if ($cognome == "")
 if ($nome == "")
 {
     $err = 1;
-    $mes = $mes . " Il nome non è stato inserito <br/>";
+    $mes = $mes . "Il nome non è stato inserito <br/>";
 } else
 {
     if (controlla_stringa($nome) == 1)
