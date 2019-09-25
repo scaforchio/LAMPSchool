@@ -109,7 +109,7 @@ while ($nom = mysqli_fetch_array($ris))
             "</td><td>" . data_italiana($nom['datainserimento']) .
             "</td><td>";
     // print "TTTT".$nom['datalettura'];
-    if ($nom['datalettura'] != "0000-00-00")
+    if ($nom['datalettura'] != "0000-00-00" & $nom['datalettura']!=NULL)
     {
         print ("<img src='../immagini/apply_small.png'>");
     }
