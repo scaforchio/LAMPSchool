@@ -50,10 +50,16 @@ $orepermessobreve = stringa_html('orepermessobreve');
 $tempo = stringa_html('tempo');
 $to = $indirizzomailassenze;
 $reason = stringa_html('reason');
+$permstudio = stringa_html('permstudio');
 if ($reason != 7)
     $subject = "Richiesta astensione di " . stringa_html('nominativo') . " da " . stringa_html('datainizio') . " a " . stringa_html('datafine');
 else
-    $subject = "Richiesta permesso breve di " . stringa_html('nominativo') . " giorno " . stringa_html('giornopermessobreve') . " da " . stringa_html('orainiziopermessobreve') . " a " . stringa_html('orafinepermessobreve');
+{
+    if (!$permstudio)
+        $subject = "Richiesta permesso breve di " . stringa_html('nominativo') . " giorno " . stringa_html('giornopermessobreve') . " da " . stringa_html('orainiziopermessobreve') . " a " . stringa_html('orafinepermessobreve');
+    else
+        $subject = "Richiesta permesso orario per diritto allo studio di " . stringa_html('nominativo') . " giorno " . stringa_html('giornopermessobreve') . " da " . stringa_html('orainiziopermessobreve') . " a " . stringa_html('orafinepermessobreve');
+}
 print "<center><font color='red'>La richiesta inoltrata sarà la seguente.<br>Per inoltrarla premere il tasto [INOLTRA] in fondo alla pagina!<br></center></font><br>";
 
 print "Oggetto: $subject";
@@ -88,7 +94,11 @@ switch ($reason)
         break;
     case '6': $motivo = "Altro caso previsto dalla normativa vigente: " . stringa_html('altromotivo');
         break;
-    case '7': $motivo = "Permesso breve per il giorno " . stringa_html('giornopermessobreve') . " dalle ore " . stringa_html('orainiziopermessobreve') . "  alle ore " . stringa_html('orafinepermessobreve') . ", per un totale di ore " . stringa_html('orepermessobreve') . ", (orario di servizio nella giornata pari a ore " . stringa_html('oreserviziopermessobreve') . ").";
+    case '7': if (!$permstudio)
+            $motivo = "Permesso breve per il giorno " . stringa_html('giornopermessobreve') . " dalle ore " . stringa_html('orainiziopermessobreve') . "  alle ore " . stringa_html('orafinepermessobreve') . ", per un totale di ore " . stringa_html('orepermessobreve') . ", (orario di servizio nella giornata pari a ore " . stringa_html('oreserviziopermessobreve') . ").";
+        else
+            $motivo = "Permesso per diritto allo studio per il giorno " . stringa_html('giornopermessobreve') . " dalle ore " . stringa_html('orainiziopermessobreve') . "  alle ore " . stringa_html('orafinepermessobreve') . ", per un totale di ore " . stringa_html('orepermessobreve') . ", (orario di servizio nella giornata pari a ore " . stringa_html('oreserviziopermessobreve') . ").";
+
         break;
 }
 $recapito = "<br><br>Durante il periodo di assenza sar&agrave; domiciliato in " . stringa_html('comunedomicilio') . ", alla via " . stringa_html('indirizzodomicilio') . " n." . stringa_html('numerodomicilio') . ", Tel. " . stringa_html('telefonorecapito');
