@@ -227,8 +227,8 @@ if (!$res)
         }
         print ("</select></td></tr>");
         print ("<tr> <td><i>Note</i> </td> <td align='left'> <input type='text' value='$note' name='note' size='30' maxlength='50'> </td> </tr>");
-        print ("<tr> <td><i>Autorizz. perm. entr. post.</i> </td> <td align='left'> <input type='text' value='$autentrata' name='autentrata' size='30' maxlength='30'> </td> </tr>");
-        print ("<tr> <td><i>Autorizz. perm. usc. ant.</i> </td> <td align='left'> <input type='text' value='$autuscita' name='autuscita' size='30' maxlength='30'> </td> </tr>");
+        print ("<tr> <td><i>Autorizz. perm. entr. post.</i> </td> <td align='left'> <input type='text' value='$autentrata' name='autentrata' size='100' maxlength='100'> </td> </tr>");
+        print ("<tr> <td><i>Autorizz. perm. usc. ant.</i> </td> <td align='left'> <input type='text' value='$autuscita' name='autuscita' size='100' maxlength='100'> </td> </tr>");
         print ("<tr> <td><i>Autorizz. ed esoneri</i> </td> <td align='left'> <textarea cols=50 rows=10 name='autorizzazioni'>$autorizzazioni</textarea></td> </tr>");
 
         print ("<tr> <td><i>Autorizz. firma propria</i> </td> <td align='left'> <select name='firmapropria'>");

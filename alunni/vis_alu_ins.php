@@ -167,9 +167,9 @@ if (!$DB)
     print (" <td> <input type='text' name='note' size='30' maxlength='50'value=''> </td> </tr>");
 
     print ("<tr> <td><i>Autorizz. perm. entr. postic.</i> </td>");
-    print (" <td> <input type='text' name='autentrata' size='30' maxlength='30'value=''> </td> </tr>");
+    print (" <td> <input type='text' name='autentrata' size='100' maxlength='100'value=''> </td> </tr>");
     print ("<tr> <td><i>Autorizz. perm. usc. antic.</i> </td>");
-    print (" <td> <input type='text' name='autuscita' size='30' maxlength='30'value=''> </td> </tr>");
+    print (" <td> <input type='text' name='autuscita' size='100' maxlength='100'value=''> </td> </tr>");
 
     print ("<tr><td>Autorizz. firma propria</td><td><select name='firmapropria'>");
     print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
