@@ -13,9 +13,9 @@ if (!isset($_SERVER['HTTP_HOST']))
 
 // VARIABILI DEL DATABASE
 $db_server = "localhost";
-$db_nome = "lampschool2018demo";
+$db_nome = "ls2017";
 $db_user = "root";
-$db_password = "My_Adm01";
+$db_password = "passroot";
 $prefisso_tabelle = "itt_";
 
 // Caricamento parametri
