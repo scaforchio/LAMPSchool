@@ -231,7 +231,7 @@ print "
 
 			<label><input type='radio' name='reason' id='reason' value='7'><b>Permesso breve</b></label>
 			<div id='subform7' class='hidden subform'>
-				Per il giorno <input class='date' type='text' id='giornopermessobreve' name='giornopermessobreve'> dalle ore <input type='text' class='narrow' id='orainiziopermessobreve' name='orainiziopermessobreve'> alle ore <input type='text' class='narrow' id='orafinepermessobreve' name='orafinepermessobreve'> per diritto allo studio <input type='checkbox' name='permstudio' value='permstudio'><br>
+				Per il giorno <input class='date' type='text' id='giornopermessobreve' name='giornopermessobreve'> dalle ore <input type='text' class='narrow' id='orainiziopermessobreve' name='orainiziopermessobreve'> alle ore <input type='text' class='narrow' id='orafinepermessobreve' name='orafinepermessobreve'> per diritto allo studio  <input type='checkbox' name='permstudio' value='permstudio'><br>
 per un totale di ore <input type='number' class='narrow' id='orepermessobreve' name='orepermessobreve' min='1' max='10'> orario di servizio nella giornata pari a ore <input type='number' class='narrow' id='oreserviziopermessobreve' name='oreserviziopermessobreve' min='1' max='10'>
 			</div>
 

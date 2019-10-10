@@ -133,7 +133,7 @@ if ($chiavegenerata != $chiavericevuta)
 
             if (!$esiste_alunno)
             {
-                invia_mail("pietro.tamburrano@gmail.com", "$suffisso Verificare dati timbrature", "Le timbrature contengono una matricola non presente in anagrafica: $matricola");
+                invia_mail($emailgestbadge, "$suffisso Verificare dati timbrature", "Le timbrature contengono una matricola non presente in anagrafica: $matricola");
                 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . "INVIATA MAIL WARNING! ", $nomefilelog . "rp", $suff);
             }
             $timbratureinserite = $numtimbrature + $nuovetimbrature;
@@ -218,7 +218,7 @@ if ($chiavegenerata != $chiavericevuta)
                         elimina_assenze_lezione($con, $matricola, "$anno-$mes-$gio");
                         if ($tipo == 'E')
                         {
-                            invia_mail("pietro.tamburrano@gmail.com", "$suffisso Timbratura errata E ", "In una timbratura c'è il tipo E: $m2");
+                            invia_mail($emailgestbadge, "$suffisso Timbratura errata E ", "In una timbratura c'è il tipo E: $m2");
                             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . "INVIATA MAIL WARNING! ", $nomefilelog . "rp", $suff);
                         }
                     }
@@ -279,7 +279,7 @@ if ($chiavegenerata != $chiavericevuta)
             }
         } else
         {
-            invia_mail("pietro.tamburrano@gmail.com", "$suffisso Timbratura malformata", "In una timbratura manca il tipo: $m2");
+            invia_mail($emailgestbadge, "$suffisso Timbratura malformata", "In una timbratura manca il tipo: $m2");
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . "INVIATA MAIL WARNING! ", $nomefilelog . "rp", $suff);
         }
     }
