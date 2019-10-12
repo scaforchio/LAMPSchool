@@ -83,7 +83,7 @@ if (strlen($messaggio) > 0)
 }
 ?>
 <center>
-    <form id='formLogin' action='ele_ges.php' method='POST' onsubmit='return codifica();'>
+    <form id='formLogin' action='logincheck.php' method='POST' onsubmit='return codifica();'>
         <table border='0'>
             <tr>
                 <td> Utente</td>

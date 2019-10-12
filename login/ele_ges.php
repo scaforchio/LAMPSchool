@@ -47,15 +47,7 @@ if (isset($_SESSION['suffisso']))
     print "<br><br><b><big><center>Sessione scaduta!</center></big></b>";
     print "<br><b><big><center>Rieffettuare il <a href='../'>login</a>.</center></big></b>";
 }
-/* try
-  {
-  require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
-  require_once '../lib/funzioni.php';
-  } catch (Exception $e)
-  {
-  print "<br><br><b><big><center>Sessione scaduta!</center></big></b>";
-  print "<br><b><big><center>Rieffettuare il <a href='../login.php'>login</a>.</center></big></b>";
-  } */
+
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
@@ -64,10 +56,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
 
 
-//$_SESSION['log'] = $logcompleto;
-//$_SESSION['sola_lettura'] = $sola_lettura;
-//$_SESSION['gestcentrautorizz'] = $gestcentrautorizz;
-//$_SESSION['nomefilelog'] = $nomefilelog;
+
 $json = leggeFileJSON('../lampschool.json');
 $_SESSION['versione'] = $json['versione'];
 
@@ -75,11 +64,11 @@ $_SESSION['versione'] = $json['versione'];
 
 //$_SESSION['giustifica_ritardi'] = $giustifica_ritardi;
 
-
+// AZZERO LA SESIONE DEL REGISTRO
 $_SESSION['classeregistro'] = "";
 
-$indirizzoip = IndirizzoIpReale();
-$_SESSION['indirizzoip'] = $indirizzoip;
+//$indirizzoip = IndirizzoIpReale();
+//$_SESSION['indirizzoip'] = $indirizzoip;
 
 
 $seme = md5(date('Y-m-d'));
@@ -372,8 +361,8 @@ if ($_SESSION['tipoutente'] != 'E')
 
 if ($_SESSION['tipoutente'] == "S" | $_SESSION['tipoutente'] == "D")
 {
-    $sost = cattedre_sostegno($_SESSION['idutente'], $con);
-    $norm = cattedre_normali($_SESSION['idutente'], $con);
+    $sost = $_SESSION['cattsost'];
+    $norm = $_SESSION['cattnorm'];
 }
 
 
