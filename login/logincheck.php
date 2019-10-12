@@ -2,7 +2,6 @@
 
 session_start();
 
-
 /*
   Copyright (C) 2015 Pietro Tamburrano
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
@@ -19,34 +18,9 @@ session_start();
   in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
  */
 
-/* Programma per la visualizzazione del menu principale. */
+/* Programma per il controllo dell'accesso. */
 ////session_start();
 
-// CONTROLLO ORIGINE DELLA RICHIESTA PER IMPEDIRE ACCESSI DALL'ESTERNO
-$urlorigine = $_SERVER['HTTP_REFERER'];
-if (isset($_SERVER['HTTPS']))
-{
-    $urlattuale = 'http' . ($_SERVER['HTTPS'] == 'on' ? 's' : '') . '://' . $_SERVER['SERVER_NAME'];
-} else
-{
-    $urlattuale = 'http://' . $_SERVER['SERVER_NAME'];
-}
-
-if ($urlattuale == substr($urlorigine, 0, strlen($urlattuale)))
-{
-    $origineok = true;
-}
-
-//VERIFICO CHE LA SESSIONE NON SIA SCADUTA
-if (isset($_SESSION['suffisso']))
-{
-    require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
-    require_once '../lib/funzioni.php';
-} else
-{
-    print "<br><br><b><big><center>Sessione scaduta!</center></big></b>";
-    print "<br><b><big><center>Rieffettuare il <a href='../'>login</a>.</center></big></b>";
-}
 /* try
   {
   require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
@@ -68,15 +42,6 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 //$_SESSION['sola_lettura'] = $sola_lettura;
 //$_SESSION['gestcentrautorizz'] = $gestcentrautorizz;
 //$_SESSION['nomefilelog'] = $nomefilelog;
-$json = leggeFileJSON('../lampschool.json');
-$_SESSION['versione'] = $json['versione'];
-
-
-
-//$_SESSION['giustifica_ritardi'] = $giustifica_ritardi;
-
-
-$_SESSION['classeregistro'] = "";
 
 $indirizzoip = IndirizzoIpReale();
 $_SESSION['indirizzoip'] = $indirizzoip;

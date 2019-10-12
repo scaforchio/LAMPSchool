@@ -673,12 +673,12 @@ function ordina_array_su_campo_sottoarray(&$arr, $nc)
             }
 }
 
-function eseguiQuery($con, $query, $inspref = true)
+function eseguiQuery($con, $query, $inspref = true, $log=true)
 {
     if ($inspref)
     {   
         // print "<br>tttt ".inspref($query);
-        $ris = mysqli_query($con, inspref($query)) or gestisciErrore("******<br>".basename($_SERVER['PHP_SELF'])."<br>".date('m-d|H:i:s')."§".$_SESSION['idutente']."<br>Errore: " . mysqli_error($con) . " <br> Query: " . inspref($query, false)."<br>", $con);
+        $ris = mysqli_query($con, inspref($query,$log)) or gestisciErrore("******<br>".basename($_SERVER['PHP_SELF'])."<br>".date('m-d|H:i:s')."§".$_SESSION['idutente']."<br>Errore: " . mysqli_error($con) . " <br> Query: " . inspref($query, false)."<br>", $con);
         
     }else
         $ris = mysqli_query($con, $query) or gestisciErrore("******<br>".basename($_SERVER['PHP_SELF'])."<br>".date('m-d|H:i:s')."§".$_SESSION['idutente']."<br>Errore: " . mysqli_error($con) . " <br> Query: " . $query."<br>", $con);
