@@ -1,6 +1,5 @@
 <?php
 
-
 session_start();
 
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
@@ -39,9 +38,8 @@ $_SESSION['indirizzoip'] = $indirizzoip;
 
 $seme = md5(date('Y-m-d'));
 
-print "a<br>";
 $ultimoaccesso = "";
-print "a<br>";
+
 
 //  $_SESSION['versione']=$versione;
 //Connessione al server SQL
@@ -69,17 +67,6 @@ if (mysqli_num_rows($ris) > 0)
 
 
 $accessouniversale = false;
-
-$JSdisab = is_stringa_html('js_enabled') ? stringa_html('js_enabled') : '0';
-
-if ($JSdisab == 1)
-{
-    die("<center><b>Attenzione! Abilitare Java Script per utilizzare LAMPSchool!</b></center>");
-}
-
-
-
-
 
 @$fp = fopen("../unikey.txt", "r");
 if ($fp)
@@ -146,11 +133,7 @@ else  // UTENTE TROVATO
     // print "Data: $dataultimamodifica - Ora: $dataodierna";
     // print "Diff: $giornidiff";
 
-    if ($sitoinmanutenzione == "yes" & $_SESSION['tipoutente'] != 'M')
-    {
-        print "<br><br><br><center><b>REGISTRO IN MANUTENZIONE!</b></center>";
-        die;
-    }
+
 
 
     if ($_SESSION['tipoutente'] == 'T')
@@ -182,13 +165,6 @@ else  // UTENTE TROVATO
             $_SESSION['nome'] = $val["nome"];
             $_SESSION['codfiscale'] = $val['codfiscale'];
         }
-        // TTTT Per controllo iniziale alunni
-        $strpass = $_SESSION['codfiscale'];
-        $passcontr = md5(md5($strpass));
-        //print "STRPASS: $strpass";
-        //print "PASSCONTR: $passcontr";
-        if ($passdb == $passcontr)
-            header("location: ../password/cambpwd.php?suffisso=" . $_SESSION['suffisso']);
     }
 
     if ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P')
@@ -240,7 +216,7 @@ else  // UTENTE TROVATO
     //
     //  AZIONI PRIMO ACCESSO DELLA GIORNATA
     //
-        if ($modocron == "acc")
+    if ($modocron == "acc")
     {
         $query = "SELECT dataacc FROM tbl_logacc
                    WHERE idlog = (SELECT max(idlog) FROM tbl_logacc)";

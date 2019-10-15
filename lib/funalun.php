@@ -343,3 +343,20 @@ function estrai_alunno_data($idalunno, $conn)
 
     return $datialunno;
 }
+
+function verifica_alunno_lezionegruppo($idalunno, $idlezionegruppo, $con)
+{
+    // ESTRAGGO GRUPPO DELLA LEZIONE
+    $query="select idgruppo from tbl_lezionigruppi where idlezionegruppo=$idlezionegruppo";
+    $ris= eseguiQuery($con,$query);
+    $rec = mysqli_fetch_array($ris);
+    $idgruppo=$rec['idgruppo'];
+    
+    // VERIFICO SE ALUNNO APPARTIENE A GRUPPO
+    $query="select * from tbl_gruppialunni where idgruppo=$idgruppo and idalunno=$idalunno";
+    $ris= eseguiQuery($con,$query);
+    if (mysqli_num_rows($ris)>0)
+        return true;
+    else
+        return false;
+}

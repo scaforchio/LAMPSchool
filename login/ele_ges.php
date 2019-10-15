@@ -21,7 +21,6 @@ session_start();
 
 /* Programma per la visualizzazione del menu principale. */
 ////session_start();
-
 // CONTROLLO ORIGINE DELLA RICHIESTA PER IMPEDIRE ACCESSI DALL'ESTERNO
 $urlorigine = $_SERVER['HTTP_REFERER'];
 if (isset($_SERVER['HTTPS']))
@@ -55,15 +54,12 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 @require "../lib/req_assegna_parametri_a_sessione.php";
 
 
-
-
 $json = leggeFileJSON('../lampschool.json');
 $_SESSION['versione'] = $json['versione'];
 
 
 
 //$_SESSION['giustifica_ritardi'] = $giustifica_ritardi;
-
 // AZZERO LA SESIONE DEL REGISTRO
 $_SESSION['classeregistro'] = "";
 
@@ -84,260 +80,16 @@ if (!$con)
 {
     die("<h1> Connessione al server fallita </h1>");
 }
+$JSdisab = is_stringa_html('js_enabled') ? stringa_html('js_enabled') : '0';
 
-$username = stringa_html('utente');
-$password = stringa_html('password');
-
-// VERIFICO SE IP VIENE DA TOR
-$indirizzoip = IndirizzoIpReale();
-$query = "select * from tbl_torlist where indirizzo LIKE '$indirizzoip%'";
-$ris = eseguiQuery($con, $query);
-if (mysqli_num_rows($ris) > 0)
+if ($JSdisab == 1)
 {
-    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Bloccato Accesso TOR: $username - $password§" . $_SERVER['HTTP_USER_AGENT']);
-    header("location: login.php?messaggio=Utente sconosciuto&suffisso=" . $_SESSION['suffisso']);
-    die;
+    die("<center><b>Attenzione! Abilitare Java Script per utilizzare LAMPSchool!</b></center>");
 }
 
 
-// Controlla la presenza di almeno uno parametro nel POST
-// altrimenti la chiamata viene da un link
-$accessouniversale = false;
-if (isset($_SESSION['accessouniversale']))
-{
-    $accessouniversale = $_SESSION['accessouniversale'];
-}
-if (count($_POST))
-{
-    $JSdisab = is_stringa_html('js_enabled') ? stringa_html('js_enabled') : '0';
-
-    if ($JSdisab == 1)
-    {
-        die("<center><b>Attenzione! Abilitare Java Script per utilizzare LAMPSchool!</b></center>");
-    }
 
 
-    // LEGGO IL FILE DELLA CHIAVE UNIVERSALE PER adminlamp
-
-
-    @$fp = fopen("../unikey.txt", "r");
-    if ($fp)
-    {
-        $unikey = fread($fp, 32);
-        //print $unikey;
-        //print md5($password);
-        if (md5($unikey . $seme) == $password)
-        {
-            $accessouniversale = true;
-            $_SESSION['accessouniversale'] = true;
-        }
-    }
-
-
-    $username = stringa_html('utente');
-    $password = stringa_html('password');
-    if ($password != md5(md5($chiaveuniversale) . $seme) & (!$accessouniversale))
-    {
-        $sql = "SELECT *,unix_timestamp(ultimamodifica) AS ultmod FROM tbl_utenti WHERE userid='" . $username . "' AND  md5(concat(password,'$seme'))='" . elimina_apici($password) . "'";
-    } else
-    {
-        $sql = "SELECT *,unix_timestamp(ultimamodifica) AS ultmod FROM tbl_utenti WHERE userid='" . $username . "'";
-    }
-
-
-    $result = eseguiQuery($con, $sql);
-
-    if (mysqli_num_rows($result) <= 0)
-    {
-        //  print $passwordesame;
-        // print "<br>".md5($password);
-        //  print "<br>".$utente;
-        //   die();
-        if (($username == 'esamidistato' && $password == md5($passwordesame . $seme) | $accessouniversale))
-        {
-            // die("Sono qui!");
-            $_SESSION['tipoutente'] = 'E';
-            $_SESSION['userid'] = 'ESAMI';
-            $_SESSION['idutente'] = 'esamedistato';
-
-            $_SESSION['cognome'] = "Esame ";
-            $_SESSION['nome'] = "di stato";
-
-            inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Accesso ESAMI");
-        } else
-        {
-            if ($_SESSION['suffisso'] != "")
-            {
-                $suff = $_SESSION['suffisso'] . "/";
-            } else
-                $suff = "";
-            inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Accesso errato: $username - $password");
-
-            header("location: login.php?messaggio=Utente sconosciuto&suffisso=" . $_SESSION['suffisso']);
-            die;
-        }
-    }
-    else
-    {
-
-
-        $data = mysqli_fetch_array($result);
-        $_SESSION['userid'] = $data['userid'];
-        $_SESSION['tipoutente'] = $data['tipo'];
-        $_SESSION['sostegno'] = docente_sostegno($data['idutente'], $con);
-        $_SESSION['idutente'] = $data['idutente'];
-        $_SESSION['dischpwd'] = $data['dischpwd'];
-        $passdb = $data['password'];  // TTTT per controllo iniziale alunni
-        // print "Data: $dataultimamodifica - Ora: $dataodierna";
-        // print "Diff: $giornidiff";
-
-        if ($sitoinmanutenzione == "yes" & ($_SESSION['tipoutente'] != 'P' & $_SESSION['tipoutente'] != 'S' & $_SESSION['tipoutente'] != 'M' & $_SESSION['tipoutente'] != 'A'))
-        {
-            print "<br><br><br><center><b>REGISTRO IN MANUTENZIONE!</b></center>";
-            die;
-        }
-
-
-        if ($_SESSION['tipoutente'] == 'T')
-        {
-            //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
-            $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . $_SESSION['idutente'] . "'";
-            $ris = eseguiQuery($con, $sql);
-
-            if ($val = mysqli_fetch_array($ris))
-            {
-                $_SESSION['idstudente'] = $val["idalunno"];
-                $_SESSION['cognome'] = $val["cognome"];
-                $_SESSION['nome'] = $val["nome"];
-            }
-        }
-
-        if ($_SESSION['tipoutente'] == 'L')
-        {
-            //print "PASSDB: $passdb";
-            //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
-            $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . ($_SESSION['idutente'] - 2100000000) . "'";
-
-            $ris = eseguiQuery($con, $sql);
-
-            if ($val = mysqli_fetch_array($ris))
-            {
-                $_SESSION['idstudente'] = $val["idalunno"];
-                $_SESSION['cognome'] = $val["cognome"];
-                $_SESSION['nome'] = $val["nome"];
-                $_SESSION['codfiscale'] = $val['codfiscale'];
-            }
-            // TTTT Per controllo iniziale alunni
-            $strpass = $_SESSION['codfiscale'];
-            $passcontr = md5(md5($strpass));
-            //print "STRPASS: $strpass";
-            //print "PASSCONTR: $passcontr";
-            if ($passdb == $passcontr)
-                header("location: ../password/cambpwd.php?suffisso=" . $_SESSION['suffisso']);
-        }
-
-        if ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P')
-        {
-            $sql = "SELECT * FROM tbl_docenti WHERE idutente='" . $_SESSION['idutente'] . "'";
-            $ris = eseguiQuery($con, $sql);
-
-            if ($val = mysqli_fetch_array($ris))
-            {
-                $_SESSION['cognome'] = $val["cognome"];
-                $_SESSION['nome'] = $val["nome"];
-            }
-            // VERIFICO SE C'E' UNA DEROGA PER IL LIMITE DI INSERIMENTO
-            $sql = "SELECT * FROM tbl_derogheinserimento WHERE iddocente='" . $_SESSION['idutente'] . "' AND DATA='" . date('Y-m-d') . "'";
-            $ris = eseguiQuery($con, $sql);
-
-            if (mysqli_num_rows($ris) > 0)
-            {
-                $_SESSION['derogalimite'] = true;
-            } else
-            {
-                $_SESSION['derogalimite'] = false;
-            }
-        }
-
-        if ($_SESSION['tipoutente'] == 'A')
-        {
-            $sql = "SELECT * FROM tbl_amministrativi WHERE idutente='" . $_SESSION['idutente'] . "'";
-            $ris = eseguiQuery($con, $sql);
-
-            if ($val = mysqli_fetch_array($ris))
-            {
-                $_SESSION['cognome'] = $val["cognome"];
-                $_SESSION['nome'] = $val["nome"];
-            }
-        }
-
-
-        if ($_SESSION['tipoutente'] == 'M')
-        {
-            // $idscuola = md5($nomefilelog);
-            // print "<iframe style='visibility:hidden;display:none' src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola&ver=$versioneprecedente&asc=$annoscol'></iframe>";
-        }
-        //
-        //  AZIONI PRIMO ACCESSO DELLA GIORNATA
-        //
-        if ($modocron == "acc")
-        {
-            $query = "SELECT dataacc FROM tbl_logacc
-                   WHERE idlog = (SELECT max(idlog) FROM tbl_logacc)";
-            $ris = eseguiQuery($con, $query);
-            $rec = mysqli_fetch_array($ris);
-            $dataultimoaccesso = $rec['dataacc'];
-            $dataultimo = substr($dataultimoaccesso, 0, 10);
-            //print $dataultimo;
-            $dataoggi = date("Y/m/d");
-            //print $dataoggi;
-            if ($dataoggi > $dataultimo)
-            {
-                daily_cron($_SESSION['suffisso'], $con, '110100');
-            }
-        }
-        //
-        //  FINE AZIONI PRIMO ACCESSO DELLA GIORNATA
-        //
-
-
-        // Inserimento nel log dell'accesso
-        if ($_SESSION['suffisso'] != "")
-        {
-            $suff = $_SESSION['suffisso'] . "/";
-        } else
-            $suff = "";
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Accesso: $username - $password§" . $_SERVER['HTTP_USER_AGENT']);
-
-        // Ricerca ultimo accesso
-        $query = "select dataacc from " . $_SESSION["prefisso"] . "tbl_logacc where idlog=(select max(idlog) from " . $_SESSION["prefisso"] . "tbl_logacc where utente='$username' and comando='Accesso')";
-        $ris = eseguiQuery($con, $query, false);
-        if (mysqli_num_rows($ris) == 0)
-        {
-            $ultimoaccesso = "";
-        } else
-        {
-            $rec = mysqli_fetch_array($ris);
-            $ultimoaccesso = $rec['dataacc'];
-            $dataultaccute = substr($ultimoaccesso, 0, 10);
-            $oraultaccute = substr($ultimoaccesso, 13, 5);
-            $giornoultaccute = giorno_settimana($dataultaccute);
-            $ultimoaccesso = $giornoultaccute . " " . data_italiana($dataultaccute) . " h. " . $oraultaccute;
-        }
-        // Inserimento dell'accesso in tabella
-        // $indirizzoip = IndirizzoIpReale();
-        // $_SESSION['indirizzoip'] = $indirizzoip;
-        if ($password != md5(md5($chiaveuniversale) . $seme) & (!$accessouniversale))
-        {
-            $sql = "INSERT INTO " . $_SESSION["prefisso"] . "tbl_logacc( utente , dataacc, comando,indirizzo) values('$username','" . date('Y/m/d - H:i') . "','Accesso','$indirizzoip')";
-        } else
-        {
-            $sql = "INSERT INTO " . $_SESSION["prefisso"] . "tbl_logacc( utente , dataacc, comando,indirizzo) values('$username','" . date('Y/m/d - H:i') . "','Chiave universale','$indirizzoip')";
-        }
-
-        eseguiQuery($con, $sql, false);
-    }
-}
 
 $cambiamentopassword = false;
 if ($_SESSION['tipoutente'] != 'E')
@@ -366,7 +118,8 @@ if ($_SESSION['tipoutente'] == "S" | $_SESSION['tipoutente'] == "D")
 }
 
 
-// Azzero i parametri che servono in modalità registro
+// Azzero i parametri che servono in modalità registro di classe
+// quando si ritorna al menu principale
 $_SESSION['regcl'] = "";
 $_SESSION['regma'] = "";
 $_SESSION['reggi'] = "";
@@ -400,6 +153,20 @@ if ($ultimoaccesso != "")
     $ult = "";
 }
 stampa_testata("MENU PRINCIPALE $ult", "", "$nome_scuola", "$comune_scuola");
+
+
+if ($sitoinmanutenzione == "yes" & $_SESSION['tipoutente'] != 'M')
+{
+    print "<br><br><br><center><b>REGISTRO IN MANUTENZIONE!</b></center>";
+    stampa_piede();
+    die;
+}
+
+
+
+
+
+
 
 if ($cambiamentopassword)
 {

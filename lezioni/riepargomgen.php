@@ -141,9 +141,18 @@ if ($idmateria != "")
 
             while ($reclez = mysqli_fetch_array($rislez))
             {
-                print "<tr><td>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
+                if ($reclez['idlezionegruppo']==NULL)
+                    print "<tr><td>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
+                else
+                {
+                    // VERIFICO SE ALUNNO APPARTIENE A GRUPPO
+                    if (verifica_alunno_lezionegruppo($id_ut_doc, $reclez['idlezionegruppo'], $con))
+                         print "<tr><td>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";   
+                }
+                
             }
 
+            
             print "</table>";
 
             if (alunno_certificato($id_ut_doc, $con))

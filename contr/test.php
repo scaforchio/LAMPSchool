@@ -31,6 +31,6 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
 print "qui";
 
-daily_cron($_SESSION['suffisso'], $con, "000001");
-
+session_reset();
+print "SESSIONE RESETTATA";
 stampa_piede();
