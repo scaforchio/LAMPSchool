@@ -39,6 +39,18 @@ function estrai_mail_docente($iddocente, $conn)
     return $maildocente;
 }
 
+
+
+function estrai_cell_docente($iddocente, $conn)
+{
+    $query = "select * from tbl_docenti where iddocente='$iddocente'";
+    $ris = eseguiQuery($conn, $query);
+    $rec = mysqli_fetch_array($ris);
+    $cellulare = $rec['telcel'];
+
+    return $cellulare;
+}
+
 /**
  *
  * @param int $idamm

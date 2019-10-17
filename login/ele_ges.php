@@ -47,6 +47,11 @@ if (isset($_SESSION['suffisso']))
     print "<br><b><big><center>Rieffettuare il <a href='../'>login</a>.</center></big></b>";
 }
 
+// VERIFICO CHE NON SIA RICHIESTO IL TOKEN
+if ($_SESSION['modoinviotoken']!=NULL & $_SESSION['modoinviotoken']!='' & !$_SESSION['tokenok'])
+    header("location: login.php?suffisso=" . $_SESSION['suffisso']);
+
+
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 

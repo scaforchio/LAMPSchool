@@ -1518,6 +1518,7 @@ CREATE TABLE IF NOT EXISTS tbl_utenti (
   dischpwd tinyint(1) DEFAULT '0',
   ultimamodifica timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   passprecedenti text,
+  token char(5),
   ultimoaccessoapp BIGINT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

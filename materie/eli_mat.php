@@ -22,7 +22,7 @@ session_start();
 
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
-
+require_once("../lib/sms/php-send.php");
 // istruzioni per tornare alla pagina di login
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione

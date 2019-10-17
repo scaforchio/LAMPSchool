@@ -19,6 +19,18 @@ ADD PRIMARY KEY (idtorlist), ADD KEY indirizzo (indirizzo);
 ALTER TABLE tbl_torlist
 MODIFY idtorlist int(11) AUTO_INCREMENT;
 
+ALTER TABLE tbl_utenti
+ADD token char(5);
+
+ALTER TABLE tbl_utenti
+ADD coordinatetoken char(10);
+
+ALTER TABLE tbl_utenti
+ADD schematoken char(50);
+
+ALTER TABLE tbl_utenti
+ADD modoinviotoken char(1);
+
 -- LASCIARE SEMPRE ALLA FINE
 UPDATE tbl_parametri set valore='2019.1' where parametro='versioneprecedente';
 -- LASCIARE SEMPRE ALLA FINE
