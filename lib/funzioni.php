@@ -673,15 +673,14 @@ function ordina_array_su_campo_sottoarray(&$arr, $nc)
             }
 }
 
-function eseguiQuery($con, $query, $inspref = true, $log=true)
+function eseguiQuery($con, $query, $inspref = true, $log = true)
 {
     if ($inspref)
-    {   
+    {
         // print "<br>tttt ".inspref($query);
-        $ris = mysqli_query($con, inspref($query,$log)) or gestisciErrore("******<br>".basename($_SERVER['PHP_SELF'])."<br>".date('m-d|H:i:s')."§".$_SESSION['idutente']."<br>Errore: " . mysqli_error($con) . " <br> Query: " . inspref($query, false)."<br>", $con);
-        
-    }else
-        $ris = mysqli_query($con, $query) or gestisciErrore("******<br>".basename($_SERVER['PHP_SELF'])."<br>".date('m-d|H:i:s')."§".$_SESSION['idutente']."<br>Errore: " . mysqli_error($con) . " <br> Query: " . $query."<br>", $con);
+        $ris = mysqli_query($con, inspref($query, $log)) or gestisciErrore("******<br>" . basename($_SERVER['PHP_SELF']) . "<br>" . date('m-d|H:i:s') . "§" . $_SESSION['idutente'] . "<br>Errore: " . mysqli_error($con) . " <br> Query: " . inspref($query, false) . "<br>", $con);
+    } else
+        $ris = mysqli_query($con, $query) or gestisciErrore("******<br>" . basename($_SERVER['PHP_SELF']) . "<br>" . date('m-d|H:i:s') . "§" . $_SESSION['idutente'] . "<br>Errore: " . mysqli_error($con) . " <br> Query: " . $query . "<br>", $con);
     return $ris;
 }
 
@@ -690,4 +689,20 @@ function gestisciErrore($errore, $con)
     // inserisci_log($errore,$_SESSION['nomefilelog']."er");
     print("<br><br><center><b><font color='red'>Attenzione! Errore di sistema.<br>Contattare il referente per il registro!</font></b><center><br>$errore");
     die();
+}
+
+function generaSchemaToken()
+{
+    $token = "";
+    $numeri = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+    for ($i = 0; $i < 5; $i++)
+    {
+        //Mischia l'array
+        shuffle($numeri);
+        for ($j = 0; $j < 10; $j++)
+        {
+            $token .= $numeri[$j];
+        }
+    }
+    return $token;
 }

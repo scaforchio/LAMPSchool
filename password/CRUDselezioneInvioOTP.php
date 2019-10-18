@@ -1,6 +1,6 @@
 <?php
-session_start();
 
+session_start();
 /*
   Copyright (C) 2018 Pietro Tamburrano
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
@@ -21,41 +21,31 @@ session_start();
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
-$soloclasse= stringa_html('soloclasse');
+
 $daticrud = array();
 // Tabella da modificare
-$daticrud['titolo'] = 'GESTIONE AUTORIZZAZIONI ED ESONERI';
+$daticrud['titolo'] = 'GESTIONE INVIO OTP';
 
 
-$daticrud['tabella'] = ("tbl_alunni");
+$daticrud['tabella'] = ("tbl_utenti");
 
-$daticrud['larghezzatabella'] = "100%";
+$daticrud['larghezzatabella'] = "50%";
 // Nome della tabella per visualizzazioni
-$daticrud['aliastabella'] = "alunni";
+$daticrud['aliastabella'] = "utenti";
 // Campo con l'id univoco per la tabella
-$daticrud['campochiave'] = "idalunno";
+$daticrud['campochiave'] = "idutente";
 
 // Campi in base ai quali ordinare (specificare gli alias (14° valore nella descrizione del campo)
 // se ci sono campi con lo stesso nome)
 // Aggiungere DESC in caso di ordinamento inverso
-$daticrud['campiordinamento'] = "cognome, nome, datanascita";
+$daticrud['campiordinamento'] = "cognome,nome";
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
-$daticrud['condizione'] = "idclasse<>0";
-if ($soloclasse=='yes')
-{
-    $iddocente = $_SESSION['idutente'];
-    $elencoclassi = estrai_classi_coordinate($iddocente, $con);
-
-    $daticrud['condizione'] = ("idclasse IN ($elencoclassi)");
-}
-
-
-
+$daticrud['condizione'] = "tipo='S' or tipo='D' or tipo='P'";
 
 $daticrud['abilitazionemodifica'] = 1;
 $daticrud['abilitazionecancellazione'] = 0;
+
 $daticrud['abilitazioneinserimento'] = 0;
 
 // Dati per conferma cancellazione (0 senza conferma, 1 con conferma ed elenco dei campi da visualizzare per conferma)
@@ -91,30 +81,16 @@ $daticrud['vincolicanc'] = [
  *      in fase di preparazione dei daticrud (Es. iddocente, tipoutente, ecc.)
  * 18 - clausdistinct - clausola distinct nella selezione dei valori della tabella esterna (1-sì, 0-no) 
  */
-if ($soloclasse!='yes')
 
-{
-    $daticrud['campi'] = [
-        ['0' => 'cognome', '1' => '1', '5' => 30, '6' => 'Cognome', '7' => 1, '8' => 'text', '15' => 1],
-        ['0' => 'nome', '1' => '2', '5' => 30, '6' => 'Nome', '7' => 2, '8' => 'text', '15' => 1],
-        ['0' => 'datanascita', '1' => '3', '5' => 10, '6' => 'Data nascita', '7' => 3, '8' => 'text', '10' => 1, '11' => '1', '13' => 0, '15' => 1],
-        ['0' => 'idclasse', '1' => '4', '2' => 'tbl_classi', '3' => 'idclasse', '4' => 'anno,sezione,specializzazione', '5' => 0, '6' => 'Classe', '7' => 4, '15' => 1],
-        ['0' => 'firmapropria', '1' => '5', '6' => 'Aut. firma propria', '7' => 5, '8' => 'boolean'],
-        ['0' => 'autorizzazioni', '1' => '6', '6' => 'Autorizzazioni', '7' => 6, '8' => 'testo'],
-        ['0' => 'autentrata', '1' => '7', '5' => 100, '6' => 'Autorizzazioni entrata', '7' => 7, '8' => 'text'],
-        ['0' => 'autuscita', '1' => '8', '5' => 100, '6' => 'Autorizzazioni uscita', '7' => 8, '8' => 'text'],
-        ['0' => 'autuscitaantclasse', '1' => '9', '6' => 'Aut. uscita ant. con classe', '7' => 9, '8' => 'boolean']
+$daticrud['campi'] = [
+    
+    ['0'=>'idutente', '1' => 1, '2' => 'tbl_docenti', '3' => 'iddocente', '4' => 'cognome,nome', '5' => 0, '6' => 'Docente', '7' => 1, '15' => 1],
+    ['0'=>'modoinviotoken','1'=>2, '5'=>1, '1'=>'3', '6'=>'Modo invio token','9'=>'S-SMS, M-EMail,T-Tessera codici,G-Telegram,N-Nessun token','7'=>2, '8'=>'text\' pattern=\'[S,M,T,N]']
+    
     ];
-} else
-{
-    $daticrud['campi'] = [
-        ['0' => 'cognome', '1' => '1', '5' => 30, '6' => 'Cognome', '7' => 1, '8' => 'text', '15' => 1],
-        ['0' => 'nome', '1' => '2', '5' => 30, '6' => 'Nome', '7' => 2, '8' => 'text', '15' => 1],
-        ['0' => 'datanascita', '1' => '3', '5' => 10, '6' => 'Data nascita', '7' => 3, '8' => 'text', '10' => 1, '11' => '1', '13' => 0, '15' => 1],
-        ['0' => 'idclasse', '1' => '4', '2' => 'tbl_classi', '3' => 'idclasse', '4' => 'anno,sezione,specializzazione', '5' => 0, '6' => 'Classe', '7' => 4, '15' => 1],
-        ['0' => 'autuscitaantclasse', '1' => 5, '6' => 'Aut. uscita ant. con classe', '7' => 5, '8' => 'boolean']
-    ];
-}
+
+
+
 $_SESSION['daticrud'] = $daticrud;
 
 header("location: ../lib/CRUD.php?suffisso=" . $_SESSION['suffisso']);

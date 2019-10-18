@@ -57,7 +57,7 @@ if ($_SESSION['modoinviotoken'] == 'T')
     $ris= eseguiQuery($con, $query);
     $rec= mysqli_fetch_array($ris);
     $token=$rec['token'];
-    $messaggio="Inserire le cifre presenti nelle celle ";
+    $messaggio="Inserire le cifre presenti nelle celle <b> ";
     //print $_SESSION['schematoken']; die;
     for ($i = 0; $i < 5; $i++)
     {
@@ -67,11 +67,11 @@ if ($_SESSION['modoinviotoken'] == 'T')
             {
                 $riga=$i+1;
                 $colo=daNumALet($j);
-                $messaggio.=" $colo$riga";
+                $messaggio.=" $riga$colo";
             }
         }
     }
-    $messaggio.="<br> ";
+    $messaggio.="</b><br><br> ";
 }
 print "<CENTER>";
 print"<table border='0'>";

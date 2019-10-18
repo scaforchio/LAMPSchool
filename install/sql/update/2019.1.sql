@@ -22,8 +22,6 @@ MODIFY idtorlist int(11) AUTO_INCREMENT;
 ALTER TABLE tbl_utenti
 ADD token char(5);
 
-ALTER TABLE tbl_utenti
-ADD coordinatetoken char(10);
 
 ALTER TABLE tbl_utenti
 ADD schematoken char(50);

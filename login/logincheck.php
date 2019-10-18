@@ -292,7 +292,7 @@ else  // UTENTE TROVATO
 
 //if ($controllootp)
 //if (true)    
-if ($_SESSION['modoinviotoken']!=NULL)
+if ($_SESSION['modoinviotoken']=='S' |$_SESSION['modoinviotoken']=='M'|$_SESSION['modoinviotoken']=='T')
 {
     $_SESSION['tentativiotp']=0;
     $token = rand(10000,99999);
@@ -317,6 +317,9 @@ if ($_SESSION['modoinviotoken']!=NULL)
     }
     header("location: otpcheck.php?suffisso=" . $_SESSION['suffisso']);
 } else
+{
+    //print "qui ".$_SESSION['modoinviotoken']."-";die;
+    $_SESSION['tokenok']=true;
     header("location: ele_ges.php?suffisso=" . $_SESSION['suffisso']);
-
+}
 

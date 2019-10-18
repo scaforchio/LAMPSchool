@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 /*
   Copyright (C) 2015 Pietro Tamburrano
@@ -28,7 +29,7 @@ if ($tipoutente == "")
     header("location: login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
-$tokeninserito= stringa_html('token');
+$tokeninserito = stringa_html('token');
 //Connessione al server SQL
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 if (!$con)
@@ -36,22 +37,24 @@ if (!$con)
     die("\n<h1> Connessione al server fallita </h1>");
 }
 //Verifico il token
-$query="select token from tbl_utenti where idutente=".$_SESSION['idutente'];
-$ris= eseguiQuery($con, $query);
-$rec= mysqli_fetch_array($ris);
-$token=$rec['token'];
-if ($tokeninserito==$token)
+$query = "select token from tbl_utenti where idutente=" . $_SESSION['idutente'];
+$ris = eseguiQuery($con, $query);
+$rec = mysqli_fetch_array($ris);
+$token = $rec['token'];
+if ($tokeninserito == $token)
 {
-    $query="update tbl_utenti set token='' where idutente=".$_SESSION['idutente'];
-    $ris= eseguiQuery($con, $query);
-    $_SESSION['tokenok']=true;
+    $query = "update tbl_utenti set token='' where idutente=" . $_SESSION['idutente'];
+    $ris = eseguiQuery($con, $query);
+    $_SESSION['tokenok'] = true;
     header("location: ele_ges.php?suffisso=" . $_SESSION['suffisso']);
-}
-else
-    if ($_SESSION['tentativiotp']>3)
-        header("location: login.php?suffisso=" . $_SESSION['suffisso']);
-    else
-        header("location: otpcheck.php?suffisso=" . $_SESSION['suffisso']);
+} else
+if ($_SESSION['tentativiotp'] > 3)
+{
+    $query = "update tbl_utenti set token='' where idutente=" . $_SESSION['idutente'];
+    $ris = eseguiQuery($con, $query);
+    header("location: login.php?suffisso=" . $_SESSION['suffisso']);
+} else
+    header("location: otpcheck.php?suffisso=" . $_SESSION['suffisso']);
     
 
 
