@@ -5,7 +5,6 @@ $suffisso = $_GET['suffisso'];
 @require_once("../php-ini" . $suffisso . ".php");
 @require_once("../lib/funzioni.php");
 
-inserisci_log("TELEGRAM§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Invio dati", $nomefilelog . "", $suffisso);
 
 
 $token = $tokenbototp;
@@ -111,6 +110,8 @@ if (count($credenziali) != 2)
                         sendTelegramMessage($chat_id, $testo, $token);
                         $sql = "INSERT INTO tbl_confermatelegram (idutente, tokendiconferma) VALUES (" . $utente['idutente'] . ", '$tokendiconferma');";
                         eseguiQuery($con, $sql);
+                        inserisci_log("TELEGRAM§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Richiesta registrazione utente $user ", $nomefilelog . "", $suffisso);
+
                     } else
                     {
                         $testo = "<b>Operazione fallita!</b>\nCi sono stati problemi con l'invio dell'email!";
