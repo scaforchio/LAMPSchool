@@ -457,6 +457,13 @@ CREATE TABLE IF NOT EXISTS tbl_comuni (
   codcatastale varchar(4)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS tbl_confermatelegram (
+  idutente int(11),
+  tokendiconferma char(200),
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 -- --------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS tbl_consorientativi (
@@ -1530,6 +1537,9 @@ CREATE TABLE IF NOT EXISTS tbl_utenti (
   ultimamodifica timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   passprecedenti text,
   token char(5),
+  schematoken char(50),
+  modoinviotoken char(1),
+  idtelegram int(15),
   ultimoaccessoapp BIGINT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2697,6 +2707,10 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'indirizzomailassenze', '[codicescuola]@istruzione.it', 'Indirizzo mail per comunicazione richieste astensione dal lavoro', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'mailresponsabilesostituzioni', '', 'Indirizzo mail del responsabile delle sostituzioni docenti assenti', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'numeromassimooreassemblea', '2', 'Massimo numero ore durata assemblea di classe', '1|2');
+
+
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'tokenbototp', '', 'Token del BOT Telegram di ricezione OTP per accesso','');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'urlbottelegram', 'https://www.sitoscuola.it/lampschool/bots/', 'URL del bot telegram','');
 
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'gc01', 'NONCOR', 'Primo giudizio abbreviato per valutazione di comportamento (inserire NULL per non utilizzarlo)', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'gc02', 'SPPCCOR', 'Secondo giudizio abbreviato per valutazione di comportamento (inserire NULL per non utilizzarlo)', '');

@@ -29,6 +29,21 @@ ADD schematoken char(50);
 ALTER TABLE tbl_utenti
 ADD modoinviotoken char(1);
 
+
+
+
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'tokenbototp', '', 'Token del BOT Telegram di ricezione OTP per accesso','');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'urlbottelegram', 'https://www.sitoscuola.it/lampschool/bots/', 'URL del bot telegram','');
+ALTER TABLE tbl_utenti
+ADD idtelegram int(15);
+
+
+CREATE TABLE IF NOT EXISTS tbl_confermatelegram (
+  idutente int(11),
+  tokendiconferma char(200),
+  oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- LASCIARE SEMPRE ALLA FINE
 UPDATE tbl_parametri set valore='2019.1' where parametro='versioneprecedente';
 -- LASCIARE SEMPRE ALLA FINE

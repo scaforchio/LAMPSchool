@@ -691,7 +691,7 @@ function gestisciErrore($errore, $con)
     die();
 }
 
-function generaSchemaToken()
+function generaSchemaToken()  // OTP per conferma accesso
 {
     $token = "";
     $numeri = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
@@ -706,3 +706,89 @@ function generaSchemaToken()
     }
     return $token;
 }
+
+
+/**
+ * Funzione che verifica se il bot_telegram è online
+ * @param string $token
+ * @return bool
+ */
+
+//$token = "987901422:AAG-T0WEzGDy_jYqfe5e2xNqEh0PPXUcv3g"; //Token bot Telegram
+function isBotOnline($token) {
+  $r = file_get_contents("https://api.telegram.org/bot" . $token . "/getMe");
+  $response = json_decode($r);
+  if($response->{'ok'}) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+/**
+ * Generazione di una stringa random di lunghezza prefissata
+ * @param int $lunghezza
+ * @return string
+ */
+function generaStringaRandom($lunghezza) {
+    $caratteri = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $stringaRandom = '';
+    for ($i = 0; $i < $lunghezza; $i++) {
+        $stringaRandom .= $caratteri[rand(0, strlen($caratteri) - 1)];
+    }
+    return $stringaRandom;
+}
+
+/**
+ * Funzione invia un messaggio dal bot_telegram ad un utente.
+ * Supporta formattazione del testo di base tramite tag HTML
+ * @param int or string $chat_id
+ * @param string $testo
+ * @param string $token
+ * @return bool
+ */
+function sendTelegramMessage($chat_id, $testo, $token) {
+      $data = array("chat_id" => $chat_id, "text" => $testo, "parse_mode" => "HTML");
+      $data = json_encode($data);
+      $url = "https://api.telegram.org/bot" . $token . "/sendMessage";
+      $options = array(
+          'http' => array(
+              'header'  => "Content-type: application/json",
+              'method'  => 'POST',
+              'content' => $data
+          )
+      );
+      $context  = stream_context_create($options);
+      $r = file_get_contents($url, false, $context);
+      if($r->{'ok'})
+        return true; //operazione andata a buon fine
+      else
+        return false; //operazione fallita
+    }
+
+/**
+ * Funzione invia un messaggio dal bot_telegram ad un utente
+ * @param int or string $chat_id
+ * @param string $testo
+ * @return bool
+ */
+function sendTelegramMessageToken($chat_id, $testo,$tokenBot) {
+      //$tokenBot = "987901422:AAG-T0WEzGDy_jYqfe5e2xNqEh0PPXUcv3g"; //Token bot Telegram
+      $data = array("chat_id" => $chat_id, "text" => $testo);
+      $data = json_encode($data);
+      $url = "https://api.telegram.org/bot" . $tokenBot . "/sendMessage";
+      $options = array(
+          'http' => array(
+              'header'  => "Content-type: application/json",
+              'method'  => 'POST',
+              'content' => $data
+          )
+      );
+      $context  = stream_context_create($options);
+      $r = file_get_contents($url, false, $context);
+      if($r->{'ok'})
+        return true; //operazione andata a buon fine
+      else
+        return false; //operazione fallita
+    }

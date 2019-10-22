@@ -3,7 +3,6 @@
 session_start();
 @require_once("../php-ini" . $_GET['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
-@require_once("../lib/sms/php-send.php");
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 

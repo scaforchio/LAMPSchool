@@ -133,7 +133,7 @@ else  // UTENTE TROVATO
     // DATI TOKEN
     $_SESSION['modoinviotoken'] = $data['modoinviotoken'];
     $_SESSION['schematoken'] = $data['schematoken'];
-    
+
     //$passdb = $data['password'];  // TTTT per controllo iniziale alunni
     // print "Data: $dataultimamodifica - Ora: $dataodierna";
     // print "Diff: $giornidiff";
@@ -291,29 +291,37 @@ else  // UTENTE TROVATO
 
 
 //if ($controllootp)
-//if (true)    
-if ($_SESSION['modoinviotoken']=='S' |$_SESSION['modoinviotoken']=='M'|$_SESSION['modoinviotoken']=='T')
+//if (true)
+if ($_SESSION['modoinviotoken']=='S' |$_SESSION['modoinviotoken']=='M'|$_SESSION['modoinviotoken']=='T'|$_SESSION['modoinviotoken']=='G')
 {
     $_SESSION['tentativiotp']=0;
-    $token = rand(10000,99999);
+    $token = rand(10000, 99999);
     $query="update tbl_utenti set token=$token where idutente=".$_SESSION['idutente'];
     eseguiQuery($con, $query);
-    
+
     if ($_SESSION['modoinviotoken']=="M" & ($_SESSION['tipoutente']=='D' | $_SESSION['tipoutente']=='S' | $_SESSION['tipoutente']=='P' ))
     {
-        
+
         $mail= estrai_mail_docente($_SESSION['idutente'], $con);
-        
+
         invia_mail($mail, "OTP: $token", "OTP per l'accesso a LampSchool: $token",$indirizzomailfrom);
     }
     if ($_SESSION['modoinviotoken']=="S" & ($_SESSION['tipoutente']=='D' | $_SESSION['tipoutente']=='S' | $_SESSION['tipoutente']=='P' ))
     {
-        
+
         $cell= estrai_cell_docente($_SESSION['idutente'], $con);
         $destinatario= array();
         $destinatario[] = "39" . trim($cell);
         $result = skebbyGatewaySendSMS($utentesms, $passsms, $destinatario, "OTP per l'accesso a LampSchool: $token", SMS_TYPE_CLASSIC_PLUS, '', $testatasms, $_SESSION['suffisso']);
 
+    }
+    if ($_SESSION['modoinviotoken']=="G" & ($_SESSION['tipoutente']=='D' | $_SESSION['tipoutente']=='S' | $_SESSION['tipoutente']=='P' )) {
+        $query = "select idtelegram from tbl_utenti where idutente=".$_SESSION['idutente'];
+        $ris = eseguiQuery($con, $query);
+        $rec = mysqli_fetch_array($ris, MYSQLI_BOTH);
+        $chat_id = $rec[0]; //ID Chat telegram
+        sendTelegramMessageToken($chat_id, "Codice login: " . $token, $tokenbototp);
+        
     }
     header("location: otpcheck.php?suffisso=" . $_SESSION['suffisso']);
 } else
@@ -322,4 +330,3 @@ if ($_SESSION['modoinviotoken']=='S' |$_SESSION['modoinviotoken']=='M'|$_SESSION
     $_SESSION['tokenok']=true;
     header("location: ele_ges.php?suffisso=" . $_SESSION['suffisso']);
 }
-

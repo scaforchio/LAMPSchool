@@ -57,7 +57,7 @@ if ($_SESSION['modoinviotoken'] == 'T')
     $ris= eseguiQuery($con, $query);
     $rec= mysqli_fetch_array($ris);
     $token=$rec['token'];
-    $messaggio="Inserire le cifre presenti nelle celle <b> ";
+    $messaggio.="<br>Inserire le cifre presenti nelle celle <b> ";
     //print $_SESSION['schematoken']; die;
     for ($i = 0; $i < 5; $i++)
     {
@@ -72,6 +72,13 @@ if ($_SESSION['modoinviotoken'] == 'T')
         }
     }
     $messaggio.="</b><br><br> ";
+}
+else if ($_SESSION['modoinviotoken'] == 'G') {
+    $query="select token from tbl_utenti where idutente=".$_SESSION['idutente'];
+    $ris= eseguiQuery($con, $query);
+    $rec= mysqli_fetch_array($ris);
+    $token=$rec['token'];
+    $messaggio.="<br>Inserire il codice inviato via Telegram. ";
 }
 print "<CENTER>";
 print"<table border='0'>";
@@ -98,6 +105,6 @@ function daNumALet($col)
     if ($col==7) return "H";
     if ($col==8) return "I";
     if ($col==9) return "L";
-    
-    
+
+
 }
