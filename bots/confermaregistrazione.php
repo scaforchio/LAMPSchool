@@ -4,7 +4,7 @@ session_start();
 $suffisso = $_GET['suffisso'];
 @require_once("../php-ini" . $suffisso . ".php");
 @require_once("../lib/funzioni.php");
-//$token = "987901422:AAG-T0WEzGDy_jYqfe5e2xNqEh0PPXUcv3g";
+
 $token = $tokenbototp;
 $tokendiconferma = elimina_apici($_GET["tokendiconferma"]);
 $chat_id = elimina_apici($_GET["chatid"]);
