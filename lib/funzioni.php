@@ -774,7 +774,7 @@ function sendTelegramMessage($chat_id, $testo, $token) {
  * @return bool
  */
 function sendTelegramMessageToken($chat_id, $testo,$tokenBot) {
-      //$tokenBot = "987901422:AAG-T0WEzGDy_jYqfe5e2xNqEh0PPXUcv3g"; //Token bot Telegram
+      
       $data = array("chat_id" => $chat_id, "text" => $testo);
       $data = json_encode($data);
       $url = "https://api.telegram.org/bot" . $tokenBot . "/sendMessage";
