@@ -714,7 +714,7 @@ function generaSchemaToken()  // OTP per conferma accesso
  * @return bool
  */
 
-//$token = "987901422:AAG-T0WEzGDy_jYqfe5e2xNqEh0PPXUcv3g"; //Token bot Telegram
+
 function isBotOnline($token) {
   $r = file_get_contents("https://api.telegram.org/bot" . $token . "/getMe");
   $response = json_decode($r);
