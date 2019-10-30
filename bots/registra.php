@@ -39,24 +39,24 @@ $text = $messaggio->{"message"}->{"text"};
 
 $chat_id = $messaggio->{"message"}->{'chat'}->{'id'};
 //Ricavo le credenziali dal messaggio, che sarà tipo "nomeutente password"
-$credenziali = explode(" ", $text);
-if (count($credenziali) != 2)
+$credenziali = $text;
+if (count($credenziali) != 1)
 { //Se il formato del messaggio è sbagliato
     $testo = "Credenziali non scritte correttamente.";
     sendTelegramMessage($chat_id, $testo, $token);
 } else
 {
     
-    $user = elimina_apici($credenziali[0]);
-    $pass = elimina_apici($credenziali[1]);
-    $pass = md5(md5($pass));
+    $user = elimina_apici($credenziali);
+    //$pass = elimina_apici($credenziali[1]);
+    //$pass = md5(md5($pass));
     //Controllo user e pass
     //Ovviamente questo andrà fatto dal database
 
     $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore connessione");
   
     $sql = "SELECT * from tbl_utenti WHERE userid='".$user."' AND  password='".$pass."'";
-    
+    $sql = "SELECT * from tbl_utenti WHERE userid='".$user."'";
     
     $result = eseguiQuery($con, $sql);
     if (mysqli_num_rows($result) > 0) // VERIFICO SE C'E' L'UTENTE

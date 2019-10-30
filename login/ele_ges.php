@@ -1636,7 +1636,7 @@ if ($cambiamentopassword)
             $risultato = controlloNuovaVersione();
             $esito = $risultato['esito'];
             $nuovaVersione = $risultato['versione'];
-            print "CIAO!";
+            
             if ($esito)
             {
                 print "<center><h5><font color='red'>E' disponibile sul sito di LAMPSchool la versione $nuovaVersione</font></h5></center>";
