@@ -22,10 +22,12 @@ CREATE TABLE IF NOT EXISTS tbl_torlist (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE tbl_torlist
-ADD PRIMARY KEY (idtorlist), ADD KEY indirizzo (indirizzo);
+MODIFY idtorlist int(11) AUTO_INCREMENT;
 
 ALTER TABLE tbl_torlist
-MODIFY idtorlist int(11) AUTO_INCREMENT;
+ADD PRIMARY KEY (idtorlist), ADD KEY indirizzo (indirizzo);
+
+
 
 -- Modifica per Token
 

@@ -61,6 +61,7 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_utenti';
         $tabelle[] = 'tbl_gruppi';
         $tabelle[] = 'tbl_gruppialunni';
+        $tabelle[] = 'tbl_confermatelegram';
     }
     if ($ambito == 'avv')
     {
@@ -167,6 +168,7 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_goindirizzo';
         $tabelle[] = 'tbl_gopercorso';
         $tabelle[] = 'tbl_gosettore';
+        $tabelle[] = 'tbl_torlist';
     }
 
     if ($ambito == 'com')
