@@ -271,11 +271,8 @@ else  // UTENTE TROVATO
     if ($password != md5(md5($chiaveuniversale) . $seme) & (!$accessouniversale))
     {
         $sql = "INSERT INTO " . $_SESSION["prefisso"] . "tbl_logacc( utente , dataacc, comando,indirizzo) values('$username','" . date('Y/m/d - H:i') . "','Accesso','$indirizzoip')";
-    } else
-    {
-        $sql = "INSERT INTO " . $_SESSION["prefisso"] . "tbl_logacc( utente , dataacc, comando,indirizzo) values('$username','" . date('Y/m/d - H:i') . "','Chiave universale','$indirizzoip')";
-    }
-
+    } 
+    
     eseguiQuery($con, $sql, false);
 }
 
