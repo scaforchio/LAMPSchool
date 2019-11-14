@@ -1046,7 +1046,7 @@ if ($cambiamentopassword)
         menu_item('../scrutini/tabesiti.php', 'TIPI ESITI');
         menu_item('../colloqui/orario.php', 'ORARIO');
         menu_item('../colloqui/festivita.php', 'FESTIVITA\'');
-        menu_item('../colloqui/sospensioni.php', 'SOSPENSIONI COLLOQUI');
+        menu_item('../colloqui/CRUDsospensionicolloqui.php', 'SOSPENSIONI COLLOQUI');
         menu_item('../colloqui/disponibilita.php', 'DISPONIBIL. DOCENTI');
         menu_item('../colloqui/visdisponibilita.php', 'VISUALIZZA DISP. DOCENTI');
 

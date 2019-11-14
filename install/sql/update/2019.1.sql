@@ -52,6 +52,13 @@ CREATE TABLE IF NOT EXISTS tbl_confermatelegram (
   oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+
+ALTER TABLE tbl_sospensionicolloqui
+ADD datafine date;
+
+update tbl_sospensionicolloqui set datafine=data where 1=1;
+
 -- LASCIARE SEMPRE ALLA FINE
 UPDATE tbl_parametri set valore='2019.1' where parametro='versioneprecedente';
 -- LASCIARE SEMPRE ALLA FINE

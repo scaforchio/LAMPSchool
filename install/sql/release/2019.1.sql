@@ -779,6 +779,7 @@ CREATE TABLE IF NOT EXISTS tbl_festivita (
 CREATE TABLE IF NOT EXISTS tbl_sospensionicolloqui (
   idsospensionecolloqui int(11),
   data date,
+  datafine date,
   note varchar(30) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 -- --------------------------------------------------------

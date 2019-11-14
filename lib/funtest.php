@@ -579,8 +579,9 @@ function inspref($comando, $log = true)
     global $db_user;
     global $db_password;
     global $prefisso_tabelle;
-
+   
     $comando = str_replace("tbl_", $prefisso_tabelle . "tbl_", $comando);
+     
     if ($log)
     {
         //print "LOG:".$_SESSION['logcompleto'];

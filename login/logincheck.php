@@ -93,8 +93,8 @@ if ($password != md5(md5($chiaveuniversale) . $seme) & (!$accessouniversale))
 
 $result = eseguiQuery($con, $sql);
 
-if (mysqli_num_rows($result) <= 0) // VERIFICO SE C'E' L'UTENTE
-{
+if (mysqli_num_rows($result) <= 0)
+{ // VERIFICO SE C'E' L'UTENTE
     // VERIFICO SE L'ACCESSO E' QUELLO PER GLI ESAMI DI STATO
     if (($username == 'esamidistato' && $password == md5($passwordesame . $seme)) | $accessouniversale)
     {
@@ -119,11 +119,8 @@ if (mysqli_num_rows($result) <= 0) // VERIFICO SE C'E' L'UTENTE
         header("location: login.php?messaggio=Utente sconosciuto&suffisso=" . $_SESSION['suffisso']);
         die;
     }
-}
-else  // UTENTE TROVATO
-{
-
-
+} else
+{  // UTENTE TROVATO
     $data = mysqli_fetch_array($result);
     $_SESSION['userid'] = $data['userid'];
     $_SESSION['tipoutente'] = $data['tipo'];
@@ -240,9 +237,7 @@ else  // UTENTE TROVATO
     //
     //  FINE AZIONI PRIMO ACCESSO DELLA GIORNATA
     //
-
-
-        // Inserimento nel log dell'accesso
+    // Inserimento nel log dell'accesso
     if ($_SESSION['suffisso'] != "")
     {
         $suff = $_SESSION['suffisso'] . "/";
@@ -271,59 +266,49 @@ else  // UTENTE TROVATO
     if ($password != md5(md5($chiaveuniversale) . $seme) & (!$accessouniversale))
     {
         $sql = "INSERT INTO " . $_SESSION["prefisso"] . "tbl_logacc( utente , dataacc, comando,indirizzo) values('$username','" . date('Y/m/d - H:i') . "','Accesso','$indirizzoip')";
-    } 
-    
-    eseguiQuery($con, $sql, false);
+        eseguiQuery($con, $sql, false);
+    }
 }
 
 
 //mysqli_close($con);
-
 //header("location: ele_ges.php?suffisso=" . $_SESSION['suffisso']);
-
-
-
-
-
-
-
 //if ($controllootp)
 //if (true)
-if ($_SESSION['modoinviotoken']=='S' |$_SESSION['modoinviotoken']=='M'|$_SESSION['modoinviotoken']=='T'|$_SESSION['modoinviotoken']=='G')
+if ($_SESSION['modoinviotoken'] == 'S' | $_SESSION['modoinviotoken'] == 'M' | $_SESSION['modoinviotoken'] == 'T' | $_SESSION['modoinviotoken'] == 'G')
 {
-    $_SESSION['tentativiotp']=0;
+    $_SESSION['tentativiotp'] = 0;
     $token = rand(10000, 99999);
-    $query="update tbl_utenti set token=$token where idutente=".$_SESSION['idutente'];
+    $query = "update tbl_utenti set token=$token where idutente=" . $_SESSION['idutente'];
     eseguiQuery($con, $query);
 
-    if ($_SESSION['modoinviotoken']=="M" & ($_SESSION['tipoutente']=='D' | $_SESSION['tipoutente']=='S' | $_SESSION['tipoutente']=='P' ))
+    if ($_SESSION['modoinviotoken'] == "M" & ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P' ))
     {
 
-        $mail= estrai_mail_docente($_SESSION['idutente'], $con);
+        $mail = estrai_mail_docente($_SESSION['idutente'], $con);
 
-        invia_mail($mail, "OTP: $token", "OTP per l'accesso a LampSchool: $token",$indirizzomailfrom);
+        invia_mail($mail, "OTP: $token", "OTP per l'accesso a LampSchool: $token", $indirizzomailfrom);
     }
-    if ($_SESSION['modoinviotoken']=="S" & ($_SESSION['tipoutente']=='D' | $_SESSION['tipoutente']=='S' | $_SESSION['tipoutente']=='P' ))
+    if ($_SESSION['modoinviotoken'] == "S" & ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P' ))
     {
 
-        $cell= estrai_cell_docente($_SESSION['idutente'], $con);
-        $destinatario= array();
+        $cell = estrai_cell_docente($_SESSION['idutente'], $con);
+        $destinatario = array();
         $destinatario[] = "39" . trim($cell);
         $result = skebbyGatewaySendSMS($utentesms, $passsms, $destinatario, "OTP per l'accesso a LampSchool: $token", SMS_TYPE_CLASSIC_PLUS, '', $testatasms, $_SESSION['suffisso']);
-
     }
-    if ($_SESSION['modoinviotoken']=="G" & ($_SESSION['tipoutente']=='D' | $_SESSION['tipoutente']=='S' | $_SESSION['tipoutente']=='P' )) {
-        $query = "select idtelegram from tbl_utenti where idutente=".$_SESSION['idutente'];
+    if ($_SESSION['modoinviotoken'] == "G" & ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P' ))
+    {
+        $query = "select idtelegram from tbl_utenti where idutente=" . $_SESSION['idutente'];
         $ris = eseguiQuery($con, $query);
         $rec = mysqli_fetch_array($ris, MYSQLI_BOTH);
         $chat_id = $rec[0]; //ID Chat telegram
         sendTelegramMessageToken($chat_id, "Codice login: " . $token, $tokenbototp);
-        
     }
     header("location: otpcheck.php?suffisso=" . $_SESSION['suffisso']);
 } else
 {
     //print "qui ".$_SESSION['modoinviotoken']."-";die;
-    $_SESSION['tokenok']=true;
+    $_SESSION['tokenok'] = true;
     header("location: ele_ges.php?suffisso=" . $_SESSION['suffisso']);
 }
