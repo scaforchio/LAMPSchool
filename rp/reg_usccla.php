@@ -71,7 +71,22 @@ $iduscita = mysqli_insert_id($con);
 //Esecuzione query per inserimento annotazione
 
 
-$testo = "La classe il $data esce alle $ora.";
+$testo = "La classe il $data esce alle $ora";
+
+// ricerca alunni senza autorizzazione all'uscita
+
+$query = "select * from tbl_alunni where idclasse=$idclasse and autuscitaantclasse=0";
+$res= eseguiQuery($con, $query);
+if (mysqli_num_rows($res)>0)
+{
+    $testoalunni= " eccetto gli alunni ";
+    while($rec=mysqli_fetch_array($res))
+    {
+        $testoalunni.=$rec['cognome']." ".$rec['nome'].",";
+    }
+    $testoalunni=substr($testoalunni,0,strlen($testoalunni)-1);
+}
+$testo=$testo.$testoalunni.".";
 
 $sql = "INSERT INTO tbl_annotazioni (idclasse, iddocente, data, visibilitagenitori, visibilitaalunni, testo) VALUES ";
 $sql .= "('$idclasse','" . $_SESSION['idutente'] . "','" . data_to_db($data) . "',1,1,'$testo')";
