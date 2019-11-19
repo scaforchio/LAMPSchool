@@ -994,21 +994,6 @@ function occupata($oredisp, $i, $j, $maxore)
     return $occ;
 }
 
-/*
-  function oreassenza($durata, $idalunno, $data, $con)
-  {
-  $queryass = "select * from tbl_assenze where idalunno=$idalunno and data='$data'";
-  $risass = eseguiQuery($con,$queryass);
-  if (mysqli_num_rows($risass) > 0)
-  {
-  return $durata;
-  }
-  else
-  {
-  return 0;
-  }
-  }
- */
 
 function cattedra($id_ut_doc, $idmateria, $idclasse, $con)
 {
