@@ -1229,9 +1229,10 @@ if ($cambiamentopassword)
 
         menu_title_end();
     }
+    
+    // print "Solo comunicazioni $gensolocomunicazioni";
 
-
-    if ($tipoutente == 'T')
+    if ($tipoutente == 'T' & $gensolocomunicazioni=='no')
     {
 
         //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
@@ -1306,6 +1307,41 @@ if ($cambiamentopassword)
                     menu_title_end();
                 }
             }
+        }
+    }
+
+    if ($tipoutente == 'T' & $gensolocomunicazioni=='yes')
+    {
+
+        //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
+        $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . $_SESSION['idutente'] . "'";
+        $ris = eseguiQuery($con, $sql);
+        if ($val = mysqli_fetch_array($ris))
+        {
+            $idstudente = $val["idalunno"];
+        }
+
+
+        $sql = "select * from tbl_alunni where idalunno='$idstudente'";
+        $ris = eseguiQuery($con, $sql);
+        if ($val = mysqli_fetch_array($ris))
+        {
+            $cognome = $val["cognome"];
+            $nome = $val["nome"];
+            $idstudente = $val["idalunno"];
+            $idclasse = $val["idclasse"];
+            $idesterno = $val["idesterno"];
+            $pwesterna = $val["pwesterna"];
+            $telcel = $val["telcel"];
+
+            
+            menu_title_begin('COMUNICAZIONI SCUOLA-FAMIGLIA');
+
+            menu_item('../circolari/viscircolari.php', 'LEGGI CIRCOLARI');
+           // menu_item("../colloqui/visdisponibilita.php?idclasse=$idclasse", 'PRENOTAZIONE COLLOQUIO');
+            // menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');
+           menu_title_end();
+            
         }
     }
 
