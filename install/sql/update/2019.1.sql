@@ -16,17 +16,13 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 -- Modifica per controllo accessi da TOR
 
 CREATE TABLE IF NOT EXISTS tbl_torlist (
-  idtorlist int(11),
+  idtorlist int(11) AUTO_INCREMENT PRIMARY KEY,
   indirizzo char(60),
   oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE tbl_torlist
-MODIFY idtorlist int(11) AUTO_INCREMENT;
-
-ALTER TABLE tbl_torlist
-ADD PRIMARY KEY (idtorlist), ADD KEY indirizzo (indirizzo);
-
+ADD KEY indirizzo (indirizzo);
 
 
 -- Modifica per Token
@@ -58,6 +54,10 @@ ALTER TABLE tbl_sospensionicolloqui
 ADD datafine date;
 
 update tbl_sospensionicolloqui set datafine=data where 1=1;
+
+
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'gensolocomunicazioni', 'no', 'Abilita il registro ai genitori solo per comunicazioni','no|yes');
+
 
 -- LASCIARE SEMPRE ALLA FINE
 UPDATE tbl_parametri set valore='2019.1' where parametro='versioneprecedente';
