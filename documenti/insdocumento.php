@@ -106,6 +106,7 @@ if ($filedainserire['tmp_name'] != "")
         $nome = str_replace(" ", "_", $filedainserire['name']);
         $nome = elimina_apici($nome);
         $md5data = md5($data);
+        if ($idmateria=='') $idmateria=0;
         if ($gestionedocumenti == 'db')
         {
             $queryins = "insert into tbl_documenti
