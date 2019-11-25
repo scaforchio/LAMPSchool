@@ -44,7 +44,7 @@ $gio = stringa_html('gio');
 $mese = stringa_html('mese');
 $anno = stringa_html('anno');
 $codlez = stringa_html('codlezione');
-$idmateria = stringa_html('materia');
+$materia = stringa_html('materia');
 $iddocente = stringa_html('iddocente');
 $data = $anno . "-" . $mese . "-" . $gio;
 $idalunno = stringa_html('idalunno');
@@ -81,7 +81,7 @@ if ($codlez != '')
 } else
 {
     $ope = 'I';
-    $query = "insert into tbl_lezionicert(idclasse,datalezione,iddocente,idmateria,idalunno,numeroore,orainizio,argomenti,attivita) values ('$idclasse','$data','$iddocente','$idmateria','$idalunno','$numeroore','$orainizio','" . elimina_apici($argomenti) . "','" . elimina_apici($attivita) . "')";
+    $query = "insert into tbl_lezionicert(idclasse,datalezione,iddocente,idmateria,idalunno,numeroore,orainizio,argomenti,attivita) values ('$idclasse','$data','$iddocente','$materia','$idalunno','$numeroore','$orainizio','" . elimina_apici($argomenti) . "','" . elimina_apici($attivita) . "')";
 }
 //eseguiQuery($con,$query); 
 
@@ -90,17 +90,8 @@ if ($ope == 'I')
     $ris3 = eseguiQuery($con, $query);
     $codlez = mysqli_insert_id($con);
 
-    $idlezione = 0;
-    $verlez = verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $numeroore, $orainizio, $con, $codlez, $idalunno, $idlezione);
+    $verlez = verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numeroore, $orainizio, $con, $codlez, $idalunno);
     ricalcola_assenze_lezioni_classe($con, $idclasse, $data);
-
-
-
-
-
-
-
-
     print "<center><b>Inserimento effettuato!</b></center>";
     switch ($verlez)
     {
@@ -131,8 +122,6 @@ if ($ope == 'U')
 
     $ris3 = eseguiQuery($con, $query);
 
-    
-    $idlezione=estrai_id_lezionenorm($con, $codlez);
     print "<center><b>Aggiornamento effettuato!</b></center>";
 }
 if ($ope == 'D')
@@ -159,7 +148,7 @@ if ($_SESSION['regcl'] != "")
 			  <input type='hidden' name='gio' value='$gi'>
 			  <input type='hidden' name='meseanno' value='$ma'>
 			  <input type='hidden' name='idclasse' value='$cl'>
-			  <input type='hidden' name='materia' value='$idmateria'>
+			  <input type='hidden' name='materia' value='$materia'>
 			  <input type='hidden' name='provenienza' value='$provenienza'>
 			  <br><div style=\"text-align: center;\"><input type='submit' value='OK'></div>
 			  </form>
@@ -170,7 +159,7 @@ if ($_SESSION['regcl'] != "")
     //  tttt se si viene dal riepilogo ritornare al riepilogo passando l'idlezione
     print ("
    <form action='lezcert.php' method='POST'>
-   <input type='hidden' name='materia' value='$idmateria'>
+   <input type='hidden' name='materia' value='$materia'>
    <input type='hidden' name='provenienza' value='$provenienza'>
    <p align='center'>");
 
@@ -182,23 +171,10 @@ if ($_SESSION['regcl'] != "")
 
     print('<input type="submit" value="OK" name="b"></p></form>');
 }
-/*
- * INSERIMENTO VALUTAZIONI
- */
 
-
-$query = "select idalunno as al from tbl_alunni where idalunno=$idalunno";
-
-$ris = eseguiQuery($con, $query);
-
-
-while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
-{
-    @require '../lib/req_salva_voti.php';
-}
 stampa_piede("");
 
-function verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $numeroore, $orainizio, $conn, $codlez, $idalunno, &$idlezione)
+function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numeroore, $orainizio, $conn, $codlez, $idalunno)
 {
     //
     //  Return
@@ -213,10 +189,10 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $num
     $query = "select * from tbl_lezioni
 	        where idclasse=$idclasse
 	        and datalezione='$data'
-	        and idmateria=$idmateria
+	        and idmateria=$materia
 	        and numeroore=$numeroore
 	        and orainizio=$orainizio";
-    $ris = eseguiQuery($conn, $query);
+    $ris = eseguiQuery($conn,$query);
 
     if (mysqli_num_rows($ris) == 1)
     {
@@ -253,10 +229,10 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $num
     $query = "select * from tbl_lezioni
 	        where idclasse=$idclasse
 	        and datalezione='$data'
-	        and idmateria=$idmateria
+	        and idmateria=$materia
 	        and orainizio<=$orainizio
 	        and (orainizio+numeroore-1)>=($orainizio+$numeroore-1)";
-    $ris = eseguiQuery($conn, $query);
+    $ris = eseguiQuery($conn,$query);
     if (mysqli_num_rows($ris) == 1)
     {
         $rec = mysqli_fetch_array($ris);
@@ -287,7 +263,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $num
 	                           values ($idclasseorig,'$datalezioneorig',$iddocenteorig,$idmateriaorig,$numorenuo,$orainizionuo)";
             eseguiQuery($conn, $query);
             $idnuovalezione = mysqli_insert_id($conn);
-            $idlezione = $idnuovalezione;
+
 
 
             // estraggo le firme della lezione originale
@@ -315,6 +291,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $num
         //
         // INIZIO NON COINCIDENTE MA FINE COINCIDENTE
         //
+
         else
         {
             if (($orainizio + $numeroore) == ($orainizionorm + $numeroorenorm))
@@ -331,7 +308,6 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $num
 	                           values ($idclasseorig,'$datalezioneorig',$iddocenteorig,$idmateriaorig,$numorenuo,$orainizionuo)";
                 eseguiQuery($conn, $query);
                 $idnuovalezione = mysqli_insert_id($conn);
-                $idlezione = $idnuovalezione;
                 $query = "update tbl_lezionicert set idlezionenorm=$idnuovalezione
                       where idlezione=$codlez";
                 eseguiQuery($conn, $query);
@@ -371,6 +347,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $num
             //
             // LEZIONE DI SOSTEGNO INTERMEDIA
             //
+
             else
             {
                 // cambio numero di ore a lezione originale
@@ -385,7 +362,6 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $num
 	                           values ($idclasseorig,'$datalezioneorig',$iddocenteorig,$idmateriaorig,$numorenuo,$orainizionuo)";
                 eseguiQuery($conn, $query);
                 $idnuovalezione = mysqli_insert_id($conn);
-                $idlezione = $idnuovalezione;
                 $query = "update tbl_lezionicert set idlezionenorm=$idnuovalezione
                       where idlezione=$codlez";
                 eseguiQuery($conn, $query);
@@ -419,7 +395,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $num
 	                           values ($idclasseorig,'$datalezioneorig',$iddocenteorig,$idmateriaorig,$numorenuo,$orainizionuo)";
                 eseguiQuery($conn, $query);
                 $idnuovalezione = mysqli_insert_id($conn);
-                $idlezione = $idnuovalezione;
+
                 // inserisco le firme per la nuova lezione
                 for ($i = 0; $i < count($codfirme); $i++)
                 {
@@ -442,7 +418,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $num
         $query = "select * from tbl_lezioni
 	            where idclasse=$idclasse
 	            and datalezione='$data'
-	            and idmateria=$idmateria";
+	            and idmateria=$materia";
         $ris = eseguiQuery($conn, $query);
 
         if (mysqli_num_rows($ris) == 0)
@@ -450,7 +426,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $num
             // INSERISCO LEZIONE E FIRMA PERCHE' NELLA GIORNATA
             // NON CI SONO ANCORA LEZIONI DELLA MATERIA
             $query = "insert into tbl_lezioni(iddocente,idmateria,idclasse,datalezione,orainizio,numeroore)
-                                   values ($iddocente,$idmateria,$idclasse,'$data',$orainizio,$numeroore)";
+                                   values ($iddocente,$materia,$idclasse,'$data',$orainizio,$numeroore)";
             eseguiQuery($conn, $query);
             $idlezione = mysqli_insert_id($conn);
             $query = "insert into tbl_firme(idlezione,iddocente) values ($idlezione,$iddocente)";
@@ -468,7 +444,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $num
             $query = "select * from tbl_lezioni
 			           where idclasse=$idclasse
 	                 and datalezione='$data'
-	                 and idmateria=$idmateria
+	                 and idmateria=$materia
 	                 and orainizio>=$orainizio
 	                 and (orainizio+numeroore-1)<=($orainizio+$numeroore-1)";
             $ris = eseguiQuery($conn, $query);
@@ -490,7 +466,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $num
                             orainizio=$orainizio,
                             numeroore=$numeroore
                             where idlezione=$codlez";
-                eseguiQuery($conn, $query);
+                eseguiQuery($conn,$query);
                 while ($rec = mysqli_fetch_array($ris))
                 {
                     // Inserisco la firma per la "sottolezione"
@@ -512,7 +488,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $num
                 return 4;
             }
             $query = "insert into tbl_lezioni(iddocente,idmateria,idclasse,datalezione,orainizio,numeroore)
-                                   values ($iddocente,$idmateria,$idclasse,'$data',$orainizio,$numeroore)";
+                                   values ($iddocente,$materia,$idclasse,'$data',$orainizio,$numeroore)";
             eseguiQuery($conn, $query);
             $idlezione = mysqli_insert_id($conn);
             $query = "insert into tbl_firme(idlezione,iddocente) values ($idlezione,$iddocente)";
@@ -523,12 +499,4 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $idmateria, $num
             return 5;
         }
     }
-}
-
-function estrai_id_lezionenorm($con,$idlezionecert)
-{
-    $query="select idlezionenorm from tbl_lezionicert where idlezione=$idlezionecert";
-    $ris= eseguiQuery($con, $query);
-    $rec= mysqli_fetch_array($ris);
-        return $rec['idlezionenorm'];
 }
