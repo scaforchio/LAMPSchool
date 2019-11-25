@@ -1,5 +1,5 @@
-LAMPSchool Ver. 2019
-====================
+LAMPSchool Ver. 2019.1
+======================
 
 Possibilità di blocco temporale a inserimento e modifica delle lezioni
 Gestione della programmazione curricolare di Istituto e del docente
@@ -31,6 +31,9 @@ Gestione richieste ferie dei docenti
 Gestione assemblee di classe
 Certificazione delle competenze
 Criptaggio della password con seed
+Possibilità di filtraggio accessi da TOR
+Possibilità di accesso con OTP inviata tramite SMS, Email o BOT Telegram
+Possibilità di accesso con Codice di sicurezza variabile personale
 
 Per informazioni sull'installazione singola o multipla leggere install.txt.
 Per informazioni sui cambiamenti di questa versione leggere changelog.txt.
