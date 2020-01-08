@@ -99,7 +99,7 @@ while ($val = mysqli_fetch_array($rismat))
     $votopratico = stringa_html($schevotopratico);
     //$giudizio=stringa_html($schegiudizio); 
     $note = stringa_html($schenote);
-    $ass = stringa_html($scheass);
+    $ass = stringa_html($scheass)!=''?stringa_html($scheass):'0';
     if (($votounico != '' & $votounico != '99' & $votounico != NULL) |
             ($votoorale != '' & $votoorale != '99' & $votoorale != NULL) |
             ($votoscritto != '' & $votoscritto != '99' & $votoscritto != NULL) |
