@@ -138,6 +138,7 @@ if ($idalunno != '')
         while ($val = mysqli_fetch_array($ris))
         {
             $materia = $val['denominazione'];
+            $idmateria = $val['idmateria'];
             $data = data_italiana($val['data']);
             $tipo = $val['tipo'];
             if ($tipo == 'O')
@@ -155,7 +156,13 @@ if ($idalunno != '')
             if ($materia != $mat)
             {
                 $mat = $materia;
-                print("<tr class=prima><td colspan=4 align=center>$materia</td></tr>");
+                $querycontaore = "select sum(oreassenza) as totassmateria from tbl_asslezione where idalunno=$idalunno and idmateria=$idmateria $seledata";
+                //print inspref($querycontaore);
+                $risasslez= eseguiQuery($con, $querycontaore);
+                $recassmat= mysqli_fetch_array($risasslez);
+                $oreassenzamateria=$recassmat['totassmateria']!=0?$recassmat['totassmateria']:0;
+                
+                print("<tr class=prima><td colspan=4 align=center>$materia (Assenze $oreassenzamateria h.)</td></tr>");
             }
 
             if ($voto != "&nbsp;&nbsp;" | $giudizio != "&nbsp;")
