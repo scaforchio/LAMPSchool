@@ -4,7 +4,7 @@ session_start();
 
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
-@require_once("../lib/sms/php-send.php");
+//@require_once("../lib/sms/php-send.php");
 /*
   Copyright (C) 2015 Pietro Tamburrano
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
@@ -29,8 +29,13 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 // Passaggio dei parametri nella sessione
 require "../lib/req_assegna_parametri_a_sessione.php";
 
+/*if ($_SESSION['idutente']!="") 
+{
+    session_destroy();
 
-
+    die ("Già aperta sessione in altra scheda!");
+}
+*/
 
 $indirizzoip = IndirizzoIpReale();
 

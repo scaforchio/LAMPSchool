@@ -485,17 +485,24 @@ function calcola_ore_assenza($idalunno, $datainizio, $datafine, $conn)
     {
         $seledata = $seledata . " and data <= '" . data_to_db($datafine) . "' ";
     }
+    
+ /*   $query = "select sum(oreassenza) as oretot from tbl_asslezione
+                  where idalunno='$idalunno' $seledata";
+    $risass = eseguiQuery($conn, $query);
+    $rec= mysqli_fetch_array($risass);
+    $oreassenza=$rec['oretot']; */
 
     $arrayoreassenza = array();
-    $query = "select tbl_asslezione.data as dataass,orainizio,numeroore from tbl_asslezione,tbl_lezioni
+    $query = "select tbl_asslezione.data as dataass,orainizio,oreassenza from tbl_asslezione,tbl_lezioni
                   where tbl_asslezione.idlezione=tbl_lezioni.idlezione
                   and idalunno='$idalunno' $seledata";
+   
     $risass = eseguiQuery($conn, $query);
     while ($recass = mysqli_fetch_array($risass))
     {
         $dataass = substr($recass['dataass'], 5, 2) . substr($recass['dataass'], 8, 2);
         $orainizio = $recass['orainizio'];
-        $orafine = $recass['orainizio'] - 1 + $recass['numeroore'];
+        $orafine = $recass['orainizio'] - 1 + $recass['oreassenza'];
         for ($i = $orainizio; $i <= $orafine; $i++)
         {
             $strass = $dataass . $i;
@@ -524,15 +531,16 @@ function calcola_ore_deroga($idalunno, $datainizio, $datafine, $conn)
     }
 
     $arrayoreassenza = array();
-    $query = "select tbl_asslezione.data as dataass,orainizio,numeroore from tbl_asslezione,tbl_lezioni
+    $query = "select tbl_asslezione.data as dataass,orainizio,oreassenza from tbl_asslezione,tbl_lezioni
                   where tbl_asslezione.idlezione=tbl_lezioni.idlezione
                   and idalunno='$idalunno' $seledata and not tbl_asslezione.data in (select distinct data from tbl_deroghe where idalunno=$idalunno and numeroore=0)";
+   
     $risass = eseguiQuery($conn, $query);
     while ($recass = mysqli_fetch_array($risass))
     {
         $dataass = substr($recass['dataass'], 5, 2) . substr($recass['dataass'], 8, 2);
         $orainizio = $recass['orainizio'];
-        $orafine = $recass['orainizio'] - 1 + $recass['numeroore'];
+        $orafine = $recass['orainizio'] - 1 + $recass['oreassenza'];
         for ($i = $orainizio; $i <= $orafine; $i++)
         {
             $strass = $dataass . $i;
