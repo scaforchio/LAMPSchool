@@ -5,6 +5,12 @@
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
   sia (a vostra scelta) ogni versione successiva.
+ * 
+ * 
+ * 
+ * 
+ 
+ 
 
   Questo programma è distribuito nella speranza che sia utile
   ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di

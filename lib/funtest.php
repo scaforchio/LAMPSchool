@@ -9,6 +9,7 @@
  */
 function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, $token = true)
 {
+    
     if ($contr)
     {
         controllo_privilegi($abil);
