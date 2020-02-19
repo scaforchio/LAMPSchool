@@ -164,7 +164,7 @@ if ($idclasse != "")
     // INIZIO MODIFICHE
     print " su ";
 
-    print "<select name='tiporichiesta'><option>richiesta personale</option><option>richiesta telefonica</option><option>autorizzazione</option></select>";
+    print "<select name='tiporichiesta'><option>richiesta personale</option><option>richiesta telefonica</option><option>richiesta scritta</option><option>autorizzazione</option></select>";
 
     print " ";
 
