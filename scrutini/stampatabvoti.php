@@ -129,7 +129,7 @@ $posY += 8;
 
 
 // INIZIO TABELLA
-$query = "SELECT distinct tbl_materie.idmateria,sigla,tipovalutazione FROM tbl_cattnosupp,tbl_materie
+$query = "SELECT distinct tbl_materie.idmateria,sigla,progrpag,tipovalutazione FROM tbl_cattnosupp,tbl_materie
 	        WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
 	              and tbl_cattnosupp.idclasse=$idclasse
 	              and tbl_materie.progrpag<100
