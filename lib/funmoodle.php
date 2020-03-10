@@ -470,7 +470,9 @@ function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle
 
 // Iscrizione nuovi alunni e docenti al corso
 
-    $query = "select * from tbl_cattnosupp where idmateria = $idmateria and idclasse = $idclasse and idalunno=0 and iddocente<>1000000000";
+  //  $query = "select * from tbl_cattnosupp where idmateria = $idmateria and idclasse = $idclasse and idalunno=0 and iddocente<>1000000000";
+    $query = "select * from tbl_cattnosupp where idmateria = $idmateria and idclasse = $idclasse and iddocente<>1000000000";
+    
     $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris))
     {
