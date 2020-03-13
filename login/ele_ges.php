@@ -723,6 +723,7 @@ if ($cambiamentopassword)
         menu_item('../colloqui/disponibilita.php', 'DISPONIBIL. DOCENTI');
         menu_item('../colloqui/visdisponibilita.php', 'VISUALIZZA DISP. DOCENTI');
         menu_item('../contr/stampaelezioni.php', 'STAMPA PER ELEZIONI');
+        menu_item('../docenti/CRUD_linkwebex.php', 'COLLEGAMENTI PER LEZIONI A DISTANZA');
         menu_title_end();
         menu_separator("&nbsp;");
 
@@ -900,6 +901,7 @@ if ($cambiamentopassword)
         menu_item('../docenti/revruolos.php', 'Revoca ruolo Staff a docente');
         menu_item('../colloqui/disponibilita.php', 'DISPONIBIL. DOCENTI');
         menu_item('../colloqui/visdisponibilita.php', 'VISUALIZZA DISP. DOCENTI');
+        menu_item('../docenti/CRUD_linkwebex.php', 'COLLEGAMENTI PER LEZIONI A DISTANZA');
         menu_title_end();
 
         menu_title_begin('DOCUMENTI');
@@ -1396,6 +1398,9 @@ if ($cambiamentopassword)
                 menu_item('../lezioni/riepargomgen.php', 'VISUALIZZA ARGOMENTI');
                 menu_title_end();
             }
+            menu_title_begin("LEZIONI A DISTANZA");
+                menu_item('../docenti/elencocollegamentiwebex.php', 'VISUALIZZA COLLEGAMENTI DOCENTI');
+            menu_title_end();
             menu_title_begin('PASSWORD');
             menu_item('../password/cambpwd.php', 'CAMBIAMENTO PROPRIA PASSWORD');
             menu_title_end();
