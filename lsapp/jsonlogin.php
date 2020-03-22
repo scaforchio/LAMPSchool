@@ -251,13 +251,15 @@ if ($gensolocomunicazioni != 'yes')
 // Estrazione comunicazioni da annotazioni
     $datalimiteinferiore = aggiungi_giorni(date('Y-m-d'), -5);
     if (substr($utente, 0, 2) != "al")
-        $query = "select * from tbl_annotazioni
-                where idclasse=$idclasse
+        $query = "select * from tbl_annotazioni,tbl_docenti
+                where tbl_annotazioni.iddocente=tbl_docenti.iddocente
+                    and idclasse=$idclasse
                     and data>'$datalimiteinferiore'
                     and visibilitagenitori=true";
     else
-        $query = "select * from tbl_annotazioni
-                where idclasse=$idclasse
+        $query = "select * from tbl_annotazioni,tbl_docenti
+                where tbl_annotazioni.iddocente=tbl_docenti.iddocente
+                    and idclasse=$idclasse
                     and data>'$datalimiteinferiore'
                     and visibilitaalunni=true";
 
@@ -274,7 +276,7 @@ if ($gensolocomunicazioni != 'yes')
         while ($rec = mysqli_fetch_array($ris))
         {
             $oggetti[] = "ANNOTAZIONE";
-            $testi[] = $rec['testo'];
+            $testi[] = $rec['testo']." (".$rec['cognome']." ".$rec['nome'].")";
             $datapub[] = data_italiana($rec['data']);
             $numerocomunicazioni++;
         }

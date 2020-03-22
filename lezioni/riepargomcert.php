@@ -24,12 +24,11 @@ session_start();
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "")
-{
+if ($tipoutente == "") {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
-$titolo = "Riepilogo argomenti svolti";
+$titolo = "Riepilogo argomenti di sostegno svolti";
 $script = "<script type='text/javascript'>
          <!--
                var stile = 'top=10, left=10, width=1024, height=400, status=no, menubar=no, toolbar=no, scrollbars=yes';
@@ -43,9 +42,6 @@ $script = "<script type='text/javascript'>
 stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
-
-
-
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $modo = stringa_html('modo');
@@ -58,8 +54,7 @@ $idclasse = "";
 $idalunno = "";
 $idmateria = "";
 
-if ($codlez != "")
-{
+if ($codlez != "") {
     $query = "select * from tbl_lezionicert where idlezione=$codlez";
     $ris = eseguiQuery($con, $query);
     $lez = mysqli_fetch_array($ris);
@@ -74,8 +69,7 @@ if ($codlez != "")
     $query = "select idcattedra from tbl_cattnosupp where idalunno=$idalunno and idmateria=$idmateria";
 
     $ris = eseguiQuery($con, $query);
-    if ($nom = mysqli_fetch_array($ris))
-    {
+    if ($nom = mysqli_fetch_array($ris)) {
         $catt = $nom['idcattedra'];
     }
 
@@ -86,24 +80,20 @@ if ($codlez != "")
 }
 
 // FINE CODICE PER GESTIONE DA RIEPILOGO
-else
-{
+else {
 
     $catt = stringa_html('cattedra');
-    if ($catt != "")
-    {
+    if ($catt != "") {
         // RECUPERO idclasse e idmateria dalla cattedra
         // Prelevo classe e materia dalla cattedra selezionata
         $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 
-        if ($catt <> "")
-        {
+        if ($catt <> "") {
             $query = "select idalunno, idmateria from tbl_cattnosupp where idcattedra=$catt";
             $ris = eseguiQuery($con, $query);
-            if ($nom = mysqli_fetch_array($ris))
-            {
+            if ($nom = mysqli_fetch_array($ris)) {
                 $idmateria = $nom['idmateria'];
                 $idalunno = $nom['idalunno'];
             }
@@ -137,8 +127,7 @@ print ('
 $query = "select iddocente, cognome, nome from tbl_docenti where idutente=$id_ut_doc";
 
 $ris = eseguiQuery($con, $query);
-if ($nom = mysqli_fetch_array($ris))
-{
+if ($nom = mysqli_fetch_array($ris)) {
     $iddocente = $nom["iddocente"];
     $cognomedoc = $nom["cognome"];
     $nomedoc = $nom["nome"];
@@ -160,25 +149,43 @@ print("
 //
 if ($modo == 'sost')
     $query = "select idcattedra,tbl_alunni.idalunno as idalunno,tbl_cattnosupp.idmateria as idmateria, cognome, nome, datanascita, denominazione
-             from tbl_cattnosupp, tbl_alunni, tbl_materie 
+             from tbl_cattnosupp, tbl_alunni, tbl_materie
              where iddocente=$iddocente 
              and tbl_cattnosupp.idalunno=tbl_alunni.idalunno 
              and tbl_cattnosupp.idmateria = tbl_materie.idmateria 
              order by cognome,nome, denominazione";
 else
-    $query = "select idcattedra,tbl_cattnosupp.idalunno as idalunno,tbl_cattnosupp.idmateria as idmateria,tbl_classi.idclasse, anno, sezione, specializzazione, denominazione
-					from tbl_cattnosupp, tbl_classi, tbl_materie
-					where tbl_cattnosupp.idclasse=tbl_classi.idclasse 
-					and tbl_cattnosupp.idmateria = tbl_materie.idmateria 
-					and tbl_cattnosupp.idalunno<>0
-					and tbl_classi.idclasse in (select idclasse from tbl_cattnosupp where iddocente=$iddocente)
-					and tbl_materie.idmateria in (select idmateria from tbl_cattnosupp where iddocente=$iddocente)
-					order by tbl_cattnosupp.idalunno, denominazione";
+if ($_SESSION['tipoutente'] != 'P')
+    $query = "select idcattedra,idalunno,CATT.idmateria as idmateria,CATT.idclasse as idcla, anno, sezione, specializzazione, denominazione
+					from tbl_cattnosupp CATT, tbl_classi, tbl_materie
+					where CATT.idclasse=tbl_classi.idclasse 
+					and CATT.idmateria = tbl_materie.idmateria 
+					and idalunno<>0
+					and exists (select * from tbl_cattnosupp
+                                                   where idclasse=CATT.idclasse and iddocente=$iddocente and idmateria=CATT.idmateria)
+					order by CATT.idalunno, denominazione";
+else
+    $query = "select idcattedra,CATT.idalunno as idalunno,CATT.idmateria as idmateria,CATT.idclasse as idcla, anno, sezione, specializzazione, denominazione, tbl_alunni.cognome as cognal, tbl_alunni.nome as nomeal, tbl_docenti.cognome as cogndoc, tbl_docenti.nome as nomedoc
+					from tbl_cattnosupp CATT, tbl_classi, tbl_materie, tbl_alunni, tbl_docenti
+					where CATT.idclasse=tbl_classi.idclasse 
+					and CATT.idmateria = tbl_materie.idmateria 
+                                        and CATT.idalunno = tbl_alunni.idalunno 
+                                        and CATT.iddocente = tbl_docenti.iddocente 
+					and CATT.idalunno<>0
+					order by cognal,nomeal, denominazione";
+
+/* $query = "select idcattedra,tbl_cattnosupp.idalunno as idalunno,tbl_cattnosupp.idmateria as idmateria,tbl_classi.idclasse, anno, sezione, specializzazione, denominazione
+  from tbl_cattnosupp, tbl_classi, tbl_materie
+  where tbl_cattnosupp.idclasse=tbl_classi.idclasse
+  and tbl_cattnosupp.idmateria = tbl_materie.idmateria
+  and tbl_cattnosupp.idalunno<>0
+  and tbl_classi.idclasse in (select idclasse from tbl_cattnosupp where iddocente=$iddocente)
+  and tbl_materie.idmateria in (select idmateria from tbl_cattnosupp where iddocente=$iddocente)
+  order by tbl_cattnosupp.idalunno, denominazione"; */
 // print "tttt: ".inspref($query);
 
 $ris = eseguiQuery($con, $query);
-while ($nom = mysqli_fetch_array($ris))
-{
+while ($nom = mysqli_fetch_array($ris)) {
     print "<option value='";
     print ($nom["idcattedra"]);
     print "'";
@@ -196,6 +203,9 @@ while ($nom = mysqli_fetch_array($ris))
     print estrai_alunno_data($nom['idalunno'], $con);
     print("&nbsp;-&nbsp;");
     print($nom["denominazione"]);
+    if ($_SESSION['tipoutente'] == 'P') {
+        print(" (" . $nom["cogndoc"] . " " . $nom["nomedoc"] . ")");
+    }
 }
 
 echo('
@@ -217,8 +227,7 @@ print("</table></form>");
 //   $idclasse=$nome;
 $classe = "";
 
-if ($idalunno != "")
-{
+if ($idalunno != "") {
 
 
     echo '
@@ -231,8 +240,7 @@ if ($idalunno != "")
 //
 
 
-    if ($idalunno != "")
-    {
+    if ($idalunno != "") {
         echo'
           <tr class="prima">
           
@@ -245,8 +253,7 @@ if ($idalunno != "")
 
         $rislez = eseguiQuery($con, $query);
 
-        while ($reclez = mysqli_fetch_array($rislez))
-        {
+        while ($reclez = mysqli_fetch_array($rislez)) {
             print "<tr><td><a href='lezcert.php?idlezione=" . $reclez['idlezione'] . "&provenienza=argo'>" . data_italiana($reclez['datalezione']) . "</a></td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
         }
 

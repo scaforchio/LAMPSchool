@@ -819,6 +819,7 @@ if ($cambiamentopassword)
         menu_title_begin('LEZIONI');
         menu_item('../lezioni/sitleztota.php', 'TABELLONE RIEPILOGO');
         menu_item('../lezioni/riepargom.php', 'RIEPILOGO ARGOMENTI');
+        menu_item('../lezioni/riepargomcert.php', 'RIEPILOGO LEZIONI SOSTEGNO');
         menu_title_end();
 
         menu_title_begin('NOTE DISCIPLINARI');
@@ -1576,11 +1577,13 @@ if ($cambiamentopassword)
             //
             
             $idclassealunno = estrai_classe_alunno($_SESSION['idutente'], $con);
-            $datalimiteinferiore = aggiungi_giorni(date('Y-m-d'), -5);
-            $query = "select * from tbl_annotazioni
-                where idclasse=$idclassealunno
+            $datalimiteinferiore = aggiungi_giorni(date('Y-m-d'), -1);
+            $query = "select * from tbl_annotazioni,tbl_docenti
+                where tbl_annotazioni.iddocente=tbl_docenti.iddocente
+                    and idclasse=$idclassealunno
                     and data>'$datalimiteinferiore'
-                    and visibilitagenitori=true";
+                    and visibilitagenitori=true
+                    order by data";
 
             $ris = eseguiQuery($con, $query);
             if (mysqli_num_rows($ris) > 0)
@@ -1589,7 +1592,7 @@ if ($cambiamentopassword)
                 {
 
 
-                    print ("<center><br><i>" . data_italiana($rec['data']) . "</i><b><font color='green'><br> " . $rec['testo'] . "</font></b><br/></center>");
+                    print ("<center><br><i>" . data_italiana($rec['data']) . "</i><b><font color='green'><br> " . $rec['testo'] ." <small>(".$rec['cognome']." ".$rec['nome'].")<big></font></b><br/></center>");
                     print ("<br/>");
                 }
             }
@@ -1604,11 +1607,13 @@ if ($cambiamentopassword)
             //
             
             $idclassealunno = estrai_classe_alunno($_SESSION['idutente'] - 2100000000, $con);
-            $datalimiteinferiore = aggiungi_giorni(date('Y-m-d'), -5);
-            $query = "select * from tbl_annotazioni
-                where idclasse=$idclassealunno
+            $datalimiteinferiore = aggiungi_giorni(date('Y-m-d'), -1);
+            $query = "select * from tbl_annotazioni,tbl_docenti
+                where tbl_annotazioni.iddocente=tbl_docenti.iddocente
+                    and idclasse=$idclassealunno
                     and data>'$datalimiteinferiore'
-                    and visibilitaalunni=true";
+                    and visibilitaalunni=true
+                    order by data";
 
             $ris = eseguiQuery($con, $query);
             if (mysqli_num_rows($ris) > 0)
@@ -1617,7 +1622,7 @@ if ($cambiamentopassword)
                 {
 
 
-                    print ("<center><br><i>" . data_italiana($rec['data']) . "</i><b><font color='green'><br> " . $rec['testo'] . "</font></b><br/></center>");
+                    print ("<center><br><i>" . data_italiana($rec['data']) . "</i><b><font color='green'><br> " . $rec['testo'] ." <small>(".$rec['cognome']." ".$rec['nome'].")<big></font></b><br/></center>");
                     print ("<br/>");
                 }
             }
