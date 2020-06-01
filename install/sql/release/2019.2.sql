@@ -1617,7 +1617,7 @@ CREATE TABLE IF NOT EXISTS tbl_valutazioniintermedie (
   tipo char(1) DEFAULT NULL,
   data date DEFAULT NULL,
   voto decimal(4,2) DEFAULT '0.00',
-  giudizio varchar(200) DEFAULT NULL,
+  giudizio varchar(1000) DEFAULT NULL,
   pei tinyint(1) DEFAULT '0',
   oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

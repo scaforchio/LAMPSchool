@@ -65,7 +65,7 @@ foreach ($tipivoti as $tv)
         {
             echo "<input type='hidden' name=$va" . $val["idalunno"] . "' value=99>";
         }
-        echo "<input class='smallchar' type='text' size=15 maxlength=150 name='$ga" . $val["idalunno"] . "' value='" . $giudizio . "'>
+        echo "<input class='smallchar' type='text' size=15 maxlength=1000 name='$ga" . $val["idalunno"] . "' value='" . $giudizio . "'>
                           </td>";
     } else
     {
@@ -92,7 +92,7 @@ foreach ($tipivoti as $tv)
         {
             echo "<input type='hidden' name='$va" . $val["idalunno"] . "' value=99>";
         }
-        echo "<input class='smallchar' type='text' size=15 maxlength=150 name='$ga" . $val["idalunno"] . "'>
+        echo "<input class='smallchar' type='text' size=15 maxlength=1000 name='$ga" . $val["idalunno"] . "'>
                            </td>";
     }
 }

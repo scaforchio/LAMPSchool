@@ -628,10 +628,10 @@ if ($nome != "" & $idalunno != "")
         }
         if (decodifica_classe($idclasse, $con) == 5)
         {
-            $credmin = 7;
-            $credmax = 15;
-            $credmintot = 22;
-            $credmaxtot = 40;
+            $credmin = 9; //7;
+            $credmax = 22; //15;
+            $credmintot = 32; //22;
+            $credmaxtot = 60; //40;
         }
     }
     if (($livello_scuola == '4' & decodifica_classe_no_spec($idclasse, $con) > 2))

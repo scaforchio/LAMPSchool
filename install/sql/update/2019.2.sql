@@ -11,7 +11,7 @@ ALTER TABLE tbl_assenze ADD UNIQUE(idalunno, data);
 ALTER TABLE tbl_docenti ADD 
 collegamentowebex char(255);
 
-
+ALTER TABLE tbl_valutazioniintermedie CHANGE giudizio giudizio varchar(1000) DEFAULT NULL;
 
 -- LASCIARE SEMPRE ALLA FINE
 UPDATE tbl_parametri set valore='2019.2' where parametro='versioneprecedente';
