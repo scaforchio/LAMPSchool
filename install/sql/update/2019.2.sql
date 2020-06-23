@@ -13,6 +13,12 @@ collegamentowebex char(255);
 
 ALTER TABLE tbl_valutazioniintermedie CHANGE giudizio giudizio varchar(1000) DEFAULT NULL;
 
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'notegenitori', 'yes', 'Visualizzazione note per i genitori', 'no|yes');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'assenzegenitori', 'yes', 'Visualizzazione assenze per i genitori', 'no|yes');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'stampacertificazioni', 'yes', 'Stampa certificazione competenze per i genitori', 'no|yes');
+
+
+
 -- LASCIARE SEMPRE ALLA FINE
 UPDATE tbl_parametri set valore='2019.2' where parametro='versioneprecedente';
 -- LASCIARE SEMPRE ALLA FINE

@@ -243,21 +243,33 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
             if ($valanno == 2)
                 $der = " tenuto conto delle deroghe,";
 
-            //$schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (comma 1, art. 11D.L. 12/02/2004 n. 59),\nla frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,$der\nl'alunno/a, in base agli atti d'ufficio e alle valutazioni dei docenti,  risulta"), "LR", "C");
-            // $schede->Multicell(172,6,inserisci_new_line($esito),"LR","C");
-            $schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (D.M. 62/2017),\nla frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,$der\nl'alunno/a, in base agli atti d'ufficio e alle valutazioni dei docenti,  risulta"), "LR", "C");
+             //   $schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (D.M. 62/2017),\nla frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,$der\nl'alunno/a, in base agli atti d'ufficio e alle valutazioni dei docenti,  risulta"), "LR", "C");
+            
+            // TTTT Modifica per A.S. 2020 per covid 
+            /*  $schede->Multicell(172, 6, converti_utf8("\nAccertata, ai fini della validità dell’anno scolastico (D.M. 62/2017),\nla frequenza delle lezioni e delle attività didattiche\nper almeno i tre quarti dell’orario personale previsto,$der\nl'alunno/a, in base agli atti d'ufficio e alle valutazioni dei docenti,  risulta"), "LR", "C");
             $schede->setXY(220, $schede->getY());
             $schede->Cell(172, 6, estrai_prima_riga($esito), "LR", 1, "C");
             $schede->setXY(220, $schede->getY());
             $schede->SetFont('Arial', 'B', 10);
             $schede->Cell(172, 6, str_replace("|", " ", estrai_seconda_riga($esito)), "LR", 1, "C");
+            */
+            if (($livello_scuola == '2' & decodifica_classe_no_spec($classe, $con) == 3) | ($livello_scuola == '3' & decodifica_classe_no_spec($classe, $con) == 8)| ($livello_scuola == '2' & decodifica_classe_no_spec($classe, $con) == 5)|($livello_scuola == '1' & decodifica_classe_no_spec($classe, $con) == 5)) 
+               $schede->Multicell(172, 6, converti_utf8("\nL’alunno/a è ammesso/a\nal successivo grado di istruzione obbligatoria,\nin deroga all’art. 5 comma 1 del D.Lvo 62/17\ne ai sensi dell’O.M. 11 del 16/05/2020"), "LR", "C");
+            else
+               if (decodifica_passaggio ($idesito, $con)==0) 
+                   $schede->Multicell(172, 6, converti_utf8("\nL’alunno/a è ammesso/a\nalla classe successiva,\nin deroga all’art. 5 comma 1 del D.Lvo 62/17\ne ai sensi dell’O.M. 11 del 16/05/2020"), "LR", "C");
+               else
+                   $schede->Multicell(172, 6, converti_utf8("\nL’alunno/a non è ammesso/a\nalla classe successiva."), "LR", "C");
+            
 
-            if ((($livello_scuola == '2' & decodifica_classe_no_spec($classe, $con) == 3) | ($livello_scuola == '3' & decodifica_classe_no_spec($classe, $con) == 8)) & (decodifica_passaggio($idesito, $con) == 0))
-            {
-                $schede->setXY(220, $schede->getY());
-                $schede->SetFont('Arial', 'B', 10);
-                $schede->Cell(172, 6, converti_utf8("con voto di ammissione di " . $votoammissione . "/10"), "LR", 1, "C");
-            }
+         //   if ((($livello_scuola == '2' & decodifica_classe_no_spec($classe, $con) == 3) | ($livello_scuola == '3' & decodifica_classe_no_spec($classe, $con) == 8)) & (decodifica_passaggio($idesito, $con) == 0))
+         //   {
+         //       $schede->setXY(220, $schede->getY());
+         //       $schede->SetFont('Arial', 'B', 10);
+         //       $schede->Cell(172, 6, converti_utf8("con voto di ammissione di " . $votoammissione . "/10"), "LR", 1, "C");
+         //   }
+            // TTTT Fine Modifica per A.S. 2020 per covid 
+            
         } else
         {
             $schede->setXY(220, $schede->getY());

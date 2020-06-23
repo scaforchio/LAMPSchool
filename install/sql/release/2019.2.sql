@@ -2644,6 +2644,9 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'valutazionedecimale', 'yes', 'Abilitazione valutazione decimale, se ''no'' sono permessi solo i giudizi.', 'yes|no');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'votominimoattribuibile', '1', 'Voto minimo attribuibile.', '1|2|3|4|5');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'votigenitori', 'yes', 'Visualizzazione voti per i genitori', 'no|yes');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'notegenitori', 'yes', 'Visualizzazione note per i genitori', 'no|yes');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'assenzegenitori', 'yes', 'Visualizzazione assenze per i genitori', 'no|yes');
+
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'ordinevalutazioni', 'C', 'Ordine dei voti nelle maschere: Crescente o Decrescente', 'C|D');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'datafinelezioni', '2020-06-12', 'Data di fine delle lezioni ', 'data');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'datainiziolezioni', '2019-09-15', 'Data di inizio delle lezioni', 'data');
@@ -2741,6 +2744,7 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'codicevicario', '', 'Codice del docente con funzioni di vicario','');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'emailgestbadge', '', 'Email del gestore dei badge per le timbrature','');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'gensolocomunicazioni', 'no', 'Abilita il registro ai genitori solo per comunicazioni','no|yes');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'stampacertificazioni', 'yes', 'Stampa certificazione competenze per i genitori', 'no|yes');
 
 
 INSERT INTO tbl_materie (idmateria, denominazione, idclasseconcorso, tipovalutazione, sigla) VALUES (-1, 'Comportamento', 0, 'CU', 'COMPO');

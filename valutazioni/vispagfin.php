@@ -29,8 +29,7 @@ session_start();
 //  istruzioni per tornare alla pagina di login se non c'è una sessione valida
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "")
-{
+if ($tipoutente == "") {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -55,8 +54,7 @@ $ris = eseguiQuery($con, $query);
 $classe = "";
 $per = $numeroperiodi;
 
-if ($val = mysqli_fetch_array($ris))
-{
+if ($val = mysqli_fetch_array($ris)) {
     echo '<center><b>Pagella dell\'Alunno: ' . $val["cognome"] . ' ' . $val["nome"] . '</b></center><br/>';
     $classe = $val["idclasse"];
 }
@@ -64,6 +62,7 @@ if ($val = mysqli_fetch_array($ris))
 $annoclasse = decodifica_anno_classe($classe, $con);
 
 $certificazione = false;
+
 if ($annoclasse == 5 & $livello_scuola == 1)
     $certificazione = true;
 if ($annoclasse == 5 & $livello_scuola == 3)
@@ -73,12 +72,11 @@ if ($annoclasse == 3 & $livello_scuola == 2)
 if ($annoclasse == 8 & $livello_scuola == 3)
     $certificazione = true;
 
+if ($stampacertificazioni == 'no')
+    $certificazione = false;
+if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con)) {
 
-if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
-{
-
-    if ($livello_scuola == 4 && estrai_esito($codalunno, $con) == "")
-    {
+    if ($livello_scuola == 4 && estrai_esito($codalunno, $con) == "") {
         print("<br/><big><big><center>GIUDIZIO SOSPESO!</center><small><small><br/>");
 
         // prelevamento voti
@@ -88,12 +86,10 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
 
         $ris = eseguiQuery($con, $query);
         // print $query;
-        if (mysqli_num_rows($ris) > 0)
-        {
+        if (mysqli_num_rows($ris) > 0) {
             print ("<table border=2 align=center><tr class='prima'><td>Materia</td><td align=center>Unico</td><td align=center>Annotazioni</td></tr>");
             $mat = "";
-            while ($val = mysqli_fetch_array($ris))
-            {
+            while ($val = mysqli_fetch_array($ris)) {
                 $query = "SELECT * FROM tbl_materie WHERE idmateria = " . $val['idmateria'];
                 $rismat = eseguiQuery($con, $query);
                 $recmat = mysqli_fetch_array($rismat);
@@ -105,11 +101,9 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
                 print "</td>";
 
                 print "<td align=center>&nbsp;";
-                if ($val['votounico'] < 6 | ($val['votounico'] > 10 & $val['votounico'] < 16)) // is_numeric($val['votoscritto']))
-                {
+                if ($val['votounico'] < 6 | ($val['votounico'] > 10 & $val['votounico'] < 16)) { // is_numeric($val['votoscritto']))
                     print "<font color=red><b>";
-                } else
-                {
+                } else {
                     print "<font color=green><b>";
                 }
                 print dec_to_vot($val['votounico']);
@@ -127,34 +121,28 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
 
             $query = "select * from tbl_giudizi where idalunno = $codalunno and periodo = '$numeroperiodi'";
             $risgiu = eseguiQuery($con, $query);
-            if ($recgiu = mysqli_fetch_array($risgiu))
-            {
+            if ($recgiu = mysqli_fetch_array($risgiu)) {
                 print "<tr class='prima'><td colspan=7 align=center><b>Giudizio complessivo</b></td></tr>";
                 print "<tr><td colspan=7 align=center>" . $recgiu['giudizio'] . "</b></td></tr>";
             }
             print ("</table><br/>");
-            if ($tipo_pagella_genitori == "MIN")
-            {
+            if ($tipo_pagella_genitori == "MIN") {
                 print "<br><center><a href='../scrutini/stampaschedamodmin.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
-            if ($tipo_pagella_genitori == "A3")
-            {
+            if ($tipo_pagella_genitori == "A3") {
                 print "<br><center><a href='../scrutini/stampaschedefinalialu_A3.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
-            if ($tipo_pagella_genitori == "A4")
-            {
+            if ($tipo_pagella_genitori == "A4") {
                 print "<br><center><a href='../scrutini/stampaschedefinalialu.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
             print "&nbsp;&nbsp;&nbsp;<a href='../scrutini/stampaschedeseparatefin.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampaSEP.png'></a>";
-            if ($certificazione)
-            {
+            if ($certificazione) {
                 print "<br><center><a href='../certcomp/stampacertcomp.php?idalunno=$codalunno' target='_blank'><img src='../immagini/stampaCER.png'></a>";
             }
 
             print "&nbsp;&nbsp;&nbsp;<a href='../scrutini/stampacriteri.php?periodo=$per&classe=$classe' target='_blank'><img src='../immagini/stampaCRI.png'></a></center>";
         }
-    } else
-    {
+    } else {
         // prelevamento voti
         $query = "SELECT * from tbl_valutazionifinali,tbl_materie
           where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
@@ -162,12 +150,10 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
 
         $ris = eseguiQuery($con, $query);
         // print $query;
-        if (mysqli_num_rows($ris) > 0)
-        {
+        if (mysqli_num_rows($ris) > 0) {
             print ("<table border=2 align=center><tr class='prima'><td>Materia</td><td align=center>Unico</td><td align=center>Annotazioni</td><td align=center>Assenze</td></tr>");
             $mat = "";
-            while ($val = mysqli_fetch_array($ris))
-            {
+            while ($val = mysqli_fetch_array($ris)) {
                 $query = "SELECT * FROM tbl_materie WHERE idmateria = " . $val['idmateria'];
                 $rismat = eseguiQuery($con, $query);
                 $recmat = mysqli_fetch_array($rismat);
@@ -179,11 +165,9 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
                 print "</td>";
 
                 print "<td align=center>&nbsp;";
-                if ($val['votounico'] < 6 | ($val['votounico'] > 10 & $val['votounico'] < 16)) // is_numeric($val['votoscritto']))
-                {
+                if ($val['votounico'] < 6 | ($val['votounico'] > 10 & $val['votounico'] < 16)) { // is_numeric($val['votoscritto']))
                     print "<font color=red><b>";
-                } else
-                {
+                } else {
                     print "<font color=green><b>";
                 }
                 print dec_to_vot($val['votounico']);
@@ -201,39 +185,32 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con))
 
             $query = "select * from tbl_giudizi where idalunno = $codalunno and periodo = '$numeroperiodi'";
             $risgiu = eseguiQuery($con, $query);
-            if ($recgiu = mysqli_fetch_array($risgiu))
-            {
+            if ($recgiu = mysqli_fetch_array($risgiu)) {
                 print "<tr class='prima'><td colspan=7 align=center><b>Giudizio complessivo</b></td></tr>";
                 print "<tr><td colspan=7 align=center>" . $recgiu['giudizio'] . "</b></td></tr>";
             }
             print ("</table><br/>");
-            if ($tipo_pagella_genitori == "MIN")
-            {
+            if ($tipo_pagella_genitori == "MIN") {
                 print "<br><center><a href='../scrutini/stampaschedamodmin.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
-            if ($tipo_pagella_genitori == "A3")
-            {
+            if ($tipo_pagella_genitori == "A3") {
                 print "<br><center><a href='../scrutini/stampaschedefinalialu_A3.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
-            if ($tipo_pagella_genitori == "A4")
-            {
+            if ($tipo_pagella_genitori == "A4") {
                 print "<br><center><a href='../scrutini/stampaschedefinalialu.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
             print "&nbsp;&nbsp;&nbsp;<a href='../scrutini/stampaschedeseparatefin.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampaSEP.png'></a>";
-            if ($certificazione)
-            {
+            if ($certificazione) {
                 print "<br><center><a href='../certcomp/stampacertcomp.php?idalunno=$codalunno' target='_blank'><img src='../immagini/stampaCER.png'></a>";
             }
 
 
             print "&nbsp;&nbsp;&nbsp;<a href='../scrutini/stampacriteri.php?periodo=$per&classe=$classe' target='_blank'><img src='../immagini/stampaCRI.png'></a></center>";
-        } else
-        {
+        } else {
             print("<br/><big><big><center>Non ci sono voti registrati!</center><small><small><br/>");
         }
     }
-} else
-{
+} else {
     print("<br/><big><big><center>Scrutinio non ancora chiuso!</center><small><small><br/>");
 }
 

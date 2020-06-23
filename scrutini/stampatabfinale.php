@@ -83,7 +83,7 @@ $query = "SELECT tbl_valutazionifinali.*,tbl_materie.tipovalutazione FROM tbl_va
 	          AND idclasse=$idclasse
 	          AND tbl_materie.progrpag <> 100
 	          AND periodo='$numeroperiodi'";
-
+// print inspref($query);
 //print inspref($query);
 $risvalu = eseguiQuery($con, $query);
 while ($recval = mysqli_fetch_array($risvalu))
@@ -307,7 +307,9 @@ if ($nummaterie > 0)
                 $posX += $larghcol;
             }
             // INSERISCO IL VOTO DI CONDOTTA
+            
             $votounico = ricerca_voto($idalunno, -1, $codalunni, $codmaterie, $voti);
+            
             $schede->setXY($posX, $posY);
             $schede->SetFont('Arial', '', 8);
             if ($stampavoti)

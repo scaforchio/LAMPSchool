@@ -1263,8 +1263,10 @@ if ($cambiamentopassword)
             menu_title_begin("SITUAZIONE ALUNNO $cognome&nbsp;$nome");
             if ($votigenitori == "yes")
                 menu_item('../valutazioni/visvaltut.php', 'VOTI');
-            menu_item('../note/sitnotealu.php', 'NOTE');
-            menu_item('../assenze/sitassalut.php', 'ASSENZE');
+            if ($notegenitori == "yes")
+                menu_item('../note/sitnotealu.php', 'NOTE');
+            if ($assenzegenitori == "yes")
+                menu_item('../assenze/sitassalut.php', 'ASSENZE');
             menu_title_end();
             if ($argomentigenitori == "yes")
             {
