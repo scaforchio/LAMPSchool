@@ -179,7 +179,7 @@ if ($idavviso == '')
         print("</select></td></tr>");
 
         print("<tr><td> Link</td>");
-        print(" <td><input type='text' size=80 maxsize='255' name='testo' value='$testo'></td></tr>");
+        print(" <td><input type='text' size='80' maxlenght='255' name='testo' value='$testo'></td></tr>");
         print("</table><br/>");
         print("<input type='hidden' name='idavviso' value='$idavviso'>");
         print("<INPUT TYPE='SUBMIT' VALUE='Inserisci'>");
