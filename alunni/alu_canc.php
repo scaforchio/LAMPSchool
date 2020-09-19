@@ -59,6 +59,10 @@ $idcla = stringa_html('idcla');
 $sql = "DELETE FROM tbl_utenti WHERE idutente='$c'";
 //esecuzione query
 $res = eseguiQuery($con, $sql);
+$utal=$c+2100000000;
+$sql = "DELETE FROM tbl_utenti WHERE idutente='$utal'";
+//esecuzione query
+$res = eseguiQuery($con, $sql);
 $sql = "DELETE FROM tbl_alunni WHERE idalunno='$c'";
 //esecuzione query
 $res = eseguiQuery($con, $sql);
