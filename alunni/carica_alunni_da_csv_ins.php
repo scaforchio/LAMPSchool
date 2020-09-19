@@ -328,6 +328,10 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
 
                             $sqlt = "delete from tbl_utenti $where";
                             eseguiQuery($con, $sqlt);
+                            
+                            $idutentealunno=$idutente+2100000000;
+                            $sqlt = "delete from tbl_utenti where idutente=$idutentealunno";
+                            eseguiQuery($con, $sqlt);
                         }
                         mysqli_free_result($res);
 

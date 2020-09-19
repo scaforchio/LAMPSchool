@@ -83,6 +83,9 @@ while ($rec = mysqli_fetch_array($ris))
     {
         $queryriass = "delete from tbl_utenti where idutente=$codicealunno";
         eseguiQuery($con,$queryriass);
+        $codiceutentealunno=$codicealunno+2100000000;
+        $queryriass = "delete from tbl_utenti where idutente=$codiceutentealunno";
+        eseguiQuery($con,$queryriass);
     }
     $numalunnicanc++;
 }
