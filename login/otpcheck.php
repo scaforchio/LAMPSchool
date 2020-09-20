@@ -80,6 +80,20 @@ else if ($_SESSION['modoinviotoken'] == 'G') {
     $token=$rec['token'];
     $messaggio.="<br>Inserire il codice inviato via Telegram. ";
 }
+else if ($_SESSION['modoinviotoken'] == 'S') {
+    $query="select token from tbl_utenti where idutente=".$_SESSION['idutente'];
+    $ris= eseguiQuery($con, $query);
+    $rec= mysqli_fetch_array($ris);
+    $token=$rec['token'];
+    $messaggio.="<br>Inserire il codice inviato via SMS. ";
+}
+else if ($_SESSION['modoinviotoken'] == 'M') {
+    $query="select token from tbl_utenti where idutente=".$_SESSION['idutente'];
+    $ris= eseguiQuery($con, $query);
+    $rec= mysqli_fetch_array($ris);
+    $token=$rec['token'];
+    $messaggio.="<br>Inserire il codice inviato via EMail. ";
+}
 print "<CENTER>";
 print"<table border='0'>";
 print "<br><br>$messaggio<br>";
