@@ -69,7 +69,7 @@ $siglacategoria2 = $siglacategoria1 . $anno;
 $siglacategoria3 = $siglacategoria2 . $annoinizio;
 
 // Verifico ed eventualmente creo categoria livello 1
-
+print "$siglacategoria0 $siglacategoria1 $siglacategoria2 $siglacategoria3 <br>";
 $idcategoria0 = getCategoriaMoodle($tokenservizimoodle, $urlmoodle, $siglacategoria0);
 
 
@@ -102,7 +102,7 @@ if ($idcategoria3 == -1)
 
 $nomecorso = $nomemateria . " " . $anno . " " . $sezione . " " . $specializzazione . " " . $annoinizio;
 $siglacorso = $siglamateria . $anno . $sezione . $specsigla . $annoinizio;
-
+print " $nomecorso $siglacorso <br>";
 //print "<br><br>$siglacorso    $siglacategoria    $nomecorso";
 print "<br><br>$siglacorso    $siglacategoria3    $nomecorso";
 //$idcategoria = getCategoriaMoodle($tokenservizimoodle,$urlmoodle,$siglacategoria);

@@ -409,7 +409,8 @@ if ($cambiamentopassword)
             menu_title_begin('GESTIONE MOODLE');
             menu_item('../moodle/esporta_moodle.php', 'ESPORTA DATI PER MOODLE');
             menu_item('../moodle/creacorsimoodle.php', 'CREA E SINCRONIZZA CORSI MOODLE');
-            menu_item('../moodle/creacorsimoodleclasse.php', 'CREA E SINCRONIZZA CORSI MOODLE PER CLASSE');
+            menu_item('../moodle/creacorsimoodleclasse.php', 'CREA CORSI MOODLE PER CLASSE');
+            menu_item('../moodle/sincronizzacorsimoodleclasse.php', 'SINCRONIZZA CORSI MOODLE PER CLASSE');
             menu_item('../moodle/rigenerapasswordmoodle.php', 'RIGENERA PASSWORD MOODLE ALUNNI');
             menu_item('../moodle/rigenerapasswordmoodledoc.php', 'RIGENERA PASSWORD MOODLE DOCENTI');
             menu_item('../moodle/sincronizzautenti.php', 'AGGIUNGI NUOVI UTENTI A MOODLE');
@@ -658,7 +659,8 @@ if ($cambiamentopassword)
             menu_title_begin('GESTIONE MOODLE');
             menu_item('../moodle/esporta_moodle.php', 'ESPORTA DATI PER MOODLE');
             menu_item('../moodle/creacorsimoodle.php', 'CREA E SINCRONIZZA CORSI MOODLE');
-            menu_item('../moodle/creacorsimoodleclasse.php', 'CREA E SINCRONIZZA CORSI MOODLE PER CLASSE');
+            menu_item('../moodle/creacorsimoodleclasse.php', 'CREA CORSI MOODLE PER CLASSE');
+            menu_item('../moodle/sincronizzacorsimoodleclasse.php', 'SINCRONIZZA CORSI MOODLE PER CLASSE');
             menu_item('../moodle/rigenerapasswordmoodle.php', 'RIGENERA PASSWORD MOODLE ALUNNI');
             menu_item('../moodle/rigenerapasswordmoodledoc.php', 'RIGENERA PASSWORD MOODLE DOCENTI');
             menu_item('../moodle/sincronizzautenti.php', 'AGGIUNGI NUOVI UTENTI A MOODLE');
@@ -1090,7 +1092,8 @@ if ($cambiamentopassword)
             menu_title_begin('GESTIONE MOODLE');
             menu_item('../moodle/esporta_moodle.php', 'ESPORTA DATI PER MOODLE');
             menu_item('../moodle/creacorsimoodle.php', 'CREA E SINCRONIZZA CORSI MOODLE');
-            menu_item('../moodle/creacorsimoodleclasse.php', 'CREA E SINCRONIZZA CORSI MOODLE PER CLASSE');
+            menu_item('../moodle/creacorsimoodleclasse.php', 'CREA CORSI MOODLE PER CLASSE');
+            menu_item('../moodle/sincronizzacorsimoodleclasse.php', 'SINCRONIZZA CORSI MOODLE PER CLASSE');
             menu_item('../moodle/rigenerapasswordmoodle.php', 'RIGENERA PASSWORD MOODLE ALUNNI');
             menu_item('../moodle/rigenerapasswordmoodledoc.php', 'RIGENERA PASSWORD MOODLE DOCENTI');
             menu_item('../moodle/sincronizzautenti.php', 'AGGIUNGI NUOVI UTENTI A MOODLE');

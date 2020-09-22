@@ -31,7 +31,7 @@ if ($tipoutente == "")
     die;
 }
 
-$titolo = "Creazione corsi Moodle classe";
+$titolo = "Sincronizzazione corsi Moodle classe";
 $script = "";
 stampa_head($titolo, "", $script, "MSPD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
@@ -51,7 +51,7 @@ $corsi = getCorsiMoodle($tokenservizimoodle, $urlmoodle);
 if (mysqli_num_rows($ris) > 0)
 {
     print "<table border=1 align=center>";
-    print "<tr class='prima'><td>Classe</td><td>Creaz.</td></tr>";
+    print "<tr class='prima'><td>Classe</td><td>Sincr.</td></tr>";
 
     while ($lez = mysqli_fetch_array($ris))
     {
@@ -60,7 +60,7 @@ if (mysqli_num_rows($ris) > 0)
         $spe = $lez['specializzazione'];
         $idcla = $lez['idclasse'];
             
-            print "<tr class='oddeven'><td>$ann $sez $spe</td><td><a href='creacorsiclasse.php?idclasse=$idcla'><img src='../immagini/create.png'></a></td></tr>";
+            print "<tr class='oddeven'><td>$ann $sez $spe</td><td><a href='sincronizzacorsiclasse.php?idclasse=$idcla'><img src='../immagini/sincronizza.png'></a></td></tr>";
     }
     print "</table>";
 }

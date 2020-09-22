@@ -83,7 +83,7 @@ function creaCategoriaMoodle($token, $domainname, $nomecategoria, $siglacategori
     $restformat = ($restformat == 'json') ? '&moodlewsrestformat=' . $restformat : '';
     $resp = $curl->post($serverurl . $restformat, $params);
 
-    // print $resp;
+    print $resp;
     $categoriacreata = json_decode($resp);
     return $categoriacreata[0]->id;
 }
