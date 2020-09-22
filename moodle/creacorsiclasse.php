@@ -82,8 +82,8 @@ if (mysqli_num_rows($ris) > 0) {
 
 
             $query = "select * from tbl_classi where idclasse=$idclasse";
-            $ris = eseguiQuery($con, $query);
-            $rec = mysqli_fetch_array($ris);
+            $ris2 = eseguiQuery($con, $query);
+            $rec = mysqli_fetch_array($ris2);
             //$siglacategoria=$rec['idmoodle'];
             $anno = $rec['anno'];
             $sezione = $rec['sezione'];
@@ -92,8 +92,8 @@ if (mysqli_num_rows($ris) > 0) {
             $annoinizio = $annoscol;
             //$siglacategoria.=$annoinizio;
             $query = "select * from tbl_materie where idmateria=$idmateria";
-            $ris = eseguiQuery($con, $query);
-            $rec = mysqli_fetch_array($ris);
+            $ris2 = eseguiQuery($con, $query);
+            $rec = mysqli_fetch_array($ris2);
             $nomemateria = $rec['denominazione'];
             $siglamateria = $rec['sigla'];
 
@@ -150,8 +150,8 @@ if (mysqli_num_rows($ris) > 0) {
 
 
             $query = "select * from tbl_cattnosupp where idmateria = $idmateria and idclasse = $idclasse and idalunno=0 and iddocente<>1000000000";
-            $ris = eseguiQuery($con, $query);
-            while ($rec = mysqli_fetch_array($ris)) {
+            $ris2 = eseguiQuery($con, $query);
+            while ($rec = mysqli_fetch_array($ris2)) {
                 //$usernamedocente="doc".$_SESSION['suffisso'].($rec["iddocente"]-1000000000);
                 $usernamedocente = costruisciUsernameMoodle($rec['iddocente']);
                 print "<br>Docente: $usernamedocente";
@@ -161,8 +161,8 @@ if (mysqli_num_rows($ris) > 0) {
             }
 
             $query = "select * from tbl_alunni where idclasse = $idclasse";
-            $ris = eseguiQuery($con, $query);
-            while ($rec = mysqli_fetch_array($ris)) {
+            $ris2 = eseguiQuery($con, $query);
+            while ($rec = mysqli_fetch_array($ris2)) {
                 //$usernamealunno="al".$_SESSION['suffisso'].($rec["idalunno"]);
                 $usernamealunno = costruisciUsernameMoodle($rec['idalunno']);
                 print "<br>Alunno: $usernamealunno";
