@@ -171,6 +171,13 @@ if (mysqli_num_rows($ris) > 0) {
                 iscriviUtenteMoodle($tokenservizimoodle, $urlmoodle, $idcorso, $identalunno, 5);
             }
         }
+        else
+        {
+            print "$siglacorso già presente... sincronizzo! <br>";
+            sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle, $urlmoodle, $nome_scuola, $annoscol);
+            print "Fatto! <br><br><br>";
+            
+        }
     }
 }
 
