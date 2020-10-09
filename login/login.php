@@ -45,10 +45,13 @@ $_SESSION["annoscol"] = $annoscol;
 $_SESSION["suffisso"] = $suffisso;
 $_SESSION["alias"] = false;
 
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
 
 $titolo = "Inserimento dati di accesso";
-$seme = md5(date('Y-m-d'));
+$seedcasuale = random_int(100000, 999999);
+eseguiQuery($con,"insert into tbl_seed(seed) values($seedcasuale)");
+$seme = md5(date('Y-m-d').$seedcasuale);
 $script = "<script src='../lib/js/crypto.js'></script>\n";
 $script .= "<script>
 
