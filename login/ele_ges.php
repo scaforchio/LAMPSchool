@@ -1017,6 +1017,8 @@ if ($cambiamentopassword)
             menu_item('../password/alu_rigenera_password.php', 'Rigenera e stampa password alunni');
         menu_item('../password/conf_rig_pass_doc.php', 'Rigenera e stampa password docenti');
         menu_item('../password/CRUDselezioneInvioOTP.php', 'Gestione modalità invio OTP');
+        menu_item('../password/genschemaotp.php','Generazione schemi per OTP');
+        menu_item('../password/gestschedaotp.php', 'Gestione scheda OTP');
         menu_item('../password/gestpwd.php', 'Cambia password utente');
         menu_item('../esame3m/abilitautenteesame.php', 'Abilita utente esame di stato');
         menu_title_end();

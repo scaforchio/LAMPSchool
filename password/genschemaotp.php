@@ -10,7 +10,6 @@ session_start();
  * @copyright  Copyright (C) 2014 Renato Tamilio
  * @license    GNU Affero General Public License versione 3 o successivi; vedete agpl-3.0.txt
  */
-
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
 
@@ -26,21 +25,24 @@ if ($tipoutente == "")
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
-$titolo = "TEST";
+$titolo = "Generazione schemi OTP";
 $script = "";
 stampa_head($titolo, "", $script, "PMSDA");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
-$query="select idutente from tbl_utenti";
-$ris= eseguiQuery($con, $query);
-while ($rec= mysqli_fetch_array($ris))
+$query = "select idutente,schematoken from tbl_utenti";
+$ris = eseguiQuery($con, $query);
+while ($rec = mysqli_fetch_array($ris))
 {
-    $schema=generaSchemaToken();
-    $query="update tbl_utenti set schematoken='$schema' where idutente=".$rec['idutente'];
-    eseguiQuery($con, $query);
+    if ($rec['schematoken'] = "")
+    {
+        $schema = generaSchemaToken();
+        $query = "update tbl_utenti set schematoken='$schema' where idutente=" . $rec['idutente'];
+        eseguiQuery($con, $query);
+    }
 }
-
+print "<br><br><center>SCHEMI PER OTP GENERATI CORRETTAMENTE</center>";
 
 
 
