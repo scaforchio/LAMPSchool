@@ -69,7 +69,7 @@ if (mysqli_num_rows($ris) > 0)
 
 
 
-$tipoaccesso = controlla_password($password, $username, $chiaveuniversale, $passwordesame, $con);
+$tipoaccesso = controlla_password($con, $password, $username, $chiaveuniversale, $passwordesame);
 
 // print $tipoaccesso;
 

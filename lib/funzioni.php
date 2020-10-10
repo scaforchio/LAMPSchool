@@ -603,7 +603,7 @@ function estrai_materia_lezione($idlezione, $conn)
     return $idmateria;
 }
 
-function controlla_password($password, $utente, $cu, $pe, $con)
+function controlla_password($con,$password, $utente, $cu, $pe)
 {
     $listasemi = array();
 
@@ -612,21 +612,24 @@ function controlla_password($password, $utente, $cu, $pe, $con)
     while ($rec = mysqli_fetch_array($ris))
     {
        
-        $listasemi[] = md5(date('Y-m-d') . $rec['seed']);
+        
+        $listasemi[] = $rec['seed'];
         
     }
     print count($listasemi);
     
             
     // VERIFICO SE LA PASSWORD E' CORRETTA
+    $ind=0;
     foreach ($listasemi as $seme)
     {
+        $ind++;
         print "$seme<br>";
         $query = "select * from tbl_utenti where userid='$utente' and md5(concat(password,'$seme'))='" . elimina_apici($password) . "'";
         $ris = eseguiQuery($con, $query);
         if (mysqli_num_rows($ris) > 0)
         {
-            $query = "delete from tbl_seed where seed='$seme'";
+            $query = "delete from tbl_seed where seed='".$seme."'";
             eseguiQuery($con, $query);
             return 1; 
         }
@@ -656,18 +659,15 @@ function controlla_password($password, $utente, $cu, $pe, $con)
 
     foreach ($listasemi as $seme)
     {
-
-        if (md5($pe . $seme) == $password & utente == 'esamidistato')
+        
+        if (md5($pe.$seme) == $password & $utente == 'esamidistato')
         {
             $query = "delete from tbl_seed where seed='$seme'";
             eseguiQuery($con, $query);
             return 3;
         }
     }
-
-
-
-
+    
     return 0; // ACCESSO NON VALIDO
 }
 

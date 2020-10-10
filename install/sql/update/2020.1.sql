@@ -4,7 +4,7 @@
 
 CREATE TABLE IF NOT EXISTS tbl_seed (
   idseed int(11) AUTO_INCREMENT PRIMARY KEY,
-  seed int(11)
+  seed char(32)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
