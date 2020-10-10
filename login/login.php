@@ -57,7 +57,6 @@ $script .= "<script>
 
 var isIE = /*@cc_on!@*/false || !!document.documentMode;
 var isEdge = !isIE && !!window.StyleMedia;
-
 if (isEdge)
     alert('L\'uso di Edge può portare ad anomalie nel funzionamento del registro! Usa Chrome, Firefox o Safari.');
 

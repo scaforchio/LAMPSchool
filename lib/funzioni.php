@@ -603,6 +603,74 @@ function estrai_materia_lezione($idlezione, $conn)
     return $idmateria;
 }
 
+function controlla_password($password, $utente, $cu, $pe, $con)
+{
+    $listasemi = array();
+
+    $query = "select * from tbl_seed";
+    $ris = eseguiQuery($con, $query);
+    while ($rec = mysqli_fetch_array($ris))
+    {
+       
+        $listasemi[] = md5(date('Y-m-d') . $rec['seed']);
+        
+    }
+    print count($listasemi);
+    
+            
+    // VERIFICO SE LA PASSWORD E' CORRETTA
+    foreach ($listasemi as $seme)
+    {
+        print "$seme<br>";
+        $query = "select * from tbl_utenti where userid='$utente' and md5(concat(password,'$seme'))='" . elimina_apici($password) . "'";
+        $ris = eseguiQuery($con, $query);
+        if (mysqli_num_rows($ris) > 0)
+        {
+            $query = "delete from tbl_seed where seed='$seme'";
+            eseguiQuery($con, $query);
+            return 1; 
+        }
+            
+    }
+    //die();        
+    // VERIFICO SE LA PASSWORD E' QUELLA SISTEMISTICA DI MANUTENZIONE
+    @$fp = fopen("../unikey.txt", "r");
+    if ($fp)
+    {
+        $unikey = fread($fp, 32);
+    }
+    foreach ($listasemi as $seme)
+    {
+       
+
+        if (md5($unikey . $seme) == $password | md5(md5($cu) . $seme) == $password)
+        {
+            
+            $query = "delete from tbl_seed where seed='$seme'";
+            eseguiQuery($con, $query);
+            return 2;
+        }
+    }
+
+    // VERIFICO SE LA PASSWORD E' QUELLA ESAME DI STATO
+
+    foreach ($listasemi as $seme)
+    {
+
+        if (md5($pe . $seme) == $password & utente == 'esamidistato')
+        {
+            $query = "delete from tbl_seed where seed='$seme'";
+            eseguiQuery($con, $query);
+            return 3;
+        }
+    }
+
+
+
+
+    return 0; // ACCESSO NON VALIDO
+}
+
 function invia_mail($to, $subject, $msg, $from = "", $reply = "")
 {
 
@@ -707,23 +775,22 @@ function generaSchemaToken()  // OTP per conferma accesso
     return $token;
 }
 
-
 /**
  * Funzione che verifica se il bot_telegram è online
  * @param string $token
  * @return bool
  */
-
-
-function isBotOnline($token) {
-  $r = file_get_contents("https://api.telegram.org/bot" . $token . "/getMe");
-  $response = json_decode($r);
-  if($response->{'ok'}) {
-    return true;
-  }
-  else {
-    return false;
-  }
+function isBotOnline($token)
+{
+    $r = file_get_contents("https://api.telegram.org/bot" . $token . "/getMe");
+    $response = json_decode($r);
+    if ($response->{'ok'})
+    {
+        return true;
+    } else
+    {
+        return false;
+    }
 }
 
 /**
@@ -731,10 +798,12 @@ function isBotOnline($token) {
  * @param int $lunghezza
  * @return string
  */
-function generaStringaRandom($lunghezza) {
+function generaStringaRandom($lunghezza)
+{
     $caratteri = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $stringaRandom = '';
-    for ($i = 0; $i < $lunghezza; $i++) {
+    for ($i = 0; $i < $lunghezza; $i++)
+    {
         $stringaRandom .= $caratteri[rand(0, strlen($caratteri) - 1)];
     }
     return $stringaRandom;
@@ -748,24 +817,25 @@ function generaStringaRandom($lunghezza) {
  * @param string $token
  * @return bool
  */
-function sendTelegramMessage($chat_id, $testo, $token) {
-      $data = array("chat_id" => $chat_id, "text" => $testo, "parse_mode" => "HTML");
-      $data = json_encode($data);
-      $url = "https://api.telegram.org/bot" . $token . "/sendMessage";
-      $options = array(
-          'http' => array(
-              'header'  => "Content-type: application/json",
-              'method'  => 'POST',
-              'content' => $data
-          )
-      );
-      $context  = stream_context_create($options);
-      $r = file_get_contents($url, false, $context);
-      if($r->{'ok'})
+function sendTelegramMessage($chat_id, $testo, $token)
+{
+    $data = array("chat_id" => $chat_id, "text" => $testo, "parse_mode" => "HTML");
+    $data = json_encode($data);
+    $url = "https://api.telegram.org/bot" . $token . "/sendMessage";
+    $options = array(
+        'http' => array(
+            'header' => "Content-type: application/json",
+            'method' => 'POST',
+            'content' => $data
+        )
+    );
+    $context = stream_context_create($options);
+    $r = file_get_contents($url, false, $context);
+    if ($r->{'ok'})
         return true; //operazione andata a buon fine
-      else
+    else
         return false; //operazione fallita
-    }
+}
 
 /**
  * Funzione invia un messaggio dal bot_telegram ad un utente
@@ -773,22 +843,23 @@ function sendTelegramMessage($chat_id, $testo, $token) {
  * @param string $testo
  * @return bool
  */
-function sendTelegramMessageToken($chat_id, $testo,$tokenBot) {
-      
-      $data = array("chat_id" => $chat_id, "text" => $testo);
-      $data = json_encode($data);
-      $url = "https://api.telegram.org/bot" . $tokenBot . "/sendMessage";
-      $options = array(
-          'http' => array(
-              'header'  => "Content-type: application/json",
-              'method'  => 'POST',
-              'content' => $data
-          )
-      );
-      $context  = stream_context_create($options);
-      $r = file_get_contents($url, false, $context);
-      if($r->{'ok'})
+function sendTelegramMessageToken($chat_id, $testo, $tokenBot)
+{
+
+    $data = array("chat_id" => $chat_id, "text" => $testo);
+    $data = json_encode($data);
+    $url = "https://api.telegram.org/bot" . $tokenBot . "/sendMessage";
+    $options = array(
+        'http' => array(
+            'header' => "Content-type: application/json",
+            'method' => 'POST',
+            'content' => $data
+        )
+    );
+    $context = stream_context_create($options);
+    $r = file_get_contents($url, false, $context);
+    if ($r->{'ok'})
         return true; //operazione andata a buon fine
-      else
+    else
         return false; //operazione fallita
-    }
+}

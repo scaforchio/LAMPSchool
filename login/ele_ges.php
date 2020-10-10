@@ -72,7 +72,12 @@ $_SESSION['classeregistro'] = "";
 //$_SESSION['indirizzoip'] = $indirizzoip;
 
 
-$seme = md5(date('Y-m-d'));
+
+
+
+
+
+ $seme = md5(date('Y-m-d'));
 
 
 $ultimoaccesso = "";
@@ -97,9 +102,18 @@ if ($JSdisab == 1)
 
 
 $cambiamentopassword = false;
+
+// TTTT
+
+// passwordok=verifica_password($)
+
+
+
+// TTTT
+
 if ($_SESSION['tipoutente'] != 'E')
 {
-    if ($password != md5(md5($chiaveuniversale) . $seme) && !$accessouniversale)
+    if (!$_SESSION['accessouniversale'])
     {
         $sql = "SELECT unix_timestamp(ultimamodifica) AS ultmod FROM " . $_SESSION['prefisso'] . "tbl_utenti WHERE userid='" . $_SESSION['userid'] . "'";
         $data = mysqli_fetch_array(eseguiQuery($con, $sql, false));
@@ -150,9 +164,9 @@ $script = $script . "}\n";
 $script = $script . "</script>\n";
 
 stampa_head($titolo, "", $script, "SDMAPTEL");
-if ($ultimoaccesso != "")
+if ($_SESSION['ultimoaccesso'] != "")
 {
-    $ult = " <b>(Ultimo accesso: $ultimoaccesso)</b>";
+    $ult = " <b>(Ultimo accesso: ".$_SESSION['ultimoaccesso'].")</b>";
 } else
 {
     $ult = "";

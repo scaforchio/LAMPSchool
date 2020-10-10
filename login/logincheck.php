@@ -26,35 +26,32 @@ require_once '../lib/funzioni.php';
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore connessione");
 
+if (!$con)
+{
+    die("<h1> Connessione al server fallita </h1>");
+}
+
 // Passaggio dei parametri nella sessione
 require "../lib/req_assegna_parametri_a_sessione.php";
 
-/*if ($_SESSION['idutente']!="") 
-{
-    session_destroy();
+/* if ($_SESSION['idutente']!="") 
+  {
+  session_destroy();
 
-    die ("Già aperta sessione in altra scheda!");
-}
-*/
+  die ("Già aperta sessione in altra scheda!");
+  }
+ */
 
 $indirizzoip = IndirizzoIpReale();
 
 $_SESSION['indirizzoip'] = $indirizzoip;
 
-
-$seme = md5(date('Y-m-d'));
-
-$ultimoaccesso = "";
+$_SESSION['ultimoaccesso'] = "";
 
 
 //  $_SESSION['versione']=$versione;
 //Connessione al server SQL
 
-
-if (!$con)
-{
-    die("<h1> Connessione al server fallita </h1>");
-}
 
 $username = stringa_html('utente');
 $password = stringa_html('password');
@@ -72,59 +69,40 @@ if (mysqli_num_rows($ris) > 0)
 
 
 
-$accessouniversale = false;
+$tipoaccesso = controlla_password($password, $username, $chiaveuniversale, $passwordesame, $con);
 
-@$fp = fopen("../unikey.txt", "r");
-if ($fp)
+// print $tipoaccesso;
+
+
+if ($tipoaccesso == 0)
 {
-    $unikey = fread($fp, 32);
-    //print $unikey;
-    //print md5($password);
-    if (md5($unikey . $seme) == $password)
-    {
-        $accessouniversale = true;
-        $_SESSION['accessouniversale'] = true;
-    }
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Accesso errato: $username - $password");
+    header("location: login.php?messaggio=Utente sconosciuto&suffisso=" . $_SESSION['suffisso']);
+    die();
 }
 
-if ($password != md5(md5($chiaveuniversale) . $seme) & (!$accessouniversale))
+if ($tipoaccesso == 2)
 {
-    $sql = "SELECT *,unix_timestamp(ultimamodifica) AS ultmod FROM tbl_utenti WHERE userid='" . $username . "' AND  md5(concat(password,'$seme'))='" . elimina_apici($password) . "'";
-} else
-{
-    $sql = "SELECT *,unix_timestamp(ultimamodifica) AS ultmod FROM tbl_utenti WHERE userid='" . $username . "'";
+    $accessouniversale = true;
+    $_SESSION['accessouniversale'] = true;
 }
 
+if ($tipoaccesso == 3)
+{// die("Sono qui!");
+    $_SESSION['tipoutente'] = 'E';
+    $_SESSION['userid'] = 'ESAMI';
+    $_SESSION['idutente'] = 'esamedistato';
 
+    $_SESSION['cognome'] = "Esame ";
+    $_SESSION['nome'] = "di stato";
+
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Accesso ESAMI");
+}
+
+$sql = "SELECT *,unix_timestamp(ultimamodifica) AS ultmod FROM tbl_utenti WHERE userid='" . $username . "'";
 $result = eseguiQuery($con, $sql);
 
-if (mysqli_num_rows($result) <= 0)
-{ // VERIFICO SE C'E' L'UTENTE
-    // VERIFICO SE L'ACCESSO E' QUELLO PER GLI ESAMI DI STATO
-    if (($username == 'esamidistato' && $password == md5($passwordesame . $seme)) | $accessouniversale)
-    {
-        // die("Sono qui!");
-        $_SESSION['tipoutente'] = 'E';
-        $_SESSION['userid'] = 'ESAMI';
-        $_SESSION['idutente'] = 'esamedistato';
-
-        $_SESSION['cognome'] = "Esame ";
-        $_SESSION['nome'] = "di stato";
-
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Accesso ESAMI");
-    } else
-    {
-        if ($_SESSION['suffisso'] != "")
-        {
-            $suff = $_SESSION['suffisso'] . "/";
-        } else
-            $suff = "";
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Accesso errato: $username - $password");
-
-        header("location: login.php?messaggio=Utente sconosciuto&suffisso=" . $_SESSION['suffisso']);
-        die;
-    }
-} else
+if ($tipoaccesso == 1 | $tipoaccesso == 2)
 {  // UTENTE TROVATO
     $data = mysqli_fetch_array($result);
     $_SESSION['userid'] = $data['userid'];
@@ -255,7 +233,7 @@ if (mysqli_num_rows($result) <= 0)
     $ris = eseguiQuery($con, $query, false);
     if (mysqli_num_rows($ris) == 0)
     {
-        $ultimoaccesso = "";
+        $_SESSION['ultimoaccesso'] = "";
     } else
     {
         $rec = mysqli_fetch_array($ris);
@@ -263,12 +241,12 @@ if (mysqli_num_rows($result) <= 0)
         $dataultaccute = substr($ultimoaccesso, 0, 10);
         $oraultaccute = substr($ultimoaccesso, 13, 5);
         $giornoultaccute = giorno_settimana($dataultaccute);
-        $ultimoaccesso = $giornoultaccute . " " . data_italiana($dataultaccute) . " h. " . $oraultaccute;
+        $_SESSION['ultimoaccesso'] = $giornoultaccute . " " . data_italiana($dataultaccute) . " h. " . $oraultaccute;
     }
     // Inserimento dell'accesso in tabella
     // $indirizzoip = IndirizzoIpReale();
     // $_SESSION['indirizzoip'] = $indirizzoip;
-    if ($password != md5(md5($chiaveuniversale) . $seme) & (!$accessouniversale))
+    if ($tipoaccesso==1)
     {
         $sql = "INSERT INTO " . $_SESSION["prefisso"] . "tbl_logacc( utente , dataacc, comando,indirizzo) values('$username','" . date('Y/m/d - H:i') . "','Accesso','$indirizzoip')";
         eseguiQuery($con, $sql, false);
