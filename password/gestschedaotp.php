@@ -96,7 +96,7 @@ if ($utente != "")
     print("<center>SCHEDA PER OTP");
     print "<table border='1'>";
 
-    print "<tr class='prima'> <td></td><td><big><big>A<small><small></td><td><big><big>B<small><small></td><td><big><big>C<small><small></td><td><big><big>D<small><small></td><td><big><big>E<small><small></td><td><big><big>F<small><small></td><td><big><big>G<small><small></td><td><big><big>H<small><small></td><td><big><big>I<small><small></td><td><big><big>J<small><small></big></td></tr>";
+    print "<tr class='prima'> <td></td><td><big><big>A<small><small></td><td><big><big>B<small><small></td><td><big><big>C<small><small></td><td><big><big>D<small><small></td><td><big><big>E<small><small></td><td><big><big>F<small><small></td><td><big><big>G<small><small></td><td><big><big>H<small><small></td><td><big><big>I<small><small></td><td><big><big>L<small><small></big></td></tr>";
     for ($i = 0; $i < 5; $i++)
     {
         $nr = $i + 1;
