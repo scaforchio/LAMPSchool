@@ -77,7 +77,7 @@ $_SESSION['classeregistro'] = "";
 
 
 
- $seme = md5(date('Y-m-d'));
+// $seme = md5(date('Y-m-d'));
 
 
 $ultimoaccesso = "";

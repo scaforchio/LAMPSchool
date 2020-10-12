@@ -410,6 +410,8 @@ function daily_cron($suffisso, $con, $lavori)
     {
         $query = "DELETE FROM tbl_valutazioniintermedie WHERE voto>99";
         eseguiQuery($con, $query);
+        $query = "delete from tbl_seed where true";
+        eseguiQuery($con, $query);
         inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cancellazione voti anomali", $nomefilelog, $suffisso);
     }
 
@@ -620,7 +622,7 @@ function controlla_password($con,$password, $utente, $cu, $pe)
     
             
     // VERIFICO SE LA PASSWORD E' CORRETTA
-    $ind=0;
+    
     foreach ($listasemi as $seme)
     {
         $ind++;

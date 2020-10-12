@@ -71,7 +71,7 @@ if (mysqli_num_rows($ris) > 0)
 
 $tipoaccesso = controlla_password($con, $password, $username, $chiaveuniversale, $passwordesame);
 
-// print $tipoaccesso;
+ print "Tipo accesso: $tipoaccesso";
 
 
 if ($tipoaccesso == 0)
@@ -166,6 +166,7 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2)
         $sql = "SELECT * FROM tbl_derogheinserimento WHERE iddocente='" . $_SESSION['idutente'] . "' AND DATA='" . date('Y-m-d') . "'";
         $ris = eseguiQuery($con, $sql);
 
+        
         if (mysqli_num_rows($ris) > 0)
         {
             $_SESSION['derogalimite'] = true;
