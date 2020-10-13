@@ -42,6 +42,17 @@ require "../lib/req_assegna_parametri_a_sessione.php";
   }
  */
 
+$query = "select idseed from tbl_seed ORDER BY idseed DESC LIMIT 1";
+$ris = eseguiQuery($con, $query);
+$rec = mysqli_fetch_array($ris);
+$ultimoseed = $rec['idseed'];
+$primoseed = $ultimoseed - 10;
+$query = "delete from tbl_seed where idseed<$primoseed";
+eseguiQuery($con, $query);
+
+
+
+
 $indirizzoip = IndirizzoIpReale();
 
 $_SESSION['indirizzoip'] = $indirizzoip;
@@ -71,7 +82,7 @@ if (mysqli_num_rows($ris) > 0)
 
 $tipoaccesso = controlla_password($con, $password, $username, $chiaveuniversale, $passwordesame);
 
- print "Tipo accesso: $tipoaccesso";
+print "Tipo accesso: $tipoaccesso";
 
 
 if ($tipoaccesso == 0)
@@ -166,7 +177,7 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2)
         $sql = "SELECT * FROM tbl_derogheinserimento WHERE iddocente='" . $_SESSION['idutente'] . "' AND DATA='" . date('Y-m-d') . "'";
         $ris = eseguiQuery($con, $sql);
 
-        
+
         if (mysqli_num_rows($ris) > 0)
         {
             $_SESSION['derogalimite'] = true;
@@ -247,7 +258,8 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2)
     // Inserimento dell'accesso in tabella
     // $indirizzoip = IndirizzoIpReale();
     // $_SESSION['indirizzoip'] = $indirizzoip;
-    if ($tipoaccesso==1)
+
+    if ($tipoaccesso == 1)
     {
         $sql = "INSERT INTO " . $_SESSION["prefisso"] . "tbl_logacc( utente , dataacc, comando,indirizzo) values('$username','" . date('Y/m/d - H:i') . "','Accesso','$indirizzoip')";
         eseguiQuery($con, $sql, false);

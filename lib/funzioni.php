@@ -609,12 +609,12 @@ function controlla_password($con,$password, $utente, $cu, $pe)
 {
     $listasemi = array();
 
+    
     $query = "select * from tbl_seed";
     $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris))
     {
-       
-        
+             
         $listasemi[] = $rec['seed'];
         
     }
@@ -625,7 +625,7 @@ function controlla_password($con,$password, $utente, $cu, $pe)
     
     foreach ($listasemi as $seme)
     {
-        $ind++;
+       
         print "$seme<br>";
         $query = "select * from tbl_utenti where userid='$utente' and md5(concat(password,'$seme'))='" . elimina_apici($password) . "'";
         $ris = eseguiQuery($con, $query);
