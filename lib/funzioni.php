@@ -618,7 +618,7 @@ function controlla_password($con,$password, $utente, $cu, $pe)
         $listasemi[] = $rec['seed'];
         
     }
-    print count($listasemi);
+   // print count($listasemi);
     
             
     // VERIFICO SE LA PASSWORD E' CORRETTA
@@ -626,7 +626,7 @@ function controlla_password($con,$password, $utente, $cu, $pe)
     foreach ($listasemi as $seme)
     {
        
-        print "$seme<br>";
+      //  print "$seme<br>";
         $query = "select * from tbl_utenti where userid='$utente' and md5(concat(password,'$seme'))='" . elimina_apici($password) . "'";
         $ris = eseguiQuery($con, $query);
         if (mysqli_num_rows($ris) > 0)

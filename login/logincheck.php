@@ -82,7 +82,7 @@ if (mysqli_num_rows($ris) > 0)
 
 $tipoaccesso = controlla_password($con, $password, $username, $chiaveuniversale, $passwordesame);
 
-print "Tipo accesso: $tipoaccesso";
+// print "Tipo accesso: $tipoaccesso";
 
 
 if ($tipoaccesso == 0)
