@@ -46,7 +46,7 @@ $query = "select idseed from tbl_seed ORDER BY idseed DESC LIMIT 1";
 $ris = eseguiQuery($con, $query);
 $rec = mysqli_fetch_array($ris);
 $ultimoseed = $rec['idseed'];
-$primoseed = $ultimoseed - 10;
+$primoseed = $ultimoseed - 30;
 $query = "delete from tbl_seed where idseed<$primoseed";
 eseguiQuery($con, $query);
 

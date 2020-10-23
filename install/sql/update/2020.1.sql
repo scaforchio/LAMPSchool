@@ -12,7 +12,7 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 CREATE TABLE IF NOT EXISTS tbl_dad (
   iddad int(11) AUTO_INCREMENT PRIMARY KEY,
   idclasse int(11),
-  datadad date)
+  datadad date
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE tbl_alunni
