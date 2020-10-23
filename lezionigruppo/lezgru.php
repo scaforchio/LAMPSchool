@@ -702,8 +702,13 @@ if (!checkdate($m, $g, $a))
                 //   {
                 //       $oreassenza = orediassenza($durata, $val['idalunno'], $anno . "-" . $mese . "-" . $giorno, $con);
                 //   }
-
-                echo "<td><select class='smallchar' name='oreass" . $val["idalunno"] . "' disabled>";
+                if ($_SESSION['tipogestassenzelezione'] == 'auto' | ($_SESSION['tipogestassenzelezione'] == 'ibr' & !lezione_dad($idclasse, $anno . "-" . $mese . "-" . $giorno, $con)))
+                {
+                    echo "<td><select class='smallchar' name='oreass" . $val["idalunno"] . "' disabled>";
+                } else
+                {
+                    echo "<td><select class='smallchar' name='oreass" . $val["idalunno"] . "'>";
+                }
                 for ($i = 0; $i <= $durata; $i++)  // TTTTT
                 {
                     if ($i != $oreassenza)

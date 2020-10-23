@@ -53,7 +53,13 @@ $rs = eseguiQuery($con, $query);
 $esistono = false;
 if (mysqli_num_rows($rs) > 0)
 {
-    print "<table align='center' border='1'><tr class='prima'><td>N.</td><td>Cognome</td><td>Nome</td><td>Data nascita</td><td>Cod. Fisc.</td><td>Funz.</td><td>Aut.<br>usc.<br>ant.</td></tr>";
+    print "<table align='center' border='1'><tr class='prima'><td>N.</td><td>Cognome</td><td>Nome</td><td>Data nascita</td><td>Cod. Fisc.</td><td>Funz.</td><td>Aut.<br>usc.<br>ant.</td>";
+    if (verifica_classe_coordinata($_SESSION['idutente'], $idclasse, $con))
+        {
+            print "<td>Telefoni genitori</td>";
+            print "<td>Email genitori</td>";
+        }
+    print "</tr>";
     $cont = 1;
     while ($rec = mysqli_fetch_array($rs))
     {
@@ -72,6 +78,11 @@ if (mysqli_num_rows($rs) > 0)
         else
             print "<td><b>N</b></td>";
         $cont++;
+        if (verifica_classe_coordinata($_SESSION['idutente'], $idclasse, $con))
+        {
+            print "<td>".$rec['telefono']." ".$rec['telcel']."</td>";
+            print "<td>".$rec['email']." ".$rec['email2']."</td>";
+        }
     }
 } else
     print "<BR><br><b><i><center>Nessun alunno presente!</b></i></center>";

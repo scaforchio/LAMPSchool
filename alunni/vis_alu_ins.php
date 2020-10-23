@@ -160,6 +160,8 @@ if (!$DB)
     print ("<td> <input type='text' name='cel' size='30' maxlength='25' value=''> </td> </tr>");
     print ("<tr> <td><i>Indirizzo E-mail</i> </td>");
     print (" <td> <input type='text' name='mail' size='50' maxlength='100'value=''> </td> </tr>");
+    print ("<tr> <td><i>Secondo indirizzo E-mail</i> </td>");
+    print (" <td> <input type='text' name='mail2' size='50' maxlength='100'value=''> </td> </tr>");
     print ("<tr><td>Certificato</td><td><select name='certificato'>");
     print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
     print ("</select></td></tr>");

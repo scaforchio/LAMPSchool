@@ -160,7 +160,6 @@ while ($id = mysqli_fetch_array($ris))
     if ($rec = mysqli_fetch_array($rislez))  // SE LA LEZIONE PER LA CLASSE NON C'E' Si REINSERISCE
     {
         $idlezione = $rec['idlezione'];
-        ricalcola_assenze_lezioni_classe($con, $idclasse, $data);
     } else
     {
         $queryinslez = "insert into tbl_lezioni(idclasse,datalezione,iddocente,idmateria,idlezionegruppo,numeroore,orainizio,argomenti,attivita) values ('$idclasse','$data','$iddocente','$idmateria','$idlezionegruppo','$numeroore','$orainizio','$argomenti','$attivita')";
@@ -168,12 +167,23 @@ while ($id = mysqli_fetch_array($ris))
         $idlezione = mysqli_insert_id($con);
         $queryinsfirma = "insert into tbl_firme(idlezione,iddocente) values ('$idlezione','$iddocente')";
         $risinsfirma = eseguiQuery($con, $queryinsfirma);
-        ricalcola_assenze_lezioni_classe($con, $idclasse, $data);
     }
 
 
-    @require '../lib/req_salva_voti.php';
+
+
+
+    require '../lib/req_salva_voti.php';
+    if ($_SESSION['tipogestassenzelezione'] == 'man')
+    {
+        require '../lib/req_salva_assenze.php';
+    }
+    if ($_SESSION['tipogestassenzelezione'] == 'ibr' & lezione_dad($idclasse, $data, $con))
+    {
+        require '../lib/req_salva_assenze.php';
+    }
 }
+ricalcola_assenze_lezioni_classe($con, $idclasse, $data);
 
 echo "<p align='center'>";
 

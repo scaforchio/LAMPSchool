@@ -553,8 +553,6 @@ if (!checkdate($m, $g, $a))
             //
             //    ESTRAZIONE DEI DATI DELLA LEZIONE
             //
-
-
             // TTTT Lezione 10
             if ($orainizionew != '')
             {
@@ -598,7 +596,7 @@ if (!checkdate($m, $g, $a))
 
 
             $querypiani = "SELECT iddocumento FROM tbl_documenti WHERE idclasse='" . $idclasse . "' AND idmateria='" . $materia . "' AND idtipodocumento=1000000001";
-            $rispiani = eseguiQuery($con,$querypiani);
+            $rispiani = eseguiQuery($con, $querypiani);
             if ($valpiani = mysqli_fetch_array($rispiani))
             {
                 print"<p align='right'>
@@ -805,47 +803,44 @@ if (!checkdate($m, $g, $a))
                 }
                 print "<td>";
 
-                // GESTIONE AUTOMATICA DELLE ASSENZE ALLE LEZIONI
-
-                print "<center><input class='smallchar' name='oreass" . $val["idalunno"] . "' size=1 value = '$oreassenza' disabled></center>";
-
-                //
-                // RIVEDERE LE RIGHE SUCCESSIVE PER GESTIONE MANUALE DELLE ASSENZE ALLA LEZIONE (27/7/205)
-                //
-                //tttt 24 luglio 2016   else
-                //   {
-                //       $oreassenza = oreassenza($ini, $durata, $val['idalunno'], $anno . "-" . $mese . "-" . $giorno, $con);
-                //   }
-                /*
-                  echo "<select class='smallchar' name='oreass" . $val["idalunno"] . "'>";
-                  for ($i = 0; $i <= $durata; $i++)  // TTTTT
-                  {
-                  if ($i != $oreassenza)
-                  {
-                  print "<option>" . $i;
-                  }
-                  else
-                  {
-                  print "<option selected>" . $i;
-                  }
-                  }
-                  print "</select>";
-                  if (ricerca_assenza_forzata($val['idalunno'],$idaluasse,$assenze,$assforzate))
-                  print ("<input type=checkbox name='forz".$val["idalunno"]."' checked>");
-                  else
-                  print ("<input type=checkbox name='forz".$val["idalunno"]."'>");
-                 */
+                
+                if ($_SESSION['tipogestassenzelezione'] == 'auto' | ($_SESSION['tipogestassenzelezione'] == 'ibr' & !lezione_dad($idclasse,$anno . "-" . $mese . "-" . $giorno,$con)))
+                {
+                    // GESTIONE AUTOMATICA DELLE ASSENZE ALLE LEZIONI
+                    print "<center><input class='smallchar' name='oreass" . $val["idalunno"] . "' size=1 value = '$oreassenza' disabled></center>";
+                } else
+                {//
+                    // GESTIONE MANUALE DELLE ASSENZE ALLA LEZIONE (27/7/205)
+                    
+                    echo "<select class='smallchar' name='oreass" . $val["idalunno"] . "'>";
+                    for ($i = 0; $i <= $durata; $i++)  // TTTTT
+                    {
+                        if ($i != $oreassenza)
+                        {
+                            print "<option>" . $i;
+                        } else
+                        {
+                            print "<option selected>" . $i;
+                        }
+                    }
+                    print "</select>";
+                    /*
+                      if (ricerca_assenza_forzata($val['idalunno'],$idaluasse,$assenze,$assforzate))
+                      print ("<input type=checkbox name='forz".$val["idalunno"]."' checked>");
+                      else
+                      print ("<input type=checkbox name='forz".$val["idalunno"]."'>");
+                     */
+                }
 
                 print"</td>";
 
 
                 $voto_medio = false;
                 $altro_docente = false;
-                
-                require '../lib/req_carica_voti.php';
 
+                require '../lib/req_carica_voti.php';
             }
- 
+
             echo '</table></center>';
 
 
@@ -994,11 +989,10 @@ function occupata($oredisp, $i, $j, $maxore)
     return $occ;
 }
 
-
 function cattedra($id_ut_doc, $idmateria, $idclasse, $con)
 {
     $querycatt = "select * from tbl_cattnosupp where idclasse='$idclasse' and idmateria='$idmateria' and iddocente='$id_ut_doc' and iddocente<>1000000000";
-    $riscatt = eseguiQuery($con,$querycatt);
+    $riscatt = eseguiQuery($con, $querycatt);
     if (mysqli_num_rows($riscatt) > 0)
     {
         return true;

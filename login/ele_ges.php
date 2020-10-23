@@ -49,14 +49,15 @@ if (isset($_SESSION['suffisso']))
 
 // VERIFICO CHE NON SIA RICHIESTO IL TOKEN
 if (!$_SESSION['tokenok'])
+{
     header("location: login.php?suffisso=" . $_SESSION['suffisso']);
-
+}
 
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
 // Passaggio dei parametri nella sessione
-@require "../lib/req_assegna_parametri_a_sessione.php";
+require "../lib/req_assegna_parametri_a_sessione.php";
 
 
 $json = leggeFileJSON('../lampschool.json');
@@ -70,13 +71,6 @@ $_SESSION['classeregistro'] = "";
 
 //$indirizzoip = IndirizzoIpReale();
 //$_SESSION['indirizzoip'] = $indirizzoip;
-
-
-
-
-
-
-
 // $seme = md5(date('Y-m-d'));
 
 
@@ -104,11 +98,7 @@ if ($JSdisab == 1)
 $cambiamentopassword = false;
 
 // TTTT
-
 // passwordok=verifica_password($)
-
-
-
 // TTTT
 
 if ($_SESSION['tipoutente'] != 'E')
@@ -166,7 +156,7 @@ $script = $script . "</script>\n";
 stampa_head($titolo, "", $script, "SDMAPTEL");
 if ($_SESSION['ultimoaccesso'] != "")
 {
-    $ult = " <b>(Ultimo accesso: ".$_SESSION['ultimoaccesso'].")</b>";
+    $ult = " <b>(Ultimo accesso: " . $_SESSION['ultimoaccesso'] . ")</b>";
 } else
 {
     $ult = "";
@@ -330,7 +320,6 @@ if ($cambiamentopassword)
             menu_item('../assenze/visderoghe.php', 'SITUAZIONE DEROGHE ASSENZE');
             menu_item('../scrutini/riepvoti.php', 'TABELLONE SCRUTINI INTERMEDI');
             menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
-
             if ($livello_scuola == '4')
             {
                 menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
@@ -568,6 +557,7 @@ if ($cambiamentopassword)
             menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
             menu_item('../documenti/stampafirmaprogrammi.php?docente=' . $idutente, 'STAMPE PER PRESA VISIONE PROGRAMMI');
             menu_item('../documenti/documenticlasse.php', 'DOCUMENTI CLASSE');
+            
             menu_title_end();
         }
         menu_title_begin('SCRUTINI');
@@ -768,6 +758,9 @@ if ($cambiamentopassword)
 
         menu_item('../docenti/visorario.php', 'VISUALIZZA ORARIO');
         menu_item('../docenti/visoraridocenti.php', 'VISUALIZZA ORARIO DOCENTE');
+        
+        menu_item('../lezioni/dad.php', 'INSERISCI GIORNATE D.A.D.');
+        menu_item('../lezioni/CRUDdad.php', 'ELIMINA GIORNATE D.A.D.');
         menu_title_end();
     }
 
@@ -1017,7 +1010,7 @@ if ($cambiamentopassword)
             menu_item('../password/alu_rigenera_password.php', 'Rigenera e stampa password alunni');
         menu_item('../password/conf_rig_pass_doc.php', 'Rigenera e stampa password docenti');
         menu_item('../password/CRUDselezioneInvioOTP.php', 'Gestione modalità invio OTP');
-        menu_item('../password/genschemaotp.php','Generazione schemi per OTP');
+        menu_item('../password/genschemaotp.php', 'Generazione schemi per OTP');
         menu_item('../password/gestschedaotp.php', 'Gestione scheda OTP');
         menu_item('../password/gestpwd.php', 'Cambia password utente');
         menu_item('../esame3m/abilitautenteesame.php', 'Abilita utente esame di stato');
@@ -1251,10 +1244,10 @@ if ($cambiamentopassword)
 
         menu_title_end();
     }
-    
+
     // print "Solo comunicazioni $gensolocomunicazioni";
 
-    if ($tipoutente == 'T' & $gensolocomunicazioni=='no')
+    if ($tipoutente == 'T' & $gensolocomunicazioni == 'no')
     {
 
         //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
@@ -1334,7 +1327,7 @@ if ($cambiamentopassword)
         }
     }
 
-    if ($tipoutente == 'T' & $gensolocomunicazioni=='yes')
+    if ($tipoutente == 'T' & $gensolocomunicazioni == 'yes')
     {
 
         //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
@@ -1358,14 +1351,13 @@ if ($cambiamentopassword)
             $pwesterna = $val["pwesterna"];
             $telcel = $val["telcel"];
 
-            
+
             menu_title_begin('COMUNICAZIONI SCUOLA-FAMIGLIA');
 
             menu_item('../circolari/viscircolari.php', 'LEGGI CIRCOLARI');
-           // menu_item("../colloqui/visdisponibilita.php?idclasse=$idclasse", 'PRENOTAZIONE COLLOQUIO');
+            // menu_item("../colloqui/visdisponibilita.php?idclasse=$idclasse", 'PRENOTAZIONE COLLOQUIO');
             // menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');
-           menu_title_end();
-            
+            menu_title_end();
         }
     }
 
@@ -1421,7 +1413,7 @@ if ($cambiamentopassword)
                 menu_title_end();
             }
             menu_title_begin("LEZIONI A DISTANZA");
-                menu_item('../docenti/elencocollegamentiwebex.php', 'VISUALIZZA COLLEGAMENTI DOCENTI');
+            menu_item('../docenti/elencocollegamentiwebex.php', 'VISUALIZZA COLLEGAMENTI DOCENTI');
             menu_title_end();
             menu_title_begin('PASSWORD');
             menu_item('../password/cambpwd.php', 'CAMBIAMENTO PROPRIA PASSWORD');
@@ -1506,7 +1498,7 @@ if ($cambiamentopassword)
         //
         // VERIFICO PRESENZA COLLOQUI
         //
-        
+
         if ($tipoutente == "D" | $tipoutente == "S")
         {
             $dataoggi = date('Y-m-d');
@@ -1543,7 +1535,7 @@ if ($cambiamentopassword)
 								  and iddocente=" . $_SESSION['idutente'] . "
 								  and data>='$dataoggi'
 								  and tbl_prenotazioni.valido
-								  and conferma=2";
+								  and conferma in (2,4)";
 
             $ris = eseguiQuery($con, $query);
             if (mysqli_num_rows($ris) > 0)
@@ -1553,8 +1545,12 @@ if ($cambiamentopassword)
 
                     if ($rec['data'] > $dataoggi | $oraattuale < substr($rec['fine'], 0, 5))
                     {
-                        print ("<center><br><i><b><font color='red'>Colloquio con genitore di " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . " alle " . substr($rec['inizio'], 0, 5) . "</a></font></b></i><br/></center>");
-                        print ("<br/>");
+                        if ($rec['conferma']==2) 
+                            print ("<center><br><i><b><font color='red'>Colloquio con genitore di " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . " alle " . substr($rec['inizio'], 0, 5) . "</a></font></b></i><br/></center>");
+                        
+                        if ($rec['conferma']==4)
+                            print ("<center><br><i><b><font color='red'>Colloquio online con genitore di " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . " alle " . substr($rec['inizio'], 0, 5) . "</a></font></b></i><br/></center>");
+                        print ("<br/>");   
                     }
                 }
             }
@@ -1577,7 +1573,7 @@ if ($cambiamentopassword)
 								  and idalunno=" . $_SESSION['idutente'] . "
 								  and data>='$dataoggi'
 								  and tbl_prenotazioni.valido
-								  and conferma=2";
+								  and conferma in (2,4)";
 
             $ris = eseguiQuery($con, $query);
             if (mysqli_num_rows($ris) > 0)
@@ -1587,7 +1583,11 @@ if ($cambiamentopassword)
 
                     if ($rec['data'] > $dataoggi | $oraattuale < substr($rec['fine'], 0, 5))
                     {
-                        print ("<center><br><i><b><font color='red'>Colloquio con Prof. " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . " or. ricev. " . substr($rec['inizio'], 0, 5) . " - " . substr($rec['fine'], 0, 5) . "<br>" . $rec['notaprenotazione'] . "</a></font></b></i><br/></center>");
+                        if ($rec['conferma']==2)
+                            print ("<center><br><i><b><font color='red'>Colloquio con Prof. " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . " or. ricev. " . substr($rec['inizio'], 0, 5) . " - " . substr($rec['fine'], 0, 5) . "<br>" . $rec['notaprenotazione'] . "</a></font></b></i><br/></center>");
+                        if ($rec['conferma']==4)
+                            print ("<center><br><i><b><font color='red'>Colloquio <a href='".$rec['collegamentowebex']."'>online</a> con Prof. " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . " or. ricev. " . substr($rec['inizio'], 0, 5) . " - " . substr($rec['fine'], 0, 5) . "<br>" . $rec['notaprenotazione'] . "</a></font></b></i><br/></center>");
+                      
                         print ("<br/>");
                     }
                 }
@@ -1596,7 +1596,7 @@ if ($cambiamentopassword)
             //
             //  ANNOTAZIONI RECENTI
             //
-            
+
             $idclassealunno = estrai_classe_alunno($_SESSION['idutente'], $con);
             $datalimiteinferiore = aggiungi_giorni(date('Y-m-d'), -1);
             $query = "select * from tbl_annotazioni,tbl_docenti
@@ -1613,7 +1613,7 @@ if ($cambiamentopassword)
                 {
 
 
-                    print ("<center><br><i>" . data_italiana($rec['data']) . "</i><b><font color='green'><br> " . $rec['testo'] ." <small>(".$rec['cognome']." ".$rec['nome'].")<big></font></b><br/></center>");
+                    print ("<center><br><i>" . data_italiana($rec['data']) . "</i><b><font color='green'><br> " . $rec['testo'] . " <small>(" . $rec['cognome'] . " " . $rec['nome'] . ")<big></font></b><br/></center>");
                     print ("<br/>");
                 }
             }
@@ -1626,7 +1626,7 @@ if ($cambiamentopassword)
             //
             //  ANNOTAZIONI RECENTI
             //
-            
+
             $idclassealunno = estrai_classe_alunno($_SESSION['idutente'] - 2100000000, $con);
             $datalimiteinferiore = aggiungi_giorni(date('Y-m-d'), -1);
             $query = "select * from tbl_annotazioni,tbl_docenti
@@ -1643,7 +1643,7 @@ if ($cambiamentopassword)
                 {
 
 
-                    print ("<center><br><i>" . data_italiana($rec['data']) . "</i><b><font color='green'><br> " . $rec['testo'] ." <small>(".$rec['cognome']." ".$rec['nome'].")<big></font></b><br/></center>");
+                    print ("<center><br><i>" . data_italiana($rec['data']) . "</i><b><font color='green'><br> " . $rec['testo'] . " <small>(" . $rec['cognome'] . " " . $rec['nome'] . ")<big></font></b><br/></center>");
                     print ("<br/>");
                 }
             }
@@ -1674,7 +1674,7 @@ if ($cambiamentopassword)
             //
             //  VERIFICO PRESENZA AGGIORNAMENTI
             //
-         //   inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
+            //   inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
             $idscuola = md5($nomefilelog);
             //   inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
             //print "<iframe style='visibility:hidden;display:none' src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola'></iframe>";
@@ -1703,7 +1703,7 @@ if ($cambiamentopassword)
             $risultato = controlloNuovaVersione();
             $esito = $risultato['esito'];
             $nuovaVersione = $risultato['versione'];
-            
+
             if ($esito)
             {
                 print "<center><h5><font color='red'>E' disponibile sul sito di LAMPSchool la versione $nuovaVersione</font></h5></center>";
@@ -1712,7 +1712,7 @@ if ($cambiamentopassword)
             print $_SERVER['HTTP_USER_AGENT'];
             //
             // FINE VERIFICA AGGIORNAMENTI
-        //
+            //
         }
         //inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "2");
         $query = "select * from tbl_avvisi where inizio<='$dataoggi' and fine>='$dataoggi' order by inizio desc";

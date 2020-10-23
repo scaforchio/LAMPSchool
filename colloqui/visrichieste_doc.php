@@ -94,6 +94,10 @@ while ($rec = mysqli_fetch_array($ris))
         $sele3 = ' selected';
     else
         $sele3 = '';
+    if ($risp == 4)
+        $sele4 = ' selected';
+    else
+        $sele4 = '';
     print "<tr";
     if ($dataoggi < $rec['data'])
         print " class='green'";
@@ -111,7 +115,7 @@ while ($rec = mysqli_fetch_array($ris))
         if ($dataoggi < $rec['data'])
             print " <td><form action='registrarisposta.php' method='post'>
                    <input type='hidden' name='idprenotazione' value='$idprenotazione'>
-                   <select name='risposta'><option value='1'$sele1>In sosp.</option><option value='2'$sele2>Sì</option><option value='3'$sele3>No</option></select>
+                   <select name='risposta'><option value='1'$sele1>In sosp.</option><option value='2'$sele2>Sì</option><option value='4'$sele4>Sì online</option><option value='3'$sele3>No</option></select>
                    <input type='text' name='note' value='$note' maxlength='255' size='50'>
                    <input type='submit' value='Invia risposta'>
                    </form>

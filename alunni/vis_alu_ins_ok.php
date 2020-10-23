@@ -50,6 +50,7 @@ $sidi = stringa_html('sidi');
 $tel = stringa_html('tel');
 $cel = stringa_html('cel');
 $mail = stringa_html('mail');
+$mail2 = stringa_html('mail');
 $note = stringa_html('note');
 $autentrata = stringa_html('autentrata');
 $autuscita = stringa_html('autuscita');
@@ -81,7 +82,7 @@ if (!$DB)
     //print "<html>";
     //print " <head> ";
     //print (" <title> Controllo dati dell'inserimento</title> </head>");
-    $query = "insert into tbl_alunni (cognome,nome,datanascita,codfiscale,certificato,idcomnasc,indirizzo,idcomres,codmeccanografico,telefono,telcel,email,autentrata,autuscita,idclasse,note,numeroregistro,provenienza,titoloammissione,sequenzaiscrizione,firmapropria)values('$cognome','$nome','$aa-$mm-$gg','$codfiscale','$certificato','$idcomn','$indirizzo','$idcomr','$sidi','$tel','$cel','$mail','$autentrata','$autuscita','$datc','$note','$numeroregistro','$provenienza','$titoloammissione',$sequenzaiscrizione,$firmapropria)";
+    $query = "insert into tbl_alunni (cognome,nome,datanascita,codfiscale,certificato,idcomnasc,indirizzo,idcomres,codmeccanografico,telefono,telcel,email,email2,autentrata,autuscita,idclasse,note,numeroregistro,provenienza,titoloammissione,sequenzaiscrizione,firmapropria)values('$cognome','$nome','$aa-$mm-$gg','$codfiscale','$certificato','$idcomn','$indirizzo','$idcomr','$sidi','$tel','$cel','$mail','$mail2','$autentrata','$autuscita','$datc','$note','$numeroregistro','$provenienza','$titoloammissione',$sequenzaiscrizione,$firmapropria)";
     $err = 0;
     $mes = "";
     if (!$cognome)
@@ -290,6 +291,7 @@ if (!$DB)
         print ("<input type='hidden' name='tel' value='$tel'>");
         print ("<input type='hidden' name='cel'  value='$cel'> ");
         print ("<input type='hidden' name='mail' value='$mail'> ");
+        print ("<input type='hidden' name='mail2' value='$mail2'> ");
         print ("<input type='hidden' name='note' value='$note'> ");
         print ("<input type='hidden' name='autentrata' value='$autentrata'> ");
         print ("<input type='hidden' name='autuscita' value='$autuscita'> ");

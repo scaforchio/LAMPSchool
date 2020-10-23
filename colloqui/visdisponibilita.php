@@ -91,7 +91,7 @@ if ($_SESSION['tipoutente'] != 'T')
     print ("</select></td></tr></table></form>");
 }
 if ($idclasse != "")
-    $query = "select distinct cognome,nome,tbl_docenti.iddocente from tbl_cattnosupp,tbl_docenti
+    $query = "select distinct cognome,nome,tbl_docenti.iddocente,collegamentowebex from tbl_cattnosupp,tbl_docenti
 	        where tbl_cattnosupp.iddocente=tbl_docenti.iddocente
 	        and tbl_cattnosupp.idclasse=   " . $idclasse . "
 	        and tbl_cattnosupp.iddocente!=1000000000
@@ -126,6 +126,8 @@ while ($nom = mysqli_fetch_array($ris))
         {
             print "<br>" . decodifica_materia($recmat['idmateria'], $con) . "  ";
         }
+       // if ($nom['collegamentowebex']!='')
+       //     print "<br><a href='" . $nom['collegamentowebex'] . "'><b>Colloquio online</b></a>  ";
         print "</small>";
     }
 

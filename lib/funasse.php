@@ -12,13 +12,13 @@ function elimina_assenze_lezione($conn, $idalunno, $datalezione, $idclasse = "")
         $query = "delete from tbl_asslezione where idlezione in (
                       select idlezione from tbl_lezioni where idclasse='$idclasse' and datalezione = '$datalezione')
                       and not forzata ";
-        eseguiQuery($conn,$query);
+        eseguiQuery($conn, $query);
         //  Eliminare tutte le assenze per la classe;
     } else
     {
 
         $query = "delete from tbl_asslezione where idalunno='$idalunno' and data='$datalezione' and not forzata ";
-        eseguiQuery($conn,$query);
+        eseguiQuery($conn, $query);
     }
 }
 
@@ -40,7 +40,7 @@ function inserisci_assenze_per_ritardi_uscite($conn, $idalunno, $data)
         if ($numeroore > 0)
         {
             $query = "insert into tbl_asslezione(idalunno, idlezione, idmateria, data, oreassenza) values ($idalunno,$idlezione,$idmateria,'$data',$numeroore)";
-            eseguiQuery($conn,$query);
+            eseguiQuery($conn, $query);
         }
     }
 }
@@ -347,119 +347,126 @@ function oreassenza($inizio, $durata, $idalunno, $data, $con)
         return $durata;
     }
 
-    // VERIFICO SE CI SONO EVENTI (Ritardi o Uscite Anticipate) ALTRIMENTI RESTITUISCO 0
-
-    $esistonoeventi = false;
-    $eventi = array();
-    $query = "select * from tbl_ritardi where idalunno='$idalunno' and data='$data'";
-    $ris = eseguiQuery($con, $query);
-    while ($rec = mysqli_fetch_array($ris))
-    {
-        $eventi[] = substr($rec['oraentrata'], 0, 5) . "R";
-        $esistonoeventi = true;
-    }
-    $query = "select * from tbl_usciteanticipate where idalunno='$idalunno' and data='$data'";
-    $ris = eseguiQuery($con, $query);
-    while ($rec = mysqli_fetch_array($ris))
-    {
-        $eventi[] = substr($rec['orauscita'], 0, 5) . "U";
-        $esistonoeventi = true;
-    }
-    if (!$esistonoeventi)
+    if ($_SESSION['tipogestassenzelezione'] == 'man')
     {
         return 0;
     }
+    $idclassealunno= estrai_classe_alunno_data($idalunno, $data, $con);
+     if ($_SESSION['tipogestassenzelezione'] == 'ibr' & lezione_dad($idclassealunno, $data, $con))
+    {
+        return 0;
+    }
+    // VERIFICO SE CI SONO EVENTI (Ritardi o Uscite Anticipate) ALTRIMENTI RESTITUISCO 0
+    else
+    {
+        $esistonoeventi = false;
+        $eventi = array();
+        $query = "select * from tbl_ritardi where idalunno='$idalunno' and data='$data'";
+        $ris = eseguiQuery($con, $query);
+        while ($rec = mysqli_fetch_array($ris))
+        {
+            $eventi[] = substr($rec['oraentrata'], 0, 5) . "R";
+            $esistonoeventi = true;
+        }
+        $query = "select * from tbl_usciteanticipate where idalunno='$idalunno' and data='$data'";
+        $ris = eseguiQuery($con, $query);
+        while ($rec = mysqli_fetch_array($ris))
+        {
+            $eventi[] = substr($rec['orauscita'], 0, 5) . "U";
+            $esistonoeventi = true;
+        }
+        if (!$esistonoeventi)
+        {
+            return 0;
+        }
 
 
-    // CALCOLO LE ORE DI ASSENZA PER LA LEZIONE
-    sort($eventi);
-    $numeroeventi = count($eventi);
-    // print "Numero eventi $numeroeventi";
-    // foreach ($eventi as $evento)
-    //    print "Evento $evento <br>";
-    $iniziogiornata = orainizio(1, numero_giorno_settimana($data), $con);
-    $query = "SELECT fine FROM tbl_orario WHERE giorno=" . numero_giorno_settimana($data) . " AND ora=
+        // CALCOLO LE ORE DI ASSENZA PER LA LEZIONE
+        sort($eventi);
+        $numeroeventi = count($eventi);
+        // print "Numero eventi $numeroeventi";
+        // foreach ($eventi as $evento)
+        //    print "Evento $evento <br>";
+        $iniziogiornata = orainizio(1, numero_giorno_settimana($data), $con);
+        $query = "SELECT fine FROM tbl_orario WHERE giorno=" . numero_giorno_settimana($data) . " AND ora=
             (SELECT max(ora) FROM tbl_orario WHERE giorno=" . numero_giorno_settimana($data) . " AND valido)
             AND valido";
-    $ris = eseguiQuery($con, $query);
-    $rec = mysqli_fetch_array($ris);
-    $finegiornata = $rec['fine'];
+        $ris = eseguiQuery($con, $query);
+        $rec = mysqli_fetch_array($ris);
+        $finegiornata = $rec['fine'];
 
+        $orainiziogiornata = date_create($iniziogiornata);
+        $orafinegiornata = date_create($finegiornata);
 
-    $orainiziogiornata = date_create($iniziogiornata);
-    $orafinegiornata = date_create($finegiornata);
+        $presenzaminutigiornata = array();
+        $puntaminuto = $orainiziogiornata;
 
-
-    $presenzaminutigiornata = array();
-    $puntaminuto = $orainiziogiornata;
-
-
-    if (substr($eventi[0], 5, 1) == 'R')
-    {
-        $pres_ass = false;
-    } else
-    {
-        $pres_ass = true;
-    }
-    $puntaevento = 0;
-    while ($puntaminuto < $orafinegiornata)
-    {
-
-        if ($puntaminuto == date_create(substr($eventi[$puntaevento], 0, 5)))
+        if (substr($eventi[0], 5, 1) == 'R')
         {
-            if ($pres_ass)
+            $pres_ass = false;
+        } else
+        {
+            $pres_ass = true;
+        }
+        $puntaevento = 0;
+        while ($puntaminuto < $orafinegiornata)
+        {
+
+            if ($puntaminuto == date_create(substr($eventi[$puntaevento], 0, 5)))
             {
-                if (substr($eventi[$puntaevento], 5, 1) == 'U')
+                if ($pres_ass)
                 {
-                    $pres_ass = false;
+                    if (substr($eventi[$puntaevento], 5, 1) == 'U')
+                    {
+                        $pres_ass = false;
+                    }
+                } else
+                {
+                    if (substr($eventi[$puntaevento], 5, 1) == 'R')
+                    {
+                        $pres_ass = true;
+                    }
                 }
+
+                if ($puntaevento < ($numeroeventi - 1))
+                    $puntaevento++;
+                $presenzaminutigiornata[date_format($puntaminuto, "H:i")] = $pres_ass;
             } else
             {
-                if (substr($eventi[$puntaevento], 5, 1) == 'R')
-                {
-                    $pres_ass = true;
-                }
+                $presenzaminutigiornata[date_format($puntaminuto, "H:i")] = $pres_ass;
             }
-
-            if ($puntaevento < ($numeroeventi - 1))
-                $puntaevento++;
-            $presenzaminutigiornata[date_format($puntaminuto, "H:i")] = $pres_ass;
+            //  print date_format($puntaminuto,"H:i")." ".$pres_ass. " <br>";
+            date_add($puntaminuto, date_interval_create_from_date_string("1 minutes"));
         }
-        else
+
+
+        // Conto il numero di minuti di assenza per la lezione
+
+        $iniziolezione = substr(orainizio($inizio, numero_giorno_settimana($data), $con), 0, 5);
+        $finelezione = substr(orafine($inizio + $durata - 1, numero_giorno_settimana($data), $con), 0, 5);
+        //print "Inizio: $iniziolezione Fine: $finelezione";
+        $puntaminutolezione = $iniziolezione;
+        $numminutiassenza = 0;
+        $numminutilezione = 0;
+        while ($puntaminutolezione < $finelezione)
         {
-            $presenzaminutigiornata[date_format($puntaminuto, "H:i")] = $pres_ass;
+            if (!$presenzaminutigiornata[$puntaminutolezione])
+            {
+                $numminutiassenza++;
+            }
+            $pml = date_create($puntaminutolezione);
+            date_add($pml, date_interval_create_from_date_string("1 minutes"));
+            $puntaminutolezione = date_format($pml, 'H:i');
+            $numminutilezione++;
         }
-        //  print date_format($puntaminuto,"H:i")." ".$pres_ass. " <br>";
-        date_add($puntaminuto, date_interval_create_from_date_string("1 minutes"));
+
+        //print "Minuti assenza $numminutiassenza Minuti lezione $numminutilezione <br>";
+        $oreassenza = ($numminutiassenza / $numminutilezione) * $durata;
+        $oreassarrot = round($oreassenza);
+        return $oreassarrot;
+        // print " Ore ass:$oreassarrot";
+        // print " Minuti assenza $numminutiassenza <br>";
     }
-
-
-    // Conto il numero di minuti di assenza per la lezione
-
-    $iniziolezione = substr(orainizio($inizio, numero_giorno_settimana($data), $con), 0, 5);
-    $finelezione = substr(orafine($inizio + $durata - 1, numero_giorno_settimana($data), $con), 0, 5);
-    //print "Inizio: $iniziolezione Fine: $finelezione";
-    $puntaminutolezione = $iniziolezione;
-    $numminutiassenza = 0;
-    $numminutilezione = 0;
-    while ($puntaminutolezione < $finelezione)
-    {
-        if (!$presenzaminutigiornata[$puntaminutolezione])
-        {
-            $numminutiassenza++;
-        }
-        $pml = date_create($puntaminutolezione);
-        date_add($pml, date_interval_create_from_date_string("1 minutes"));
-        $puntaminutolezione = date_format($pml, 'H:i');
-        $numminutilezione++;
-    }
-
-    //print "Minuti assenza $numminutiassenza Minuti lezione $numminutilezione <br>";
-    $oreassenza = ($numminutiassenza / $numminutilezione) * $durata;
-    $oreassarrot = round($oreassenza);
-    return $oreassarrot;
-    // print " Ore ass:$oreassarrot";
-    // print " Minuti assenza $numminutiassenza <br>";
 }
 
 /**
@@ -485,18 +492,18 @@ function calcola_ore_assenza($idalunno, $datainizio, $datafine, $conn)
     {
         $seledata = $seledata . " and data <= '" . data_to_db($datafine) . "' ";
     }
-    
- /*   $query = "select sum(oreassenza) as oretot from tbl_asslezione
-                  where idalunno='$idalunno' $seledata";
-    $risass = eseguiQuery($conn, $query);
-    $rec= mysqli_fetch_array($risass);
-    $oreassenza=$rec['oretot']; */
+
+    /*   $query = "select sum(oreassenza) as oretot from tbl_asslezione
+      where idalunno='$idalunno' $seledata";
+      $risass = eseguiQuery($conn, $query);
+      $rec= mysqli_fetch_array($risass);
+      $oreassenza=$rec['oretot']; */
 
     $arrayoreassenza = array();
     $query = "select tbl_asslezione.data as dataass,orainizio,oreassenza from tbl_asslezione,tbl_lezioni
                   where tbl_asslezione.idlezione=tbl_lezioni.idlezione
                   and idalunno='$idalunno' $seledata";
-   
+
     $risass = eseguiQuery($conn, $query);
     while ($recass = mysqli_fetch_array($risass))
     {
@@ -534,7 +541,7 @@ function calcola_ore_deroga($idalunno, $datainizio, $datafine, $conn)
     $query = "select tbl_asslezione.data as dataass,orainizio,oreassenza from tbl_asslezione,tbl_lezioni
                   where tbl_asslezione.idlezione=tbl_lezioni.idlezione
                   and idalunno='$idalunno' $seledata and not tbl_asslezione.data in (select distinct data from tbl_deroghe where idalunno=$idalunno and numeroore=0)";
-   
+
     $risass = eseguiQuery($conn, $query);
     while ($recass = mysqli_fetch_array($risass))
     {
@@ -719,4 +726,15 @@ function inserisciAmmonizioneGiustAssenze($idalunno, $iddocente, $datalimiteinfe
     $numnota = mysqli_insert_id($con);
     $query = "INSERT INTO tbl_noteindalu(idnotaalunno,idalunno) values('$numnota','$idalunno')";
     eseguiQuery($con, $query);
+}
+
+function lezione_dad($idclasse, $data, $con)
+{    
+    $query = "SELECT * from tbl_dad where idclasse=$idclasse and datadad='$data'";
+    $ris = eseguiQuery($con, $query);
+
+    if (mysqli_num_rows($ris)>0)
+        return true;
+    else
+        return false;
 }

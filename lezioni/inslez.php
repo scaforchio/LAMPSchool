@@ -175,8 +175,10 @@ if (!$flagsovrapposizione)
      * INSERIMENTO ORE ASSENZA LEZIONE
      */
 
-
+    
     ricalcola_assenze_lezioni_classe($con, $idclasse, $data);
+    // Terrà conto solo delle assenze se gestione assenze per ritardi e uscite è manuale
+    
 
 
     /*
@@ -205,7 +207,15 @@ if (!$flagsovrapposizione)
 
     while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
     {
-        @require '../lib/req_salva_voti.php';
+        require '../lib/req_salva_voti.php';
+        if ($_SESSION['tipogestassenzelezione'] == 'man')
+        {
+            require '../lib/req_salva_assenze.php';
+        }
+        if ($_SESSION['tipogestassenzelezione'] == 'ibr' & lezione_dad($idclasse,$data,$con))
+        {
+            require '../lib/req_salva_assenze.php';
+        }
     }
 }
 
@@ -240,6 +250,7 @@ echo "<p align='center'>";
 $tempofine = millitime();
 $durataoperazione = $tempofine - $tempoinizio;
 inserisci_log("DURATA INSERIMENTO LEZIONE: $durataoperazione");
+//die();
 if ($_SESSION['regcl'] != "")
 {
     $pr = $_SESSION['prove'];

@@ -539,9 +539,13 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
     {
         print "<center><b>Allegati al registro: </b><a href=javascript:Popup('visautorizzazioni.php?idclasse=$idclasse')>Autorizzazioni ed esoneri</a>&nbsp;&nbsp;&nbsp;
                      <a href=javascript:Popup('elencoalunni.php?idclasse=$idclasse')>Elenco alunni</a>&nbsp;&nbsp;&nbsp;";
+        
+        if (verifica_classe_coordinata($_SESSION['idutente'], $idclasse, $conn) | $_SESSION['tipoutente']=='P')
+            print "<a href=javascript:Popup('elencodocenti.php?idclasse=$idclasse')>Docenti classe</a>&nbsp;&nbsp;&nbsp;"; 
+
         if (is_docente_classe($iddocente, $idclasse, $conn) | is_docente_sostegno_classe($iddocente, $idclasse, $conn)) // | $_SESSION['sostegno'])
             print "<a href='../documenti/visdocumenticlasse.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&mese=$mese')>Documenti classe</a></center>";
-    }
+            }
 }
 
 function esiste_lezione($data, $con)

@@ -208,7 +208,7 @@ function id_prenotazione($data, $idoraric, $conn)
 
 function giorno_sospensione_colloqui($data, $conn)
 {
-    $query = "select * from tbl_sospensionicolloqui where data<='$data' and datafine>='$data'";
+    $query = "select * from tbl_sospensionicolloqui where data='$data'";
     $ris = eseguiQuery($conn, $query);
     if (mysqli_num_rows($ris) > 0)
         return true;

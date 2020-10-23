@@ -64,6 +64,7 @@ $sidi = stringa_html('sidi');
 $tel = stringa_html('tel');
 $cel = stringa_html('cel');
 $mail = stringa_html('mail');
+$mail2 = stringa_html('mail2');
 $note = stringa_html('note');
 $autentrata = stringa_html('autentrata');
 $autuscita = stringa_html('autuscita');
@@ -100,7 +101,7 @@ if ($idcomr != null)
 {
     $sqla = $sqla . "idcomres=$idcomr,";
 }
-$sqla = $sqla . " codmeccanografico='$sidi',telefono='$tel', telcel='$cel', email='$mail',autentrata='$autentrata',autuscita='$autuscita', idclasse=$datc, idtutore=$idal,note='$note',numeroregistro='$numeroregistro',provenienza='$provenienza',titoloammissione='$titoloammissione',sequenzaiscrizione=$sequenzaiscrizione WHERE idalunno=$c";
+$sqla = $sqla . " codmeccanografico='$sidi',telefono='$tel', telcel='$cel', email='$mail',email2='$mail2',autentrata='$autentrata',autuscita='$autuscita', idclasse=$datc, idtutore=$idal,note='$note',numeroregistro='$numeroregistro',provenienza='$provenienza',titoloammissione='$titoloammissione',sequenzaiscrizione=$sequenzaiscrizione WHERE idalunno=$c";
 $err = 0;
 $mes = "";
 
@@ -290,6 +291,7 @@ if ($err == 0)
     print ("<input type='hidden' name='tel' value='$tel'>");
     print ("<input type='hidden' name='cel' value='$cel'> ");
     print ("<input type='hidden' name='mail' value='$mail'> ");
+    print ("<input type='hidden' name='mail2' value='$mail2'> ");
     print ("<input type='hidden' name='note' value='$note'> ");
     print ("<input type='hidden' name='autentrata' value='$autentrata'> ");
     print ("<input type='hidden' name='autuscita' value='$autuscita'> ");

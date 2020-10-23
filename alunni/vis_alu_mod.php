@@ -122,6 +122,7 @@ if (!$res)
         $tel = $dato['telefono'];
         $cel = $dato['telcel'];
         $mail = $dato['email'];
+        $mail2 = $dato['email2'];
         $note = $dato['note'];
         $autentrata = $dato['autentrata'];
         $autuscita = $dato['autuscita'];
@@ -217,6 +218,8 @@ if (!$res)
         print ("<tr> <td><i>Numero di telefono</i> </td> <td align='left'> <input type='text' value='$tel' name='tel' size='30' maxlength='15'> </td> </tr>");
         print ("<tr> <td> <i>Numero cellulare<br><small>(massimo 2 separati eventualmente da virgola)</small></i> </td> <td align='left'> <input type='text' value='$cel' name='cel' size='30' maxlength='25'> </td> </tr>");
         print ("<tr> <td><i>Indirizzo E-mail</i> </td> <td align='left'> <input type='text' value='$mail' name='mail' size='50' maxlength='100'> </td> </tr>");
+        print ("<tr> <td><i>Secondo indirizzo E-mail</i> </td> <td align='left'> <input type='text' value='$mail2' name='mail2' size='50' maxlength='100'> </td> </tr>");
+        
         print ("<tr><td>Certificato</td><td align='left'><select name='certificato'>");
         if (!$certificato)
         {
