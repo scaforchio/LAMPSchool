@@ -49,7 +49,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
 
 $titolo = "Inserimento dati di accesso";
-$seedcasuale = random_int(100000, 999999);
+$seedcasuale = mt_rand(100000, 999999);
 $seme = md5(date('Y-m-d').$seedcasuale);
 eseguiQuery($con,"insert into tbl_seed(seed) values('$seme')");
 
