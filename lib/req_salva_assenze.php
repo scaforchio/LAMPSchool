@@ -14,7 +14,7 @@ $query = "delete from tbl_asslezione where idalunno=$idal and idlezione=$idlezio
 eseguiQuery($con, $query);
 if ($asslezal != 0)
 {
-    $query = "insert into tbl_asslezione(idalunno, idlezione,oreassenza,forzata) values ($idal,$idlezione,$asslezal,true)";
+    $query = "insert into tbl_asslezione(idalunno, idlezione,idmateria,data,oreassenza,forzata) values ($idal,$idlezione,$idmateria,'$data',$asslezal,true)";
     eseguiQuery($con,$query);
 }
        
