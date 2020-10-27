@@ -48,7 +48,7 @@ stampa_head($titolo, "", $script, "MSPD");
 print "<center><B>Elenco docenti della " . decodifica_classe($idclasse, $con) . "</B><br><br></center>";
 // prelevamento dati alunno
 // $rs = $lQuery->selectstar('tbl_alunni', 'idalunno=?', array($codalunno));
-$query = "select distinct tbl_cattnosupp.iddocente, cognome, nome, telcel, email from tbl_cattnosupp,tbl_docenti
+$query = "select distinct tbl_cattnosupp.iddocente, cognome, nome, telcel, email,collegamentowebex from tbl_cattnosupp,tbl_docenti
         where tbl_cattnosupp.iddocente=tbl_docenti.iddocente
         and idclasse=$idclasse and tbl_cattnosupp.iddocente<>1000000000
         order by cognome, nome";
@@ -57,16 +57,27 @@ $ris = eseguiQuery($con, $query);
 $esistono = false;
 if (mysqli_num_rows($ris) > 0)
 {
-    print "<table align='center' border='1'><tr class='prima'><td>Cognome</td><td>Nome</td><td>Cellulare</td><td>Email</td>";
-    
-    while ($rec = mysqli_fetch_array($ris))
+    if (verifica_classe_coordinata($_SESSION['idutente'], $idclasse, $con))
     {
-        print "<tr><td>" . $rec['cognome'] . "</td><td>" . $rec['nome'] . "</td><td>".$rec['telcel']."</td><td> ".$rec['email']."</td></tr>";
-           
-        
+        print "<table align='center' border='1'><tr class='prima'><td>Cognome</td><td>Nome</td><td>Cellulare</td><td>Email</td><td>Coll. DAD</td></tr>";
+
+        while ($rec = mysqli_fetch_array($ris))
+        {
+            print "<tr><td>" . $rec['cognome'] . "</td><td>" . $rec['nome'] . "</td><td>" . $rec['telcel'] . "</td><td> " . $rec['email'] . "</td><td><a href='" . $rec['collegamentowebex'] ."'>". $rec['collegamentowebex'] ."</a></td></tr>";
+        }
+    } else
+    {
+        print "<table align='center' border='1'><tr class='prima'><td>Cognome</td><td>Nome</td><td>Coll. DAD</td></tr>";
+
+        while ($rec = mysqli_fetch_array($ris))
+        {
+            print "<tr><td>" . $rec['cognome'] . "</td><td>" . $rec['nome'] . "</td><td><a href='" . $rec['collegamentowebex'] ."'>". $rec['collegamentowebex'] ."</a></td></tr>";
+        }
     }
-    print "</table>";
-} else
-    print "<BR><br><b><i><center>Nessun docente presente!</b></i></center>";
+}
+
+print "</table>";
+
+print "<BR><br><b><i><center>Nessun docente presente!</b></i></center>";
 mysqli_close($con);
 
