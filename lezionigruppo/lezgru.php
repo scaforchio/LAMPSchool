@@ -708,8 +708,14 @@ if (!checkdate($m, $g, $a))
                 } else
                 {
                     if (esiste_assenza_alunno($val['idalunno'],$anno . "-" . $mese . "-" . $giorno, $con))
+                        
+                    {
                         $oreassenza=$durata;
-                    echo "<td><select class='smallchar' name='oreass" . $val["idalunno"] . "'>";
+                        $disabilitata=" disabled";
+                    }
+                    else
+                        $disabilitata="";
+                    echo "<td><select $disabilitata class='smallchar' name='oreass" . $val["idalunno"] . "'>";
                 }
                 for ($i = 0; $i <= $durata; $i++)  // TTTTT
                 {

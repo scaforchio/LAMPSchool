@@ -812,8 +812,14 @@ if (!checkdate($m, $g, $a))
                 {//
                     // GESTIONE MANUALE DELLE ASSENZE ALLA LEZIONE (27/7/205)
                     if (esiste_assenza_alunno($val['idalunno'],$anno . "-" . $mese . "-" . $giorno, $con))
+                        
+                    {
                         $oreassenza=$durata;
-                    echo "<select class='smallchar' name='oreass" . $val["idalunno"] . "'>";
+                        $disabilitata=" disabled";
+                    }
+                    else
+                        $disabilitata="";
+                    echo "<select $disabilitata class='smallchar' name='oreass" . $val["idalunno"] . "'>";
                     for ($i = 0; $i <= $durata; $i++)  // TTTTT
                     {
                         if ($i != $oreassenza)
