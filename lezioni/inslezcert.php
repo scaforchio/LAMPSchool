@@ -91,7 +91,8 @@ if ($ope == 'I')
     $codlez = mysqli_insert_id($con);
 
     $verlez = verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numeroore, $orainizio, $con, $codlez, $idalunno);
-    ricalcola_assenze_lezioni_classe($con, $idclasse, $data);
+    if (!gestione_manuale_assenze($idclasse, $data, $con))
+        ricalcola_assenze_lezioni_classe($con, $idclasse, $data);
     print "<center><b>Inserimento effettuato!</b></center>";
     switch ($verlez)
     {
@@ -192,7 +193,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
 	        and idmateria=$materia
 	        and numeroore=$numeroore
 	        and orainizio=$orainizio";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
 
     if (mysqli_num_rows($ris) == 1)
     {
@@ -232,7 +233,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
 	        and idmateria=$materia
 	        and orainizio<=$orainizio
 	        and (orainizio+numeroore-1)>=($orainizio+$numeroore-1)";
-    $ris = eseguiQuery($conn,$query);
+    $ris = eseguiQuery($conn, $query);
     if (mysqli_num_rows($ris) == 1)
     {
         $rec = mysqli_fetch_array($ris);
@@ -291,7 +292,6 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
         //
         // INIZIO NON COINCIDENTE MA FINE COINCIDENTE
         //
-
         else
         {
             if (($orainizio + $numeroore) == ($orainizionorm + $numeroorenorm))
@@ -347,7 +347,6 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
             //
             // LEZIONE DI SOSTEGNO INTERMEDIA
             //
-
             else
             {
                 // cambio numero di ore a lezione originale
@@ -466,7 +465,7 @@ function verifica_lezione_normale($idclasse, $data, $iddocente, $materia, $numer
                             orainizio=$orainizio,
                             numeroore=$numeroore
                             where idlezione=$codlez";
-                eseguiQuery($conn,$query);
+                eseguiQuery($conn, $query);
                 while ($rec = mysqli_fetch_array($ris))
                 {
                     // Inserisco la firma per la "sottolezione"

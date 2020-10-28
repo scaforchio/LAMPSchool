@@ -56,7 +56,8 @@ while ($rec = mysqli_fetch_array($ris))
     {
         if (!giorno_festa($data, $con))
         {
-            ricalcola_assenze_lezioni_classe($con, $rec['idclasse'], $data);
+            if (!gestione_manuale_assenze($rec['idclasse'], $data, $con))
+                ricalcola_assenze_lezioni_classe($con, $rec['idclasse'], $data);
             print "Ricalcolate assenze per classe " . decodifica_classe($rec['idclasse'], $con) . " in data " . $data . "<br>";
             ob_flush();
             flush();

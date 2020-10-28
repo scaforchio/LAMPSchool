@@ -174,16 +174,13 @@ while ($id = mysqli_fetch_array($ris))
 
 
     require '../lib/req_salva_voti.php';
-    if ($_SESSION['tipogestassenzelezione'] == 'man')
-    {
-        require '../lib/req_salva_assenze.php';
-    }
-    if ($_SESSION['tipogestassenzelezione'] == 'ibr' & lezione_dad($idclasse, $data, $con))
+    if (gestione_manuale_assenze($idclasse, $data, $con))
     {
         require '../lib/req_salva_assenze.php';
     }
 }
-ricalcola_assenze_lezioni_classe($con, $idclasse, $data);
+if (!gestione_manuale_assenze($idclasse, $data, $con))
+    ricalcola_assenze_lezioni_classe($con, $idclasse, $data);
 
 echo "<p align='center'>";
 

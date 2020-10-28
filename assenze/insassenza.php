@@ -80,8 +80,12 @@ while ($id = mysqli_fetch_array($ris))
     }
     if ($cambiamento)
     {
-        elimina_assenze_lezione($con, $id['al'], $data);
-        inserisci_assenze_per_ritardi_uscite($con, $id['al'], $data);
+        if (!gestione_manuale_assenze($idclasse, $data, $con))
+        {
+            elimina_assenze_lezione($con, $id['al'], $data);
+            inserisci_assenze_per_ritardi_uscite($con, $id['al'], $data);
+        }
+        
     }
     // ricalcola_uscite($con,$id['al'],$data,$data);
     // ricalcola_assenze($con,$id['al'],$data,$data);

@@ -182,7 +182,8 @@ if (!checkdate($mese, $giorno, $anno))
             eseguiQuery($con, $query);
             $idclasse = estrai_classe_lezione($idlezione, $con);
             // $datalezione = estrai_data_lezione($idlezione, $con);
-            ricalcola_assenze_lezioni_classe($con, $idclasse, $datadb);
+            if (!gestione_manuale_assenze($idclasse, $datadb, $con))
+                ricalcola_assenze_lezioni_classe($con, $idclasse, $datadb);
         }
 
         $query = "update tbl_lezionigruppi

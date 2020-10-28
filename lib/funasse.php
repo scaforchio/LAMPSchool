@@ -347,12 +347,9 @@ function oreassenza($inizio, $durata, $idalunno, $data, $con)
         return $durata;
     }
 
-    if ($_SESSION['tipogestassenzelezione'] == 'man')
-    {
-        return 0;
-    }
+    
     $idclassealunno= estrai_classe_alunno_data($idalunno, $data, $con);
-     if ($_SESSION['tipogestassenzelezione'] == 'ibr' & lezione_dad($idclassealunno, $data, $con))
+    if (gestione_manuale_assenze($idclassealunno, $data, $con))
     {
         return 0;
     }
@@ -737,4 +734,13 @@ function lezione_dad($idclasse, $data, $con)
         return true;
     else
         return false;
+}
+
+function gestione_manuale_assenze($idclasse, $data, $con)
+{
+    if ($_SESSION['tipogestassenzelezione']=='man')
+        return true;
+    if ($_SESSION['tipogestassenzelezione']=='ibr' && lezione_dad($idclasse,$data,$con))
+        return true;
+    return false;
 }

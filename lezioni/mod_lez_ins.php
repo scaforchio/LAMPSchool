@@ -185,7 +185,8 @@ if (!checkdate($mese, $giorno, $anno))
 
 $idclasse = estrai_classe_lezione($idlezione, $con);
 $datalezione = estrai_data_lezione($idlezione, $con);
-ricalcola_assenze_lezioni_classe($con, $idclasse, $datalezione);
+if (!gestione_manuale_assenze($idclasse, $datalezione, $con))
+   ricalcola_assenze_lezioni_classe($con, $idclasse, $datalezione);
 
 print "<center><b>Modifica effettuata</b></center>";
 print " <form method='post' action='vis_lez.php'>

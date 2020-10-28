@@ -804,7 +804,7 @@ if (!checkdate($m, $g, $a))
                 print "<td>";
 
                 
-                if ($_SESSION['tipogestassenzelezione'] == 'auto' | ($_SESSION['tipogestassenzelezione'] == 'ibr' & !lezione_dad($idclasse,$anno . "-" . $mese . "-" . $giorno,$con)))
+                if (!gestione_manuale_assenze($idclasse,$anno . "-" . $mese . "-" . $giorno,$con))
                 {
                     // GESTIONE AUTOMATICA DELLE ASSENZE ALLE LEZIONI
                     print "<center><input class='smallchar' name='oreass" . $val["idalunno"] . "' size=1 value = '$oreassenza' disabled></center>";
@@ -814,12 +814,12 @@ if (!checkdate($m, $g, $a))
                     if (esiste_assenza_alunno($val['idalunno'],$anno . "-" . $mese . "-" . $giorno, $con))
                         
                     {
-                        $oreassenza=$durata;
-                        $disabilitata=" disabled";
-                    }
-                    else
-                        $disabilitata="";
-                    echo "<select $disabilitata class='smallchar' name='oreass" . $val["idalunno"] . "'>";
+                        $oreassenza = $durata;
+                        echo "<input type='hidden' name='oreass" . $val["idalunno"] . "' value='$oreassenza'><select disabled class='smallchar' name='oreass" . $val["idalunno"] . "'>";
+                        
+                    } else
+                        echo "<select class='smallchar' name='oreass" . $val["idalunno"] . "'>";
+               
                     for ($i = 0; $i <= $durata; $i++)  // TTTTT
                     {
                         if ($i != $oreassenza)

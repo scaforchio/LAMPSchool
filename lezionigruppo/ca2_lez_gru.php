@@ -84,7 +84,8 @@ foreach ($lezioni as $idlezione)
         $datalezione = estrai_data_lezione($idlezione, $con);
         $f = "DELETE FROM tbl_lezioni WHERE idlezione='$idlezione'";
         eseguiQuery($con,$f);
-        ricalcola_assenze_lezioni_classe($con, $idclasse, $datalezione);
+        if (!gestione_manuale_assenze($idclasse, $datalezione, $con))
+           ricalcola_assenze_lezioni_classe($con, $idclasse, $datalezione);
     } else
         $cancellazioneok = false;
 }
