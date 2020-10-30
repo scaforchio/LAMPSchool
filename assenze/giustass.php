@@ -142,6 +142,40 @@ if ($giustificauscite == 'yes')
     }
 }
 
+if ($giustificaasslezione == 'yes')
+{
+    $query = "SELECT idalunno FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
+    $ris = eseguiQuery($con, $query);
+ //   print "qui";
+    while ($recalu = mysqli_fetch_array($ris))
+    {
+        $idalunno = $recalu['idalunno'];
+        $query = 'SELECT * FROM tbl_asslezione WHERE idalunno="' . $idalunno . '" AND (isnull(giustifica) or giustifica=0) ORDER BY data ';
+
+        $risass = eseguiQuery($con, $query);
+        if (mysqli_num_rows($risass) > 0)
+        {
+
+            while ($val = mysqli_fetch_array($risass))
+            {
+                $datoinarrivo='giuassl' . $val['idassenzalezione'];
+                $idgiu = stringa_html($datoinarrivo) ? "on" : "off";
+                
+               // print "$datoinarrivo $idgiu <br>";
+                if ($idgiu == "on")
+                {
+                    $query = "UPDATE tbl_asslezione SET giustifica=1, datagiustifica='" . $data . "', iddocentegiust=" . $_SESSION['idutente'] . " WHERE idassenzalezione=" . $val['idassenzalezione'] . "";
+                    // die ("$query");
+                    eseguiQuery($con, $query);
+                }
+            }
+        }
+        $giorno = estraigiorno($data);
+        $meseanno = estraimese($data) . ' - ' . estraianno($data);
+    }
+}
+
+
 if ($_SESSION['regcl'] != "")
 {
     $pr = $_SESSION['prove'];

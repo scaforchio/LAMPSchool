@@ -178,8 +178,50 @@ if ($giustificauscite == 'yes')
 
 
 print ("</tr>");
-print ("</table>");
+print ("</table><br>");
 
+if ($giustificaasslezione=='yes')
+{
+    print "<table border='1' align='center'><tr class='prima'><td>Assenze a lezioni in DAD</td></tr>";
+    print "<tr><td>";
+    $query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
+    $ris = eseguiQuery($con, $query);
+    while ($recalu = mysqli_fetch_array($ris))
+    {
+        $idalunno = $recalu['al'];
+        $firmapropria = $recalu['firmapropria'];
+        $query = "select * from tbl_asslezione where idalunno=$idalunno and data < '" . $data . "' and (isnull(giustifica) or giustifica=0) "
+                . " and data not in (select data from tbl_assenze where idalunno=$idalunno)"
+                    . " and data in (select datadad from tbl_dad where idclasse=$idclasse)"
+                . " order by data ";
+        
+       // print inspref($query);
+        $risass = eseguiQuery($con, $query);
+        if (mysqli_num_rows($risass) > 0)
+        {
+            $datialunno = estrai_dati_alunno($idalunno, $con);
+            if ($firmapropria)
+                $datialunno .= "<br><small>(autorizzato a firma delle giustifiche)</small>";
+            print "<center>$datialunno</center>";
+            print "<table align='center' border='1'>
+			   <tr class='prima'>
+				   <td align='center'>Data assenza</td>
+                                   <td align='center'>Materia</td>
+				   <td align='center'>Numero ore</td>
+				   <td align='center'>Giustifica</td>
+			   </tr>
+		   ";
+            while ($val = mysqli_fetch_array($risass))
+            {
+              //  if (lezione_dad($idclasse, $val['data'], $con))
+                   print "<tr><td align='center'>" . giorno_settimana($val['data']) . " " . data_italiana($val['data']) . "</td><td align='center'>" . decodifica_materia(estrai_materia_lezione($val['idlezione'], $con),$con) . "</td><td align='center'>" . $val['oreassenza'] . "</td><td align='center'><input type=checkbox name='giuassl" . $val['idassenzalezione'] . "'></td></tr>";
+            }
+
+            print "</td></tr></table><br>";
+        }
+    }
+    print "</table><br>";
+}
 
 print "<input type='hidden' name='idclasse' value='$idclasse'>";
 print "<input type='hidden' name='data' value='$data'>";

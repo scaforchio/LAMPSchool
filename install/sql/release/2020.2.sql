@@ -194,6 +194,9 @@ CREATE TABLE IF NOT EXISTS tbl_asslezione (
   data date,
   oreassenza smallint(6),
   forzata tinyint(1) DEFAULT '0',
+  giustifica tinyint(1) DEFAULT '0',
+  iddocentegiust int(11) DEFAULT NULL,
+  datagiustifica date DEFAULT NULL,
   oraultmod timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2684,8 +2687,10 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'istitutostatale', 'yes', 'Istituto statale (yes/no).', 'yes|no');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'dsga', '', 'Nome e cognome del D.S.G.A.', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'giustifica_ritardi', 'yes', 'Gestione autorizzazione ritardi', 'yes|no');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'giustificauscite', 'no', 'Richiesta giustificazione per uscite anticipate', 'yes|no');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'agg_dati_genitori', 'yes', 'PossibilitÃ  per i genitori di aggiornare i propri dati di contatto.', 'yes|no');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'tipo_pagella_genitori', 'MIN', 'Tipo di scheda di valutazione da visualizzare per i genitori', 'A3|A4|MIN');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'giustificaasslezione', 'no', 'Richiesta giustificazione per assenze alle singole lezioni', 'yes|no');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'capscuola', '', 'Codice Avviamento Postale della scuola.', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'maxgiorniritardolez', '99999', 'Massimo ritardo per inserimento o modifica della lezione (in giorni).', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'distanza_assemblee', '3', 'Minimo numero di giorni tra richiesta assemblea e suo svolgimento', '1|2|3|4|5|6|7|8');
