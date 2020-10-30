@@ -1,8 +1,8 @@
 <?php
   session_start();
   $suffisso=$_GET['suffisso'];
-@require_once("../php-ini" . $suffisso . ".php");
-@require_once("../lib/funzioni.php");
+  @require_once("../php-ini" . $suffisso . ".php");
+  @require_once("../lib/funzioni.php");
   $token = $tokenbototp; 
   $url = $urlbottelegram;//Token bot Telegram
   $urlDestinazione =$url."registra.php?suffisso=$suffisso";
