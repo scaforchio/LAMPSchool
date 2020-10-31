@@ -1,2 +1,2 @@
-LAMPSchool Ver. 2019.1
+LAMPSchool Ver. 2020.1
 
