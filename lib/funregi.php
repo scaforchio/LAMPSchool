@@ -54,11 +54,11 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
             {
                 print "<center><br><a href='../lezioni/lez.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&meseanno=$mese'>Lezioni</a>&nbsp;&nbsp;&nbsp;<a href='../lezioni/lezsupp.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&meseanno=$mese&cattedra=$cattedra'>Supplenze</a></center>";
             }
-        } /*else
-        {
+        } /* else
+          {
 
-            print "<center><br><a href='../lezioni/lez.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&meseanno=$mese'>Lezioni</a></center>";
-        } */
+          print "<center><br><a href='../lezioni/lez.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&meseanno=$mese'>Lezioni</a></center>";
+          } */
     }
     // FINE MODIFICA ANTE TOKEN
     print "<table align='center' border=1 width=100% class=smallchar>
@@ -164,12 +164,25 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
         {
             if ($_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P')
             {
-                $collegamenti = "<a href='../assenze/ass.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese&idclasse=$idclasse'>Assenze</a>&nbsp;&nbsp;&nbsp;";
+                
+                if ((lezione_dad($idclasse, $data, $conn)) & ($_SESSION['disabilitaassenzeindad'] == 'yes'))
+                {
+                    $collegamenti = "";
+                } else
+                {
+                    $collegamenti = "<a href='../assenze/ass.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese&idclasse=$idclasse'>Assenze</a>&nbsp;&nbsp;&nbsp;";
+                }
             } else
             {
                 if ($gestcentrassenze == 'no')
                 {
-                    $collegamenti = "<a href='../assenze/ass.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese&idclasse=$idclasse'>Assenze</a>&nbsp;&nbsp;&nbsp;";
+                    if ((lezione_dad($idclasse, $data, $conn)) & ($_SESSION['disabilitaassenzeindad'] == 'yes'))
+                    {
+                        $collegamenti = "";
+                    } else
+                    {
+                        $collegamenti = "<a href='../assenze/ass.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese&idclasse=$idclasse'>Assenze</a>&nbsp;&nbsp;&nbsp;";
+                    }
                 } else
                 {
                     $collegamenti = "";
@@ -528,7 +541,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
         // CREO LINK PER VISUALIZZAZIONE ALUNNI CHE RESTANO IN CLASSE
         if ($stampacollegamenti)
         {
-           print "<a href=javascript:Popup('presentiinaula.php?idclasse=$idclasse&data=$data')>(Visualizza elenco presenti in aula)</a>";
+            print "<a href=javascript:Popup('presentiinaula.php?idclasse=$idclasse&data=$data')>(Visualizza elenco presenti in aula)</a>";
         }
     }
     print "</td>";
@@ -539,13 +552,13 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
     {
         print "<center><b>Allegati al registro: </b><a href=javascript:Popup('visautorizzazioni.php?idclasse=$idclasse')>Autorizzazioni ed esoneri</a>&nbsp;&nbsp;&nbsp;
                      <a href=javascript:Popup('elencoalunni.php?idclasse=$idclasse')>Elenco alunni</a>&nbsp;&nbsp;&nbsp;";
-        
-   //     if (verifica_classe_coordinata($_SESSION['idutente'], $idclasse, $conn) | $_SESSION['tipoutente']=='P')
-   //         print "<a href=javascript:Popup('elencodocenti.php?idclasse=$idclasse')>Docenti classe</a>&nbsp;&nbsp;&nbsp;"; 
+
+        //     if (verifica_classe_coordinata($_SESSION['idutente'], $idclasse, $conn) | $_SESSION['tipoutente']=='P')
+        //         print "<a href=javascript:Popup('elencodocenti.php?idclasse=$idclasse')>Docenti classe</a>&nbsp;&nbsp;&nbsp;"; 
 
         if (is_docente_classe($iddocente, $idclasse, $conn) | is_docente_sostegno_classe($iddocente, $idclasse, $conn)) // | $_SESSION['sostegno'])
             print "<a href=javascript:Popup('elencodocenti.php?idclasse=$idclasse')>Docenti classe</a>&nbsp;&nbsp;&nbsp;<a href='../documenti/visdocumenticlasse.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&mese=$mese')>Documenti classe</a></center>";
-            }
+    }
 }
 
 function esiste_lezione($data, $con)
@@ -573,4 +586,3 @@ function esiste__assenza($data, $con)
     else
         return false;
 }
- 

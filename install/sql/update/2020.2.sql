@@ -9,6 +9,8 @@ ALTER TABLE tbl_asslezione ADD giustifica tinyint(1) DEFAULT '0';
 ALTER TABLE tbl_asslezione ADD iddocentegiust int(11) DEFAULT NULL;
 ALTER TABLE tbl_asslezione ADD datagiustifica date DEFAULT NULL;
 
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'disabilitaassenzeindad', 'no', 'Disabilita la gestione assenze giornate per le giornate in DAD', 'yes|no');
+
 -- LASCIARE SEMPRE ALLA FINE
 UPDATE tbl_parametri set valore='2020.2' where parametro='versioneprecedente';
 -- LASCIARE SEMPRE ALLA FINE

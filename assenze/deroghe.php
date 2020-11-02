@@ -185,7 +185,8 @@ if ($idalunno != "")
    Datafine: <input type='text' name='datafine' value='" . data_italiana(date('Y-m-d')) . "' id='datafine'>
    <div>
    <br><br>
-    <table border='1'>
+   <b><center>Selezionare il numero di ore nella tabella sotto se nel periodo va considerato<br>un numero di ore inferiore per alcuni giorni della settimana<br>o se va escluso qualche giorno della settimana dalla deroga!</b></center>
+   <br> <table border='1'>
       <tr class='prima'>
         <th>Giorno</th>
         <th>Ore</th>
