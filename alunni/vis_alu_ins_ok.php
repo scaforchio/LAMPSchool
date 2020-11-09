@@ -232,7 +232,7 @@ if (!$DB)
             $utente = "gen" . $idalunnoinserito;
             $password = creapassword();
 
-            if ($livello_scuola == 4)
+            if ($_SESSION['gestioneutentialunni'] == 'yes')
             {
                 $utentealunno = "al" . $_SESSION['suffisso'] . $idalunnoinserito;
                 $passwordalunno = creapassword();
@@ -242,7 +242,7 @@ if (!$DB)
             $sqlt = "update tbl_alunni set idtutore=$idalunnoinserito,idutente=$idalunnoinserito where idalunno=$idalunnoinserito";
             $res = eseguiQuery($con, $sqlt);
 
-            if ($livello_scuola == 4)
+            if ($_SESSION['gestioneutentialunni'] == 'yes')
             {
                 $idutentealunno = $idalunnoinserito + 2100000000;
                 $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idutentealunno','$utentealunno',md5('" . md5($passwordalunno) . "'),'L')";
@@ -264,7 +264,7 @@ if (!$DB)
                    
                    <input type='submit' value='STAMPA COMUNICAZIONE PASSWORD TUTOR'>
                    </form><br>";
-        if ($livello_scuola == 4)
+        if ($_SESSION['gestioneutentialunni'] == 'yes')
         {
             print "<form target='_blank' name='stampa' action='alu_stampa_pass_alu.php' method='POST'>
                    <input type='hidden' name='arrid' value='$idalunnoinserito'> 

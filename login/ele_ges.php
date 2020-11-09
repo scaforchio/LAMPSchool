@@ -1006,13 +1006,15 @@ if ($cambiamentopassword)
         menu_title_end();
         menu_title_begin('PASSWORD');
         menu_item('../password/rigenera_password.php', 'Rigenera e stampa password tutor');
-        if ($livello_scuola == '4')
+        if ($_SESSION['gestioneutentialunni'] == 'yes')
             menu_item('../password/alu_rigenera_password.php', 'Rigenera e stampa password alunni');
         menu_item('../password/conf_rig_pass_doc.php', 'Rigenera e stampa password docenti');
         menu_item('../password/CRUDselezioneInvioOTP.php', 'Gestione modalità invio OTP');
         menu_item('../password/genschemaotp.php', 'Generazione schemi per OTP');
         menu_item('../password/gestschedaotp.php', 'Gestione scheda OTP');
         menu_item('../password/gestpwd.php', 'Cambia password utente');
+        if ($_SESSION['gestioneutentialunni']=='yes')
+           menu_item('../alunni/creautentialunni.php', 'Crea utenze per alunni');
         menu_item('../esame3m/abilitautenteesame.php', 'Abilita utente esame di stato');
         menu_title_end();
 
@@ -1100,6 +1102,7 @@ if ($cambiamentopassword)
         {
             menu_title_begin('GESTIONE MOODLE');
             menu_item('../moodle/esporta_moodle.php', 'ESPORTA DATI PER MOODLE');
+            menu_item('../moodle/testcollegamentomoodle.php', 'TEST COLLEGAMENTO MOODLE');
             menu_item('../moodle/creacorsimoodle.php', 'CREA E SINCRONIZZA CORSI MOODLE');
             menu_item('../moodle/creacorsimoodleclasse.php', 'CREA CORSI MOODLE PER CLASSE');
             menu_item('../moodle/sincronizzacorsimoodleclasse.php', 'SINCRONIZZA CORSI MOODLE PER CLASSE');
@@ -1154,7 +1157,7 @@ if ($cambiamentopassword)
 
         menu_title_begin('PASSWORD');
         menu_item('../password/rigenera_password.php', 'Rigenera e stampa password tutor');
-        if ($livello_scuola == '4')
+        if ($_SESSION['gestioneutentialunni'] == 'yes')
             menu_item('../password/alu_rigenera_password.php', 'Rigenera e stampa password alunni');
         menu_item('../password/conf_rig_pass_doc.php', 'Rigenera e stampa password docenti');
         menu_item('../password/gestpwd.php', 'Cambia password utente');

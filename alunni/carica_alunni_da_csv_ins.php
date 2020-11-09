@@ -241,7 +241,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
               <td align='center'><b>Utente tutor</b></td>
               <td align='center'><b>Password tutor</b></td>
               ";
-        if ($livello_scuola == 4)
+        if ($_SESSION['gestioneutentialunni'] == 'yes')
         {
             print "<td align='center'><b>Utente alunno</b></td>
                    <td align='center'><b>Password alunno</b></td>";
@@ -389,7 +389,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                 // POI SI INSERISCE IL RECORD NELLA TABELLA tbl_utenti;
                 $utente = "gen" . $idalunnoinserito;
                 $password = creapassword();
-                if ($livello_scuola == 4)
+                if ($_SESSION['gestioneutentialunni'] == 'yes')
                 {
                     $utentealunno = "al" . $_SESSION['suffisso'] . $idalunnoinserito;
                     $passwordalunno = creapassword();
@@ -397,7 +397,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
 
                 print "<td align=center>$utente</td>";
                 print "<td align=center>$password</td>";
-                if ($livello_scuola == 4)
+                if ($_SESSION['gestioneutentialunni'] == 'yes')
                 {
                     print "<td align=center>$utentealunno</td>";
                     print "<td align=center>$passwordalunno</td>";
@@ -407,14 +407,14 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
                 $sqlt = "update tbl_alunni set idtutore=$idalunnoinserito,idutente=$idalunnoinserito where idalunno=$idalunnoinserito";
                 eseguiQuery($con, $sqlt);
 
-                if ($livello_scuola == 4)
+                if ($_SESSION['gestioneutentialunni'] == 'yes')
                 {
                     $idutentealunno = $idalunnoinserito + 2100000000;
                     $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idutentealunno','$utentealunno',md5('" . md5($passwordalunno) . "'),'L')";
                     $res = eseguiQuery($con, $sqlt);
                 }
                 // Inseriamo nel file csv
-                if ($livello_scuola < 4)
+                if ($_SESSION['gestioneutentialunni'] == 'no')
                     fputcsv($fp, array($riga_tmp[$poscodf], $riga_tmp[$poscogn], $riga_tmp[$posnome], $riga_tmp[$posdata], $utente, $password), ";");
                 else
                     fputcsv($fp, array($riga_tmp[$poscodf], $riga_tmp[$poscogn], $riga_tmp[$posnome], $riga_tmp[$posdata], $utente, $password, $utentealunno, $passwordalunno), ";");

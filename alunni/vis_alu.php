@@ -125,7 +125,7 @@ $sql = "SELECT * FROM tbl_alunni,tbl_utenti
        AND idclasse='$n'ORDER BY cognome,nome";
 $result = eseguiQuery($con, $sql);
 
-if ($livello_scuola == '4')
+if ($_SESSION['gestioneutentialunni'] == 'yes')
     print "<div align='right'><br><input type='button' id='mv' value='Attiva reset password tutor' onclick='mostra()' />
                           <br><input type='button' id='mva' value='Attiva reset password alunni' onclick='mostraalu()' />
                            <input type='button' id='nv' value='Disattiva reset password tutor' onclick='nascondi()' />

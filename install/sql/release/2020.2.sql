@@ -2665,7 +2665,7 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'votigenitori', 'yes', 'Visualizzazione voti per i genitori', 'no|yes');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'notegenitori', 'yes', 'Visualizzazione note per i genitori', 'no|yes');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'assenzegenitori', 'yes', 'Visualizzazione assenze per i genitori', 'no|yes');
-
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('funzioni', 'gestioneutentialunni', 'yes', 'Abilita la gestione degli utenti di tipo alunno', 'yes|no');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'ordinevalutazioni', 'C', 'Ordine dei voti nelle maschere: Crescente o Decrescente', 'C|D');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'datafinelezioni', '2021-06-12', 'Data di fine delle lezioni ', 'data');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'datainiziolezioni', '2020-09-15', 'Data di inizio delle lezioni', 'data');
