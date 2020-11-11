@@ -76,10 +76,12 @@ $query = "select * from tbl_asslezione, tbl_materie, tbl_lezioni, tbl_alunni
 $ris = eseguiQuery($con, $query);
 if (mysqli_num_rows($ris) > 0)
 {
-    print "<table border='1' align='center'><tr class='prima'><td>Ora lezione - durata</td><td>Materia</td><td>Alunno</td><td>Ore assenza</td></tr>";
+    print "<table border='1' align='center'><tr class='prima'><td>Ore lezione (da - a)</td><td>Materia</td><td>Alunno</td><td>Ore assenza</td></tr>";
+    
     while ($nom = mysqli_fetch_array($ris))
     {
-        print "<tr><td>" . $nom['orainizio'] . " - " . $nom['numeroore'] . "</td><td>" . $nom['denominazione'] . "</td><td>" . $nom['cognome'] . " " . $nom['nome'] . "</td><td>" . $nom['oreassenza'] . "</td></tr>";
+        $orafine=$nom['orainizio']+$nom['numeroore']-1;
+        print "<tr><td align='center'>" . $nom['orainizio'] . " - $orafine</td><td>" . $nom['denominazione'] . "</td><td>" . $nom['cognome'] . " " . $nom['nome'] . "</td><td>" . $nom['oreassenza'] . "</td></tr>";
     }
     print "</table>";
 }

@@ -45,6 +45,7 @@ stampa_head($titolo, "", $script, "MSPDLT");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $codalunno = $_SESSION['idstudente'];
+$idclasse= estrai_classe_alunno($codalunno, $con);
 
 // Dati utili al disegno di questa pagina
 /* $rs0 = $lQuery->selectmax('tbl_assenze', 'data', 'ultimoaggiornamento');
@@ -64,7 +65,13 @@ $rs4 = eseguiQuery($con,"select count(*) as numerouscite from tbl_usciteanticipa
 $rs5 = eseguiQuery($con,"select * from tbl_assenze where idalunno=$codalunno order by data desc");
 $rs6 = eseguiQuery($con,"select * from tbl_ritardi where idalunno=$codalunno order by data desc");
 $rs7 = eseguiQuery($con,"select * from tbl_usciteanticipate where idalunno=$codalunno order by data desc");
-
+$query="select sum(oreassenza) as numerooreassdad from tbl_asslezione where idalunno=$codalunno and data not in (select data from tbl_assenze where idalunno=$codalunno) and data in (select datadad from tbl_dad where idclasse=$idclasse)";
+//print inspref($query);
+$rs8 = eseguiQuery($con,$query);
+$rs9 = eseguiQuery($con,"select * from tbl_asslezione where idalunno=$codalunno "
+                . " and data not in (select data from tbl_assenze where idalunno=$codalunno)"
+                    . " and data in (select datadad from tbl_dad where idclasse=$idclasse)"
+                . " order by data ");
 
 // prelevamento data ultima assenza
 // $val0 = $rs0->fetch();
@@ -110,6 +117,15 @@ if ($val4 = mysqli_fetch_array($rs4))
     echo ' 
  <tr>
   <td colspan="3"><b>Uscite anticipate: ' . $val4["numerouscite"] . '</b></td>
+ </tr>';
+
+// conteggio ore assenza dad
+// conteggio uscite anticipate
+
+if ($val8 = mysqli_fetch_array($rs8))
+    echo ' 
+ <tr>
+  <td colspan="3"><b>Ore assenza in DAD: ' . $val8["numerooreassdad"] . '</b></td>
  </tr>';
 
 print "
@@ -160,10 +176,33 @@ if ($rs7)
             print "<small>" . $rec['testoautorizzazione'] . "</small><br>";
     }
 }
-echo '
+echo "
      </td>
-    </tr>
-   </table>';
+    </tr>";
+
+if ($rs9)
+{
+    print "<tr><td colspan=3>";
+    print "<center><b>Assenze a lezioni in didattica a distanza</b></center><br>";
+    while ($val9 = mysqli_fetch_array($rs9))
+    {
+        
+        $data = $val9["data"];
+        echo ' ' . giorno_settimana($data)  . ' ' .data_italiana($data)  . ' ';
+        print "Ore assenza: ".$val9['oreassenza'];
+        print " Materia: ". decodifica_materia(estrai_materia_lezione($val9['idlezione'], $con),$con);
+        $giust = ($val9['giustifica']==1)?"Giust.":"Non giust.";
+        print " ($giust)<br>";
+        $query = "select * from tbl_autorizzazioniuscite where idalunno=$codalunno and data='$data'";
+        $ris = eseguiQuery($con, $query);
+        if ($rec = mysqli_fetch_array($ris))
+            print "<small>" . $rec['testoautorizzazione'] . "</small><br>";
+    }
+    print "</td></tr>";
+}
+
+
+echo "   </table>";
 
 
 
