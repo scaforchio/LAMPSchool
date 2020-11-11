@@ -180,7 +180,7 @@ if (!(mysqli_num_rows($result) > 0))
         {
             print("<td>" . $dati['telcel'] . "</td>");
         }
-        print("<td><a href='MAILTO:" . $dati['email'] . "'>" . $dati['email'] . "</A></td>");
+        print("<td> <a href='mailto:" . $dati['email'] . "'>" . $dati['email'] . "</A> <a href='mailto:" . $dati['email2'] . "'>" . $dati['email2'] . "</A></td>");
         if ($dati['certificato'])
         {
             print("<td><img src='../immagini/apply_small.png'></td>");
