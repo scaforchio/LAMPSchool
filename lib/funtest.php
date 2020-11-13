@@ -9,6 +9,7 @@
  */
 function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, $token = true)
 {
+    $_SESSION['tempotrascorso']=0;
     
     if ($contr)
     {
@@ -32,6 +33,23 @@ function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, 
             <script src='../lib/js/jquery-1.10.2.min.js'></script>
             <script src='../lib/js/jquery-ui-1.10.3.custom.min.js'></script>
             <script src='../lib/js/datetimepicker/jquery.datetimepicker.js'></script>";
+    print "<script>
+        
+         var refreshSn=function ()
+         {
+            var time = 300000; // 5 mins
+            setTimeout(
+                        function ()
+                        {
+                           $.ajax({
+                                     url: '../lib/refresh.php',
+                                     cache: false,
+                                      complete: function () {refreshSn();}
+                                  });
+                        },
+                        time
+                      );
+        };</script>";
     //<script src='ui.datepicker-it.js'></script>";
     print $script;
     print "
@@ -108,7 +126,7 @@ function stampa_testata($funzione, $ct, $ns, $cs)
         $descrizione .= " (<a href='../contr/cambiautenteritorno.php'>Esci da ALIAS</a>)";
     }
 
-    print "\n<body><div class='contenuto'>";
+    print "\n<body onload='refreshSn()'><div class='contenuto'>";
 
     if ($nome != 'login')
     {
