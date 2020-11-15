@@ -273,7 +273,7 @@ function esecuzioneFile($nomefilesql, $credenzialiDB)
     $sql_query = remove_remarks($sql_query);
     $sql_query = split_sql_file($sql_query, ';');
     $connessione = mysqli_connect(
-            $credenzialiDB['server'], $credenzialiDB['user'], $credenzialiDB['password'], $credenzialiDB['nomedb']);
+    $credenzialiDB['server'], $credenzialiDB['user'], $credenzialiDB['password'], $credenzialiDB['nomedb']);
     mysqli_set_charset($connessione, "utf8");
 
 

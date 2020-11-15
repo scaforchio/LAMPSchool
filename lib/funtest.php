@@ -50,6 +50,21 @@ function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, 
                         time
                       );
         };</script>";
+    $upddaeseguire=version_compare($_SESSION['versione'], $_SESSION['versioneprecedente'], ">");
+    
+    if ($upddaeseguire)
+         print "<script>
+        
+         var updatedb=function ()
+         {
+            
+                           $.ajax({
+                                     url: '../lib/updatedb.php?suffisso=".$_SESSION['suffisso']."',
+                                     cache: false,
+             
+                                  });
+                       
+        };</script>";
     //<script src='ui.datepicker-it.js'></script>";
     print $script;
     print "
@@ -126,7 +141,11 @@ function stampa_testata($funzione, $ct, $ns, $cs)
         $descrizione .= " (<a href='../contr/cambiautenteritorno.php'>Esci da ALIAS</a>)";
     }
 
-    print "\n<body onload='refreshSn()'><div class='contenuto'>";
+    $upddaeseguire=version_compare($_SESSION['versione'], $_SESSION['versioneprecedente'], ">");
+    if ($upddaeseguire)
+         print "\n<body onload='refreshSn();updatedb();'><div class='contenuto'>";
+    else
+        print "\n<body onload='refreshSn();'><div class='contenuto'>";
 
     if ($nome != 'login')
     {
