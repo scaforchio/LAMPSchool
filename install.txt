@@ -1,5 +1,5 @@
- NOTE DI INSTALLAZIONE Ver. 2019
- ===============================
+ NOTE DI INSTALLAZIONE
+ =====================
 
  Per l'installazione da zero, singola o multi-ambiente, del software:
 
@@ -131,23 +131,25 @@
  Per evitare possibili perdite di dati dovute ad errori in fase di aggiornamento,
  è sempre buona norma effettuare un backup del d-base e della cartella
  del registro elettronico sul web server prima di procedere all'aggiornamento.
+Si consiglia di effettare l'aggiornamento in orari di scarso traffico sul registro
+o dopo aver inibito l'accesso allo stesso.
 
- Per l'aggiornamento si dovrà trasferire sul server l'intero contenuto del file zip di
- installazione AD ECCEZIONE DELLA CARTELLA /abc E DELLA CARTELLA /lampschooldata.
-
-
- Per l'aggiornamento si dovrà accedere sempre alla cartella /install:
-
- http://www.miodominio.it/registro_2018_2019/install/
-
- L'aggiornamento verrà effettuato in automatico su tutti gli ambienti installati.
+Per l'aggiornamento si dovrà sostituire sul server l'intero contenuto della cartella
+di installazione con la versione aggiornata (tramite pull di git o con un trasferimento ftp) 
+AD ECCEZIONE DELLA CARTELLA /abc E DELLA CARTELLA /lampschooldata.
+Una volta trasferiti i file accedere al registro con l'utenza di amministrazione e verificare
+in fondo al log ([STATISTICHE E RIEPILOGHI][VISUALIZZA LOG]) se l'aggiornamento 
+del database è andato a buon fine.
+Nel caso di errori evidenziati nel log inviare le righe del log che evidenziano l'errore 
+ai dati di contatto che trovate in fondo a questo file.
 
 
  NOTE DI CONTATTO
  ================
 
- Per qualsiasi altra informazione e segnalazione di problemi usare il forum su:
+Per qualsiasi altra informazione e segnalazione di problemi usare la pagina github
+accessibile dal sito:
 
- http://www.lampschool.it
+ https://www.lampschool.net
 
 
