@@ -36,11 +36,7 @@ $titolo = "Elenco docenti";
 $script = "<script type='text/javascript'>
          <!--
 
-                window.onload=function(){
-                  nascondi();
-
-               };
-
+               
                function mostra() {
                       // window.alert('ciao');
                        $('.pwdreset').show();
@@ -65,8 +61,8 @@ $script = "<script type='text/javascript'>
 
          //-->
          </script>";
-
-stampa_head($titolo, "", $script, "APMSD");
+$onload="nascondi();";
+stampa_head($titolo, "", $script, "APMSD",true,true,$onload);
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 

@@ -48,11 +48,7 @@ $titolo = "Tabellone scrutini";
 $script = "<script type='text/javascript'>
          <!--
                var stile = 'top=10, left=10, width=1024, height=400, status=no, menubar=no, toolbar=no, scrollbars=yes';
-               
-               window.onload=function(){
-                  nascondi();
-               };
-               
+              
                function mostra() {
                     document.getElementById('sostituzioni').style.display='block';
                     document.getElementById('mv').disabled=true;
@@ -162,7 +158,8 @@ $script = "<script type='text/javascript'>
          //-->
          </script>";
 
-stampa_head($titolo, "", $script, "SDMAP");
+$onload="nascondi();";
+stampa_head($titolo, "", $script, "SDMAP",true,true,$onload);
 
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 

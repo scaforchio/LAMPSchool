@@ -37,23 +37,14 @@ $titolo = "Elenco alunni di una classe";
 $script = "<script type='text/javascript'>
          <!--
                var stile = 'top=10, left=10, width=1024, height=400, status=no, menubar=no, toolbar=no, scrollbars=yes';
-               function Popup(apri) 
-               {
-                  window.open(apri, '', stile);
-               }
-
-
+              
 
          //-->
          </script>
          <script type='text/javascript'>
          <!--
 
-                window.onload=function(){
-                  nascondi();
-
-               };
-
+                
 
 
 				 //   document.getElementById('pwdreset').style.display = 'none';
@@ -61,7 +52,8 @@ $script = "<script type='text/javascript'>
 
         //-->
          </script>";
-stampa_head($titolo, "", $script, "E");
+$onload="nascondi();";
+stampa_head($titolo, "", $script, "E",true,true,$onload);
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='esa_vis_alu_cla.php'>Elenco classi</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
 
 $n = stringa_html('idcla');

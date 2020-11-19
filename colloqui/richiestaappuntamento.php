@@ -139,11 +139,14 @@ if ($iddocente != "")
                         if ($stato[0] == 0)
                             print "<td align=center>NON PRENOTABILE!</td><td>&nbsp;</td><td>&nbsp;</td>";
                         if ($stato[0] == 1)
-                            print "<td align=center><img src='../immagini/grey_tick.gif'></td><td>" . $stato[1] . "</td>";
+                            print "<td align=center><img src='../immagini/grey_tick.gif'></td><td>" . $stato[1] . " (da confermare)</td>";
                         if ($stato[0] == 2)
                             print "<td align=center><image src='../immagini/green_tick.gif'></td><td>" . $stato[1] . "</td>";
                         if ($stato[0] == 3)
                             print "<td align=center><image src='../immagini/red_cross.gif'></td><td>" . $stato[1] . "</td>";
+                        if ($stato[0] == 4)
+                            print "<td align=center><image src='../immagini/webex.ico'></td><td>" . $stato[1] . " (online)</td>";
+                      
                         if ($stato[0] != 0)
                             print "<td align=center><a href='cancprenotazione.php?idprenotazione=$idprenotazione&iddocente=$iddocente&idclasse=$idclasse'><img src='../immagini/delete.png'></a></td> ";
                     }

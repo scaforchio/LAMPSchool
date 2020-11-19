@@ -71,16 +71,18 @@ while ($rec = mysqli_fetch_array($ris))
 {
 
     $dataoggi = date('Y-m-d');
+    $datacoll=$rec['data'];
     $alunno = $rec['cognome'] . " " . $rec['nome'] . "(" . data_italiana($rec['datanascita']) . ") - " . decodifica_classe($rec['idclasse'], $con);
     $data = giorno_settimana($rec['data']) . " " . data_italiana($rec['data']) . " " . $rec['inizio'] . "-" . $rec['fine'];
     $note = $rec['note'];
     $idprenotazione = $rec['idprenotazione'];
     $idoraric = $rec['idoraric'];
     $risp = $rec['conferma'];
-    $numerocolloqui = numero_colloqui_docente($iddocente, $idoraric, $dataoggi, $con);
-    if ($risp == 1)
+    $numerocolloqui = numero_colloqui_docente($iddocente, $idoraric, $datacoll, $con);
+    //if ($risp == 1)
     // $note = "Appuntamento ore ".proponi_orario($rec['inizio'], $rec['fine'], $iddocente,$numerocolloqui+1, $con);
-        $note = "Appuntamento ore " . proponi_orario($rec['inizio'], $rec['fine'], $iddocente, $numerocolloqui, $con);
+    //    $note = "Appuntamento ore " . proponi_orario($rec['inizio'], $rec['fine'], $iddocente, $numerocolloqui, $con);
+    //        $note = $rec['note'];
     $valido = $rec['valido'];
     if ($risp == 1)
         $sele1 = ' selected';

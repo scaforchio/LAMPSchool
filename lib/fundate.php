@@ -661,7 +661,7 @@ function numero_colloqui_docente($iddocente, $idoraric, $datapren, $conn)
     $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);
     $numpren = $rec['numpren'];
-    // print " num pren $numpren";
+    //print " $idoraric $datapren num pren $numpren";
     return $numpren;
 }
 

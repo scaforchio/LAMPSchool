@@ -45,11 +45,20 @@ $idalunno = $_SESSION['idutente'];
 
 $data = substr($giorno, 0, 10);
 $idoraricevimento = substr($giorno, 11);
-
+$query="select * from tbl_orericevimento,tbl_orario "
+        . "where tbl_orericevimento.idorario=tbl_orario.idorario and idoraricevimento=$idoraricevimento";
+//print $query;
+$ris= eseguiQuery($con, $query);
+$rec=mysqli_fetch_array($ris);
+$inizio=$rec['inizio'];
+$fine=$rec['fine'];
+$numerocolloqui = numero_colloqui_docente($iddocente, $idoraricevimento, $data, $con);
+$note = "Appuntamento ore " . proponi_orario($inizio, $fine, $iddocente, $numerocolloqui, $con);
+//print "$data $idoraricevimento $inizio $fine";die();
 if ($data != "")
 {
-    $query = "insert into tbl_prenotazioni(idalunno,data,idoraricevimento,conferma)
-        values ($idalunno,'$data',$idoraricevimento,1)";
+    $query = "insert into tbl_prenotazioni(idalunno,data,idoraricevimento,conferma,note)
+        values ($idalunno,'$data',$idoraricevimento,1,'$note')";
     $ris = eseguiQuery($con, $query);
 }
 
@@ -68,3 +77,22 @@ print ("<form method='post' action='../colloqui/richiestaappuntamento.php' id='f
        ");
 stampa_piede("");
 
+function proponi_orario($inizio, $fine, $iddocente, $sequenzaudienza, $conn)
+{
+    $query = "select nummaxcolloqui from tbl_docenti where iddocente=$iddocente";
+    $ris = eseguiQuery($conn, $query);
+    $rec = mysqli_fetch_array($ris);
+    $nummaxcolloqui = $rec['nummaxcolloqui'];
+    // print "Inizio $inizio Fine $fine";
+    $oraini = substr($inizio, 0, 2);
+    $minini = substr($inizio, 3, 2);
+    $minutiiniziali = $oraini * 60 + $minini;
+    $orafin = substr($fine, 0, 2);
+    $minfin = substr($fine, 3, 2);
+    $minutifinali = $orafin * 60 + $minfin;
+    $durata = $minutifinali - $minutiiniziali;
+    $durataudienza = floor($durata / $nummaxcolloqui);
+    $minutiinizioudienza = $durataudienza * ($sequenzaudienza);
+    $oraappuntamento = aggiungi_minuti($inizio, $minutiinizioudienza);
+    return $oraappuntamento;
+}

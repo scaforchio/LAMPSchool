@@ -7,7 +7,7 @@
  * @param string $tipo (non usato)
  * @param string $script javascript da aggiungere eventualmente
  */
-function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, $token = true)
+function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, $token = true,$onload="")
 {
     $_SESSION['tempotrascorso']=0;
     
@@ -34,6 +34,19 @@ function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, 
             <script src='../lib/js/jquery-ui-1.10.3.custom.min.js'></script>
             <script src='../lib/js/datetimepicker/jquery.datetimepicker.js'></script>";
     print "<script>
+            window.onload=function(){
+                  refreshSn();";
+    // FUNZIONI DA ESEGUIRE AL CARICAMENTO DELLA PAGINA   
+    // VERIFICO SE CI SONO AGGIORNAMENTI NEL DATABASE DA ESEGUIRE
+    $upddaeseguire=version_compare($_SESSION['versione'], $_SESSION['versioneprecedente'], ">");
+    if ($upddaeseguire)
+         print "updatedb();";
+    // ESEGUE FUNZIONI SPECIFICHE PER LA PAGINA
+    print             $onload;
+    print "           };</script>";
+   
+    
+    print "<script>
         
          var refreshSn=function ()
          {
@@ -50,9 +63,7 @@ function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, 
                         time
                       );
         };</script>";
-    $upddaeseguire=version_compare($_SESSION['versione'], $_SESSION['versioneprecedente'], ">");
     
-    if ($upddaeseguire)
          print "<script>
         
          var updatedb=function ()
@@ -141,11 +152,8 @@ function stampa_testata($funzione, $ct, $ns, $cs)
         $descrizione .= " (<a href='../contr/cambiautenteritorno.php'>Esci da ALIAS</a>)";
     }
 
-    $upddaeseguire=version_compare($_SESSION['versione'], $_SESSION['versioneprecedente'], ">");
-    if ($upddaeseguire)
-         print "\n<body onload='refreshSn();updatedb();'><div class='contenuto'>";
-    else
-        print "\n<body onload='refreshSn();'><div class='contenuto'>";
+    
+        print "\n<body><div class='contenuto'>";
 
     if ($nome != 'login')
     {
