@@ -34,8 +34,10 @@ function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, 
             <script src='../lib/js/jquery-ui-1.10.3.custom.min.js'></script>
             <script src='../lib/js/datetimepicker/jquery.datetimepicker.js'></script>";
     print "<script>
-            window.onload=function(){
-                  refreshSn();";
+    
+            window.onload=function(){";
+    if (basename($_SERVER['PHP_SELF'])!='login.php')
+        print "          refreshSn();";
     // FUNZIONI DA ESEGUIRE AL CARICAMENTO DELLA PAGINA   
     // VERIFICO SE CI SONO AGGIORNAMENTI NEL DATABASE DA ESEGUIRE
     $upddaeseguire=version_compare($_SESSION['versione'], $_SESSION['versioneprecedente'], ">");
@@ -183,8 +185,8 @@ function stampa_testata($funzione, $ct, $ns, $cs)
 // function stampa_piede($ver = '', $csrf = true) // Gestione token abilitata
 function stampa_piede($ver = '', $csrf = false)   // Gestione token disabilitata
 {
-    $vers = 'LAMPSchool ';
-
+    $vers = 'LAMPSchool Ver. '.$_SESSION['versioneprecedente'];
+/*
     if (strlen($ver) > 0)
     {
         $vers .= 'Ver. ' . $ver;
@@ -195,7 +197,7 @@ function stampa_piede($ver = '', $csrf = false)   // Gestione token disabilitata
             $vers .= 'Ver. ' . $_SESSION['versione'];
         }
     }
-
+*/
     print("
    <br/></div>
    <div id='piede'>

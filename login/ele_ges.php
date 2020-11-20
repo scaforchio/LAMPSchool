@@ -997,6 +997,7 @@ if ($cambiamentopassword)
         menu_item('../contr/vis_avvisi.php', 'GESTISCI AVVISI');
         menu_item('../contr/testiedit.php', 'GESTISCI TESTI');
         menu_item('../contr/eseguisql.php', 'ESECUZIONE COMANDO SQL');
+        menu_item('../contr/visualizzaversioni.php', 'VERIFICA AGG. DATABASE');
         menu_item('../collegamenti/collegamentiweb.php', 'PREPARAZIONE COLLEGAMENTI WEB');
 
         menu_title_end();

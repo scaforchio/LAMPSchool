@@ -43,7 +43,13 @@ session_start();
 $_SESSION["prefisso"] = $prefisso_tabelle;
 $_SESSION["annoscol"] = $annoscol;
 $_SESSION["suffisso"] = $suffisso;
+$_SESSION["versioneprecedente"]=$versioneprecedente;
 $_SESSION["alias"] = false;
+
+
+$json = leggeFileJSON('../lampschool.json');
+$_SESSION['versione'] = $json['versione'];
+
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
@@ -51,7 +57,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 $titolo = "Inserimento dati di accesso";
 $seedcasuale = mt_rand(100000, 999999);
 $seme = md5(date('Y-m-d').$seedcasuale);
-eseguiQuery($con,"insert into tbl_seed(seed) values('$seme')");
+
 
 $script = "<script src='../lib/js/crypto.js'></script>\n";
 $script .= "<script>
@@ -123,7 +129,8 @@ if (strlen($messaggio) > 0)
     document.getElementById('utente').focus();
 </script>
 <?php
-$json = leggeFileJSON('../lampschool.json');
+//$json = leggeFileJSON('../lampschool.json');
 
-stampa_piede($json['versione']);
+stampa_piede($versioneprecedente);
+eseguiQuery($con,"insert into tbl_seed(seed) values('$seme')");
 ?>

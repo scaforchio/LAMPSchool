@@ -1984,6 +1984,8 @@ ADD PRIMARY KEY (idparamcomunicazpers);
 ALTER TABLE tbl_parametri
 ADD PRIMARY KEY (idparametro);
 
+ALTER TABLE tbl_parametri 
+ADD UNIQUE (parametro);
 --
 -- Indexes for table tbl_prenotazioni
 --
