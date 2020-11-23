@@ -6,7 +6,7 @@ ALTER TABLE tbl_parametri ADD UNIQUE (parametro);
 ALTER TABLE tbl_utenti
 ADD tokenresetpwd  char(32);
 ALTER TABLE tbl_utenti
-ADD  oracreazionetoken timestamp;
+ADD  oracreazionetoken int(11);
 ALTER TABLE tbl_utenti
 ADD  numutilizzitoken tinyint(1);
 -- LASCIARE SEMPRE ALLA FINE
