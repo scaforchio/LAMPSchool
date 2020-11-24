@@ -97,7 +97,7 @@ print ("<form method='post' action='resetpwdok.php?suffisso=$suffisso' id='formd
    
 print "<center><br>Nuova password (min. 7 caratteri)<input type='text' name='newpass1' id='np1' Onkeyup='verifica();'>
                          <br>Ripeti nuova password (min. 7 caratteri) <input type='text' name='newpass2' id='np2'  Onkeyup='verifica();'>
-                         <br>OTP (6 cifre, inviata tramite SMS) <input type='text' size='6' maxlength='6' name='token' id='token' Onkeyup='verifica();'>
+                         <br>OTP (6 cifre, inviata tramite mail) <input type='text' size='6' maxlength='6' name='token' id='token' Onkeyup='verifica();'>
                          <input type='hidden' value='$utente' name='utente'>";
 print "<br><br><input type='submit' id='subnp' disabled>";
 print ("</form>"); 
