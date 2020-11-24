@@ -663,6 +663,7 @@ if (!checkdate($m, $g, $a))
              where tbl_gruppialunni.idalunno=tbl_alunni.idalunno
              and idgruppo=$idgruppo
              order by cognome, nome, datanascita";
+
             $ris = eseguiQuery($con, $query);
 
 
@@ -702,7 +703,7 @@ if (!checkdate($m, $g, $a))
                 //   {
                 //       $oreassenza = orediassenza($durata, $val['idalunno'], $anno . "-" . $mese . "-" . $giorno, $con);
                 //   }
-                if (!gestione_manuale_assenze($idclasse, $anno . "-" . $mese . "-" . $giorno, $con))
+                if (!gestione_manuale_assenze($val['idclasse'], $anno . "-" . $mese . "-" . $giorno, $con))
                 {
                     echo "<td><select class='smallchar' name='oreass" . $val["idalunno"] . "' disabled>";
                 } else
@@ -711,7 +712,6 @@ if (!checkdate($m, $g, $a))
                     {
                         $oreassenza = $durata;
                         echo "<td><input type='hidden' name='oreass" . $val["idalunno"] . "' value='$oreassenza'><select disabled class='smallchar' name='oreass" . $val["idalunno"] . "'>";
-                        
                     } else
                         echo "<td><select class='smallchar' name='oreass" . $val["idalunno"] . "'>";
                 }
