@@ -81,6 +81,7 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_sospensionicolloqui';
         $tabelle[] = 'tbl_collegamenti';
         $tabelle[] = 'tbl_menu';
+        $tabelle[] = 'tbl_seed';
     }
     if ($ambito == 'pro')
     {
@@ -151,6 +152,7 @@ foreach ($arrbkp as $ambito)
         $tabelle[] = 'tbl_assemblee';
         $tabelle[] = 'tbl_richiesteferie';
         $tabelle[] = 'tbl_recuperipermessi';
+        $tabelle[] = 'tbl_dad';
     }
 
     if ($ambito == 'tab')
