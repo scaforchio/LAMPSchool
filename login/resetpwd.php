@@ -110,8 +110,9 @@ function invia_OTP($token, $idutente,$con,$suffisso)
   //  print "idute".$idutente;die();
     if ($idutente<1000000000)
     {
-        $idalunno=$idutente-1000000000;
+        $idalunno=$idutente;
         $query="select * from tbl_alunni where idalunno=$idalunno";
+       // print inspref($query);die();
         $ris= eseguiQuery($con, $query);
         $rec=mysqli_fetch_array($ris);
         $email=$rec['email'];
