@@ -32,6 +32,7 @@ if ($tipoutente == "")
     die;
 }
 $email = stringa_html('email');
+$email2 = stringa_html('email2');
 $telcel = stringa_html('telcel');
 $titolo = "Aggiornamento dati di contatto tutor";
 $script = "";
@@ -42,7 +43,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 //Connessione al server SQL
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
-$sql = "update tbl_alunni SET email='$email', telcel='$telcel' WHERE idalunno=" . $_SESSION['idutente'];
+$sql = "update tbl_alunni SET email='$email',email2='$email2', telcel='$telcel' WHERE idalunno=" . $_SESSION['idutente'];
 $ris = eseguiQuery($con, $sql);
 print "
 		

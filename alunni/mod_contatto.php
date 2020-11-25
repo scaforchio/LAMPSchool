@@ -56,13 +56,16 @@ $ris = eseguiQuery($con, $sql);
 $dati = mysqli_fetch_array($ris);
 
 $email = $dati['email'];
+$email = $dati['email2'];
 $telcel = $dati['telcel'];
 print "<form action='agg_contatto.php' method='POST'>";
 
 
 print "<CENTER><table border='0'>";
 
-print "<tr><td>Email:</td><td><input type='text' name='email' value='$email'></td></tr>";
+print "<tr><td>Email 1:</td><td><input type='text' name='email' value='$email'></td></tr>";
+print "<tr><td>Email 2:</td><td><input type='text' name='email2' value='$email2'></td></tr>";
+
 print "<tr><td>Cellulare:</td><td><input type='text' name='telcel' value='$telcel'></td></tr>";
 print "</table>";
 print "<center><br><b>Con la registrazione dei dati inseriti si autorizza la scuola ad inviare email ed SMS riguardanti le attività scolastiche dell'alunno.</b></center>";
