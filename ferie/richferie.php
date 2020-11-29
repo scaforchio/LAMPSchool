@@ -275,7 +275,7 @@ per un totale di ore <input type='number' class='narrow' id='orepermessobreve' n
                                     }
                                 }
                                 
-                                console.log(selezione);
+                               // console.log(selezione);
                                 if (selezione!=7)
                                 {
                                    document.getElementById('datainizio').setAttribute('required',true);

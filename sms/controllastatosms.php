@@ -22,7 +22,7 @@ $suffisso = $_GET['user_reference'];
 
 @require_once("../php-ini" . $suffisso . ".php");
 @require_once("../lib/funzioni.php");
-@require_once("../lib/sms/php-send.php");
+//@require_once("../lib/sms/php-send.php");
 
 $idspedizione = $_GET['skebby_dispatch_id'];
 $cell = $_GET['recipient'];

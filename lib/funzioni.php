@@ -37,6 +37,8 @@ error_reporting(E_ALL & ~E_NOTICE);
 @require_once("funcert.php");
 @require_once("funregi.php");
 @require_once("funmoodle.php");
+@require_once("funsms.php");
+@require_once("funotp.php");
 // @require_once("funregi.php"); incluso solo nei due programmi che lo utilizzano
 
 /**
@@ -760,21 +762,7 @@ function gestisciErrore($errore, $con)
     die();
 }
 
-function generaSchemaToken()  // OTP per conferma accesso
-{
-    $token = "";
-    $numeri = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
-    for ($i = 0; $i < 5; $i++)
-    {
-        //Mischia l'array
-        shuffle($numeri);
-        for ($j = 0; $j < 10; $j++)
-        {
-            $token .= $numeri[$j];
-        }
-    }
-    return $token;
-}
+
 
 /**
  * Funzione che verifica se il bot_telegram è online
@@ -832,10 +820,16 @@ function sendTelegramMessage($chat_id, $testo, $token)
     );
     $context = stream_context_create($options);
     $r = file_get_contents($url, false, $context);
-    if ($r->{'ok'})
-        return true; //operazione andata a buon fine
+    
+    $rj= json_decode($r);
+    if ($rj->{'ok'}=='true')
+    {
+        return true;
+    }//operazione andata a buon fine
     else
-        return false; //operazione fallita
+    {
+        return false;
+    }//operazione fallita
 }
 
 /**
@@ -859,7 +853,8 @@ function sendTelegramMessageToken($chat_id, $testo, $tokenBot)
     );
     $context = stream_context_create($options);
     $r = file_get_contents($url, false, $context);
-    if ($r->{'ok'})
+    $rj= json_decode($r);
+    if ($rj->{'ok'}=='true')
         return true; //operazione andata a buon fine
     else
         return false; //operazione fallita

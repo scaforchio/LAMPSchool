@@ -790,3 +790,13 @@ function current_version($conn)
         return $row['valore'];
     }
 }
+
+function verificaGoBack()
+{
+    if ($_SESSION['nogoback']==true)
+    {
+        $_SESSION['nogoback']=false;
+        header("location:../login/ele_ges.php");
+        die();
+    }
+}

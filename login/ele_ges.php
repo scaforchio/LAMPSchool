@@ -1310,6 +1310,7 @@ if ($cambiamentopassword)
             }
             menu_title_begin('COMUNICAZIONI SCUOLA-FAMIGLIA');
 
+            menu_item('../assenze/giustassonline.php', 'GIUSTIFICA ASSENZE');
             menu_item('../circolari/viscircolari.php', 'LEGGI CIRCOLARI');
             menu_item("../colloqui/visdisponibilita.php?idclasse=$idclasse", 'PRENOTAZIONE COLLOQUIO');
             menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');

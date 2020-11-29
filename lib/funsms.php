@@ -64,6 +64,8 @@ function do_post_request($url, $data, $optional_headers = null)
 
 function skebbyGatewaySendSMS($username, $password, $recipients, $text, $sms_type = SMS_TYPE_CLASSIC, $sender_number = '', $sender_string = '', $user_reference = '', $charset = 'UTF-8', $optional_headers = null)
 {
+    // print "$username|$password|$recipients[0]|$text|$sms_type|$sender_number|$sender_string|$user_reference";
+    
     $url = 'http://gateway.skebby.it/api/send/smseasy/advanced/http.php';
 
     if (!is_array($recipients))
@@ -134,6 +136,8 @@ function skebbyGatewaySendSMS($username, $password, $recipients, $text, $sms_typ
 
 function skebbyGatewaySendSMSParam($username, $password, $recipients, $text, $sms_type = SMS_TYPE_CLASSIC, $sender_number = '', $sender_string = '', $user_reference = '', $charset = '', $optional_headers = null)
 {
+    
+    //  print "$username|$password|$recipients|$text|$sms_type|$sender_number|$sender_string|$user_reference";
     $url = 'http://gateway.skebby.it/api/send/smseasy/advanced/http.php';
 
     if (!is_array($recipients))
@@ -183,7 +187,7 @@ function skebbyGatewaySendSMSParam($username, $password, $recipients, $text, $sm
         $reccount++;
     }
     $elencorec = substr($elencorec, 0, strlen($elencorec) - 1);
-
+    print "<br>$elencorec";
     $parameters .= $elencorec;
 
 
@@ -256,6 +260,79 @@ function VerificaCellulare($cell)
 {
     // if (substr($cell,0,2)=="39")
     return $cell;
+}
+
+function inviaSMS($destinatari, $testo, $con, $tipo='vari',$idest="")
+{
+    if (!is_array($destinatari))
+    {
+        $destinatari = array($destinatari);
+    }
+    if (!is_array($iddest))
+    {
+        $iddest = array($iddest);
+    }
+
+    $utente = $_SESSION['utentesms'];
+    $password = $_SESSION['passsms'];
+    $testata = $_SESSION['testatasms'];
+    // print "$utente $password $testata $destinatari[0]";    
+    $result = skebbyGatewaySendSMS($utente, $password, $destinatari, $testo, SMS_TYPE_CLASSIC_PLUS, '', $testata, $_SESSION['suffisso']);
+    if ($result['status'] == "success")
+    {
+        $query = "insert into tbl_testisms(testo, idinvio, idutente)
+				  values ('$testo','" . $result['id'] . "','" . $_SESSION['idutente'] . "')";
+        eseguiQuery($con, $query);
+        $idtestosms = mysqli_insert_id($con);
+        for ($i = 0; $i < count($destinatari); $i++)
+        {
+            $query = "insert into tbl_sms(tipo,iddestinatario,idinvio,celldestinatario, idtestosms)
+					  values ('$tipo','" . $iddest[$i] . "','" . $result['id'] . "','" . $destinatari[$i]['recipient'] . "',$idtestosms)";
+            eseguiQuery($con, $query);
+        }
+        
+    } 
+    //return $result;
+    if ($result['status']=='success')
+        return true;
+    else
+        return false;
+}
+function inviaSMSparam($destinatari, $testo, $con, $tipo='vari',$idest="")
+{
+    if (!is_array($destinatari))
+    {
+        $destinatari = array($destinatari);
+    }
+    if (!is_array($iddest))
+    {
+        $iddest = array($iddest);
+    }
+
+    $utente = $_SESSION['utentesms'];
+    $password = $_SESSION['passsms'];
+    $testata = $_SESSION['testatasms'];
+    // print "$utente $password $testata $destinatari[0]";    
+    $result = skebbyGatewaySendSMSParam($utente, $password, $destinatari, $testo, SMS_TYPE_CLASSIC_PLUS, '', $testata, $_SESSION['suffisso']);
+    if ($result['status'] == "success")
+    {
+        $query = "insert into tbl_testisms(testo, idinvio, idutente)
+				  values ('$testo','" . $result['id'] . "','" . $_SESSION['idutente'] . "')";
+        eseguiQuery($con, $query);
+        $idtestosms = mysqli_insert_id($con);
+        for ($i = 0; $i < count($destinatari); $i++)
+        {
+            $query = "insert into tbl_sms(tipo,iddestinatario,idinvio,celldestinatario, idtestosms)
+					  values ('$tipo','" . $iddest[$i] . "','" . $result['id'] . "','" . $destinatari[$i]['recipient'] . "',$idtestosms)";
+            eseguiQuery($con, $query);
+        }
+        
+    } 
+    // return $result;
+    if ($result['status']=='success')
+        return true;
+    else
+        return false;
 }
 
 /*

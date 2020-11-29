@@ -1173,6 +1173,21 @@ CREATE TABLE IF NOT EXISTS tbl_osssist (
 -- Struttura della tabella tbl_paramcomunicazpers
 --
 
+CREATE TABLE IF NOT EXISTS tbl_otp (
+  idotp int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  valore char(32) DEFAULT '',
+  idutente int(11),
+  funzione char(32) DEFAULT '',
+  nummaxutilizzi int(2) DEFAULT 0,
+  numutilizzi int(2) DEFAULT 0,
+  timecreazione int(11) DEFAULT 0,
+  timeultimoutilizzo int(11) DEFAULT 0,
+  valido boolean DEFAULT 1)
+  ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+
 CREATE TABLE IF NOT EXISTS tbl_paramcomunicazpers (
   idparamcomunicazpers int(11),
   idutente int(11),
@@ -1413,7 +1428,7 @@ CREATE TABLE IF NOT EXISTS tbl_testi (
 CREATE TABLE IF NOT EXISTS tbl_testisms (
   idtestosms int(11),
   testo varchar(2048),
-  idinvio int(11),
+  idinvio char(100),
   idutente int(11),
   dataora timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2645,7 +2660,7 @@ MODIFY idesmaterie int(11) AUTO_INCREMENT;
 
 -- IMPORTAZIONE DATI
 
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2020.5', 'Versione del software', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2020.6', 'Versione del software', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'nome_scuola', '', 'Nome della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'comune_scuola', '', 'Comune sede della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'sito_scuola', 'http://', 'Indirizzo web dell''home page della scuola', '');

@@ -21,7 +21,7 @@ session_start();
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
-@require_once("../lib/sms/php-send.php");
+//@require_once("../lib/sms/php-send.php");
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 ////session_start();
