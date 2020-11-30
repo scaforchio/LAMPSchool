@@ -1533,7 +1533,7 @@ if ($cambiamentopassword)
             //
             //  COLLOQUI IMMINENTI
             //
-            $query = "select * from tbl_prenotazioni,tbl_orericevimento,tbl_alunni,tbl_orario
+            $query = "select *,tbl_prenotazioni.note as notaprenotazione from tbl_prenotazioni,tbl_orericevimento,tbl_alunni,tbl_orario
 								  where tbl_prenotazioni.idoraricevimento=tbl_orericevimento.idoraricevimento
 								  and tbl_prenotazioni.idalunno=tbl_alunni.idalunno
 								  and tbl_orericevimento.idorario=tbl_orario.idorario
@@ -1551,11 +1551,12 @@ if ($cambiamentopassword)
                     if ($rec['data'] > $dataoggi | $oraattuale < substr($rec['fine'], 0, 5))
                     {
                         if ($rec['conferma'] == 2)
-                            print ("<center><br><i><b><font color='red'>Colloquio con genitore di " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . " alle " . substr($rec['inizio'], 0, 5) . "</a></font></b></i><br/></center>");
+                            print ("<center><br><i><b><font color='red'>Colloquio con genitore di " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . ". ".$rec['notaprenotazione'] . "</font></b></i><br/></center>");
 
                         if ($rec['conferma'] == 4)
-                            print ("<center><br><i><b><font color='red'>Colloquio online con genitore di " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . " alle " . substr($rec['inizio'], 0, 5) . "</a></font></b></i><br/></center>");
-                        print ("<br/>");
+                            print ("<center><br><i><b><font color='red'>Colloquio online con genitore di " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . ". " . $rec['notaprenotazione'] . "</font></b></i><br/></center>");
+                           print ("<br/>");
+                        
                     }
                 }
             }
