@@ -182,7 +182,7 @@ if ($idclasse != "")
             echo "target='_blank'><img src='../immagini/view.jpg' alt='visualizza'></a>  ";
         }
 
-        if ($iddocente == $nom['iddocente'])
+        if ($iddocente == $nom['iddocente'] | $tipoutente=='P')
         {
             echo " <a href='mod_doc_classe.php?iddocumento=" . $nom["iddocumento"] . "&idclasse=$idclasse&idalunno=$idalunno&tipo=$tipo'><img src='../immagini/edit.png' alt='modifica descrizione'></a>
 			         <a href='cancdocumentoclasse.php?iddocumento=" . $nom["iddocumento"] . "&idclasse=$idclasse&idalunno=$idalunno&tipo=$tipo'><img src='../immagini/delete.png' alt='cancella'></a>";
