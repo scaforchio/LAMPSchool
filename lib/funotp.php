@@ -54,6 +54,8 @@ function inserisciToken($con, $lunghezza, $idutente, $tipo, $modoinvio, $paramet
     $date = new DateTime();
     $ts = $date->getTimestamp();
     $tsscad = $ts + $duratamassima * 60;
+    $query = "delete from tbl_otp where numutilizzi>nummaxutilizzi";
+    eseguiQuery($con, $query);
     $query = "insert into tbl_otp(valore,idutente,funzione,nummaxutilizzi,timecreazione,timeultimoutilizzo)"
             . "values ('$token',$idutente,'$tipo',$massimiutilizzi,$ts,$tsscad)";
     eseguiQuery($con, $query);
