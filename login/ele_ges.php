@@ -557,7 +557,7 @@ if ($cambiamentopassword)
             menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
             menu_item('../documenti/stampafirmaprogrammi.php?docente=' . $idutente, 'STAMPE PER PRESA VISIONE PROGRAMMI');
             menu_item('../documenti/documenticlasse.php', 'DOCUMENTI CLASSE');
-            
+
             menu_title_end();
         }
         menu_title_begin('SCRUTINI');
@@ -758,7 +758,7 @@ if ($cambiamentopassword)
 
         menu_item('../docenti/visorario.php', 'VISUALIZZA ORARIO');
         menu_item('../docenti/visoraridocenti.php', 'VISUALIZZA ORARIO DOCENTE');
-        
+
         menu_item('../lezioni/dad.php', 'INSERISCI GIORNATE D.A.D.');
         menu_item('../lezioni/CRUDdad.php', 'ELIMINA GIORNATE D.A.D.');
         menu_title_end();
@@ -1014,8 +1014,8 @@ if ($cambiamentopassword)
         menu_item('../password/genschemaotp.php', 'Generazione schemi per OTP');
         menu_item('../password/gestschedaotp.php', 'Gestione scheda OTP');
         menu_item('../password/gestpwd.php', 'Cambia password utente');
-        if ($_SESSION['gestioneutentialunni']=='yes')
-           menu_item('../alunni/creautentialunni.php', 'Crea utenze per alunni');
+        if ($_SESSION['gestioneutentialunni'] == 'yes')
+            menu_item('../alunni/creautentialunni.php', 'Crea utenze per alunni');
         menu_item('../esame3m/abilitautenteesame.php', 'Abilita utente esame di stato');
         menu_title_end();
 
@@ -1309,8 +1309,8 @@ if ($cambiamentopassword)
                 menu_title_end();
             }
             menu_title_begin('COMUNICAZIONI SCUOLA-FAMIGLIA');
-
-            menu_item('../assenze/giustassonline.php', 'GIUSTIFICA ASSENZE');
+            if ($utentesms !='')
+                menu_item('../assenze/giustassonline.php', 'GIUSTIFICA ASSENZE');
             menu_item('../circolari/viscircolari.php', 'LEGGI CIRCOLARI');
             menu_item("../colloqui/visdisponibilita.php?idclasse=$idclasse", 'PRENOTAZIONE COLLOQUIO');
             menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');
@@ -1550,12 +1550,12 @@ if ($cambiamentopassword)
 
                     if ($rec['data'] > $dataoggi | $oraattuale < substr($rec['fine'], 0, 5))
                     {
-                        if ($rec['conferma']==2) 
+                        if ($rec['conferma'] == 2)
                             print ("<center><br><i><b><font color='red'>Colloquio con genitore di " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . " alle " . substr($rec['inizio'], 0, 5) . "</a></font></b></i><br/></center>");
-                        
-                        if ($rec['conferma']==4)
+
+                        if ($rec['conferma'] == 4)
                             print ("<center><br><i><b><font color='red'>Colloquio online con genitore di " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . " alle " . substr($rec['inizio'], 0, 5) . "</a></font></b></i><br/></center>");
-                        print ("<br/>");   
+                        print ("<br/>");
                     }
                 }
             }
@@ -1588,11 +1588,11 @@ if ($cambiamentopassword)
 
                     if ($rec['data'] > $dataoggi | $oraattuale < substr($rec['fine'], 0, 5))
                     {
-                        if ($rec['conferma']==2)
+                        if ($rec['conferma'] == 2)
                             print ("<center><br><i><b><font color='red'>Colloquio con Prof. " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . " or. ricev. " . substr($rec['inizio'], 0, 5) . " - " . substr($rec['fine'], 0, 5) . "<br>" . $rec['notaprenotazione'] . "</a></font></b></i><br/></center>");
-                        if ($rec['conferma']==4)
-                            print ("<center><br><i><b><font color='red'>Colloquio <a href='".$rec['collegamentowebex']."'>online</a> con Prof. " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . " or. ricev. " . substr($rec['inizio'], 0, 5) . " - " . substr($rec['fine'], 0, 5) . "<br>" . $rec['notaprenotazione'] . "</a></font></b></i><br/></center>");
-                      
+                        if ($rec['conferma'] == 4)
+                            print ("<center><br><i><b><font color='red'>Colloquio <a href='" . $rec['collegamentowebex'] . "'>online</a> con Prof. " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . " or. ricev. " . substr($rec['inizio'], 0, 5) . " - " . substr($rec['fine'], 0, 5) . "<br>" . $rec['notaprenotazione'] . "</a></font></b></i><br/></center>");
+
                         print ("<br/>");
                     }
                 }
