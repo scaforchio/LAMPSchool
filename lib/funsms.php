@@ -262,8 +262,9 @@ function VerificaCellulare($cell)
     return $cell;
 }
 
-function inviaSMS($destinatari, $testo, $con, $tipo='vari',$idest="")
+function inviaSMS($destinatari, $testo, $con, $tipo='vari',$iddest="")
 {
+    
     if (!is_array($destinatari))
     {
         $destinatari = array($destinatari);
@@ -287,7 +288,7 @@ function inviaSMS($destinatari, $testo, $con, $tipo='vari',$idest="")
         for ($i = 0; $i < count($destinatari); $i++)
         {
             $query = "insert into tbl_sms(tipo,iddestinatario,idinvio,celldestinatario, idtestosms)
-					  values ('$tipo','" . $iddest[$i] . "','" . $result['id'] . "','" . $destinatari[$i]['recipient'] . "',$idtestosms)";
+					  values ('$tipo','" . $iddest[$i] . "','" . $result['id'] . "','" . $destinatari[$i] . "',$idtestosms)";
             eseguiQuery($con, $query);
         }
         
@@ -298,8 +299,9 @@ function inviaSMS($destinatari, $testo, $con, $tipo='vari',$idest="")
     else
         return false;
 }
-function inviaSMSparam($destinatari, $testo, $con, $tipo='vari',$idest="")
+function inviaSMSparam($destinatari, $testo, $con, $tipo='vari',$iddest="")
 {
+    
     if (!is_array($destinatari))
     {
         $destinatari = array($destinatari);

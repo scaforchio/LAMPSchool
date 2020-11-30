@@ -58,7 +58,7 @@ function inserisciToken($con, $lunghezza, $idutente, $tipo, $modoinvio, $paramet
             . "values ('$token',$idutente,'$tipo',$massimiutilizzi,$ts,$tsscad)";
     eseguiQuery($con, $query);
     if ($modoinvio == 'sms')
-        $esito = inviaSMS($parametroinvio, "O.T.P. per conferma operazione $token", $con, "otp");
+        $esito = inviaSMS($parametroinvio, "O.T.P. per conferma operazione $token", $con, "otp",$idutente);
     if ($modoinvio == 'email')
         $esito = invia_mail($parametroinvio, "O.T.P. per conferma operazione $token", "La password momentanea per conferma operazione: $token");
     if ($modoinvio == 'telegram')
