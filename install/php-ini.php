@@ -26,11 +26,12 @@ mysqli_query($con, $sql);
 
 $sql = "SET SESSION sql_mode = 'NO_ENGINE_SUBSTITUTION'";
 mysqli_query($con, $sql);
+// RIEMPIMENTO VARIABILI DEI PARAMETRI
 $sql = "SELECT parametro,valore FROM " . $prefisso_tabelle . "tbl_parametri where parametro<>'versione'";
 $result = mysqli_query($con, $sql);
 $variabili = "";
 while ($rec = mysqli_fetch_array($result))
     $variabili = $variabili . "&" . $rec['parametro'] . "=" . $rec['valore'];
 parse_str($variabili);
-
+// FINE RIEMPIMENTO VARIABILI DEI PARAMETRI
 mysqli_close($con);

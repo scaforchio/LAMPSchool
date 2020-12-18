@@ -52,12 +52,12 @@ if (!$_SESSION['tokenok'])
 {
     header("location: login.php?suffisso=" . $_SESSION['suffisso']);
 }
-
+//print "PAR ".$_SESSION['annoscol'];
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
 // Passaggio dei parametri nella sessione
-require "../lib/req_assegna_parametri_a_sessione.php";
+//require "../lib/req_assegna_parametri_a_sessione.php";
 
 
 $json = leggeFileJSON('../lampschool.json');

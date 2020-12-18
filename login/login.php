@@ -34,11 +34,13 @@ session_unset();
 session_destroy();
 session_start();
 
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
+require "../lib/req_assegna_parametri_a_sessione.php";
 $_SESSION["prefisso"] = $prefisso_tabelle;
-$_SESSION["annoscol"] = $annoscol;
+//$_SESSION["annoscol"] = $annoscol;
 $_SESSION["suffisso"] = $suffisso;
-$_SESSION["versioneprecedente"]=$versioneprecedente;
-$_SESSION["nomefilelog"] = $nomefilelog;
+//$_SESSION["versioneprecedente"]=$versioneprecedente;
+//$_SESSION["nomefilelog"] = $nomefilelog;
 $_SESSION["alias"] = false;
 
 
@@ -46,7 +48,7 @@ $json = leggeFileJSON('../lampschool.json');
 $_SESSION['versione'] = $json['versione'];
 
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
+
 
 
 $titolo = "Inserimento dati di accesso";
@@ -127,6 +129,6 @@ if (strlen($messaggio) > 0)
 <?php
 //$json = leggeFileJSON('../lampschool.json');
 
-stampa_piede($versioneprecedente);
+stampa_piede($_SESSION['versioneprecedente']);
 eseguiQuery($con,"insert into tbl_seed(seed) values('$seme')");
 ?>

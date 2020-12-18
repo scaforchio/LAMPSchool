@@ -71,7 +71,7 @@ while ($rec = mysqli_fetch_array($ris))
 {
 
     $dataoggi = date('Y-m-d');
-    $datacoll=$rec['data'];
+    $datacoll = $rec['data'];
     $alunno = $rec['cognome'] . " " . $rec['nome'] . "(" . data_italiana($rec['datanascita']) . ") - " . decodifica_classe($rec['idclasse'], $con);
     $data = giorno_settimana($rec['data']) . " " . data_italiana($rec['data']) . " " . $rec['inizio'] . "-" . $rec['fine'];
     $note = $rec['note'];
@@ -115,17 +115,21 @@ while ($rec = mysqli_fetch_array($ris))
     if ($valido)
     {
         if ($dataoggi < $rec['data'])
+        {
             print " <td><form action='registrarisposta.php' method='post'>
                    <input type='hidden' name='idprenotazione' value='$idprenotazione'>
                    <select name='risposta'><option value='1'$sele1>In sosp.</option><option value='2'$sele2>Sì</option><option value='4'$sele4>Sì online</option><option value='3'$sele3>No</option></select>
-                   <input type='text' name='note' value='$note' maxlength='255' size='50'>
-                   <input type='submit' value='Invia risposta'>
-                   </form>
-               </td>";
-        else
+                   <input type='text' name='note' value='$note' maxlength='255' size='50'>";
+            if ($risp == 1)
+                print "<input type='submit' value='Invia risposta'>";
+            else
+                print "<input type='submit' value='Modifica risp.'>";
+            print "       </form>
+        </td>";
+        } else
             print " <td><form action='registrarisposta.php' method='post'>
                    <input type='hidden' name='idprenotazione' value='$idprenotazione'>
-                   <select name='risposta' disabled><option value='1'$sele1>In sosp.</option><option value='2'$sele2>Sì</option><option value='3'$sele3>No</option></select>
+                   <select name='risposta' disabled><option value='1'$sele1>In sosp.</option><option value='2'$sele2>Sì</option><option value='4'$sele4>Sì online</option><option value='3'$sele3>No</option></select>
                    <input type='text' name='note' value='$note' maxlength='255' size='50'>
                    
                    </form>

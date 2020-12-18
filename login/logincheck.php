@@ -32,7 +32,7 @@ if (!$con)
 }
 
 // Passaggio dei parametri nella sessione
-require "../lib/req_assegna_parametri_a_sessione.php";
+//require "../lib/req_assegna_parametri_a_sessione.php";
 
 /* if ($_SESSION['idutente']!="") 
   {
@@ -305,6 +305,6 @@ if ($_SESSION['modoinviotoken'] == 'S' | $_SESSION['modoinviotoken'] == 'M' | $_
 } else
 {
     //print "qui ".$_SESSION['modoinviotoken']."-";die;
-    $_SESSION['tokenok'] = true;
+    $_SESSION['tokenok'] = true;    
     header("location: ele_ges.php?suffisso=" . $_SESSION['suffisso']);
 }
