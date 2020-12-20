@@ -38,7 +38,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 $titolo = "VERIFICA OTP";
 $script = "";
 stampa_head($titolo, "", $script, "MPDSLAT");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 print "<form action='otpcheck_ok.php' method='POST'>";

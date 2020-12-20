@@ -37,7 +37,7 @@ if ($tipoutente == "")
 $titolo = "Creazione corso Moodle";
 $script = "";
 stampa_head($titolo, "", $script, "MSPD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
@@ -53,7 +53,7 @@ $anno = $rec['anno'];
 $sezione = $rec['sezione'];
 $specializzazione = $rec['specializzazione'];
 $specsigla = substr($specializzazione, 0, 3);
-$annoinizio = $annoscol;
+$annoinizio = $_SESSION['annoscol'];
 //$siglacategoria.=$annoinizio;
 $query = "select * from tbl_materie where idmateria=$idmateria";
 $ris = eseguiQuery($con, $query);
@@ -74,7 +74,7 @@ $idcategoria0 = getCategoriaMoodle($tokenservizimoodle, $urlmoodle, $siglacatego
 
 
 if ($idcategoria0 == -1)
-    $idcategoria0 = creaCategoriaMoodle($tokenservizimoodle, $urlmoodle, $nome_scuola, $siglacategoria0, 0);
+    $idcategoria0 = creaCategoriaMoodle($tokenservizimoodle, $urlmoodle, $_SESSION['nome_scuola'], $siglacategoria0, 0);
 
 $idcategoria1 = getCategoriaMoodle($tokenservizimoodle, $urlmoodle, $siglacategoria1);
 

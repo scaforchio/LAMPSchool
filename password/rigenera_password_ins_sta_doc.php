@@ -47,10 +47,10 @@ $script = "";
   </script>";
  */
 stampa_head($titolo, "", $script, "SMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
-$annoscolastico = $annoscol . "/" . ($annoscol + 1);
+$annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
 
 
 

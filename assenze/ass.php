@@ -46,7 +46,7 @@ $script = "<script src='../lib/js/popupjquery.js'></script>
          </script>";
 
 stampa_head($titolo, "", $script, "SDP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $nome = stringa_html('cl');
 $giorno = stringa_html('gio');

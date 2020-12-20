@@ -61,11 +61,11 @@ $larghcol = 10;
   $posY += 10; */
 $schede->SetFont('Arial', 'B', 12);
 $schede->setXY(10, $posY);
-$schede->Cell(270, 6, converti_utf8("$nome_scuola") . " " . converti_utf8("$comune_scuola"), NULL, 1, "C");
+$schede->Cell(270, 6, converti_utf8($_SESSION['nome_scuola']) . " " . converti_utf8($_SESSION['comune_scuola']), NULL, 1, "C");
 $posY += 8;
 $schede->SetFont('Arial', 'BI', 12);
 $schede->setXY(10, $posY);
-$specplesso = converti_utf8("VOTI FINALI ESAME DI STATO A.S.:" . $annoscol . "/" . ($annoscol + 1) . " - " . decodifica_classe_spec($idclasse, $con) . " - Classe: " . decodifica_classe_no_spec($idclasse, $con, 1));
+$specplesso = converti_utf8("VOTI FINALI ESAME DI STATO A.S.:" . $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1) . " - " . decodifica_classe_spec($idclasse, $con) . " - Classe: " . decodifica_classe_no_spec($idclasse, $con, 1));
 $schede->Cell(270, 6, $specplesso, NULL, 1, "C");
 $posY += 8;
 
@@ -242,7 +242,7 @@ while ($reccom = mysqli_fetch_array($riscom))
 
 // STAMPA PARTE TERMINALE
 
-$luogodata = converti_utf8("$comune_scuola, $datastampa");
+$luogodata = converti_utf8($_SESSION['comune_scuola'].", $datastampa");
 $schede->setXY(30, $posY + 30);
 $schede->SetFont('Arial', '', 11);
 $schede->Cell(70, 5, $luogodata, "", 0, "L");

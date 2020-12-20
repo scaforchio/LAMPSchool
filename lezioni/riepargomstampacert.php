@@ -49,7 +49,7 @@ $script = "
 ";
 stampa_head($titolo, "", $script, "SDMAP");
 
-$annoscolastico = $annoscol . "/" . ($annoscol + 1);
+$annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
 
 print ('<body class="stampa" onLoad="printPage()">');
 

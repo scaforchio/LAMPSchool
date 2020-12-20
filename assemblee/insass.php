@@ -42,7 +42,7 @@ $titolo = "Inoltro richiesta";
 $script = "";
 stampa_head($titolo, "", $script, "L");
 $idclasse = stringa_html('idclasse');
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='assricgen.php?idclasse=$idclasse'>Assemblee di classe</a> - <a href='ricgen.php?idclasse=$idclasse'>Richiesta assemblea di classe</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='assricgen.php?idclasse=$idclasse'>Assemblee di classe</a> - <a href='ricgen.php?idclasse=$idclasse'>Richiesta assemblea di classe</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 $orainizio = substr(stringa_html('oreass'), 0, 1);
 $orafine = substr(stringa_html('oreass'), 2, 1);

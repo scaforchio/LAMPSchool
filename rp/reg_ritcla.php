@@ -35,7 +35,7 @@ if ($tipoutente == "")
 $titolo = "Registrazione nuova entrata posticipata classe";
 $script = "";
 stampa_head($titolo, "", $script, "MSA");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_ritcla.php'>ELENCO CLASSI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_ritcla.php'>ELENCO CLASSI</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 //Connessione al server SQL
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 if (!$con)

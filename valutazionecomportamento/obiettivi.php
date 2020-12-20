@@ -37,7 +37,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 $titolo = "Gestione obiettivi di comportamento";
 $script = "";
 stampa_head($titolo, "", $script, "MA");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $maxcomp = 20;

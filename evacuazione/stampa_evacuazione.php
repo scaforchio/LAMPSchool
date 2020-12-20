@@ -145,7 +145,7 @@ function stampa_evacuazione($nomefile, $mode)
     $schede->Cell(100, 8, converti_utf8($_POST["tipoemergenza"]), 1, NULL, "C");
 
     $schede->setXY(10, 260);
-    $schede->Cell(100, 16, converti_utf8($comune_scuola) . ", " . converti_utf8($_POST["dataformattata"]), NULL, NULL, "L");
+    $schede->Cell(100, 16, converti_utf8($_SESSION['comune_scuola']) . ", " . converti_utf8($_POST["dataformattata"]), NULL, NULL, "L");
     $schede->Cell(90, 8, "Il docente", NULL, 2, "C");
     $schede->Cell(90, 8, converti_utf8($_POST["insegnante"]), NULL, NULL, "C");
 

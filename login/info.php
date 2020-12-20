@@ -24,7 +24,7 @@ session_start();
 $titolo = "Credits";
 $script = "";
 stampa_head($titolo, "", $script, "", false);
-//   stampa_testata("$titolo","","$nome_scuola","$comune_scuola");
+//   stampa_testata("$titolo","",$_SESSION['nome_scuola'],$_SESSION['comune_scuola']);
 ?>
 
 <html><head></head>

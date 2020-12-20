@@ -33,11 +33,9 @@ $utente = stringa_html('utente');
 
 
 $_SESSION["prefisso"] = $prefisso_tabelle;
-$_SESSION["annoscol"] = $annoscol;
+
 $_SESSION["suffisso"] = $suffisso;
-$_SESSION["versioneprecedente"]=$versioneprecedente;
-$_SESSION["indirizzomailfrom"]=$indirizzomailfrom;
-$_SESSION["nomefilelog"] = $nomefilelog;
+
 $_SESSION["alias"] = false;
 
 $json = leggeFileJSON('../lampschool.json');
@@ -90,7 +88,7 @@ $script = "<script>
    </script>"
         ;
 stampa_head($titolo, "", $script, "",false);
-stampa_testata("Reset password", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("Reset password", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 print ("<form method='post' action='resetpwdok.php?suffisso=$suffisso' id='formdisp'>");

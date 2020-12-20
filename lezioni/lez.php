@@ -52,7 +52,7 @@ $script = "<script type='text/javascript'>
          //-->
          </script>";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $incrementovoto = 0.25;
@@ -81,7 +81,7 @@ $cattgruppi = false;
 // Creo un array per verificare le ore già impegnate da lezioni
 $oredisp = array();
 $oredisp[] = 9;
-for ($i = 1; $i <= $numeromassimoore; $i++)
+for ($i = 1; $i <= $_SESSION['numeromassimoore']; $i++)
     $oredisp[] = 0;
 
 // CODICE PER GESTIONE RICHIAMO DA RIEPILOGO
@@ -458,9 +458,9 @@ if ($idclasse != '' & $materia != '' & $giorno != '' & $mese != '')
             }
         }
 
-        for ($i = 1; $i <= $numeromassimoore; $i++)
+        for ($i = 1; $i <= $_SESSION['numeromassimoore']; $i++)
         {
-            for ($j = $i; $j <= $numeromassimoore; $j++)
+            for ($j = $i; $j <= $_SESSION['numeromassimoore']; $j++)
             {
                 if (!occupata($oredisp, $i, $j, $numeromaxorelez))
                 {

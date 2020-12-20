@@ -31,15 +31,14 @@ require_once '../lib/funzioni.php';
 
 
 session_start();
-session_unset();
-session_destroy();
-session_start();
+//session_unset();
+//session_destroy();
+//session_start();
 
 $_SESSION["prefisso"] = $prefisso_tabelle;
-$_SESSION["annoscol"] = $annoscol;
+
 $_SESSION["suffisso"] = $suffisso;
-$_SESSION["versioneprecedente"] = $versioneprecedente;
-$_SESSION["nomefilelog"] = $nomefilelog;
+
 $_SESSION["alias"] = false;
 
 
@@ -66,7 +65,7 @@ function codifica()
 
 </script>\n";
 stampa_head($titolo, "", $script, "", false);
-stampa_testata("Richiesta reset password", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("Richiesta reset password", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $messaggio = stringa_html('messaggio');
 
@@ -111,5 +110,5 @@ print "<center>
 
 //$json = leggeFileJSON('../lampschool.json');
 
-stampa_piede($versioneprecedente);
+stampa_piede($_SESSION['versioneprecedente']);
 ?>

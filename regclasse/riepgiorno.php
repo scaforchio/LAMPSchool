@@ -43,7 +43,7 @@ $script = "<script type='text/javascript'>
          //-->
          </script>";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
@@ -230,7 +230,7 @@ if (!checkdate($m, $g, $a))
 
             $newdate = $a . "-" . $m . "-" . $g;
             if ($newdate >= $datainiziolezioni & $newdate <= $datafinelezioni & (!giorno_festa($newdate, $con)))
-                stampa_reg_classe($newdate, $idclasse, $iddocente, $numeromassimoore, $con, true, $gestcentrassenze, $giustificauscite);
+                stampa_reg_classe($newdate, $idclasse, $iddocente, $_SESSION['numeromassimoore'], $con, true, $gestcentrassenze, $giustificauscite);
             else
             if (giorno_festa($newdate, $con))
                 print "<b><br><center><font color='red'>" . data_italiana($newdate) . " - " . estrai_festa($newdate, $con) . "</font></center><br>";

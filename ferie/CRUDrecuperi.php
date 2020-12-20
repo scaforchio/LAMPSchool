@@ -5,8 +5,6 @@ session_start();
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
 
-
-
 $daticrud = array();
 // Tabella da modificare
 $daticrud['tabella'] = ("tbl_recuperipermessi");

@@ -37,7 +37,7 @@ if ($tipoutente == "")
 $titolo = "Richiesta astensione dal lavoro - testo mail";
 $script = "";
 stampa_head($titolo, "", $script, "MSD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
@@ -110,7 +110,7 @@ $testomail .= "<br><b>" . $motivo . "</b>";
 $testomail .= "$recapito<br>";
 $testomail .= "$allegati";
 $testomail .= "<br>";
-$testomail .= "$comune_scuola , " . date("d/m/Y") . " <br>";
+$testomail .= $_SESSION['comune_scuola']." , " . date("d/m/Y") . " <br>";
 $testomail .= "<br><br>";
 $testomail .= "<center>IN FEDE<br>$nominativo<br></center>";
 

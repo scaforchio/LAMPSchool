@@ -37,7 +37,7 @@ if ($tipoutente == "") {
 $titolo = "Sincronizzazione corsi Moodle per una classe";
 $script = "";
 stampa_head($titolo, "", $script, "SMPD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
@@ -89,7 +89,7 @@ if (mysqli_num_rows($ris) > 0) {
             $sezione = $rec['sezione'];
             $specializzazione = $rec['specializzazione'];
             $specsigla = substr($specializzazione, 0, 3);
-            $annoinizio = $annoscol;
+            $annoinizio = $_SESSION['annoscol'];
             //$siglacategoria.=$annoinizio;
             $query = "select * from tbl_materie where idmateria=$idmateria";
             $ris2 = eseguiQuery($con, $query);
@@ -110,7 +110,7 @@ if (mysqli_num_rows($ris) > 0) {
 
 
             if ($idcategoria0 == -1)
-                $idcategoria0 = creaCategoriaMoodle($tokenservizimoodle, $urlmoodle, $nome_scuola, $siglacategoria0, 0);
+                $idcategoria0 = creaCategoriaMoodle($tokenservizimoodle, $urlmoodle, $_SESSION['nome_scuola'], $siglacategoria0, 0);
 
             $idcategoria1 = getCategoriaMoodle($tokenservizimoodle, $urlmoodle, $siglacategoria1);
 
@@ -174,7 +174,7 @@ if (mysqli_num_rows($ris) > 0) {
         else
         {
             print "$siglacorso già presente... sincronizzo! <br>";
-            sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle, $urlmoodle, $nome_scuola, $annoscol);
+            sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle, $urlmoodle, $_SESSION['nome_scuola'], $_SESSION['annoscol']);
             print "Fatto! <br><br><br>";
             
         }

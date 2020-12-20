@@ -35,7 +35,7 @@ if ($tipoutente == "")
 $titolo = "Inserimento alunno";
 $script = "";
 stampa_head($titolo, "", $script, "E");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='esa_vis_alu_cla.php'>Elenco classi</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='esa_vis_alu_cla.php'>Elenco classi</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 $c = stringa_html('idcla');
 
 

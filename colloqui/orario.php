@@ -37,7 +37,7 @@ if ($tipoutente == "")
 $titolo = "Orario lezioni";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 
@@ -46,7 +46,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 print "<form action='insorario.php' method='post'>";
 print "<table border=1 align='center'>";
 print "<tr class='prima'><td align='right'>Ora:</td>";
-for ($h = 1; $h <= $numeromassimoore; $h++)
+for ($h = 1; $h <= $_SESSION['numeromassimoore']; $h++)
 {
     print "<td align='center'>$h</td>";
 }
@@ -55,7 +55,7 @@ print "</tr>";
 for ($g = 1; $g <= $giornilezsett; $g++)
 {
     print "<tr><td>" . giornodanum($g) . "</td>";
-    for ($h = 1; $h <= $numeromassimoore; $h++)
+    for ($h = 1; $h <= $_SESSION['numeromassimoore']; $h++)
     {
         $query = "select * from tbl_orario where giorno=$g and ora=$h and valido";
 

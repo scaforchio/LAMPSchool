@@ -34,7 +34,7 @@ if ($tipoutente == "")
 $titolo = "Inserimento amministrativo";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_imp.php'>ELENCO amministrativi</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_imp.php'>ELENCO amministrativi</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $idamministrativo = stringa_html('codice');
 $cognome = stringa_html('cognome');

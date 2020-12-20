@@ -44,7 +44,7 @@ stampa_head($titolo, "", $script, "L");
 //$idclasse = stringa_html('idclasse');
 $idalunno = $_SESSION['idstudente'];
 $idclasse = estrai_classe_alunno($idalunno, $con);
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='assricgen.php?idclasse=$idclasse'>Visualizza assemblee</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='assricgen.php?idclasse=$idclasse'>Visualizza assemblee</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $idassemblea = stringa_html('idassemblea');
 

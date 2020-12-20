@@ -34,7 +34,7 @@ if ($tipoutente == "")
 $titolo = "Inserimento e modifica tipo programmazione alunni certificati";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $idalunno = stringa_html('idalunno');
 $iddocente = $_SESSION['idutente'];

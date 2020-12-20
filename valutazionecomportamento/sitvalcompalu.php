@@ -38,7 +38,7 @@ if ($tipoutente == "")
 $titolo = "Visualizzazione voti comportamento alunni";
 $script = "";
 stampa_head($titolo, "", $script, "DSP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $comune_scuola);
 
 
 $cattedra = stringa_html('cattedra');

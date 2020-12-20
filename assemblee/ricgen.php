@@ -97,7 +97,7 @@ $(document).ready(function(){
 $idalunno = $_SESSION['idstudente'];
 $idclasse = stringa_html('idclasse');
 stampa_head($titolo, "", $script, "L");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='assricgen.php?idclasse=$idclasse'>Assemblee di classe</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='assricgen.php?idclasse=$idclasse'>Assemblee di classe</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
@@ -130,7 +130,7 @@ $ore = stringa_html('ora_inizio');
 print "<tr>
 		<td><b>Ore assemblea (prima-ultima):</b></td>
 		<td><select name='oreass' id='oreass' ONCHANGE='abildisabdoc2()' required>";
-for ($i = 1; $i <= ($numeromassimoore - $numeromassimooreassemblea + 1); $i++)
+for ($i = 1; $i <= ($_SESSION['numeromassimoore'] - $numeromassimooreassemblea + 1); $i++)
 {
     for ($j = $i; $j <= $i + $numeromassimooreassemblea - 1; $j++)
     {

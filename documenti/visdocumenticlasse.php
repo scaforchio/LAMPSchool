@@ -23,8 +23,6 @@ session_start();
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 
-$_SESSION["annoscol"] = $annoscol; //prende la variabile presente nella sessione
-$_SESSION['versione'] = $versioneprecedente;
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 $goback = goBackRiepilogoRegistro();
 
@@ -39,7 +37,7 @@ $visualizzabili = array("image/jpeg", "application/pdf", "image/pjpeg", "image/g
 $titolo = "Visualizzazione programmi svolti";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 // scelta classe
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));

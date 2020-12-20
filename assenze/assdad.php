@@ -52,7 +52,7 @@ $script = "<script type='text/javascript'>
          //-->
          </script>";
 stampa_head($titolo, "", $script, "SDP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $gio = stringa_html('gio');

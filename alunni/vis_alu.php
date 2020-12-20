@@ -92,7 +92,7 @@ $script = "<script type='text/javascript'>
 $onload="nascondi();"
         . "nascondialu();";
 stampa_head($titolo, "", $script, "MASP",true,true,$onload);
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_alu_cla.php'>Elenco classi</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_alu_cla.php'>Elenco classi</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $n = stringa_html('idcla');
 

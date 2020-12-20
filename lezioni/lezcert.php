@@ -41,7 +41,7 @@ $classeregistro = $_SESSION['classeregistro'];
 $titolo = "Gestione lezione sostegno";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
@@ -63,7 +63,7 @@ $orainizioold = '';
 // Creo un array per verificare le ore già impegnate da lezioni
 $oredisp = array();
 $oredisp[] = 9;
-for ($i = 1; $i <= $numeromassimoore; $i++)
+for ($i = 1; $i <= $_SESSION['numeromassimoore']; $i++)
     $oredisp[] = 0;
 
 // CODICE PER GESTIONE RICHIAMO DA RIEPILOGO
@@ -248,13 +248,13 @@ require '../lib/req_aggiungi_mesi_a_select.php';
   }
   if ($ms == $mese)
   {
-  echo("<option selected>$ms - $annoscol");
+  echo("<option selected>$ms - $_SESSION['annoscol']");
   } else
   {
-  echo("<option>$ms - $annoscol");
+  echo("<option>$ms - $_SESSION['annoscol']");
   }
   }
-  $annoscolsucc = $annoscol + 1;
+  $_SESSION['annoscol']succ = $_SESSION['annoscol'] + 1;
   for ($m = 1; $m <= 8; $m++)
   {
   if ($m < 10)
@@ -266,10 +266,10 @@ require '../lib/req_aggiungi_mesi_a_select.php';
   }
   if ($ms == $mese)
   {
-  echo("<option selected>$ms - $annoscolsucc");
+  echo("<option selected>$ms - $_SESSION['annoscol']succ");
   } else
   {
-  echo("<option>$ms - $annoscolsucc");
+  echo("<option>$ms - $_SESSION['annoscol']succ");
   }
   }
  * 
@@ -478,9 +478,9 @@ if ($idalunno != '' & $materia != '' & $giorno != '' & $mese != '')
         }
     }
 
-    for ($i = 1; $i <= $numeromassimoore; $i++)
+    for ($i = 1; $i <= $_SESSION['numeromassimoore']; $i++)
     {
-        for ($j = $i; $j <= $numeromassimoore; $j++)
+        for ($j = $i; $j <= $_SESSION['numeromassimoore']; $j++)
         {
             if (!occupata($oredisp, $i, $j, $numeromaxorelez))
             {

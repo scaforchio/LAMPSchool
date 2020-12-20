@@ -404,7 +404,7 @@ function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle
     $sezione = $rec['sezione'];
     $specializzazione = $rec['specializzazione'];
     $specsigla = substr($specializzazione, 0, 3);
-    $annoinizio = $annoscol;
+    $annoinizio = $_SESSION['annoscol'];
     $query = "select * from tbl_materie where idmateria=$idmateria";
     $ris = eseguiQuery($con, $query);
     $rec = mysqli_fetch_array($ris);
@@ -430,7 +430,7 @@ function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle
 
 
     if ($idcategoria0 == -1)
-        $idcategoria0 = creaCategoriaMoodle($tokenservizimoodle, $urlmoodle, $nome_scuola, $siglacategoria0, 0);
+        $idcategoria0 = creaCategoriaMoodle($tokenservizimoodle, $urlmoodle, $_SESSION['nome_scuola'], $siglacategoria0, 0);
 
     $idcategoria1 = getCategoriaMoodle($tokenservizimoodle, $urlmoodle, $siglacategoria1);
 

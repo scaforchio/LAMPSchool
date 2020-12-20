@@ -39,7 +39,7 @@ if ($tipoutente == "")
 $titolo = "Richiesta appuntamento con docente";
 $script = "";
 stampa_head($titolo, "", $script, "T");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='visdisponibilita.php?idclasse=$idclasse'>Orari disponibilita</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='visdisponibilita.php?idclasse=$idclasse'>Orari disponibilita</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 

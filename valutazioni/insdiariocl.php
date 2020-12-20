@@ -33,7 +33,7 @@ if ($tipoutente == "")
 $titolo = "Inserimento diario di classe";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $nome_scuola, $comune_scuola);
 
 
 $ins = false;

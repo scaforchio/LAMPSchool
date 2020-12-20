@@ -106,7 +106,7 @@ jQuery(function($){
 </script>
 ";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 /*
   $rissms=array();
   $rissms=verifica_numero_sms_residui($utentesms,$passsms);
@@ -178,7 +178,7 @@ print("
 
 // SELEZIONE SU SPECIALIZZAZIONE
 print "   <tr>
-      <td width='50%'><b>$plesso_specializzazione</b></td>
+      <td width='50%'><b>".$_SESSION['plesso_specializzazione']."</b></td>
       <td width='50%'>
       <SELECT NAME='specializzazione' ONCHANGE='selealu.submit()'><option value=''>&nbsp;</option>";
 $query = "SELECT DISTINCT specializzazione FROM tbl_classi ORDER BY specializzazione";

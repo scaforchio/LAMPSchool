@@ -132,7 +132,7 @@ function stampa_pass_docente($arriddoc, $arrutdoc, $arrpwdoc, $inviomail)
 
         $schede->SetXY(10, $posY);
         $schede->SetFont('Times', '', 10);
-        $comunicazione = "$comune_scuola, " . date('d') . "/" . date('m') . "/" . date('Y');
+        $comunicazione = $_SESSION['comune_scuola'].", " . date('d') . "/" . date('m') . "/" . date('Y');
         $testomail .= "<br>" . $comunicazione . "<br>";
         $schede->MultiCell(190, 8, converti_utf8($comunicazione));
         $posY += 20;

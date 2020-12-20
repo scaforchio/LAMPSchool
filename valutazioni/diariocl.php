@@ -34,7 +34,7 @@ if ($tipoutente == "")
 $titolo = "Diario di classe";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $comune_scuola);
 
 $idnota = stringa_html('idnota');
 $idclasse = stringa_html('idclasse');
@@ -156,14 +156,14 @@ require '../lib/req_aggiungi_mesi_a_select.php';
   }
   if ($ms == $mese)
   {
-  echo("<option selected>$ms - $annoscol");
+  echo("<option selected>$ms - $_SESSION['annoscol']");
   }
   else
   {
-  echo("<option>$ms - $annoscol");
+  echo("<option>$ms - $_SESSION['annoscol']");
   }
   }
-  $annoscolsucc = $annoscol + 1;
+  $_SESSION['annoscol']succ = $_SESSION['annoscol'] + 1;
   for ($m = 1; $m <= 8; $m++)
   {
   if ($m < 10)
@@ -176,11 +176,11 @@ require '../lib/req_aggiungi_mesi_a_select.php';
   }
   if ($ms == $mese)
   {
-  echo("<option selected>$ms - $annoscolsucc");
+  echo("<option selected>$ms - $_SESSION['annoscol']succ");
   }
   else
   {
-  echo("<option>$ms - $annoscolsucc");
+  echo("<option>$ms - $_SESSION['annoscol']succ");
   }
   }
  * 

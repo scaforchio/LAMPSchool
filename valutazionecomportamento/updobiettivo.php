@@ -43,7 +43,7 @@ $titolo = "Correggi obiettivo di comportamento";
 $script = "";
 
 stampa_head($titolo, "", $script, "MA");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='./modiobiettivo.php'>Scelta obiettivo</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='./modiobiettivo.php'>Scelta obiettivo</a> - $titolo", "", $_SESSION['nome_scuola'], $comune_scuola);
 
 
 

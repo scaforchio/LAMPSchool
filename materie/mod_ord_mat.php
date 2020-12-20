@@ -34,7 +34,7 @@ if ($tipoutente == "")
 $titolo = "Modifica ordinamento materia";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='ordmaterie.php'>ELENCO MATERIE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='ordmaterie.php'>ELENCO MATERIE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 print("<br/><br/>");
 //Connessione al server SQL

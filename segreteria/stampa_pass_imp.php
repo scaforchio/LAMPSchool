@@ -89,7 +89,7 @@ function stampa_pass_amministrativo($arriddoc, $arrutdoc, $arrpwdoc)
 
         $schede->SetXY(10, $posY);
         $schede->SetFont('Times', '', 10);
-        $comunicazione = "Le credenziali per l'accesso al Registro On Line LAMPSchool per l'A.S. $annoscol-" . ($annoscol + 1) . " sono:";
+        $comunicazione = "Le credenziali per l'accesso al Registro On Line LAMPSchool per l'A.S. ".$_SESSION['annoscol']."-" . ($_SESSION['annoscol'] + 1) . " sono:";
         $schede->MultiCell(190, 8, converti_utf8($comunicazione));
         $posY += 20;
         $schede->SetXY(10, $posY);
@@ -117,7 +117,7 @@ function stampa_pass_amministrativo($arriddoc, $arrutdoc, $arrpwdoc)
 
         $schede->SetXY(10, $posY);
         $schede->SetFont('Times', '', 10);
-        $comunicazione = "$comune_scuola, " . date('d') . "/" . date('m') . "/" . date('Y');
+        $comunicazione = $_SESSION['comune_scuola'].", " . date('d') . "/" . date('m') . "/" . date('Y');
         $schede->MultiCell(190, 8, converti_utf8($comunicazione));
         $posY += 20;
 

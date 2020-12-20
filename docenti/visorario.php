@@ -37,7 +37,7 @@ if ($tipoutente == "")
 $titolo = "Visualizzazione orario lezioni";
 $script = "";
 stampa_head($titolo, "", $script, "PSD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
@@ -63,7 +63,7 @@ else
     print "<table border='1' align='center'>";
     print "<tr class='prima'><td>&nbsp</td><td align=center>LUN</td><td align=center>MAR</td><td align=center>MER</td><td align=center>GIO</td><td align=center>VEN</td><td align=center>SAB</td></tr>";
 
-    for ($o = 0; $o < $numeromassimoore; $o++)
+    for ($o = 0; $o < $_SESSION['numeromassimoore']; $o++)
     {
         // print "<tr><td>".orainizio($o,1,$con)." - ".orafine($o,1,$con)."</td>";
         $ora = $o + 1;

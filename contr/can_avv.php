@@ -39,7 +39,7 @@ if ($tipoutente == "")
 $titolo = "Cancellazione avviso";
 $script = "";
 stampa_head($titolo, "", $script, "PMSD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_avvisi.php'>ELENCO AVVISI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_avvisi.php'>ELENCO AVVISI</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $idavviso = stringa_html('idavviso');
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);

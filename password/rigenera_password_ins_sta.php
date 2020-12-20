@@ -42,10 +42,10 @@ $idcl = estrai_classe_alunno($idalu, $con);
 
 stampa_head($titolo, "", $script, "SMPA");
 if ($_SESSION['tipoutente'] == 'M')
-    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='rigenera_password.php'>Rigenera password</a> -  $titolo", "", "$nome_scuola", "$comune_scuola");
+    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='rigenera_password.php'>Rigenera password</a> -  $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 else
-    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='../alunni/vis_alu.php?idcla=$idcl'>Elenco alunni</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
-$annoscolastico = $annoscol . "/" . ($annoscol + 1);
+    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='../alunni/vis_alu.php?idcla=$idcl'>Elenco alunni</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+$annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
 
 // print ('<body class="stampa" onLoad="JavaScript:printPage()">');
 //$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die ("Errore durante la connessione: " . mysqli_error($con));

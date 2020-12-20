@@ -60,7 +60,7 @@ $(document).ready(function(){
 // tttt
 
 stampa_head($titolo, "", $script, "MSPD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $nome = stringa_html('cl');
@@ -197,14 +197,14 @@ require '../lib/req_aggiungi_mesi_a_select.php';
   }
   if ($ms == $mese)
   {
-  echo("<option selected>$ms - $annoscol</option>");
+  echo("<option selected>$ms - $_SESSION['annoscol']</option>");
   }
   else
   {
-  echo("<option>$ms - $annoscol</option>");
+  echo("<option>$ms - $_SESSION['annoscol']</option>");
   }
   }
-  $annoscolsucc = $annoscol + 1;
+  $_SESSION['annoscol']succ = $_SESSION['annoscol'] + 1;
   for ($m = 1; $m <= 8; $m++)
   {
   if ($m < 10)
@@ -217,11 +217,11 @@ require '../lib/req_aggiungi_mesi_a_select.php';
   }
   if ($ms == $mese)
   {
-  echo("<option selected>$ms - $annoscolsucc</option>");
+  echo("<option selected>$ms - $_SESSION['annoscol']succ</option>");
   }
   else
   {
-  echo("<option>$ms - $annoscolsucc</option>");
+  echo("<option>$ms - $_SESSION['annoscol']succ</option>");
   }
   }
  * 
@@ -348,7 +348,7 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
 
         /* print "<td><center>";
           echo "<select class='smallchar' name='numeroore" . $val["idalunno"] . "' disabled>";
-          for ($i = 0; $i <= ($numeromassimoore - 1); $i++)
+          for ($i = 0; $i <= ($_SESSION['numeromassimoore'] - 1); $i++)
           {
           if ($i != $valusc["numeroore"])
           {

@@ -158,17 +158,17 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 $ministero = converti_utf8("Ministero dell’Istruzione, dell’ Università e della Ricerca");
                 $schede->Cell(190, 8, $ministero, NULL, 1, "C");
                 $schede->SetFont('Arial', 'BI', 9);
-                $schede->Cell(190, 6, converti_utf8("$nome_scuola"), NULL, 1, "C");
+                $schede->Cell(190, 6, converti_utf8($_SESSION['nome_scuola']), NULL, 1, "C");
                 $schede->SetFont('Arial', 'BI', 9);
-                $schede->Cell(190, 6, converti_utf8("$comune_scuola"), NULL, 1, "C");
+                $schede->Cell(190, 6, converti_utf8($_SESSION['comune_scuola']), NULL, 1, "C");
                 $schede->SetFont('Arial', 'BI', 9);
 
-                $specplesso = converti_utf8($plesso_specializzazione . ": " . decodifica_classe_spec($classe, $con));
+                $specplesso = converti_utf8($_SESSION['plesso_specializzazione'] . ": " . decodifica_classe_spec($classe, $con));
                 $schede->Cell(190, 6, $specplesso, NULL, 1, "C");
                 $schede->setXY($schede->getX(), $schede->getY() + 10);
                 $schede->SetFont('Arial', 'B', 10);
 
-                $annoscolastico = $annoscol . "/" . ($annoscol + 1);
+                $annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
                 $schede->Cell(190, 6, "SCHEDA DI VALUTAZIONE FINALE DI " . converti_utf8($materia) . " - A.S. $annoscolastico", NULL, 1, "C");
                 //$schede->Cell(190,4,"",NULL,1,"C");
                 //$schede->Cell(190,4,$materia,"B",1,"C");
@@ -236,7 +236,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 $schede->SetFont('Arial', '', 7);
                 // LUOGO E DATA SCRUTINIO
 
-                $luogodata = converti_utf8("$comune_scuola, $datastampa");
+                $luogodata = converti_utf8($_SESSION['comune_scuola'].", $datastampa");
                 $schede->SetY($schede->GetY() + 16);
                 $schede->Cell(95, 8, $luogodata, 0, 1, 'L');
 

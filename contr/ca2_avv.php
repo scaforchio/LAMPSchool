@@ -37,7 +37,7 @@ if ($tipoutente == "")
 $titolo = "Conferma cancellazione avviso";
 $script = "";
 stampa_head($titolo, "", $script, "PMSD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_avvisi.php'>ELENCO AVVISI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_avvisi.php'>ELENCO AVVISI</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $idavviso = stringa_html('idavviso');

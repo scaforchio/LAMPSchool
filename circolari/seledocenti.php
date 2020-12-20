@@ -72,7 +72,7 @@ function uncheckTutti()
 </script>
 ";
 stampa_head($titolo, "", $script, "MSPA");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 print "<form method='post' action='seledocenti.php' name='seledoc'>";
 print "<input type='hidden' name='idcircolare' value='$idcircolare'>
@@ -128,7 +128,7 @@ print("
 
 // SELEZIONE SU SPECIALIZZAZIONE
 print "   <tr>
-      <td width='50%'><center><b>$plesso_specializzazione</b></p></td>
+      <td width='50%'><center><b>".$_SESSION['plesso_specializzazione']."</b></p></td>
       <td width='50%'>
       <SELECT NAME='specializzazione' ONCHANGE='seledoc.submit()'><option value=''>&nbsp;</option>";
 $query = "select distinct specializzazione from tbl_classi order by specializzazione";

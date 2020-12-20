@@ -26,7 +26,7 @@ foreach ($files as $filesql)
         {
             $versioneFile = substr($filesql, 0, $posizioneSql);
             
-            $daEseguire = version_compare($versioneFile, $versioneprecedente, ">");
+            $daEseguire = version_compare($versioneFile, $_SESSION['versioneprecedente'], ">");
             if ($daEseguire)
             {
                 inserisci_log("AGGIORNAMENTO: $versioneFile");

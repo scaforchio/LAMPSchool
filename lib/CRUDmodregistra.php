@@ -38,7 +38,7 @@ $daticrud = $_SESSION['daticrud'];
 $titolo = "Modifica record in tabella " . $daticrud['aliastabella'];
 $script = "";
 stampa_head($titolo, "", $script, "MAPSD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='CRUD.php'>ELENCO</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='CRUD.php'>ELENCO</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 ordina_array_su_campo_sottoarray($daticrud['campi'], 7);
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore connessione!");

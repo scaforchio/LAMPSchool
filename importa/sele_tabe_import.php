@@ -33,7 +33,7 @@ if ($tipoutente == "")
 $titolo = "Selezione dati da importare";
 $script = "";
 stampa_head($titolo, "", $script, "MPA");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 print "<form method='POST' action='importazione.php'>";
 

@@ -29,9 +29,11 @@ mysqli_query($con, $sql);
 // RIEMPIMENTO VARIABILI DEI PARAMETRI
 $sql = "SELECT parametro,valore FROM " . $prefisso_tabelle . "tbl_parametri where parametro<>'versione'";
 $result = mysqli_query($con, $sql);
-$variabili = "";
 while ($rec = mysqli_fetch_array($result))
-    $variabili = $variabili . "&" . $rec['parametro'] . "=" . $rec['valore'];
-parse_str($variabili);
+{
+    $variabile = $rec['parametro'];
+    $valore=$rec['valore'];
+    $$variabile=$valore;
+}
 // FINE RIEMPIMENTO VARIABILI DEI PARAMETRI
 mysqli_close($con);

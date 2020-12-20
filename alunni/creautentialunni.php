@@ -43,7 +43,7 @@ $script = "<script type='text/javascript'>
          </script>";
 stampa_head("Crea utenze per gli alunni", "", $script, "MASP");
 
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Carica Archivio Alunni da CSV", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Carica Archivio Alunni da CSV", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);

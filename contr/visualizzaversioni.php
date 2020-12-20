@@ -42,15 +42,15 @@ $titolo = "VERIFICA VERSIONI";
 $script = "";
 
 stampa_head($titolo, "", $script, "M");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 print "<center><big><b>";
 
 print "Versione software: ".$_SESSION['versione'];
 print "<br><br>";
-print "Versione database: ".$versioneprecedente;
+print "Versione database: ".$_SESSION['versioneprecedente'];
 
-if ($_SESSION['versione']==$versioneprecedente)
+if ($_SESSION['versione']==$_SESSION['versioneprecedente'])
     print "<font color='green'><br><br><br>Le versioni sono allineate!</font>";
 else
     print "<font color='red'><br><br><br>Le versioni sono disallineate! Effettuare un controllo.</font>";

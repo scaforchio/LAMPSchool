@@ -33,7 +33,7 @@ if ($tipoutente == "")
     die;
 }
 stampa_head("Carica programmazione da CSV", "", "");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Importazione programmazione classe", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Importazione programmazione classe", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $arrpar = array('1', '1');
 $stringaparametri = implode("!", $arrpar);

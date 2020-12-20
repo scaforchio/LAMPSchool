@@ -36,7 +36,7 @@ if ($tipoutente == "")
 $titolo = "Inserimento tipo documento";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_tdoc.php'>Elenco</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_tdoc.php'>Elenco</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 //Connessione al server SQL
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);

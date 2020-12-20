@@ -111,7 +111,7 @@ while ($recdoc = mysqli_fetch_array($risdoc))
 
 
 
-$annoscolastico = $annoscol . " / " . ($annoscol + 1);
+$annoscolastico = $_SESSION['annoscol'] . " / " . ($_SESSION['annoscol'] + 1);
 
 stampa_prima_pagina($annoscolastico, $schede);
 
@@ -256,7 +256,7 @@ while ($reccla = mysqli_fetch_array($riscla))
     while ($recesa = mysqli_fetch_array($risesi))
     {
         $classe = decodifica_classe_no_spec($idclasseesame, $con, 1);
-        $classe .= " $plesso_specializzazione ";
+        $classe .= " ".$_SESSION['plesso_specializzazione']." ";
         $classe .= decodifica_classe_spec($idclasseesame, $con);
         $numalu++;
         $progrclasse++;

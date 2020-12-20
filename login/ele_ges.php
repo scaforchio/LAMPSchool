@@ -161,7 +161,7 @@ if ($_SESSION['ultimoaccesso'] != "")
 {
     $ult = "";
 }
-stampa_testata("MENU PRINCIPALE $ult", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("MENU PRINCIPALE $ult", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 if ($sitoinmanutenzione == "yes" & $_SESSION['tipoutente'] != 'M')
@@ -1047,11 +1047,11 @@ if ($cambiamentopassword)
 
 
         menu_title_begin('TABELLE');
-        if ($plesso_specializzazione == "Specializzazione")
+        if ($_SESSION['plesso_specializzazione'] == "Specializzazione")
         {
             menu_item('../classi/CRUDspecializzazioni.php', 'SPECIALIZZAZIONI');
         }
-        if ($plesso_specializzazione == "Plesso")
+        if ($_SESSION['plesso_specializzazione'] == "Plesso")
         {
             menu_item('../classi/CRUDspecializzazioni.php', 'PLESSI');
         }
@@ -1168,11 +1168,11 @@ if ($cambiamentopassword)
         menu_title_end();
 
         menu_title_begin('TABELLE');
-        if ($plesso_specializzazione == "Specializzazione")
+        if ($_SESSION['plesso_specializzazione'] == "Specializzazione")
         {
             menu_item('../classi/CRUDspecializzazioni.php', 'SPECIALIZZAZIONI');
         }
-        if ($plesso_specializzazione == "Plesso")
+        if ($_SESSION['plesso_specializzazione'] == "Plesso")
         {
             menu_item('../classi/CRUDspecializzazioni.php', 'PLESSI');
         }
@@ -1683,9 +1683,9 @@ if ($cambiamentopassword)
             //   inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
             $idscuola = md5($nomefilelog);
             //   inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
-            //print "<iframe style='visibility:hidden;display:none' src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola'></iframe>";
-            // print "<iframe src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola'></iframe>";
-            /* $url = "http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola&ver=$versioneprecedente&asc=$annoscol";
+            //print "<iframe style='visibility:hidden;display:none' src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$_SESSION['nome_scuola']&cos=$_SESSION['comune_scuola']'></iframe>";
+            // print "<iframe src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$_SESSION['nome_scuola']&cos=$_SESSION['comune_scuola']'></iframe>";
+            /* $url = "http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$_SESSION['nome_scuola']&cos=$_SESSION['comune_scuola']&ver=$_SESSION['versioneprecedente']&asc=$_SESSION['annoscol']";
               $url = str_replace(" ", "_", $url);
               $ch = curl_init();
               $timeout = 5;
@@ -1698,7 +1698,7 @@ if ($cambiamentopassword)
             //  inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
             /*  $ch = curl_init();
 
-              curl_setopt($ch, CURLOPT_URL, 'http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola');
+              curl_setopt($ch, CURLOPT_URL, 'http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$_SESSION['nome_scuola']&cos=$_SESSION['comune_scuola']');
               curl_setopt($ch, CURLOPT_FRESH_CONNECT, true);
               curl_setopt($ch, CURLOPT_TIMEOUT_MS, 1);
 

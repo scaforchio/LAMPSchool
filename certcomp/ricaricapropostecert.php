@@ -33,7 +33,7 @@ if ($tipoutente == "")
 $titolo = "Ricaricamento proposte valutazioni certificazioni";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("$titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("$titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 

@@ -46,10 +46,10 @@ $idclasse = estrai_classe_alunno($idalunno, $con);
 $livscuola = stringa_html('livscuola');
 if ($_SESSION['ccritorno'] == 'tab')
 {
-    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='cctabellone.php?idclasse=$idclasse'>TABELLONE COMPETENZE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='cctabellone.php?idclasse=$idclasse'>TABELLONE COMPETENZE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
     $_SESSION['ccritorno'] = '';
 } else
-    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='ccvalutazioni.php?idclasse=$idclasse'>VALUTAZIONI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='ccvalutazioni.php?idclasse=$idclasse'>VALUTAZIONI</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 // Cancello le vecchie proposte
 

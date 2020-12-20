@@ -35,7 +35,7 @@ if ($tipoutente == "")
 $titolo = "Modifica descrizione circolare";
 $script = "";
 stampa_head($titolo, "", $script, "MSPA");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='circolari.php'>CIRCOLARI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='circolari.php'>CIRCOLARI</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 //Connessione al server SQL

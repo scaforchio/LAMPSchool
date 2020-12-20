@@ -208,7 +208,7 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2)
     if ($_SESSION['tipoutente'] == 'M')
     {
         // $idscuola = md5($nomefilelog);
-        // print "<iframe style='visibility:hidden;display:none' src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$nome_scuola&cos=$comune_scuola&ver=$versioneprecedente&asc=$annoscol'></iframe>";
+        // print "<iframe style='visibility:hidden;display:none' src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$_SESSION['nome_scuola']&cos=$_SESSION['comune_scuola']&ver=$_SESSION['versioneprecedente']&asc=$_SESSION['annoscol']'></iframe>";
     }
     //
     //  AZIONI PRIMO ACCESSO DELLA GIORNATA

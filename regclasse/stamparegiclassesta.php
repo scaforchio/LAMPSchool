@@ -70,7 +70,7 @@ if ($suff == "/")
 
 print "<div><center><img src='../abc/$suff" . "testata.jpg" . "'>";
 
-print "<br><br><big><big><B>REGISTRO DI CLASSE<br>A.S. $annoscol-" . ($annoscol + 1) . "<br></B></big></big></center>";
+print "<br><br><big><big><B>REGISTRO DI CLASSE<br>A.S. ".$_SESSION['annoscol']."-" . ($_SESSION['annoscol'] + 1) . "<br></B></big></big></center>";
 
 
 $data = $datainiziolezioni;
@@ -80,7 +80,7 @@ while ($data <= $datafinelezioni)
 {
 
     if (esiste_lezione($data, $con))
-        stampa_reg_classe($data, $idclasse, 2000000000, $numeromassimoore, $con, false, $gestcentrassenze);
+        stampa_reg_classe($data, $idclasse, 2000000000, $_SESSION['numeromassimoore'], $con, false, $gestcentrassenze);
     do
     {
         $data = aggiungi_giorni($data, 1);

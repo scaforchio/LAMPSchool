@@ -37,7 +37,7 @@ if ($tipoutente == "")
 $titolo = "Sincronizzazione corso Moodle";
 $script = "";
 stampa_head($titolo, "", $script, "SMPD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
@@ -45,7 +45,7 @@ $idclasse = stringa_html("idclasse");
 $idmateria = stringa_html("idmateria");
 
 
-sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle, $urlmoodle, $nome_scuola, $annoscol);
+sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle, $urlmoodle, $_SESSION['nome_scuola'], $_SESSION['annoscol']);
 
 
 print "	  <form method='post' id='formlez' action='creacorsimoodle.php'>

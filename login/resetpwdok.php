@@ -36,10 +36,9 @@ $token = stringa_html('token');
 
 
 $_SESSION["prefisso"] = $prefisso_tabelle;
-$_SESSION["annoscol"] = $annoscol;
+
 $_SESSION["suffisso"] = $suffisso;
-$_SESSION["versioneprecedente"] = $versioneprecedente;
-$_SESSION["nomefilelog"] = $nomefilelog;
+
 $_SESSION["alias"] = false;
 
 

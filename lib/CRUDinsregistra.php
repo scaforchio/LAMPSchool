@@ -37,7 +37,7 @@ $daticrud = $_SESSION['daticrud'];
 $titolo = "Inserimento nuovo record in tabella " . $daticrud['aliastabella'];
 $script = "";
 stampa_head($titolo, "", $script, "MAPSD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='CRUD.php'>ELENCO</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='CRUD.php'>ELENCO</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $daticrud = $_SESSION['daticrud'];

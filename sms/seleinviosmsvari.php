@@ -73,7 +73,7 @@ function uncheckTutti()
 </script>
 ";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $rissms = array();
 $rissms = verifica_numero_sms_residui($utentesms, $passsms);
@@ -139,7 +139,7 @@ print("
 
 // SELEZIONE SU SPECIALIZZAZIONE
 print "   <tr>
-      <td width='50%'><p align='center'><b>$plesso_specializzazione</b></p></td>
+      <td width='50%'><p align='center'><b>".$_SESSION['plesso_specializzazione']."</b></p></td>
       <td width='50%'>
       <SELECT NAME='specializzazione' ONCHANGE='selealu.submit()'><option value=''>&nbsp;</option>";
 $query = "select distinct specializzazione from tbl_classi order by specializzazione";

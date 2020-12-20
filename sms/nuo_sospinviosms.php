@@ -63,7 +63,7 @@ $(document).ready(function(){
 	             });
 	             </SCRIPT>";
 stampa_head($titolo, "", $script, "MSP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_sospinviosms.php'>ELENCO SOSPENSIONI INVIO SMS</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_sospinviosms.php'>ELENCO SOSPENSIONI INVIO SMS</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 //Connessione al server SQL
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);

@@ -37,7 +37,7 @@ $titolo = "Gestione competenze del programma";
 
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $maxcomp = 20;
@@ -86,7 +86,7 @@ print("
 
 
 print("<td>   <select name='anno' ONCHANGE='comp.submit()'>");
-for ($a = 1; $a <= ($numeroanni); $a++)
+for ($a = 1; $a <= ($_SESSION['numeroanni']); $a++)
 {
     if ($a == $anno)
         print("<option selected>$a");

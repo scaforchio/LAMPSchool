@@ -55,13 +55,13 @@ $pei->Cell(172, 8, $ministero, NULL, 1, "C");
 
 $pei->SetFont('Arial', 'B', 10);
 $pei->setXY(20, 60);
-$pei->Cell(172, 6, converti_utf8("$nome_scuola"), NULL, 1, "C");
+$pei->Cell(172, 6, converti_utf8($_SESSION['nome_scuola']), NULL, 1, "C");
 
 $pei->SetFont('Arial', 'BI', 9);
 $pei->setXY(20, 66);
-$pei->Cell(172, 6, converti_utf8("$comune_scuola"), NULL, 1, "C");
+$pei->Cell(172, 6, converti_utf8($_SESSION['comune_scuola']), NULL, 1, "C");
 
-$annoscolastico = $annoscol . "/" . ($annoscol + 1);
+$annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
 $pei->setXY(20, 82);
 $pei->Cell(172, 6, "P.E.I. - A.S. $annoscolastico", NULL, 1, "C");
 

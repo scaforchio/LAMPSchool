@@ -54,7 +54,7 @@ while ($recclasse = mysqli_fetch_array($risclassi))
     $schede->SetFont('Arial', 'B', 12);
     $posY += 8;
     $schede->setXY(10, $posY);
-    $schede->Cell(210, 6, converti_utf8("$nome_scuola") . " " . converti_utf8("$comune_scuola"), NULL, 1, "C");
+    $schede->Cell(210, 6, converti_utf8($_SESSION['nome_scuola']) . " " . converti_utf8($_SESSION['comune_scuola']), NULL, 1, "C");
     $schede->SetFont('Arial', 'B', 12);
     $posY += 8;
     $schede->setXY(10, $posY);
@@ -62,7 +62,7 @@ while ($recclasse = mysqli_fetch_array($risclassi))
     $posY += 8;
     $schede->SetFont('Arial', 'BI', 12);
     $schede->setXY(10, $posY);
-    $specplesso = converti_utf8("A.S.:" . $annoscol . "/" . ($annoscol + 1) . " - Classe: " . decodifica_classe($idclasse, $con, 1));
+    $specplesso = converti_utf8("A.S.:" . $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1) . " - Classe: " . decodifica_classe($idclasse, $con, 1));
     $schede->Cell(210, 6, $specplesso, NULL, 1, "C");
     $posY += 8;
 

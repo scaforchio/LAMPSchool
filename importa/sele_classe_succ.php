@@ -39,13 +39,13 @@ $goback = goBackRiepilogoRegistro();
 $titolo = "Selezione classe arrivo alunni promossi";
 $script = "";
 stampa_head($titolo, "", $script, "MA");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $errore = 0;
-$query = "select * from tbl_classiold where anno<>$numeroanni order by anno, specializzazione, sezione";
+$query = "select * from tbl_classiold where anno<>".$_SESSION['numeroanni']." order by anno, specializzazione, sezione";
 $ris = eseguiQuery($con, $query);
 if ($errore == 1146)   // Tabella non esistente
 {

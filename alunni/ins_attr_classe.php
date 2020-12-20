@@ -38,7 +38,7 @@ $idclasse = stringa_html('cl');
 $titolo = "Attribuzione classe ad alunni";
 $script = "";
 stampa_head($titolo, "", $script, "MASP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Attribuzione classi ad alunni", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Attribuzione classi ad alunni", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 

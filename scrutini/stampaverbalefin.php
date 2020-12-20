@@ -60,7 +60,7 @@ $luogo = $rec['luogoscrutinio'];
 $sostituzioni = $rec['sostituzioni'];
 $codsegretario = $rec['segretario'];
 $classe = decodifica_classe_no_spec($idclasse, $con, 1);
-$classe .= " $plesso_specializzazione ";
+$classe .= " ".$_SESSION['plesso_specializzazione']." ";
 $classe .= decodifica_classe_spec($idclasse, $con);
 
 $testo1 = $rec['testo1'];

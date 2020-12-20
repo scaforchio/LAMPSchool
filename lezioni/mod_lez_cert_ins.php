@@ -40,7 +40,7 @@ if ($tipoutente == "")
 $titolo = "Modifica lezione sostegno";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_lez_cert.php'>ELENCO LEZIONI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_lez_cert.php'>ELENCO LEZIONI</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 if (!$con)
@@ -83,7 +83,7 @@ $idmateria = $val['idclasse'];
 // Creo un array per verificare le ore già impegnate da lezioni
 $oredisp = array();
 $oredisp[] = 9;
-for ($i = 1; $i <= $numeromassimoore; $i++)
+for ($i = 1; $i <= $_SESSION['numeromassimoore']; $i++)
     $oredisp[] = 0;
 
 $query = "select orainizio,numeroore from tbl_lezionicert
@@ -124,7 +124,7 @@ while ($vallezcla = mysqli_fetch_array($rislezcla))
 
   $oredisp=array();
   $oredisp[]=9;
-  for($i=1;$i<=$numeromassimoore;$i++)
+  for($i=1;$i<=$_SESSION['numeromassimoore'];$i++)
   $oredisp[]=0;
   $query = "select orainizio,numeroore from tbl_firme,tbl_lezioni
   where tbl_firme.idlezione=tbl_lezioni.idlezione

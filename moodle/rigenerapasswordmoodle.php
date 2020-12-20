@@ -65,7 +65,7 @@ function uncheckTutti()
 $nome = stringa_html('cl');
 
 stampa_head($titolo, "", $script, "MSPD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 print ('
    <form method="post" action="rigenerapasswordmoodle.php" name="rigenerapassmoodle">

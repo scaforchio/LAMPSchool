@@ -45,7 +45,7 @@ $script = "<script type='text/javascript'>
 
 stampa_head($titolo, "", $script, "MASP");
 $menu = "<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - ATTRIBUZIONE CLASSE";
-stampa_testata("$menu", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("$menu", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 print ('
    <form method="post" action="ins_attr_classe.php" name="tbl_assenze">

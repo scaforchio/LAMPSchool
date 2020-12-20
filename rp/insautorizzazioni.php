@@ -40,7 +40,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 $titolo = "Inserimento autorizzazioni entrata in ritardo";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='autorizzaritardo.php'>Autorizza ritardi</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='autorizzaritardo.php'>Autorizza ritardi</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $dest = array();
 

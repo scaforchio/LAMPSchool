@@ -122,7 +122,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
     foreach ($alunni as $alu)
     {
         $schede->AddPage();
-        stampa_elementi_fissi($schede, 1, "", "", "", "", $annoscol, $datastampa, $livello, $firmadirigente, false);
+        stampa_elementi_fissi($schede, 1, "", "", "", "", $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente, false);
         $schede->SetFont('Arial', '', 8);
         $schede->setXY(150, 20);
         switch ($livello)
@@ -151,7 +151,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
         $schede->MultiCell(30, 6, "Istituzione\r\nscolastica", 1, 'C');
         $schede->SetFont('Arial', '', 10);
         $schede->setXY(50, 60);
-        $schede->MultiCell(142, 6, converti_utf8($tipologiascuola) . "\r\n" . converti_utf8($comune_scuola . " (" . $provincia . ")"), 1, 'C');
+        $schede->MultiCell(142, 6, converti_utf8($tipologiascuola) . "\r\n" . converti_utf8($_SESSION['comune_scuola'] . " (" . $provincia . ")"), 1, 'C');
 
         //TODO: Cambiare il nome parametro da provincia a provinciascuola
         if ($istitutostatale == "yes")
@@ -189,9 +189,9 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
         $datiscuola .= "\r\n" . $codicemeccanografico;
         $datiscuola .= "\r\n" . $indirizzoscuola;
         if (isset($capscuola))
-            $datiscuola .= "\r\n" . $capscuola . " " . $comune_scuola . " ($provincia)";
+            $datiscuola .= "\r\n" . $capscuola . " " . $_SESSION['comune_scuola'] . " ($provincia)";
         else
-            $datiscuola .= "\r\n" . $comune_scuola . " ($provincia)";
+            $datiscuola .= "\r\n" . $_SESSION['comune_scuola'] . " ($provincia)";
         $schede->MultiCell(142, 5, converti_utf8($datiscuola), 1, 'C');
 
         // TESTATA
@@ -201,7 +201,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $testata = "Pagella scolastica";
         } else
         {
-            $testata = "Documento di valutazione\r\nanno scolastico $annoscol/" . ($annoscol + 1);
+            $testata = "Documento di valutazione\r\nanno scolastico ".$_SESSION['annoscol']."/" . ($_SESSION['annoscol'] + 1);
         }
 
         $schede->setXY(20, 100);
@@ -378,7 +378,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 
             $schede->setXY(20, 170);
             $schede->SetFont('Arial', 'B', 10);
-            $schede->Cell(172, 5, "Posizione scolastica dello studente    Anno scolastico $annoscol/" . ($annoscol + 1), "TLR", 0, "C");
+            $schede->Cell(172, 5, "Posizione scolastica dello studente    Anno scolastico ".$_SESSION['annoscol']."/" . ($_SESSION['annoscol'] + 1), "TLR", 0, "C");
 
             // RIGA 1
             $schede->setXY(20, 175);
@@ -564,7 +564,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 {
                     $schede->AddPage();
                     $numpag++;
-                    stampa_elementi_fissi($schede, $numpag, $cognome, $nome, $codfiscale, $codicemeccanografico, $annoscol, $datastampa, $livello, $firmadirigente, true);
+                    stampa_elementi_fissi($schede, $numpag, $cognome, $nome, $codfiscale, $codicemeccanografico, $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente, true);
                     $posY = 25;
 
                     $schede->SetXY(20, $posY);
@@ -657,7 +657,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
               {
               $schede->AddPage();
               $numpag++;
-              stampa_elementi_fissi($schede, $numpag, $cognome, $nome, $codfiscale, $codicemeccanografico, $annoscol, $datastampa, $livello, $firmadirigente, true);
+              stampa_elementi_fissi($schede, $numpag, $cognome, $nome, $codfiscale, $codicemeccanografico, $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente, true);
               $posY = 25;
               }
              */
@@ -779,7 +779,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
         {
             $schede->AddPage();
 
-            stampa_elementi_fissi($schede, 2, $cognome, $nome, $codfiscale, $codicemeccanografico, $annoscol, $datastampa, $livello, $firmadirigente, true);
+            stampa_elementi_fissi($schede, 2, $cognome, $nome, $codfiscale, $codicemeccanografico, $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente, true);
             $posY = 25;
             $posX = 20;
             $schede->SetXY(20, $posY);
@@ -985,7 +985,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             // *****************   SECONDO QUADRIMESTRE TERZA PAGINA **********************
             $schede->AddPage();
 
-            stampa_elementi_fissi($schede, 3, $cognome, $nome, $codfiscale, $codicemeccanografico, $annoscol, $datastampa, $livello, $firmadirigente, true);
+            stampa_elementi_fissi($schede, 3, $cognome, $nome, $codfiscale, $codicemeccanografico, $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente, true);
 
             $posY = 25;
             $posX = 20;
@@ -1228,7 +1228,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 // ******* INIZIO QUARTA PAGINA  *********
         $schede->AddPage();
 
-        stampa_elementi_fissi($schede, 4, $cognome, $nome, $codfiscale, $codicemeccanografico, $annoscol, $datastampa, $livello, $firmadirigente);
+        stampa_elementi_fissi($schede, 4, $cognome, $nome, $codfiscale, $codicemeccanografico, $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente);
 
 
         if ($livello == 1)
@@ -1254,7 +1254,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 
 
             $datascrutinio = estrai_datascrutinio($classe, 1, $con);
-            $luogodata = converti_utf8("$comune_scuola, " . data_italiana($datascrutinio));
+            $luogodata = converti_utf8($_SESSION['comune_scuola'].", " . data_italiana($datascrutinio));
 
             $schede->setXY(20, $posY);
             $schede->SetFont('Arial', '', 9);
@@ -1290,7 +1290,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $datascrutinio = estrai_data_stampa($classe, $numeroperiodi, $con);
             // print "tttt $datascrutinio $numeroperiodi $classe";
             // $datascrutinio = $datastampa;
-            $luogodata = converti_utf8("$comune_scuola, " . data_italiana($datascrutinio));
+            $luogodata = converti_utf8($_SESSION['comune_scuola'].", " . data_italiana($datascrutinio));
 
             $schede->setXY(20, $posY);
             $schede->SetFont('Arial', '', 9);
@@ -1443,7 +1443,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 
 
                     $datascrutinio = estrai_datascrutinio($classe, $numeroperiodi, $con);
-                    $luogodata = converti_utf8("$comune_scuola, " . data_italiana($datascrutinio));
+                    $luogodata = converti_utf8($_SESSION['comune_scuola'].", " . data_italiana($datascrutinio));
 
                     $schede->setXY(20, $posY);
                     $schede->SetFont('Arial', '', 9);
@@ -1575,7 +1575,7 @@ function stampa_elementi_fissi(&$schede, $numpagina, $cognome, $nome, $codfiscal
         $posX += 2;
         $schede->setXY($posX, $posY);
         $schede->SetFont('Arial', '', 7);
-        $schede->Cell(15, 4, "$annoscol/" . ($annoscol + 1), "BT", 0, "L");
+        $schede->Cell(15, 4, $_SESSION['annoscol']."/" . ($_SESSION['annoscol'] + 1), "BT", 0, "L");
         $posX += 15;
         $schede->setXY($posX, $posY);
         $schede->SetFont('Arial', '', 7);
@@ -1634,7 +1634,7 @@ function stampa_elementi_fissi(&$schede, $numpagina, $cognome, $nome, $codfiscal
     // FIRME
     // DATA E DIRIGENTE
 
-    $luogodata = converti_utf8("$comune_scuola, $datastampa");
+    $luogodata = converti_utf8($_SESSION['comune_scuola'].", $datastampa");
 
     $schede->setXY(20, 230);
     $schede->SetFont('Arial', '', 10);

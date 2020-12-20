@@ -50,7 +50,7 @@ $numoresett = 0;
 
 
 $menu = '<a href="../login/ele_ges.php">PAGINA PRINCIPALE</a> - SITUAZIONE ORE DI ASSENZA AL ' . data_italiana($dataassora);
-stampa_testata("$menu", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("$menu", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 print ('
    <form method="post" action="sitoreassclanew.php" name="tbl_assenze">

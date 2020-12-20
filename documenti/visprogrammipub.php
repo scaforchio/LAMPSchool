@@ -36,8 +36,8 @@ else
 @require_once("../php-ini" . $suffisso . ".php");
 
 ////session_start();
-$_SESSION["annoscol"] = $annoscol; //prende la variabile presente nella sessione
-$_SESSION['versione'] = $versioneprecedente;
+$_SESSION["annoscol"] = $_SESSION['annoscol']; //prende la variabile presente nella sessione
+$_SESSION['versione'] = $_SESSION['versioneprecedente'];
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 
 if (!isset($_SESSION["tipoutente"]))
@@ -50,7 +50,7 @@ $visualizzabili = array("image/jpeg", "application/pdf", "image/pjpeg", "image/g
 $titolo = "Visualizzazione programmi svolti";
 $script = "";
 stampa_head($titolo, "", $script, "ASDTMO", false);
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 $classe = stringa_html("classe");
 
 // scelta classe

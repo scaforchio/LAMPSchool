@@ -39,7 +39,7 @@ if ($tipoutente == "")
 $titolo = "Conferma cancellazione preside";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 print ("<br><center><b>Confermi cancellazione utenza del preside? (Per riattivarla bisognerà reinserirla)</b></center><br>");
 

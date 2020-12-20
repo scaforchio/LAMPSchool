@@ -39,7 +39,7 @@ if ($tipoutente == "")
 $titolo = "Modifica amministrativo";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_imp.php'>ELENCO amministrativi</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_imp.php'>ELENCO amministrativi</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);

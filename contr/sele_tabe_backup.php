@@ -33,7 +33,7 @@ if ($tipoutente == "")
 $titolo = "Selezione dati di backup";
 $script = "";
 stampa_head($titolo, "", $script, "PMSD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 print "<center><b>ATTENZIONE! Per un backup completo selezionare tutte le voci.<br> Le voci selezionate automaticamente sono quelle delle tabelle aggiornate correntemente durante l'anno scolastico.</b></center><br/><br>";
 print "<form method='POST' action='backup.php'>";
 print "<center>";

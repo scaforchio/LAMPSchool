@@ -116,11 +116,11 @@ $schede->Cell(400, 8, $ministero, NULL, 1, "C");
 $posY += 10;
 $schede->SetFont('Arial', 'B', 10);
 $schede->setXY(10, $posY);
-$schede->Cell(400, 6, converti_utf8("$nome_scuola") . " " . converti_utf8("$comune_scuola"), NULL, 1, "C");
+$schede->Cell(400, 6, converti_utf8($_SESSION['nome_scuola']) . " " . converti_utf8($_SESSION['comune_scuola']), NULL, 1, "C");
 $posY += 8;
 $schede->SetFont('Arial', 'BI', 9);
 $schede->setXY(10, $posY);
-$specplesso = converti_utf8("A.S.:" . $annoscol . "/" . ($annoscol + 1) . " - " . $plesso_specializzazione . ": " . decodifica_classe_spec($idclasse, $con) . " - Classe: " . decodifica_classe_no_spec($idclasse, $con, 1));
+$specplesso = converti_utf8("A.S.:" . $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1) . " - " . $_SESSION['plesso_specializzazione'] . ": " . decodifica_classe_spec($idclasse, $con) . " - Classe: " . decodifica_classe_no_spec($idclasse, $con, 1));
 $schede->Cell(400, 6, $specplesso, NULL, 1, "C");
 $posY += 8;
 
@@ -370,7 +370,7 @@ if ($nummaterie > 0)
 
 //   FIRMA E TIMBRO
 $posY += 20;
-$luogodata = converti_utf8("$comune_scuola, $datastampa");
+$luogodata = converti_utf8($_SESSION['comune_scuola'].", $datastampa");
 $schede->SetXY(23, $posY);
 $schede->SetFont('Arial', 'B', 10);
 $schede->Cell(95, 8, $luogodata, 0, 1, 'L');

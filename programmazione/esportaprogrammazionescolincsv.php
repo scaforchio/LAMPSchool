@@ -37,9 +37,9 @@ $script = "";
 
 
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> -  $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> -  $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
-$annoscolastico = $annoscol . "/" . ($annoscol + 1);
+$annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
@@ -90,7 +90,7 @@ print("
 
 
 print("<td>   <select name='anno' ONCHANGE='comp.submit()'><option value=''>&nbsp;");
-for ($a = 1; $a <= ($numeroanni); $a++)
+for ($a = 1; $a <= ($_SESSION['numeroanni']); $a++)
 {
     if ($a == $anno)
         print("<option selected>$a");

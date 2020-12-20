@@ -68,7 +68,7 @@ $script = "<script type='text/javascript'>
             </script>";
 stampa_head($titolo, "", $script, "E");
 
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Modifica dati alunno", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Modifica dati alunno", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 //connessione al server
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 if (!$con)

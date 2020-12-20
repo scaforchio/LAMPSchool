@@ -36,7 +36,7 @@ $idclasse = stringa_html('idclasse');
 $titolo = "Inserimento materie scritti esame per classe";
 $script = "";
 stampa_head($titolo, "", $script, "E");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Inserimento materie scritti esame per classe", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Inserimento materie scritti esame per classe", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);

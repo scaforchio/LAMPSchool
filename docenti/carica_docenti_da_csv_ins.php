@@ -46,7 +46,7 @@ $script = "<script type='text/javascript'>
          </script>";
 stampa_head("Carica Archivio Docenti da CSV", "", $script, "MA");
 
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Carica Archivio Docenti da CSV", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Carica Archivio Docenti da CSV", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $arrpar = array();
 

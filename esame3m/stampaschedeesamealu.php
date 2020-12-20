@@ -136,11 +136,11 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
 
         $schede->SetFont('Arial', 'B', 12);
         $schede->setXY(20, 60);
-        $schede->Cell(172, 6, converti_utf8("$nome_scuola"), NULL, 1, "C");
+        $schede->Cell(172, 6, converti_utf8($_SESSION['nome_scuola']), NULL, 1, "C");
 
         $schede->SetFont('Arial', 'BI', 10);
         $schede->setXY(20, 66);
-        $schede->Cell(172, 6, converti_utf8("$comune_scuola"), NULL, 1, "C");
+        $schede->Cell(172, 6, converti_utf8($_SESSION['comune_scuola']), NULL, 1, "C");
 
         $schede->SetFont('Arial', '', 8);
         $schede->setXY(20, 72);
@@ -153,7 +153,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
           else
           $per="quadrimestre";
           $per=converti_utf8($per); */
-        $annoscolastico = $annoscol . "/" . ($annoscol + 1);
+        $annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
         $schede->setXY(20, 82);
         $schede->MultiCell(172, 6, "ESAME DI STATO\nCONCLUSIVO DEL PRIMO CICLO DI ISTRUZIONE\n\nSCHEDA PERSONALE DEL CANDIDATO\nCon verbale dei giudizi sulle prove scritte e orali e risultato finale", 0, "C");
 
@@ -526,7 +526,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
 
         // STAMPA PARTE TERMINALE
         $datastampa = data_italiana($recesa['datascrutinio']);
-        $luogodata = converti_utf8("$comune_scuola, $datastampa");
+        $luogodata = converti_utf8($_SESSION['comune_scuola'].", $datastampa");
         $schede->setXY(20, $posY + 30);
         $schede->SetFont('Arial', '', 10);
         $schede->Cell(70, 5, $luogodata, "", 0, "L");

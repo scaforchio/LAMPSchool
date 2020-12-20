@@ -39,7 +39,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 $titolo = "Inserimento timbrature forzate";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='selealunnitimbraturaforzata.php'>Timbrature forzate</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='selealunnitimbraturaforzata.php'>Timbrature forzate</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $dest = array();
 

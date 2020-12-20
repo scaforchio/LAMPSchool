@@ -33,7 +33,7 @@ if ($tipoutente == "")
 $titolo = "Ricaricamento voti ammissione per esami";
 $script = "";
 stampa_head($titolo, "", $script, "E");
-stampa_testata("$titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("$titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $idclasse = stringa_html('idclasse');

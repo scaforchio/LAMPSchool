@@ -33,7 +33,7 @@ if ($tipoutente == "")
 $titolo = "Inserimento orario";
 $script = "";
 stampa_head($titolo, "", $script, "AMSP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='orario.php'>Orario</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='orario.php'>Orario</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
@@ -42,7 +42,7 @@ $ris = eseguiQuery($con, $query);
 
 for ($g = 1; $g <= $giornilezsett; $g++)
 {
-    for ($h = 1; $h <= $numeromassimoore; $h++)
+    for ($h = 1; $h <= $_SESSION['numeromassimoore']; $h++)
     {
 
         $ora = "_" . $g . "_" . $h;

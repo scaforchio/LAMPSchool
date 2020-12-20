@@ -55,13 +55,13 @@ $script = "
 ";
 stampa_head($titolo, "", $script, "MSPA");
 
-// $annoscolastico=$annoscol."/".($annoscol+1);
+// $annoscolastico=$_SESSION['annoscol']."/".($_SESSION['annoscol']+1);
 
 print ('<body class="stampa" onLoad="printPage()">');
 
 
 //stampa_head($titolo,"",$script);
-//stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo","","$nome_scuola","$comune_scuola");
+//stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo","",$_SESSION['nome_scuola'],$_SESSION['comune_scuola']);
 //
 //  SELEZIONE CIRCOLARE
 //

@@ -39,7 +39,7 @@ if ($tipoutente == "")
 $titolo = "Cancellazione alunni";
 $script = "";
 stampa_head($titolo, "", $script, "MASP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Cancellazione alunni", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Cancellazione alunni", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 //connessione al server
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 if (!$con)

@@ -35,7 +35,7 @@ if ($tipoutente == "")
 $titolo = "Aggiornamento testo";
 $script = "";
 stampa_head($titolo, "", $script, "PMSD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='testiedit.php'>ELENCO PARAMETRI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='testiedit.php'>ELENCO PARAMETRI</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 //Connessione al server SQL

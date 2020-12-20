@@ -234,7 +234,7 @@ $script = "<script type='text/javascript'>
 $onload="nascondi();";
 stampa_head($titolo, "", $script, "SDMAP",true,true,$onload);
 
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $idscrutinio = 0;
 
@@ -977,7 +977,7 @@ function creaFileCSV($idclasse, $numeroperiodi,$scrutiniintegrativi, &$alu, &$ma
 
     //@require("../php-ini".$_SESSION['suffisso'].".php");
     global $cartellabuffer;
-    global $plesso_specializzazione;
+   // global $_SESSION['plesso_specializzazione'];
     global $fineprimo;
     global $finesecondo;
     global $numeroperiodi;
@@ -1042,7 +1042,7 @@ function creaFileCSV($idclasse, $numeroperiodi,$scrutiniintegrativi, &$alu, &$ma
         $intestazione[] = "Provincia";
         $intestazione[] = "Classe";
         $intestazione[] = "Sezione";
-        $intestazione[] = $plesso_specializzazione;
+        $intestazione[] = $_SESSION['plesso_specializzazione'];
         $intestazione[] = "Data scrutinio 1";
         while ($nom = mysqli_fetch_array($ris))
         {

@@ -45,7 +45,7 @@ $script = "<script type='text/javascript'>
          </script>";
 stampa_head("Carica programmazione da CSV", "", $script);
 
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Carica programmazione da CSV", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Carica programmazione da CSV", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $arrpar = array();
 

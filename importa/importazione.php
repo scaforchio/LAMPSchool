@@ -44,7 +44,7 @@ $oldpref = stringa_html('oldpref');
 $titolo = "IMPORT DATI";
 $script = "";
 stampa_head($titolo, "", $script, "M");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 // SVUOTO LA CARTELLA BUFFER DAI VECCHI FILE SQL E CSV
 //  svuota_cartella("$cartellabuffer/", ".sql");

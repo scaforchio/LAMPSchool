@@ -35,7 +35,7 @@ if ($tipoutente == "")
 $titolo = "Conferma modifica alunno";
 $script = "";
 stampa_head($titolo, "", $script, "E");
-stampa_testata("Conferma modifica alunno", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("Conferma modifica alunno", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 if (!$con)
 {

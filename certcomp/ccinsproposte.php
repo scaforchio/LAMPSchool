@@ -44,7 +44,7 @@ $iddocente = stringa_html('iddocente');
 $idalunno = stringa_html('idalunno');
 $idclasse = estrai_classe_alunno($idalunno, $con);
 $livscuola = stringa_html('livscuola');
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='ccproposte.php?idclasse=$idclasse'>PROPOSTE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='ccproposte.php?idclasse=$idclasse'>PROPOSTE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 // Cancello le vecchie proposte
 

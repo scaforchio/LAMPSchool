@@ -41,7 +41,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 $titolo = "Inserimento autorizzazione uscita";
 $script = "";
 stampa_head($titolo, "", $script, "PMSD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='selealunniautuscita.php'>Autorizzazioni uscita</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='selealunniautuscita.php'>Autorizzazioni uscita</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $dest = array();
 

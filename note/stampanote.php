@@ -45,7 +45,7 @@ $script = "<script>
 $idclasse = stringa_html('classe');
 $periodo = stringa_html('periodo');
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 print ("
    <form method='post' action='stampanote.php' name='note'>

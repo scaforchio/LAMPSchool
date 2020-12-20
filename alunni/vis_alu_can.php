@@ -38,7 +38,7 @@ if ($tipoutente == "")
 $titolo = "Cancellazione alunno";
 $script = "";
 stampa_head($titolo, "", $script, "MASP");
-stampa_testata("Cancellazione alunno", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("Cancellazione alunno", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 //connessione al server
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 if (!$con)

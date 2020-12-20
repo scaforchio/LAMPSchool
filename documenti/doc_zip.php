@@ -35,7 +35,7 @@ if ($tipoutente == "")
   $script="";
 
   //stampa_head($titolo,"",$script);
-  //stampa_testata("$titolo","","$nome_scuola","$comune_scuola");
+  //stampa_testata("$titolo","",$_SESSION['nome_scuola'],$_SESSION['comune_scuola']);
  */
 
 $nomefile = stringa_html('nomefile');

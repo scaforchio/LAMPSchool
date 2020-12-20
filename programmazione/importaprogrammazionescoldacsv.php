@@ -33,7 +33,7 @@ if ($tipoutente == "")
     die;
 }
 stampa_head("Carica programmazione da CSV", "", "");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Importazione programmazione scolastica", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Importazione programmazione scolastica", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $arrpar = array('1', '1');
 $stringaparametri = implode("!", $arrpar);
@@ -136,7 +136,7 @@ print("
 
 
 print("<td>   <select name='anno' ONCHANGE='comp.submit()'><option value=''>&nbsp;");
-for ($a = 1; $a <= ($numeroanni); $a++)
+for ($a = 1; $a <= ($_SESSION['numeroanni']); $a++)
 {
     print("<option value='$a'>$a");
 }

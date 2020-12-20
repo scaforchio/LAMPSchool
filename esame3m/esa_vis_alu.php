@@ -54,7 +54,7 @@ $script = "<script type='text/javascript'>
          </script>";
 $onload="nascondi();";
 stampa_head($titolo, "", $script, "E",true,true,$onload);
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='esa_vis_alu_cla.php'>Elenco classi</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='esa_vis_alu_cla.php'>Elenco classi</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $n = stringa_html('idcla');
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);

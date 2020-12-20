@@ -251,7 +251,7 @@ if ($_SESSION['suffisso'] != "")
     $suff = "";
 print ("<center><img src='../abc/" . $suff . "testata.jpg' width='600'></center>");
 
-$annoscolastico = $annoscol . "/" . ($annoscol + 1);
+$annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
 
 
 // TTTTTTT     Far stampare una tabella di massimo 18 tbl_lezioni o salto a fine mese

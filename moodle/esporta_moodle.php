@@ -41,9 +41,9 @@ $script = "";
 
 
 stampa_head($titolo, "", $script, "PMSD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> -  $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> -  $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
-$annoscolastico = $annoscol . "/" . ($annoscol + 1);
+$annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
@@ -76,7 +76,7 @@ $query = "SELECT * FROM tbl_classi
 $ris = eseguiQuery($con, $query);
 
 
-$nfgru = "gruppi_" . $annoscol . $_SESSION['suffisso'] . ".txt";
+$nfgru = "gruppi_" . $_SESSION['annoscol'] . $_SESSION['suffisso'] . ".txt";
 $nomefilegruppi = "$cartellabuffer/" . $nfgru;
 $fp = fopen($nomefilegruppi, 'w');
 
@@ -84,7 +84,7 @@ $querygruppi = "INSERT INTO mdl_cohort (contextid, name, idnumber, description, 
 
 while ($val = mysqli_fetch_array($ris))
 {
-    $gruppo = $_SESSION['suffisso'] . "_" . $val['anno'] . "_" . $val['sezione'] . "_" . substr($val['specializzazione'], 0, 3) . "_" . $annoscol;
+    $gruppo = $_SESSION['suffisso'] . "_" . $val['anno'] . "_" . $val['sezione'] . "_" . substr($val['specializzazione'], 0, 3) . "_" . $_SESSION['annoscol'];
     $gruppo = strtolower($gruppo);
     $datacre = new DateTime();
     $datacreazione = $datacre->getTimestamp();
@@ -106,7 +106,7 @@ $query = "SELECT * FROM tbl_alunni,tbl_classi
 $ris = eseguiQuery($con, $query);
 
 
-$nf = "alunni_" . $annoscol . $_SESSION['suffisso'] . ".csv";
+$nf = "alunni_" . $_SESSION['annoscol'] . $_SESSION['suffisso'] . ".csv";
 $nomefilegruppi = "$cartellabuffer/" . $nf;
 $fp = fopen($nomefilegruppi, 'w');
 
@@ -118,7 +118,7 @@ while ($val = mysqli_fetch_array($ris))
     $nome = $val['nome'];
     $cognome = $val['cognome'];
     $email = $utente . "@idm.it";
-    $gruppo = $_SESSION['suffisso'] . "_" . $val['anno'] . "_" . $val['sezione'] . "_" . substr($val['specializzazione'], 0, 3) . "_" . $annoscol;
+    $gruppo = $_SESSION['suffisso'] . "_" . $val['anno'] . "_" . $val['sezione'] . "_" . substr($val['specializzazione'], 0, 3) . "_" . $_SESSION['annoscol'];
     $gruppo = strtolower($gruppo);
 
     fputcsv($fp, array($utente, $pass, $nome, $cognome, $email, $gruppo), ";");
@@ -134,7 +134,7 @@ $query = "SELECT * FROM tbl_docenti
 $ris = eseguiQuery($con, $query);
 
 
-$nfdoc = "docenti_" . $annoscol . $_SESSION['suffisso'] . ".csv";
+$nfdoc = "docenti_" . $_SESSION['annoscol'] . $_SESSION['suffisso'] . ".csv";
 $nomefilegruppi = "$cartellabuffer/" . $nfdoc;
 $fpdoc = fopen($nomefilegruppi, 'w');
 

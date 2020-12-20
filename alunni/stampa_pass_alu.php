@@ -110,7 +110,7 @@ function stampa_pass_alunno($arridalu, $arrutalu, $arrpwalu)
 
         $schede->SetXY(10, $posY);
         $schede->SetFont('Times', '', 12);
-        //  $comunicazione="    Con le credenziali qui fornite potrà accedere all'area riservata ai genitori del Registro Online LAMPSchool per l'A.S. $annoscol-".($annoscol+1).". In tale area potrà visualizzare i dati relativi al percorso scolastico di suo figlio: assenze, ritardi, uscite anticipate, valutazioni, note, comunicazioni della  scuola, pagelle, argomenti delle lezioni, ecc.";
+        //  $comunicazione="    Con le credenziali qui fornite potrà accedere all'area riservata ai genitori del Registro Online LAMPSchool per l'A.S. $_SESSION['annoscol']-".($_SESSION['annoscol']+1).". In tale area potrà visualizzare i dati relativi al percorso scolastico di suo figlio: assenze, ritardi, uscite anticipate, valutazioni, note, comunicazioni della  scuola, pagelle, argomenti delle lezioni, ecc.";
         //  
         //  $posY+=30;
         $comunicazione = estrai_testo("passalu01", $con);
@@ -143,7 +143,7 @@ function stampa_pass_alunno($arridalu, $arrutalu, $arrpwalu)
 
         $schede->SetXY(10, $posY);
         $schede->SetFont('Times', '', 12);
-        $comunicazione = "$comune_scuola, " . date('d') . "/" . date('m') . "/" . date('Y');
+        $comunicazione = $_SESSION['comune_scuola'].", " . date('d') . "/" . date('m') . "/" . date('Y');
         $schede->MultiCell(190, 8, converti_utf8($comunicazione));
         $posY += 20;
         $schede->SetXY(105, $posY);

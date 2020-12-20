@@ -40,7 +40,7 @@ $datalimiteinferiore = giorno_lezione_passata(date('Y-m-d'), $maxritardogiust, $
 $titolo = "Inserimento ammonizioni";
 $script = "";
 stampa_head($titolo, "", $script, "PMASD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 

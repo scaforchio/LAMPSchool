@@ -113,15 +113,15 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
 
         $schede->SetFont('Arial', 'B', 10);
         $schede->setXY(20, 60);
-        $schede->Cell(172, 6, converti_utf8("$nome_scuola"), NULL, 1, "C");
+        $schede->Cell(172, 6, converti_utf8($_SESSION['nome_scuola']), NULL, 1, "C");
 
         $schede->SetFont('Arial', 'BI', 9);
         $schede->setXY(20, 66);
-        $schede->Cell(172, 6, converti_utf8("$comune_scuola"), NULL, 1, "C");
+        $schede->Cell(172, 6, converti_utf8($_SESSION['comune_scuola']), NULL, 1, "C");
 
         $schede->SetFont('Arial', 'BI', 9);
         $schede->setXY(20, 72);
-        $specplesso = converti_utf8($plesso_specializzazione . ": " . decodifica_classe_spec($classe, $con));
+        $specplesso = converti_utf8($_SESSION['plesso_specializzazione'] . ": " . decodifica_classe_spec($classe, $con));
         $schede->Cell(172, 6, $specplesso, NULL, 1, "C");
 
         $schede->SetFont('Arial', 'B', 10);
@@ -130,7 +130,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
           else
           $per="quadrimestre";
           $per=converti_utf8($per); */
-        $annoscolastico = $annoscol . "/" . ($annoscol + 1);
+        $annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
         $schede->setXY(20, 82);
         $schede->Cell(172, 6, "SCHEDA DI VALUTAZIONE FINALE - A.S. $annoscolastico", NULL, 1, "C");
 
@@ -257,7 +257,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
 
         // STAMPA PARTE TERMINALE
 
-        $luogodata = converti_utf8("$comune_scuola, $datastampa");
+        $luogodata = converti_utf8($_SESSION['comune_scuola'].", $datastampa");
         $schede->setXY(20, 230);
         $schede->SetFont('Arial', '', 10);
         $schede->Cell(70, 5, $luogodata, "", 0, "L");
@@ -305,15 +305,15 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
 
         $schede->SetFont('Arial', 'B', 10);
         $schede->setXY(20, 15);
-        $schede->Cell(172, 6, converti_utf8("$nome_scuola"), NULL, 1, "C");
+        $schede->Cell(172, 6, converti_utf8($_SESSION['nome_scuola']), NULL, 1, "C");
 
         $schede->SetFont('Arial', 'BI', 9);
         $schede->setXY(20, 20);
-        $schede->Cell(172, 6, converti_utf8("$comune_scuola"), NULL, 1, "C");
+        $schede->Cell(172, 6, converti_utf8($_SESSION['comune_scuola']), NULL, 1, "C");
 
         $schede->SetFont('Arial', 'BI', 9);
         $schede->setXY(20, 25);
-        $specplesso = converti_utf8($plesso_specializzazione . ": " . decodifica_classe_spec($classe, $con));
+        $specplesso = converti_utf8($_SESSION['plesso_specializzazione'] . ": " . decodifica_classe_spec($classe, $con));
         $schede->Cell(172, 6, $specplesso, NULL, 1, "C");
 
         $schede->SetFont('Arial', 'B', 10);
@@ -322,7 +322,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
           else
           $per="quadrimestre";
           $per=converti_utf8($per); */
-        $annoscolastico = $annoscol . "/" . ($annoscol + 1);
+        $annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
         $schede->setXY(20, 32);
         $schede->Cell(172, 6, "SCHEDA DI VALUTAZIONE FINALE - A.S. $annoscolastico", NULL, 1, "C");
 
@@ -542,7 +542,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
 
         // STAMPA PARTE TERMINALE
 
-        $luogodata = converti_utf8("$comune_scuola, $datastampa");
+        $luogodata = converti_utf8($_SESSION['comune_scuola'].", $datastampa");
         $schede->setXY(20, 240);
         $schede->SetFont('Arial', '', 10);
         $schede->Cell(70, 5, $luogodata, "", 0, "L");

@@ -36,7 +36,7 @@ $idstudente = $_SESSION['idstudente'];
 $titolo = "Conferma richiesta assemblea";
 $script = "";
 stampa_head($titolo, "", $script, "L");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='assricgen.php'>Assemblee di classe</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='assricgen.php'>Assemblee di classe</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore: " . mysqli_error($con));
 

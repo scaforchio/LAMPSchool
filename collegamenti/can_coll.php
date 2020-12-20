@@ -39,7 +39,7 @@ if ($tipoutente == "")
 $titolo = "Cancellazione collegamento web";
 $script = "";
 stampa_head($titolo, "", $script, "PMSD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_collegamenti.php'>ELENCO COLLEGAMENTI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_collegamenti.php'>ELENCO COLLEGAMENTI</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $idcollegamento = stringa_html('idavviso');
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);

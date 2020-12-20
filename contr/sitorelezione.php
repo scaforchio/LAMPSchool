@@ -78,7 +78,7 @@ $(document).ready(function(){
 stampa_head($titolo, "", $script, "MSPD");
 
 
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 // $nome = stringa_html('cl');
@@ -146,7 +146,7 @@ print ("</form>");
 
 /*
   echo('   <select name="anno">');
-  for($a=$annoscol;$a<=($annoscol+1);$a++)
+  for($a=$_SESSION['annoscol'];$a<=($_SESSION['annoscol']+1);$a++)
   {
   if ($a==$anno)
   echo("<option selected>$a");

@@ -86,7 +86,7 @@ while ($recdoc = mysqli_fetch_array($risdoc))
 $elencodocenti = substr($elencodocenti, 0, strlen($elencodocenti) - 2);
 
 $classe = decodifica_classe_no_spec($idclasse, $con, 1);
-$classe .= " $plesso_specializzazione ";
+$classe .= " ".$_SESSION['plesso_specializzazione']." ";
 $classe .= decodifica_classe_spec($idclasse, $con);
 
 $testo1 = $rec['testo1'];

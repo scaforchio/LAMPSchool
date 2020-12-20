@@ -42,10 +42,10 @@ $idcl = estrai_classe_alunno($idalu, $con);
 
 stampa_head($titolo, "", $script, "SMPA");
 if ($_SESSION['tipoutente'] == 'M')
-    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='alu_rigenera_password.php'>Rigenera password</a> -  $titolo", "", "$nome_scuola", "$comune_scuola");
+    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='alu_rigenera_password.php'>Rigenera password</a> -  $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 else
-    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='../alunni/vis_alu.php?idcla=$idcl'>Elenco alunni</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
-$annoscolastico = $annoscol . "/" . ($annoscol + 1);
+    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='../alunni/vis_alu.php?idcla=$idcl'>Elenco alunni</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+$annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
 
 
 if ($idclasse != 0)

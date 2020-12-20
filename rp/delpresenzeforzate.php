@@ -36,7 +36,7 @@ if ($tipoutente == "")
 $titolo = "Cancellazione presenza forzata";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vispresenzeforzate.php'>ELENCO PRESENZE FORZATE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vispresenzeforzate.php'>ELENCO PRESENZE FORZATE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 //Connessione al server SQL

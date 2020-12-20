@@ -37,7 +37,7 @@ $descrizione = stringa_html('descrizione');
 $titolo = "Aggiornamento gruppo";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_gru.php'>ELENCO GRUPPI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_gru.php'>ELENCO GRUPPI</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 //Connessione al server SQL

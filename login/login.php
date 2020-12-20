@@ -37,9 +37,9 @@ session_start();
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 require "../lib/req_assegna_parametri_a_sessione.php";
 $_SESSION["prefisso"] = $prefisso_tabelle;
-//$_SESSION["annoscol"] = $annoscol;
+//$_SESSION["annoscol"] = $_SESSION['annoscol'];
 $_SESSION["suffisso"] = $suffisso;
-//$_SESSION["versioneprecedente"]=$versioneprecedente;
+//$_SESSION["versioneprecedente"]=$_SESSION['versioneprecedente'];
 //$_SESSION["nomefilelog"] = $nomefilelog;
 $_SESSION["alias"] = false;
 
@@ -76,7 +76,7 @@ function codifica()
 
 </script>\n";
 stampa_head($titolo, "", $script, "", false);
-stampa_testata("Accesso al registro", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("Accesso al registro", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $messaggio = stringa_html('messaggio');
 
@@ -120,7 +120,7 @@ if (strlen($messaggio) > 0)
     <?php
      print "<a href='richresetpwd.php?suffisso=".$_SESSION['suffisso']."'>Password dimenticata</a>";
 
-    print "<br><br><a href='$sito_scuola' target='_top'>Ritorna ad home page</a>";
+    print "<br><br><a href='".$_SESSION['sito_scuola']."' target='_top'>Ritorna ad home page</a>";
     ?>
 </center>
 <script>

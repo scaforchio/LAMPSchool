@@ -85,7 +85,7 @@ $anno = decodifica_anno_classe($idclasse, $con);
 $contalunni = 0;
 foreach ($alunni as $idalunno)
 {
-    stampa_alunno($schede, $idalunno, $idclasse, $firmadirigente, $datastampa, $con, $annoscol, $nome_scuola, $comune_scuola);
+    stampa_alunno($schede, $idalunno, $idclasse, $firmadirigente, $datastampa, $con, $_SESSION['annoscol'], $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
     $contalunni++;
     $codicefiscale = estrai_codicefiscale($idalunno, $con);
 }
@@ -121,7 +121,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $con, 
     $schede->SetY(60);
     $schede->SetFont('Times', 'B', 14);
     $schede->Cell(190, 8, converti_utf8("CONSIGLIO ORIENTATIVO"), NULL, 1, "C");
-    $annoscolastico = $annoscol . "/" . ($annoscol + 1);
+    $annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
     $schede->SetY(68);
     $schede->SetFont('Times', 'B', 12);
     $schede->Cell(190, 8, converti_utf8("ANNO SCOLASTICO $annoscolastico"), NULL, 1, "C");

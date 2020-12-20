@@ -219,7 +219,7 @@ $script = "<script type='text/javascript'>
 $onload="nascondi();";
 stampa_head($titolo, "", $script, "E",true,true,$onload);
 
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $idesame = 0;
 
@@ -387,7 +387,7 @@ if ($idclasse != "")
 
 
     // RICHIAMO LA FUNZIONE PER LA CREAZIONE DEL FILE CSV
-    creaFileCSV($idclasse, $datitabella, $con); // $comune_scuola,$annoscol);
+    creaFileCSV($idclasse, $datitabella, $con); // $_SESSION['comune_scuola'],$_SESSION['annoscol']);
     // SELEZIONO LE MATERIE
     $query = "SELECT * from tbl_esmaterie
 	              WHERE idclasse=$idclasse";
@@ -662,8 +662,8 @@ function creaFileCSV($idclasse, &$datitabella, $conn)
 
     //@require("../php-ini".$_SESSION['suffisso'].".php");
     global $cartellabuffer;
-    global $comune_scuola;
-    global $annoscol;
+//    global $_SESSION['comune_scuola'];
+//    global $_SESSION['annoscol'];
 
     $query = "select * from tbl_esmaterie where idclasse=$idclasse";
     $rismat = eseguiQuery($conn, $query);
@@ -752,7 +752,7 @@ function creaFileCSV($idclasse, &$datitabella, $conn)
         $alunno = array();
         $idalunno = $recval['idalunno'];
 
-        $alunno[] = $annoscol . "-" . ($annoscol + 1);
+        $alunno[] = $_SESSION['annoscol'] . "-" . ($_SESSION['annoscol'] + 1);
 
         $alunno[] = decodifica_classe($recval['idclasseesame'], $conn, 1);
         if ($recval['idcommissione'] != 0)
@@ -880,7 +880,7 @@ function creaFileCSV($idclasse, &$datitabella, $conn)
         $datitabella["scar" . $idalunno] = $recval['scarto'];
 
 
-        $alunno[] = $comune_scuola;
+        $alunno[] = $_SESSION['comune_scuola'];
 
         $alunno[] = data_italiana($recval['datascrutinio']);
 

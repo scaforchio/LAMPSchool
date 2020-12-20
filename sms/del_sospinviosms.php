@@ -37,7 +37,7 @@ if ($tipoutente == "")
 $titolo = "Conferma eliminazione sospensione invio SMS";
 $script = "";
 stampa_head($titolo, "", $script, "MSP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_sospinviosms.php'>ELENCO SOSPENSIONI INVIO SMS</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_sospinviosms.php'>ELENCO SOSPENSIONI INVIO SMS</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 //Connessione al server SQL

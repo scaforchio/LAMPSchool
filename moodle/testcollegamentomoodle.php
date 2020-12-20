@@ -43,7 +43,7 @@ $script = "<script type='text/javascript'>
          //-->
          </script>";
 stampa_head($titolo, "", $script, "MSPD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $idutentemoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, "admin");

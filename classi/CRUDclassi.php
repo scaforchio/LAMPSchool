@@ -101,9 +101,9 @@ $daticrud['vincolicanc'] = [
  */
 
 $daticrud['campi'] = [
-    ['anno', '1', '', '', '', 1, 'Anno', 1, 'number', '', 1, '1', $numeroanni, 0, '', 1],
+    ['anno', '1', '', '', '', 1, 'Anno', 1, 'number', '', 1, '1', $_SESSION['numeroanni'], 0, '', 1],
     ['sezione', '2', ('tbl_sezioni'), 'denominazione', 'denominazione', 1, 'Sezione', 2, '', '', 1, '', '', 1, 'sezione', 1],
-    ['specializzazione', '3', ('tbl_specializzazioni'), 'denominazione', 'denominazione', 1, $plesso_specializzazione, 3, '', '', 1, '', '', 1, 'specializzazione', 1],
+    ['specializzazione', '3', ('tbl_specializzazioni'), 'denominazione', 'denominazione', 1, $_SESSION['plesso_specializzazione'], 3, '', '', 1, '', '', 1, 'specializzazione', 1],
     ['oresett', 4, '', '', '', 2, "Ore settimanali", 4, 'number', '', 1, '20', '48', 0, '', 0],
     ['idcoordinatore', 5, ('tbl_docenti'), 'iddocente', 'cognome,nome', 0, 'Docente', 5, '', '', 0, '', '', 1, '', 0, 'select distinct(iddocente) from tbl_cattnosupp where idclasse='],
     ['rappresentante1', 6, ('tbl_alunni'), 'idalunno', 'cognome,nome', 0, 'Primo rappresentante', 6, '', '', 0, '', '', 1, 'cognalu1,nomealu1', 0, 'select distinct(idalunno) from tbl_alunni where idclasse='],

@@ -39,7 +39,7 @@ $titolo = "Modifica sub-obiettivo di comportamento";
 $script = "";
 
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='./modisubobiettivo.php'>Scelta sub obiettivo</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='./modisubobiettivo.php'>Scelta sub obiettivo</a> - $titolo", "", $_SESSION['nome_scuola'], $comune_scuola);
 
 
 

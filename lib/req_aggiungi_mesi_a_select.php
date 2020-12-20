@@ -11,13 +11,13 @@ for ($m = 9; $m <= 12; $m++)
     }
     if ($ms == $mese)
     {
-        echo("<option selected>$ms - $annoscol</option>");
+        echo("<option selected>$ms - ".$_SESSION['annoscol']."</option>");
     } else
     {
-        echo("<option>$ms - $annoscol</option>");
+        echo("<option>$ms - ".$_SESSION['annoscol']."</option>");
     }
 }
-$annoscolsucc = $annoscol + 1;
+$annoscolsucc = $_SESSION['annoscol'] + 1;
 for ($m = 1; $m <= 8; $m++)
 {
     if ($m < 10)

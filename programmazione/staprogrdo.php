@@ -53,7 +53,7 @@ stampa_head($titolo, "", $script, "DSP", false);
 
 
 
-$annoscolastico = $annoscol . "/" . ($annoscol + 1);
+$annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
 
 print ('<body class="stampa" onLoad="printPage()">');
 
@@ -97,7 +97,7 @@ if ($val = mysqli_fetch_array($ris))
 print "<center>Programmazione della classe: $classe<br/>";
 print "Materia: $materia<br/>";
 print "Docente: $nome $cognome <br/>";
-print "A.S. $annoscol/" . ($annoscol + 1);
+print "A.S. ".$_SESSION['annoscol']."/" . ($_SESSION['annoscol'] + 1);
 print "</center>";
 
 

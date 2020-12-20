@@ -140,11 +140,11 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
 
         $schede->SetFont('Arial', 'B', 12);
         $schede->setXY(20, 50);
-        $schede->Cell(172, 6, converti_utf8("$nome_scuola"), NULL, 1, "C");
+        $schede->Cell(172, 6, converti_utf8($_SESSION['nome_scuola']), NULL, 1, "C");
 
         $schede->SetFont('Arial', 'BI', 10);
         $schede->setXY(20, 58);
-        $schede->Cell(172, 6, converti_utf8("$comune_scuola"), NULL, 1, "C");
+        $schede->Cell(172, 6, converti_utf8($_SESSION['comune_scuola']), NULL, 1, "C");
 
         $schede->SetFont('Arial', '', 8);
         $schede->setXY(20, 66);
@@ -157,7 +157,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
           else
           $per="quadrimestre";
           $per=converti_utf8($per); */
-        $annoscolastico = $annoscol . "/" . ($annoscol + 1);
+        $annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
 
 
 
@@ -266,7 +266,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
 
         // STAMPA PARTE TERMINALE
         $datastampa = data_italiana($recesa['datascrutinio']);
-        $luogodata = converti_utf8("$comune_scuola, $datastampa");
+        $luogodata = converti_utf8($_SESSION['comune_scuola'].", $datastampa");
         $posY = 210;
         $schede->setXY(20, $posY);
         $schede->SetFont('Arial', '', 10);

@@ -38,7 +38,7 @@ if ($tipoutente == "")
 $titolo = "Modifica dati di contatto tutor";
 $script = "";
 stampa_head($titolo, "", $script, "T");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 //Connessione al server SQL

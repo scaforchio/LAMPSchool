@@ -45,7 +45,7 @@ if ($editorhtml != '') // Include l'editore html TinyMCE
 </script>';
 }
 stampa_head($titolo, "", $script, "PMSD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_collegamenti.php'>ELENCO COLLEGAMENTI WEB</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_collegamenti.php'>ELENCO COLLEGAMENTI WEB</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $inizio = stringa_html('inizio');
 $fine = stringa_html('fine');

@@ -123,7 +123,7 @@ jQuery(function($){
 </script>
 ";
 stampa_head($titolo, "", $script, "MASPD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $query = "select * from tbl_classi
          

@@ -25,14 +25,14 @@ require_once '../lib/funzioni.php';
 
 $daticrud = array();
 // Tabella da modificare
-$daticrud['titolo'] = 'GESTIONE ' . $plesso_specializzazione;
+$daticrud['titolo'] = 'GESTIONE ' . $_SESSION['plesso_specializzazione'];
 
 
 $daticrud['tabella'] = ("tbl_specializzazioni");
 
 
 // Nome della tabella per visualizzazioni
-$daticrud['aliastabella'] = $plesso_specializzazione;
+$daticrud['aliastabella'] = $_SESSION['plesso_specializzazione'];
 $daticrud['larghezzatabella'] = "60%";
 // Campo con l'id univoco per la tabella
 $daticrud['campochiave'] = "idspecializzazione";
@@ -79,7 +79,7 @@ $daticrud['vincolicanc'] = [
  */
 
 $daticrud['campi'] = [
-    ['denominazione', '1', '', '', '', 50, $plesso_specializzazione, 1, 'text', '', 1, '', '', 0, '', 0, ''],
+    ['denominazione', '1', '', '', '', 50, $_SESSION['plesso_specializzazione'], 1, 'text', '', 1, '', '', 0, '', 0, ''],
 ];
 
 

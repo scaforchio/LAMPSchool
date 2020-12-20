@@ -101,7 +101,7 @@ if ($firmadirigente == "")
 $contalunni = 0;
 foreach ($alunni as $idalunno)
 {
-    stampa_alunno($schede, $idalunno, $classe, $firmadirigente, $datastampa, $tiposcheda, $con, $annoscol, $nome_scuola, $comune_scuola);
+    stampa_alunno($schede, $idalunno, $classe, $firmadirigente, $datastampa, $tiposcheda, $con, $_SESSION['annoscol'], $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
     $contalunni++;
     $codicefiscale = estrai_codicefiscale($idalunno, $con);
 }
@@ -131,9 +131,9 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
 //$schede->Image('../immagini/miur.png',35,NULL,120,10);
 
     $schede->SetFont('Times', 'B', 10);
-    $schede->Cell(190, 6, converti_utf8("$nome_scuola"), NULL, 1, "C");
+    $schede->Cell(190, 6, converti_utf8($_SESSION['nome_scuola']), NULL, 1, "C");
     $schede->SetFont('Times', 'BI', 9);
-    $schede->Cell(190, 6, converti_utf8("$comune_scuola"), NULL, 1, "C");
+    $schede->Cell(190, 6, converti_utf8($_SESSION['comune_scuola']), NULL, 1, "C");
 
     $schede->setY(60);
     $schede->SetFont('Times', 'B', 12);
@@ -187,7 +187,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
     $classe = decodifica_classe($idclasse, $con, 1);
     $orelezione = estrai_ore_lezione_classe($idclasse, $con);
     $alunno = decodifica_alunno($alu, $con);
-    $annoscolastico = $annoscol . "/" . ($annoscol + 1);
+    $annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
 
 
     if ($sesso == 'f')

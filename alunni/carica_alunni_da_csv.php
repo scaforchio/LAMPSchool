@@ -31,7 +31,7 @@ if ($tipoutente == "")
     die;
 }
 stampa_head("Carica Archivio Alunni da CSV", "", "", "MASP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Carica Archivio Alunni da CSV", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Carica Archivio Alunni da CSV", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 $arrpar = array('1', '0', '1', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12');
 $stringaparametri = implode("!", $arrpar);
 

@@ -39,7 +39,7 @@ if ($tipoutente == "")
 $titolo = "Inserimento giornate d.a.d.";
 $script = "";
 stampa_head($titolo, "", $script, "MASDP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='dad.php'>Inserimento giornate D.A.D.</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='dad.php'>Inserimento giornate D.A.D.</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $datainizio= data_to_db(stringa_html('datainizio'));
 $datafine=data_to_db(stringa_html('datafine'));

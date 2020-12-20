@@ -38,7 +38,7 @@ $idclasse = stringa_html('idclasse');
 $titolo = "Variazione concessione";
 $script = "";
 stampa_head($titolo, "", $script, "SP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='contver.php?iddocente=$iddocente'>Controllo verbali</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='contver.php?iddocente=$iddocente'>Controllo verbali</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore: " . mysqli_error($con));
 $query = "UPDATE tbl_assemblee

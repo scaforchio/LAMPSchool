@@ -37,7 +37,7 @@ $b = stringa_html('b');
 $titolo = "Modifica lezione";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_lez_gru.php?iddocente=$b'>ELENCO LEZIONI</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='vis_lez_gru.php?iddocente=$b'>ELENCO LEZIONI</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
@@ -117,14 +117,14 @@ if (!($result))
       }
       if ($ms == $mese)
       {
-      echo("<option selected>$ms - $annoscol");
+      echo("<option selected>$ms - $_SESSION['annoscol']");
       }
       else
       {
-      echo("<option>$ms - $annoscol");
+      echo("<option>$ms - $_SESSION['annoscol']");
       }
       }
-      $annoscolsucc = $annoscol + 1;
+      $_SESSION['annoscol']succ = $_SESSION['annoscol'] + 1;
       for ($m = 1; $m <= 8; $m++)
       {
       if ($m < 10)
@@ -137,11 +137,11 @@ if (!($result))
       }
       if ($ms == $mese)
       {
-      echo("<option selected>$ms - $annoscolsucc");
+      echo("<option selected>$ms - $_SESSION['annoscol']succ");
       }
       else
       {
-      echo("<option>$ms - $annoscolsucc");
+      echo("<option>$ms - $_SESSION['annoscol']succ");
       }
       }
      * 
@@ -153,9 +153,9 @@ if (!($result))
 
     print "<select name='periodo'>";
 
-    for ($i = 1; $i <= $numeromassimoore; $i++)
+    for ($i = 1; $i <= $_SESSION['numeromassimoore']; $i++)
     {
-        for ($j = $i; $j <= $numeromassimoore; $j++)
+        for ($j = $i; $j <= $_SESSION['numeromassimoore']; $j++)
         {
             $strore = "$i-$j";
             if ($i == $inizio & ($j == ($i + $durata - 1)))
