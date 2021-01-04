@@ -118,7 +118,7 @@ if ($iddocente != "")
             $idoraricevimento = $idore[$giornoutile];
         //print "tttt ".$giornoutile;
 
-        if (giorno_settimana($dataattuale) != 'Dom' && !giorno_festa($dataattuale, $con) && !giorno_sospensione_colloqui($dataattuale, $con) && $dataattuale <= $datafinecolloqui)
+        if (giorno_settimana($dataattuale) != 'Dom' && !giorno_festa($dataattuale, $con) && !giorno_sospensione_colloqui($dataattuale, $con) && $dataattuale <= $_SESSION['datafinecolloqui'])
         {
             for ($i = 1; $i < count($ore); $i++)
             {
@@ -129,7 +129,7 @@ if ($iddocente != "")
                     $stato = esiste_prenotazione($dataattuale, $idore[$i], $con);
                     $idprenotazione = id_prenotazione($dataattuale, $idore[$i], $con);
                     //     
-                    //      if ($stato[0] == 0 & ($dataattuale<=$datafinecolloqui) & numero_colloqui_docente($iddocente,$idore[$i],$dataattuale,$con)<$numeromassimocolloqui)
+                    //      if ($stato[0] == 0 & ($dataattuale<=$_SESSION['datafinecolloqui']) & numero_colloqui_docente($iddocente,$idore[$i],$dataattuale,$con)<$numeromassimocolloqui)
                     $ncd = numero_colloqui_docente($iddocente, $idore[$i], $dataattuale, $con);
                     // print "NCD $ncd NMC $numeromassimocolloqui idore ".$idore[$i];
                     if (($stato[0] == 0) & ($ncd < $numeromassimocolloqui))
@@ -162,7 +162,7 @@ if ($iddocente != "")
           }
          */
     }
-    while ($dataattuale < $datafinelezioni);
+    while ($dataattuale < $_SESSION['datafinelezioni']);
     print "</table>";
 
     print "<br><input type='submit' value='Inoltra richiesta'>";

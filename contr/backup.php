@@ -41,9 +41,9 @@ stampa_head($titolo, "", $script, "MP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 // SVUOTO LA CARTELLA BUFFER DAI VECCHI FILE SQL E CSV
-//  svuota_cartella("$cartellabuffer/", ".sql");
-// svuota_cartella("$cartellabuffer/", ".csv");
-// svuota_cartella("$cartellabuffer/", ".txt");
+//  svuota_cartella($_SESSION['cartellabuffer']."/", ".sql");
+// svuota_cartella($_SESSION['cartellabuffer']."/", ".csv");
+// svuota_cartella($_SESSION['cartellabuffer']."/", ".txt");
 
 $arrbkp = is_stringa_html('tabbkp') ? stringa_html('tabbkp') : array();
 $tabelle = array();
@@ -187,7 +187,7 @@ foreach ($arrbkp as $ambito)
 $tabs = array();
 foreach ($tabelle as $tab)
     $tabs[] = inspref($tab);
-header("location: " . backup_tables($db_server, $db_user, $db_password, $db_nome, $tabs, $cartellabuffer));
+header("location: " . backup_tables($db_server, $db_user, $db_password, $db_nome, $tabs, $_SESSION['cartellabuffer']));
 
 
 /*
@@ -268,7 +268,7 @@ function backup_tables($host, $user, $pass, $name, $tables, $cartellabuffer)
     }
 
     //save file
-    $nomefile = $cartellabuffer . '/lampschool-' . $_SESSION['suffisso'] . "-" . date("YmdHis") . '.sql';
+    $nomefile = $_SESSION['cartellabuffer'] . '/lampschool-' . $_SESSION['suffisso'] . "-" . date("YmdHis") . '.sql';
     $handle = fopen($nomefile, 'w+');
     fwrite($handle, $return);
     fclose($handle);

@@ -106,7 +106,7 @@ if ($codpresidente != 1000000000)
     $presidente = estrai_dirigente($con);
     $presid = $presidente;
 }
-if ($numeroperiodi == 2)
+if ($_SESSION['numeroperiodi'] == 2)
 {
     $per = "quadrimestre";
 } else
@@ -114,11 +114,11 @@ if ($numeroperiodi == 2)
     $per = "trimestre";
 }
 
-if ($numeroperiodi == 2)
+if ($_SESSION['numeroperiodi'] == 2)
 {
     $quadrimestre = "secondo " . $per;
 }
-if ($numeroperiodi == 3)
+if ($_SESSION['numeroperiodi'] == 3)
 {
     $quadrimestre = "terzo " . $per;
 }
@@ -277,7 +277,7 @@ while ($rec = mysqli_fetch_array($ris))
     $idalunno = $rec['idalunno'];
     $datialunno = estrai_dati_alunno($idalunno, $con) . "\n";
     $annotazionialunno = "";
-    $query = "select * from tbl_giudizi where idalunno=$idalunno and periodo=$numeroperiodi and giudizio<>''";
+    $query = "select * from tbl_giudizi where idalunno=$idalunno and periodo=".$_SESSION['numeroperiodi']." and giudizio<>''";
     $risgiu = eseguiQuery($con, $query);
     if ($recgiu = mysqli_fetch_array($risgiu))
     {
@@ -285,7 +285,7 @@ while ($rec = mysqli_fetch_array($ris))
     }
     $query = "select * from tbl_valutazionifinali,tbl_materie
 	        where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
-	        and idalunno=$idalunno and periodo=$numeroperiodi and note<>''
+	        and idalunno=$idalunno and periodo=".$_SESSION['numeroperiodi']." and note<>''
 	        order by tbl_materie.progrpag, denominazione";
     $risnot = eseguiQuery($con, $query);
     while ($recnot = mysqli_fetch_array($risnot))

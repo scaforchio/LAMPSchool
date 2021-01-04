@@ -78,15 +78,15 @@ while ($rec = mysqli_fetch_array($ris))
     }
     else
     {
-        $numbyte = file_put_contents($cartellabuffer . "/" . $rec['docmd5'], $rec['docbin']);
-        $posifiles[] = $cartellabuffer . "/" . $rec['docmd5'];
+        $numbyte = file_put_contents($_SESSION['cartellabuffer'] . "/" . $rec['docmd5'], $rec['docbin']);
+        $posifiles[] = $_SESSION['cartellabuffer'] . "/" . $rec['docmd5'];
         $nomifiles[] = $rec['docnome'];
     }
 }
 
-file_zip($posifiles, $nomifiles, $cartellabuffer . "/" . "$nomefile.zip");
+file_zip($posifiles, $nomifiles, $_SESSION['cartellabuffer'] . "/" . "$nomefile.zip");
 mysqli_close($con);
-header("location: " . $cartellabuffer . "/" . "$nomefile.zip");
+header("location: " . $_SESSION['cartellabuffer'] . "/" . "$nomefile.zip");
 
 //stampa_piede();
 
@@ -104,10 +104,10 @@ header("location: " . $cartellabuffer . "/" . "$nomefile.zip");
   {
   // estraggo il file nel buffer, faccio l'append e cancello il file
 
-  $numbyte=file_put_contents($cartellabuffer."/".$rec['docmd5'],$rec['docbin']);
+  $numbyte=file_put_contents($_SESSION['cartellabuffer']."/".$rec['docmd5'],$rec['docbin']);
   // print "tttt $numbyte";
-  $pdf->addPDF($cartellabuffer."/".$rec['docmd5'],'all');
-  // unlink($cartellabuffer."/".$rec['docmd5']);
+  $pdf->addPDF($_SESSION['cartellabuffer']."/".$rec['docmd5'],'all');
+  // unlink($_SESSION['cartellabuffer']."/".$rec['docmd5']);
   }
   }
   else  // SI TRATTA DI UNA IMMAGINE DA CONVERTIRE IN PDF
@@ -118,13 +118,13 @@ header("location: " . $cartellabuffer . "/" . "$nomefile.zip");
   {
   // estraggo il file nel buffer e faccio l'append
 
-  $numbyte=file_put_contents($cartellabuffer."/".$rec['docmd5'],$rec['docbin']);
+  $numbyte=file_put_contents($_SESSION['cartellabuffer']."/".$rec['docmd5'],$rec['docbin']);
   //print "tttt $numbyte";
-  $esito=crea_pdf_da_img($rec['docmd5'],$cartellabuffer."/".$rec['docmd5'],estrai_tipo_immagine($rec['doctype']));
+  $esito=crea_pdf_da_img($rec['docmd5'],$_SESSION['cartellabuffer']."/".$rec['docmd5'],estrai_tipo_immagine($rec['doctype']));
   //print "tttt $esito";
   }
 
-  $pdf->addPDF($cartellabuffer."/".$rec['docmd5']."_pdf",'all');
+  $pdf->addPDF($_SESSION['cartellabuffer']."/".$rec['docmd5']."_pdf",'all');
   }
   }
 
@@ -170,7 +170,7 @@ header("location: " . $cartellabuffer . "/" . "$nomefile.zip");
   // print "tttt $posx";
   $pagimm->Image($percorso,$posx,30,$larghezza,0,$tipo);
   //print "tttt 5 <br>";
-  $pagimm->Output($cartellabuffer."/".$nomefile."_pdf","F");
+  $pagimm->Output($_SESSION['cartellabuffer']."/".$nomefile."_pdf","F");
   return 1;
   }
 

@@ -44,9 +44,9 @@ if (isset($_POST["que"]))
 else
     $querydaeseguire = "";
 // SVUOTO LA CARTELLA BUFFER DAI VECCHI FILE SQL E CSV
-//  svuota_cartella("$cartellabuffer/", ".sql");
-// svuota_cartella("$cartellabuffer/", ".csv");
-// svuota_cartella("$cartellabuffer/", ".txt");
+//  svuota_cartella($_SESSION['cartellabuffer']."/", ".sql");
+// svuota_cartella($_SESSION['cartellabuffer']."/", ".csv");
+// svuota_cartella($_SESSION['cartellabuffer']."/", ".txt");
 
 print "<form action='eseguisql_ok.php' method='POST'>";
 

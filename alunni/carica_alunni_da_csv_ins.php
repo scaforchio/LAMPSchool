@@ -201,7 +201,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
             exit;
         };
 
-        $dir = "$cartellabuffer"; // la directory nella quale verrà salvato il file
+        $dir = $_SESSION['cartellabuffer'].""; // la directory nella quale verrà salvato il file
 
         $nomefile = $_FILES['filenomi']['name'];
         if (is_uploaded_file($_FILES['filenomi']['tmp_name']))
@@ -227,7 +227,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
 
 
         $nf = session_id() . ".csv";
-        $nomefile = "$cartellabuffer/" . $nf;
+        $nomefile = $_SESSION['cartellabuffer']."/" . $nf;
         $fp = fopen($nomefile, 'w');
 
         print "
@@ -429,7 +429,7 @@ if (stringa_html('upload') == "CARICA" && isset($_FILES['filenomi']['tmp_name'])
         fclose($fp);
 
         print ("</table>");
-        print ("<br/><center><a href='$cartellabuffer/$nf'><img src='../immagini/csv.png'></a></center>");
+        print ("<br/><center><a href='".$_SESSION['cartellabuffer']."/$nf'><img src='../immagini/csv.png'></a></center>");
     }
     printf("<p align='center'> Numero di alunni inseriti: $numero_alunni_inseriti su $numero_di_alunni");
 } else

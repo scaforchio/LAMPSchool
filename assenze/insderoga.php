@@ -49,17 +49,17 @@ $datafine = data_to_db(stringa_html('datafine'));
 
 
 $oregiorni = array();    // Array contenente il numero di ore della deroga per ogni giorno della settimana
-for ($i = 1; $i <= $giornilezsett; $i++)
+for ($i = 1; $i <= $_SESSION['giornilezsett']; $i++)
 {
     array_push($oregiorni, stringa_html("ore$i"));
 }
 
-if ($datainizio < $datainiziolezioni)  // Per evitare errori di inserimento 
-    $data = $datainiziolezioni;
+if ($datainizio < $_SESSION['datainiziolezioni'])  // Per evitare errori di inserimento 
+    $data = $_SESSION['datainiziolezioni'];
 else
     $data = $datainizio;
-if ($datafine > $datafinelezioni)  // Per evitare errori di inserimento 
-    $datafine = $datafinelezioni;
+if ($datafine > $_SESSION['datafinelezioni'])  // Per evitare errori di inserimento 
+    $datafine = $_SESSION['datafinelezioni'];
 
 // Inserisco una presenza forzata per ogni giorno compreso tra datainizio e datafine
 do

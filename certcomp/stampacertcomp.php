@@ -53,7 +53,7 @@ if ($idalunno != $_SESSION['idutente'] && $tipoutente == 'T')
 }
 
 if ($classe != "")
-    $elencoalunni = estrai_alunni_classe_data($classe, $datafinelezioni, $con);
+    $elencoalunni = estrai_alunni_classe_data($classe, $_SESSION['datafinelezioni'], $con);
 
 $alunni = array();
 if ($classe != "")
@@ -76,18 +76,18 @@ if ($classe != "")
 
 $anno = decodifica_anno_classe($classe, $con);
 
-if ($livello_scuola == '1')
+if ($_SESSION['livello_scuola'] == '1')
     $tiposcheda = 1;
-else if ($livello_scuola == '2')
+else if ($_SESSION['livello_scuola'] == '2')
     $tiposcheda = 2;
-else if ($livello_scuola == '3')
+else if ($_SESSION['livello_scuola'] == '3')
 {
     if ($anno == '5')
         $tiposcheda = 1;
     if ($anno == '8')
         $tiposcheda = 2;
 }
-else if ($livello_scuola == '4')
+else if ($_SESSION['livello_scuola'] == '4')
     $tiposcheda = 3;
 
 

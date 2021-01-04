@@ -218,7 +218,7 @@ if ($idclasse != "")
 //
 //   Inizio visualizzazione del combo box del periodo
 //
-if ($numeroperiodi == 2)
+if ($_SESSION['numeroperiodi'] == 2)
     print("<tr><td width='50%'><b>Quadrimestre</b></td>");
 else
     print("<tr><td width='50%'><b>Trimestre</b></td>");
@@ -235,7 +235,7 @@ if ($periodo == 'Secondo')
 else
     echo("<option>Secondo</option>");
 
-if ($numeroperiodi == 3)
+if ($_SESSION['numeroperiodi'] == 3)
     if ($periodo == 'Terzo')
         echo("<option selected>Terzo</option>");
     else
@@ -273,7 +273,7 @@ if ($obiettivo != "" & $cattedra != "")
     //$date=array();
     // APERTURA FILE CSV PER MEMORIZZAZIONE SITUAZIONE
     $nf = "svo" . session_id() . ".csv";
-    $nomefile = "$cartellabuffer/" . $nf;
+    $nomefile = $_SESSION['cartellabuffer']."/" . $nf;
     $fp = fopen($nomefile, 'w');
     // DEFINIZIONE ARRAY PER MEMORIZZAZZIONE IN CSV
     $listadate = array();
@@ -284,19 +284,19 @@ if ($obiettivo != "" & $cattedra != "")
     $perioquery = "and true";
     if ($periodo == "Primo")
     {
-        $perioquery = " and data <= '" . $fineprimo . "'";
+        $perioquery = " and data <= '" . $_SESSION['fineprimo'] . "'";
     }
-    if ($periodo == "Secondo" & $numeroperiodi == 2)
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 2)
     {
-        $perioquery = " and data > '" . $fineprimo . "'";
+        $perioquery = " and data > '" . $_SESSION['fineprimo'] . "'";
     }
-    if ($periodo == "Secondo" & $numeroperiodi == 3)
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 3)
     {
-        $perioquery = " and data > '" . $fineprimo . "' and data <=  '" . $finesecondo . "'";
+        $perioquery = " and data > '" . $_SESSION['fineprimo'] . "' and data <=  '" . $_SESSION['finesecondo'] . "'";
     }
     if ($periodo == "Terzo")
     {
-        $perioquery = " and data > '" . $finesecondo . "'";
+        $perioquery = " and data > '" . $_SESSION['finesecondo'] . "'";
     }
 
 
@@ -459,7 +459,7 @@ if ($obiettivo != "" & $cattedra != "")
 
     fclose($fp);
     echo "</table>";
-    print ("<br/><center><a href='$cartellabuffer/$nf'><img src='../immagini/csv.png'></a></center>");
+    print ("<br/><center><a href='".$_SESSION['cartellabuffer']."/$nf'><img src='../immagini/csv.png'></a></center>");
 }
 
 // fine if

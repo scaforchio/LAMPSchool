@@ -299,7 +299,7 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
         print "</center></td>";
 
         print "<td><center>";
-        //  if ($giustifica_ritardi == 'yes')
+        //  if ($_SESSION['giustifica_ritardi'] == 'yes')
         //  {
         $query = "select count(*) as numritingiust from tbl_ritardi
              where idalunno=" . $val['idalunno'] . "

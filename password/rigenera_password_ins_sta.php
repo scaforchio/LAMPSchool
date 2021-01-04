@@ -70,7 +70,7 @@ if ($idclasse != 0)
     $ris = eseguiQuery($con, $query);
 
     $nf = session_id() . ".csv";
-    $nomefile = "$cartellabuffer/" . $nf;
+    $nomefile = $_SESSION['cartellabuffer']."/" . $nf;
     $fp = fopen($nomefile, 'w');
     $numpass = 0;
     $arr_id = "";
@@ -110,7 +110,7 @@ if ($idclasse != 0)
     print "<form name='stampa'  target='_blank' action='../alunni/stampa_pass_alu.php' method='POST'>";
 
     $nf = session_id() . ".csv";
-    $nomefile = "$cartellabuffer/" . $nf;
+    $nomefile = $_SESSION['cartellabuffer']."/" . $nf;
     $fp = fopen($nomefile, 'w');
     $numpass = 0;
     $arr_id = "";
@@ -157,7 +157,7 @@ if ($idclasse != 0)
 
 
   $nf = session_id() . ".csv";
-  $nomefile = "$cartellabuffer/" . $nf;
+  $nomefile = $_SESSION['cartellabuffer']."/" . $nf;
   $fp = fopen($nomefile, 'w');
 
   $numpass = 0;
@@ -205,7 +205,7 @@ print "<input type='hidden' name='arrid' value='$arr_id'>
 fclose($fp);
 
 
-print ("<br/><center><a href='$cartellabuffer/$nf'><img src='../immagini/csv.png'></a></center>");
+print ("<br/><center><a href='".$_SESSION['cartellabuffer']."/$nf'><img src='../immagini/csv.png'></a></center>");
 
 
 stampa_piede("");

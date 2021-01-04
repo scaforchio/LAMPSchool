@@ -47,7 +47,7 @@ if (!$db)
 }
 
 
-if ($livello_scuola == '2')
+if ($_SESSION['livello_scuola'] == '2')
 {
     $ricercaterze = " AND anno='3' ";
 } else

@@ -77,9 +77,8 @@ function estrai_firma_scrutinio($idclasse, $periodo, $conn)
  */
 function periodo_finale($periodo)
 {
-    global $numeroperiodi;
 
-    if ($periodo == $numeroperiodi)
+    if ($periodo == $_SESSION['numeroperiodi'])
     {
         return true;
     }

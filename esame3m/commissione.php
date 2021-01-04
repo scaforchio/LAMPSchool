@@ -130,7 +130,7 @@ if ($idescommissione != '')
       <td width='50%'><b>Docenti</b></td>");
     print ("<td width='50%'>");
 
-    if ($livello_scuola == '2')
+    if ($_SESSION['livello_scuola'] == '2')
     {
         $ultimoanno = '3';
     } else
@@ -167,7 +167,7 @@ if ($idescommissione != '')
       <td width='50%'><b>Segretario</b></td>");
     print ("<td width='50%'>");
 
-    if ($livello_scuola == '2')
+    if ($_SESSION['livello_scuola'] == '2')
     {
         $ultimoanno = '3';
     } else

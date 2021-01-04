@@ -70,28 +70,28 @@ $siglacategoria3 = $siglacategoria2 . $annoinizio;
 
 // Verifico ed eventualmente creo categoria livello 1
 print "$siglacategoria0 $siglacategoria1 $siglacategoria2 $siglacategoria3 <br>";
-$idcategoria0 = getCategoriaMoodle($tokenservizimoodle, $urlmoodle, $siglacategoria0);
+$idcategoria0 = getCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $siglacategoria0);
 
 
 if ($idcategoria0 == -1)
-    $idcategoria0 = creaCategoriaMoodle($tokenservizimoodle, $urlmoodle, $_SESSION['nome_scuola'], $siglacategoria0, 0);
+    $idcategoria0 = creaCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $_SESSION['nome_scuola'], $siglacategoria0, 0);
 
-$idcategoria1 = getCategoriaMoodle($tokenservizimoodle, $urlmoodle, $siglacategoria1);
+$idcategoria1 = getCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $siglacategoria1);
 
 if ($idcategoria1 == -1)
-    $idcategoria1 = creaCategoriaMoodle($tokenservizimoodle, $urlmoodle, $nomemateria, $siglacategoria1, $idcategoria0);
+    $idcategoria1 = creaCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $nomemateria, $siglacategoria1, $idcategoria0);
 
 // Verifico ed eventualmente creo categoria livello 2
-$idcategoria2 = getCategoriaMoodle($tokenservizimoodle, $urlmoodle, $siglacategoria2);
+$idcategoria2 = getCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $siglacategoria2);
 
 if ($idcategoria2 == -1)
-    $idcategoria2 = creaCategoriaMoodle($tokenservizimoodle, $urlmoodle, "$nomemateria - Anno $anno", $siglacategoria2, $idcategoria1);
+    $idcategoria2 = creaCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], "$nomemateria - Anno $anno", $siglacategoria2, $idcategoria1);
 
 // Verifico ed eventualmente creo categoria livello 3
-$idcategoria3 = getCategoriaMoodle($tokenservizimoodle, $urlmoodle, $siglacategoria3);
+$idcategoria3 = getCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $siglacategoria3);
 
 if ($idcategoria3 == -1)
-    $idcategoria3 = creaCategoriaMoodle($tokenservizimoodle, $urlmoodle, "$nomemateria - Anno $anno - A.S. $annoinizio", $siglacategoria3, $idcategoria2);
+    $idcategoria3 = creaCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], "$nomemateria - Anno $anno - A.S. $annoinizio", $siglacategoria3, $idcategoria2);
 
 
 // Fine modificha per cambiamento organizzazione categorie
@@ -105,11 +105,11 @@ $siglacorso = $siglamateria . $anno . $sezione . $specsigla . $annoinizio;
 print " $nomecorso $siglacorso <br>";
 //print "<br><br>$siglacorso    $siglacategoria    $nomecorso";
 print "<br><br>$siglacorso    $siglacategoria3    $nomecorso";
-//$idcategoria = getCategoriaMoodle($tokenservizimoodle,$urlmoodle,$siglacategoria);
+//$idcategoria = getCategoriaMoodle($_SESSION['tokenservizimoodle'],$_SESSION['urlmoodle'],$siglacategoria);
 print "<br><br>$idcategoria3";
 
-//$idcorso = creaCorsoMoodle($tokenservizimoodle,$urlmoodle,$nomecorso,$siglacorso,$idcategoria);
-$idcorso = creaCorsoMoodle($tokenservizimoodle, $urlmoodle, $nomecorso, $siglacorso, $idcategoria3);
+//$idcorso = creaCorsoMoodle($_SESSION['tokenservizimoodle'],$_SESSION['urlmoodle'],$nomecorso,$siglacorso,$idcategoria);
+$idcorso = creaCorsoMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $nomecorso, $siglacorso, $idcategoria3);
 print "<br>Corso creato con id: $idcorso";
 
 
@@ -120,9 +120,9 @@ while ($rec = mysqli_fetch_array($ris))
     //$usernamedocente="doc".$_SESSION['suffisso'].($rec["iddocente"]-1000000000);
     $usernamedocente = costruisciUsernameMoodle($rec['iddocente']);
     print "<br>Docente: $usernamedocente";
-    $identutente = getIdMoodle($tokenservizimoodle, $urlmoodle, $usernamedocente);
+    $identutente = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $usernamedocente);
 
-    iscriviUtenteMoodle($tokenservizimoodle, $urlmoodle, $idcorso, $identutente, 3);
+    iscriviUtenteMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idcorso, $identutente, 3);
 }
 
 $query = "select * from tbl_alunni where idclasse = $idclasse";
@@ -132,9 +132,9 @@ while ($rec = mysqli_fetch_array($ris))
     //$usernamealunno="al".$_SESSION['suffisso'].($rec["idalunno"]);
     $usernamealunno = costruisciUsernameMoodle($rec['idalunno']);
     print "<br>Alunno: $usernamealunno";
-    $identalunno = getIdMoodle($tokenservizimoodle, $urlmoodle, $usernamealunno);
+    $identalunno = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $usernamealunno);
 
-    iscriviUtenteMoodle($tokenservizimoodle, $urlmoodle, $idcorso, $identalunno, 5);
+    iscriviUtenteMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idcorso, $identalunno, 5);
 }
 
 

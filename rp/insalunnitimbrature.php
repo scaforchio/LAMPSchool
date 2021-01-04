@@ -109,7 +109,7 @@ if (mysqli_num_rows($ris) == 0)
 
     if ($tipotimbratura == 'U')
     {
-        if ($giustificauscite == 'yes')
+        if ($_SESSION['giustificauscite'] == 'yes')
         {
             $valgiust = 'false';
         } else
@@ -138,7 +138,7 @@ if (mysqli_num_rows($ris) == 0)
     print "<br><br><center><b><font color='green'>Inserimento effettuato!</font></b>";
 } else
 {
-    inserisci_log($_SESSION['userid'] . "§" . date('m-d|H:i:s') . "§OMESSO INSERIMENTO TIMBRATURA FORZATA PER DUPLICAZIONE " . $matricola . "", $nomefilelog . "rp", $suff);
+    inserisci_log($_SESSION['userid'] . "§" . date('m-d|H:i:s') . "§OMESSO INSERIMENTO TIMBRATURA FORZATA PER DUPLICAZIONE " . $matricola . "", $_SESSION['nomefilelog'] . "rp", $suff);
     print "<br><br><center><b><font color='red'>Inserimento già effettuato in precedenza!</font></b>";
 }
 

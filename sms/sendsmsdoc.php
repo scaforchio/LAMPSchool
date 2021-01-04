@@ -71,7 +71,7 @@ $messaggio = str_replace("’", "'", $testosms);
 
 
 
-$result = skebbyGatewaySendSMS($utentesms, $passsms, $destinatari, $messaggio, SMS_TYPE_CLASSIC_PLUS, '', $testatasms, $_SESSION['suffisso']);
+$result = skebbyGatewaySendSMS($_SESSION['utentesms'], $_SESSION['passsms'], $destinatari, $messaggio, SMS_TYPE_CLASSIC_PLUS, '', $_SESSION['testatasms'], $_SESSION['suffisso']);
 
 // print "Risultato invio: $result";
 

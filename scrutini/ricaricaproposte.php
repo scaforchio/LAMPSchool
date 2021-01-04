@@ -77,7 +77,7 @@ while ($nom = mysqli_fetch_array($ris))
 //fine codice aggiunto
 //print "form";
 //die("Fine");
-if ($periodo != $numeroperiodi)
+if ($periodo != $_SESSION['numeroperiodi'])
 {
     print "<form method='post' id='formricprop' action='riepvoti.php'>";
 } else

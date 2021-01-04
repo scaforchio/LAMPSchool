@@ -77,7 +77,7 @@ $ris = eseguiQuery($con, $query);
 
 
 $nfgru = "gruppi_" . $_SESSION['annoscol'] . $_SESSION['suffisso'] . ".txt";
-$nomefilegruppi = "$cartellabuffer/" . $nfgru;
+$nomefilegruppi = $_SESSION['cartellabuffer']."/" . $nfgru;
 $fp = fopen($nomefilegruppi, 'w');
 
 $querygruppi = "INSERT INTO mdl_cohort (contextid, name, idnumber, description, descriptionformat, component, timecreated, timemodified) VALUES ";
@@ -107,7 +107,7 @@ $ris = eseguiQuery($con, $query);
 
 
 $nf = "alunni_" . $_SESSION['annoscol'] . $_SESSION['suffisso'] . ".csv";
-$nomefilegruppi = "$cartellabuffer/" . $nf;
+$nomefilegruppi = $_SESSION['cartellabuffer']."/" . $nf;
 $fp = fopen($nomefilegruppi, 'w');
 
 fputcsv($fp, array("username", "password", "firstname", "lastname", "email", "cohort1"), ";");
@@ -135,7 +135,7 @@ $ris = eseguiQuery($con, $query);
 
 
 $nfdoc = "docenti_" . $_SESSION['annoscol'] . $_SESSION['suffisso'] . ".csv";
-$nomefilegruppi = "$cartellabuffer/" . $nfdoc;
+$nomefilegruppi = $_SESSION['cartellabuffer']."/" . $nfdoc;
 $fpdoc = fopen($nomefilegruppi, 'w');
 
 fputcsv($fpdoc, array("username", "password", "firstname", "lastname", "email", "cohort1"), ";");
@@ -161,9 +161,9 @@ fclose($fpdoc);
 
 
 // }
-print ("<br/><center>Gruppi globali:<a href='$cartellabuffer/$nfgru'><img src='../immagini/csv.png'></a></center>");
-print ("<br/><center>Alunni:<a href='$cartellabuffer/$nf'><img src='../immagini/csv.png'></a></center>");
-print ("<br/><center>Docenti:<a href='$cartellabuffer/$nfdoc'><img src='../immagini/csv.png'></a></center>");
+print ("<br/><center>Gruppi globali:<a href='".$_SESSION['cartellabuffer']."/$nfgru'><img src='../immagini/csv.png'></a></center>");
+print ("<br/><center>Alunni:<a href='".$_SESSION['cartellabuffer']."/$nf'><img src='../immagini/csv.png'></a></center>");
+print ("<br/><center>Docenti:<a href='".$_SESSION['cartellabuffer']."/$nfdoc'><img src='../immagini/csv.png'></a></center>");
 
 stampa_piede("");
 mysqli_close($con);

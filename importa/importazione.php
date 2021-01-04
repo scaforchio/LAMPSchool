@@ -47,9 +47,9 @@ stampa_head($titolo, "", $script, "M");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 // SVUOTO LA CARTELLA BUFFER DAI VECCHI FILE SQL E CSV
-//  svuota_cartella("$cartellabuffer/", ".sql");
-// svuota_cartella("$cartellabuffer/", ".csv");
-// svuota_cartella("$cartellabuffer/", ".txt");
+//  svuota_cartella($_SESSION['cartellabuffer']."/", ".sql");
+// svuota_cartella($_SESSION['cartellabuffer']."/", ".csv");
+// svuota_cartella($_SESSION['cartellabuffer']."/", ".txt");
 
 $arrbkp = is_stringa_html('tabbkp') ? stringa_html('tabbkp') : array();
 $tabelle = array();

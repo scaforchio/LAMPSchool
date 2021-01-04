@@ -52,7 +52,7 @@ $ris = eseguiQuery($con, $query);
 // echo '<table border=1 align="center" width="800"  >';
 
 $classe = "";
-$per = $numeroperiodi;
+$per = $_SESSION['numeroperiodi'];
 
 if ($val = mysqli_fetch_array($ris)) {
     echo '<center><b>Pagella dell\'Alunno: ' . $val["cognome"] . ' ' . $val["nome"] . '</b></center><br/>';
@@ -63,26 +63,26 @@ $annoclasse = decodifica_anno_classe($classe, $con);
 
 $certificazione = false;
 
-if ($annoclasse == 5 & $livello_scuola == 1)
+if ($annoclasse == 5 & $_SESSION['livello_scuola'] == 1)
     $certificazione = true;
-if ($annoclasse == 5 & $livello_scuola == 3)
+if ($annoclasse == 5 & $_SESSION['livello_scuola'] == 3)
     $certificazione = true;
-if ($annoclasse == 3 & $livello_scuola == 2)
+if ($annoclasse == 3 & $_SESSION['livello_scuola'] == 2)
     $certificazione = true;
-if ($annoclasse == 8 & $livello_scuola == 3)
+if ($annoclasse == 8 & $_SESSION['livello_scuola'] == 3)
     $certificazione = true;
 
 if ($stampacertificazioni == 'no')
     $certificazione = false;
-if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con)) {
+if (!scrutinio_aperto($val['idclasse'], $_SESSION['numeroperiodi'], $con)) {
 
-    if ($livello_scuola == 4 && estrai_esito($codalunno, $con) == "") {
+    if ($_SESSION['livello_scuola'] == 4 && estrai_esito($codalunno, $con) == "") {
         print("<br/><big><big><center>GIUDIZIO SOSPESO!</center><small><small><br/>");
 
         // prelevamento voti
         $query = "SELECT * from tbl_valutazionifinali,tbl_materie
           where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
-          and idalunno=$codalunno and tbl_materie.progrpag<>100 and periodo = $numeroperiodi order by tbl_materie.progrpag";
+          and idalunno=$codalunno and tbl_materie.progrpag<>100 and periodo = ".$_SESSION['numeroperiodi']." order by tbl_materie.progrpag";
 
         $ris = eseguiQuery($con, $query);
         // print $query;
@@ -119,20 +119,20 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con)) {
 
             // Cerco il giudizio
 
-            $query = "select * from tbl_giudizi where idalunno = $codalunno and periodo = '$numeroperiodi'";
+            $query = "select * from tbl_giudizi where idalunno = $codalunno and periodo = '".$_SESSION['numeroperiodi']."'";
             $risgiu = eseguiQuery($con, $query);
             if ($recgiu = mysqli_fetch_array($risgiu)) {
                 print "<tr class='prima'><td colspan=7 align=center><b>Giudizio complessivo</b></td></tr>";
                 print "<tr><td colspan=7 align=center>" . $recgiu['giudizio'] . "</b></td></tr>";
             }
             print ("</table><br/>");
-            if ($tipo_pagella_genitori == "MIN") {
+            if ($_SESSION['tipo_pagella_genitori'] == "MIN") {
                 print "<br><center><a href='../scrutini/stampaschedamodmin.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
-            if ($tipo_pagella_genitori == "A3") {
+            if ($_SESSION['tipo_pagella_genitori'] == "A3") {
                 print "<br><center><a href='../scrutini/stampaschedefinalialu_A3.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
-            if ($tipo_pagella_genitori == "A4") {
+            if ($_SESSION['tipo_pagella_genitori'] == "A4") {
                 print "<br><center><a href='../scrutini/stampaschedefinalialu.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
             print "&nbsp;&nbsp;&nbsp;<a href='../scrutini/stampaschedeseparatefin.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampaSEP.png'></a>";
@@ -146,7 +146,7 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con)) {
         // prelevamento voti
         $query = "SELECT * from tbl_valutazionifinali,tbl_materie
           where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
-          and idalunno=$codalunno and tbl_materie.progrpag<>100 and periodo = $numeroperiodi order by tbl_materie.progrpag";
+          and idalunno=$codalunno and tbl_materie.progrpag<>100 and periodo = ".$_SESSION['numeroperiodi']." order by tbl_materie.progrpag";
 
         $ris = eseguiQuery($con, $query);
         // print $query;
@@ -183,20 +183,20 @@ if (!scrutinio_aperto($val['idclasse'], $numeroperiodi, $con)) {
 
             // Cerco il giudizio
 
-            $query = "select * from tbl_giudizi where idalunno = $codalunno and periodo = '$numeroperiodi'";
+            $query = "select * from tbl_giudizi where idalunno = $codalunno and periodo = '".$_SESSION['numeroperiodi']."'";
             $risgiu = eseguiQuery($con, $query);
             if ($recgiu = mysqli_fetch_array($risgiu)) {
                 print "<tr class='prima'><td colspan=7 align=center><b>Giudizio complessivo</b></td></tr>";
                 print "<tr><td colspan=7 align=center>" . $recgiu['giudizio'] . "</b></td></tr>";
             }
             print ("</table><br/>");
-            if ($tipo_pagella_genitori == "MIN") {
+            if ($_SESSION['tipo_pagella_genitori'] == "MIN") {
                 print "<br><center><a href='../scrutini/stampaschedamodmin.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
-            if ($tipo_pagella_genitori == "A3") {
+            if ($_SESSION['tipo_pagella_genitori'] == "A3") {
                 print "<br><center><a href='../scrutini/stampaschedefinalialu_A3.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
-            if ($tipo_pagella_genitori == "A4") {
+            if ($_SESSION['tipo_pagella_genitori'] == "A4") {
                 print "<br><center><a href='../scrutini/stampaschedefinalialu.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
             print "&nbsp;&nbsp;&nbsp;<a href='../scrutini/stampaschedeseparatefin.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampaSEP.png'></a>";

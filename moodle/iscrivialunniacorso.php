@@ -56,8 +56,8 @@ while ($rec = mysqli_fetch_array($ris))
     {
         $usernamealunno = costruisciUsernameMoodle($rec['idalunno']);
         print "<br>Alunno: " . $rec['cognome'] . " " . $rec['nome'];
-        $identalunno = getIdMoodle($tokenservizimoodle, $urlmoodle, $usernamealunno);
-        iscriviUtenteMoodle($tokenservizimoodle, $urlmoodle, $idcorso, $identalunno, 5);
+        $identalunno = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $usernamealunno);
+        iscriviUtenteMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idcorso, $identalunno, 5);
     }
 }
 

@@ -174,7 +174,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 }
             } else
             {
-                if ($gestcentrassenze == 'no')
+                if ($_SESSION['gestcentrassenze'] == 'no')
                 {
                     if ((lezione_dad($idclasse, $data, $conn)) & ($_SESSION['disabilitaassenzeindad'] == 'yes'))
                     {
@@ -209,7 +209,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 $risgiu = eseguiQuery($conn, $query);
                 $recgiu = mysqli_fetch_array($risgiu);
                 $numingiust += $recgiu['numritingiust'];
-                if ($giustificauscite == 'yes')
+                if ($_SESSION['giustificauscite'] == 'yes')
                 {
                     $query = "select count(*) as numuscingiust from tbl_usciteanticipate
                 where idalunno in ($elencoalunni)

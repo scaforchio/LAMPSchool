@@ -69,7 +69,7 @@ else
         $ora = $o + 1;
         print "<tr><td class='prima'><b>$ora</b></td>";
         $oraprec = $o - 1;
-        for ($g = 0; $g < $giornilezsett; $g++)
+        for ($g = 0; $g < $_SESSION['giornilezsett']; $g++)
         {
             $query = "SELECT * FROM tbl_ooodocentilezioni, tbl_ooodocenti, tbl_ooolezioni, tbl_ooomaterie, tbl_oooaulelezioni,tbl_oooaule, tbl_oooclassilezioni, tbl_oooclassi 
             WHERE tbl_ooodocentilezioni.idlezione=tbl_ooolezioni.idlezione AND tbl_ooodocentilezioni.iddocente=tbl_ooodocenti.iddocente AND tbl_ooolezioni.idmateria=tbl_ooomaterie.idmateria AND tbl_ooolezioni.idlezione=tbl_oooaulelezioni.idlezione AND tbl_oooaulelezioni.idaula=tbl_oooaule.idaula AND

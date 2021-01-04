@@ -50,7 +50,7 @@ $ris = eseguiQuery($con, $query);
 $rec = mysqli_fetch_array($ris);
 $idclasse = $rec['idclasse'];
 $periodo = $rec['periodo'];
-if ($periodo < $numeroperiodi)
+if ($periodo < $_SESSION['numeroperiodi'])
 {
     print "
         <form method='post' id='formchiscr' action='../scrutini/riepvoti.php'>

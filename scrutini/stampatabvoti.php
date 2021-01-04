@@ -59,7 +59,7 @@ $votoS = array();
 $votoO = array();
 $votoP = array();
 
-$elencoalunni = estrai_alunni_classe_data($idclasse, $fineprimo, $con);
+$elencoalunni = estrai_alunni_classe_data($idclasse, $_SESSION['fineprimo'], $con);
 
 
 $query = "SELECT tbl_valutazionifinali.*,tbl_materie.tipovalutazione FROM tbl_valutazionifinali,tbl_alunni,tbl_materie
@@ -118,7 +118,7 @@ $schede->Cell(400, 6, $specplesso, NULL, 1, "C");
 $posY += 8;
 $schede->SetFont('Arial', 'BI', 9);
 $schede->setXY(10, $posY);
-if ($numeroperiodi == '2')
+if ($_SESSION['numeroperiodi'] == '2')
     $per = 'quadrimestre';
 else
     $per = 'trimestre';

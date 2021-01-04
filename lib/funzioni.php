@@ -400,11 +400,11 @@ function daily_cron($suffisso, $con, $lavori)
 // 4 - Invio mail a preside per nuove richieste ferie
 // 5 - Inserimento ammonizioni per mancata giustifica
 
-    $nomefilelog = $_SESSION['nomefilelog'];
+    $_SESSION['nomefilelog'] = $_SESSION['nomefilelog'];
     if (substr($lavori, 0, 1) == '1')  //Pulizia buffer
     {
         pulisci_buffer();
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Pulizia buffer", $nomefilelog, $suffisso);
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Pulizia buffer", $_SESSION['nomefilelog'], $suffisso);
     }
 
     if (substr($lavori, 1, 1) == '1')  //Cancellazione valutazioni anomale
@@ -413,14 +413,14 @@ function daily_cron($suffisso, $con, $lavori)
         eseguiQuery($con, $query);
         $query = "delete from tbl_seed where true";
         eseguiQuery($con, $query);
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cancellazione voti anomali", $nomefilelog, $suffisso);
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cancellazione voti anomali", $_SESSION['nomefilelog'], $suffisso);
     }
 
     if (substr($lavori, 2, 1) == '1')  //Invio SMS assenti
     {
 
 
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§INVIO SMS ASSENZE", $nomefilelog, $suffisso);
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§INVIO SMS ASSENZE", $_SESSION['nomefilelog'], $suffisso);
 // preparazione variabili
         $dataoggi = date("Y-m-d");
 
@@ -429,7 +429,7 @@ function daily_cron($suffisso, $con, $lavori)
         $ris = eseguiQuery($con, $query);
         if (mysqli_num_rows($ris) > 0)
         {
-            inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Invio SMS assenze sospeso per la giornata odierna", $nomefilelog, $suffisso);
+            inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Invio SMS assenze sospeso per la giornata odierna", $_SESSION['nomefilelog'], $suffisso);
         } else
         {
             $querytot = "SELECT count(*) as numalunni FROM tbl_alunni WHERE idclasse<>0";
@@ -439,13 +439,13 @@ function daily_cron($suffisso, $con, $lavori)
 
             $ris = eseguiQuery($con, "SELECT valore FROM tbl_parametri WHERE parametro='utentesms'");
             $rec = mysqli_fetch_array($ris);
-            $utentesms = $rec['valore'];
+            $_SESSION['utentesms'] = $rec['valore'];
             $ris = eseguiQuery($con, "SELECT valore FROM tbl_parametri WHERE parametro='passsms'");
             $rec = mysqli_fetch_array($ris);
-            $passsms = $rec['valore'];
+            $_SESSION['passsms'] = $rec['valore'];
             $ris = eseguiQuery($con, "SELECT valore FROM tbl_parametri WHERE parametro='testatasms'");
             $rec = mysqli_fetch_array($ris);
-            $testatasms = $rec['valore'];
+            $_SESSION['testatasms'] = $rec['valore'];
 
 
             $query = "select * from tbl_assenze,tbl_alunni,tbl_classi
@@ -485,7 +485,7 @@ function daily_cron($suffisso, $con, $lavori)
                 {
                     $messaggio = '${nome} risulta assente oggi ' . data_italiana($dataoggi);
 
-                    $result = skebbyGatewaySendSMSParam($utentesms, $passsms, $destinatari, $messaggio, SMS_TYPE_CLASSIC_PLUS, '', $testatasms, $suffisso);
+                    $result = skebbyGatewaySendSMSParam($_SESSION['utentesms'], $_SESSION['passsms'], $destinatari, $messaggio, SMS_TYPE_CLASSIC_PLUS, '', $_SESSION['testatasms'], $suffisso);
                     if ($result['status'] == "success")
                     {
                         $query = "insert into tbl_testisms(testo, idinvio, idutente)
@@ -509,7 +509,7 @@ function daily_cron($suffisso, $con, $lavori)
                     }
                 } else
                 {
-                    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Invio automatico SMS assenze non effettuato per eccessivo numero di assenze!", $nomefilelog, $suffisso);
+                    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Invio automatico SMS assenze non effettuato per eccessivo numero di assenze!", $_SESSION['nomefilelog'], $suffisso);
                 }
             }
         }
@@ -522,13 +522,13 @@ function daily_cron($suffisso, $con, $lavori)
                   OR
                   idalunno not in (select idalunno from tbl_alunni)";
         eseguiQuery($con, $query);
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cancellazione alunni non più presenti da gruppi", $nomefilelog, $suffisso);
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cancellazione alunni non più presenti da gruppi", $_SESSION['nomefilelog'], $suffisso);
     }
     if (substr($lavori, 4, 1) == '1')  //Invio mail presenza nuove richieste ferie
     {
 
 
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§INVIO MAIL RICHIESTE FERIE", $nomefilelog, $suffisso);
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§INVIO MAIL RICHIESTE FERIE", $_SESSION['nomefilelog'], $suffisso);
 
         $query = "SELECT * FROM tbl_richiesteferie WHERE isnull(concessione)";
         $risferie = eseguiQuery($con, $query);
@@ -555,12 +555,12 @@ function daily_cron($suffisso, $con, $lavori)
     }
     if (substr($lavori, 5, 1) == '1')  //Inserimento ammonizioni per mancata giustifica
     {
-        $maxritardogiust = $_SESSION['maxritardogiust'];
+        $_SESSION['maxritardogiust'] = $_SESSION['maxritardogiust'];
 
-        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§AMMONIZIONI PER MANCANZA GIUSTIFICA", $nomefilelog, $suffisso);
-        $datalimiteinferiore = giorno_lezione_passata(date('Y-m-d'), $maxritardogiust, $con);
-        $codicevicario = $_SESSION['codicevicario'];
-        $codicevicario = 1000000000 + $codicevicario;
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§AMMONIZIONI PER MANCANZA GIUSTIFICA", $_SESSION['nomefilelog'], $suffisso);
+        $datalimiteinferiore = giorno_lezione_passata(date('Y-m-d'), $_SESSION['maxritardogiust'], $con);
+        $_SESSION['codicevicario'] = $_SESSION['codicevicario'];
+        $_SESSION['codicevicario'] = 1000000000 + $_SESSION['codicevicario'];
 
         if (esiste__assenza(date('Y-m-d'), $con))  // Se non ci sono assenze vuol dire che non ci sono state lezioni!?
         {
@@ -575,8 +575,8 @@ function daily_cron($suffisso, $con, $lavori)
             $ris = eseguiQuery($con, $query);
             while ($rec = mysqli_fetch_array($ris))
             {
-                inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§ASSENZE ALUNNO " . $rec['idalunno'], $nomefilelog, $suffisso);
-                inserisciAmmonizioneGiustRitardi($rec['idalunno'], $codicevicario, $datalimiteinferiore, $con);
+                inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§ASSENZE ALUNNO " . $rec['idalunno'], $_SESSION['nomefilelog'], $suffisso);
+                inserisciAmmonizioneGiustRitardi($rec['idalunno'], $_SESSION['codicevicario'], $datalimiteinferiore, $con);
             }
 
             $query = "SELECT DISTINCT idalunno FROM tbl_assenze
@@ -590,8 +590,8 @@ function daily_cron($suffisso, $con, $lavori)
             $ris = eseguiQuery($con, $query);
             while ($rec = mysqli_fetch_array($ris))
             {
-                inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§RITARDI ALUNNO " . $rec['idalunno'], $nomefilelog, $suffisso);
-                inserisciAmmonizioneGiustAssenze($rec['idalunno'], $codicevicario, $datalimiteinferiore, $con);
+                inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§RITARDI ALUNNO " . $rec['idalunno'], $_SESSION['nomefilelog'], $suffisso);
+                inserisciAmmonizioneGiustAssenze($rec['idalunno'], $_SESSION['codicevicario'], $datalimiteinferiore, $con);
             }
         }
     }

@@ -44,13 +44,13 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 //    Condizione per classi da selezionare in base al livello scuola
 //
 
-if ($livello_scuola == 1)
+if ($_SESSION['livello_scuola'] == 1)
     $annocomp = "anno = '5'";
-if ($livello_scuola == 2)
+if ($_SESSION['livello_scuola'] == 2)
     $annocomp = "anno = '3'";
-if ($livello_scuola == 3)
+if ($_SESSION['livello_scuola'] == 3)
     $annocomp = "anno = '5' or anno = '8'";
-if ($livello_scuola == 4)
+if ($_SESSION['livello_scuola'] == 4)
     $annocomp = "anno = '5'";
 
 
@@ -136,7 +136,7 @@ echo('
 
 if ($idclasse != '')
 {
-    if (scrutinio_aperto($idclasse, $numeroperiodi, $con))
+    if (scrutinio_aperto($idclasse, $_SESSION['numeroperiodi'], $con))
     {
         print('
         <tr>
@@ -191,7 +191,7 @@ $annoclasse = decodifica_anno_classe($idclasse, $con);
 if ($annoclasse == 3 || $annoclasse == 8)
     $livscuola = 2;
 if ($annoclasse == 5)
-    $livscuola = $livello_scuola;
+    $livscuola = $_SESSION['livello_scuola'];
 
 if ($idalunno != '')
 {

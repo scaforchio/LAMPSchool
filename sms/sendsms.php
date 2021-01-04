@@ -73,7 +73,7 @@ while ($rec = mysqli_fetch_array($ris))
 if ($invio)
 {
     $messaggio = '${nome} risulta assente oggi ' . $dataoggi;
-    $result = skebbyGatewaySendSMSParam($utentesms, $passsms, $destinatari, $messaggio, SMS_TYPE_CLASSIC_PLUS, '', $testatasms, $_SESSION['suffisso']);
+    $result = skebbyGatewaySendSMSParam($_SESSION['utentesms'], $_SESSION['passsms'], $destinatari, $messaggio, SMS_TYPE_CLASSIC_PLUS, '', $_SESSION['testatasms'], $_SESSION['suffisso']);
     if ($result['status'] == "success")
     {
         $query = "insert into tbl_testisms(testo, idinvio, idutente)
@@ -159,7 +159,7 @@ if ($invio)
 {
     $messaggio = '${nome} risulta in ritardo oggi ' . $dataoggi;
 
-    $result = skebbyGatewaySendSMSParam($utentesms, $passsms, $destinatari, $messaggio, SMS_TYPE_CLASSIC_PLUS, '', 'ISIS LDM', $_SESSION['suffisso']);
+    $result = skebbyGatewaySendSMSParam($_SESSION['utentesms'], $_SESSION['passsms'], $destinatari, $messaggio, SMS_TYPE_CLASSIC_PLUS, '', 'ISIS LDM', $_SESSION['suffisso']);
 
     if ($result['status'] == "success")
     {
@@ -229,7 +229,7 @@ if ($invio)
 {
     $messaggio = '${nome} ha superato il numero dei ritardi. Al prossimo ritardo deve essere accompagnato da un genitore.';
 
-    $result = skebbyGatewaySendSMSParam($utentesms, $passsms, $destinatari, $messaggio, SMS_TYPE_CLASSIC_PLUS, '', 'ISIS LDM', $_SESSION['suffisso']);
+    $result = skebbyGatewaySendSMSParam($_SESSION['utentesms'], $_SESSION['passsms'], $destinatari, $messaggio, SMS_TYPE_CLASSIC_PLUS, '', 'ISIS LDM', $_SESSION['suffisso']);
 
     if ($result['status'] == "success")
     {

@@ -87,7 +87,7 @@ echo('
 //
 //   Inizio visualizzazione del combo box del periodo
 //
-if ($numeroperiodi == 2)
+if ($_SESSION['numeroperiodi'] == 2)
     print('<tr><td width="50%"><b>Quadrimestre</b></td>');
 else
     print('<tr><td width="50%"><b>Trimestre</b></td>');
@@ -99,7 +99,7 @@ echo('   <select name="periodo">');
 echo("<option>Primo</option>");
 echo("<option>Secondo</option>");
 
-if ($numeroperiodi == 3)
+if ($_SESSION['numeroperiodi'] == 3)
     echo("<option>Terzo</option>");
 
 echo("<option selected>Tutti</option>");

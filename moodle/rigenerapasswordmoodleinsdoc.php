@@ -82,9 +82,9 @@ while ($id = mysqli_fetch_array($ris))
         $numpass++;
 
 
-        $idutentemoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $username);
+        $idutentemoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $username);
 
-        cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idutentemoodle, $username, $nuovapassword);
+        cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idutentemoodle, $username, $nuovapassword);
 
         $cambiamento = true;
         print "<tr><td>" . $id['cognome'] . " " . $id['nome'] . "</td>";

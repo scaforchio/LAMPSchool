@@ -113,7 +113,7 @@ $dataoggi = date("Y-m-d");
 
 if ($datainizio == "")
 {
-    $datainizio = data_italiana($datainiziolezioni);
+    $datainizio = data_italiana($_SESSION['datainiziolezioni']);
 }
 if ($datafine == "")
 {

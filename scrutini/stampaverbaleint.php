@@ -105,7 +105,7 @@ if ($codpresidente != 1000000000)
     $presidente = estrai_dirigente($con);
     $presid = $presidente;
 }
-if ($numeroperiodi == 2)
+if ($_SESSION['numeroperiodi'] == 2)
 {
     $per = "quadrimestre";
 } else
@@ -259,7 +259,7 @@ $posY = $schede->GetY();
 $posY += 5;
 
 $annotazioni = "";
-$elencoalunni = estrai_alunni_classe_data($idclasse, $fineprimo, $con);
+$elencoalunni = estrai_alunni_classe_data($idclasse, $_SESSION['fineprimo'], $con);
 
 $query = "select * from tbl_alunni where idalunno in ($elencoalunni) order by cognome, nome, datanascita";
 $ris = eseguiQuery($con, $query);

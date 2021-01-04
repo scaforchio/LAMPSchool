@@ -42,7 +42,7 @@ $giorno = date('d');
 $mese = date('m');
 $anno = date('Y');
 $dataodierna = date('Y-m-d');
-$dataminass = aggiungi_giorni($dataodierna, $distanza_assemblee);
+$dataminass = aggiungi_giorni($dataodierna, $_SESSION['distanza_assemblee']);
 $dataminassemblea = substr($dataminass, 8, 2) . "/" . substr($dataminass, 5, 2) . "/" . substr($dataminass, 2, 2);
 // print $dataminassemblea;
 $titolo = "Richiesta assemblea di classe";
@@ -130,9 +130,9 @@ $ore = stringa_html('ora_inizio');
 print "<tr>
 		<td><b>Ore assemblea (prima-ultima):</b></td>
 		<td><select name='oreass' id='oreass' ONCHANGE='abildisabdoc2()' required>";
-for ($i = 1; $i <= ($_SESSION['numeromassimoore'] - $numeromassimooreassemblea + 1); $i++)
+for ($i = 1; $i <= ($_SESSION['numeromassimoore'] - $_SESSION['numeromassimooreassemblea'] + 1); $i++)
 {
-    for ($j = $i; $j <= $i + $numeromassimooreassemblea - 1; $j++)
+    for ($j = $i; $j <= $i + $_SESSION['numeromassimooreassemblea'] - 1; $j++)
     {
         $strore = "$i-$j";
         if ($ore == $strore)
@@ -193,7 +193,7 @@ if (!$resd)
 print "</select>";
 print "</td></tr>";
 //se le ore sono due, viene visualizzata la select del secondo docente concedente
-if ($numeromassimooreassemblea == 2)
+if ($_SESSION['numeromassimooreassemblea'] == 2)
 {
     print("<tr><td>");
 

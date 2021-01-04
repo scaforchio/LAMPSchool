@@ -127,7 +127,7 @@ if (mysqli_num_rows($ris) > 0)
     }
     print ("</table><br/>");
     // CALCOLO IL VOTO MEDIO DI COMPORTAMENTO
-    if ($visvotocomp == 'yes')
+    if ($_SESSION['visvotocomp'] == 'yes')
     {
         $query = "select avg(voto) as votomedio from tbl_valutazionicomp where idalunno=$idalunno";
         $rismedio = eseguiQuery($con, $query);

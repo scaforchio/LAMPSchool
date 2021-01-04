@@ -125,7 +125,7 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
 
         $schede->AddPage();
 
-        // $indirizzo_scuola = "Via jkjkjkjkjjl";
+        // $_SESSION['indirizzo_scuola'] = "Via jkjkjkjkjjl";
 
         $schede->Image('../immagini/repubblica.png', 96, 20, 13, 15);
 
@@ -144,11 +144,11 @@ function stampa_schede($alunni, $periodo, $idclasse, $datastampa, $firmadirigent
 
         $schede->SetFont('Arial', '', 8);
         $schede->setXY(20, 72);
-        $schede->Cell(172, 6, converti_utf8("$indirizzo_scuola"), NULL, 1, "C");
+        $schede->Cell(172, 6, converti_utf8($_SESSION['indirizzo_scuola']), NULL, 1, "C");
 
 
         $schede->SetFont('Arial', 'B', 14);
-        /*  if ($numeroperiodi==3)
+        /*  if ($_SESSION['numeroperiodi']==3)
           $per="trimestre";
           else
           $per="quadrimestre";

@@ -46,7 +46,7 @@ $query = "SELECT anno, sezione, specializzazione, idclasse from tbl_classi
             ORDER BY anno,specializzazione,sezione";
 
 $ris = eseguiQuery($con, $query);
-$corsi = getCorsiMoodle($tokenservizimoodle, $urlmoodle);
+$corsi = getCorsiMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle']);
 // print "Corsi: $corsi";
 if (mysqli_num_rows($ris) > 0)
 {

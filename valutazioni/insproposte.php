@@ -86,7 +86,7 @@ while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
     $ris2 = eseguiQuery($con, $query);
     if ($scritto != 99 | $orale != 99 | $pratico != 99 | $unico != 99 | $condotta != 99)
     {
-        if ($periodo < $numeroperiodi)
+        if ($periodo < $_SESSION['numeroperiodi'])
         {
             $query = "INSERT INTO tbl_proposte(idalunno,idmateria,periodo,scritto,orale,pratico,unico,condotta,assenze,note)
                   VALUES(" . $id["al"] . "," . $materia . ",'" . $periodo . "','" . $scritto . "','" . $orale . "','" . $pratico . "','" . $unico . "','" . $condotta . "','" . $assenze . "','" . $note . "')";

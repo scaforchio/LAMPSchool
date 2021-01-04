@@ -152,7 +152,7 @@ if (!$DB)
     print ("<td> <input type='text' name='sidi' size='20' maxlength='20' value=''> </td> </tr>");
 
 
-    if ($livello_scuola == '2')
+    if ($_SESSION['livello_scuola'] == '2')
     {
         $ricercaterze = " AND anno='3' ";
     } else

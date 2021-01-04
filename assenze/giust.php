@@ -58,7 +58,7 @@ $query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN (
 $ris = eseguiQuery($con, $query);
 print "<form name='giustass' method='post' action='giustass.php'>";
 
-if ($giustificauscite == 'no')
+if ($_SESSION['giustificauscite'] == 'no')
 {
     print ("<table width='100%' border='1'><tr class='prima'><td width='50%'>ASSENZE</td><td width='50%'>RITARDI</td></tr>");
 } else
@@ -139,7 +139,7 @@ while ($recalu = mysqli_fetch_array($ris))
 
 print ("</td>");
 
-if ($giustificauscite == 'yes')
+if ($_SESSION['giustificauscite'] == 'yes')
 {
     print ("<td valign='top'>");
     $query = "SELECT idalunno AS al,firmapropria FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
@@ -180,7 +180,7 @@ if ($giustificauscite == 'yes')
 print ("</tr>");
 print ("</table><br>");
 
-if ($giustificaasslezione=='yes')
+if ($_SESSION['giustificaasslezione']=='yes')
 {
     print "<table border='1' align='center'><tr class='prima'><td>Assenze a lezioni in DAD</td></tr>";
     print "<tr><td>";

@@ -97,17 +97,17 @@ if (mysqli_num_rows($result) <= 0)
 
             if (mysqli_affected_rows($con) == 1)
             {
-                if ($tipoutente == 'L' & $tokenservizimoodle != '')
+                if ($tipoutente == 'L' & $_SESSION['tokenservizimoodle'] != '')
                 {
-                    $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $ute);
-                    cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $ute, $npass);
+                    $idmoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $ute);
+                    cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idmoodle, $ute, $npass);
                     print "<center>Password cambiata correttamente anche per l'elearning per utente $ute ($idmoodle).</center>";
-                } else if (($tipoutente == 'D' | $tipoutente == 'S') & $tokenservizimoodle != '')
+                } else if (($tipoutente == 'D' | $tipoutente == 'S') & $_SESSION['tokenservizimoodle'] != '')
                 {
                     $ndocente = $idutente - 1000000000;
                     $ute = "doc" . $_SESSION['suffisso'] . $ndocente;
-                    $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $ute);
-                    cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $ute, $npass);
+                    $idmoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $ute);
+                    cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idmoodle, $ute, $npass);
                     print "<center>Password cambiata correttamente anche per l'elearning per utente $ute ($idmoodle).</center>";
                 } else
                     print "<center>Password cambiata correttamente.</center>";

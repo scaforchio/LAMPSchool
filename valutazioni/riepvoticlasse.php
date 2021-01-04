@@ -86,7 +86,7 @@ print ('
 //
 //   Inizio visualizzazione del combo box del periodo
 //
-if ($numeroperiodi == 2)
+if ($_SESSION['numeroperiodi'] == 2)
     print('<tr><td width="50%"><b>Quadrimestre</b></td>');
 else
     print('<tr><td width="50%"><b>Trimestre</b></td>');
@@ -103,7 +103,7 @@ if ($periodo == 'Secondo')
 else
     echo("<option>Secondo</option>");
 
-if ($numeroperiodi == 3)
+if ($_SESSION['numeroperiodi'] == 3)
     if ($periodo == 'Terzo')
         echo("<option selected>Terzo</option>");
     else
@@ -183,13 +183,13 @@ order by tbl_materie.sigla";
 
 
     if ($periodo == "Primo")
-        $per = 'data <= "' . $fineprimo . '"';
-    if ($periodo == "Secondo" & $numeroperiodi == 2)
-        $per = 'data >  "' . $fineprimo . '"';
-    if ($periodo == "Secondo" & $numeroperiodi == 3)
-        $per = 'data >  "' . $fineprimo . '" and data <=  "' . $finesecondo . '"';
+        $per = 'data <= "' . $_SESSION['fineprimo'] . '"';
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 2)
+        $per = 'data >  "' . $_SESSION['fineprimo'] . '"';
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 3)
+        $per = 'data >  "' . $_SESSION['fineprimo'] . '" and data <=  "' . $_SESSION['finesecondo'] . '"';
     if ($periodo == "Terzo")
-        $per = 'data >  "' . $finesecondo . '"';
+        $per = 'data >  "' . $_SESSION['finesecondo'] . '"';
     if ($periodo == "Tutti")
         $per = ' true';
 

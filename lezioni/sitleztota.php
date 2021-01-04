@@ -82,20 +82,20 @@ if ($codlez != "")
     $datalezione = $lez['datalezione'];
     // $anno=substr(,0,4);
     // $mese=substr($lez['datalezione'],5,2);
-    if ($numeroperiodi == 2)
+    if ($_SESSION['numeroperiodi'] == 2)
     {
-        if ($datalezione <= $fineprimo)
+        if ($datalezione <= $_SESSION['fineprimo'])
             $per = "Primo";
         else
             $per = "Secondo";
     }
-    if ($numeroperiodi == 3)
+    if ($_SESSION['numeroperiodi'] == 3)
     {
-        if ($datalezione <= $fineprimo)
+        if ($datalezione <= $_SESSION['fineprimo'])
             $per = "Primo";
         else
         {
-            if ($datalezione <= $finesecondo)
+            if ($datalezione <= $_SESSION['finesecondo'])
                 $per = "Secondo";
             else
                 $per = "Terzo";
@@ -128,9 +128,9 @@ else
     {
         $dataoggi = date('Y') . "-" . date('m') . "-" . date('d');
 
-        if ($dataoggi > $fineprimo)
+        if ($dataoggi > $_SESSION['fineprimo'])
             $per = "Secondo";
-        if ($numeroperiodi > 2 & $dataoggi > $finesecondo)
+        if ($_SESSION['numeroperiodi'] > 2 & $dataoggi > $_SESSION['finesecondo'])
             $per = "Terzo";
     }
 
@@ -251,7 +251,7 @@ print("</select></td></tr>");
 //
 //   Inizio visualizzazione del combo box del periodo
 //
-if ($numeroperiodi == 2)
+if ($_SESSION['numeroperiodi'] == 2)
     print('<tr><td width="50%"><b>Quadrimestre</b></td>');
 else
     print('<tr><td width="50%"><b>Trimestre</b></td>');
@@ -268,7 +268,7 @@ if ($per == 'Secondo')
 else
     echo("<option>Secondo</option>");
 
-if ($numeroperiodi == 3)
+if ($_SESSION['numeroperiodi'] == 3)
     if ($per == 'Terzo')
         echo("<option selected>Terzo</option>");
     else
@@ -325,19 +325,19 @@ if ($per != "" & $catt != "")
     $perioquery = "and true";
     if ($per == "Primo")
     {
-        $perioquery = " and datalezione <= '" . $fineprimo . "'";
+        $perioquery = " and datalezione <= '" . $_SESSION['fineprimo'] . "'";
     }
-    if ($per == "Secondo" & $numeroperiodi == 2)
+    if ($per == "Secondo" & $_SESSION['numeroperiodi'] == 2)
     {
-        $perioquery = " and datalezione > '" . $fineprimo . "'";
+        $perioquery = " and datalezione > '" . $_SESSION['fineprimo'] . "'";
     }
-    if ($per == "Secondo" & $numeroperiodi == 3)
+    if ($per == "Secondo" & $_SESSION['numeroperiodi'] == 3)
     {
-        $perioquery = " and datalezione > '" . $fineprimo . "' and datalezione <=  '" . $finesecondo . "'";
+        $perioquery = " and datalezione > '" . $_SESSION['fineprimo'] . "' and datalezione <=  '" . $_SESSION['finesecondo'] . "'";
     }
     if ($per == "Terzo")
     {
-        $perioquery = " and datalezione > '" . $finesecondo . "'";
+        $perioquery = " and datalezione > '" . $_SESSION['finesecondo'] . "'";
     }
 
     $query = "select sum(numeroore) as numtotore from tbl_lezioni where idclasse='" . $idclasse . "' and idmateria='" . $idmateria . "' " . $perioquery;
@@ -373,19 +373,19 @@ if ($per != "" & $catt != "")
     /*  $perioquery="and true";
       if ($per=="Primo")
       {
-      $perioquery=" and datalezione <= '".$fineprimo."'" ;
+      $perioquery=" and datalezione <= '".$_SESSION['fineprimo']."'" ;
       }
-      if ($per=="Secondo" & $numeroperiodi==2)
+      if ($per=="Secondo" & $_SESSION['numeroperiodi']==2)
       {
-      $perioquery=" and datalezione > '".$fineprimo."'" ;
+      $perioquery=" and datalezione > '".$_SESSION['fineprimo']."'" ;
       }
-      if ($per=="Secondo" & $numeroperiodi==3)
+      if ($per=="Secondo" & $_SESSION['numeroperiodi']==3)
       {
-      $perioquery=" and datalezione > '".$fineprimo."' and datalezione <=  '".$finesecondo."'";
+      $perioquery=" and datalezione > '".$_SESSION['fineprimo']."' and datalezione <=  '".$_SESSION['finesecondo']."'";
       }
       if ($per=="Terzo")
       {
-      $perioquery=" and datalezione > '".$finesecondo."'" ;
+      $perioquery=" and datalezione > '".$_SESSION['finesecondo']."'" ;
       }
      */
 
@@ -417,19 +417,19 @@ if ($per != "" & $catt != "")
     $perioquery = "and true";
     if ($per == "Primo")
     {
-        $perioquery = " and data <= '" . $fineprimo . "'";
+        $perioquery = " and data <= '" . $_SESSION['fineprimo'] . "'";
     }
-    if ($per == "Secondo" & $numeroperiodi == 2)
+    if ($per == "Secondo" & $_SESSION['numeroperiodi'] == 2)
     {
-        $perioquery = " and data > '" . $fineprimo . "'";
+        $perioquery = " and data > '" . $_SESSION['fineprimo'] . "'";
     }
-    if ($per == "Secondo" & $numeroperiodi == 3)
+    if ($per == "Secondo" & $_SESSION['numeroperiodi'] == 3)
     {
-        $perioquery = " and data > '" . $fineprimo . "' and data <=  '" . $finesecondo . "'";
+        $perioquery = " and data > '" . $_SESSION['fineprimo'] . "' and data <=  '" . $_SESSION['finesecondo'] . "'";
     }
     if ($per == "Terzo")
     {
-        $perioquery = " and data > '" . $finesecondo . "'";
+        $perioquery = " and data > '" . $_SESSION['finesecondo'] . "'";
     }
 
 

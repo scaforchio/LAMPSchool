@@ -82,7 +82,7 @@ stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 /* if ($datalog=='')
-  $filename="../lampschooldata/".$suff."0000$nomefilelog".date("Ymd").".log";
+  $filename="../lampschooldata/".$suff."0000$_SESSION['nomefilelog']".date("Ymd").".log";
   else */
 
 
@@ -99,7 +99,7 @@ for ($d = $datalog; $d <= $datafinelog; $d = aggiungi_giorni($d, 1))
     print "DATA $data<br>";
 
 
-    $filename = "../lampschooldata/" . $suff . "0000$nomefilelog" . $sufftipo . $data . ".log";
+    $filename = "../lampschooldata/" . $suff . "0000".$_SESSION['nomefilelog'] . $sufftipo . $data . ".log";
 
     try
     {

@@ -19,21 +19,6 @@ $db_user = "{DBUSER}";
 $db_password = "{DBPWD}";
 $prefisso_tabelle = "{DBPREFIX}";
 
-// Caricamento parametri
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Impossibile connettersi!");
-$sql = "SET GLOBAL sql_mode = 'NO_ENGINE_SUBSTITUTION'";
-mysqli_query($con, $sql);
 
-$sql = "SET SESSION sql_mode = 'NO_ENGINE_SUBSTITUTION'";
-mysqli_query($con, $sql);
-// RIEMPIMENTO VARIABILI DEI PARAMETRI
-$sql = "SELECT parametro,valore FROM " . $prefisso_tabelle . "tbl_parametri where parametro<>'versione'";
-$result = mysqli_query($con, $sql);
-while ($rec = mysqli_fetch_array($result))
-{
-    $variabile = $rec['parametro'];
-    $valore=$rec['valore'];
-    $$variabile=$valore;
-}
-// FINE RIEMPIMENTO VARIABILI DEI PARAMETRI
-mysqli_close($con);
+include_once './lib/inc_inizializzazione.php';
+include_once '../lib/inc_inizializzazione.php';

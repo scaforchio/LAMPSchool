@@ -106,9 +106,9 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
     //  $datascrutinio = data_italiana(estrai_datascrutinio($classe, $periodo, $con));
     $nomeclasse = decodifica_classe($classe, $con);
     $annoclasse = substr($nomeclasse, 0, 1);
-    if ($livello_scuola != "3")
+    if ($_SESSION['livello_scuola'] != "3")
     {
-        $livello = $livello_scuola;
+        $livello = $_SESSION['livello_scuola'];
     } else
     {
         if ($annoclasse > 5)
@@ -151,10 +151,10 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
         $schede->MultiCell(30, 6, "Istituzione\r\nscolastica", 1, 'C');
         $schede->SetFont('Arial', '', 10);
         $schede->setXY(50, 60);
-        $schede->MultiCell(142, 6, converti_utf8($tipologiascuola) . "\r\n" . converti_utf8($_SESSION['comune_scuola'] . " (" . $provincia . ")"), 1, 'C');
+        $schede->MultiCell(142, 6, converti_utf8($_SESSION['tipologiascuola']) . "\r\n" . converti_utf8($_SESSION['comune_scuola'] . " (" . $_SESSION['provincia'] . ")"), 1, 'C');
 
         //TODO: Cambiare il nome parametro da provincia a provinciascuola
-        if ($istitutostatale == "yes")
+        if ($_SESSION['istitutostatale'] == "yes")
         {
             $statale = "statale";
         } else
@@ -185,13 +185,13 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
         }
         //   else
         //       $datiscuola.="";
-        $datiscuola .= $nomescuola;
-        $datiscuola .= "\r\n" . $codicemeccanografico;
-        $datiscuola .= "\r\n" . $indirizzoscuola;
-        if (isset($capscuola))
-            $datiscuola .= "\r\n" . $capscuola . " " . $_SESSION['comune_scuola'] . " ($provincia)";
+        $datiscuola .= $_SESSION['nomescuola'];
+        $datiscuola .= "\r\n" . $_SESSION['codicemeccanografico'];
+        $datiscuola .= "\r\n" . $_SESSION['indirizzoscuola'];
+        if (isset($_SESSION['capscuola']))
+            $datiscuola .= "\r\n" . $_SESSION['capscuola'] . " " . $_SESSION['comune_scuola'] . " (".$_SESSION['provincia'].")";
         else
-            $datiscuola .= "\r\n" . $_SESSION['comune_scuola'] . " ($provincia)";
+            $datiscuola .= "\r\n" . $_SESSION['comune_scuola'] . " (".$_SESSION['provincia'].")";
         $schede->MultiCell(142, 5, converti_utf8($datiscuola), 1, 'C');
 
         // TESTATA
@@ -469,7 +469,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 
             $schede->setXY(127, 196);
             $schede->SetFont('Arial', '', 10);
-            $schede->Cell(40, 5, converti_utf8($dsga), "B", 0, "C");
+            $schede->Cell(40, 5, converti_utf8($_SESSION['dsga']), "B", 0, "C");
 
             $schede->setXY(192, 196);
             $schede->SetFont('Arial', '', 10);
@@ -517,7 +517,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
         {
             $query = "SELECT votounico,assenze,note,tbl_materie.idmateria,tbl_materie.progrpag,denominazione FROM tbl_valutazionifinali,tbl_materie
                   WHERE tbl_valutazionifinali.idmateria=tbl_materie.idmateria
-                  AND periodo='$numeroperiodi'
+                  AND periodo='".$_SESSION['numeroperiodi']."'
                   AND tbl_materie.progrpag<99 AND tbl_materie.idmateria>0
                   AND idalunno=$alu
                   ORDER BY tbl_materie.progrpag,denominazione";
@@ -564,7 +564,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
                 {
                     $schede->AddPage();
                     $numpag++;
-                    stampa_elementi_fissi($schede, $numpag, $cognome, $nome, $codfiscale, $codicemeccanografico, $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente, true);
+                    stampa_elementi_fissi($schede, $numpag, $cognome, $nome, $codfiscale, $_SESSION['codicemeccanografico'], $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente, true);
                     $posY = 25;
 
                     $schede->SetXY(20, $posY);
@@ -657,7 +657,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
               {
               $schede->AddPage();
               $numpag++;
-              stampa_elementi_fissi($schede, $numpag, $cognome, $nome, $codfiscale, $codicemeccanografico, $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente, true);
+              stampa_elementi_fissi($schede, $numpag, $cognome, $nome, $codfiscale, $_SESSION['codicemeccanografico'], $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente, true);
               $posY = 25;
               }
              */
@@ -679,7 +679,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 
             $query = "SELECT votounico,note FROM tbl_valutazionifinali
               WHERE idalunno=$alu
-              AND periodo='$numeroperiodi'
+              AND periodo='".$_SESSION['numeroperiodi']."'
               AND idmateria=-1";
             $risvoti = eseguiQuery($con, $query);
 
@@ -779,7 +779,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
         {
             $schede->AddPage();
 
-            stampa_elementi_fissi($schede, 2, $cognome, $nome, $codfiscale, $codicemeccanografico, $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente, true);
+            stampa_elementi_fissi($schede, 2, $cognome, $nome, $codfiscale, $_SESSION['codicemeccanografico'], $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente, true);
             $posY = 25;
             $posX = 20;
             $schede->SetXY(20, $posY);
@@ -985,7 +985,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             // *****************   SECONDO QUADRIMESTRE TERZA PAGINA **********************
             $schede->AddPage();
 
-            stampa_elementi_fissi($schede, 3, $cognome, $nome, $codfiscale, $codicemeccanografico, $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente, true);
+            stampa_elementi_fissi($schede, 3, $cognome, $nome, $codfiscale, $_SESSION['codicemeccanografico'], $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente, true);
 
             $posY = 25;
             $posX = 20;
@@ -1030,7 +1030,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $query = "SELECT votounico,assenze,note,denominazione FROM tbl_valutazionifinali,tbl_materie
                           WHERE tbl_valutazionifinali.idmateria=tbl_materie.idmateria
                           AND idalunno=$alu
-                          AND periodo='$numeroperiodi'
+                          AND periodo='".$_SESSION['numeroperiodi']."'
                           AND tbl_materie.progrpag<99 AND tbl_materie.idmateria>0
                           ORDER BY tbl_materie.progrpag, denominazione";
             $risvoti = eseguiQuery($con, $query);
@@ -1088,7 +1088,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 
             $query = "SELECT votounico FROM tbl_valutazionifinali
               WHERE idalunno=$alu
-              AND periodo='$numeroperiodi'
+              AND periodo='".$_SESSION['numeroperiodi']."'
               AND idmateria=-1";
             $risvoti = eseguiQuery($con, $query);
 
@@ -1122,7 +1122,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $schede->Cell(172, $alt, "ANNOTAZIONI (4)", "TBLR", 0, "C");
             $posY += $alt;
             $schede->SetFont("Arial", '', 9);
-            $query = "select giudizio from tbl_giudizi where periodo='$numeroperiodi' and idalunno=$alu";
+            $query = "select giudizio from tbl_giudizi where periodo='".$_SESSION['numeroperiodi']."' and idalunno=$alu";
             $ris = eseguiQuery($con, $query);
             if ($rec = mysqli_fetch_array($ris))
             {
@@ -1228,7 +1228,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 // ******* INIZIO QUARTA PAGINA  *********
         $schede->AddPage();
 
-        stampa_elementi_fissi($schede, 4, $cognome, $nome, $codfiscale, $codicemeccanografico, $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente);
+        stampa_elementi_fissi($schede, 4, $cognome, $nome, $codfiscale, $_SESSION['codicemeccanografico'], $_SESSION['annoscol'], $datastampa, $livello, $firmadirigente);
 
 
         if ($livello == 1)
@@ -1243,7 +1243,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $schede->Cell(172, 5, "E SOCIALE DELL'ALUNNO", "", 0, "C");
             $posY += 10;
             $giu1 = estrai_giudizio($alu, 1, $con);
-            $giu2 = estrai_giudizio($alu, $numeroperiodi, $con);
+            $giu2 = estrai_giudizio($alu, $_SESSION['numeroperiodi'], $con);
             $schede->SetXY($posX, $posY);
             $schede->Cell(172, 5, "VALUTAZIONE INTERMEDIA", "TBLR", 0, "C");
             $posY += 5;
@@ -1287,8 +1287,8 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 
 
             //TODO: Verificare modalità registrazione e dare possibilità di cambiare la data dello scrutinio
-            $datascrutinio = estrai_data_stampa($classe, $numeroperiodi, $con);
-            // print "tttt $datascrutinio $numeroperiodi $classe";
+            $datascrutinio = estrai_data_stampa($classe, $_SESSION['numeroperiodi'], $con);
+            // print "tttt $datascrutinio $_SESSION['numeroperiodi'] $classe";
             // $datascrutinio = $datastampa;
             $luogodata = converti_utf8($_SESSION['comune_scuola'].", " . data_italiana($datascrutinio));
 
@@ -1442,7 +1442,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
 
 
 
-                    $datascrutinio = estrai_datascrutinio($classe, $numeroperiodi, $con);
+                    $datascrutinio = estrai_datascrutinio($classe, $_SESSION['numeroperiodi'], $con);
                     $luogodata = converti_utf8($_SESSION['comune_scuola'].", " . data_italiana($datascrutinio));
 
                     $schede->setXY(20, $posY);
@@ -1567,7 +1567,7 @@ function stampa_elementi_fissi(&$schede, $numpagina, $cognome, $nome, $codfiscal
         $posX += 2;
         $schede->setXY($posX, $posY);
         $schede->SetFont('Arial', '', 7);
-        $schede->Cell(17, 4, $codicemeccanografico, "BT", 0, "L");
+        $schede->Cell(17, 4, $_SESSION['codicemeccanografico'], "BT", 0, "L");
         $posX += 17;
         $schede->setXY($posX, $posY);
         $schede->SetFont('Arial', '', 7);

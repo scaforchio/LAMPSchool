@@ -86,7 +86,7 @@ while ($recdoc = mysqli_fetch_array($risdoc))
     // $elencodocenti .= $recdoc['nome'] . " " . $recdoc['cognome'] . ", ";
     // RICERCA MATERIE
     $iddocentecomm = $recdoc['iddocente'];
-    if ($livello_scuola == 3)
+    if ($_SESSION['livello_scuola'] == 3)
         $ultimoanno = 8;
     else
         $ultimoanno = 3;

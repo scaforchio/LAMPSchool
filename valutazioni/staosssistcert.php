@@ -72,26 +72,26 @@ if ($periodo == "Primo")
                 where tbl_osssist.idalunno=tbl_alunni.idalunno  
                 and tbl_osssist.iddocente=$iddocente
                 and tbl_osssist.idmateria = $idmateria 
-                and tbl_osssist.idalunno = $idalunno and data <= '" . $fineprimo . "'
+                and tbl_osssist.idalunno = $idalunno and data <= '" . $_SESSION['fineprimo'] . "'
                 order by data";
 
-if ($periodo == "Secondo" & $numeroperiodi == 2)
+if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 2)
     $query = "select data, tbl_alunni.idalunno, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno, tbl_alunni.datanascita as dataalunno, testo 
                 from tbl_osssist, tbl_alunni
                 where tbl_osssist.idalunno=tbl_alunni.idalunno  
                 and tbl_osssist.iddocente=$iddocente
                 and tbl_osssist.idmateria = $idmateria 
-                and tbl_osssist.idalunno = $idalunno and data > '" . $fineprimo . "'
+                and tbl_osssist.idalunno = $idalunno and data > '" . $_SESSION['fineprimo'] . "'
                 order by data";
 
-if ($periodo == "Secondo" & $numeroperiodi == 3)
+if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 3)
     $query = "select data, tbl_alunni.idalunno, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno, tbl_alunni.datanascita as dataalunno, testo
                 from tbl_osssist, tbl_alunni
                 where tbl_osssist.idalunno=tbl_alunni.idalunno  
                 and tbl_osssist.iddocente=$iddocente
                 and tbl_osssist.idmateria = $idmateria 
                 and tbl_osssist.idalunno = $idalunno 
-                and  data >  '" . $fineprimo . "' and data <=  '" . $finesecondo . "'
+                and  data >  '" . $_SESSION['fineprimo'] . "' and data <=  '" . $_SESSION['finesecondo'] . "'
                 order by data";
 if ($periodo == "Terzo")
     $query = "select data, tbl_alunni.idalunno, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno, tbl_alunni.datanascita as dataalunno, testo 
@@ -99,7 +99,7 @@ if ($periodo == "Terzo")
                 where tbl_osssist.idalunno=tbl_alunni.idalunno  
                 and tbl_osssist.iddocente=$iddocente
                 and tbl_osssist.idmateria = $idmateria 
-                and tbl_osssist.idalunno = $idalunno and data > '" . $finesecondo . "'
+                and tbl_osssist.idalunno = $idalunno and data > '" . $_SESSION['finesecondo'] . "'
                 order by data";
 if ($periodo == "Tutti")
     $query = "select data, tbl_alunni.idalunno, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno, tbl_alunni.datanascita as dataalunno, testo 

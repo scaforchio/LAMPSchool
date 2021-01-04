@@ -99,7 +99,7 @@ if (mysqli_num_rows($ris) > 0)
 
         // CONTO I RITARDI PER QUADRIMESTRE
         $query = "SELECT count(*) AS numritardi FROM tbl_ritardi
-                      WHERE data<='$fineprimo'
+                      WHERE data<='".$_SESSION['fineprimo']."'
                       AND idalunno=" . $rec['idalunno'];
 
         $risnumrit = eseguiQuery($con, $query);
@@ -107,7 +107,7 @@ if (mysqli_num_rows($ris) > 0)
         $numritardiprimo = $recnumrit['numritardi'];
 
         $query = "SELECT count(*) AS numritardi FROM tbl_ritardi
-                      WHERE data>'$fineprimo'
+                      WHERE data>'".$_SESSION['fineprimo']."'
                       AND idalunno=" . $rec['idalunno'];
 
         $risnumrit = eseguiQuery($con, $query);
@@ -121,7 +121,7 @@ if (mysqli_num_rows($ris) > 0)
         $recprec = mysqli_fetch_array($risprec);
         $numeroritardiprecsenzagiust = $recprec['ritardiprec'];
 
-        if (date('Y-m-d') > $fineprimo)
+        if (date('Y-m-d') > $_SESSION['fineprimo'])
             $numritardisec--;
         else
             $numritardiprimo--;
@@ -134,7 +134,7 @@ if (mysqli_num_rows($ris) > 0)
                    <td align='center'><input type='checkbox' name='aut" . $rec['idalunno'] . "'><input type='hidden' name='idritardo" . $rec['idalunno'] . "' value='" . $rec['idritardo'] . "'></td>
                    <td align='center'><input type='checkbox' name='giu" . $rec['idalunno'] . "'></td>
                    <td align='center'>1°Q=<b>$numritardiprimo</b>";
-        if (date('Y-m-d') > $fineprimo)
+        if (date('Y-m-d') > $_SESSION['fineprimo'])
         {
             print " - 2°Q=<b>$numritardisec</b>";
         }

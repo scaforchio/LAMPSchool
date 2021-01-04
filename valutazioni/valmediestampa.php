@@ -124,13 +124,13 @@ while ($nom = mysqli_fetch_array($ris))
 
 
 if ($periodo == "Primo")
-    $querylez = 'select sum(numeroore) as orelez from tbl_lezioni where idmateria="' . $idmateria . '" and idclasse="' . $idclasse . '" and datalezione <= "' . $fineprimo . '"';
-if ($periodo == "Secondo" & $numeroperiodi == 2)
-    $querylez = 'select sum(numeroore) as orelez from tbl_lezioni where idmateria="' . $idmateria . '" and idclasse="' . $idclasse . '" and datalezione >  "' . $fineprimo . '"';
-if ($periodo == "Secondo" & $numeroperiodi == 3)
-    $querylez = 'select sum(numeroore) as orelez from tbl_lezioni where idmateria="' . $idmateria . '" and idclasse="' . $idclasse . '" and datalezione >  "' . $fineprimo . '" and datalezione <=  "' . $finesecondo . '"';
+    $querylez = 'select sum(numeroore) as orelez from tbl_lezioni where idmateria="' . $idmateria . '" and idclasse="' . $idclasse . '" and datalezione <= "' . $_SESSION['fineprimo'] . '"';
+if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 2)
+    $querylez = 'select sum(numeroore) as orelez from tbl_lezioni where idmateria="' . $idmateria . '" and idclasse="' . $idclasse . '" and datalezione >  "' . $_SESSION['fineprimo'] . '"';
+if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 3)
+    $querylez = 'select sum(numeroore) as orelez from tbl_lezioni where idmateria="' . $idmateria . '" and idclasse="' . $idclasse . '" and datalezione >  "' . $_SESSION['fineprimo'] . '" and datalezione <=  "' . $_SESSION['finesecondo'] . '"';
 if ($periodo == "Terzo")
-    $querylez = 'select sum(numeroore) as orelez from tbl_lezioni where idmateria="' . $idmateria . '" and idclasse="' . $idclasse . '" and datalezione >  "' . $finesecondo . '"';
+    $querylez = 'select sum(numeroore) as orelez from tbl_lezioni where idmateria="' . $idmateria . '" and idclasse="' . $idclasse . '" and datalezione >  "' . $_SESSION['finesecondo'] . '"';
 if ($periodo == "Tutti")
     $querylez = 'select sum(numeroore) as orelez from tbl_lezioni where idmateria="' . $idmateria . '" and idclasse="' . $idclasse . '" ';
 
@@ -178,13 +178,13 @@ while ($val = mysqli_fetch_array($ris))
     $riempito = false;
 
     if ($periodo == "Primo")
-        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data <= "' . $fineprimo . '" and idmateria="' . $idmateria . '" and tipo="O" order by data';
-    if ($periodo == "Secondo" & $numeroperiodi == 2)
-        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $fineprimo . '" and idmateria="' . $idmateria . '" and tipo="O" order by data';
-    if ($periodo == "Secondo" & $numeroperiodi == 3)
-        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $fineprimo . '" and data <=  "' . $finesecondo . '"and idmateria="' . $idmateria . '" and tipo="O" order by data';
+        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data <= "' . $_SESSION['fineprimo'] . '" and idmateria="' . $idmateria . '" and tipo="O" order by data';
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 2)
+        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $_SESSION['fineprimo'] . '" and idmateria="' . $idmateria . '" and tipo="O" order by data';
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 3)
+        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $_SESSION['fineprimo'] . '" and data <=  "' . $_SESSION['finesecondo'] . '"and idmateria="' . $idmateria . '" and tipo="O" order by data';
     if ($periodo == "Terzo")
-        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $finesecondo . '" and idmateria="' . $idmateria . '" and tipo="O" order by data';
+        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $_SESSION['finesecondo'] . '" and idmateria="' . $idmateria . '" and tipo="O" order by data';
     if ($periodo == "Tutti")
         $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and idmateria="' . $idmateria . '" and tipo="O" order by data';
 
@@ -227,13 +227,13 @@ while ($val = mysqli_fetch_array($ris))
 
 
     if ($periodo == "Primo")
-        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data <= "' . $fineprimo . '" and idmateria="' . $idmateria . '" and tipo="S" order by data';
-    if ($periodo == "Secondo" & $numeroperiodi == 2)
-        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $fineprimo . '" and idmateria="' . $idmateria . '" and tipo="S" order by data';
-    if ($periodo == "Secondo" & $numeroperiodi == 3)
-        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $fineprimo . '" and data <=  "' . $finesecondo . '"and idmateria="' . $idmateria . '" and tipo="S" order by data';
+        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data <= "' . $_SESSION['fineprimo'] . '" and idmateria="' . $idmateria . '" and tipo="S" order by data';
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 2)
+        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $_SESSION['fineprimo'] . '" and idmateria="' . $idmateria . '" and tipo="S" order by data';
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 3)
+        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $_SESSION['fineprimo'] . '" and data <=  "' . $_SESSION['finesecondo'] . '"and idmateria="' . $idmateria . '" and tipo="S" order by data';
     if ($periodo == "Terzo")
-        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $finesecondo . '" and idmateria="' . $idmateria . '" and tipo="S" order by data';
+        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $_SESSION['finesecondo'] . '" and idmateria="' . $idmateria . '" and tipo="S" order by data';
     if ($periodo == "Tutti")
         $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and idmateria="' . $idmateria . '" and tipo="S" order by data';
 
@@ -276,13 +276,13 @@ while ($val = mysqli_fetch_array($ris))
 
 
     if ($periodo == "Primo")
-        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data <= "' . $fineprimo . '" and idmateria="' . $idmateria . '" and tipo="P" order by data';
-    if ($periodo == "Secondo" & $numeroperiodi == 2)
-        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $fineprimo . '" and idmateria="' . $idmateria . '" and tipo="P" order by data';
-    if ($periodo == "Secondo" & $numeroperiodi == 3)
-        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $fineprimo . '" and data <=  "' . $finesecondo . '"and idmateria="' . $idmateria . '" and tipo="P" order by data';
+        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data <= "' . $_SESSION['fineprimo'] . '" and idmateria="' . $idmateria . '" and tipo="P" order by data';
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 2)
+        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $_SESSION['fineprimo'] . '" and idmateria="' . $idmateria . '" and tipo="P" order by data';
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 3)
+        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $_SESSION['fineprimo'] . '" and data <=  "' . $_SESSION['finesecondo'] . '"and idmateria="' . $idmateria . '" and tipo="P" order by data';
     if ($periodo == "Terzo")
-        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $finesecondo . '" and idmateria="' . $idmateria . '" and tipo="P" order by data';
+        $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and data >  "' . $_SESSION['finesecondo'] . '" and idmateria="' . $idmateria . '" and tipo="P" order by data';
     if ($periodo == "Tutti")
         $queryval = 'select * from tbl_valutazioniintermedie where idalunno = ' . $val["idalunno"] . ' and idmateria="' . $idmateria . '" and tipo="P" order by data';
 
@@ -347,13 +347,13 @@ while ($val = mysqli_fetch_array($ris))
 //
 
     if ($periodo == "Primo")
-        $queryass = 'select sum(oreassenza) as oreass from tbl_asslezione where idalunno = ' . $val["idalunno"] . ' and idmateria="' . $idmateria . '" and data <= "' . $fineprimo . '"';
-    if ($periodo == "Secondo" & $numeroperiodi == 2)
-        $queryass = 'select sum(oreassenza) as oreass from tbl_asslezione where idalunno = ' . $val["idalunno"] . ' and idmateria="' . $idmateria . '" and data >  "' . $fineprimo . '"';
-    if ($periodo == "Secondo" & $numeroperiodi == 3)
-        $queryass = 'select sum(oreassenza) as oreass from tbl_asslezione where idalunno = ' . $val["idalunno"] . ' and idmateria="' . $idmateria . '" and data >  "' . $fineprimo . '" and data <=  "' . $finesecondo . '"';
+        $queryass = 'select sum(oreassenza) as oreass from tbl_asslezione where idalunno = ' . $val["idalunno"] . ' and idmateria="' . $idmateria . '" and data <= "' . $_SESSION['fineprimo'] . '"';
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 2)
+        $queryass = 'select sum(oreassenza) as oreass from tbl_asslezione where idalunno = ' . $val["idalunno"] . ' and idmateria="' . $idmateria . '" and data >  "' . $_SESSION['fineprimo'] . '"';
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 3)
+        $queryass = 'select sum(oreassenza) as oreass from tbl_asslezione where idalunno = ' . $val["idalunno"] . ' and idmateria="' . $idmateria . '" and data >  "' . $_SESSION['fineprimo'] . '" and data <=  "' . $_SESSION['finesecondo'] . '"';
     if ($periodo == "Terzo")
-        $queryass = 'select sum(oreassenza) as oreass from tbl_asslezione where idalunno = ' . $val["idalunno"] . ' and idmateria="' . $idmateria . '" and data >  "' . $finesecondo . '"';
+        $queryass = 'select sum(oreassenza) as oreass from tbl_asslezione where idalunno = ' . $val["idalunno"] . ' and idmateria="' . $idmateria . '" and data >  "' . $_SESSION['finesecondo'] . '"';
     if ($periodo == "Tutti")
         $queryass = 'select sum(oreassenza) as oreass from tbl_asslezione where idalunno = ' . $val["idalunno"] . ' and idmateria="' . $idmateria . '"';
 

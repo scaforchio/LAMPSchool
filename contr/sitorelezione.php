@@ -100,7 +100,7 @@ $datafine = stringa_html("datafine");
 $dataoggi = date("d/m/Y");
 if ($datainizio == "")
 {
-    $datainizio = data_italiana($datainiziolezioni);
+    $datainizio = data_italiana($_SESSION['datainiziolezioni']);
 }
 if ($datafine == "")
 {

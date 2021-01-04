@@ -151,19 +151,19 @@ $giornilezione = array();
 $perioquery = "and true";
 if ($per == "Primo")
 {
-    $perioquery = " and datalezione <= '" . $fineprimo . "'";
+    $perioquery = " and datalezione <= '" . $_SESSION['fineprimo'] . "'";
 }
-if ($per == "Secondo" & $numeroperiodi == 2)
+if ($per == "Secondo" & $_SESSION['numeroperiodi'] == 2)
 {
-    $perioquery = " and datalezione > '" . $fineprimo . "'";
+    $perioquery = " and datalezione > '" . $_SESSION['fineprimo'] . "'";
 }
-if ($per == "Secondo" & $numeroperiodi == 3)
+if ($per == "Secondo" & $_SESSION['numeroperiodi'] == 3)
 {
-    $perioquery = " and datalezione > '" . $fineprimo . "' and datalezione <=  '" . $finesecondo . "'";
+    $perioquery = " and datalezione > '" . $_SESSION['fineprimo'] . "' and datalezione <=  '" . $_SESSION['finesecondo'] . "'";
 }
 if ($per == "Terzo")
 {
-    $perioquery = " and datalezione > '" . $finesecondo . "'";
+    $perioquery = " and datalezione > '" . $_SESSION['finesecondo'] . "'";
 }
 
 
@@ -196,19 +196,19 @@ $numerotbl_lezioni = count($giornilezione);
 $perioquery = "and true";
 if ($per == "Primo")
 {
-    $perioquery = " and data <= '" . $fineprimo . "'";
+    $perioquery = " and data <= '" . $_SESSION['fineprimo'] . "'";
 }
-if ($per == "Secondo" & $numeroperiodi == 2)
+if ($per == "Secondo" & $_SESSION['numeroperiodi'] == 2)
 {
-    $perioquery = " and data > '" . $fineprimo . "'";
+    $perioquery = " and data > '" . $_SESSION['fineprimo'] . "'";
 }
-if ($per == "Secondo" & $numeroperiodi == 3)
+if ($per == "Secondo" & $_SESSION['numeroperiodi'] == 3)
 {
-    $perioquery = " and data > '" . $fineprimo . "' and data <=  '" . $finesecondo . "'";
+    $perioquery = " and data > '" . $_SESSION['fineprimo'] . "' and data <=  '" . $_SESSION['finesecondo'] . "'";
 }
 if ($per == "Terzo")
 {
-    $perioquery = " and data > '" . $finesecondo . "'";
+    $perioquery = " and data > '" . $_SESSION['finesecondo'] . "'";
 }
 
 
@@ -268,7 +268,7 @@ if ($num > 0)
 for ($np = 1; $np <= $numeropagine; $np++)
 {
     print ("<font size=2><center><br/>A.S. <i>$annoscolastico</i> <br/>Lezioni della classe <i>$classe</i> - Materia: <i>$nomemateria</i> - <i>$per");
-    if ($numeroperiodi == 2)
+    if ($_SESSION['numeroperiodi'] == 2)
     {
         print " Quadrimestre</i>";
     } else

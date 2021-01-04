@@ -248,7 +248,7 @@ print('
 //  Riempimento combobox delle classi
 //
 $coordinatore = false;
-if ($livello_scuola == '2')
+if ($_SESSION['livello_scuola'] == '2')
 {
     $ricercaterze = " AND anno='3' ";
 } else
@@ -558,7 +558,7 @@ if ($idclasse != "")
         //
         //   Gestione verbale
         //
-        if (scrutinio_aperto($idclasse, $numeroperiodi, $con))
+        if (scrutinio_aperto($idclasse, $_SESSION['numeroperiodi'], $con))
         {
             $abilscr = '';
         } else
@@ -641,7 +641,7 @@ if ($idclasse != "")
         //print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaVERB.png' onclick='stampaREG()'  onmouseover=$(this).css('cursor','pointer')>";
         $nf = "esami_" . decodifica_classe($idclasse, $con) . ".csv";
         $nf = str_replace(" ", "_", $nf);
-        $nomefile = "$cartellabuffer/" . $nf;
+        $nomefile = $_SESSION['cartellabuffer']."/" . $nf;
         print ("&nbsp;&nbsp;&nbsp;<a href='$nomefile' target='_blank'><img src='../immagini/csv.png'></a></center>");
     } else
     {
@@ -661,7 +661,7 @@ function creaFileCSV($idclasse, &$datitabella, $conn)
 
 
     //@require("../php-ini".$_SESSION['suffisso'].".php");
-    global $cartellabuffer;
+//    global $_SESSION['cartellabuffer'];
 //    global $_SESSION['comune_scuola'];
 //    global $_SESSION['annoscol'];
 
@@ -670,7 +670,7 @@ function creaFileCSV($idclasse, &$datitabella, $conn)
     $recmat = mysqli_fetch_array($rismat);
     $nf = "esami_" . decodifica_classe($idclasse, $conn) . ".csv";
     $nf = str_replace(" ", "_", $nf);
-    $nomefile = "$cartellabuffer/" . $nf;
+    $nomefile = $_SESSION['cartellabuffer']."/" . $nf;
     $fp = fopen($nomefile, 'w');
 
     // ESTRAGGO I DATI DELLE VALUTAZIONI D'ESAME PER IL FILE CSV

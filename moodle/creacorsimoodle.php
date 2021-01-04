@@ -63,7 +63,7 @@ GROUP BY tbl_cattnosupp.idmateria,tbl_classi.idclasse
     anno,specializzazione,sezione,denominazione";
 
 $ris = eseguiQuery($con, $query);
-$corsi = getCorsiMoodle($tokenservizimoodle, $urlmoodle);
+$corsi = getCorsiMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle']);
 // print "Corsi: $corsi";
 if (mysqli_num_rows($ris) > 0)
 {

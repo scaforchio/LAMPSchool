@@ -215,7 +215,7 @@ if (!$res)
         }
         print ("<tr> <td><i>Codice SIDI</i> </td> <td align='left'> <input type='text' value='$sidi' name='sidi' size='20' maxlength='20'> </td> </tr>");
 
-        if ($livello_scuola == '2')
+        if ($_SESSION['livello_scuola'] == '2')
         {
             $ricercaterze = " AND anno='3' ";
         } else

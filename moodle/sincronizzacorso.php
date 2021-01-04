@@ -45,7 +45,7 @@ $idclasse = stringa_html("idclasse");
 $idmateria = stringa_html("idmateria");
 
 
-sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle, $urlmoodle, $_SESSION['nome_scuola'], $_SESSION['annoscol']);
+sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $_SESSION['nome_scuola'], $_SESSION['annoscol']);
 
 
 print "	  <form method='post' id='formlez' action='creacorsimoodle.php'>

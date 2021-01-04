@@ -211,10 +211,10 @@ switch ($giosett)
 
 
 print "<br><center>";
-if ($lun >= $datainiziolezioni)
+if ($lun >= $_SESSION['datainiziolezioni'])
     print ("<a href='riepsett.php?gio=$gioieri&meseanno=$maieri&idclasse=$idclasse'><img src='../immagini/indietro.png'></a>");
 print ("&nbsp;&nbsp;&nbsp;");
-if ($sab < $datafinelezioni)
+if ($sab < $_SESSION['datafinelezioni'])
     print ("<a href='riepsett.php?gio=$giodomani&meseanno=$madomani&idclasse=$idclasse'><img src='../immagini/avanti.png'></a>");
 print "</center>";
 //print ("<br><center><a href='riepsett.php?gio=$gioieri&meseanno=$maieri&idclasse=$idclasse'><img src='../immagini/indietro.png'></a>&nbsp;&nbsp;&nbsp;<a href='riepsett.php?gio=$giodomani&meseanno=$madomani&idclasse=$idclasse'><img src='../immagini/avanti.png'></a></center>");
@@ -305,7 +305,7 @@ else
                 $fi = 0;
                 break;
         }
-        if ($giornilezsett == 5)
+        if ($_SESSION['giornilezsett'] == 5)
             $fi--;
         for ($i = $in; $i <= $fi; $i++)
         {
@@ -319,8 +319,8 @@ else
             $newdate = strtotime($strop, strtotime($datarichiesta)); // facciamo l'operazione
             $newdate = date('Y-m-d', $newdate); //trasformiamo la data nel formato accettato dal db YYYY-MM-DD
 
-            if ($newdate >= $datainiziolezioni & $newdate <= $datafinelezioni & (!giorno_festa($newdate, $con)))
-                stampa_reg_classe($newdate, $idclasse, $iddocente, $_SESSION['numeromassimoore'], $con, true, $gestcentrassenze, $giustificauscite);
+            if ($newdate >= $_SESSION['datainiziolezioni'] & $newdate <= $_SESSION['datafinelezioni'] & (!giorno_festa($newdate, $con)))
+                stampa_reg_classe($newdate, $idclasse, $iddocente, $_SESSION['numeromassimoore'], $con, true, $_SESSION['gestcentrassenze'], $_SESSION['giustificauscite']);
             else
             if (giorno_festa($newdate, $con))
                 print "<b><hr><br><center><font color='red'>" . data_italiana($newdate) . " - " . estrai_festa($newdate, $con) . "</font></center><br><hr></b>";

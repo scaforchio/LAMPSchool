@@ -85,9 +85,9 @@ stampa_head($titolo, "", $script, "PMSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 /*
   $rissms=array();
-  $rissms=verifica_numero_sms_residui($utentesms,$passsms);
+  $rissms=verifica_numero_sms_residui($_SESSION['utentesms'],$_SESSION['passsms']);
   $smsresidui=$rissms['classic_sms'];
-  $smsresidui=floor($smsresidui*($costosmsclassic/$costosmsplus));
+  $smsresidui=floor($smsresidui*($_SESSION['costosmsclassic']/$_SESSION['costosmsplus']));
   if ($smsresidui>1000)
   $color='green';
   else if ($smsresidui>500)
@@ -184,7 +184,7 @@ if ($idclasse != "")
     // FINE MODIFICHE
     print "<br>per <input type='text' name='motivo' maxlength='200' size='80'><br><br>";
     print "</fieldset>";
-    // if ($gesttimbrature == 'no')
+    // if ($_SESSION['gesttimbrature'] == 'no')
     print "Uscita contestuale ad autorizzazione: <input type='checkbox' name='uscitacont'><br><br>";
 
 
@@ -223,7 +223,7 @@ if ($idclasse != "")
 
         print "<td align='center'>";
 
-        $seledata = " data <= '" . $fineprimo . "' ";
+        $seledata = " data <= '" . $_SESSION['fineprimo'] . "' ";
         $queryusc = "select count(*) as numusc from tbl_usciteanticipate where idalunno = '" . $rec["idalunno"] . "' and" . $seledata;
         //print inspref($queryusc);
         $risusc = eseguiQuery($con, $queryusc);
@@ -234,7 +234,7 @@ if ($idclasse != "")
         }
         print "1°=<b>" . $numuscprimo . "</b>";
 
-        $seledata = " data > '" . $fineprimo . "' ";
+        $seledata = " data > '" . $_SESSION['fineprimo'] . "' ";
         $queryusc = "select count(*) as numusc from tbl_usciteanticipate where idalunno = '" . $rec["idalunno"] . "' and" . $seledata;
         //print inspref($queryusc);
         $risusc = eseguiQuery($con, $queryusc);

@@ -65,7 +65,7 @@ $_SESSION['versione'] = $json['versione'];
 
 
 
-//$_SESSION['giustifica_ritardi'] = $giustifica_ritardi;
+//$_SESSION['giustifica_ritardi'] = $_SESSION['giustifica_ritardi'];
 // AZZERO LA SESIONE DEL REGISTRO
 $_SESSION['classeregistro'] = "";
 
@@ -113,7 +113,7 @@ if ($_SESSION['tipoutente'] != 'E')
         // print "Differenza: $giornidiff";
 
         $cambiamentopassword = false;
-        if (($giornidiff > $maxgiornipass) & ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'P' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'A'))
+        if (($giornidiff > $_SESSION['maxgiornipass']) & ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'P' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'A'))
         {
             $cambiamentopassword = true;
         }
@@ -164,7 +164,7 @@ if ($_SESSION['ultimoaccesso'] != "")
 stampa_testata("MENU PRINCIPALE $ult", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
-if ($sitoinmanutenzione == "yes" & $_SESSION['tipoutente'] != 'M')
+if ($_SESSION['sitoinmanutenzione'] == "yes" & $_SESSION['tipoutente'] != 'M')
 {
     print "<br><br><br><center><b>REGISTRO IN MANUTENZIONE!</b></center>";
     stampa_piede();
@@ -227,7 +227,7 @@ if ($cambiamentopassword)
         menu_item('../classi/CRUDevacuazione.php', 'NOMINE ALUNNI PER EVACUAZIONI');
         menu_item('../evacuazione/evacuazione.php', 'MODULO EVACUAZIONE');
         // menu_item("../assemblee/assdoc.php?iddocente=$idutente", 'ASSEMBLEE DI CLASSE');
-        if ($livello_scuola == '4')
+        if ($_SESSION['livello_scuola'] == '4')
         {
             menu_item("../assemblee/assdoc.php", 'ASSEMBLEE DI CLASSE');
         }
@@ -235,7 +235,7 @@ if ($cambiamentopassword)
         menu_title_end();
         menu_title_begin('ASSENZE');
         // menu_item('../assenze/ass.php', 'ASSENZE');
-        if ($gestcentrautorizz == 'no')
+        if ($_SESSION['gestcentrautorizz'] == 'no')
         {
             //  menu_item('../assenze/rit.php', 'RITARDI');
             //  menu_item('../assenze/usc.php', 'USCITE ANTICIPATE');
@@ -295,7 +295,7 @@ if ($cambiamentopassword)
         menu_item('../valutazionecomportamento/sitvalcompalu.php', 'SITUAZIONE VOTI COMPORTAMENTO');
 
         menu_title_end();
-        if ($livello_scuola != 4)
+        if ($_SESSION['livello_scuola'] != 4)
         {
             menu_title_begin('CERTIFICAZIONE COMPETENZE');
 
@@ -315,16 +315,17 @@ if ($cambiamentopassword)
             menu_item('../assenze/sitassmens.php', 'SITUAZIONE MENSILE ASSENZE');
             menu_item('../assenze/sitasstota.php', 'SITUAZIONE TOTALE ASSENZE');
             menu_item('../assenze/sitassprob.php', 'SITUAZIONI PROBLEMATICHE ASSENZE');
+            menu_item('../assenze/sitassmate.php', 'SITUAZIONI ASSENZE PER MATERIA');
             menu_item('../assenze/deroghe.php', 'DEROGHE ASSENZE');
             menu_item('../alunni/CRUD_autorizzazioni.php?soloclasse=yes', 'Gestione autorizzazioni ad uscita anticipata con classe');
             menu_item('../assenze/visderoghe.php', 'SITUAZIONE DEROGHE ASSENZE');
             menu_item('../scrutini/riepvoti.php', 'TABELLONE SCRUTINI INTERMEDI');
             menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
-            if ($livello_scuola == '4')
+            if ($_SESSION['livello_scuola'] == '4')
             {
                 menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
             }
-            if ($livello_scuola == '3' || $livello_scuola == '2')
+            if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2')
             {
                 menu_item('../consorientativo/cotabellone.php?tipoaccesso=coordinatore', 'CONSIGLI ORIENTATIVI');
             }
@@ -334,7 +335,7 @@ if ($cambiamentopassword)
             menu_title_end();
         }
 
-        if ($norm & $valutazionepercompetenze == 'yes')
+        if ($norm & $_SESSION['valutazionepercompetenze'] == 'yes')
         {
             menu_title_begin('VALUTAZIONE COMPETENZE');
             menu_item('../valutazioni/valabilcono.php', 'VERIFICHE');
@@ -345,7 +346,7 @@ if ($cambiamentopassword)
             menu_title_end();
         }
 
-        if ($norm & $valutazionepercompetenze == 'yes')
+        if ($norm & $_SESSION['valutazionepercompetenze'] == 'yes')
         {
             menu_title_begin('PROGRAMMAZIONE');
             menu_item('../programmazione/compdo.php', 'GEST. COMPETENZE');
@@ -407,7 +408,7 @@ if ($cambiamentopassword)
             menu_title_end();
         }
         menu_separator("&nbsp;");
-        if ($tokenservizimoodle != "" & docente_gestore_moodle($idutente, $con))
+        if ($_SESSION['tokenservizimoodle'] != "" & docente_gestore_moodle($idutente, $con))
         {
             menu_title_begin('GESTIONE MOODLE');
             menu_item('../moodle/esporta_moodle.php', 'ESPORTA DATI PER MOODLE');
@@ -507,7 +508,7 @@ if ($cambiamentopassword)
         menu_item('../note/stampanote.php', 'STAMPA NOTE PER CLASSE');
 
         menu_title_end();
-        if ($livello_scuola == '4')
+        if ($_SESSION['livello_scuola'] == '4')
         {
             menu_title_begin('ASSEMBLEE DI CLASSE');
             // menu_item("../assemblee/assdoc.php?iddocente=$idutente", 'CONCESSIONE');
@@ -546,11 +547,11 @@ if ($cambiamentopassword)
             menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
 
             menu_item('../alunni/CRUD_autorizzazioni.php?soloclasse=yes', 'Gestione autorizzazioni ad uscita anticipata con classe');
-            if ($livello_scuola == '4')
+            if ($_SESSION['livello_scuola'] == '4')
             {
                 menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
             }
-            if ($livello_scuola == '3' || $livello_scuola == '2')
+            if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2')
             {
                 menu_item('../consorientativo/cotabellone.php?tipoaccesso=coordinatore', 'CONSIGLI ORIENTATIVI');
             }
@@ -563,7 +564,7 @@ if ($cambiamentopassword)
         menu_title_begin('SCRUTINI');
         menu_item('../scrutini/riepvoti.php', 'TABELLONE SCRUTINI INTERMEDI');
         menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
-        if ($livello_scuola == '4')
+        if ($_SESSION['livello_scuola'] == '4')
         {
             menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
         }
@@ -571,7 +572,7 @@ if ($cambiamentopassword)
         menu_item('../scrutini/schedaalu.php', 'SCRUTINIO INTERMEDIO ALUNNO');
         menu_item('../scrutini/schedafinalealu.php', 'SCRUTINIO FINALE ALUNNO');
         menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
-        if ($livello_scuola == '3' || $livello_scuola == '2')
+        if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2')
         {
             menu_item('../consorientativo/cotabellone.php', 'CONSIGLI ORIENTATIVI');
         }
@@ -587,7 +588,7 @@ if ($cambiamentopassword)
         menu_item('../valutazionecomportamento/sitvalcompalu.php', 'SITUAZIONE VOTI COMPORTAMENTO');
         menu_title_end();
 
-        if ($livello_scuola != 4)
+        if ($_SESSION['livello_scuola'] != 4)
         {
             menu_title_begin('CERTIFICAZIONE COMPETENZE');
 
@@ -598,7 +599,7 @@ if ($cambiamentopassword)
             menu_title_end();
         }
 
-        if ($norm & $valutazionepercompetenze == 'yes')
+        if ($norm & $_SESSION['valutazionepercompetenze'] == 'yes')
         {
             menu_title_begin('VALUTAZIONE COMPETENZE');
             menu_item('../valutazioni/valabilcono.php', 'VERIFICHE');
@@ -608,7 +609,7 @@ if ($cambiamentopassword)
             menu_title_end();
         }
 
-        if ($norm & $valutazionepercompetenze == 'yes')
+        if ($norm & $_SESSION['valutazionepercompetenze'] == 'yes')
         {
             menu_title_begin('PROGRAMMAZIONE');
             menu_item('../programmazione/compdo.php', 'GEST. COMPETENZE');
@@ -658,7 +659,7 @@ if ($cambiamentopassword)
 
         menu_title_end();
 
-        if ($tokenservizimoodle != "" & docente_gestore_moodle($idutente, $con))
+        if ($_SESSION['tokenservizimoodle'] != "" & docente_gestore_moodle($idutente, $con))
         {
             menu_title_begin('GESTIONE MOODLE');
             menu_item('../moodle/esporta_moodle.php', 'ESPORTA DATI PER MOODLE');
@@ -774,7 +775,7 @@ if ($cambiamentopassword)
         menu_item('../regclasse/ricannotaz.php', 'RICERCA ANNOTAZIONI');
         menu_item('../regclasse/CRUDannotazioni.php?mod=1&can=1&ins=1', 'GESTIONE ANNOTAZIONI');
         menu_item('../regclasse/stamparegiclasse.php', 'STAMPA REGISTRI DI CLASSE');
-        if ($maxgiorniritardolez < 300)
+        if ($_SESSION['maxgiorniritardolez'] < 300)
         {
             menu_separator("");
             menu_item('../contr/derogainserimento.php', 'DEROGA A LIMITE INSERIMENTO');
@@ -813,7 +814,7 @@ if ($cambiamentopassword)
         // menu_item('../assenze/ricalcolaoreuscita.php', 'RICALCOLA USCITE ANTICIPATE');
         // menu_item('../assenze/ricalcolaassenze.php', 'RICALCOLA ASSENZE LEZIONI');
         menu_title_end();
-        if ($livello_scuola == '4')
+        if ($_SESSION['livello_scuola'] == '4')
         {
             menu_title_begin('ASSEMBLEE DI CLASSE');
             // menu_item("../assemblee/assdoc.php?iddocente=$idutente", 'CONCESSIONE');
@@ -851,19 +852,19 @@ if ($cambiamentopassword)
         menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
         menu_item('../scrutini/sitscrutini.php', 'SITUAZIONE SCRUTINI');
         menu_item('../scrutini/schedaalu.php', 'SCHEDA INTERMEDIA ALUNNO');
-        if ($livello_scuola == '4')
+        if ($_SESSION['livello_scuola'] == '4')
         {
             menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
         }
         menu_item('../scrutini/schedafinalealu.php', 'SCRUTINIO FINALE ALUNNO');
         menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
-        if ($livello_scuola == '3' || $livello_scuola == '2')
+        if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2')
         {
             menu_item('../consorientativo/cotabellone.php', 'CONSIGLI ORIENTATIVI');
         }
         menu_title_end();
 
-        if ($livello_scuola != 4)
+        if ($_SESSION['livello_scuola'] != 4)
         {
             menu_title_begin('CERTIFICAZIONE COMPETENZE');
             //menu_item('../certcomp/ccvalutazioni.php', 'CERTIFICAZIONE ALUNNI');
@@ -998,6 +999,7 @@ if ($cambiamentopassword)
         menu_item('../contr/testiedit.php', 'GESTISCI TESTI');
         menu_item('../contr/eseguisql.php', 'ESECUZIONE COMANDO SQL');
         menu_item('../contr/visualizzaversioni.php', 'VERIFICA AGG. DATABASE');
+        menu_item('../contr/updphpini.php', 'AGGIORNA FILE PHP-INI');
         menu_item('../collegamenti/collegamentiweb.php', 'PREPARAZIONE COLLEGAMENTI WEB');
 
         menu_title_end();
@@ -1099,7 +1101,7 @@ if ($cambiamentopassword)
         menu_item('../sms/seleinviosmsvari.php', 'SMS VARI');
         menu_item('../sms/seleinviosmsdoc.php', 'SMS DOCENTI');
         menu_title_end();
-        if ($tokenservizimoodle != "")
+        if ($_SESSION['tokenservizimoodle'] != "")
         {
             menu_title_begin('GESTIONE MOODLE');
             menu_item('../moodle/esporta_moodle.php', 'ESPORTA DATI PER MOODLE');
@@ -1203,18 +1205,18 @@ if ($cambiamentopassword)
         menu_item('../scrutini/riepvoti.php', 'SCRUTINI INTERMEDI');
         menu_item('../scrutini/riepvotifinali.php', 'SCRUTINI FINALI');
 
-        if ($livello_scuola == '4')
+        if ($_SESSION['livello_scuola'] == '4')
         {
             menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
         }
         menu_item('../scrutini/schedaalu.php', 'SCRUTINIO INTERMEDIO ALUNNO');
         menu_item('../scrutini/schedafinalealu.php', 'SCRUTINIO FINALE ALUNNO');
-        if ($livello_scuola == '3' || $livello_scuola == '2')
+        if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2')
         {
             menu_item('../consorientativo/cotabellone.php', 'CONSIGLI ORIENTATIVI');
         }
         menu_title_end();
-        if ($livello_scuola != 4)
+        if ($_SESSION['livello_scuola'] != 4)
         {
             menu_title_begin('CERTIFICAZIONE COMPETENZE');
             menu_item('../certcomp/cctabellone.php', 'STAMPA CERTIFICATI');
@@ -1249,9 +1251,9 @@ if ($cambiamentopassword)
         menu_title_end();
     }
 
-    // print "Solo comunicazioni $gensolocomunicazioni";
+    // print "Solo comunicazioni $_SESSION['gensolocomunicazioni']";
 
-    if ($tipoutente == 'T' & $gensolocomunicazioni == 'no')
+    if ($tipoutente == 'T' & $_SESSION['gensolocomunicazioni'] == 'no')
     {
 
         //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
@@ -1277,29 +1279,29 @@ if ($cambiamentopassword)
 
             // print "<br/><button onclick=\"window.open('../assenze/sitassalut.php'>ASSENZE</a>";
             menu_title_begin("SITUAZIONE ALUNNO $cognome&nbsp;$nome");
-            if ($votigenitori == "yes")
+            if ($_SESSION['votigenitori'] == "yes")
                 menu_item('../valutazioni/visvaltut.php', 'VOTI');
-            if ($notegenitori == "yes")
+            if ($_SESSION['notegenitori'] == "yes")
                 menu_item('../note/sitnotealu.php', 'NOTE');
-            if ($assenzegenitori == "yes")
+            if ($_SESSION['assenzegenitori'] == "yes")
                 menu_item('../assenze/sitassalut.php', 'ASSENZE');
             menu_title_end();
-            if ($argomentigenitori == "yes")
+            if ($_SESSION['argomentigenitori'] == "yes")
             {
                 menu_title_begin("ARGOMENTI LEZIONI");
                 menu_item('../lezioni/riepargomgen.php', 'VISUALIZZA ARGOMENTI');
                 menu_title_end();
             }
-            if ($visualizzapagelle == 'yes')
+            if ($_SESSION['visualizzapagelle'] == 'yes')
             {
                 menu_title_begin("PAGELLE");
-                if ($numeroperiodi == 2)
+                if ($_SESSION['numeroperiodi'] == 2)
                 {
                     menu_item('../valutazioni/vispagper.php?periodo=Primo', 'Pagella primo quadrimestre');
                     menu_item('../valutazioni/vispagfin.php', 'PAGELLA FINALE');
                 } else
                 {
-                    if ($numeroperiodi == 3)
+                    if ($_SESSION['numeroperiodi'] == 3)
                     {
                         menu_item('../valutazioni/vispagper.php?periodo=Primo', 'Pagella primo trimestre');
                         menu_item('../valutazioni/vispagper.php?periodo=Secondo', 'Pagella secondo trimestre');
@@ -1309,7 +1311,7 @@ if ($cambiamentopassword)
                 menu_title_end();
             }
             menu_title_begin('COMUNICAZIONI SCUOLA-FAMIGLIA');
-            if ($utentesms !='')
+            if ($_SESSION['utentesms'] !='')
                 menu_item('../assenze/giustassonline.php', 'GIUSTIFICA ASSENZE');
             menu_item('../circolari/viscircolari.php', 'LEGGI CIRCOLARI');
             menu_item("../colloqui/visdisponibilita.php?idclasse=$idclasse", 'PRENOTAZIONE COLLOQUIO');
@@ -1317,7 +1319,7 @@ if ($cambiamentopassword)
 
             if (!strpos($telcel, ","))
             {
-                if ($agg_dati_genitori == 'yes')
+                if ($_SESSION['agg_dati_genitori'] == 'yes')
                 {
                     menu_item("../alunni/mod_contatto.php", 'AGGIORNA DATI DI CONTATTO');
                 }
@@ -1332,7 +1334,7 @@ if ($cambiamentopassword)
         }
     }
 
-    if ($tipoutente == 'T' & $gensolocomunicazioni == 'yes')
+    if ($tipoutente == 'T' & $_SESSION['gensolocomunicazioni'] == 'yes')
     {
 
         //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
@@ -1393,14 +1395,14 @@ if ($cambiamentopassword)
 
             // print "<br/><button onclick=\"window.open('../assenze/sitassalut.php'>ASSENZE</a>";
             menu_title_begin("SITUAZIONE ALUNNO $cognome&nbsp;$nome");
-            if ($votigenitori == "yes")
+            if ($_SESSION['votigenitori'] == "yes")
                 menu_item('../valutazioni/visvaltut.php', 'VOTI');
             menu_item('../note/sitnotealu.php', 'NOTE');
             menu_item('../assenze/sitassalut.php', 'ASSENZE');
             menu_title_end();
 
             // VERIFICO SE L'ALUNNO E' UN RAPPRESENTANTE DI CLASSE
-            if ($livello_scuola == '4')
+            if ($_SESSION['livello_scuola'] == '4')
             {
                 // $query = "select * from tbl_classi where rappresentante1=$idstudente or rappresentante2=$idstudente";
                 // $riscontr = eseguiQuery($con,$query);
@@ -1411,7 +1413,7 @@ if ($cambiamentopassword)
                 menu_title_end();
                 //}
             }
-            if ($argomentigenitori == "yes")
+            if ($_SESSION['argomentigenitori'] == "yes")
             {
                 menu_title_begin("ARGOMENTI LEZIONI");
                 menu_item('../lezioni/riepargomgen.php', 'VISUALIZZA ARGOMENTI');
@@ -1452,7 +1454,7 @@ if ($cambiamentopassword)
         print ("<td valign=top>");
 
         //VERIFICO PRESENZA ASSEMBLEE DI CLASSE DA AUTORIZZARE
-        if ($livello_scuola == '4')
+        if ($_SESSION['livello_scuola'] == '4')
         {
             if ($tipoutente == 'S' | $tipoutente == 'P')
             {
@@ -1681,7 +1683,7 @@ if ($cambiamentopassword)
             //  VERIFICO PRESENZA AGGIORNAMENTI
             //
             //   inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
-            $idscuola = md5($nomefilelog);
+            $idscuola = md5($_SESSION['nomefilelog']);
             //   inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§1");
             //print "<iframe style='visibility:hidden;display:none' src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$_SESSION['nome_scuola']&cos=$_SESSION['comune_scuola']'></iframe>";
             // print "<iframe src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$_SESSION['nome_scuola']&cos=$_SESSION['comune_scuola']'></iframe>";

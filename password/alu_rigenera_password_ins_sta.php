@@ -79,7 +79,7 @@ if ($idclasse != 0)
 
 
 $nf = session_id() . ".csv";
-$nomefile = "$cartellabuffer/" . $nf;
+$nomefile = $_SESSION['cartellabuffer']."/" . $nf;
 $fp = fopen($nomefile, 'w');
 $numpass = 0;
 $arr_id = "";
@@ -119,11 +119,11 @@ while ($valalunni = mysqli_fetch_array($risalunni))
     $qupd = "update tbl_utenti set password=md5('" . md5($pass) . "') where idutente=($idalunno+2100000000)";
     eseguiQuery($con, $qupd);
 
-    if ($tokenservizimoodle != '')
+    if ($_SESSION['tokenservizimoodle'] != '')
     {
-        $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $utente);
+        $idmoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $utente);
 
-        cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $utente, $pass);
+        cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idmoodle, $utente, $pass);
     }
     //print "qui";
     fputcsv($fp, array($valalunni['cognome'], $valalunni['nome'], data_italiana($valalunni['datanascita']), $utente, $pass), ";");
@@ -142,7 +142,7 @@ print "<input type='hidden' name='arrid' value='$arr_id'>
 fclose($fp);
 
 
-print ("<br/><center><a href='$cartellabuffer/$nf'><img src='../immagini/csv.png'></a></center>");
+print ("<br/><center><a href='".$_SESSION['cartellabuffer']."/$nf'><img src='../immagini/csv.png'></a></center>");
 
 stampa_piede("");
 mysqli_close($con);

@@ -83,10 +83,10 @@ if ($seletat == '' & $seletar == '' & $seletaa == '')
 }
 
 
-$rissms = verifica_numero_sms_residui($utentesms, $passsms);
+$rissms = verifica_numero_sms_residui($_SESSION['utentesms'], $_SESSION['passsms']);
 
 $smsresidui = $rissms['classic_sms'];
-$smsresidui = floor($smsresidui * ($costosmsclassic / $costosmsplus));
+$smsresidui = floor($smsresidui * ($_SESSION['costosmsclassic'] / $_SESSION['costosmsplus']));
 
 if ($smsresidui > 1000)
 {
@@ -115,7 +115,7 @@ print "<tr><td>Tipo evento</td>
        <td><select name='tipoass' ONCHANGE='selesms.submit();'>";
 print "<option value='T' $seletat>Tutti</option>";
 print "<option value='A' $seletaa>Assenze</option>";
-if ($numeroritardisms > 0)
+if ($_SESSION['numeroritardisms'] > 0)
     print "<option value='R' $seletar>Super. Num. Ritardi</option>";
 else
     print "<option value='R' $seletar>Ritardi</option>";
@@ -201,7 +201,7 @@ if ($tipoass == 'A' | $tipoass == 'T')
 }
 if ($tipoass == 'R' | $tipoass == 'T')
 {
-    if ($numeroritardisms == '0')
+    if ($_SESSION['numeroritardisms'] == '0')
     {
         // INVIA I MESSAGGI DI RITARDO
         $query = "select * from tbl_ritardi,tbl_alunni,tbl_classi
@@ -292,7 +292,7 @@ if ($tipoass == 'R' | $tipoass == 'T')
 
             // CONTO I RITARDI PER QUADRIMESTRE
             $query = "SELECT count(*) AS numritardi FROM tbl_ritardi
-                      WHERE data<='$fineprimo'
+                      WHERE data<='".$_SESSION['fineprimo']."'
                       AND idalunno=" . $rec['idalunno'];
 
             $risnumrit = eseguiQuery($con, $query);
@@ -300,23 +300,23 @@ if ($tipoass == 'R' | $tipoass == 'T')
             $numritardiprimo = $recnumrit['numritardi'];
 
             $query = "SELECT count(*) AS numritardi FROM tbl_ritardi
-                      WHERE data>'$fineprimo'
+                      WHERE data>'".$_SESSION['fineprimo']."'
                       AND idalunno=" . $rec['idalunno'];
 
             $risnumrit = eseguiQuery($con, $query);
             $recnumrit = mysqli_fetch_array($risnumrit);
             $numritardisec = $recnumrit['numritardi'];
 
-            if ($dataoggi > $fineprimo)
+            if ($dataoggi > $_SESSION['fineprimo'])
                 $ritconfr = $numritardisec;
             else
                 $ritconfr = $numritardiprimo;
 
-            if ($ritconfr > $numeroritardisms)
+            if ($ritconfr > $_SESSION['numeroritardisms'])
             {
                 print "<tr class='oddeven'>";
                 print "<td>RIT [I=<b>$numritardiprimo</b>";
-                if (date('Y-m-d') > $fineprimo)
+                if (date('Y-m-d') > $_SESSION['fineprimo'])
                 {
                     print " - II=<b>$numritardisec</b>";
                 }

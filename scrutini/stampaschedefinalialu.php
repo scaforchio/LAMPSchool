@@ -125,7 +125,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         $schede->Cell(172, 6, $specplesso, NULL, 1, "C");
 
         $schede->SetFont('Arial', 'B', 10);
-        /*  if ($numeroperiodi==3)
+        /*  if ($_SESSION['numeroperiodi']==3)
           $per="trimestre";
           else
           $per="quadrimestre";
@@ -235,17 +235,17 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         $schede->SetFont('Arial', "B", 10);
         $schede->Cell(172, 6, str_replace("|", " ", estrai_seconda_riga($esito)), "LR", 1, "C");
 
-        if ((($livello_scuola == '2' && decodifica_classe_no_spec($classe, $con) == 3) || ($livello_scuola == '3' & decodifica_classe_no_spec($classe, $con) == 8)) & (decodifica_passaggio($idesito, $con) == 0))
+        if ((($_SESSION['livello_scuola'] == '2' && decodifica_classe_no_spec($classe, $con) == 3) || ($_SESSION['livello_scuola'] == '3' & decodifica_classe_no_spec($classe, $con) == 8)) & (decodifica_passaggio($idesito, $con) == 0))
         {
             $schede->setXY(20, $schede->getY());
             $schede->SetFont('Arial', 'B', 10);
             $schede->Cell(172, 6, converti_utf8("con giudizio di idoneità di " . $votoammissione . "/10"), "LR", 1, "C");
-        } elseif (($livello_scuola == '4') && (decodifica_classe_no_spec($classe, $con) == 5) && (decodifica_passaggio($idesito, $con) == 0))
+        } elseif (($_SESSION['livello_scuola'] == '4') && (decodifica_classe_no_spec($classe, $con) == 5) && (decodifica_passaggio($idesito, $con) == 0))
         {
             $schede->setXY(20, $schede->getY());
             $schede->SetFont('Arial', 'B', 10);
             $schede->Cell(172, 6, converti_utf8("con credito scolastico di " . $credito . " (totale: " . $creditotot . ")"), "LR", 1, "C");
-        } elseif (($livello_scuola == '4') && (decodifica_classe_no_spec($classe, $con) == 4 || decodifica_classe_no_spec($classe, $con) == 3) && (decodifica_passaggio($idesito, $con) == 0))
+        } elseif (($_SESSION['livello_scuola'] == '4') && (decodifica_classe_no_spec($classe, $con) == 4 || decodifica_classe_no_spec($classe, $con) == 3) && (decodifica_passaggio($idesito, $con) == 0))
         {
             $schede->setXY(20, $schede->getY());
             $schede->SetFont('Arial', 'B', 10);
@@ -317,7 +317,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         $schede->Cell(172, 6, $specplesso, NULL, 1, "C");
 
         $schede->SetFont('Arial', 'B', 10);
-        /*  if ($numeroperiodi==3)
+        /*  if ($_SESSION['numeroperiodi']==3)
           $per="trimestre";
           else
           $per="quadrimestre";
@@ -417,7 +417,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
             $annotazioni = "";
             $query = "SELECT votounico,assenze,note FROM tbl_valutazionifinali
               WHERE idalunno=$alu
-              AND periodo='$numeroperiodi'
+              AND periodo='".$_SESSION['numeroperiodi']."'
               AND idmateria=$idmateria";
 
             $risvoti = eseguiQuery($con, $query);
@@ -440,7 +440,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
             $schede->Cell(35, 6, $valutazione, 1, 0, 'C');
 
             // SE PREVISTA LA STAMPA DEI GIUDIZI STAMPO LE ANNOTAZIONI ALTRIMENTI STAMPO UNA CELLA VUOTA
-            if ($livello_scuola == '1' | $livello_scuola == '2' | $livello_scuola == '3')
+            if ($_SESSION['livello_scuola'] == '1' | $_SESSION['livello_scuola'] == '2' | $_SESSION['livello_scuola'] == '3')
             {
                 $schede->SetFont('Arial', '', 7);
                 $y = $schede->GetY();
@@ -460,7 +460,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         $query = "SELECT denominazione,votounico,note FROM tbl_valutazionifinali,tbl_materie
               WHERE tbl_valutazionifinali.idmateria=tbl_materie.idmateria 
               AND idalunno=$alu
-              AND periodo='$numeroperiodi'
+              AND periodo='".$_SESSION['numeroperiodi']."'
               AND tbl_valutazionifinali.idmateria=-1
               ORDER BY denominazione";
         $risvoti = eseguiQuery($con, $query);
@@ -481,7 +481,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
             $schede->SetFont('Arial', 'BI', 7);
             $schede->Cell(35, 6, $valutazione, 1, 0, 'C');
             // SE PREVISTA LA STAMPA DEI GIUDIZI STAMPO LE ANNOTAZIONI ALTRIMENTI STAMPO UNA CELLA VUOTA
-            if ($giudizisuscheda == 'yes')
+            if ($_SESSION['giudizisuscheda'] == 'yes')
             {
                 $schede->SetFont('Arial', '', 7);
                 $y = $schede->GetY();
@@ -515,11 +515,11 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
             }
         }
         // ESTRAGGO IL GIUDIZIO DISCORSIVO SE PREVISTO
-        if ($giudizisuscheda == "yes")
+        if ($_SESSION['giudizisuscheda'] == "yes")
         {
             $query = "SELECT giudizio from tbl_giudizi
 						WHERE idalunno=$alu
-						AND periodo='$numeroperiodi'";
+						AND periodo='".$_SESSION['numeroperiodi']."'";
             $risgiud = eseguiQuery($con, $query);
             if ($recgiud = mysqli_fetch_array($risgiud))
             {

@@ -48,14 +48,14 @@ $ris = eseguiQuery($con, $query);
 while ($rec = mysqli_fetch_array($ris))
 {
     $usernamealunno = costruisciUsernameMoodle($rec['idalunno']);
-    $idalunnomoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $usernamealunno);
+    $idalunnomoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $usernamealunno);
     if ($idalunnomoodle == "")
     {
         $cognome = $rec['cognome'];
         $nome = $rec['nome'];
         $email = $usernamealunno . "@dominioemailfittizio.it";
         $password = creapassword();
-        $esito = creaUtenteMoodle($tokenservizimoodle, $urlmoodle, $usernamealunno, $password, $cognome, $nome, $email);
+        $esito = creaUtenteMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $usernamealunno, $password, $cognome, $nome, $email);
         print "<br>Esito: $esito";
         if ((strstr($esito, $usernamealunno) > -1))
         {
@@ -76,7 +76,7 @@ while ($rec = mysqli_fetch_array($ris))
 {
     $usernamedocente = costruisciUsernameMoodle($rec['iddocente']);
 
-    $iddocentemoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $usernamedocente);
+    $iddocentemoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $usernamedocente);
 
     if ($iddocentemoodle == "")
     {
@@ -89,7 +89,7 @@ while ($rec = mysqli_fetch_array($ris))
             $email = $usernamedocente . "@dominioemailfittizio.it";
         $password = creapassword();
 
-        $esito = creaUtenteMoodle($tokenservizimoodle, $urlmoodle, $usernamedocente, $password, $cognome, $nome, $email);
+        $esito = creaUtenteMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $usernamedocente, $password, $cognome, $nome, $email);
         print "<br>Esito: $esito";
         if ((strstr($esito, $usernamedocente) > -1))
         {

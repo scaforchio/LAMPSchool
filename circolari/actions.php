@@ -101,7 +101,7 @@ if ($_GET["action"] && $_GET["Id"] && is_numeric($_GET["Id"]))
                 else
                     $suff = "";
                 $origine = "../lampschooldata/$suff$hashmd5";
-                $destinazione = "$cartellabuffer/$name";
+                $destinazione = $_SESSION['cartellabuffer']."/$name";
                 copy($origine, $destinazione);
                 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
                 header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
@@ -138,7 +138,7 @@ if ($_GET["action"] && $_GET["Id"] && is_numeric($_GET["Id"]))
                 else
                     $suff = "";
                 $origine = "../lampschooldata/$suff$hashmd5";
-                $destinazione = "$cartellabuffer/$name";
+                $destinazione = $_SESSION['cartellabuffer']."/$name";
                 // print $origine. " ".$destinazione;
                 copy($origine, $destinazione);
                 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");

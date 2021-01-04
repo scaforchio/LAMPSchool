@@ -79,7 +79,7 @@ print ('
 //
 //   Inizio visualizzazione del combo box del periodo
 //
-if ($numeroperiodi == 2)
+if ($_SESSION['numeroperiodi'] == 2)
 {
     print('<tr><td width="50%"><b>Quadrimestre</b></td>');
 } else
@@ -105,7 +105,7 @@ if ($periodo == '2')
     echo("<option value='2'>Secondo</option>");
 }
 
-if ($numeroperiodi == 3)
+if ($_SESSION['numeroperiodi'] == 3)
 {
     if ($periodo == '3')
     {
@@ -335,12 +335,12 @@ if ($nome != "" & $idalunno != "")
                 $fine = 20;
             }
 
-            if ($tipoval[$nummat][0] == 'C' & $livello_scuola < 4)
+            if ($tipoval[$nummat][0] == 'C' & $_SESSION['livello_scuola'] < 4)
             {
                 $inizio = 21;
                 $fine = 30;
             }
-            if ($tipoval[$nummat][0] == 'C' & $livello_scuola == 4)
+            if ($tipoval[$nummat][0] == 'C' & $_SESSION['livello_scuola'] == 4)
             {
                 $inizio = 1;
                 $fine = 11;

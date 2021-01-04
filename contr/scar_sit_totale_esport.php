@@ -36,7 +36,7 @@ if ($tipoutente == "")
 
 // APERTURA FILE CSV PER MEMORIZZAZIONE PROPOSTE
 $nf = 'tabelloni-' . date("YmdHis") . '.csv';
-$nomefile = "$cartellabuffer/" . $nf;
+$nomefile = $_SESSION['cartellabuffer']."/" . $nf;
 $fp = fopen($nomefile, 'w');
 
 // DEFINIZIONE ARRAY PER MEMORIZZAZZIONE IN CSV

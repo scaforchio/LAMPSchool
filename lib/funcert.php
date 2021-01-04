@@ -146,7 +146,7 @@ function cerca_giudizio_prop($con, $idalunno, $iddocente, $idcompetenza)
     } else
         return "";
 }
-
+/*
 function cerca_livello_da_classe($con, $annoclasse, $livello_scuola)
 {
     $query = "select * from tbl_certcompvalutazioni
@@ -160,3 +160,4 @@ function cerca_livello_da_classe($con, $annoclasse, $livello_scuola)
     } else
         return "";
 }
+*/

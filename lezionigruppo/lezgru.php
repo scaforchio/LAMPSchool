@@ -416,7 +416,7 @@ if ($idgruppo != '' & $giorno != '' & $mese != '')
     {
         for ($j = $i; $j <= $_SESSION['numeromassimoore']; $j++)
         {
-            if (!occupata($oredisp, $i, $j, $numeromaxorelez))
+            if (!occupata($oredisp, $i, $j, $_SESSION['numeromaxorelez']))
             {
                 $strore = "$i-$j";
                 if ($strore != $orainizionew)
@@ -590,7 +590,7 @@ if (!checkdate($m, $g, $a))
             print "</textarea></td>";
             print "</tr></table>";
 
-            if ($valutazionedecimale == 'yes')
+            if ($_SESSION['valutazionedecimale'] == 'yes')
             {
                 print "<center><table class='smallchar' border=2>
             <tr class='prima'>
@@ -752,7 +752,7 @@ if (!checkdate($m, $g, $a))
        <p align="center"><input type=hidden value=' . $idlezionegruppo . ' name=idlezionegruppo>';
 
 //if ($iddocente==$id_ut_doc)
-            if (controlla_scadenza($maxgiorniritardolez, $giorno, $mese, $anno))
+            if (controlla_scadenza($_SESSION['maxgiorniritardolez'], $giorno, $mese, $anno))
             {
                 echo '<p align="center"><input type=submit name=b value="Inserisci lezione">';
             } else

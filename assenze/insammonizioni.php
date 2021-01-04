@@ -36,7 +36,7 @@ if ($tipoutente == "")
 }
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
-$datalimiteinferiore = giorno_lezione_passata(date('Y-m-d'), $maxritardogiust, $con);
+$datalimiteinferiore = giorno_lezione_passata(date('Y-m-d'), $_SESSION['maxritardogiust'], $con);
 $titolo = "Inserimento ammonizioni";
 $script = "";
 stampa_head($titolo, "", $script, "PMASD");

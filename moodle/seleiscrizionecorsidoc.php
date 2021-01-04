@@ -81,7 +81,7 @@ print ("
 
 // VISUALIZZAZIONE ELENCO CORSI
 
-$corsi = getCorsiMoodle($tokenservizimoodle, $urlmoodle);
+$corsi = getCorsiMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle']);
 $elencocorsi = json_decode($corsi);
 
 

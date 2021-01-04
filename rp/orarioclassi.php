@@ -22,7 +22,7 @@ $query = "SELECT * FROM tbl_entrateclassi,tbl_classi
           and data>='" . date('Y-m-d') . "' ORDER BY data,ora";
 $ris = eseguiQuery($con, $query);
 
-inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Richiesto elenco classi con entrata posticipata", $nomefilelog . "rp", $suff);
+inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Richiesto elenco classi con entrata posticipata", $_SESSION['nomefilelog'] . "rp", $suff);
 
 
 while ($rec = mysqli_fetch_array($ris))
@@ -34,7 +34,7 @@ while ($rec = mysqli_fetch_array($ris))
     print "gcl1=" . substr($rec['data'], 8, 2) . "&";
     print "mcl1=" . substr($rec['data'], 5, 2) . "&";
     print "acl1=" . substr($rec['data'], 2, 2) . "&";
-    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Inviata classe $classe", $nomefilelog . "rp", $suff);
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Inviata classe $classe", $_SESSION['nomefilelog'] . "rp", $suff);
 }
 print "cl1=fine";
 

@@ -18,7 +18,6 @@ session_start();
  */
 
 
-
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 

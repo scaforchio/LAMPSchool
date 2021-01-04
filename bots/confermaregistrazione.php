@@ -5,7 +5,7 @@ $suffisso = $_GET['suffisso'];
 @require_once("../php-ini" . $suffisso . ".php");
 @require_once("../lib/funzioni.php");
 
-$token = $tokenbototp;
+$token = $_SESSION['tokenbototp'];
 $tokendiconferma = elimina_apici($_GET["tokendiconferma"]);
 $chat_id = elimina_apici($_GET["chatid"]);
 
@@ -37,7 +37,7 @@ if (mysqli_num_rows($risultato) > 0)
     $result = eseguiQuery($con, $sql);
     sendTelegramMessage($chat_id, "Registrazione effettuata!", $token); //va registrato nei log
     echo "<h1>Registrazione effettuata!</h1>";
-    inserisci_log("TELEGRAM§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Registrazione confermata per utente $idutente ", $nomefilelog . "", $suffisso);
+    inserisci_log("TELEGRAM§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Registrazione confermata per utente $idutente ", $_SESSION['nomefilelog'] . "", $suffisso);
     
 } else
 {

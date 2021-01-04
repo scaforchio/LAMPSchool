@@ -88,8 +88,8 @@ while ($id = mysqli_fetch_array($ris))
         $numpass++;
 
 
-        $idutentemoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $username);
-        cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idutentemoodle, $username, $nuovapassword);
+        $idutentemoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $username);
+        cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idutentemoodle, $username, $nuovapassword);
         $cambiamento = true;
 
         $query = "UPDATE tbl_utenti SET password = md5(md5('" . $nuovapassword . "')),passprecedenti=concat(passprecedenti,md5('" . $pwd . "'),'|') WHERE userid='" . $username . "'";

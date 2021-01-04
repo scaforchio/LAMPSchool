@@ -40,13 +40,13 @@ $script = "";
 stampa_head($titolo, "", $script, "SPA");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
-if ($livello_scuola == 1)
+if ($_SESSION['livello_scuola'] == 1)
     $annocomp = "anno = '5'";
-if ($livello_scuola == 2)
+if ($_SESSION['livello_scuola'] == 2)
     $annocomp = "anno = '3'";
-if ($livello_scuola == 3)
+if ($_SESSION['livello_scuola'] == 3)
     $annocomp = "anno = '5' or anno = '8'";
-if ($livello_scuola == 4)
+if ($_SESSION['livello_scuola'] == 4)
     $annocomp = "anno = '5'";
 
 
@@ -56,10 +56,10 @@ $ricarica = stringa_html('ricarica');
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 if ($idclasse != '')
-    $scrutiniochiuso = !scrutinio_aperto($idclasse, $numeroperiodi, $con);
+    $scrutiniochiuso = !scrutinio_aperto($idclasse, $_SESSION['numeroperiodi'], $con);
 if ($scrutiniochiuso)
 {
-    $datastampa = data_italiana(estrai_datascrutinio($idclasse, $numeroperiodi, $con));
+    $datastampa = data_italiana(estrai_datascrutinio($idclasse, $_SESSION['numeroperiodi'], $con));
     $firmadirig = estrai_dirigente($con);
 }
 
@@ -127,7 +127,7 @@ if ($idclasse != '')
         if ($annoclasse == 3 || $annoclasse == 8)
             $livscuola = 2;
         if ($annoclasse == 5)
-            $livscuola = $livello_scuola;
+            $livscuola = $_SESSION['livello_scuola'];
         $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
         $ris = eseguiQuery($con, $query);
         while ($rec = mysqli_fetch_array($ris))
@@ -224,7 +224,7 @@ if ($idclasse != '')
         if ($annoclasse == 3 || $annoclasse == 8)
             $livscuola = 2;
         if ($annoclasse == 5)
-            $livscuola = $livello_scuola;
+            $livscuola = $_SESSION['livello_scuola'];
         $query = "select * from tbl_certcompcompetenze where livscuola='$livscuola' and valido order by numprogressivo,idccc";
         $ris = eseguiQuery($con, $query);
         while ($rec = mysqli_fetch_array($ris))

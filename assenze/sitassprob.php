@@ -103,7 +103,7 @@ $datafine = stringa_html("datafine");
 $dataoggi = date("d/m/Y");
 if ($datainizio == "")
 {
-    $datainizio = data_italiana($datainiziolezioni);
+    $datainizio = data_italiana($_SESSION['datainiziolezioni']);
 }
 if ($datafine == "")
 {
@@ -306,7 +306,7 @@ if ($perclim != '')
 
         // TTTT  Da completare con il calcolo della percentuale Verificare perchè le date sotto danno sette giorni
         $numoretot = round(33 * $oresettimanali); // 33.3333 ?
-        $numoregio = $oresettimanali / $giornilezsett;
+        $numoregio = $oresettimanali / $_SESSION['giornilezsett'];
 
 
         /*   CALCOLO IN BASE A ORE LEZIONE  */
@@ -355,14 +355,14 @@ if ($perclim != '')
 
 
         //giorni_lezione_tra_date("$_SESSION['annoscol']-09-01",date("Y-m-d"));
-        //$numsettimane=$numgiorni/$giornilezsett;
+        //$numsettimane=$numgiorni/$_SESSION['giornilezsett'];
         //$numgiornitot=oretotale=
 
         $percass = round($oreassenza / $numoretot * 100, 2);
         $percassder = round($oreassenzader / $numoretot * 100, 2);
 
         //giorni_lezione_tra_date("$_SESSION['annoscol']-09-01",date("Y-m-d"));
-        //$numsettimane=$numgiorni/$giornilezsett;
+        //$numsettimane=$numgiorni/$_SESSION['giornilezsett'];
         //$numgiornitot=oretotale=
 
 

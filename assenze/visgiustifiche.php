@@ -104,7 +104,7 @@ while ($dati = mysqli_fetch_array($ris))
 print "</CENTER></TABLE>";
 
 // GIUSTIFICHE USCITE ANTICIPATE
-if ($giustificauscite == 'yes')
+if ($_SESSION['giustificauscite'] == 'yes')
 {
     $query = "SELECT * FROM tbl_usciteanticipate,tbl_alunni,tbl_classi
             WHERE tbl_usciteanticipate.idalunno = tbl_alunni.idalunno

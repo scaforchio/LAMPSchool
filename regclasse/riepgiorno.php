@@ -154,15 +154,15 @@ $datadomani = aggiungi_giorni($dataoggi, 1);
 $dataieri = aggiungi_giorni($dataoggi, -1);
 if (giorno_settimana($dataieri) == "Dom")
 {
-    if ($giornilezsett == 6)
+    if ($_SESSION['giornilezsett'] == 6)
         $dataieri = aggiungi_giorni($dataieri, -1);
     else
         $dataieri = aggiungi_giorni($dataieri, -2);
 }
-if (giorno_settimana($datadomani) == "Dom" | (giorno_settimana($datadomani) == "Sab" & $giornilezsett == 5 ))
+if (giorno_settimana($datadomani) == "Dom" | (giorno_settimana($datadomani) == "Sab" & $_SESSION['giornilezsett'] == 5 ))
 {
 
-    if ($giornilezsett == 6)
+    if ($_SESSION['giornilezsett'] == 6)
         $datadomani = aggiungi_giorni($datadomani, +1);
     else
         $datadomani = aggiungi_giorni($datadomani, +2);
@@ -173,10 +173,10 @@ $maieri = substr($dataieri, 5, 2) . " - " . substr($dataieri, 0, 4);
 $madomani = substr($datadomani, 5, 2) . " - " . substr($datadomani, 0, 4);
 
 print "<br><center>";
-if ($dataieri >= $datainiziolezioni)
+if ($dataieri >= $_SESSION['datainiziolezioni'])
     print ("<a href='riepgiorno.php?gio=$gioieri&meseanno=$maieri&idclasse=$idclasse'><img src='../immagini/indietro.png'></a>");
 print ("&nbsp;&nbsp;&nbsp;");
-if ($datadomani <= $datafinelezioni)
+if ($datadomani <= $_SESSION['datafinelezioni'])
     print ("<a href='riepgiorno.php?gio=$giodomani&meseanno=$madomani&idclasse=$idclasse'><img src='../immagini/avanti.png'></a>");
 print "</center>";
 
@@ -229,8 +229,8 @@ if (!checkdate($m, $g, $a))
         {
 
             $newdate = $a . "-" . $m . "-" . $g;
-            if ($newdate >= $datainiziolezioni & $newdate <= $datafinelezioni & (!giorno_festa($newdate, $con)))
-                stampa_reg_classe($newdate, $idclasse, $iddocente, $_SESSION['numeromassimoore'], $con, true, $gestcentrassenze, $giustificauscite);
+            if ($newdate >= $_SESSION['datainiziolezioni'] & $newdate <= $_SESSION['datafinelezioni'] & (!giorno_festa($newdate, $con)))
+                stampa_reg_classe($newdate, $idclasse, $iddocente, $_SESSION['numeromassimoore'], $con, true, $_SESSION['gestcentrassenze'], $_SESSION['giustificauscite']);
             else
             if (giorno_festa($newdate, $con))
                 print "<b><br><center><font color='red'>" . data_italiana($newdate) . " - " . estrai_festa($newdate, $con) . "</font></center><br>";

@@ -84,7 +84,7 @@ print ('
 //
 //   Inizio visualizzazione del combo box del periodo
 //
-if ($numeroperiodi == 2)
+if ($_SESSION['numeroperiodi'] == 2)
 {
     print('<tr><td width="50%"><b>Quadrimestre</b></td>');
 } else
@@ -110,7 +110,7 @@ if ($periodo == '2')
     echo("<option value='2'>Secondo</option>");
 }
 
-if ($numeroperiodi == 3)
+if ($_SESSION['numeroperiodi'] == 3)
 {
     if ($periodo == '3')
     {
@@ -176,7 +176,7 @@ if ($nome != "")
 
 // APERTURA FILE CSV PER MEMORIZZAZIONE PROPOSTE
 //$nf=session_id().".csv";
-//$nomefile="$cartellabuffer/".$nf;
+//$nomefile=$_SESSION['cartellabuffer']."/".$nf;
 //$fp = fopen($nomefile, 'w');
 
 
@@ -210,19 +210,19 @@ order by tbl_materie.sigla";
 
         if ($periodo == "1")
         {
-            $datarif = $fineprimo;
+            $datarif = $_SESSION['fineprimo'];
         }
-        if ($periodo == "2" & $numeroperiodi == 2)
+        if ($periodo == "2" & $_SESSION['numeroperiodi'] == 2)
         {
-            $datarif = $datafinelezioni;
+            $datarif = $_SESSION['datafinelezioni'];
         }
-        if ($periodo == "2" & $numeroperiodi == 3)
+        if ($periodo == "2" & $_SESSION['numeroperiodi'] == 3)
         {
-            $datarif = $finesecondo;
+            $datarif = $_SESSION['finesecondo'];
         }
         if ($periodo == "3")
         {
-            $datarif = $datafinelezioni;
+            $datarif = $_SESSION['datafinelezioni'];
         }
 
 
@@ -314,7 +314,7 @@ order by tbl_materie.sigla";
             //fputcsv($fp, $lv,";");
         }
         print "</table>";
-//print ("<br/><center><a href='$cartellabuffer/$nf'><img src='../immagini/csv.png'></a></center>");
+//print ("<br/><center><a href='$_SESSION['cartellabuffer']/$nf'><img src='../immagini/csv.png'></a></center>");
     } else
     {
         print("<center><b><br>Nessun dato presente!</b></center>");

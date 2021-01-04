@@ -43,7 +43,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 $nominativo = estrai_dati_docente($_SESSION['idutente'], $con);
 
-$to = $indirizzomailassenze;
+$to = $_SESSION['indirizzomailassenze'];
 
 // NON USATA LA FUNZIONE stringa_html per evitare modifica dei tag html 
 $subject = $_POST['subject'];

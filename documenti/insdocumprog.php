@@ -65,7 +65,7 @@ while ($nom = mysqli_fetch_array($ris))
 
     if (isset($_FILES[$nomedoc]))
     {
-        inserisci_file($con, $_FILES[$nomedoc], $nom['idclasse'], $nom['idmateria'], $gestionedocumenti, $tipodocumento);
+        inserisci_file($con, $_FILES[$nomedoc], $nom['idclasse'], $nom['idmateria'], $_SESSION['gestionedocumenti'], $tipodocumento);
     }
 }
 
@@ -85,7 +85,7 @@ function inserisci_file($con, $filedainserire, $idclasse, $idmateria, $gestioned
             // SOSTITUISCO GLI SPAZI CON GLI UNDERSCORE PER PROBLEMI CON BROWSER IPAD
             $nome = str_replace(" ", "_", $filedainserire['name']);
             $nome = elimina_apici($nome);
-            if ($gestionedocumenti == 'db')
+            if ($_SESSION['gestionedocumenti'] == 'db')
             {
 
                 $queryins = "insert into tbl_documenti(idmateria,idclasse,docbin, docnome, docsize, doctype,docmd5,idtipodocumento)
@@ -102,7 +102,7 @@ function inserisci_file($con, $filedainserire, $idclasse, $idmateria, $gestioned
 
             $resdel = eseguiQuery($con,$querydel);
             $result = eseguiQuery($con,$queryins);
-            if ($gestionedocumenti == 'hd')
+            if ($_SESSION['gestionedocumenti'] == 'hd')
             {
                 crea_file($filedainserire, $md5data);
             }

@@ -183,9 +183,9 @@ if ($idclasse != "0" & $idclasse!="") {
 
     $seledata = '';
     if ($periodo == 'primo')
-        $seledata = "and data<='$fineprimo'";
+        $seledata = "and data<='".$_SESSION['fineprimo']."'";
     if ($periodo == 'secondo')
-        $seledata = "and data>'$fineprimo'";
+        $seledata = "and data>'".$_SESSION['fineprimo']."'";
 }
 else
     $idalunno="";

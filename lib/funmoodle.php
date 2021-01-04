@@ -414,7 +414,7 @@ function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle
     $nomecorso = $nomemateria . " " . $anno . " " . $sezione . " " . $specializzazione . " " . $annoinizio;
     $siglacorso = $siglamateria . $anno . $sezione . $specsigla . $annoinizio;
 
-    $idcorso = getIdCorsoMoodle($tokenservizimoodle, $urlmoodle, $siglacorso);
+    $idcorso = getIdCorsoMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $siglacorso);
     print "<br><br>$siglacorso    $siglacategoria    $nomecorso  $idcorso";
 
 // CREO CATEGORIA E SPOSTO CORSO 
@@ -426,46 +426,46 @@ function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle
 
 // Verifico ed eventualmente creo categoria livello 1
 
-    $idcategoria0 = getCategoriaMoodle($tokenservizimoodle, $urlmoodle, $siglacategoria0);
+    $idcategoria0 = getCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $siglacategoria0);
 
 
     if ($idcategoria0 == -1)
-        $idcategoria0 = creaCategoriaMoodle($tokenservizimoodle, $urlmoodle, $_SESSION['nome_scuola'], $siglacategoria0, 0);
+        $idcategoria0 = creaCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $_SESSION['nome_scuola'], $siglacategoria0, 0);
 
-    $idcategoria1 = getCategoriaMoodle($tokenservizimoodle, $urlmoodle, $siglacategoria1);
+    $idcategoria1 = getCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $siglacategoria1);
 
     if ($idcategoria1 == -1)
-        $idcategoria1 = creaCategoriaMoodle($tokenservizimoodle, $urlmoodle, $nomemateria, $siglacategoria1, $idcategoria0);
+        $idcategoria1 = creaCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $nomemateria, $siglacategoria1, $idcategoria0);
 
 // Verifico ed eventualmente creo categoria livello 2
-    $idcategoria2 = getCategoriaMoodle($tokenservizimoodle, $urlmoodle, $siglacategoria2);
+    $idcategoria2 = getCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $siglacategoria2);
 
     if ($idcategoria2 == -1)
-        $idcategoria2 = creaCategoriaMoodle($tokenservizimoodle, $urlmoodle, "$nomemateria - Anno $anno", $siglacategoria2, $idcategoria1);
+        $idcategoria2 = creaCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], "$nomemateria - Anno $anno", $siglacategoria2, $idcategoria1);
 
 // Verifico ed eventualmente creo categoria livello 3
-    $idcategoria3 = getCategoriaMoodle($tokenservizimoodle, $urlmoodle, $siglacategoria3);
+    $idcategoria3 = getCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $siglacategoria3);
 
     if ($idcategoria3 == -1)
-        $idcategoria3 = creaCategoriaMoodle($tokenservizimoodle, $urlmoodle, "$nomemateria - Anno $anno - A.S. $annoinizio", $siglacategoria3, $idcategoria2);
+        $idcategoria3 = creaCategoriaMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], "$nomemateria - Anno $anno - A.S. $annoinizio", $siglacategoria3, $idcategoria2);
 
 // SPOSTO CORSO
 
 
-    $risposta = aggiornaCategoriaCorso($tokenservizimoodle, $urlmoodle, $idcorso, $idcategoria3);
+    $risposta = aggiornaCategoriaCorso($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idcorso, $idcategoria3);
     print "Esito spostamento: $risposta <br>";
 // Eliminazione iscrizioni al corso
 
 
 
-    $utentiiscritti = getUtentiCorsoMoodle($tokenservizimoodle, $urlmoodle, $idcorso);
+    $utentiiscritti = getUtentiCorsoMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idcorso);
 
     print "Utenti iscritti: " . $utentiiscritti . "<br>";
 
     foreach ($utentiiscritti as $utenteiscritto)
     {
         $idutenteiscritto = $utenteiscritto->id;
-        disiscriviUtenteMoodle($tokenservizimoodle, $urlmoodle, $idcorso, $idutenteiscritto);
+        disiscriviUtenteMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idcorso, $idutenteiscritto);
     }
 
 // Iscrizione nuovi alunni e docenti al corso
@@ -479,9 +479,9 @@ function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle
         // $usernamedocente="doc".$_SESSION['suffisso'].($rec["iddocente"]-1000000000);
         $usernamedocente = costruisciUsernameMoodle($rec['iddocente']);
         print "<br>Docente: $usernamedocente";
-        $identutente = getIdMoodle($tokenservizimoodle, $urlmoodle, $usernamedocente);
+        $identutente = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $usernamedocente);
 
-        iscriviUtenteMoodle($tokenservizimoodle, $urlmoodle, $idcorso, $identutente, 3);
+        iscriviUtenteMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idcorso, $identutente, 3);
     }
 
     $query = "select * from tbl_alunni where idclasse = $idclasse";
@@ -491,8 +491,8 @@ function sincronizzaCorsoMoodle($idclasse, $idmateria, $con, $tokenservizimoodle
         // $usernamealunno="al".$_SESSION['suffisso'].($rec["idalunno"]);
         $usernamealunno = costruisciUsernameMoodle($rec['idalunno']);
         print "<br>Alunno: $usernamealunno";
-        $identalunno = getIdMoodle($tokenservizimoodle, $urlmoodle, $usernamealunno);
+        $identalunno = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $usernamealunno);
 
-        iscriviUtenteMoodle($tokenservizimoodle, $urlmoodle, $idcorso, $identalunno, 5);
+        iscriviUtenteMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idcorso, $identalunno, 5);
     }
 }

@@ -50,7 +50,7 @@ if ($idalunno != $_SESSION['idutente'] && $tipoutente == 'T')
 }
 
 if ($classe != "")
-    $elencoalunni = estrai_alunni_classe_data($classe, $fineprimo, $con);
+    $elencoalunni = estrai_alunni_classe_data($classe, $_SESSION['fineprimo'], $con);
 
 $alunni = array();
 if ($classe != "")
@@ -174,7 +174,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
         $schede->SetFont('Arial', 'B', 10);
 
         $per = $periodo . "° ";
-        if ($numeroperiodi == 3)
+        if ($_SESSION['numeroperiodi'] == 3)
             $per .= "trimestre";
         else
             $per .= "quadrimestre";
@@ -324,7 +324,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
 
 
                 // SE SI TRATTA DI SCUOLA SUPERIORE STAMPO LE ORE DI ASSENZA
-                if ($livello_scuola == 4)
+                if ($_SESSION['livello_scuola'] == 4)
                 {
                     $schede->SetFont('Arial', '', 7);
                     $y = $schede->GetY();
@@ -333,7 +333,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
                 }
                 // SE PREVISTA LA STAMPA DEI GIUDIZI STAMPO LE ANNOTAZIONI ALTRIMENTI STAMPO UNA CELLA VUOTA
 
-                if ($giudizisuscheda == 'yes')
+                if ($_SESSION['giudizisuscheda'] == 'yes')
                 {
                     $schede->SetFont('Arial', '', 7);
                     $y = $schede->GetY();
@@ -374,7 +374,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
             $schede->SetFont('Arial', 'BI', 7);
             $schede->Cell(35, 6, $valutazione, 1, 0, 'C');
             // SE SI TRATTA DI SCUOLA SUPERIORE STAMPO UNA CELLA VUOTA PER LE ORE DI ASSENZA
-            if ($livello_scuola == 4)
+            if ($_SESSION['livello_scuola'] == 4)
             {
                 $schede->SetFont('Arial', '', 7);
                 $y = $schede->GetY();
@@ -382,7 +382,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
             }
 
             // SE PREVISTA LA STAMPA DEI GIUDIZI STAMPO LE ANNOTAZIONI ALTRIMENTI STAMPO UNA CELLA VUOTA
-            if ($giudizisuscheda == 'yes')
+            if ($_SESSION['giudizisuscheda'] == 'yes')
             {
                 $schede->SetFont('Arial', '', 7);
                 $y = $schede->GetY();
@@ -405,19 +405,19 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
             $perioquery = "and true";
             if ($periodo == "1")
             {
-                $perioquery = " and data <= '" . $fineprimo . "'";
+                $perioquery = " and data <= '" . $_SESSION['fineprimo'] . "'";
             }
-            if ($periodo == "2" & $numeroperiodi == 2)
+            if ($periodo == "2" & $_SESSION['numeroperiodi'] == 2)
             {
-                $perioquery = " and data > '" . $fineprimo . "'";
+                $perioquery = " and data > '" . $_SESSION['fineprimo'] . "'";
             }
-            if ($periodo == "2" & $numeroperiodi == 3)
+            if ($periodo == "2" & $_SESSION['numeroperiodi'] == 3)
             {
-                $perioquery = " and data > '" . $fineprimo . "' and data <=  '" . $finesecondo . "'";
+                $perioquery = " and data > '" . $_SESSION['fineprimo'] . "' and data <=  '" . $_SESSION['finesecondo'] . "'";
             }
             if ($periodo == "3")
             {
-                $perioquery = " and data > '" . $finesecondo . "'";
+                $perioquery = " and data > '" . $_SESSION['finesecondo'] . "'";
             }
 
             $query = "select count(*) as numassenze from tbl_assenze where idalunno=$alu $perioquery";
@@ -425,7 +425,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
 
             if ($recasse = mysqli_fetch_array($risasse))
             {
-                if ($livello_scuola != 4)
+                if ($_SESSION['livello_scuola'] != 4)
                 {
                     $numasse = $recasse['numassenze'];
                     $schede->SetFont('Arial', 'B', 7);
@@ -436,7 +436,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente,
             }
         }
         // ESTRAGGO IL GIUDIZIO DISCORSIVO SE PREVISTO
-        if ($giudizisuscheda == "yes")
+        if ($_SESSION['giudizisuscheda'] == "yes")
         {
             $query = "SELECT giudizio from tbl_giudizi
 						WHERE idalunno=$alu

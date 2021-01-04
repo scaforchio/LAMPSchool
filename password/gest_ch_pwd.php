@@ -93,11 +93,11 @@ if (mysqli_num_rows($result) <= 0)
         if (mysqli_affected_rows($con) == 1)
         {
             print ("<center><br/>Password cambiata correttamente.<br/></center>");
-            if ($tokenservizimoodle != '' & substr($ute, 0, 2) == 'al')
+            if ($_SESSION['tokenservizimoodle'] != '' & substr($ute, 0, 2) == 'al')
             {
-                $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $ute);
+                $idmoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $ute);
                 print "IDMOODLE $idmoodle";
-                cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $ute, $pas);
+                cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idmoodle, $ute, $pas);
             }
         } else
         {

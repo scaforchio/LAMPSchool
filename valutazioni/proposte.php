@@ -92,7 +92,7 @@ print ('
 //
 //   Inizio visualizzazione del combo box del periodo
 //
-if ($numeroperiodi == 2)
+if ($_SESSION['numeroperiodi'] == 2)
 {
     print('<tr><td width="50%"><b>Quadrimestre</b></td>');
 } else
@@ -118,7 +118,7 @@ if ($periodo == '2')
     echo("<option value='2'>Secondo</option>");
 }
 
-if ($numeroperiodi == 3)
+if ($_SESSION['numeroperiodi'] == 3)
 {
     if ($periodo == '3')
     {
@@ -319,19 +319,19 @@ if (($cattedra != "") & ($numerorighe > 0))
 
     if ($periodo == "1")
     {
-        $querylez = 'SELECT sum(numeroore) AS orelez FROM tbl_lezioni WHERE idmateria="' . $materia . '" AND idclasse="' . $idclasse . '" AND datalezione <= "' . $fineprimo . '"';
+        $querylez = 'SELECT sum(numeroore) AS orelez FROM tbl_lezioni WHERE idmateria="' . $materia . '" AND idclasse="' . $idclasse . '" AND datalezione <= "' . $_SESSION['fineprimo'] . '"';
     }
-    if ($periodo == "2" & $numeroperiodi == 2)
+    if ($periodo == "2" & $_SESSION['numeroperiodi'] == 2)
     {
-        $querylez = 'SELECT sum(numeroore) AS orelez FROM tbl_lezioni WHERE idmateria="' . $materia . '" AND idclasse="' . $idclasse . '" AND datalezione >  "' . $fineprimo . '"';
+        $querylez = 'SELECT sum(numeroore) AS orelez FROM tbl_lezioni WHERE idmateria="' . $materia . '" AND idclasse="' . $idclasse . '" AND datalezione >  "' . $_SESSION['fineprimo'] . '"';
     }
-    if ($periodo == "2" & $numeroperiodi == 3)
+    if ($periodo == "2" & $_SESSION['numeroperiodi'] == 3)
     {
-        $querylez = 'SELECT sum(numeroore) AS orelez FROM tbl_lezioni WHERE idmateria="' . $materia . '" AND idclasse="' . $idclasse . '" AND datalezione >  "' . $fineprimo . '" AND datalezione <=  "' . $finesecondo . '"';
+        $querylez = 'SELECT sum(numeroore) AS orelez FROM tbl_lezioni WHERE idmateria="' . $materia . '" AND idclasse="' . $idclasse . '" AND datalezione >  "' . $_SESSION['fineprimo'] . '" AND datalezione <=  "' . $_SESSION['finesecondo'] . '"';
     }
     if ($periodo == "3")
     {
-        $querylez = 'SELECT sum(numeroore) AS orelez FROM tbl_lezioni WHERE idmateria="' . $materia . '" AND idclasse="' . $idclasse . '" AND datalezione >  "' . $finesecondo . '"';
+        $querylez = 'SELECT sum(numeroore) AS orelez FROM tbl_lezioni WHERE idmateria="' . $materia . '" AND idclasse="' . $idclasse . '" AND datalezione >  "' . $_SESSION['finesecondo'] . '"';
     }
     if ($periodo == "Tutti")
     {
@@ -351,7 +351,7 @@ if (($cattedra != "") & ($numerorighe > 0))
        <tr class='prima'>
           
           <td><b> Alunno </b></td>";
-    if ($periodo < $numeroperiodi)
+    if ($periodo < $_SESSION['numeroperiodi'])
     {
         echo "  <td><b> Scritto </b></td><td><b> Orale</b></td><td><b>Pratico </b></td><td><b>Unico </b></td><td><b>Condotta </b></td><td align='center'><b>Annotazioni</b></td>";
     } else
@@ -360,7 +360,7 @@ if (($cattedra != "") & ($numerorighe > 0))
     }
 
     echo "<td align='center'><b> Voti del periodo  </b></td>";
-    if ($periodo == $numeroperiodi)
+    if ($periodo == $_SESSION['numeroperiodi'])
     {
         echo "<td align='center'>Valutazioni periodi precedenti</td>";
     }
@@ -453,19 +453,19 @@ if (($cattedra != "") & ($numerorighe > 0))
 
         if ($periodo == "1")
         {
-            $queryper = ' and data <= "' . $fineprimo . '"';
+            $queryper = ' and data <= "' . $_SESSION['fineprimo'] . '"';
         }
-        if ($periodo == "2" & $numeroperiodi == 2)
+        if ($periodo == "2" & $_SESSION['numeroperiodi'] == 2)
         {
-            $queryper = ' and data >  "' . $fineprimo . '"';
+            $queryper = ' and data >  "' . $_SESSION['fineprimo'] . '"';
         }
-        if ($periodo == "2" & $numeroperiodi == 3)
+        if ($periodo == "2" & $_SESSION['numeroperiodi'] == 3)
         {
-            $queryper = ' and data >  "' . $fineprimo . '" and data <=  "' . $finesecondo . '"';
+            $queryper = ' and data >  "' . $_SESSION['fineprimo'] . '" and data <=  "' . $_SESSION['finesecondo'] . '"';
         }
         if ($periodo == "3")
         {
-            $queryper = ' and data >  "' . $finesecondo . '"';
+            $queryper = ' and data >  "' . $_SESSION['finesecondo'] . '"';
         }
         if ($periodo == "Tutti")
         {
@@ -473,7 +473,7 @@ if (($cattedra != "") & ($numerorighe > 0))
         }
 
 
-        if ($periodo < $numeroperiodi)
+        if ($periodo < $_SESSION['numeroperiodi'])
         {
             // SCRITTO
 
@@ -553,7 +553,7 @@ if (($cattedra != "") & ($numerorighe > 0))
         // UNICO
 
         echo "<td>";
-        if (strpos($tipoval, "U") != false | $periodo == $numeroperiodi)
+        if (strpos($tipoval, "U") != false | $periodo == $_SESSION['numeroperiodi'])
         {
             echo "   <select name='unico" . $val['idalunno'] . "'><option value=99>&nbsp;";
 
@@ -577,12 +577,12 @@ if (($cattedra != "") & ($numerorighe > 0))
         /*
          * CONDOTTA
          */
-        if ($livello_scuola < 4)
+        if ($_SESSION['livello_scuola'] < 4)
         {
             $inizio = 21;
             $fine = 30;
         }
-        if ($livello_scuola == 4)
+        if ($_SESSION['livello_scuola'] == 4)
         {
             $inizio = 1;
             $fine = 11;
@@ -607,7 +607,7 @@ if (($cattedra != "") & ($numerorighe > 0))
         echo '</select>
               </td>';
         // ANNOTAZIONI TTTT
-        // if ($giudizisuscheda=="yes")
+        // if ($_SESSION['giudizisuscheda']=="yes")
         if (!isset($note))
         {
             $note = '';
@@ -624,19 +624,19 @@ if (($cattedra != "") & ($numerorighe > 0))
         /*
           if ($periodo == "1")
           {
-          $queryper = ' and data <= "' . $fineprimo . '"';
+          $queryper = ' and data <= "' . $_SESSION['fineprimo'] . '"';
           }
-          if ($periodo == "2" & $numeroperiodi == 2)
+          if ($periodo == "2" & $_SESSION['numeroperiodi'] == 2)
           {
-          $queryper = ' and data >  "' . $fineprimo . '"';
+          $queryper = ' and data >  "' . $_SESSION['fineprimo'] . '"';
           }
-          if ($periodo == "2" & $numeroperiodi == 3)
+          if ($periodo == "2" & $_SESSION['numeroperiodi'] == 3)
           {
-          $queryper = ' and data >  "' . $fineprimo . '" and data <=  "' . $finesecondo . '"';
+          $queryper = ' and data >  "' . $_SESSION['fineprimo'] . '" and data <=  "' . $_SESSION['finesecondo'] . '"';
           }
           if ($periodo == "3")
           {
-          $queryper = ' and data >  "' . $finesecondo . '"';
+          $queryper = ' and data >  "' . $_SESSION['finesecondo'] . '"';
           }
           if ($periodo == "Tutti")
           {
@@ -822,19 +822,19 @@ if (($cattedra != "") & ($numerorighe > 0))
         $queryass = "select sum(oreassenza) as oreass from tbl_asslezione,tbl_lezioni where tbl_asslezione.idlezione=tbl_lezioni.idlezione and idalunno = " . $val["idalunno"] . " and tbl_asslezione.idmateria=$materia and idclasse=$idclasse ";
         if ($periodo == "1")
         {
-            $queryass = $queryass . " and data <= '$fineprimo'";
+            $queryass = $queryass . " and data <= '".$_SESSION['fineprimo']."'";
         }
-        if ($periodo == "2" & $numeroperiodi == 2)
+        if ($periodo == "2" & $_SESSION['numeroperiodi'] == 2)
         {
-            $queryass = $queryass . " and data >  '$fineprimo'";
+            $queryass = $queryass . " and data >  '".$_SESSION['fineprimo']."'";
         }
-        if ($periodo == "2" & $numeroperiodi == 3)
+        if ($periodo == "2" & $_SESSION['numeroperiodi'] == 3)
         {
-            $queryass = $queryass . " and data >  '$fineprimo' and data <=  '$finesecondo'";
+            $queryass = $queryass . " and data >  '".$_SESSION['fineprimo']."' and data <=  '".$_SESSION['finesecondo']."'";
         }
         if ($periodo == "3")
         {
-            $queryass = $queryass . " and data >  '$finesecondo'";
+            $queryass = $queryass . " and data >  '".$_SESSION['finesecondo']."'";
         }
         if ($periodo == "Tutti")
         {
@@ -898,10 +898,10 @@ if (($cattedra != "") & ($numerorighe > 0))
 
         // RICERCA VALUTAZIONI PRECEDENTI
 
-        if ($periodo == $numeroperiodi)
+        if ($periodo == $_SESSION['numeroperiodi'])
         {
             print "<td>";
-            $queryvi = "select * from tbl_valutazionifinali where idalunno=" . $val["idalunno"] . " and idmateria=$materia and periodo<$numeroperiodi";
+            $queryvi = "select * from tbl_valutazionifinali where idalunno=" . $val["idalunno"] . " and idmateria=$materia and periodo<".$_SESSION['numeroperiodi'];
 
             $risvi = eseguiQuery($con,$queryvi);
             while ($recvi = mysqli_fetch_array($risvi))
@@ -929,7 +929,7 @@ if (($cattedra != "") & ($numerorighe > 0))
                 }
             }
 
-            $queryvi = "select * from tbl_valutazionifinali where idalunno=" . $val["idalunno"] . " and idmateria=-1 and periodo<$numeroperiodi";
+            $queryvi = "select * from tbl_valutazionifinali where idalunno=" . $val["idalunno"] . " and idmateria=-1 and periodo<".$_SESSION['numeroperiodi'];
 
             $risvi = eseguiQuery($con,$queryvi);
             while ($recvi = mysqli_fetch_array($risvi))

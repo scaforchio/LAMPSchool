@@ -114,7 +114,7 @@ if ($idmateria != "" && $anno != "")
 
     $esisteprogrammazione = false;
     $nf = "prog_" . $idmateria . "_anno_" . $anno . "_" . $_SESSION['suffisso'] . ".csv";
-    $nomefile = "$cartellabuffer/" . $nf;
+    $nomefile = $_SESSION['cartellabuffer']."/" . $nf;
     $fp = fopen($nomefile, 'w');
 
     fputcsv($fp, array("tipo", "sintesi", "descrizione", "obmin"), ";");
@@ -146,7 +146,7 @@ if ($idmateria != "" && $anno != "")
     }
     fclose($fp);
     if ($esisteprogrammazione)
-        print ("<br/><center>Apri programmazione scolastica:<a href='$cartellabuffer/$nf'><img src='../immagini/csv.png'></a></center>");
+        print ("<br/><center>Apri programmazione scolastica:<a href='".$_SESSION['cartellabuffer']."/$nf'><img src='../immagini/csv.png'></a></center>");
     else
         print ("<br/><center>Non c'è programmazione scolastica!</center>");
 }

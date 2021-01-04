@@ -671,7 +671,7 @@ function inspref($comando, $log = true)
                 )
                 {
                     // Non effettuo registrazione completa per caricamento documenti in db
-                    if (startsWith($comandoreg, "INSERT INTO " . $prefisso_tabelle . "tbl_documenti") && ($gestionedocumenti == 'db'))
+                    if (startsWith($comandoreg, "INSERT INTO " . $prefisso_tabelle . "tbl_documenti") && ($_SESSION['gestionedocumenti'] == 'db'))
                     {
                         $comandoreg = "Inserimento documento in db";
                     }
@@ -721,7 +721,7 @@ function inserisci_log($testo, $nflog = "", $suff = "")
     // programmi svolti, confrema invio SMS ecc.)
 
 
-    $nomefilelog = ($nflog == "") ? $_SESSION['nomefilelog'] : $nflog;
+    $_SESSION['nomefilelog'] = ($nflog == "") ? $_SESSION['nomefilelog'] : $nflog;
     if ($suff == "")
     {
         if (get_suffisso() != "")
@@ -732,8 +732,8 @@ function inserisci_log($testo, $nflog = "", $suff = "")
     } else
         $suff = $suff . "/";
 
-    // print "../lampschooldata/" . $suff . "00$nomefilelog.log";
-    error_log($testo . "\n", 3, "../lampschooldata/" . $suff . "0000$nomefilelog" . date("Ymd") . ".log");
+    // print "../lampschooldata/" . $suff . "00$_SESSION['nomefilelog'].log";
+    error_log($testo . "\n", 3, "../lampschooldata/" . $suff . "0000".$_SESSION['nomefilelog'] . date("Ymd") . ".log");
 }
 
 /**

@@ -77,13 +77,13 @@ $cla = mysqli_fetch_array($ris);
 
 $periodo = " ";
 if ($periodo == "Primo")
-    $periodo = " and data <= '" . $fineprimo . "'";
-if ($periodo == "Secondo" & $numeroperiodi == 2)
-    $periodo = " and data > '" . $fineprimo . "'";
-if ($periodo == "Secondo" & $numeroperiodi == 3)
-    $periodo = " and  data >  '" . $fineprimo . "' and data <=  '" . $finesecondo . "'";
+    $periodo = " and data <= '" . $_SESSION['fineprimo'] . "'";
+if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 2)
+    $periodo = " and data > '" . $_SESSION['fineprimo'] . "'";
+if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 3)
+    $periodo = " and  data >  '" . $_SESSION['fineprimo'] . "' and data <=  '" . $_SESSION['finesecondo'] . "'";
 if ($periodo == "Terzo")
-    $periodo = " and data > '" . $finesecondo . "'";
+    $periodo = " and data > '" . $_SESSION['finesecondo'] . "'";
 
 if ($tipoutente != "P")
     $query = "select data, tbl_alunni.idalunno, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno, tbl_alunni.datanascita as dataalunno, testo 

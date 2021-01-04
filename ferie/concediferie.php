@@ -77,11 +77,11 @@ $indirizzomaildocente = $recemail['email'];
 
 if ($conc != 2)
 {
-    $esitomailprotocollo = invia_mail($indirizzomailassenze, $subject, $testomail);
+    $esitomailprotocollo = invia_mail($_SESSION['indirizzomailassenze'], $subject, $testomail);
     $esitomaildocente = invia_mail($indirizzomaildocente, $subject, $testomail);
-    if (($conc == 1) && $mailresponsabilesostituzioni != '')
+    if (($conc == 1) && $_SESSION['mailresponsabilesostituzioni'] != '')
     {
-        $esitomailresponsabile = invia_mail($mailresponsabilesostituzioni, $subject, "Richiesta in oggetto specificata accolta dal D.S.");
+        $esitomailresponsabile = invia_mail($_SESSION['mailresponsabilesostituzioni'], $subject, "Richiesta in oggetto specificata accolta dal D.S.");
         //print "Esito $esitomailresponsabile";
         //die();
     }

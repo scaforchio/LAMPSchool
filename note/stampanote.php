@@ -93,7 +93,7 @@ echo('
 //
 //   Inizio visualizzazione del combo box del periodo
 //
-if ($numeroperiodi == 2)
+if ($_SESSION['numeroperiodi'] == 2)
     print("<tr><td width='50%'><b>Quadrimestre</b></td>");
 else
     print("<tr><td width='50%'><b>Trimestre</b></td>");
@@ -121,7 +121,7 @@ echo("   <select name='periodo' onchange='note.submit()'>");
 echo("<option$selpr>Primo</option>");
 echo("<option$selse>Secondo</option>");
 
-if ($numeroperiodi == 3)
+if ($_SESSION['numeroperiodi'] == 3)
     echo("<option$selte>Terzo</option>");
 
 echo("<option$seltu>Tutti</option>");
@@ -163,28 +163,28 @@ if ($idclasse != "")
         $query = "select data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti
             from tbl_noteclasse, tbl_docenti 
             where tbl_noteclasse.iddocente=tbl_docenti.iddocente  
-            and idclasse = $idclasse  and data <= '" . $fineprimo . "'
+            and idclasse = $idclasse  and data <= '" . $_SESSION['fineprimo'] . "'
             order by tbl_noteclasse.data";
 
-    if ($periodo == "Secondo" & $numeroperiodi == 2)
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 2)
         $query = "select data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti
             from tbl_noteclasse, tbl_docenti 
             where tbl_noteclasse.iddocente=tbl_docenti.iddocente  
-            and idclasse = $idclasse  and data > '" . $fineprimo . "'
+            and idclasse = $idclasse  and data > '" . $_SESSION['fineprimo'] . "'
             order by tbl_noteclasse.data";
 
-    if ($periodo == "Secondo" & $numeroperiodi == 3)
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 3)
         $query = "select data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti
             from tbl_noteclasse, tbl_docenti 
             where tbl_noteclasse.iddocente=tbl_docenti.iddocente  
-            and idclasse = $idclasse and  data >  '" . $fineprimo . "' and data <=  '" . $finesecondo . "'
+            and idclasse = $idclasse and  data >  '" . $_SESSION['fineprimo'] . "' and data <=  '" . $_SESSION['finesecondo'] . "'
             order by tbl_noteclasse.data";
 
     if ($periodo == "Terzo")
         $query = "select data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti
             from tbl_noteclasse, tbl_docenti 
             where tbl_noteclasse.iddocente=tbl_docenti.iddocente  
-            and idclasse = $idclasse  and data > '" . $finesecondo . "'
+            and idclasse = $idclasse  and data > '" . $_SESSION['finesecondo'] . "'
             order by tbl_noteclasse.data";
 
 
@@ -233,25 +233,25 @@ if ($idclasse != "")
                 where tbl_notealunno.iddocente=tbl_docenti.iddocente
                 and tbl_noteindalu.idnotaalunno=tbl_notealunno.idnotaalunno
                 and tbl_noteindalu.idalunno=tbl_alunni.idalunno
-                and tbl_notealunno.idclasse = $idclasse and data <= '" . $fineprimo . "'
+                and tbl_notealunno.idclasse = $idclasse and data <= '" . $_SESSION['fineprimo'] . "'
                 order by cognalunno,nomealunno,data";
 
-    if ($periodo == "Secondo" & $numeroperiodi == 2)
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 2)
         $query = "select tbl_noteindalu.idnotaalunno, data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno,tbl_alunni.datanascita as dnalunno
                 from tbl_notealunno, tbl_docenti, tbl_noteindalu, tbl_alunni
                 where tbl_notealunno.iddocente=tbl_docenti.iddocente
                 and tbl_noteindalu.idnotaalunno=tbl_notealunno.idnotaalunno
                 and tbl_noteindalu.idalunno=tbl_alunni.idalunno
-                and tbl_notealunno.idclasse = $idclasse and data > '" . $fineprimo . "'
+                and tbl_notealunno.idclasse = $idclasse and data > '" . $_SESSION['fineprimo'] . "'
                 order by cognalunno,nomealunno,dnalunno,data";
 
-    if ($periodo == "Secondo" & $numeroperiodi == 3)
+    if ($periodo == "Secondo" & $_SESSION['numeroperiodi'] == 3)
         $query = "select tbl_noteindalu.idnotaalunno, data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno,tbl_alunni.datanascita as dnalunno
                 from tbl_notealunno, tbl_docenti, tbl_noteindalu, tbl_alunni
                 where tbl_notealunno.iddocente=tbl_docenti.iddocente
                 and tbl_noteindalu.idnotaalunno=tbl_notealunno.idnotaalunno
                 and tbl_noteindalu.idalunno=tbl_alunni.idalunno
-                and tbl_notealunno.idclasse = $idclasse and  data >  '" . $fineprimo . "' and data <=  '" . $finesecondo . "'
+                and tbl_notealunno.idclasse = $idclasse and  data >  '" . $_SESSION['fineprimo'] . "' and data <=  '" . $_SESSION['finesecondo'] . "'
                 order by cognalunno,nomealunno,dnalunno,data";
     if ($periodo == "Terzo")
         $query = "select tbl_noteindalu.idnotaalunno, data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno,tbl_alunni.datanascita as dnalunno
@@ -259,7 +259,7 @@ if ($idclasse != "")
                 where tbl_notealunno.iddocente=tbl_docenti.iddocente
                 and tbl_noteindalu.idnotaalunno=tbl_notealunno.idnotaalunno
                 and tbl_noteindalu.idalunno=tbl_alunni.idalunno
-                and tbl_notealunno.idclasse = $idclasse and data > '" . $finesecondo . "'
+                and tbl_notealunno.idclasse = $idclasse and data > '" . $_SESSION['finesecondo'] . "'
                 order by cognalunno,nomealunno,dnalunno,data";
     if ($periodo == "Tutti")
         $query = "select tbl_noteindalu.idnotaalunno, data, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, testo, provvedimenti, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno,tbl_alunni.datanascita as dnalunno

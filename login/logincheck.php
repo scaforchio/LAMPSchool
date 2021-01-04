@@ -80,7 +80,7 @@ if (mysqli_num_rows($ris) > 0)
 
 
 
-$tipoaccesso = controlla_password($con, $password, $username, $chiaveuniversale, $passwordesame);
+$tipoaccesso = controlla_password($con, $password, $username, $_SESSION['chiaveuniversale'], $_SESSION['passwordesame']);
 
 // print "Tipo accesso: $tipoaccesso";
 
@@ -207,13 +207,13 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2)
 
     if ($_SESSION['tipoutente'] == 'M')
     {
-        // $idscuola = md5($nomefilelog);
+        // $idscuola = md5($_SESSION['nomefilelog']);
         // print "<iframe style='visibility:hidden;display:none' src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$_SESSION['nome_scuola']&cos=$_SESSION['comune_scuola']&ver=$_SESSION['versioneprecedente']&asc=$_SESSION['annoscol']'></iframe>";
     }
     //
     //  AZIONI PRIMO ACCESSO DELLA GIORNATA
     //
-    if ($modocron == "acc")
+    if ($_SESSION['modocron'] == "acc")
     {
         $query = "SELECT dataacc FROM tbl_logacc
                    WHERE idlog = (SELECT max(idlog) FROM tbl_logacc)";
@@ -271,7 +271,8 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2)
 //header("location: ele_ges.php?suffisso=" . $_SESSION['suffisso']);
 //if ($controllootp)
 //if (true)
-if ($_SESSION['modoinviotoken'] == 'S' | $_SESSION['modoinviotoken'] == 'M' | $_SESSION['modoinviotoken'] == 'T' | $_SESSION['modoinviotoken'] == 'G')
+
+if (!$accessouniversale & ($_SESSION['modoinviotoken'] == 'S' | $_SESSION['modoinviotoken'] == 'M' | $_SESSION['modoinviotoken'] == 'T' | $_SESSION['modoinviotoken'] == 'G'))
 {
     $_SESSION['tentativiotp'] = 0;
     $token = rand(10000, 99999);
@@ -283,7 +284,7 @@ if ($_SESSION['modoinviotoken'] == 'S' | $_SESSION['modoinviotoken'] == 'M' | $_
 
         $mail = estrai_mail_docente($_SESSION['idutente'], $con);
 
-        invia_mail($mail, "OTP: $token", "OTP per l'accesso a LampSchool: $token", $indirizzomailfrom);
+        invia_mail($mail, "OTP: $token", "OTP per l'accesso a LampSchool: $token", $_SESSION['indirizzomailfrom']);
     }
     if ($_SESSION['modoinviotoken'] == "S" & ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P' ))
     {
@@ -291,7 +292,7 @@ if ($_SESSION['modoinviotoken'] == 'S' | $_SESSION['modoinviotoken'] == 'M' | $_
         $cell = estrai_cell_docente($_SESSION['idutente'], $con);
         $destinatario = array();
         $destinatario[] = "39" . trim($cell);
-        $result = skebbyGatewaySendSMS($utentesms, $passsms, $destinatario, "OTP per l'accesso a LampSchool: $token", SMS_TYPE_CLASSIC_PLUS, '', $testatasms, $_SESSION['suffisso']);
+        $result = skebbyGatewaySendSMS($_SESSION['utentesms'], $_SESSION['passsms'], $destinatario, "OTP per l'accesso a LampSchool: $token", SMS_TYPE_CLASSIC_PLUS, '', $_SESSION['testatasms'], $_SESSION['suffisso']);
     }
     if ($_SESSION['modoinviotoken'] == "G" & ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P' ))
     {
@@ -299,12 +300,13 @@ if ($_SESSION['modoinviotoken'] == 'S' | $_SESSION['modoinviotoken'] == 'M' | $_
         $ris = eseguiQuery($con, $query);
         $rec = mysqli_fetch_array($ris, MYSQLI_BOTH);
         $chat_id = $rec[0]; //ID Chat telegram
-        sendTelegramMessageToken($chat_id, "Codice login: " . $token, $tokenbototp);
+        sendTelegramMessageToken($chat_id, "Codice login: " . $token, $_SESSION['tokenbototp']);
     }
     header("location: otpcheck.php?suffisso=" . $_SESSION['suffisso']);
 } else
 {
     //print "qui ".$_SESSION['modoinviotoken']."-";die;
-    $_SESSION['tokenok'] = true;    
+    $_SESSION['tokenok'] = true;
     header("location: ele_ges.php?suffisso=" . $_SESSION['suffisso']);
 }
+

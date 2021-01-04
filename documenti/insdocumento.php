@@ -107,7 +107,7 @@ if ($filedainserire['tmp_name'] != "")
         $nome = elimina_apici($nome);
         $md5data = md5($data);
         if ($idmateria=='') $idmateria=0;
-        if ($gestionedocumenti == 'db')
+        if ($_SESSION['gestionedocumenti'] == 'db')
         {
             $queryins = "insert into tbl_documenti
                                (idmateria,   descrizione,   idclasse,   idalunno,   iddocente,   idtipodocumento, pei,   datadocumento,   docbin,     docmd5,          docnome,    docsize,                       doctype)

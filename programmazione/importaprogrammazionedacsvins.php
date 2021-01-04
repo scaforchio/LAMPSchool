@@ -131,7 +131,7 @@ if ($idclasse != "" && $idmateria != "")
     if ($ok)
     {
 
-        $dir = "$cartellabuffer"; // la directory nella quale verrà salvato il file
+        $dir = $_SESSION['cartellabuffer'].""; // la directory nella quale verrà salvato il file
 
         $nomefile = $_FILES['filenomi']['name'];
         if (is_uploaded_file($_FILES['filenomi']['tmp_name']))

@@ -86,11 +86,11 @@ if ($iddoc == "")
         $qupd = "update tbl_utenti set password=md5('" . md5($pass) . "') where idutente=$iddocente";
         $resupd = eseguiQuery($con, $qupd);
 
-        if ($tokenservizimoodle != '')
+        if ($_SESSION['tokenservizimoodle'] != '')
         {
-            $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $utentemoodle);
+            $idmoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $utentemoodle);
             //print "IDMOODLE $idmoodle";
-            cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $utentemoodle, $pass);
+            cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idmoodle, $utentemoodle, $pass);
         }
     }
 } else
@@ -130,11 +130,11 @@ if ($iddoc == "")
         //print inspref($qupd);
         $resupd = eseguiQuery($con, $qupd);
 
-        if ($tokenservizimoodle != '')
+        if ($_SESSION['tokenservizimoodle'] != '')
         {
-            $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $utentemoodle);
+            $idmoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $utentemoodle);
 
-            $esito = cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $utentemoodle, $pass);
+            $esito = cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idmoodle, $utentemoodle, $pass);
             //print ("ESITO $esito");
             print (" (anche Moodle)");
         }

@@ -73,7 +73,7 @@ print ('
 //
 //   Inizio visualizzazione del combo box del periodo
 //
-if ($numeroperiodi == 2)
+if ($_SESSION['numeroperiodi'] == 2)
 {
     print('<tr><td width="50%"><b>Quadrimestre</b></td>');
 } else
@@ -99,7 +99,7 @@ if ($periodo == '2')
     echo("<option value='2'>Secondo</option>");
 }
 
-if ($numeroperiodi == 3)
+if ($_SESSION['numeroperiodi'] == 3)
 {
     if ($periodo == '3')
     {
@@ -109,7 +109,7 @@ if ($numeroperiodi == 3)
         echo("<option value='3'>Terzo</option>");
     }
 }
-if ($livello_scuola == '4')
+if ($_SESSION['livello_scuola'] == '4')
 {
     if ($periodo == '9')
     {

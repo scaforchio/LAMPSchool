@@ -190,7 +190,7 @@ print ('
 //
 //   Inizio visualizzazione del combo box del periodo
 //
-if ($numeroperiodi == 2)
+if ($_SESSION['numeroperiodi'] == 2)
 {
     print('<tr><td width="50%"><b>Quadrimestre</b></td>');
 } else
@@ -216,7 +216,7 @@ if ($periodo == '2')
     echo("<option value='2'>Secondo</option>");
 }
 
-if ($numeroperiodi == 3)
+if ($_SESSION['numeroperiodi'] == 3)
 {
     if ($periodo == '3')
     {
@@ -347,7 +347,7 @@ if ($idclasse != "")
 
         // Riempio l'elenco degli alunni presenti nella classe al momento dello scrutinio
         // TTTT Decidere se usare datascrutinio o datafinequadrimestre
-        $elencoalunni = estrai_alunni_classe_data($idclasse, $fineprimo, $con);
+        $elencoalunni = estrai_alunni_classe_data($idclasse, $_SESSION['fineprimo'], $con);
         // print $elencoalunni;
 
         if ($numproposte > 0 and $numvalutazioni == 0)
@@ -673,7 +673,7 @@ if ($idclasse != "")
               print "<br><center><a href='stampaschedealu.php?classe=$idclasse&periodo=$periodo'><img src='../immagini/stampa.png'></a>";
               $nf="scrut_".decodifica_classe($idclasse, $con)."_".$periodo.".csv";
               $nf=str_replace(" ","_",$nf);
-              $nomefile="$cartellabuffer/".$nf;
+              $nomefile=$_SESSION['cartellabuffer']."/".$nf;
               print ("&nbsp;&nbsp;&nbsp;<a href='$nomefile'><img src='../immagini/csv.png'></a></center>");
              */
             //
@@ -693,7 +693,7 @@ if ($idclasse != "")
 
             $nf = "scrut_" . decodifica_classe($idclasse, $con) . "_" . $periodo . ".csv";
             $nf = str_replace(" ", "_", $nf);
-            $nomefile = "$cartellabuffer/" . $nf;
+            $nomefile = $_SESSION['cartellabuffer']."/" . $nf;
             print ("&nbsp;&nbsp;&nbsp;<a href='$nomefile' target='_blank'><img src='../immagini/csv.png'></a></div>");
             print "</fieldset>";
             // VERIFICO SE LO SCRUTINIO E' APERTO E IN TAL CASO PROPONGO LA CHIUSURA
@@ -747,7 +747,7 @@ if ($idclasse != "")
         {
 
 
-            $elencoalunni = estrai_alunni_classe_data($idclasse, $fineprimo, $con);
+            $elencoalunni = estrai_alunni_classe_data($idclasse, $_SESSION['fineprimo'], $con);
 
 
             print ("<table align='center' border='1'><tr class='prima' align='center'><td>Alunno</td><td>Stampa</td></tr>");
@@ -816,9 +816,9 @@ if ($idclasse != "")
         print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaTAB.png' onclick='stampaTAB()'  onmouseover=$(this).css('cursor','pointer')>";
         print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaSEP.png' onclick='stampaSEP()'  onmouseover=$(this).css('cursor','pointer')>";
         /*
-          $nf="scrut_".decodifica_classe($idclasse, $con)."_".$numeroperiodi.".csv";
+          $nf="scrut_".decodifica_classe($idclasse, $con)."_".$_SESSION['numeroperiodi'].".csv";
           $nf=str_replace(" ","_",$nf);
-          $nomefile="$cartellabuffer/".$nf;
+          $nomefile=$_SESSION['cartellabuffer']."/".$nf;
           print ("&nbsp;&nbsp;&nbsp;<a href='$nomefile' target='_blank'><img src='../immagini/csv.png'></a></center>");
          */
         print "</div>";
@@ -871,11 +871,11 @@ function ricerca_assenze($idalunno, $idmateria, $alu, $mattipi, $assenze)
 function creaFileCSV($idclasse, $periodo, $elencoalunni, &$alu, &$mattipo, &$valu, $conn, &$annot)
 {
     //@require("../php-ini".$_SESSION['suffisso'].".php");
-    global $cartellabuffer;
+//    global $_SESSION['cartellabuffer'];
   //  global $_SESSION['plesso_specializzazione'];
-    global $fineprimo;
-    global $finesecondo;
-    global $numeroperiodi;
+//    global $_SESSION['fineprimo'];
+//    global $_SESSION['finesecondo'];
+    
 
     $assenze = array();
     // $elencoalunni=alunni_classe_data($idclasse,$datascrutinio,$conn);
@@ -933,7 +933,7 @@ function creaFileCSV($idclasse, $periodo, $elencoalunni, &$alu, &$mattipo, &$val
 
     $nf = "scrut_" . decodifica_classe($idclasse, $conn) . "_" . $periodo . ".csv";
     $nf = str_replace(" ", "_", $nf);
-    $nomefile = "$cartellabuffer/" . $nf;
+    $nomefile = $_SESSION['cartellabuffer']."/" . $nf;
     $fp = fopen($nomefile, 'w');
     $query = "SELECT distinct tbl_materie.idmateria,sigla,tipovalutazione,progrpag FROM tbl_cattnosupp,tbl_materie
            WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
@@ -1076,19 +1076,19 @@ function creaFileCSV($idclasse, $periodo, $elencoalunni, &$alu, &$mattipo, &$val
         $perioquery = "and true";
         if ($periodo == "1")
         {
-            $perioquery = " and data <= '" . $fineprimo . "'";
+            $perioquery = " and data <= '" . $_SESSION['fineprimo'] . "'";
         }
-        if ($periodo == "2" & $numeroperiodi == 2)
+        if ($periodo == "2" & $_SESSION['numeroperiodi'] == 2)
         {
-            $perioquery = " and data > '" . $fineprimo . "'";
+            $perioquery = " and data > '" . $_SESSION['fineprimo'] . "'";
         }
-        if ($periodo == "2" & $numeroperiodi == 3)
+        if ($periodo == "2" & $_SESSION['numeroperiodi'] == 3)
         {
-            $perioquery = " and data > '" . $fineprimo . "' and data <=  '" . $finesecondo . "'";
+            $perioquery = " and data > '" . $_SESSION['fineprimo'] . "' and data <=  '" . $_SESSION['finesecondo'] . "'";
         }
         if ($periodo == "3")
         {
-            $perioquery = " and data > '" . $finesecondo . "'";
+            $perioquery = " and data > '" . $_SESSION['finesecondo'] . "'";
         }
 
         $query = "SELECT COUNT(*) as numassenze from tbl_assenze where idalunno=$idalunno $perioquery";

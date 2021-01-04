@@ -27,7 +27,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 $nome = stringa_html('cl');
 $idalunno = stringa_html('idalunno');
 $scrutintegrativo = stringa_html('integrativo');
-$periodo = $numeroperiodi;
+$periodo = $_SESSION['numeroperiodi'];
 $provenienza = stringa_html('prov');
 //$anno = stringa_html('anno');
 
@@ -118,7 +118,7 @@ print ('
   //
   //   Inizio visualizzazione del combo box del periodo
   //
-  if ($numeroperiodi==2)
+  if ($_SESSION['numeroperiodi']==2)
   print('<tr><td width="50%"><b>Quadrimestre</b></td>');
   else
   print('<tr><td width="50%"><b>Trimestre</b></td>');
@@ -135,7 +135,7 @@ print ('
   else
   echo("<option value='2'>Secondo</option>");
 
-  if ($numeroperiodi==3)
+  if ($_SESSION['numeroperiodi']==3)
   if ($periodo=='3')
   echo("<option selected value='3'>Terzo</option>");
   else
@@ -339,12 +339,12 @@ if ($nome != "" & $idalunno != "")
                 $inizio = 1;
                 $fine = 20;
             }
-            if ($tipoval[$nummat][0] == 'C' & $livello_scuola < 4)
+            if ($tipoval[$nummat][0] == 'C' & $_SESSION['livello_scuola'] < 4)
             {
                 $inizio = 21;
                 $fine = 30;
             }
-            if ($tipoval[$nummat][0] == 'C' & $livello_scuola == 4)
+            if ($tipoval[$nummat][0] == 'C' & $_SESSION['livello_scuola'] == 4)
             {
                 $inizio = 1;
                 $fine = 11;
@@ -472,25 +472,25 @@ if ($nome != "" & $idalunno != "")
 
     print "<center><b>ESITO FINALE</b><br>";
 
-    if ($livello_scuola == "4" && decodifica_classe_no_spec($idclasse, $con) != 5)
+    if ($_SESSION['livello_scuola'] == "4" && decodifica_classe_no_spec($idclasse, $con) != 5)
         $giudsosp = "<br><small><small>Lasciare vuoto per<br>'giudizio sospeso'</small></small>";
     else
         $giudsosp = "";
 
     print "<table border=1><tr class='prima'><td>Validità anno scolastico</td><td>Esito finale$giudsosp</td><td>Voto medio</td>";
-    if ($livello_scuola == '4' && decodifica_classe_no_spec($idclasse, $con) != 5)
+    if ($_SESSION['livello_scuola'] == '4' && decodifica_classe_no_spec($idclasse, $con) != 5)
     {
         print "<td>Esito scr. integr.</td>";
     }
-    if (($livello_scuola == '4' && decodifica_classe_no_spec($idclasse, $con) == 3) || ($livello_scuola == '2' && decodifica_classe_no_spec($idclasse, $con) == 3) || ($livello_scuola == '3' && decodifica_classe_no_spec($idclasse, $con) == 8))
+    if (($_SESSION['livello_scuola'] == '4' && decodifica_classe_no_spec($idclasse, $con) == 3) || ($_SESSION['livello_scuola'] == '2' && decodifica_classe_no_spec($idclasse, $con) == 3) || ($_SESSION['livello_scuola'] == '3' && decodifica_classe_no_spec($idclasse, $con) == 8))
     {
         print "<td>Voto di idoneità</td>";
     }
-    if (($livello_scuola == '4' && decodifica_classe_no_spec($idclasse, $con) > 2))
+    if (($_SESSION['livello_scuola'] == '4' && decodifica_classe_no_spec($idclasse, $con) > 2))
     {
         print "<td>Credito scolastico</td>";
     }
-    if (($livello_scuola == '4' && decodifica_classe_no_spec($idclasse, $con) > 2))
+    if (($_SESSION['livello_scuola'] == '4' && decodifica_classe_no_spec($idclasse, $con) > 2))
     {
         print "<td>Credito totale</td>";
     }
@@ -531,7 +531,7 @@ if ($nome != "" & $idalunno != "")
     if ($scrutintegrativo != 'yes')
     {
         print "<SELECT ID='esito' NAME='esito'><option value='0'></option>  ";
-        if ($livello_scuola == '4')
+        if ($_SESSION['livello_scuola'] == '4')
         {
             $query = "SELECT * FROM tbl_tipiesiti ORDER BY idtipoesito";
         } else
@@ -563,7 +563,7 @@ if ($nome != "" & $idalunno != "")
     print "</td>";
 
 
-    if ($livello_scuola == '4' && decodifica_classe_no_spec($idclasse, $con) != 5)
+    if ($_SESSION['livello_scuola'] == '4' && decodifica_classe_no_spec($idclasse, $con) != 5)
     {
         //
         //  Riempimento combobox degli esiti
@@ -591,7 +591,7 @@ if ($nome != "" & $idalunno != "")
     }
 
 
-    if (($livello_scuola == '4' && decodifica_classe_no_spec($idclasse, $con) == 3) || ($livello_scuola == '2' && decodifica_classe_no_spec($idclasse, $con) == 3) || ($livello_scuola == '3' && decodifica_classe_no_spec($idclasse, $con) == 8))
+    if (($_SESSION['livello_scuola'] == '4' && decodifica_classe_no_spec($idclasse, $con) == 3) || ($_SESSION['livello_scuola'] == '2' && decodifica_classe_no_spec($idclasse, $con) == 3) || ($_SESSION['livello_scuola'] == '3' && decodifica_classe_no_spec($idclasse, $con) == 8))
     {
         print "<td align='center'>";
 
@@ -610,7 +610,7 @@ if ($nome != "" & $idalunno != "")
 
         print "</td>";
     }
-    if ($livello_scuola == '4')
+    if ($_SESSION['livello_scuola'] == '4')
     {
         if (decodifica_classe($idclasse, $con) == 3)
         {
@@ -634,7 +634,7 @@ if ($nome != "" & $idalunno != "")
             $credmaxtot = 60; //40;
         }
     }
-    if (($livello_scuola == '4' & decodifica_classe_no_spec($idclasse, $con) > 2))
+    if (($_SESSION['livello_scuola'] == '4' & decodifica_classe_no_spec($idclasse, $con) > 2))
     {
         print "<td align='center'>";
 
@@ -654,7 +654,7 @@ if ($nome != "" & $idalunno != "")
         print "</td>";
     }
 
-    if (($livello_scuola == '4' & decodifica_classe_no_spec($idclasse, $con) > 2))
+    if (($_SESSION['livello_scuola'] == '4' & decodifica_classe_no_spec($idclasse, $con) > 2))
     {
         print "<td align='center'>";
 

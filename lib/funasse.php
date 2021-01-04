@@ -154,7 +154,7 @@ function inserisci_assenze_per_ritardi_uscite($conn, $idalunno, $data)
   // ESTRAGGO L'ORA DI FINE GIORNATA DELLA CLASSE
   $orafin = estrai_ora_fine_giornata($data, $classe, $conn);
 
-  // inserisci_log("TTTT Orafine $orafin \n", 3, "../lampschooldata/demo/00$nomefilelog.log");
+  // inserisci_log("TTTT Orafine $orafin \n", 3, "../lampschooldata/demo/00$_SESSION['nomefilelog'].log");
   if ($orafin != '')
   {
 
@@ -162,13 +162,13 @@ function inserisci_assenze_per_ritardi_uscite($conn, $idalunno, $data)
   $orariofin = "";
   $query = "select fine from tbl_orario where giorno='$gs' and ora='$orafin' and valido";
   // print inspref($query);
-  //  inserisci_log("TTTT Query $query \n", 3, "../lampschooldata/demo/00$nomefilelog.log");
+  //  inserisci_log("TTTT Query $query \n", 3, "../lampschooldata/demo/00$_SESSION['nomefilelog'].log");
   $risorafin = eseguiQuery($conn,$query);
   if ($recorafin = mysqli_fetch_array($risorafin))
   {
   $orariofin = $recorafin['fine'];
   }
-  //  inserisci_log("TTTT Orariofine $orariofin \n", 3, "../lampschooldata/demo/00$nomefilelog.log");
+  //  inserisci_log("TTTT Orariofine $orariofin \n", 3, "../lampschooldata/demo/00$_SESSION['nomefilelog'].log");
   $query = "select max(ora) as numore from tbl_orario where giorno='$gs' and valido";
   // print inspref($query);
   $risoretot = eseguiQuery($conn,$query);
@@ -189,12 +189,12 @@ function inserisci_assenze_per_ritardi_uscite($conn, $idalunno, $data)
   {
   $differenza = date_diff(date_create($uscitaclasse), date_create($uscitaalunno));
 
-  // inserisci_log("TTTT Differenza $differenza \n", 3, "../lampschooldata/demo/00$nomefilelog.log");
+  // inserisci_log("TTTT Differenza $differenza \n", 3, "../lampschooldata/demo/00$_SESSION['nomefilelog'].log");
   // echo $differenza;
   $orediff = $differenza->format("%H");
   $mindiff = $differenza->format("%i");
   $minutidiff = $orediff * 60 + $mindiff;
-  //   inserisci_log("TTTT Differenza $minutidiff \n", 3, "../lampschooldata/demo/00$nomefilelog.log");
+  //   inserisci_log("TTTT Differenza $minutidiff \n", 3, "../lampschooldata/demo/00$_SESSION['nomefilelog'].log");
   $oreuscita = round($minutidiff / 60);
   // print "$minutidiff -> $oreritardo <br>";
 
@@ -617,7 +617,7 @@ function calcola_ritardi_brevi($idalunno, $con, $ritardobreve, $rangedate = '')
         $totent = $oraent * 60 + $minent;
         $mintotali = $totent - $toting;
 
-        if ($mintotali < $ritardobreve & $mintotali > 0)
+        if ($mintotali < $_SESSION['ritardobreve'] & $mintotali > 0)
         {
             $numritardibrevi++;
         }

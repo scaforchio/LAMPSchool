@@ -25,11 +25,11 @@ $query = "SELECT * FROM tbl_alunni, tbl_classi
          ";
 $querynorm = inspref($query);
 
-inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Eseguita query $querynorm", $nomefilelog . "rp", $suff);
+inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Eseguita query $querynorm", $_SESSION['nomefilelog'] . "rp", $suff);
 
 $ris = eseguiQuery($con, $query);
 
-inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Richiesto aggiornamento alunni da $dataultagg $oraultagg", $nomefilelog . "rp", $suff);
+inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Richiesto aggiornamento alunni da $dataultagg $oraultagg", $_SESSION['nomefilelog'] . "rp", $suff);
 
 
 while ($rec = mysqli_fetch_array($ris))
@@ -45,7 +45,7 @@ while ($rec = mysqli_fetch_array($ris))
     $stringa .= "08:10|08:10|08:10|08:10|08:10|08:10";
     $stringa .= ";<br>";
     print $stringa;
-    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Inviato alunno " . $rec['idalunno'], $nomefilelog . "rp", $suff);
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Inviato alunno " . $rec['idalunno'], $_SESSION['nomefilelog'] . "rp", $suff);
 }
 
 
@@ -70,7 +70,7 @@ while ($rec = mysqli_fetch_array($ris))
     $stringa .= ";<br>";
     print $stringa;
 
-    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Inviato alunno " . $rec['idalunno'], $nomefilelog . "rp", $suff);
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Inviato alunno " . $rec['idalunno'], $_SESSION['nomefilelog'] . "rp", $suff);
 }
 
 

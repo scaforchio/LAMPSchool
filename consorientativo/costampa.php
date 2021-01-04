@@ -53,7 +53,7 @@ $schede = new FPDF('P', 'mm', 'A4');
   }
  */
 if ($idclasse != "")
-    $elencoalunni = estrai_alunni_classe_data($idclasse, $datafinelezioni, $con);
+    $elencoalunni = estrai_alunni_classe_data($idclasse, $_SESSION['datafinelezioni'], $con);
 
 $alunni = array();
 if ($idclasse != "")

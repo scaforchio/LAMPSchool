@@ -53,14 +53,14 @@ stampa_head($titolo, "", $script, "M");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
-$passwordesame = creapassword();
-$query = "update tbl_parametri set valore=md5(md5('$passwordesame')) where parametro='passwordesame' ";
+$_SESSION['passwordesame'] = creapassword();
+$query = "update tbl_parametri set valore=md5(md5('".$_SESSION['passwordesame']."')) where parametro='passwordesame' ";
 eseguiQuery($con, $query);
 //
 //   IMPOSTAZIONE CLASSE D'ESAME PER TUTTI GLI ALUNNI DELLE CLASSI TERMINALI
 //
 
-if ($livello_scuola == '2')
+if ($_SESSION['livello_scuola'] == '2')
 {
     $ricercaterze = " AND anno='3' ";
 } else
@@ -122,7 +122,7 @@ if ($classiconscrutiniochiuso == $classiterzemedie)
     }
 
 
-    print "<br><br><center>Accedere per gestione esami con:<br><br>Utente: <b>esamidistato</b><br><br>Password: <b>$passwordesame</b><br><br>";
+    print "<br><br><center>Accedere per gestione esami con:<br><br>Utente: <b>esamidistato</b><br><br>Password: <b>".$_SESSION['passwordesame']."</b><br><br>";
 
     print "<center><img src='../immagini/stampa.png' onClick='printPage();'</center>";
 } else

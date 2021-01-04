@@ -90,7 +90,7 @@ $ris3 = eseguiQuery($con, $query3); //$lQuery->query($query3);
 if ($val3 = mysqli_fetch_array($ris3)) //$ris3->fetch())
 {
 // conteggio assenze non giustificate
-    //  if ($giustifica_ritardi=='yes')
+    //  if ($_SESSION['giustifica_ritardi']=='yes')
     //  {
     $query4 = "select count(*) as numeroritardi from tbl_ritardi where idalunno='$codalunno' and (isnull(giustifica) or giustifica=0)";
     $ris4 = eseguiQuery($con, $query4);
@@ -160,7 +160,7 @@ $ris7 = eseguiQuery($con, $query7);
 while ($val7 = mysqli_fetch_array($ris7))
 {
     $giustifica = $val7['giustifica'];
-    //  if ($giustifica_ritardi=='no')
+    //  if ($_SESSION['giustifica_ritardi']=='no')
     //      $giustifica=true;
     if ($giustifica)
     {

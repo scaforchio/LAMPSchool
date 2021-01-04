@@ -110,7 +110,7 @@ $datafine = stringa_html("datafine");
 $dataoggi = date("d/m/Y");
 if ($datainizio == "")
 {
-    $datainizio = data_italiana($datainiziolezioni);
+    $datainizio = data_italiana($_SESSION['datainiziolezioni']);
 }
 if ($datafine == "")
 {
@@ -307,7 +307,7 @@ if ($nome != "")
 
         $risass = eseguiQuery($con, $queryass);
         $risrit = eseguiQuery($con, $queryrit);
-        $numritardibrevi = calcola_ritardi_brevi($val['idalunno'], $con, $ritardobreve, $seledata);
+        $numritardibrevi = calcola_ritardi_brevi($val['idalunno'], $con, $_SESSION['ritardobreve'], $seledata);
         $risusc = eseguiQuery($con, $queryusc);
         while ($ass = mysqli_fetch_array($risass))
         {
@@ -326,7 +326,7 @@ if ($nome != "")
         }
 
         $numoretot = round(33 * $oresettimanali);  // 33.3333
-        $numoregio = $oresettimanali / $giornilezsett; //calcolo ore medie giornaliere
+        $numoregio = $oresettimanali / $_SESSION['giornilezsett']; //calcolo ore medie giornaliere
         $oreassenza = calcola_ore_assenza($idalunno, $datainizio, $datafine, $con);
 
         $oreassenzader = calcola_ore_deroga($idalunno, $datainizio, $datafine, $con);

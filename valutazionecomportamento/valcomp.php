@@ -300,9 +300,9 @@ if (!checkdate($mese, $giorno, $anno))
             {
                 print "<td><select name='voto" . $val['idalunno'] . "_" . $arrcodsubob[1][$i] . "'><option value=99>&nbsp;";
 
-                if ($ordinevalutazioni == 'C')
+                if ($_SESSION['ordinevalutazioni'] == 'C')
                 {
-                    for ($v = $votominimoattribuibile; $v <= 10; $v = $v + $incrementovoto)
+                    for ($v = $_SESSION['votominimoattribuibile']; $v <= 10; $v = $v + $incrementovoto)
                     {
                         if ($voto == $v)
                         {
@@ -314,7 +314,7 @@ if (!checkdate($mese, $giorno, $anno))
                     }
                 } else
                 {
-                    for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
+                    for ($v = 10; $v >= $_SESSION['votominimoattribuibile']; $v = $v - $incrementovoto)
                     {
                         if ($voto == $v)
                         {
@@ -332,16 +332,16 @@ if (!checkdate($mese, $giorno, $anno))
 
                 echo "<td>
 									  <select name='voto" . $val['idalunno'] . "_" . $arrcodsubob[1][$i] . "'><option value=99>&nbsp;";
-                if ($ordinevalutazioni == 'C')
+                if ($_SESSION['ordinevalutazioni'] == 'C')
                 {
-                    for ($v = $votominimoattribuibile; $v <= 10; $v = $v + $incrementovoto)
+                    for ($v = $_SESSION['votominimoattribuibile']; $v <= 10; $v = $v + $incrementovoto)
                     {
 
                         echo '<option value=' . $v . '>' . dec_to_mod($v);
                     }
                 } else
                 {
-                    for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
+                    for ($v = 10; $v >= $_SESSION['votominimoattribuibile']; $v = $v - $incrementovoto)
                     {
 
                         echo '<option value=' . $v . '>' . dec_to_mod($v);

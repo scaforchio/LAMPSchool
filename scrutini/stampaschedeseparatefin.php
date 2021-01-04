@@ -137,7 +137,7 @@ function stampa_schede($alunni, $periodo, $classe, $datastampa, $firmadirigente)
             $annotazioni = "";
             $query = "SELECT votounico,assenze,note FROM tbl_valutazionifinali
               WHERE idalunno=$alu
-              AND periodo='$numeroperiodi'
+              AND periodo='".$_SESSION['numeroperiodi']."'
               AND idmateria=$codmateria";
             //   print inspref($query)."<br>";
             $risvoti = eseguiQuery($con, $query);

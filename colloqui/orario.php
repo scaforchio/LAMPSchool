@@ -52,7 +52,7 @@ for ($h = 1; $h <= $_SESSION['numeromassimoore']; $h++)
 }
 print "</tr>";
 
-for ($g = 1; $g <= $giornilezsett; $g++)
+for ($g = 1; $g <= $_SESSION['giornilezsett']; $g++)
 {
     print "<tr><td>" . giornodanum($g) . "</td>";
     for ($h = 1; $h <= $_SESSION['numeromassimoore']; $h++)

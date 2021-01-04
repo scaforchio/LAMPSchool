@@ -484,9 +484,9 @@ if (!checkdate($mese, $giorno, $anno))
 							<select name='voto$idabilita'><option value=99>&nbsp;";
 
                 $votoinserito = CercaVotoAbilita($idabilita, $abilita, $voti);
-                if ($ordinevalutazioni == 'C')
+                if ($_SESSION['ordinevalutazioni'] == 'C')
                 {
-                    for ($v = $votominimoattribuibile; $v <= 10; $v = $v + $incrementovoto)
+                    for ($v = $_SESSION['votominimoattribuibile']; $v <= 10; $v = $v + $incrementovoto)
                     {
                         if ($votoinserito == $v)
                         {
@@ -498,7 +498,7 @@ if (!checkdate($mese, $giorno, $anno))
                     }
                 } else
                 {
-                    for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
+                    for ($v = 10; $v >= $_SESSION['votominimoattribuibile']; $v = $v - $incrementovoto)
                     {
                         if ($votoinserito == $v)
                         {
@@ -596,9 +596,9 @@ if (!checkdate($mese, $giorno, $anno))
 								<select name='voto$idabilita'><option value=99>&nbsp;";
 
                 $votoinserito = CercaVotoAbilita($idabilita, $abilita, $voti);
-                if ($ordinevalutazioni == 'C')
+                if ($_SESSION['ordinevalutazioni'] == 'C')
                 {
-                    for ($v = $votominimoattribuibile; $v <= 10; $v = $v + $incrementovoto)
+                    for ($v = $_SESSION['votominimoattribuibile']; $v <= 10; $v = $v + $incrementovoto)
                     {
                         if ($votoinserito == $v)
                         {
@@ -610,7 +610,7 @@ if (!checkdate($mese, $giorno, $anno))
                     }
                 } else
                 {
-                    for ($v = 10; $v >= $votominimoattribuibile; $v = $v - $incrementovoto)
+                    for ($v = 10; $v >= $_SESSION['votominimoattribuibile']; $v = $v - $incrementovoto)
                     {
                         if ($votoinserito == $v)
                         {
@@ -687,7 +687,7 @@ if (!checkdate($mese, $giorno, $anno))
             <input type=hidden value='$iddocente' name=iddocente>
 	        <input type=hidden value='$cattedra' name=cattedra><br/>";
 
-    if (controlla_scadenza($maxgiorniritardolez, $giorno, $mese, $anno))  // Verifica se non è passato il tempo e che non c'è una deroga
+    if (controlla_scadenza($_SESSION['maxgiorniritardolez'], $giorno, $mese, $anno))  // Verifica se non è passato il tempo e che non c'è una deroga
     {
         print "<center><input type='submit' value='Inserisci voti'></center>";
     } else

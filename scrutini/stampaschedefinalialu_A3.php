@@ -216,7 +216,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
         $schede->SetFont('Arial', 'B', 10);
         $valanno = validita_anno($alu, $con);
         $schede->Multicell(172, 6, converti_utf8("\nATTESTATO"), "TLR", "C");
-        /*  if ($livello_scuola=='2' | $livello_scuola=='4' | ($livello_scuola=='3' & decodifica_classe_no_spec($classe, $con) >5))
+        /*  if ($_SESSION['livello_scuola']=='2' | $_SESSION['livello_scuola']=='4' | ($_SESSION['livello_scuola']=='3' & decodifica_classe_no_spec($classe, $con) >5))
           {
           $schede->setXY(220, $schede->getY());
           $schede->SetFont('Arial', '', 8);
@@ -253,7 +253,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
             $schede->SetFont('Arial', 'B', 10);
             $schede->Cell(172, 6, str_replace("|", " ", estrai_seconda_riga($esito)), "LR", 1, "C");
             */
-            if (($livello_scuola == '2' & decodifica_classe_no_spec($classe, $con) == 3) | ($livello_scuola == '3' & decodifica_classe_no_spec($classe, $con) == 8)| ($livello_scuola == '2' & decodifica_classe_no_spec($classe, $con) == 5)|($livello_scuola == '1' & decodifica_classe_no_spec($classe, $con) == 5)) 
+            if (($_SESSION['livello_scuola'] == '2' & decodifica_classe_no_spec($classe, $con) == 3) | ($_SESSION['livello_scuola'] == '3' & decodifica_classe_no_spec($classe, $con) == 8)| ($_SESSION['livello_scuola'] == '2' & decodifica_classe_no_spec($classe, $con) == 5)|($_SESSION['livello_scuola'] == '1' & decodifica_classe_no_spec($classe, $con) == 5)) 
                $schede->Multicell(172, 6, converti_utf8("\nL’alunno/a è ammesso/a\nal successivo grado di istruzione obbligatoria,\nin deroga all’art. 5 comma 1 del D.Lvo 62/17\ne ai sensi dell’O.M. 11 del 16/05/2020"), "LR", "C");
             else
                if (decodifica_passaggio ($idesito, $con)==0) 
@@ -262,7 +262,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
                    $schede->Multicell(172, 6, converti_utf8("\nL’alunno/a non è ammesso/a\nalla classe successiva."), "LR", "C");
             
 
-         //   if ((($livello_scuola == '2' & decodifica_classe_no_spec($classe, $con) == 3) | ($livello_scuola == '3' & decodifica_classe_no_spec($classe, $con) == 8)) & (decodifica_passaggio($idesito, $con) == 0))
+         //   if ((($_SESSION['livello_scuola'] == '2' & decodifica_classe_no_spec($classe, $con) == 3) | ($_SESSION['livello_scuola'] == '3' & decodifica_classe_no_spec($classe, $con) == 8)) & (decodifica_passaggio($idesito, $con) == 0))
          //   {
          //       $schede->setXY(220, $schede->getY());
          //       $schede->SetFont('Arial', 'B', 10);
@@ -325,7 +325,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
         // NUMERO ASSENZE PRIMO QUADRIMESTRE
 
         $perioquery = "and true";
-        $perioquery = " and data <= '" . $fineprimo . "'";
+        $perioquery = " and data <= '" . $_SESSION['fineprimo'] . "'";
 
         $numasse = 0;
         $query = "select count(*) as numassenze from tbl_assenze where idalunno=$alu $perioquery";
@@ -350,7 +350,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
         $giudizio = "";
         $query = "SELECT giudizio from tbl_giudizi
 						WHERE idalunno=$alu
-						AND periodo='$numeroperiodi'";
+						AND periodo='".$_SESSION['numeroperiodi']."'";
         $risgiud = eseguiQuery($con, $query);
         if ($recgiud = mysqli_fetch_array($risgiud))
         {
@@ -465,7 +465,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
         $query = "SELECT votounico,assenze,note,denominazione,tbl_valutazionifinali.idmateria FROM tbl_valutazionifinali,tbl_materie
                           WHERE tbl_valutazionifinali.idmateria=tbl_materie.idmateria
                           AND idalunno=$alu
-                          AND periodo='$numeroperiodi'
+                          AND periodo='".$_SESSION['numeroperiodi']."'
                           AND tbl_materie.progrpag<99 AND tbl_materie.idmateria>0
                           ORDER BY tbl_materie.progrpag, denominazione";
         $rismat = eseguiQuery($con, $query);
@@ -507,7 +507,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
 
             $query = "SELECT votounico,assenze,note FROM tbl_valutazionifinali
               WHERE idalunno=$alu
-              AND periodo='$numeroperiodi'
+              AND periodo='".$_SESSION['numeroperiodi']."'
               AND idmateria=$idmateria";
             $risvoti = eseguiQuery($con, $query);
             if ($recvoti = mysqli_fetch_array($risvoti))
@@ -580,7 +580,7 @@ function stampa_schede($alunni, $periodo, $classe, $firmadirigente, $datastampa,
         $query = "SELECT denominazione,votounico,note FROM tbl_valutazionifinali,tbl_materie
               WHERE tbl_valutazionifinali.idmateria=tbl_materie.idmateria 
               AND idalunno=$alu
-              AND periodo='$numeroperiodi'
+              AND periodo='".$_SESSION['numeroperiodi']."'
               AND tbl_valutazionifinali.idmateria=-1";
         $risvoti = eseguiQuery($con, $query);
 

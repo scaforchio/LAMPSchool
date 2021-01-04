@@ -60,7 +60,7 @@ if ($scrutiniintegrativi)
     $numper = '9';
 } else
 {
-    $numper = $numeroperiodi;
+    $numper = $_SESSION['numeroperiodi'];
 }
 $script = "<script type='text/javascript'>
          <!--
@@ -308,16 +308,16 @@ if ($idclasse != "")
 {
     $annoclasse = decodifica_anno_classe($idclasse, $con);
 
-    if ($livello_scuola == 1 & $annoclasse == 5)
+    if ($_SESSION['livello_scuola'] == 1 & $annoclasse == 5)
         $classeterminale = true;
 
-    if ($livello_scuola == 2 & $annoclasse == 3)
+    if ($_SESSION['livello_scuola'] == 2 & $annoclasse == 3)
         $classeterminale = true;
 
-    if ($livello_scuola == 3 & ($annoclasse == 3 | $annoclasse == 8))
+    if ($_SESSION['livello_scuola'] == 3 & ($annoclasse == 3 | $annoclasse == 8))
         $classeterminale = true;
 
-    //  if ($livello_scuola == 4 & $annoclasse==5)
+    //  if ($_SESSION['livello_scuola'] == 4 & $annoclasse==5)
     //     $classeterminale=true;
 
     if ($tipoutente != 'A')
@@ -327,7 +327,7 @@ if ($idclasse != "")
         $query = "SELECT * FROM tbl_proposte,tbl_alunni
         where tbl_proposte.idalunno=tbl_alunni.idalunno
         and idclasse=$idclasse
-        and periodo=$numeroperiodi";
+        and periodo=".$_SESSION['numeroperiodi'];
 
         $ris = eseguiQuery($con, $query);
         $numproposte = mysqli_num_rows($ris);
@@ -335,7 +335,7 @@ if ($idclasse != "")
         $query = "SELECT * FROM tbl_valutazionifinali,tbl_alunni
         where tbl_valutazionifinali.idalunno=tbl_alunni.idalunno
         and idclasse=$idclasse
-        and periodo=$numeroperiodi";
+        and periodo=".$_SESSION['numeroperiodi'];
         $ris = eseguiQuery($con, $query);
         $numvalutazioni = mysqli_num_rows($ris);
 
@@ -348,7 +348,7 @@ if ($idclasse != "")
             $textverb = 'verbscruting';
         } else
         {
-            $numper = $numeroperiodi;
+            $numper = $_SESSION['numeroperiodi'];
             $textverb = 'verbscrutfin';
         }
 
@@ -409,7 +409,7 @@ if ($idclasse != "")
             $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,votoscritto,votoorale,votopratico,assenze,periodo)
 							  SELECT tbl_proposte.idalunno,idmateria,unico,scritto,orale,pratico,assenze,periodo from tbl_proposte,tbl_alunni 
 							  where tbl_proposte.idalunno=tbl_alunni.idalunno
-							  and idclasse=$idclasse and periodo=$numeroperiodi";
+							  and idclasse=$idclasse and periodo=".$_SESSION['numeroperiodi'];
 
             $risins = eseguiQuery($con, $queryins);
             print "<br><center><b>Voti importati dalle proposte di voto!</b></center><br>";
@@ -420,7 +420,7 @@ if ($idclasse != "")
             {
                 $idal = $nom['idalunno'];
                 $queryins = "INSERT into tbl_valutazionifinali(idalunno,idmateria,votounico,periodo)
-						 VALUES ($idal,-1," . calcola_media_condotta($idal, $numeroperiodi, $con) . ",$numeroperiodi)";
+						 VALUES ($idal,-1," . calcola_media_condotta($idal, $_SESSION['numeroperiodi'], $con) . ",".$_SESSION['numeroperiodi'].")";
                 $risins = eseguiQuery($con, $queryins);
             }
         }
@@ -429,7 +429,7 @@ if ($idclasse != "")
         $mattipo = array();
         $valutazioni = array();
         // RICHIAMO LA FUNZIONE PER LA CREAZIONE DEL FILE CSV
-        $numerovalutazioni = creaFileCSV($idclasse, $numeroperiodi,$scrutiniintegrativi, $alunni, $mattipo, $valutazioni, $con);
+        $numerovalutazioni = creaFileCSV($idclasse, $_SESSION['numeroperiodi'],$scrutiniintegrativi, $alunni, $mattipo, $valutazioni, $con);
 
         // SELEZIONO LE MATERIE
         $query = "SELECT distinct tbl_materie.idmateria,tbl_materie.progrpag,sigla,tipovalutazione FROM tbl_cattnosupp,tbl_materie
@@ -471,7 +471,7 @@ if ($idclasse != "")
             print ("</td>");
 
             // INSERISCO GIUDIZIO AMMISSIONE PER TERZA MEDIA
-            if (($livello_scuola == '2' & decodifica_classe_no_spec($idclasse, $con) == 3) | ($livello_scuola == '3' & decodifica_classe_no_spec($idclasse, $con) == 8))
+            if (($_SESSION['livello_scuola'] == '2' & decodifica_classe_no_spec($idclasse, $con) == 3) | ($_SESSION['livello_scuola'] == '3' & decodifica_classe_no_spec($idclasse, $con) == 8))
             {
                 print ("<td>");
                 print "G.Amm.";
@@ -523,7 +523,7 @@ if ($idclasse != "")
 
 
                 echo "      <td><b>" . $val['cognome'] . " " . $val['nome'] . " " . data_italiana($val['datanascita']) . "$cert</b></td>";
-                echo "<td align='center'><a href='schedafinalealu.php?cl=$idclasse&idalunno=$idalunno&periodo=$numeroperiodi&prov=tab&integrativo=$integrativo'><img src='../immagini/scrutinio.gif'></a></td>";
+                echo "<td align='center'><a href='schedafinalealu.php?cl=$idclasse&idalunno=$idalunno&periodo=".$_SESSION['numeroperiodi']."&prov=tab&integrativo=$integrativo'><img src='../immagini/scrutinio.gif'></a></td>";
                 $listavoti[] = $val["cognome"] . " " . $val["nome"] . " " . data_italiana($val["datanascita"]);
                 $contavoti = 0;
                 $sommavoti = 0;
@@ -564,7 +564,7 @@ if ($idclasse != "")
                     print ("<td align=center>--</td>");
                 }
                 // INSERISCO GIUDIZIO AMMISSIONE
-                if (($livello_scuola == '2' & decodifica_classe_no_spec($idclasse, $con) == 3) | ($livello_scuola == '3' & decodifica_classe_no_spec($idclasse, $con) == 8))
+                if (($_SESSION['livello_scuola'] == '2' & decodifica_classe_no_spec($idclasse, $con) == 3) | ($_SESSION['livello_scuola'] == '3' & decodifica_classe_no_spec($idclasse, $con) == 8))
                 {
                     print ("<td align=center>");
                     $gi = estrai_voto_ammissione($idalunno, $con);
@@ -580,7 +580,7 @@ if ($idclasse != "")
 
                 print ("<td align=left>");
                 $descr_esito = estrai_esito($idalunno, $con);
-                if ($descr_esito == "" & $livello_scuola == 4)
+                if ($descr_esito == "" & $_SESSION['livello_scuola'] == 4)
                 {
                     $descr_esito = "giudizio sospeso";
                 }
@@ -595,7 +595,7 @@ if ($idclasse != "")
             //
             //   Gestione verbale
             //  TTTT
-            // if (scrutinio_aperto($idclasse, $numeroperiodi, $con))
+            // if (scrutinio_aperto($idclasse, $_SESSION['numeroperiodi'], $con))
             if (scrutinio_aperto($idclasse, $numper, $con))
             {
                 $abilscr = '';
@@ -726,14 +726,14 @@ if ($idclasse != "")
                    &nbsp;Media in tabellone<select id='mediatab'><option value='yes'>Si</option><option value='no' selected>No</option></select>";
 
 
-            if (($livello_scuola == '2' & decodifica_classe_no_spec($idclasse, $con) == 3) | ($livello_scuola == '3' & decodifica_classe_no_spec($idclasse, $con) == 8))
+            if (($_SESSION['livello_scuola'] == '2' & decodifica_classe_no_spec($idclasse, $con) == 3) | ($_SESSION['livello_scuola'] == '3' & decodifica_classe_no_spec($idclasse, $con) == 8))
             {
                 print "Voto ammissione in tabellone<select id='voamtab'><option value='yes' selected>Si</option><option value='no'>No</option></select>";
             } else
             {
                 print "<input type='hidden' id='voamtab' value='no'>";
             }
-            if (($livello_scuola == '4' & decodifica_classe_no_spec($idclasse, $con) > 2))
+            if (($_SESSION['livello_scuola'] == '4' & decodifica_classe_no_spec($idclasse, $con) > 2))
             {
                 print "Credito in tabellone<select id='credtab'><option value='yes' selected>Si</option><option value='no'>No</option></select>";
             } else
@@ -752,9 +752,9 @@ if ($idclasse != "")
 
 
 
-            $nf = "scrut_" . decodifica_classe($idclasse, $con) . "_" . $numeroperiodi . ".csv";
+            $nf = "scrut_" . decodifica_classe($idclasse, $con) . "_" . $_SESSION['numeroperiodi'] . ".csv";
             $nf = str_replace(" ", "_", $nf);
-            $nomefile = "$cartellabuffer/" . $nf;
+            $nomefile = $_SESSION['cartellabuffer']."/" . $nf;
             print ("&nbsp;&nbsp;&nbsp;<a href='$nomefile' target='_blank'><img src='../immagini/csv.png'></a></center>");
 
             print "</fieldset>";
@@ -763,7 +763,7 @@ if ($idclasse != "")
 
             // VERIFICO SE LO SCRUTINIO E' COMPLETO E IN TAL CASO PROPONGO LA CHIUSURA
             // ALTRIMENTI VISUALIZZO AVVISO DI VOTI MANCANTI
-            //  if (scrutinio_aperto($idclasse, $numeroperiodi, $con))
+            //  if (scrutinio_aperto($idclasse, $_SESSION['numeroperiodi'], $con))
             if (scrutinio_aperto($idclasse, $numper, $con))
             {
 
@@ -799,7 +799,7 @@ if ($idclasse != "")
         }
     } else
     {
-        // if (scrutinio_aperto($idclasse, $numeroperiodi, $con))
+        // if (scrutinio_aperto($idclasse, $_SESSION['numeroperiodi'], $con))
         if (scrutinio_aperto($idclasse, $numper, $con))
         {
             print "<div style=\"text-align: center;\"><b><br>Scrutinio non ancora chiuso!</b></div>";
@@ -812,11 +812,11 @@ if ($idclasse != "")
             $mattipo = array();
             $valutazioni = array();
             // RICHIAMO LA FUNZIONE PER LA CREAZIONE DEL FILE CSV
-            $numerovalutazioni = creaFileCSV($idclasse, $numeroperiodi, $scrutiniintegrativi,$alunni, $mattipo, $valutazioni, $con);
+            $numerovalutazioni = creaFileCSV($idclasse, $_SESSION['numeroperiodi'], $scrutiniintegrativi,$alunni, $mattipo, $valutazioni, $con);
 
 
 
-            $elencoalunni = estrai_alunni_classe_data($idclasse, $datafinelezioni, $con);
+            $elencoalunni = estrai_alunni_classe_data($idclasse, $_SESSION['datafinelezioni'], $con);
 
 
             print ("<table align='center' border='1'><tr class='prima' align='center'><td>Alunno</td><td>Stampa</td></tr>");
@@ -880,14 +880,14 @@ if ($idclasse != "")
                    Media in tabellone<select id='mediatab'><option value='yes'>Si</option><option value='no' selected>No</option></select>";
 
 
-            if (($livello_scuola == '2' & decodifica_classe_no_spec($idclasse, $con) == 3) | ($livello_scuola == '3' & decodifica_classe_no_spec($idclasse, $con) == 8))
+            if (($_SESSION['livello_scuola'] == '2' & decodifica_classe_no_spec($idclasse, $con) == 3) | ($_SESSION['livello_scuola'] == '3' & decodifica_classe_no_spec($idclasse, $con) == 8))
             {
                 print "Voto ammissione in tabellone<select id='voamtab'><option value='yes' selected>Si</option><option value='no'>No</option></select>";
             } else
             {
                 print "<input type='hidden' id='voamtab' value='no'>";
             }
-            if (($livello_scuola == '4' & decodifica_classe_no_spec($idclasse, $con) > 2))
+            if (($_SESSION['livello_scuola'] == '4' & decodifica_classe_no_spec($idclasse, $con) > 2))
             {
                 print "Credito in tabellone<select id='credtab'><option value='yes' selected>Si</option><option value='no'>No</option></select>";
             } else
@@ -908,9 +908,9 @@ if ($idclasse != "")
 
 
 
-            $nf = "scrut_" . decodifica_classe($idclasse, $con) . "_" . $numeroperiodi . ".csv";
+            $nf = "scrut_" . decodifica_classe($idclasse, $con) . "_" . $_SESSION['numeroperiodi'] . ".csv";
             $nf = str_replace(" ", "_", $nf);
-            $nomefile = "$cartellabuffer/" . $nf;
+            $nomefile = $_SESSION['cartellabuffer']."/" . $nf;
             print ("&nbsp;&nbsp;&nbsp;<a href='$nomefile' target='_blank'><img src='../immagini/csv.png'></a></center>");
 
             print "</fieldset>";
@@ -976,11 +976,11 @@ function creaFileCSV($idclasse, $numeroperiodi,$scrutiniintegrativi, &$alu, &$ma
 
 
     //@require("../php-ini".$_SESSION['suffisso'].".php");
-    global $cartellabuffer;
+    //global $_SESSION['cartellabuffer'];
    // global $_SESSION['plesso_specializzazione'];
-    global $fineprimo;
-    global $finesecondo;
-    global $numeroperiodi;
+//    global $_SESSION['fineprimo'];
+   // global $_SESSION['finesecondo'];
+   
 
     $note1 = array();
     $assenze1 = array();
@@ -1010,9 +1010,9 @@ function creaFileCSV($idclasse, $numeroperiodi,$scrutiniintegrativi, &$alu, &$ma
         $assenze1[] = $recval['assenze'];
     }
 
-    $nf = "scrut_" . decodifica_classe($idclasse, $conn) . "_" . $numeroperiodi . ".csv";
+    $nf = "scrut_" . decodifica_classe($idclasse, $conn) . "_" . $_SESSION['numeroperiodi'] . ".csv";
     $nf = str_replace(" ", "_", $nf);
-    $nomefile = "$cartellabuffer/" . $nf;
+    $nomefile = $_SESSION['cartellabuffer']."/" . $nf;
     $fp = fopen($nomefile, 'w');
     $query = "SELECT distinct tbl_materie.idmateria,sigla,tipovalutazione, tbl_materie.progrpag FROM tbl_cattnosupp,tbl_materie
            WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
@@ -1172,7 +1172,7 @@ function creaFileCSV($idclasse, $numeroperiodi,$scrutiniintegrativi, &$alu, &$ma
 
         $perioquery = " and true";
 
-        $perioquery .= " and data <= '" . $fineprimo . "'";
+        $perioquery .= " and data <= '" . $_SESSION['fineprimo'] . "'";
 
         $query = "SELECT COUNT(*) as numassenze from tbl_assenze where idalunno=$idalunno $perioquery";
 
@@ -1220,7 +1220,7 @@ function creaFileCSV($idclasse, $numeroperiodi,$scrutiniintegrativi, &$alu, &$ma
 					 WHERE tbl_valutazionifinali.idalunno=tbl_alunni.idalunno
 					 AND tbl_valutazionifinali.idmateria=tbl_materie.idmateria
                                          AND idclasse=$idclasse
-					 AND periodo='$numeroperiodi'";
+					 AND periodo='".$_SESSION['numeroperiodi']."'";
 
         // print inspref($query);
 
@@ -1277,7 +1277,7 @@ function creaFileCSV($idclasse, $numeroperiodi,$scrutiniintegrativi, &$alu, &$ma
         // ESTRAGGO IL GIUDIZIO FINALE
         $query = "SELECT giudizio from tbl_giudizi
                WHERE idalunno=$idalunno
-               AND periodo='$numeroperiodi'";
+               AND periodo='".$_SESSION['numeroperiodi']."'";
 
         $risgiud = eseguiQuery($conn, $query);
         if ($recgiud = mysqli_fetch_array($risgiud))

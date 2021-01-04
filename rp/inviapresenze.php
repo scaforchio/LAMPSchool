@@ -26,17 +26,17 @@ if ($suffisso != "")
 else
     $suff = "";
 
-inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Trasmissione richiesta", $nomefilelog . "rp", $suff);
+inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Trasmissione richiesta", $_SESSION['nomefilelog'] . "rp", $suff);
 
 if ($con = mysqli_connect($db_server, $db_user, $db_password, $db_nome))
 {
     print ("trasmetti");
     //$_SESSION['abilitata']='yes';
-    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Trasmissione abilitata", $nomefilelog . "rp", $suff);
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Trasmissione abilitata", $_SESSION['nomefilelog'] . "rp", $suff);
 } else
 {
     //$_SESSION['abilitata']='no';
-    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Trasmissione non abilitata " . mysqli_error($con) . "\n", $nomefilelog . "rp", $suff);
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Trasmissione non abilitata " . mysqli_error($con) . "\n", $_SESSION['nomefilelog'] . "rp", $suff);
     die("Errore durante la connessione!");
 }
 

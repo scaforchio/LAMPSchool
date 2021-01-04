@@ -211,8 +211,8 @@ $classe = "";
 // $oresettimanali = 0;
 $numoretot = 0;
 $seledata = "";
-$datainizio = data_italiana($datainiziolezioni);
-$datafine = data_italiana($datafinelezioni);
+$datainizio = data_italiana($_SESSION['datainiziolezioni']);
+$datafine = data_italiana($_SESSION['datafinelezioni']);
 
 $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
 $ris = eseguiQuery($con, $query);
@@ -240,7 +240,7 @@ while ($val = mysqli_fetch_array($ris))
 
     $risass = eseguiQuery($con, $queryass);
     $risrit = eseguiQuery($con, $queryrit);
-    $numritardibrevi = calcola_ritardi_brevi($val['idalunno'], $con, $ritardobreve);
+    $numritardibrevi = calcola_ritardi_brevi($val['idalunno'], $con, $_SESSION['ritardobreve']);
     $risusc = eseguiQuery($con, $queryusc);
     while ($ass = mysqli_fetch_array($risass))
     {
@@ -259,7 +259,7 @@ while ($val = mysqli_fetch_array($ris))
     }
 
     $numoretot = round(33 * $oresettimanali);   // 33.3333
-    $numoregio = $oresettimanali / $giornilezsett; //calcolo ore medie giornaliere
+    $numoregio = $oresettimanali / $_SESSION['giornilezsett']; //calcolo ore medie giornaliere
     $oreassenza = calcola_ore_assenza($idalunno, $datainizio, $datafine, $con);
 
     $oreassenzader = calcola_ore_deroga($idalunno, $datainizio, $datafine, $con);

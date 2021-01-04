@@ -111,7 +111,7 @@ while ($recalu = mysqli_fetch_array($ris))
 }
 
 
-if ($giustificauscite == 'yes')
+if ($_SESSION['giustificauscite'] == 'yes')
 {
     $query = "SELECT idalunno FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
     $ris = eseguiQuery($con, $query);
@@ -142,7 +142,7 @@ if ($giustificauscite == 'yes')
     }
 }
 
-if ($giustificaasslezione == 'yes')
+if ($_SESSION['giustificaasslezione'] == 'yes')
 {
     $query = "SELECT idalunno FROM tbl_alunni WHERE idalunno IN (" . $elencoalunni . ")  ORDER BY cognome, nome, datanascita";
     $ris = eseguiQuery($con, $query);

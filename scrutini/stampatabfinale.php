@@ -82,7 +82,7 @@ $query = "SELECT tbl_valutazionifinali.*,tbl_materie.tipovalutazione FROM tbl_va
 	          $conddebito
 	          AND idclasse=$idclasse
 	          AND tbl_materie.progrpag <> 100
-	          AND periodo='$numeroperiodi'";
+	          AND periodo='".$_SESSION['numeroperiodi']."'";
 // print inspref($query);
 //print inspref($query);
 $risvalu = eseguiQuery($con, $query);
@@ -362,7 +362,7 @@ if ($nummaterie > 0)
 
         $schede->setXY($posX, $posY);
         $schede->SetFont('Arial', '', 8);
-        if ($esito == "" & $livello_scuola == 4)
+        if ($esito == "" & $_SESSION['livello_scuola'] == 4)
             $esito = "GIUDIZIO SOSPESO";
         $schede->Cell(90, $altriga, converti_utf8(str_replace("|", " ", $esito)), 1, NULL, "L");
     }

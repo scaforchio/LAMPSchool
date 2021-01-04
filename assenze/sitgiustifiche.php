@@ -72,8 +72,8 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
-//$giornianticipo=0-$maxritardogiust;
-$datalimiteinferiore = giorno_lezione_passata(date('Y-m-d'), $maxritardogiust, $con);
+//$giornianticipo=0-$_SESSION['maxritardogiust'];
+$datalimiteinferiore = giorno_lezione_passata(date('Y-m-d'), $_SESSION['maxritardogiust'], $con);
 $query = "SELECT count(*) as nang,cognome, nome,tbl_alunni.idalunno,dataammonizione FROM tbl_assenze,tbl_alunni,tbl_classi WHERE (isnull(giustifica) or giustifica=0) AND data< '$datalimiteinferiore'
             AND tbl_assenze.idalunno=tbl_alunni.idalunno AND tbl_alunni.idclasse=tbl_classi.idclasse
             AND tbl_alunni.idclasse<>0

@@ -126,9 +126,9 @@ stampa_head($titolo, "", $script, "MSPD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 /*
   $rissms=array();
-  $rissms=verifica_numero_sms_residui($utentesms,$passsms);
+  $rissms=verifica_numero_sms_residui($_SESSION['utentesms'],$_SESSION['passsms']);
   $smsresidui=$rissms['classic_sms'];
-  $smsresidui=floor($smsresidui*($costosmsclassic/$costosmsplus));
+  $smsresidui=floor($smsresidui*($_SESSION['costosmsclassic']/$_SESSION['costosmsplus']));
   if ($smsresidui>1000)
   $color='green';
   else if ($smsresidui>500)
@@ -203,7 +203,7 @@ if ($idalunno != "")
     $giorni = array("Luned&igrave;", "Marted&igrave;", "Mercoled&igrave;", "Gioved&igrave;", "Venerd&igrave;", "Sabato", "Domenica");
 
     // Maschera di inserimento dati
-    for ($i = 0; $i < $giornilezsett; $i++)
+    for ($i = 0; $i < $_SESSION['giornilezsett']; $i++)
     {
         //  print("<input type='hidden' name='ore" . ($i + 1) . "' value='0'>");
         print("<tr>");

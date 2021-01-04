@@ -51,9 +51,9 @@ stampa_head($titolo, "", $script, "SPAD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
-if ($livello_scuola == 2)
+if ($_SESSION['livello_scuola'] == 2)
     $annocomp = "anno = '3'";
-if ($livello_scuola == 3)
+if ($_SESSION['livello_scuola'] == 3)
     $annocomp = "anno = '8'";
 
 

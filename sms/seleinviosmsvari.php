@@ -76,9 +76,9 @@ stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $rissms = array();
-$rissms = verifica_numero_sms_residui($utentesms, $passsms);
+$rissms = verifica_numero_sms_residui($_SESSION['utentesms'], $_SESSION['passsms']);
 $smsresidui = $rissms['classic_sms'];
-$smsresidui = floor($smsresidui * ($costosmsclassic / $costosmsplus));
+$smsresidui = floor($smsresidui * ($_SESSION['costosmsclassic'] / $_SESSION['costosmsplus']));
 if ($smsresidui > 1000)
     $color = 'green';
 else if ($smsresidui > 500)

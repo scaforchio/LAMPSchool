@@ -20,6 +20,7 @@ session_start();
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
 // istruzioni per tornare alla pagina di login se non c'è una sessione valida
 ////session_start();
@@ -31,7 +32,7 @@ if ($tipoutente == "")
 }
 
 
-$titolo = "Situazione assenze per classe";
+$titolo = "Situazione assenze per materia";
 $script = "<script>
             function printPage()
             {
@@ -90,17 +91,8 @@ stampa_head($titolo, "", $script, "MSPD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
-$nome = stringa_html('cl');
-$but = stringa_html('visass');
+$classe = stringa_html('cl');
 
-
-$meseanno = stringa_html('mese');  // In effetti contiene sia il mese che l'anno
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
-
-
-// Divido il mese dall'anno
-$mese = substr($meseanno, 0, 2);
-$anno = substr($meseanno, 5, 4);
 
 //$giornosettimana=giorno_settimana($anno."-".$mese."-".$giorno);
 
@@ -128,14 +120,14 @@ if ($anno == '')
 
 
 print ("
-   <form method='post' action='sitasstota.php' name='tbl_assenze'>
+   <form method='post' action='sitassmate.php' name='assenze'>
    
    <p align='center'>
    <table align='center'>
    <tr>
       <td width='50%'><center><b>Classe</b></center></td>
       <td width='50%'>
-      <SELECT ID='cl' NAME='cl' ONCHANGE='tbl_assenze.submit()'> <option value=''>&nbsp ");
+      <SELECT ID='cl' NAME='cl' ONCHANGE='assenze.submit()'> <option value=''>&nbsp ");
 
 
 $query = "SELECT idclasse,anno,sezione,specializzazione FROM tbl_classi ORDER BY specializzazione, sezione, anno";
@@ -150,7 +142,7 @@ while ($nom = mysqli_fetch_array($ris))
     print "<option value='";
     print ($nom["idclasse"]);
     print "'";
-    if ($nome == $nom["idclasse"])
+    if ($classe == $nom["idclasse"])
     {
         print " selected";
     }
@@ -167,19 +159,91 @@ print("
 	<tr>
 	<td width='50%'><center><b>Data inizio </b></center></td>
 	<td width='50%'>
-	<input type='text' name='datainizio' id='datainizio' class='datepicker' size='8' maxlength='10' value='$datainizio'  ONCHANGE='tbl_assenze.submit()'>
+	<input type='text' name='datainizio' id='datainizio' class='datepicker' size='8' maxlength='10' value='$datainizio'  ONCHANGE='assenze.submit()'>
 	</td></tr>
 	<tr>
 	<td width='50%'><center><b>Data fine </b></center></td>
 	<td width='50%'>
-	<input type='text' name='datafine' id='datafine'  class='datepicker' size='8' maxlength='10' value='$datafine' ONCHANGE='tbl_assenze.submit()'>
+	<input type='text' name='datafine' id='datafine'  class='datepicker' size='8' maxlength='10' value='$datafine' ONCHANGE='assenze.submit()'>
 	</td></tr>");
 
 
 print ("</table>");
 
-if ($nome != "")
+if ($classe != "")
 {
+    $assenze=array();
+    $orelez=array();
+    
+    $query="select * from tbl_lezioni where idclasse=$classe";
+    $ris= eseguiQuery($con, $query);
+    while ($rec=mysqli_fetch_array($ris))
+    {
+        $idmateria=$rec['idmateria'];
+        $numeroore=$rec['numeroore'];
+        if (isset($orelez["$idmateria"]))
+            $orelez["$idmateria"]+=$numeroore;
+        else
+            $orelez["$idmateria"]=$numeroore;
+    }
+ /*   foreach($orelez as $ol)
+        print "ore $ol";
+    */
+    $elencoalunni= estrai_alunni_classe_data($classe, date('Y-m-d'), $con);
+    $query="select * from tbl_asslezione where idalunno in ($elencoalunni)";
+    //print $query;
+    $ris= eseguiQuery($con, $query);
+    while ($rec=mysqli_fetch_array($ris))
+    {
+        $idmateria=$rec['idmateria'];
+        $idalunno=$rec['idalunno'];
+        $numeroore=$rec['oreassenza'];
+       // print "$idmateria $idalunno $numeroore";
+        if (isset($assenze["$idmateria $idalunno"]))
+            $assenze["$idmateria $idalunno"]+=$numeroore;
+        else
+            $assenze["$idmateria $idalunno"]=$numeroore;
+    }
+  /*  foreach($assenze as $ol)
+        print "ore $ol";
+    */
+    
+    $query = "SELECT distinct tbl_materie.idmateria,tbl_materie.denominazione,sigla,tipovalutazione, progrpag FROM tbl_cattnosupp,tbl_materie
+              WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
+              and tbl_cattnosupp.idclasse=$classe
+              and tbl_cattnosupp.iddocente <> 1000000000
+              and tbl_materie.progrpag<100
+              order by progrpag,tbl_materie.sigla";
+    $rismat= eseguiQuery($con, $query);
+    print "<table align='center' border='1'>";
+    print "<tr class='prima'><td></td>";
+    foreach($rismat as $recmat)
+        print "<td align='center'>".$recmat['sigla']."</td>";
+    print "</tr>";
+    $query="select * from tbl_alunni where idalunno in ($elencoalunni) order by cognome, nome, datanascita";
+    $risalu=eseguiQuery($con, $query);
+    foreach($risalu as $recalu)
+    {
+        print "<tr><td>".$recalu['cognome']." ".$recalu['nome']."</td>";
+        foreach($rismat as $recmat)
+        {
+            $ricercaass=$recmat['idmateria']." ".$recalu['idalunno'];
+            if (isset($assenze[$ricercaass]))
+                print "<td align='center'>".$assenze[$ricercaass]."(".round(($assenze[$ricercaass]/$orelez[$recmat['idmateria']]*100))."%)</td>";
+            else
+                print "<td> -- </td>";
+        }
+        print "</tr>";
+                 
+    }
+    
+    
+    print "</table>";
+    
+/*  
+    
+    
+    
     echo('
  
     <table align="center">
@@ -343,10 +407,12 @@ if ($nome != "")
     }
 
     echo '</table>';
-
+*/
     print "<center><img src='../immagini/stampa.png' onClick='printPage();'</center>";
     // print"<br/><center><a href=javascript:Popup('staasse.php?classe=$idclasse&datainizio=$datainizio&datafine=$datafine')><img src='../immagini/stampa.png'></a></center><br/><br/>";
-}
+
+    
+        }
 // fine if
 
 mysqli_close($con);

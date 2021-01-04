@@ -19,12 +19,12 @@ $indirizzoip = IndirizzoIpReale();
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
-inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Richiesto elenco orari campanella", $nomefilelog . "rp", $suff);
+inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §Richiesto elenco orari campanella", $_SESSION['nomefilelog'] . "rp", $suff);
 
 $orari = array();
 $giorni = array();
 
-for ($i = 1; $i <= $giornilezsett; $i++)
+for ($i = 1; $i <= $_SESSION['giornilezsett']; $i++)
 {
     $orari = array();
 

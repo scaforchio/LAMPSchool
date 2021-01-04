@@ -102,7 +102,7 @@ $query = "UPDATE tbl_scrutini SET dataverbale='" . data_to_db($dataverbale) . "'
 
 $ris = eseguiQuery($con, $query);
 
-if ($periodo < $numeroperiodi)
+if ($periodo < $_SESSION['numeroperiodi'])
 {
     print "
         <form method='post' id='formchiscr' action='../scrutini/riepvoti.php'>

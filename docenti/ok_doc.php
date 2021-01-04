@@ -149,13 +149,13 @@ if ($err == 1)
         $password = creapassword();
         $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$iddocenteinserito','$utente',md5('" . md5($password) . "'),'D')";
         $res = eseguiQuery($con, $sqlt);
-        if ($tokenservizimoodle != '')
+        if ($_SESSION['tokenservizimoodle'] != '')
         {
 
             if ($email == "")
                 $email = $usernamedocente . "@dominioemailfittizio.it";
 
-            $esito = creaUtenteMoodle($tokenservizimoodle, $urlmoodle, $utentemoodle, $password, $cognome, $nome, $email);
+            $esito = creaUtenteMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $utentemoodle, $password, $cognome, $nome, $email);
             print "<br>Esito: $esito";
             if ((strstr($esito, $utentemoodle) > -1))
             {
@@ -163,9 +163,9 @@ if ($err == 1)
             }
 
 
-            $idmoodle = getIdMoodle($tokenservizimoodle, $urlmoodle, $utentemoodle);
+            $idmoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $utentemoodle);
             //print "IDMOODLE $idmoodle";
-            cambiaPasswordMoodle($tokenservizimoodle, $urlmoodle, $idmoodle, $utentemoodle, $password);
+            cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idmoodle, $utentemoodle, $password);
         }
         // print "risultato inserimento $iddocenteinserito<br/>"; 
         print "<FONT SIZE='+2'><CENTER>Inserimento eseguito</CENTER></FONT>";

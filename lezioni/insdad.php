@@ -47,12 +47,12 @@ $idclassi=stringa_html('idclassi');
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
-if ($datainizio < $datainiziolezioni)  // Per evitare errori di inserimento 
-    $data = $datainiziolezioni;
+if ($datainizio < $_SESSION['datainiziolezioni'])  // Per evitare errori di inserimento 
+    $data = $_SESSION['datainiziolezioni'];
 else
     $data = $datainizio;
-if ($datafine > $datafinelezioni)  // Per evitare errori di inserimento 
-    $datafine = $datafinelezioni;
+if ($datafine > $_SESSION['datafinelezioni'])  // Per evitare errori di inserimento 
+    $datafine = $_SESSION['datafinelezioni'];
 
 do
 {

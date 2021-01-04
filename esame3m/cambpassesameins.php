@@ -70,7 +70,7 @@ $rnpass = stringa_html('rnpass');
 
 //Esecuzione query
 
-if (md5($pwd) != $passwordesame)
+if (md5($pwd) != $_SESSION['passwordesame'])
 {
     print "<center>Password originale errata: verificare.</center>";
 } else

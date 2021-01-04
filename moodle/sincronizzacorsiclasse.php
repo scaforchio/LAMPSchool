@@ -61,7 +61,7 @@ GROUP BY tbl_cattnosupp.idmateria,tbl_classi.idclasse
     anno,specializzazione,sezione,denominazione";
 
 $ris = eseguiQuery($con, $query);
-$corsi = getCorsiMoodle($tokenservizimoodle, $urlmoodle);
+$corsi = getCorsiMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle']);
 // print "Corsi: $corsi";
 if (mysqli_num_rows($ris) > 0)
 {
@@ -83,7 +83,7 @@ if (mysqli_num_rows($ris) > 0)
         if ($presente)
         {
             print "<br>Sincronizzazione corso classe $idcla materia $idmat";
-            sincronizzaCorsoMoodle($idcla, $idmat, $con, $tokenservizimoodle, $urlmoodle, $_SESSION['nome_scuola'], $_SESSION['annoscol']);
+            sincronizzaCorsoMoodle($idcla, $idmat, $con, $_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $_SESSION['nome_scuola'], $_SESSION['annoscol']);
         }
     }
 }

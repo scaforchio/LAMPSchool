@@ -7,7 +7,7 @@ $suffisso = $_GET['suffisso'];
 
 
 
-$token = $tokenbototp;
+$token = $_SESSION['tokenbototp'];
 $email = "";
 
 // Passaggio dei parametri nella sessione
@@ -97,11 +97,11 @@ if (count($credenziali) != 2)
                   $ris = eseguiQuery($con, $query);
                   } while (mysqli_num_rows($ris) > 0);
 
-                  $link = $urlbottelegram."confermaregistrazione.php?tokendiconferma=" . $tokendiconferma . "&chatid=" . $chat_id."&suffisso=$suffisso";
+                  $link = $_SESSION['urlbottelegram']."confermaregistrazione.php?tokendiconferma=" . $tokendiconferma . "&chatid=" . $chat_id."&suffisso=$suffisso";
                   $testo = "Apri il link per completare la registazione: " . $link;
                   $subjectMail = "Conferma registrazione OTP Telegram";
                   //if (mail($email, $subjectMail, $testo))
-                  if (invia_mail($email, $subjectMail, $testo, $indirizzomailfrom))
+                  if (invia_mail($email, $subjectMail, $testo, $_SESSION['indirizzomailfrom']))
                   {
                   //Sicurezza mail - sostituzione con asterischi
                   $i = 2;
@@ -117,7 +117,7 @@ if (count($credenziali) != 2)
                   sendTelegramMessage($chat_id, $testo, $token);
                   $sql = "INSERT INTO tbl_confermatelegram (idutente, tokendiconferma) VALUES (" . $utente['idutente'] . ", '$tokendiconferma');";
                   eseguiQuery($con, $sql);
-                  inserisci_log("TELEGRAM§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Richiesta registrazione utente $user ", $nomefilelog . "", $suffisso);
+                  inserisci_log("TELEGRAM§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Richiesta registrazione utente $user ", $_SESSION['nomefilelog'] . "", $suffisso);
 
                   } else
                   {

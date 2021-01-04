@@ -40,7 +40,7 @@ $_SESSION["prefisso"] = $prefisso_tabelle;
 //$_SESSION["annoscol"] = $_SESSION['annoscol'];
 $_SESSION["suffisso"] = $suffisso;
 //$_SESSION["versioneprecedente"]=$_SESSION['versioneprecedente'];
-//$_SESSION["nomefilelog"] = $nomefilelog;
+//$_SESSION["nomefilelog"] = $_SESSION['nomefilelog'];
 $_SESSION["alias"] = false;
 
 

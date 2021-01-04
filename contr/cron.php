@@ -38,15 +38,15 @@ $controllo = stringa_html('controllo');
 
 
 
-if ($controllo == md5($nomefilelog))
+if ($controllo == md5($_SESSION['nomefilelog']))
 {
 
     daily_cron($suffisso, $con, $lavori);
     //print "\nCron $lavori eseguito";
-    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cron eseguito con lavori $lavori!", $nomefilelog, $suffisso);
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cron eseguito con lavori $lavori!", $_SESSION['nomefilelog'], $suffisso);
 } else
 {
-    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cron non eseguito per controllo MD5 fallito!", $nomefilelog, $suffisso);
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§Cron non eseguito per controllo MD5 fallito!", $_SESSION['nomefilelog'], $suffisso);
 
     // print "Cron non eseguito per controllo MD5 fallito!";
 }

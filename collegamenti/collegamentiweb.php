@@ -37,7 +37,7 @@ if ($tipoutente == "")
 $titolo = "Gestione collegamenti web";
 $script = '';
 
-if ($editorhtml != '') // Include l'editore html TinyMCE
+if ($_SESSION['editorhtml'] != '') // Include l'editore html TinyMCE
 {
     $script = '<script type="text/javascript" src="../lib/js/tinymce/tinymce.min.js"></script>';
     $script .= '<script>

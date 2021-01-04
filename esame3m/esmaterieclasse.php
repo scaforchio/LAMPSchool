@@ -48,12 +48,12 @@ if (!$db)
 {
     print("<h1> Connessione db fallita </h1>");
 }
-if ($livello_scuola == '2')
+if ($_SESSION['livello_scuola'] == '2')
 {
     $sql = "SELECT * FROM tbl_classi WHERE anno = '3' ORDER BY specializzazione, sezione, anno ";
 } else
 {
-    if ($livello_scuola == '3')
+    if ($_SESSION['livello_scuola'] == '3')
     {
         $sql = "SELECT * FROM tbl_classi WHERE anno = '8' ORDER BY specializzazione, sezione, anno ";
     }

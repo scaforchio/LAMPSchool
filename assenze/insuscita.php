@@ -96,7 +96,7 @@ while ($id = mysqli_fetch_array($ris))
     {
         if (!$uscitapresente)
         {
-            if ($giustificauscite == 'yes')  // Se non viene gestita la giustifica si imposta automaticamente a true
+            if ($_SESSION['giustificauscite'] == 'yes')  // Se non viene gestita la giustifica si imposta automaticamente a true
                 $query = "insert into tbl_usciteanticipate(idalunno,data,orauscita,giustifica) values('$idalunno','$data','$orauscita',false)";
             else
                 $query = "insert into tbl_usciteanticipate(idalunno,data,orauscita,giustifica) values('$idalunno','$data','$orauscita',true)";
