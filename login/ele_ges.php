@@ -466,6 +466,7 @@ if ($cambiamentopassword)
         menu_item('../assenze/sitassprob.php', 'SITUAZIONI PROBLEMATICHE');
         menu_item('../assenze/sitassperclassi.php', 'PERCENTUALI PER CLASSE');
         menu_item('../assenze/sitmensassalu.php', 'ASSENZE MENSILI ALUNNO');
+        menu_item('../assenze/sitassmate.php', 'SITUAZIONE ASSENZE PER MATERIA');
         menu_separator("");
         menu_item('../rp/vistimbrature.php', 'VISUALIZZA TIMBRATURE');
         menu_item('../rp/selealunnipresenza.php', 'FORZA PRESENZA ALUNNI');

@@ -2660,16 +2660,16 @@ MODIFY idesmaterie int(11) AUTO_INCREMENT;
 
 -- IMPORTAZIONE DATI
 
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2020.6', 'Versione del software', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2020.7', 'Versione del software', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'nome_scuola', '', 'Nome della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'comune_scuola', '', 'Comune sede della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'sito_scuola', 'http://', 'Indirizzo web dell''home page della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'numeroanni', '5', 'Numero annualit&agrave; da gestire', '3|5|8');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'numeromassimoore', '6', 'Numero massimo di ore nella giornata', '4|5|6|7|8|9|10');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'plesso_specializzazione', 'Specializzazione', 'Significato del terzo valore di descrizione di una classe (dopo anno e sezione)', 'Plesso|Specializzazione');
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'annoscol', '2019', 'Anno di inizio dell''anno scolastico (formato AAAA)', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'annoscol', '2020', 'Anno di inizio dell''anno scolastico (formato AAAA)', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'numeroperiodi', '2', 'Numero periodi (2 - quadrimestri, 3 - trimestri)', '');
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'fineprimo', '2020-01-31', 'Giorno fine primo periodo (AAAA-MM-GG)', 'data');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'fineprimo', '2021-01-31', 'Giorno fine primo periodo (AAAA-MM-GG)', 'data');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'finesecondo', '', 'Eventuale giorno fine secondo periodo (AAAA-MM-GG)', 'data');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'cartellabuffer', '../buffer', 'Percorso della cartella da utilizzare come buffer (devono essere impostati i permessi di scrittura)', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'editorhtml', 'TinyMCE', 'Editor che deve essere usato per le textarea (non cambiare se non si sa quello che si fa)', '');
@@ -2831,7 +2831,7 @@ Dichiara di essere a conoscenza:
 - che utilizzi impropri della suddetta password sono puniti a norma di legge;
 - che lâ€™accesso e lâ€™utilizzo del servizio verranno bloccati in caso di utilizzi impropri della sopra citata password, di una sua divulgazione o di un suo smarrimento, come pure in caso di eventuali violazioni di legge commesse mediante lâ€™utilizzo della stessa.', 'Testo dopo comunicazione password per docente.', '');
 INSERT INTO tbl_testi (idtesto, nometesto, valore, spiegazione, possibilivalori) VALUES (4, 'passalu00', 'Gent.mo genitore dell''alunno', 'Formula prima del nome dell''alunno', '');
-INSERT INTO tbl_testi (idtesto, nometesto, valore, spiegazione, possibilivalori) VALUES (5, 'passalu01', 'Con le credenziali qui fornite potrÃ  accedere allâ€™area riservata ai genitori del Registro Online LAMPSchool per lâ€™A.S. 2019-2020.
+INSERT INTO tbl_testi (idtesto, nometesto, valore, spiegazione, possibilivalori) VALUES (5, 'passalu01', 'Con le credenziali qui fornite potrÃ  accedere allâ€™area riservata ai genitori del Registro Online LAMPSchool per lâ€™A.S. 2020-2021.
 In tale area, raggiungibile con il link â€™Registro On Line ITTâ€™ del sito www.isdimaggio.it, potrÃ  visualizzare i dati relativi al percorso scolastico di suo figlio: assenze, ritardi, uscite anticipate, valutazioni, note, comunicazioni della scuola, pagelle, argomenti delle lezioni, ecc.', 'Testo prima di comunicazione password per alunno.', '');
 INSERT INTO tbl_testi (idtesto, nometesto, valore, spiegazione, possibilivalori) VALUES (6, 'passalu02', 'Sperando di averle fatto cosa gradita si coglie l''occasione per salutarLa cordialmente.', 'Testo dopo comunicazione password per alunni.', '');
 INSERT INTO tbl_testi (idtesto, nometesto, valore, spiegazione, possibilivalori) VALUES (7, 'ricevutapassalu', 'no', 'Stampa del tagliando di ricevuta in fondo a comunicazione.', 'yes|no');
@@ -2937,7 +2937,7 @@ La seduta Ã¨ tolta alle ore [orafine] dopo la lettura e l''approvazione del pr
 La sottocommissione [commissione]:', 'Quarta parte del verbale esame di stato terza media', '');
 
 INSERT INTO tbl_testi (idtesto, nometesto, valore, spiegazione, possibilivalori) VALUES (31, 'passmoodlealu00', 'Gent.mo genitore dell''alunno', 'Formula prima del nome dell''alunno', '');
-INSERT INTO tbl_testi (idtesto, nometesto, valore, spiegazione, possibilivalori) VALUES (32, 'passmoodlealu01', 'Con le credenziali qui fornite potrÃ  accedere allâ€™area riservata ai genitori del Registro Online LAMPSchool per lâ€™A.S. 2019-2020.
+INSERT INTO tbl_testi (idtesto, nometesto, valore, spiegazione, possibilivalori) VALUES (32, 'passmoodlealu01', 'Con le credenziali qui fornite potrÃ  accedere allâ€™area riservata ai genitori del Registro Online LAMPSchool per lâ€™A.S. 2020-2021.
 In tale area, raggiungibile con il link â€™Registro On Line ITTâ€™ del sito www.isdimaggio.it, potrÃ  visualizzare i dati relativi al percorso scolastico di suo figlio: assenze, ritardi, uscite anticipate, valutazioni, note, comunicazioni della scuola, pagelle, argomenti delle lezioni, ecc.', 'Testo prima di comunicazione password per alunno.', '');
 INSERT INTO tbl_testi (idtesto, nometesto, valore, spiegazione, possibilivalori) VALUES (33, 'passmoodlealu02', 'Sperando di averle fatto cosa gradita si coglie l''occasione per salutarLa cordialmente.', 'Testo dopo comunicazione password per alunni.', '');
 INSERT INTO tbl_testi (idtesto, nometesto, valore, spiegazione, possibilivalori) VALUES (34, 'alupassalu00', 'Gent.mo alunno', 'Formula prima del nome dell''alunno', '');
