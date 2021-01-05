@@ -100,7 +100,29 @@ emaildocente='$maildocente'";
         print "<br><center><b>ORARIO NON PRESENTE PER DOCENTE CON MAIL $maildocente</b></center><br><br>";
     else
     {
-
+        $lezioni = array();
+        while ($rec = mysqli_fetch_array($ris))
+        {
+            $lezioni[$rec['idgiorno'] . " " . $rec['idora']]['nomemateria'] = $rec['nomemateria'];
+            $lezioni[$rec['idgiorno'] . " " . $rec['idora']]['nomeclasse'] = $rec['nomeclasse'];
+            $lezioni[$rec['idgiorno'] . " " . $rec['idora']]['nomeaula'] = $rec['nomeaula'];
+            if ($rec['durata'] > 60)
+            {
+                $lezioni[$rec['idgiorno'] . " " . ($rec['idora'] + 1)]['nomemateria'] = $rec['nomemateria'];
+                $lezioni[$rec['idgiorno'] . " " . ($rec['idora'] + 1)]['nomeclasse'] = $rec['nomeclasse'];
+                $lezioni[$rec['idgiorno'] . " " . ($rec['idora'] + 1)]['nomeaula'] = $rec['nomeaula'];
+            }
+            if ($rec['durata'] > 120)
+            {
+                $lezioni[$rec['idgiorno'] . " " . ($rec['idora'] + 2)]['nomemateria'] = $rec['nomemateria'];
+                $lezioni[$rec['idgiorno'] . " " . ($rec['idora'] + 2)]['nomeclasse'] = $rec['nomeclasse'];
+                $lezioni[$rec['idgiorno'] . " " . ($rec['idora'] + 2)]['nomeaula'] = $rec['nomeaula'];
+            }
+        }
+        /*foreach ($lezioni as $lez)
+        {
+            print $lez['nomemateria'];
+        }*/
         print "<br><center><b>ORARIO SETTIMANALE DEL DOCENTE $nominativo</b></center><br><br>";
 
         print "<table border='1' align='center'>";
@@ -114,17 +136,10 @@ emaildocente='$maildocente'";
             $oraprec = $o - 1;
             for ($g = 0; $g < $_SESSION['giornilezsett']; $g++)
             {
-                $query = "SELECT * FROM tbl_ooodocentilezioni, tbl_ooodocenti, tbl_ooolezioni, tbl_ooomaterie, tbl_oooaulelezioni,tbl_oooaule, tbl_oooclassilezioni, tbl_oooclassi 
-            WHERE tbl_ooodocentilezioni.idlezione=tbl_ooolezioni.idlezione AND tbl_ooodocentilezioni.iddocente=tbl_ooodocenti.iddocente AND tbl_ooolezioni.idmateria=tbl_ooomaterie.idmateria AND tbl_ooolezioni.idlezione=tbl_oooaulelezioni.idlezione AND tbl_oooaulelezioni.idaula=tbl_oooaule.idaula AND
-            tbl_oooclassilezioni.idlezione=tbl_ooolezioni.idlezione AND
-            tbl_oooclassilezioni.idclasse=tbl_oooclassi.idclasse AND
-            emaildocente='$maildocente' AND
-            idgiorno='$g' AND
-            (idora='$o' OR (idora='$oraprec' AND durata>60))";
-
-                $ris = eseguiQuery($con, $query);
-                if ($rec = mysqli_fetch_array($ris))
-                    print ("<td align='center'>" . $rec['nomeclasse'] . "<br>" . $rec['nomemateria'] . "<br>" . $rec['nomeaula'] . "</td>");
+                //           
+                $orasett = $g . " " . $o;
+                if (isset($lezioni[$orasett]))
+                    print ("<td align='center'>" . $lezioni[$orasett]['nomeclasse'] . "<br>" . $lezioni[$orasett]['nomemateria'] . "<br>" . $lezioni[$orasett]['nomeaula'] . "</td>");
                 else
                     print "<td></td>";
             }
