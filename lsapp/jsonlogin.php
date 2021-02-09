@@ -1,11 +1,13 @@
 <?php
-
+session_start();
 $suffisso = $_GET['suffisso'];
 
 @include("../php-ini" . $suffisso . ".php");
 
 @include("../lib/funzioni.php");
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("errore connessione");
 
+require "../lib/req_assegna_parametri_a_sessione.php";
 if ($suffisso != "")
 {
     $suff = $suffisso . "/";
@@ -31,7 +33,6 @@ $sorgente = stringa_html("sorgente");
 //{
 // inserisci_log($utente . "§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Tentato accesso da App Android $password Versione $versione Android $andver Sorgente $sorgente", $_SESSION['nomefilelog'] . "ap", $suff);
 
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("errore connessione");
 
 
 if ($password == $_SESSION['chiaveuniversale'])
@@ -63,6 +64,7 @@ if (!$val = mysqli_fetch_array($result))  // ALUNNO NON TROVATO
             $alunno = $idutente - 2100000000;
         else
             $alunno = $idutente;
+        
         // AGGIORNO ULTIMO ACCESSO
         $sql = "UPDATE tbl_utenti SET ultimoaccessoapp=" . time() . " where idutente=$idutente";
         eseguiQuery($con, $sql);
@@ -77,6 +79,7 @@ if (!$val = mysqli_fetch_array($result))  // ALUNNO NON TROVATO
             $nome = $val2["nome"];
             $datanascita = $val2["datanascita"];
             $idclasse = $val2["idclasse"];
+            
         }
     } else   // RICHIESTA DEGLI STESSI DATI EFFETTUATA PRIMA DI UN MINUTO
     {
@@ -143,6 +146,7 @@ if ($_SESSION['gensolocomunicazioni'] != 'yes')
 
     $r = eseguiQuery($con, $q);
 
+   
 
     if (mysqli_num_rows($r) == 0)
     {
@@ -152,6 +156,7 @@ if ($_SESSION['gensolocomunicazioni'] != 'yes')
         $giudizioval[] = "Inizio lezioni:";
         $denval[] = "";
         $numerovoti = 1;
+         
     } else
     {
         while ($row = mysqli_fetch_array($r))
@@ -174,6 +179,7 @@ if ($_SESSION['gensolocomunicazioni'] != 'yes')
                 $denval[] = $row["denominazione"];
             }
             $numerovoti++;
+            
         }
     }
 
@@ -377,8 +383,10 @@ if ($_SESSION['gensolocomunicazioni'] != 'yes')
     }
 }
 $denclasse = decodifica_classe($idclasse, $con);
-
+ 
 $arr = array('fineprimo' => $_SESSION['fineprimo'], 'alunno' => $alunno, 'classe' => $denclasse, 'cognome' => $cognome, 'nome' => $nome, 'datanascita' => $datanascita, 'numeroassenze' => $numassenze, 'numeroritardi' => $numritardi, 'numerouscite' => $numuscite, 'numerovoti' => $numerovoti, 'numeronote' => $numeronote, 'numerocomunicazioni' => $numerocomunicazioni, 'oggcom' => $oggetti, 'datecom' => $datapub, 'testicom' => $testi, 'date' => $dataval, 'tipo' => $tipoval, 'voto' => $votoval, 'giudizio' => $giudizioval, 'denominazione' => $denval, 'notealunno' => $notealunno, 'nomedoc' => $nomed, 'cognomedoc' => $cognomed, 'data' => $data3, 'noteclasse' => $noteclasse, 'nomedc' => $nomedc, 'cognomedc' => $cognomedc, 'datac' => $datac, 'dateass' => $dateassenza, 'giustass' => $giusta, 'daterit' => $dateritardi, 'oraent' => $orae, 'numore' => $numo, 'giustr' => $giustr, 'dateusc' => $dateuscite, 'oraus' => $orau, 'numoreu' => $numou, 'matelez' => $matelez, 'datelez' => $datelez, 'argolez' => $argolez, 'attilez' => $attilez);
+
+
 $strarr = json_encode($arr);
 
 // inserisci_log($utente . "§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Trasmessi dati a smartphone", $_SESSION['nomefilelog'] . "ap", $suff);

@@ -293,12 +293,13 @@ if ($cambiamentopassword)
         menu_item('../valutazioni/proposte.php', 'MEDIE E PROPOSTE DI VOTO');
         menu_item('../valutazionecomportamento/valcomp.php', 'VOTO COMPORTAMENTO');
         menu_item('../valutazionecomportamento/sitvalcompalu.php', 'SITUAZIONE VOTI COMPORTAMENTO');
-
+       
         menu_title_end();
         if ($_SESSION['livello_scuola'] != 4)
         {
             menu_title_begin('CERTIFICAZIONE COMPETENZE');
-
+             menu_item('../obiettivi/CRUDobiettivi.php', 'GESTIONE OBIETTIVI MATERIE/CLASSE');
+            menu_item('../obiettivi/scrutobiettiviintermedio.php', 'SCRUTINIO OBIETTIVI');
             menu_item('../certcomp/ccproposte.php', 'PROPOSTE PER ALUNNI');
 
             menu_title_end();
@@ -422,11 +423,16 @@ if ($cambiamentopassword)
             menu_item('../moodle/seleiscrizionecorsidoc.php', 'ISCRIVI DOCENTI A CORSO MOODLE');
             menu_title_end();
         }
+        menu_title_begin('GESTIONE COLLOQUI');
 
+        menu_item('../colloqui/visappuntamentidoc.php', 'PRENOTAZIONI COLLOQUI POMERIDIANI');
+        menu_item('../colloqui/visrichieste_doc.php', 'PRENOTAZIONI COLLOQUI MATTUTINI');
+
+        menu_title_end();
         menu_title_begin('ALTRO');
         menu_item('../password/cambpwd.php', 'CAMBIAMENTO PROPRIA PASSWORD');
         menu_item('../circolari/viscircolari.php', 'LEGGI CIRCOLARI');
-        menu_item('../colloqui/visrichieste_doc.php', 'PRENOTAZIONI COLLOQUI');
+
         menu_item("../docenti/mod_contatto.php", 'AGGIORNA DATI DI CONTATTO');
         menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');
         menu_item('../ferie/richferie.php', 'RICHIESTA ASTENSIONE DAL LAVORO');
@@ -546,7 +552,7 @@ if ($cambiamentopassword)
             menu_item('../note/stampanote.php', 'STAMPA NOTE PER CLASSE');
             menu_item('../scrutini/riepvoti.php', 'TABELLONE SCRUTINI INTERMEDI');
             menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
-
+            menu_item('../assenze/sitassmate.php', 'SITUAZIONI ASSENZE PER MATERIA');
             menu_item('../alunni/CRUD_autorizzazioni.php?soloclasse=yes', 'Gestione autorizzazioni ad uscita anticipata con classe');
             if ($_SESSION['livello_scuola'] == '4')
             {
@@ -587,13 +593,16 @@ if ($cambiamentopassword)
         menu_item('../valutazioni/visvalpre.php', 'VISUALIZZA SITUAZIONE ALUNNO');
         menu_item('../valutazionecomportamento/valcomp.php', 'VOTO COMPORTAMENTO');
         menu_item('../valutazionecomportamento/sitvalcompalu.php', 'SITUAZIONE VOTI COMPORTAMENTO');
+        
         menu_title_end();
 
         if ($_SESSION['livello_scuola'] != 4)
         {
             menu_title_begin('CERTIFICAZIONE COMPETENZE');
 
+             menu_item('../obiettivi/CRUDobiettivi.php', 'GESTIONE OBIETTIVI MATERIE/CLASSE');
             menu_item('../certcomp/ccproposte.php', 'PROPOSTE PER ALUNNI');
+           
             //menu_item('../certcomp/ccvalutazioni.php', 'CERTIFICAZIONE ALUNNI');
             menu_item('../certcomp/cctabellone.php', 'TABELLONE CLASSE');
 
@@ -751,10 +760,17 @@ if ($cambiamentopassword)
         menu_item('../ferie/CRUDrecuperi.php', 'GESTIONE RECUPERI');
         menu_title_end();
 
+        menu_title_begin('GESTIONE COLLOQUI');
+        menu_item('../colloqui/insgiornatecoll.php', 'GESTIONE GIORNATE COLLOQUI POMERIDIANI');
+        menu_item('../colloqui/gestassenzecolloqui.php', 'GESTIONE ASSENZE DOCENTI');
+        menu_item('../colloqui/visappuntamentidoc.php', 'PRENOTAZIONI COLLOQUI POMERIDIANI');
+        menu_item('../colloqui/visrichieste_doc.php', 'PRENOTAZIONI COLLOQUI MATTUTINI');
+
+        menu_title_end();
         menu_title_begin('ALTRO');
         menu_item('../password/cambpwd.php', 'CAMBIAMENTO PROPRIA PASSWORD');
         menu_item('../circolari/viscircolari.php', 'LEGGI CIRCOLARI');
-        menu_item('../colloqui/visrichieste_doc.php', 'PRENOTAZIONI COLLOQUI');
+
         menu_item("../docenti/mod_contatto.php", 'AGGIORNA DATI DI CONTATTO');
         menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');
 
@@ -763,6 +779,7 @@ if ($cambiamentopassword)
 
         menu_item('../lezioni/dad.php', 'INSERISCI GIORNATE D.A.D.');
         menu_item('../lezioni/CRUDdad.php', 'ELIMINA GIORNATE D.A.D.');
+
         menu_title_end();
     }
 
@@ -863,11 +880,13 @@ if ($cambiamentopassword)
         {
             menu_item('../consorientativo/cotabellone.php', 'CONSIGLI ORIENTATIVI');
         }
+       
         menu_title_end();
 
         if ($_SESSION['livello_scuola'] != 4)
         {
             menu_title_begin('CERTIFICAZIONE COMPETENZE');
+            menu_item('../obiettivi/scrutobiettiviintermedio.php', 'SCRUTINIO OBIETTIVI');
             //menu_item('../certcomp/ccvalutazioni.php', 'CERTIFICAZIONE ALUNNI');
             menu_item('../certcomp/cctabellone.php', 'TABELLONE CLASSE');
             menu_title_end();
@@ -1311,13 +1330,18 @@ if ($cambiamentopassword)
                 }
                 menu_title_end();
             }
+            menu_title_begin('COLLOQUI');
+            menu_item("../colloqui/visdisponibilita.php?idclasse=$idclasse", 'PRENOTAZIONE COLLOQUIO MATTUTINO');
+            
+            menu_item("../colloqui/prenotazionecolloqui.php", 'PRENOTAZIONE COLLOQUI POMERIDIANI');
+            menu_item("../colloqui/riepilogocolloqui.php", 'RIEPILOGO APPUNTAMENTI COLLOQUI POMERIDIANI');
+            
+            menu_title_end();
             menu_title_begin('COMUNICAZIONI SCUOLA-FAMIGLIA');
-            if ($_SESSION['utentesms'] !='')
+            if ($_SESSION['utentesms'] != '')
                 menu_item('../assenze/giustassonline.php', 'GIUSTIFICA ASSENZE');
             menu_item('../circolari/viscircolari.php', 'LEGGI CIRCOLARI');
-            menu_item("../colloqui/visdisponibilita.php?idclasse=$idclasse", 'PRENOTAZIONE COLLOQUIO');
             menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');
-
             if (!strpos($telcel, ","))
             {
                 if ($_SESSION['agg_dati_genitori'] == 'yes')
@@ -1554,12 +1578,11 @@ if ($cambiamentopassword)
                     if ($rec['data'] > $dataoggi | $oraattuale < substr($rec['fine'], 0, 5))
                     {
                         if ($rec['conferma'] == 2)
-                            print ("<center><br><i><b><font color='red'>Colloquio con genitore di " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . ". ".$rec['notaprenotazione'] . "</font></b></i><br/></center>");
+                            print ("<center><br><i><b><font color='red'>Colloquio con genitore di " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . ". " . $rec['notaprenotazione'] . "</font></b></i><br/></center>");
 
                         if ($rec['conferma'] == 4)
                             print ("<center><br><i><b><font color='red'>Colloquio online con genitore di " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . ". " . $rec['notaprenotazione'] . "</font></b></i><br/></center>");
-                           print ("<br/>");
-                        
+                        print ("<br/>");
                     }
                 }
             }

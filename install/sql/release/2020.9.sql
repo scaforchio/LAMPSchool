@@ -2660,7 +2660,7 @@ MODIFY idesmaterie int(11) AUTO_INCREMENT;
 
 -- IMPORTAZIONE DATI
 
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2020.7', 'Versione del software', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2020.9', 'Versione del software', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'nome_scuola', '', 'Nome della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'comune_scuola', '', 'Comune sede della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'sito_scuola', 'http://', 'Indirizzo web dell''home page della scuola', '');
@@ -11800,3 +11800,58 @@ INSERT INTO tbl_certcomplivelli (idccl, livello, indicatoreesplicativo, indicato
 (8, 'D - Iniziale', 'Lâ€™alunno/a, se opportunamente guidato/a, svolge compiti semplici in situazioni note.', 1, 2, 1);
 
 
+CREATE TABLE IF NOT EXISTS tbl_obiettivi (
+  idobiettivo int(11) AUTO_INCREMENT PRIMARY KEY,
+  idclasse int(11) not null,
+  idmateria int(11) not null,
+  progressivo tinyint,
+  obiettivo text not null
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS tbl_valutazioniobiettivi (
+  idvalutazioneobiettivo int(11) AUTO_INCREMENT PRIMARY KEY,
+  idalunno int(11) not null,
+  idobiettivo int(11) not null,
+  idlivelloobiettivo int(11) not null default 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS tbl_livelliobiettivi (
+  idlivelloobiettivo int(11) AUTO_INCREMENT PRIMARY KEY,
+  descrizione char(50) not null,
+  abbreviazione char(10) not null 
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO tbl_livelliobiettivi VALUES
+  (1, 'In via di prima acquisizione', 'PRIMA ACQ'),
+  (2, 'Base', 'BASE'),
+  (3, 'Intermedio', 'INTERM'),
+  (4, 'Avanzato', 'AVANZ');
+
+CREATE TABLE IF NOT EXISTS tbl_slotcolloqui (
+  idslotcolloqui int(11) AUTO_INCREMENT PRIMARY KEY,
+  iddocente int(11) not null,
+  idgiornatacolloqui int(11) not null,
+  idalunno int(11) not null,
+  orainizio time not null,
+  orafine time not null
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS tbl_giornatacolloqui (
+  idgiornatacolloqui int(11) AUTO_INCREMENT PRIMARY KEY,
+  data date not null,
+  orainizio time not null,
+  orafine time not null,
+  durataslot tinyint not null
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS tbl_colloquiclasse (
+  idcolloquioclasse int(11) AUTO_INCREMENT PRIMARY KEY,
+  idgiornatacolloqui int(11) not null,
+  idclasse int(11) not null
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS tbl_assenzedocenticolloqui (
+  idassenzadocentecolloquio int(11) AUTO_INCREMENT PRIMARY KEY,
+  idgiornatacolloqui int(11) not null,
+  iddocente int(11) not null
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

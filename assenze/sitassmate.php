@@ -175,7 +175,23 @@ if ($classe != "")
     $assenze=array();
     $orelez=array();
     
-    $query="select * from tbl_lezioni where idclasse=$classe";
+    $seledatalezione = "";
+    $seledata = "";
+    if ($datainizio != "")
+    {
+        $seledata = $seledata . " and data >= '" . data_to_db($datainizio) . "' ";
+        $seledatalezione = $seledatalezione . " and datalezione >= '" . data_to_db($datainizio) . "' ";
+    }
+
+    if ($datafine != "")
+    {
+        $seledata = $seledata . " and data <= '" . data_to_db($datafine) . "' ";
+        $seledatalezione = $seledatalezione . " and datalezione <= '" . data_to_db($datafine) . "' ";
+    }
+    
+    
+    
+    $query="select * from tbl_lezioni where idclasse=$classe $seledatalezione";
     $ris= eseguiQuery($con, $query);
     while ($rec=mysqli_fetch_array($ris))
     {
@@ -190,7 +206,7 @@ if ($classe != "")
         print "ore $ol";
     */
     $elencoalunni= estrai_alunni_classe_data($classe, date('Y-m-d'), $con);
-    $query="select * from tbl_asslezione where idalunno in ($elencoalunni)";
+    $query="select * from tbl_asslezione where idalunno in ($elencoalunni) $seledata";
     //print $query;
     $ris= eseguiQuery($con, $query);
     while ($rec=mysqli_fetch_array($ris))

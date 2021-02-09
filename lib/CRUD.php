@@ -32,7 +32,7 @@ foreach ($campiordinamento as $campoord)
     $indicecampo = 0;
     $arrord = explode(" ", $campoord);
     $tipoord = $arrord[1];
-    $campoord= $arrord[0];
+    $campoord = $arrord[0];
     // print "DATI $campoord ".$tipoord;
     foreach ($daticrud['campi'] as $campo)
     {
@@ -42,8 +42,7 @@ foreach ($campiordinamento as $campoord)
         {
             if ($campoord == $campo[0])
                 $stringaopzioniord .= "[$indicecampo,'asc'],";
-        }
-        else
+        } else
         {
             if ($campoord == $campo[0])
                 $stringaopzioniord .= "[$indicecampo,'desc'],";
@@ -108,7 +107,7 @@ $strcondizione = " and " . $daticrud['condizione'];
 
 // Campi per ordinamento in visualizzazione
 // Costruzione query
-$query = "select " . $daticrud['campochiave'] . ", $strcampi from " . $daticrud['tabella'] . " where true " . $strcondizione;
+$query = "select " . $daticrud['campochiave'] . ", $strcampi from " . $daticrud['tabella'] . " " . $daticrud['aliastabella'] . " where true " . $strcondizione;
 // print $query;
 $ris = eseguiQuery($con, $query);
 if ($daticrud['abilitazioneinserimento'] == 1)
@@ -146,8 +145,7 @@ while ($rec = mysqli_fetch_array($ris))
                     $strvis = $rec[$c[0]] == 0 ? "No" : "S&igrave;";
                 else
                     $strvis = $rec[$c[0]];
-            }
-            else              // Campo in tabella esterna
+            } else              // Campo in tabella esterna
             {
 
                 $strcampi = "";

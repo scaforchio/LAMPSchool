@@ -23,6 +23,34 @@ function estrai_dati_docente($iddocente, $conn)
     return $datidocente;
 }
 
+
+function elenco_materie_docente( $conn,$iddocente)
+{
+    $elenco="";
+    $query = "select distinct idmateria from tbl_cattnosupp where iddocente='$iddocente'";
+    $ris = eseguiQuery($conn, $query);
+    while($rec = mysqli_fetch_array($ris))
+    {
+        $elenco.=$rec['idmateria'].",";
+    }
+    $elenco=substr($elenco,0,strlen($elenco)-1);
+
+    return $elenco;
+}
+function elenco_classi_docente( $conn,$iddocente)
+{
+    $elenco="";
+    $query = "select distinct idclasse from tbl_cattnosupp where iddocente='$iddocente'";
+    $ris = eseguiQuery($conn, $query);
+    while($rec = mysqli_fetch_array($ris))
+    {
+        $elenco.=$rec['idclasse'].",";
+    }
+    $elenco=substr($elenco,0,strlen($elenco)-1);
+
+    return $elenco;
+}
+
 /**
  *
  * @param int $iddocente

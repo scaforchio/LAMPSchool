@@ -532,7 +532,7 @@ if (!checkdate($m, $g, $a))
     print ("<center> <big><big>Data non corretta!</big></big> </center>");
 } else
 {
-    if ($giornosettimana == "Dom" | giorno_festa($anno . "-" . $mese . "-" . $giorno, $con))
+    if ($giornosettimana == "Ven" | giorno_festa($anno . "-" . $mese . "-" . $giorno, $con))
     {
         print ("<center> <big><big>Il giorno selezionato &egrave; festivo!</big></big> </center>");
     } else

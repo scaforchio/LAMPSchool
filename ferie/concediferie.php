@@ -45,7 +45,14 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 $nominativodirigente = estrai_dati_docente(1000000000, $con);
 $prot = stringa_html('prot');
 $conc = stringa_html('conc');
-
+$query = "select testomail from tbl_richiesteferie where idrichiestaferie=$prot";
+$ris = eseguiQuery($con, $query);
+$rec = mysqli_fetch_array($ris);
+$testomail = $rec['testomail'];
+if (strpos($testomail, "Malattia (") != 0)
+    $malattia = true;
+else
+    $malattia = false;
 if ($conc == 3)  // ASSENZA PER MOTIVI DI SERVIZIO
 {
     $conc = 1;
@@ -53,9 +60,10 @@ if ($conc == 3)  // ASSENZA PER MOTIVI DI SERVIZIO
 }
 if ($conc == 0)
     $esito = "<br><br><b>Vista la domanda: NON SI CONCEDE!<br><br><center>Il Dirigente Scolastico<br>$nominativodirigente</b></center>";
-if ($conc == 1)
+if ($conc == 1 & !$malattia)
     $esito = "<br><br><b>Vista la domanda: SI CONCEDE!<br><br><center>Il Dirigente Scolastico<br>$nominativodirigente</b></center>";
-
+else
+    $esito = "<br><br><b>Domanda acquisita!<br><br><center>Il Dirigente Scolastico<br>$nominativodirigente</b></center>";
 if (!$senzaconteggio)
     $query = "update tbl_richiesteferie set concessione=$conc, testomail=concat(testomail,'" . $esito . "') where idrichiestaferie=$prot";
 else
@@ -105,8 +113,7 @@ if ($conc != 2)
        <center><input type='submit' value='OK'></center>
        </form>";
     }
-}
-else
+} else
 {
     $testomail = "In merito alla richiesta di astensione dal lavoro in oggetto la S.V. è pregata di recarsi dal D.S. per chiarimenti.<br><br>Distinti saluti.<br><br><center>IL DIRIGENTE SCOLASTICO</center>";
     if (invia_mail($indirizzomaildocente, $subject, $testomail))
