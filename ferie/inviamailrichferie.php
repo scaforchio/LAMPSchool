@@ -65,24 +65,26 @@ print "<big><b>NUMERO RICEVUTA: " . $_SESSION['suffisso'] . $idrichiesta . "</b>
  * 
  * 
  * 
- * La Mail viene inviata solo dopo la conferma del dirigente
- * if (invia_mail($to, $subject, $testomail))
-  {
-  print "OK! Mail correttamente inviata alla scuola.<br><br>";
-  $query="update tbl_richiesteferie set erroremail=false where idrichiestaferie=$idrichiesta";
-  eseguiQuery($con,$query);
-  print "<big><b>NUMERO RICEVUTA: ".$_SESSION['suffisso'].$idrichiesta."</b><small>";
-  }
-  else
-  {
-  print "Errore nell'invio della mail!";
-  $query="update tbl_richiesteferie set erroremail=true where idrichiestaferie=$idrichiesta";
-  eseguiQuery($con,$query);
-  print "<big><b>NUMERO RICEVUTA: ".$_SESSION['suffisso'].$idrichiesta."</b><small>";
-  }
-  eseguiQuery($con,$query);
-
+ * La Mail viene inviata solo dopo la conferma del dirigente se non si tratta di malattia
  */
+if ((strpos($testomail, "Malattia (") != 0)|($_SESSION['mailpermdopoauto']=='no'))
+{
+    if (invia_mail($to, $subject, $testomail))
+    {
+        print "<br>OK! Mail correttamente inviata alla scuola.<br><br>";
+        $query = "update tbl_richiesteferie set erroremail=false where idrichiestaferie=$idrichiesta";
+        eseguiQuery($con, $query);
+       // print "<big><b>NUMERO RICEVUTA: " . $_SESSION['suffisso'] . $idrichiesta . "</b><small>";
+    } else
+    {
+        print "<br>Errore nell'invio della mail!";
+        $query = "update tbl_richiesteferie set erroremail=true where idrichiestaferie=$idrichiesta";
+        eseguiQuery($con, $query);
+        // print "<big><b>NUMERO RICEVUTA: " . $_SESSION['suffisso'] . $idrichiesta . "</b><small>";
+    }
+    eseguiQuery($con, $query);
+}
+
 
 mysqli_close($con);
 stampa_piede("");

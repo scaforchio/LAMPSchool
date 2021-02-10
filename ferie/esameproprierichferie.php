@@ -43,25 +43,31 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 $nominativo = estrai_dati_docente($_SESSION['idutente'], $con);
 
-    print "<br><center><b>ESITO PROPRIE RICHIESTE ASTENSIONE DAL LAVORO</b></center><br><br>";
-    print "<table border='1' align='center'>";
-    print "<tr class='prima'><td>Prot.</td><td>Docente</td><td>Richiesta</td><td>Concessione</td></tr>";
-    $query = "select * from tbl_richiesteferie where iddocente=$iddocente and (concessione<>9 or isnull(concessione)) order by idrichiestaferie desc";
-    $ris = eseguiQuery($con, $query);
-    while ($rec = mysqli_fetch_array($ris))
+print "<br><center><b>ESITO PROPRIE RICHIESTE ASTENSIONE DAL LAVORO</b></center><br><br>";
+print "<table border='1' align='center'>";
+print "<tr class='prima'><td>Prot.</td><td>Docente</td><td>Richiesta</td><td>Concessione</td></tr>";
+$query = "select * from tbl_richiesteferie where iddocente=$iddocente and (concessione<>9 or isnull(concessione)) order by idrichiestaferie desc";
+$ris = eseguiQuery($con, $query);
+while ($rec = mysqli_fetch_array($ris))
+{
+    print "<tr>";
+    $prot = $rec['idrichiestaferie'];
+    print "<td>$prot</td>";
+    print "<td>" . estrai_dati_docente($rec['iddocente'], $con) . "</td>";
+    // PREPARAZIONE STRINGA SINTETICA RICHIESTA
+    $testocompleto = $rec['testomail'];
+    //$posperiodo = strpos($testocompleto,"", $testocompleto)
+    //str_replace("");
+    print "<td><small><small>$testocompleto<big><big></td>";
+    $concesso = $rec['concessione'];
+    $annullata = $rec['annullata'];
+    print "<td align='center' valign='middle'>";
+    if (strpos($testocompleto, "Malattia (") != 0)
     {
-        print "<tr>";
-        $prot = $rec['idrichiestaferie'];
-        print "<td>$prot</td>";
-        print "<td>" . estrai_dati_docente($rec['iddocente'], $con) . "</td>";
-        // PREPARAZIONE STRINGA SINTETICA RICHIESTA
-        $testocompleto = $rec['testomail'];
-        //$posperiodo = strpos($testocompleto,"", $testocompleto)
-        //str_replace("");
-        print "<td><small><small>$testocompleto<big><big></td>";
-        $concesso = $rec['concessione'];
-        $annullata=$rec['annullata'];
-        print "<td align='center' valign='middle'>";
+        print "Richiesta inoltrata!</td>";
+        
+    } else
+    {
         if ($concesso == NULL)
             print "Non ancora esaminata!<br><br><a href='annullarichiestaferie.php?prot=$prot'>ANNULLA</a></td>";
         else
@@ -69,19 +75,18 @@ $nominativo = estrai_dati_docente($_SESSION['idutente'], $con);
         {
             print "Accettata!";
             if ($annullata)
-               print "<br><br><b>ANNULLATA PER MANCATA FRUIZIONE</b>";
+                print "<br><br><b>ANNULLATA PER MANCATA FRUIZIONE</b>";
             print "</td>";
-        }
-        else
+        } else
         if ($concesso == 0)
             print "Rifiutata!</td>";
         else
             print "Recarsi dal preside per chiarimenti!</td>";
-
-        print "</tr>";
     }
-    print "</table>";
-    print "<br>";
+    print "</tr>";
+}
+print "</table>";
+print "<br>";
 
 
 
