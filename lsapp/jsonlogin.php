@@ -6,7 +6,7 @@ $suffisso = $_GET['suffisso'];
 
 @include("../lib/funzioni.php");
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("errore connessione");
-
+mysqli_set_charset( $con, 'utf8');
 require "../lib/req_assegna_parametri_a_sessione.php";
 if ($suffisso != "")
 {
@@ -107,6 +107,7 @@ $denval = array();
 
 $numerovoti = 0;
 
+$materie = array();
 $dateassenza = array();
 $dateritardi = array();
 $dateuscite = array();
@@ -118,7 +119,7 @@ $numou = array();
 $numassenze = 0;
 $numuscite = 0;
 $numtitardi = 0;
-
+$numeromaterie = 0;
 $matelez = array();
 $argolez = array();
 $attilez = array();
@@ -142,12 +143,27 @@ $cognomedc = array();
 $datac = array();
 if ($_SESSION['gensolocomunicazioni'] != 'yes')
 {
+    $q = "select distinct denominazione from tbl_cattnosupp, tbl_materie "
+            . " where tbl_cattnosupp.idmateria=tbl_materie.idmateria and idclasse=$idclasse";
+
+    $r = eseguiQuery($con, $q);
+    if (mysqli_num_rows($r) != 0)
+    {
+        while ($row = mysqli_fetch_array($r))
+        {
+
+            $materia = $row['denominazione'];
+            $materie[]=$materia;
+            $numeromaterie++;
+            
+        }
+    }
+
+    
+    
     $q = "select data,tipo,voto,giudizio,denominazione from tbl_valutazioniintermedie,tbl_materie where idalunno='$alunno' and tbl_valutazioniintermedie.idmateria=tbl_materie.idmateria order by data desc, denominazione";
 
     $r = eseguiQuery($con, $q);
-
-   
-
     if (mysqli_num_rows($r) == 0)
     {
         $dataval[] = data_italiana($_SESSION['datainiziolezioni']);
@@ -384,10 +400,12 @@ if ($_SESSION['gensolocomunicazioni'] != 'yes')
 }
 $denclasse = decodifica_classe($idclasse, $con);
  
-$arr = array('fineprimo' => $_SESSION['fineprimo'], 'alunno' => $alunno, 'classe' => $denclasse, 'cognome' => $cognome, 'nome' => $nome, 'datanascita' => $datanascita, 'numeroassenze' => $numassenze, 'numeroritardi' => $numritardi, 'numerouscite' => $numuscite, 'numerovoti' => $numerovoti, 'numeronote' => $numeronote, 'numerocomunicazioni' => $numerocomunicazioni, 'oggcom' => $oggetti, 'datecom' => $datapub, 'testicom' => $testi, 'date' => $dataval, 'tipo' => $tipoval, 'voto' => $votoval, 'giudizio' => $giudizioval, 'denominazione' => $denval, 'notealunno' => $notealunno, 'nomedoc' => $nomed, 'cognomedoc' => $cognomed, 'data' => $data3, 'noteclasse' => $noteclasse, 'nomedc' => $nomedc, 'cognomedc' => $cognomedc, 'datac' => $datac, 'dateass' => $dateassenza, 'giustass' => $giusta, 'daterit' => $dateritardi, 'oraent' => $orae, 'numore' => $numo, 'giustr' => $giustr, 'dateusc' => $dateuscite, 'oraus' => $orau, 'numoreu' => $numou, 'matelez' => $matelez, 'datelez' => $datelez, 'argolez' => $argolez, 'attilez' => $attilez);
+$arr = array('fineprimo' => $_SESSION['fineprimo'], 'alunno' => $alunno, 'classe' => $denclasse, 'cognome' => $cognome, 'nome' => $nome, 'datanascita' => $datanascita, 'numeroassenze' => $numassenze, 'numeroritardi' => $numritardi,'numeromaterie' => $numeromaterie, 'numerouscite' => $numuscite, 'numerovoti' => $numerovoti, 'numeronote' => $numeronote, 'numerocomunicazioni' => $numerocomunicazioni, 'oggcom' => $oggetti, 'datecom' => $datapub, 'testicom' => $testi, 'date' => $dataval, 'tipo' => $tipoval, 'voto' => $votoval, 'giudizio' => $giudizioval, 'denominazione' => $denval, 'notealunno' => $notealunno, 'nomedoc' => $nomed, 'cognomedoc' => $cognomed, 'data' => $data3, 'noteclasse' => $noteclasse, 'nomedc' => $nomedc, 'cognomedc' => $cognomedc, 'datac' => $datac, 'dateass' => $dateassenza, 'giustass' => $giusta, 'daterit' => $dateritardi, 'oraent' => $orae, 'numore' => $numo, 'giustr' => $giustr, 'dateusc' => $dateuscite, 'oraus' => $orau, 'numoreu' => $numou, 'matelez' => $matelez, 'datelez' => $datelez, 'argolez' => $argolez, 'attilez' => $attilez, 'materie'=>$materie);
 
+//print_r ($arr);
 
 $strarr = json_encode($arr);
+
 
 // inserisci_log($utente . "§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Trasmessi dati a smartphone", $_SESSION['nomefilelog'] . "ap", $suff);
 
