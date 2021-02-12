@@ -28,7 +28,7 @@ $daticrud = array();
 // Tabella da modificare
 $daticrud['tabella'] = ("tbl_annotazioni");
 // Nome della tabella per visualizzazioni
-$daticrud['aliastabella'] = "Annotazioni su registro";
+$daticrud['titolo'] = "Annotazioni su registro";
 // Campo con l'id univoco per la tabella
 $daticrud['campochiave'] = "idannotazione";
 
