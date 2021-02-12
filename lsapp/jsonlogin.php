@@ -108,6 +108,7 @@ $denval = array();
 $numerovoti = 0;
 
 $materie = array();
+$siglematerie = array();
 $dateassenza = array();
 $dateritardi = array();
 $dateuscite = array();
@@ -143,7 +144,7 @@ $cognomedc = array();
 $datac = array();
 if ($_SESSION['gensolocomunicazioni'] != 'yes')
 {
-    $q = "select distinct denominazione from tbl_cattnosupp, tbl_materie "
+    $q = "select distinct denominazione, sigla from tbl_cattnosupp, tbl_materie "
             . " where tbl_cattnosupp.idmateria=tbl_materie.idmateria and idclasse=$idclasse";
 
     $r = eseguiQuery($con, $q);
@@ -154,6 +155,8 @@ if ($_SESSION['gensolocomunicazioni'] != 'yes')
 
             $materia = $row['denominazione'];
             $materie[]=$materia;
+            $siglamateria = $row['sigla'];
+            $siglematerie[]=$siglamateria;
             $numeromaterie++;
             
         }
@@ -400,7 +403,7 @@ if ($_SESSION['gensolocomunicazioni'] != 'yes')
 }
 $denclasse = decodifica_classe($idclasse, $con);
  
-$arr = array('fineprimo' => $_SESSION['fineprimo'], 'alunno' => $alunno, 'classe' => $denclasse, 'cognome' => $cognome, 'nome' => $nome, 'datanascita' => $datanascita, 'numeroassenze' => $numassenze, 'numeroritardi' => $numritardi,'numeromaterie' => $numeromaterie, 'numerouscite' => $numuscite, 'numerovoti' => $numerovoti, 'numeronote' => $numeronote, 'numerocomunicazioni' => $numerocomunicazioni, 'oggcom' => $oggetti, 'datecom' => $datapub, 'testicom' => $testi, 'date' => $dataval, 'tipo' => $tipoval, 'voto' => $votoval, 'giudizio' => $giudizioval, 'denominazione' => $denval, 'notealunno' => $notealunno, 'nomedoc' => $nomed, 'cognomedoc' => $cognomed, 'data' => $data3, 'noteclasse' => $noteclasse, 'nomedc' => $nomedc, 'cognomedc' => $cognomedc, 'datac' => $datac, 'dateass' => $dateassenza, 'giustass' => $giusta, 'daterit' => $dateritardi, 'oraent' => $orae, 'numore' => $numo, 'giustr' => $giustr, 'dateusc' => $dateuscite, 'oraus' => $orau, 'numoreu' => $numou, 'matelez' => $matelez, 'datelez' => $datelez, 'argolez' => $argolez, 'attilez' => $attilez, 'materie'=>$materie);
+$arr = array('fineprimo' => $_SESSION['fineprimo'], 'alunno' => $alunno, 'classe' => $denclasse, 'cognome' => $cognome, 'nome' => $nome, 'datanascita' => $datanascita, 'numeroassenze' => $numassenze, 'numeroritardi' => $numritardi,'numeromaterie' => $numeromaterie, 'numerouscite' => $numuscite, 'numerovoti' => $numerovoti, 'numeronote' => $numeronote, 'numerocomunicazioni' => $numerocomunicazioni, 'oggcom' => $oggetti, 'datecom' => $datapub, 'testicom' => $testi, 'date' => $dataval, 'tipo' => $tipoval, 'voto' => $votoval, 'giudizio' => $giudizioval, 'denominazione' => $denval, 'notealunno' => $notealunno, 'nomedoc' => $nomed, 'cognomedoc' => $cognomed, 'data' => $data3, 'noteclasse' => $noteclasse, 'nomedc' => $nomedc, 'cognomedc' => $cognomedc, 'datac' => $datac, 'dateass' => $dateassenza, 'giustass' => $giusta, 'daterit' => $dateritardi, 'oraent' => $orae, 'numore' => $numo, 'giustr' => $giustr, 'dateusc' => $dateuscite, 'oraus' => $orau, 'numoreu' => $numou, 'matelez' => $matelez, 'datelez' => $datelez, 'argolez' => $argolez, 'attilez' => $attilez, 'materie'=>$materie, 'siglematerie'=>$siglematerie);
 
 //print_r ($arr);
 
