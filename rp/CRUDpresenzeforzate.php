@@ -32,7 +32,8 @@ $daticrud['tabella'] = "tbl_presenzeforzate";
 
 
 // Nome della tabella per visualizzazioni
-$daticrud['aliastabella'] = "Presenze forzate";
+$daticrud['aliastabella'] = "presenzeforzate";
+$daticrud['titolo'] = "Presenze forzate";
 $daticrud['larghezzatabella'] = "80%";
 // Campo con l'id univoco per la tabella
 $daticrud['campochiave'] = "idpresenzaforzata";

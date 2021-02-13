@@ -32,7 +32,8 @@ $daticrud['tabella'] = "tbl_autorizzazioniuscite";
 
 
 // Nome della tabella per visualizzazioni
-$daticrud['aliastabella'] = "Autorizzazioni uscite";
+$daticrud['aliastabella'] = "autorizzazioniuscite";
+$daticrud['titolo'] = "Autorizzazioni uscite";
 $daticrud['larghezzatabella'] = "80%";
 // Campo con l'id univoco per la tabella
 $daticrud['campochiave'] = "idautorizzazioneuscita";
