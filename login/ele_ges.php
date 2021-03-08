@@ -1173,6 +1173,7 @@ if ($cambiamentopassword)
         menu_item('../segreteria/vis_imp.php', 'AMMINISTRATIVI');
         menu_item('../docenti/vis_doc.php', 'DOCENTI');
         menu_item("../docenti/carica_docenti_da_csv.php?par=1!0!1!1!2!99!99!99!99!99!99!99", "Carica docenti da file CSV generico");
+        menu_item('../sms/seleinviosmsvari.php', 'SMS VARI');
         menu_title_end();
 
 
