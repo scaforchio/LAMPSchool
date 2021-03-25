@@ -18,6 +18,8 @@ session_start();
  */
 
 
+//sdsada
+
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 
