@@ -31,7 +31,8 @@ session_start();
 ////session_start();
 $tipoutente = $_SESSION["tipoutente"];
 $idutente = $_SESSION['idutente']; //prende la variabile presente nella sessione
-if ($tipoutente == "") {
+if ($tipoutente == "")
+{
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -41,7 +42,6 @@ $titolo = "Visualizzazione situazione alunno";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
-
 
 $idalunno = stringa_html('idalunno');
 $periodo = stringa_html('periodo');
@@ -88,7 +88,6 @@ PRINT "
       <SELECT ID='cl' NAME='idclasse' ONCHANGE='selealu.submit()'>
       <option value=''>&nbsp;  ";
 
-
 // Riempimento combo box tbl_classi
 /*
   if ($tipoutente == 'S' | $tipoutente == 'P')
@@ -104,11 +103,13 @@ PRINT "
  */
 
 $ris = eseguiQuery($con, $queryclasse);
-while ($nom = mysqli_fetch_array($ris)) {
+while ($nom = mysqli_fetch_array($ris))
+{
     print "<option value='";
     print ($nom['idclasse']);
     print "'";
-    if ($idclasse == $nom['idclasse']) {
+    if ($idclasse == $nom['idclasse'])
+    {
         print ' selected';
     }
     print '>';
@@ -119,11 +120,13 @@ while ($nom = mysqli_fetch_array($ris)) {
     print($nom['specializzazione']);
 }
 
-if ($tipoutente != 'D') {
+if ($tipoutente != 'D')
+{
     print "<option value='999999'";
     print ($nom['idclasse']);
     print "'";
-    if ($idclasse == 999999) {
+    if ($idclasse == 999999)
+    {
         print ' selected';
     }
     print '>SENZA CLASSE';
@@ -134,26 +137,23 @@ echo('
       </SELECT>
       </td></tr>');
 
+if ($idclasse != "0" & $idclasse != "")
+{
 
-
-
-
-
-
-
-
-if ($idclasse != "0" & $idclasse!="") {
-
-    if ($idclasse==999999) $idclasse=0;
+    if ($idclasse == 999999)
+        $idclasse = 0;
     $query = "SELECT * FROM tbl_alunni WHERE idclasse=$idclasse";
     $ris = eseguiQuery($con, $query);
     print "<tr><td>Alunno</td>";
     print "<td>";
     print "<select name='idalunno' ONCHANGE='selealu.submit();'><option value=''>&nbsp;</option>";
-    while ($rec = mysqli_fetch_array($ris)) {
-        if ($idalunno == $rec['idalunno']) {
+    while ($rec = mysqli_fetch_array($ris))
+    {
+        if ($idalunno == $rec['idalunno'])
+        {
             $sele = " selected";
-        } else {
+        } else
+        {
             $sele = "";
         }
         print ("<option value='" . $rec['idalunno'] . "'$sele>" . $rec['cognome'] . " " . $rec['nome'] . " (" . $rec['datanascita'] . ")"); // . $rec['anno'] . " " . $rec['sezione'] . " " . $rec['specializzazione'] . "</option>");
@@ -175,29 +175,28 @@ if ($idclasse != "0" & $idclasse!="") {
     print "<option value='secondo'$selsecondo>Secondo</option>";
     print "</select></tr>";
 
-    
-
 // IMPOSTO LA SELEZIONE SULLA DATA
 // 
 // 
 
     $seledata = '';
     if ($periodo == 'primo')
-        $seledata = "and data<='".$_SESSION['fineprimo']."'";
+        $seledata = "and data<='" . $_SESSION['fineprimo'] . "'";
     if ($periodo == 'secondo')
-        $seledata = "and data>'".$_SESSION['fineprimo']."'";
-}
-else
-    $idalunno="";
+        $seledata = "and data>'" . $_SESSION['fineprimo'] . "'";
+} else
+    $idalunno = "";
 
 print "</table></form>";
 // prelevamento dati alunno
 
-if ($idalunno != '') {
+if ($idalunno != '')
+{
     $query = "select * from tbl_alunni where idalunno=$idalunno";
     $ris = eseguiQuery($con, $query);
 
-    if ($val = mysqli_fetch_array($ris)) {
+    if ($val = mysqli_fetch_array($ris))
+    {
         echo '<center><b><br>Situazione dell\'Alunno: ' . $val["cognome"] . ' ' . $val["nome"] . '</b></center><br/>';
         $idclasse = $val['idclasse'];
     }
@@ -207,10 +206,12 @@ if ($idalunno != '') {
     $query = "select * from tbl_valutazioniintermedie, tbl_materie where tbl_valutazioniintermedie.idmateria=tbl_materie.idmateria and idalunno=$idalunno $seledata order by denominazione, data desc";
     $ris = eseguiQuery($con, $query);
     // print $query;
-    if (mysqli_num_rows($ris) > 0) {
+    if (mysqli_num_rows($ris) > 0)
+    {
         print ("<table border=1 align=center><tr><td>Data</td><td align=center>Tipo<br/>valutazione</td><td align=center>Voto</td><td>Giudizio</td></tr>");
         $mat = "";
-        while ($val = mysqli_fetch_array($ris)) {
+        while ($val = mysqli_fetch_array($ris))
+        {
             $materia = $val['denominazione'];
             $idmateria = $val['idmateria'];
             $data = data_italiana($val['data']);
@@ -227,7 +228,8 @@ if ($idalunno != '') {
                 $giudizio = "&nbsp;";
 
 
-            if ($materia != $mat) {
+            if ($materia != $mat)
+            {
                 $mat = $materia;
                 $querycontaore = "select sum(oreassenza) as totassmateria from tbl_asslezione where idalunno=$idalunno and idmateria=$idmateria $seledata";
                 //print inspref($querycontaore);
@@ -238,9 +240,11 @@ if ($idalunno != '') {
                 print("<tr class=prima><td colspan=4 align=center>$materia (Assenze $oreassenzamateria h.)</td></tr>");
             }
 
-            if ($voto != "&nbsp;&nbsp;" | $giudizio != "&nbsp;") {
+            if ($voto != "&nbsp;&nbsp;" | $giudizio != "&nbsp;")
+            {
                 $colore = 'white';
-                if ($val['idclasse'] != $idclasse) {
+                if ($val['idclasse'] != $idclasse)
+                {
                     $colore = 'grey';
                     $cambiamentoclasse = true;
                 }
@@ -257,10 +261,12 @@ if ($idalunno != '') {
             }
         }
         print ("</table><br/>");
-        if ($cambiamentoclasse) {
+        if ($cambiamentoclasse)
+        {
             print ("<center><font color='grey'>Le valutazioni con sfondo grigio sono state attribuite in una classe diversa da quella di attuale appartenenza.</font></center>");
         }
-    } else {
+    } else
+    {
         print("<br/><big><big><center>Non ci sono voti registrati!</center><small><small><br/>");
     }
 
@@ -276,7 +282,13 @@ if ($idalunno != '') {
     $rs5 = eseguiQuery($con, "select * from tbl_assenze where idalunno=$idalunno $seledata order by data desc");
     $rs6 = eseguiQuery($con, "select * from tbl_ritardi where idalunno=$idalunno $seledata order by data desc");
     $rs7 = eseguiQuery($con, "select * from tbl_usciteanticipate where idalunno=$idalunno $seledata order by data desc");
-
+    $query = "select sum(oreassenza) as numerooreassdad from tbl_asslezione where idalunno=$idalunno and data not in (select data from tbl_assenze where idalunno=$idalunno) and data in (select datadad from tbl_dad where idclasse=$idclasse)";
+//print inspref($query);
+    $rs8 = eseguiQuery($con, $query);
+    $rs9 = eseguiQuery($con, "select * from tbl_asslezione where idalunno=$idalunno $seledata"
+            . " and data not in (select data from tbl_assenze where idalunno=$idalunno)"
+            . " and data in (select datadad from tbl_dad where idclasse=$idclasse)"
+            . " order by data ");
 
     // print "<center><i>Dati aggiornati al ".data_italiana($ultimoaggiornamento).".</i></center>
     print "<table border='1' align='center'>";
@@ -294,7 +306,8 @@ if ($idalunno != '') {
      */
     // conteggio tbl_assenze
 
-    if ($val2 = mysqli_fetch_array($rs2)) {
+    if ($val2 = mysqli_fetch_array($rs2))
+    {
         echo '
 	 <tr class="prima">
 	  <td colspan="3"><b>Assenze: ' . $val2["numerotblassenze"] . '</b></td>
@@ -303,9 +316,11 @@ if ($idalunno != '') {
 
     // conteggio tbl_ritardi
 
-    if ($rs3) {
+    if ($rs3)
+    {
 
-        if ($val3 = mysqli_fetch_array($rs3)) {
+        if ($val3 = mysqli_fetch_array($rs3))
+        {
             echo '
 	 <tr class="prima">
 	  <td colspan="3"><b>Ritardi: ' . $val3["numerotblritardi"] . '</b></td>
@@ -315,7 +330,8 @@ if ($idalunno != '') {
 
     // conteggio uscite anticipate
 
-    if ($val4 = mysqli_fetch_array($rs4)) {
+    if ($val4 = mysqli_fetch_array($rs4))
+    {
         echo '
 	 <tr class="prima">
 	  <td colspan="3"><b>Uscite anticipate: ' . $val4["numerouscite"] . '</b></td>
@@ -329,9 +345,11 @@ if ($idalunno != '') {
     echo "
 	 <tr><td valign='top'>";
 
-    if ($rs5) {
+    if ($rs5)
+    {
 
-        while ($val5 = mysqli_fetch_array($rs5)) {
+        while ($val5 = mysqli_fetch_array($rs5))
+        {
             $data = $val5["data"];
             echo ' ' . data_italiana($data) . ' ' . giorno_settimana($data) . '<br/>';
         }
@@ -341,9 +359,11 @@ if ($idalunno != '') {
     // elenco tbl_ritardi
     echo "<td valign='top'>";
 
-    if ($rs6) {
+    if ($rs6)
+    {
 
-        while ($val6 = mysqli_fetch_array($rs6)) {
+        while ($val6 = mysqli_fetch_array($rs6))
+        {
             $data = $val6["data"];
             echo ' ' . data_italiana($data) . ' ' . giorno_settimana($data) . '<br/>';
         }
@@ -353,9 +373,11 @@ if ($idalunno != '') {
     // elenco uscite
     echo "<td valign='top'>";
 
-    if ($rs7) {
+    if ($rs7)
+    {
 
-        while ($val7 = mysqli_fetch_array($rs7)) {
+        while ($val7 = mysqli_fetch_array($rs7))
+        {
             $data = $val7["data"];
             echo ' ' . data_italiana($data) . ' ' . giorno_settimana($data) . '<br/> ';
             $query = "select * from tbl_autorizzazioniuscite where idalunno=$idalunno and data='$data'";
@@ -369,6 +391,26 @@ if ($idalunno != '') {
 		 </tr>
 		';
 
+    if ($rs9)
+    {
+        print "<tr><td colspan=3>";
+        print "<center><b>Assenze a lezioni in didattica a distanza</b></center><br>";
+        while ($val9 = mysqli_fetch_array($rs9))
+        {
+
+            $data = $val9["data"];
+            echo ' ' . giorno_settimana($data) . ' ' . data_italiana($data) . ' ';
+            print "Ore assenza: " . $val9['oreassenza'];
+            print " Materia: " . decodifica_materia(estrai_materia_lezione($val9['idlezione'], $con), $con);
+            $giust = ($val9['giustifica'] == 1) ? "Giust." : "Non giust.";
+            print " ($giust)<br>";
+            $query = "select * from tbl_autorizzazioniuscite where idalunno=$idalunno and data='$data'";
+            $ris = eseguiQuery($con, $query);
+            if ($rec = mysqli_fetch_array($ris))
+                print "<small>" . $rec['testoautorizzazione'] . "</small><br>";
+        }
+        print "</td></tr>";
+    }
 
 
     $rasstot = eseguiQuery($con, "select sum(oreassenza) as assenzetotali from tbl_asslezione where idalunno=$idalunno $seledata");
@@ -416,15 +458,17 @@ if ($idalunno != '') {
 
     $c = mysqli_num_rows($ris);
 
-
     print "<br><br>";
     print "<table border=1 align=center>";
     print "<tr class=prima><td colspan=4 align=center>Note e provvedimenti disciplinari individuali</td></tr>";
-    if ($c == 0) {
+    if ($c == 0)
+    {
         echo "<tr><td colspan=4 align=center>Nessuna nota da visualizzare!</td></tr>";
-    } else {
+    } else
+    {
         print "<tr class=prima><td>Docente</td><td>Data</td><td>Nota</td><td>Provv.</td></tr>";
-        while ($rec = mysqli_fetch_array($ris)) {
+        while ($rec = mysqli_fetch_array($ris))
+        {
             print("<tr>");
 
             print("<td>");
@@ -458,14 +502,16 @@ if ($idalunno != '') {
 
     $c = mysqli_num_rows($ris);
 
-
     print "<table border=1 align=center>";
     print "<tr class=prima><td colspan=4 align=center>Note di classe</td></tr>";
-    if ($c == 0) {
+    if ($c == 0)
+    {
         echo "<tr><td colspan=4 align=center>Nessuna nota da visualizzare!</td></tr>";
-    } else {
+    } else
+    {
         print "<tr class=prima><td>Docente</td><td>Data</td><td>Nota</td><td>Provv.</td></tr>";
-        while ($rec = mysqli_fetch_array($ris)) {
+        while ($rec = mysqli_fetch_array($ris))
+        {
             print("<tr>");
 
             print("<td>");
@@ -488,7 +534,4 @@ if ($idalunno != '') {
 }
 mysqli_close($con);
 stampa_piede("");
-
-
-
 

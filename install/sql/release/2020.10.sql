@@ -1281,7 +1281,7 @@ CREATE TABLE IF NOT EXISTS tbl_richiesteferie (
   idrichiestaferie int(11),
   iddocente int(11) DEFAULT '0',
   subject varchar(1000) NULL DEFAULT NULL,
-  testomail varchar(1000) NULL,
+  testomail varchar(2000) NULL,
   erroremail boolean NULL DEFAULT NULL,
   concessione tinyint NULL DEFAULT NULL,
   numerogiorni TINYINT NOT NULL DEFAULT 0, 

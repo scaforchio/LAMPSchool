@@ -87,7 +87,7 @@ if(!empty($_GET['sceltaData']) && $_GET['sceltaData'] != 'null')
             where s.iddocente = $iddocente
 		           and s.idalunno = d.idalunno
                            and s.idgiornatacolloqui = g.idgiornatacolloqui
-                           and data>'".date('Y-m-d')."'
+                           and data>='".date('Y-m-d')."'
                      order by data, s.orainizio";
 
   
