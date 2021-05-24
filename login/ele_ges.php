@@ -293,6 +293,7 @@ if ($cambiamentopassword)
         menu_item('../valutazioni/proposte.php', 'MEDIE E PROPOSTE DI VOTO');
         menu_item('../valutazionecomportamento/valcomp.php', 'VOTO COMPORTAMENTO');
         menu_item('../valutazionecomportamento/sitvalcompalu.php', 'SITUAZIONE VOTI COMPORTAMENTO');
+        menu_item('../obiettivi/obproposte.php', 'PROPOSTE VALUTAZIONI PER ALUNNI');
        
         menu_title_end();
         if ($_SESSION['livello_scuola'] != 4)
@@ -300,7 +301,7 @@ if ($cambiamentopassword)
             menu_title_begin('CERTIFICAZIONE COMPETENZE');
              menu_item('../obiettivi/CRUDobiettivi.php', 'GESTIONE OBIETTIVI MATERIE/CLASSE');
             menu_item('../obiettivi/scrutobiettiviintermedio.php', 'SCRUTINIO OBIETTIVI');
-            menu_item('../certcomp/ccproposte.php', 'PROPOSTE PER ALUNNI');
+            
 
             menu_title_end();
         }
@@ -578,6 +579,8 @@ if ($cambiamentopassword)
         menu_item('../scrutini/sitscrutini.php', 'SITUAZIONE SCRUTINI');
         menu_item('../scrutini/schedaalu.php', 'SCRUTINIO INTERMEDIO ALUNNO');
         menu_item('../scrutini/schedafinalealu.php', 'SCRUTINIO FINALE ALUNNO');
+         menu_item('../obiettivi/obvalutazioni.php', 'SCRUTINIO OBIETTIVI APPRENDIMENTO');
+        menu_item('../obiettivi/obstampaschede.php', 'STAMPA SCHEDE OBIETTIVI APPRENDIMENTO');
         menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
         if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2')
         {
@@ -593,6 +596,7 @@ if ($cambiamentopassword)
         menu_item('../valutazioni/visvalpre.php', 'VISUALIZZA SITUAZIONE ALUNNO');
         menu_item('../valutazionecomportamento/valcomp.php', 'VOTO COMPORTAMENTO');
         menu_item('../valutazionecomportamento/sitvalcompalu.php', 'SITUAZIONE VOTI COMPORTAMENTO');
+        menu_item('../obiettivi/obproposte.php', 'PROPOSTE VALUTAZIONI PER ALUNNI');
         
         menu_title_end();
 
@@ -875,6 +879,8 @@ if ($cambiamentopassword)
             menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
         }
         menu_item('../scrutini/schedafinalealu.php', 'SCRUTINIO FINALE ALUNNO');
+        menu_item('../obiettivi/obvalutazioni.php', 'SCRUTINIO OBIETTIVI APPRENDIMENTO');
+        menu_item('../obiettivi/obstampaschede.php', 'STAMPA SCHEDE OBIETTIVI APPRENDIMENTO');
         menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
         if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2')
         {
@@ -1225,7 +1231,7 @@ if ($cambiamentopassword)
         menu_title_begin('SCRUTINI');
         menu_item('../scrutini/riepvoti.php', 'SCRUTINI INTERMEDI');
         menu_item('../scrutini/riepvotifinali.php', 'SCRUTINI FINALI');
-
+       // menu_item('../obiettivi/obstampaschede.php', 'STAMPA SCHEDE VALUTAZIONE OBIETTIVI DI APPRENDIMENTO');
         if ($_SESSION['livello_scuola'] == '4')
         {
             menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');

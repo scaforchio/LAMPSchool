@@ -209,3 +209,27 @@ function calcola_media($idmateria, $conn)
 
     return $datimateria;
 }
+
+function cerca_livello_ob($con, $idalunno, $periodo, $idobiettivo)
+{
+    $livello="";
+    $query="select * from tbl_valutazioniobiettivi where periodo='$periodo' and idalunno=$idalunno and idobiettivo=$idobiettivo";
+    if($ris=mysqli_query($con, $query))
+    {
+            $rec=mysqli_fetch_array($ris);
+            $livello=decodifica_livello_obiettivo($con, $rec['idlivelloobiettivo']);
+    }
+    return $livello;
+    
+}
+
+function decodifica_livello_obiettivo($con, $idlivelloobiettivo)
+{
+    $query="select * from tbl_livelliobiettivi where idlivelloobiettivo=$idlivelloobiettivo";
+    if($ris=mysqli_query($con, $query))
+    {
+            $rec=mysqli_fetch_array($ris);
+            $livello=$rec['abbreviazione'];
+    }
+    return $livello;
+}

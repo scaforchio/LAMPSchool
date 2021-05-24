@@ -62,7 +62,7 @@ $daticrud['campiordinamento'] = "idmateria,progressivo";
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
 
 
-    $daticrud['condizione'] = "idalunno=$idalunno"; // Campi in base ai quali ordinare
+$daticrud['condizione'] = "idalunno=$idalunno and periodo='2'"; 
 
 
 $daticrud['abilitazionemodifica'] = 1;
