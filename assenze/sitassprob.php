@@ -239,7 +239,7 @@ if ($perclim != '')
           <td><font size=1><b> Data di nascita </b></td><td><b>Classe</b></td>';
     print ("<td><font size=1><center>Ass</td><td><font size=1><center>Rit (Ent. Post.)</td><td><font size=1><center>Usc</td><td align=center><font size=1>Perc. ass.<br/>su monte ore<br/>della classe</td></tr>");
 
-    if ($tipoutente='D')
+    if ($tipoutente=='D')
         $query = "SELECT * FROM tbl_alunni,tbl_classi WHERE
             tbl_alunni.idclasse=tbl_classi.idclasse 
             AND tbl_alunni.idclasse IN
@@ -249,6 +249,7 @@ if ($perclim != '')
     else        
         $query = "SELECT * FROM tbl_alunni,tbl_classi WHERE
             tbl_alunni.idclasse=tbl_classi.idclasse AND tbl_alunni.idclasse<>'' ORDER BY specializzazione,anno,sezione,cognome,nome,datanascita";
+    
     $ris = eseguiQuery($con, $query);
     while ($val = mysqli_fetch_array($ris))
     {
@@ -261,7 +262,7 @@ if ($perclim != '')
             $numoretot = round(33 * $oresettimanali);  // 33 = numero settimane di lezione convenzionale
         }
         $idalunno = $val["idalunno"];
-
+        
 
         $seledata = "";
         if ($datainizio != "")
@@ -313,6 +314,7 @@ if ($perclim != '')
 
 
         $oreassenza = calcola_ore_assenza($idalunno, $datainizio, $datafine, $con);
+        
         /*     $query = "select sum(oreassenza) as numerooreassenza from tbl_asslezione where idalunno='$idalunno' $seledata";
           $risass = eseguiQuery($con,$query);
           $recass = mysqli_fetch_array($risass);
