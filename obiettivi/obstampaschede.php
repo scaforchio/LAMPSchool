@@ -250,11 +250,38 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
         }
     }
 
-    if ($posY > 150)
+    if ($posY > 120)
     {
         $schede->AddPage();
         $posY = 10;
     }
+
+    $query = "SELECT giudizio from tbl_giudizi
+						WHERE idalunno=$alu
+						AND periodo='" . $_SESSION['numeroperiodi'] . "'";
+    $risgiud = eseguiQuery($con, $query);
+    if ($recgiud = mysqli_fetch_array($risgiud))
+    {
+
+        $giudizio = converti_utf8($recgiud['giudizio']);
+        $giudizio = trim($giudizio);
+        if (strlen(trim($giudizio)) != 0)
+        {
+            $posY+=10;
+            $schede->SetY($posY);
+            $schede->SetFont('Arial', 'B', 8);
+            $schede->Cell(190, 8, "GIUDIZIO GENERALE", NULL, 1, "C");
+            
+            $posY+=10;
+            $schede->SetY($posY);
+            $schede->SetFont('Arial', '', 7);
+            $schede->Multicell(190, 4, $giudizio, 1, 1);
+        }
+    }
+
+
+
+    $posY=$schede->GetY()+5;
     $schede->SetFont('Times', '', 10);
     $schede->SetXY(10, $posY + 15);
     $schede->Cell(60, 8, converti_utf8("Data, $datastampa"));
