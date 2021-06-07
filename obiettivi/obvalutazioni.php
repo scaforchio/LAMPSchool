@@ -192,7 +192,7 @@ if ($idalunno != '')
         print "<tr>";
         print "<td valign='middle' width=5%>" . $rec['progressivo'] . "</td>";
 
-        print "<td valign='middle' width=60%><b>" . $rec['denominazione'] . "</b><br>" . rec['obiettivo'] . "</td>";
+        print "<td valign='middle' width=60%><b>" . $rec['denominazione'] . "</b><br>" . $rec['obiettivo'] . "</td>";
         // CERCO EVENTUALE VALUTAZIONE GIA' INSERITA
         $idlivelloob = "";
         $query = "select * from tbl_valutazioniobiettivi where idalunno=$idalunno and idobiettivo=" . $rec['idobiettivo'] . " and periodo=2";

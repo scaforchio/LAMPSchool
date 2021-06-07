@@ -146,8 +146,9 @@ if ($idclasse != '')
 
         $query = "select distinct tbl_materie.idmateria, denominazione from tbl_cattnosupp, tbl_materie "
                 . "where tbl_cattnosupp.idmateria=tbl_materie.idmateria "
-                . "and idclasse='$idclasse' order by denominazione";
-
+                . "and idclasse='$idclasse'"
+                . "and iddocente='$id_ut_doc' order by denominazione";
+        // print inspref($query);
         $ris = eseguiQuery($con, $query);
         while ($nom = mysqli_fetch_array($ris))
         {
