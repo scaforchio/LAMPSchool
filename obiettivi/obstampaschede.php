@@ -250,11 +250,11 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
         }
     }
 
-    if ($posY > 120)
-    {
-        $schede->AddPage();
-        $posY = 10;
-    }
+    // if ($posY > 120)
+    // {
+    $schede->AddPage();
+    $posY = 10;
+    // }
 
     $query = "SELECT giudizio from tbl_giudizi
 						WHERE idalunno=$alu
@@ -267,21 +267,111 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
         $giudizio = trim($giudizio);
         if (strlen(trim($giudizio)) != 0)
         {
-            $posY+=10;
+            $posY += 10;
             $schede->SetY($posY);
             $schede->SetFont('Arial', 'B', 8);
             $schede->Cell(190, 8, "GIUDIZIO GENERALE", NULL, 1, "C");
-            
-            $posY+=10;
+
+            $posY += 10;
             $schede->SetY($posY);
             $schede->SetFont('Arial', '', 7);
             $schede->Multicell(190, 4, $giudizio, 1, 1);
         }
     }
+    // COMPORTAMENTO
+    // AGGIUNGO IL VOTO DI COMPORTAMENTO
+
+    $query = "SELECT denominazione,votounico,note FROM tbl_valutazionifinali,tbl_materie
+              WHERE tbl_valutazionifinali.idmateria=tbl_materie.idmateria 
+              AND idalunno=$alu
+              AND periodo='" . $_SESSION['numeroperiodi'] . "'
+              AND tbl_valutazionifinali.idmateria=-1
+              ORDER BY denominazione";
+    $risvoti = eseguiQuery($con, $query);
+
+    if ($recvoti = mysqli_fetch_array($risvoti))
+    {
+        $denom = $recvoti['denominazione'];
+        $unico = dec_to_pag($recvoti['votounico']);
+        $annotazioni = converti_utf8($recvoti['note']);
+
+        $posY += 10;
+        $schede->SetY($posY);
+        $schede->SetFont('Arial', 'B', 8);
+        $schede->Cell(190, 8, "COMPORTAMENTO", NULL, 1, "C");
+
+        $posY += 10;
+        $schede->SetY($posY);
+        $schede->SetFont('Arial', '', 7);
+        $schede->Multicell(190, 4, elimina_cr($annotazioni), 1, 1);
+
+        // $schede->Cell(55, 6, "$denom", 0);
+        // $valutazione = "";
+        // $posY += 10;
+        // $schede->SetFont('Arial', '', 7);
+        // $schede->SetY($posY);
+        // $schede->Multicell(100, 3, elimina_cr($annotazioni), 0, 1);
+    }
 
 
+    // ESITO FINALE
+    $esito = "";
+    $idesito = 0;
+    $votoammissione = 0;
+    $creditotot = 0;
+    $credito = 0;
 
-    $posY=$schede->GetY()+5;
+    $query = "select * from tbl_esiti where idalunno='$alu'";
+
+    $risesi = eseguiQuery($con, $query);
+
+    if ($recesi = mysqli_fetch_array($risesi))
+    {
+        //$esito = decodifica_esito($recesi['esito'], $con);
+        $esito = estrai_esito($alu, $con);
+        $idesito = $recesi['esito'];
+        $votoammissione = $recesi['votoammissione'];
+        $creditotot = $recesi['creditotot'];
+        $credito = $recesi['credito'];
+    }
+    $posY += 10;
+    $schede->SetY($posY);
+    $schede->SetFont('Arial', 'B', 10);
+    $schede->Multicell(172, 6, "\nATTESTATO\nIn base agli atti d'ufficio ed alle valutazioni dei docenti, l'alunna/o risulta", "", "C");
+
+    $schede->setXY(20, $schede->getY());
+    $schede->SetFont('Arial', 'B', 10);
+
+    // $schede->Multicell(172,6,inserisci_new_line($esito),"LR","C");
+    $schede->Cell(172, 6, estrai_prima_riga($esito), "", 1, "C");
+    $schede->setXY(20, $schede->getY());
+    $schede->SetFont('Arial', "B", 10);
+    $schede->Cell(172, 6, str_replace("|", " ", estrai_seconda_riga($esito)), "", 1, "C");
+
+    if ((($_SESSION['livello_scuola'] == '2' && decodifica_classe_no_spec($classe, $con) == 3) || ($_SESSION['livello_scuola'] == '3' & decodifica_classe_no_spec($classe, $con) == 8)) & (decodifica_passaggio($idesito, $con) == 0))
+    {
+        $schede->setXY(20, $schede->getY());
+        $schede->SetFont('Arial', 'B', 10);
+        $schede->Cell(172, 6, converti_utf8("con giudizio di idoneità di " . $votoammissione . "/10"), "LR", 1, "C");
+    } elseif (($_SESSION['livello_scuola'] == '4') && (decodifica_classe_no_spec($classe, $con) == 5) && (decodifica_passaggio($idesito, $con) == 0))
+    {
+        $schede->setXY(20, $schede->getY());
+        $schede->SetFont('Arial', 'B', 10);
+        $schede->Cell(172, 6, converti_utf8("con credito scolastico di " . $credito . " (totale: " . $creditotot . ")"), "LR", 1, "C");
+    } elseif (($_SESSION['livello_scuola'] == '4') && (decodifica_classe_no_spec($classe, $con) == 4 || decodifica_classe_no_spec($classe, $con) == 3) && (decodifica_passaggio($idesito, $con) == 0))
+    {
+        $schede->setXY(20, $schede->getY());
+        $schede->SetFont('Arial', 'B', 10);
+        $schede->Cell(172, 6, converti_utf8("con credito scolastico di " . $credito . " (totale: " . $creditotot . ")"), "LR", 1, "C");
+    }
+    $posY += 20;
+    $schede->SetY($posY);
+    $schede->setXY(20, $schede->getY());
+    $schede->Cell(172, 6, "", "", 1, "C");
+
+    // PARTE FINALE
+
+    $posY = $schede->GetY() + 5;
     $schede->SetFont('Times', '', 10);
     $schede->SetXY(10, $posY + 15);
     $schede->Cell(60, 8, converti_utf8("Data, $datastampa"));
@@ -351,4 +441,32 @@ function elimina_cr($stringa)
     // $strpul=converti_utf8($stringa);
     $strpul = str_replace(array("\n", "\r"), " ", $stringa);
     return $strpul;
+}
+
+function estrai_prima_riga($stringa)
+{
+
+    $posint = strpos($stringa, "|");
+    if ($posint != 0)
+    {
+        $str1 = substr($stringa, 0, $posint);
+    } else
+    {
+        $str1 = $stringa;
+    }
+    return converti_utf8($str1);
+}
+
+function estrai_seconda_riga($stringa)
+{
+
+    $posint = strpos($stringa, "|");
+    if ($posint != 0)
+    {
+        $str2 = substr($stringa, $posint + 1);
+    } else
+    {
+        $str2 = "";
+    }
+    return converti_utf8($str2);
 }
