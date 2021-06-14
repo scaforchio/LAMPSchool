@@ -1703,7 +1703,8 @@ ADD PRIMARY KEY (idabilita), ADD KEY idcompetenza (idcompetenza);
 ALTER TABLE tbl_abilscol
 ADD PRIMARY KEY (idabilita), ADD UNIQUE KEY idcompetenza (idcompetenza,numeroordine,abil_cono);
 
-
+ALTER TABLE tbl_diffusionecircolari
+ADD KEY utenti(idutente), ADD KEY circolare(idcircolare);
 
 ALTER TABLE tbl_recuperipermessi
 ADD PRIMARY KEY (idrecupero);
