@@ -176,7 +176,7 @@ if ($filedainserire['tmp_name'] != "")
             if ($destinatari == 'SA')
             {
                 print "
-                 <form method='post' id='formalu' action='../circolari/selealunni.php?tipo=genitori'>
+                 <form method='post' id='formalu' action='../circolari/selealunni.php?tipo=SA'>
                  <input type='hidden' name='idcircolare' value='$idcircolare'>
                  </form> 
                  <SCRIPT language='JavaScript'>
@@ -188,7 +188,7 @@ if ($filedainserire['tmp_name'] != "")
             if ($destinatari == 'SL')
             {
                 print "
-                 <form method='post' id='formalu' action='../circolari/selealunni.php?tipo=alunni'>
+                 <form method='post' id='formalu' action='../circolari/selealunni.php?tipo=SL'>
                  <input type='hidden' name='idcircolare' value='$idcircolare'>
                  </form> 
                  <SCRIPT language='JavaScript'>

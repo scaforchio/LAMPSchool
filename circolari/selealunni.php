@@ -210,10 +210,10 @@ stampa_piede("");
 
 function inLista($idalu, $idcirc, $conn, $destinatari)
 {
-    if ($destinatari == 'A' || $destinatari == 'SA')
+    if ($destinatari == 'A' || $destinatari == 'SA' || $destinatari=="genitori")
         $query = "select * from tbl_diffusionecircolari where idutente=$idalu and idcircolare=$idcirc";
     else
-        $query = "select * from tbl_diffusionecircolari where idutente=($idalu+2100000000) and idcircolare=$idcirc";
+        $query = "select * from tbl_diffusionecircolari where idutente=".($idalu+2100000000)." and idcircolare=$idcirc";
     $ris = eseguiQuery($conn, $query);
     if (mysqli_num_rows($ris) == 0)
         return false;
