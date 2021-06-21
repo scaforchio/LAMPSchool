@@ -211,13 +211,13 @@ function backup_tables($host, $user, $pass, $name, $tables, $cartellabuffer)
     $tabcontr = array_reverse($tables);
     $return = 'SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";';
     $return .= "\n\n";
-
+    print "Inizio backup";
     //cycle through
     foreach ($tabcontr as $table)
     {
         $return .= 'DROP TABLE IF EXISTS ' . $table . ';';
     }
-
+    print "DROP: $return";
     foreach ($tables as $table)
     {
 

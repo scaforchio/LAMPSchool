@@ -37,7 +37,7 @@ if ($tipoutente == "")
 $titolo = "Certificazione competenze";
 $script = "";
 
-stampa_head($titolo, "", $script, "SPA");
+stampa_head($titolo, "", $script, "SPAD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 if ($_SESSION['livello_scuola'] == 1)
@@ -113,11 +113,12 @@ echo('
 //
 //  ALUNNI
 //
+print "Idclasse : $idclasse";
 
 if ($idclasse != '')
 {
 
-    if ($tipoutente == 'S' | $tipoutente == 'P')
+    if ($tipoutente == 'S' | $tipoutente == 'P' | $tipoutente == 'D')
     {
         $competenzedes = array();
         $competenzecod = array();

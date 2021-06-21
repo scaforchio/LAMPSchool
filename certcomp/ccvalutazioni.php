@@ -37,7 +37,7 @@ if ($tipoutente == "")
 $titolo = "Inserimento e modifica valutazioni per certificazione competenze";
 $script = "";
 
-stampa_head($titolo, "", $script, "SP");
+stampa_head($titolo, "", $script, "SPD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 if ($_SESSION['livello_scuola'] == 1)

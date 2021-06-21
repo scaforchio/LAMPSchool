@@ -34,7 +34,8 @@ else
 @require_once("../lib/funzioni.php");
 
 @require_once("../php-ini" . $suffisso . ".php");
-
+$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
+require "../lib/req_assegna_parametri_a_sessione.php";
 ////session_start();
 $_SESSION["annoscol"] = $_SESSION['annoscol']; //prende la variabile presente nella sessione
 $_SESSION['versione'] = $_SESSION['versioneprecedente'];
@@ -54,7 +55,6 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 $classe = stringa_html("classe");
 
 // scelta classe
-$con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 
 print ("

@@ -32,7 +32,7 @@ if ($tipoutente == "")
 
 $titolo = "Inserimento valutazioni per certificazione competenze";
 $script = "";
-stampa_head($titolo, "", $script, "SP");
+stampa_head($titolo, "", $script, "SPD");
 
 
 
