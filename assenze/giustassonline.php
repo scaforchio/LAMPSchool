@@ -67,10 +67,10 @@ $idclasse = estrai_classe_alunno($codalunno, $con);
 
 
 $rs1 = eseguiQuery($con, "select * from tbl_alunni where idalunno=$codalunno");
-$rs5 = eseguiQuery($con, "select * from tbl_assenze where idalunno=$codalunno and not giustifica order by data desc");
-$rs6 = eseguiQuery($con, "select * from tbl_ritardi where idalunno=$codalunno and not giustifica order by data desc");
-$rs7 = eseguiQuery($con, "select * from tbl_usciteanticipate where idalunno=$codalunno and not giustifica order by data desc");
-$rs9 = eseguiQuery($con, "select * from tbl_asslezione where idalunno=$codalunno  and not giustifica "
+$rs5 = eseguiQuery($con, "select * from tbl_assenze where idalunno=$codalunno and giustifica=0 order by data desc");
+$rs6 = eseguiQuery($con, "select * from tbl_ritardi where idalunno=$codalunno and giustifica=0 order by data desc");
+$rs7 = eseguiQuery($con, "select * from tbl_usciteanticipate where idalunno=$codalunno and giustifica=0 order by data desc");
+$rs9 = eseguiQuery($con, "select * from tbl_asslezione where idalunno=$codalunno  and giustifica=0 "
         . " and data not in (select data from tbl_assenze where idalunno=$codalunno)"
         . " and data in (select datadad from tbl_dad where idclasse=$idclasse)"
         . " order by data ");
@@ -158,8 +158,9 @@ if ($rs1)
             print "<br/>";
             print "</td></tr>";
         }
-        print "</table><br>";
+        print "</table><br>";        
     }
+    
     if ($assdagiust)
     {
         $contasms = 0;

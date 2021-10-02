@@ -280,7 +280,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
     }
     // COMPORTAMENTO
     // AGGIUNGO IL VOTO DI COMPORTAMENTO
-
+    // TTTT
     $query = "SELECT denominazione,votounico,note FROM tbl_valutazionifinali,tbl_materie
               WHERE tbl_valutazionifinali.idmateria=tbl_materie.idmateria 
               AND idalunno=$alu
@@ -295,7 +295,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
         $unico = dec_to_pag($recvoti['votounico']);
         $annotazioni = converti_utf8($recvoti['note']);
 
-        $posY += 10;
+        $posY = $schede->GetY()+10;
         $schede->SetY($posY);
         $schede->SetFont('Arial', 'B', 8);
         $schede->Cell(190, 8, "COMPORTAMENTO", NULL, 1, "C");
@@ -303,7 +303,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
         $posY += 10;
         $schede->SetY($posY);
         $schede->SetFont('Arial', '', 7);
-        $schede->Multicell(190, 4, elimina_cr($annotazioni), 1, 1);
+        $schede->Multicell(190, 4, elimina_cr($unico), 1, 1);
 
         // $schede->Cell(55, 6, "$denom", 0);
         // $valutazione = "";

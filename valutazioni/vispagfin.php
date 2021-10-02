@@ -126,6 +126,7 @@ if (!scrutinio_aperto($val['idclasse'], $_SESSION['numeroperiodi'], $con)) {
                 print "<tr><td colspan=7 align=center>" . $recgiu['giudizio'] . "</b></td></tr>";
             }
             print ("</table><br/>");
+            
             if ($_SESSION['tipo_pagella_genitori'] == "MIN") {
                 print "<br><center><a href='../scrutini/stampaschedamodmin.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
@@ -135,6 +136,10 @@ if (!scrutinio_aperto($val['idclasse'], $_SESSION['numeroperiodi'], $con)) {
             if ($_SESSION['tipo_pagella_genitori'] == "A4") {
                 print "<br><center><a href='../scrutini/stampaschedefinalialu.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
+             
+             
+           // print "<br><center><a href='../obiettivi/obstampaschede.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
+         
             print "&nbsp;&nbsp;&nbsp;<a href='../scrutini/stampaschedeseparatefin.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampaSEP.png'></a>";
             if ($certificazione) {
                 print "<br><center><a href='../certcomp/stampacertcomp.php?idalunno=$codalunno' target='_blank'><img src='../immagini/stampaCER.png'></a>";
@@ -190,6 +195,7 @@ if (!scrutinio_aperto($val['idclasse'], $_SESSION['numeroperiodi'], $con)) {
                 print "<tr><td colspan=7 align=center>" . $recgiu['giudizio'] . "</b></td></tr>";
             }
             print ("</table><br/>");
+            /*
             if ($_SESSION['tipo_pagella_genitori'] == "MIN") {
                 print "<br><center><a href='../scrutini/stampaschedamodmin.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
@@ -199,6 +205,10 @@ if (!scrutinio_aperto($val['idclasse'], $_SESSION['numeroperiodi'], $con)) {
             if ($_SESSION['tipo_pagella_genitori'] == "A4") {
                 print "<br><center><a href='../scrutini/stampaschedefinalialu.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
             }
+             
+             */
+            print "<br><center><a href='../obiettivi/obstampaschede.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
+         
             print "&nbsp;&nbsp;&nbsp;<a href='../scrutini/stampaschedeseparatefin.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampaSEP.png'></a>";
             if ($certificazione) {
                 print "<br><center><a href='../certcomp/stampacertcomp.php?idalunno=$codalunno' target='_blank'><img src='../immagini/stampaCER.png'></a>";
