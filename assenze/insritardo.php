@@ -74,9 +74,9 @@ while ($id = mysqli_fetch_array($ris))
             if ($numeroore == '')
                 $numeroore = 0;
             if ($tipoutente == 'D')
-                $query = "insert into tbl_ritardi(idalunno,data,oraentrata) values('$idalunno','$data','$oraentrata')";
+                $query = "insert into tbl_ritardi(idalunno,data,oraentrata,giustifica) values('$idalunno','$data','$oraentrata',0)";
             if ($tipoutente == 'P' | $tipoutente == 'S')
-                $query = "insert into tbl_ritardi(idalunno,data,oraentrata,autorizzato) values('$idalunno','$data','$oraentrata',true)";
+                $query = "insert into tbl_ritardi(idalunno,data,oraentrata,autorizzato,giustifica) values('$idalunno','$data','$oraentrata',true,0)";
             $ris2 = eseguiQuery($con, $query);
             $query = "delete from tbl_assenze where idalunno='$idalunno' and data='$data'";
             $ris3 = eseguiQuery($con, $query);

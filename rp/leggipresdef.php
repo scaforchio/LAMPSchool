@@ -150,8 +150,8 @@ if ($chiavegenerata != $chiavericevuta)
             if (($numtimbrature == 0) && ($dataoggi == "$anno-$mes-$gio") && ($esiste_alunno) && (!$esiste_assenza) && (!giorno_festa($dataoggi, $con)))
             {
 
-                $query = "insert into tbl_assenze(idalunno,data)
-                      select idalunno,'$dataoggi'
+                $query = "insert into tbl_assenze(idalunno,data,giustifica)
+                      select idalunno,'$dataoggi','0'
                       from tbl_alunni
                       where idclasse<>0
                       and idalunno NOT IN (select idalunno from tbl_presenzeforzate where data = '" . date('Y-m-d') . "')
@@ -254,7 +254,7 @@ if ($chiavegenerata != $chiavericevuta)
                     {
                         $dataent = "$anno-$mes-$gio";
                         $oraent = "$ora:$min";
-                        $query = "insert into tbl_ritardi(idalunno,data,oraentrata) values ('$matricola', '$dataent', '$oraent')";
+                        $query = "insert into tbl_ritardi(idalunno,data,oraentrata,giustifica) values ('$matricola', '$dataent', '$oraent',0)";
 
                         if (!$ris = eseguiQuery($con, $query))
                         {

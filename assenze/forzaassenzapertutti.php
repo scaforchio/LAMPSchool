@@ -48,7 +48,7 @@ while ($rec = mysqli_fetch_array($ris))
 {
     if (!esiste_assenza_alunno($rec['idalunno'], date('Y-m-d'), $con))
     {
-        $query = "insert into tbl_assenze(idalunno,data) values (" . $rec['idalunno'] . ",'" . date('Y-m-d') . "')";
+        $query = "insert into tbl_assenze(idalunno,data,giustifica) values (" . $rec['idalunno'] . ",'" . date('Y-m-d') . "',0)";
         eseguiQuery($con, $query);
         elimina_assenze_lezione($con, $rec['idalunno'], date('Y-m-d'));
         inserisci_assenze_per_ritardi_uscite($con, $rec['idalunno'], date('Y-m-d'));

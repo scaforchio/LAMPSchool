@@ -74,8 +74,8 @@ if ($datatimbratura == $dataoggi)   // PER EVIATRE CHE SI ATTIVI IN CASO DI INSE
     // INSERIMENTO ASSENZE PER TUTTI ALLA PRIMA TIMBRATURA
     if (($numtimbrature == 0) && esiste_alunno($idalunno, $con) && (!$esiste_assenza))
     {
-        $query = "insert into tbl_assenze(idalunno,data)
-                      select idalunno,'$dataoggi'
+        $query = "insert into tbl_assenze(idalunno,data,giustifica)
+                      select idalunno,'$dataoggi','0'
                       from tbl_alunni
                       where idclasse<>0
                       and idalunno NOT IN (select idalunno from tbl_presenzeforzate where data = '$dataoggi')
@@ -125,7 +125,7 @@ if (mysqli_num_rows($ris) == 0)
 
     if ($tipotimbratura == 'R')
     {
-        $query = "insert into tbl_ritardi(idalunno,data,oraentrata,autorizzato) values ('$idalunno', '$datatimbratura', '$oratimbratura',true)";
+        $query = "insert into tbl_ritardi(idalunno,data,oraentrata,autorizzato,giustifica) values ('$idalunno', '$datatimbratura', '$oratimbratura',true,0)";
         eseguiQuery($con, $query);
         $query = "delete from tbl_assenze where idalunno='$idalunno' and data='$datatimbratura'";
         eseguiQuery($con, $query);

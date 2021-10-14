@@ -73,7 +73,7 @@ while ($id = mysqli_fetch_array($ris))
         $riscer = eseguiQuery($con, $query);
         if (mysqli_num_rows($riscer) == 0)
         {
-            $query = 'INSERT INTO tbl_assenze(idalunno,data) VALUES(' . $id['al'] . ',"' . $data . '")';
+            $query = 'INSERT INTO tbl_assenze(idalunno,data,giustifica) VALUES(' . $id['al'] . ',"' . $data . '",0)';
             $risins = eseguiQuery($con, $query);
             $cambiamento = true;
         }

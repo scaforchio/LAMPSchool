@@ -103,8 +103,8 @@ foreach ($arrtimb as $m2)
     if (($numtimbrature == 0) && ($dataoggi == "$anno-$mes-$gio") && ($esiste_alunno) && (!$esiste_assenza))
     {
 
-        $query = "insert into tbl_assenze(idalunno,data)
-                      select idalunno,'$dataoggi'
+        $query = "insert into tbl_assenze(idalunno,data,giustifica)
+                      select idalunno,'$dataoggi','0'
                       from tbl_alunni
                       where idclasse<>0
                       and idalunno NOT IN (select idalunno from tbl_presenzeforzate where data = '" . date('Y-m-d') . "')
@@ -151,7 +151,7 @@ foreach ($arrtimb as $m2)
         {
             $datausc = "$anno-$mes-$gio";
             $orausc = "$ora:$min";
-            $query = "insert into tbl_usciteanticipate(idalunno,data,orauscita) values ('$matricola', '$datausc', '$orausc')";
+            $query = "insert into tbl_usciteanticipate(idalunno,data,orauscita,giustifica) values ('$matricola', '$datausc', '$orausc',0)";
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
             if (!$ris = eseguiQuery($con, $query))
             {
@@ -166,7 +166,7 @@ foreach ($arrtimb as $m2)
         {
             $dataent = "$anno-$mes-$gio";
             $oraent = "$ora:$min";
-            $query = "insert into tbl_ritardi(idalunno,data,oraentrata) values ('$matricola', '$dataent', '$oraent')";
+            $query = "insert into tbl_ritardi(idalunno,data,oraentrata,giustifica) values ('$matricola', '$dataent', '$oraent',0)";
             inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . inspref($query, false) . "\n", 3, "../lampschooldata/" . $suff . "logsqlrp.log");
             if (!$ris = eseguiQuery($con, $query))
             {
