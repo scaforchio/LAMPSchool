@@ -47,10 +47,6 @@ $_SESSION["alias"] = false;
 $json = leggeFileJSON('../lampschool.json');
 $_SESSION['versione'] = $json['versione'];
 
-
-
-
-
 $titolo = "Inserimento dati di accesso";
 $seedcasuale = mt_rand(100000, 999999);
 $seme = md5(date('Y-m-d').$seedcasuale);
@@ -130,5 +126,5 @@ if (strlen($messaggio) > 0)
 //$json = leggeFileJSON('../lampschool.json');
 
 stampa_piede($_SESSION['versioneprecedente']);
-eseguiQuery($con,"insert into tbl_seed(seed) values('$seme')");
+eseguiQuery($con,"insert into ".$prefisso_tabelle."tbl_seed(seed) values('$seme')",false,false);
 ?>
