@@ -30,8 +30,8 @@ $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sess
 
 if ($tipoutente == "")
 {
-
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
+    die;
 }
 stampa_head("Carica Archivio Docenti da CSV", "", "");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Carica Archivio Docenti da CSV", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
