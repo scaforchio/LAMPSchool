@@ -1,0 +1,50 @@
+{
+    "name": "scafonchio/lampschool",
+    "type": "project",
+    "description": "Registro Elettronico per il sistema scolastico italiano.",
+    "keywords": [
+        "Registro Elettronico",
+        "Italian Linux Society"
+    ],
+    "license": "AGPL-3.0-only",
+    "authors": [
+        {
+            "name": "Pietro Tamburrano",
+            "email": "xxxx@gmail.com",
+            "homepage": "https://www.sito.it",
+            "role": "Author"
+        },
+        {
+            "name": "Italian Linux Society",
+            "email": "direttore@linux.it",
+            "homepage": "https://www.ils.org/",
+            "role": "Maintainer"
+        },
+        {
+            "name": "Contributors",
+            "homepage": "https://github.com/scaforchio/LAMPSchool/graphs/contributors",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.6"
+    },
+    "require-dev": {
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "LampSchool\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LampSchool\\Tests\\": "tests/"
+        }
+    }
+}
