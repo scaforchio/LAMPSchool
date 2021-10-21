@@ -1,4 +1,6 @@
 /nbproject/
+/.vscode/
+/.idea/
 abc
 abc/**/*
 lampschooldata
@@ -7,3 +9,4 @@ php-ini.php
 php-ini*.php
 php-iniit.php
 project.xml
+/vendor/
