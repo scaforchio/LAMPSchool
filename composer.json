@@ -13,12 +13,6 @@
             "role": "Author"
         },
         {
-            "name": "Italian Linux Society",
-            "email": "direttore@linux.it",
-            "homepage": "https://www.ils.org/",
-            "role": "Maintainer"
-        },
-        {
             "name": "Contributors",
             "homepage": "https://github.com/scaforchio/LAMPSchool/graphs/contributors",
             "role": "Developer"
