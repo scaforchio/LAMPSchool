@@ -14,6 +14,12 @@ La licenza di LAMPSchool ti permette immediatamente di usare, studiare, modifica
 
 Attenzione: come per ogni software, LAMPSchool viene fornito senza alcuna garanzia, a meno che tu non abbia stipulato un contratto di [assistenza commerciale per LAMPSchool](https://github.com/scaforchio/LAMPSchool#assistenza-commerciale).
 
+## Installazione
+
+Vedi le note di installazione:
+
+* [LICENSE.md](https://github.com/scaforchio/LAMPSchool/blob/master/INSTALL.md#note-di-installazione-di-lampschool)
+
 ## Assistenza commerciale
 
 Se non sai a chi rivolgerti per commissionare sviluppi personalizzati, richiedere assistenza commerciale o ottenere garanzie di fornitura di servizi legati a LAMPSchool, segnalalo nel forum:
