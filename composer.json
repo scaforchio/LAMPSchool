@@ -21,8 +21,7 @@
     "require": {
         "php": ">=5.6"
     },
-    "require-dev": {
-    },
+    "require-dev": {},
     "config": {
         "preferred-install": {
             "*": "dist"
