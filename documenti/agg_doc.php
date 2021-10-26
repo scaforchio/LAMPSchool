@@ -61,9 +61,6 @@ if (!$DB)
     exit;
 };
 
-
-
-
 //Esecuzione query finale
 $sql = "UPDATE tbl_documenti SET descrizione='$descrizione', pei=$pei
     	         WHERE iddocumento=$iddocumento";
