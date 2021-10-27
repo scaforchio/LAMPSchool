@@ -196,7 +196,6 @@ if ($ope != 'D')
 
 print('<input type="submit" value="OK" name="b"></p></form>');
 
-
 mysqli_close($con);
 stampa_piede("");
 

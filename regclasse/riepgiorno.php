@@ -238,7 +238,7 @@ if (!checkdate($m, $g, $a))
         }
     }
 }
-session_destroy();
+
 mysqli_close($con);
 stampa_piede("");
 
