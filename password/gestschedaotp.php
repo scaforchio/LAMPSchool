@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once '../lib/req_apertura_sessione.php';
 /*
   Copyright (C) 2015 Pietro Tamburrano
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
@@ -24,7 +24,7 @@ session_start();
 @require_once("../lib/funzioni.php");
 
 // istruzioni per tornare alla pagina di login se non c'è una sessione valida
-////session_start();
+
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 $utente=stringa_html('utente');
 if ($tipoutente == "")

@@ -1,7 +1,6 @@
 <?php
 
-session_start();
-
+require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
@@ -20,7 +19,7 @@ session_start();
  */
 
 /* Programma per la visualizzazione del menu principale. */
-////session_start();
+
 // CONTROLLO ORIGINE DELLA RICHIESTA PER IMPEDIRE ACCESSI DALL'ESTERNO
 $urlorigine = $_SERVER['HTTP_REFERER'];
 if (isset($_SERVER['HTTPS']))
@@ -36,15 +35,19 @@ if ($urlattuale == substr($urlorigine, 0, strlen($urlattuale)))
     $origineok = true;
 }
 
+
 //VERIFICO CHE LA SESSIONE NON SIA SCADUTA
-if (isset($_SESSION['suffisso']))
+if (isset($_SESSION['prefisso']))
 {
+    
     require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
     require_once '../lib/funzioni.php';
 } else
 {
+   
     print "<br><br><b><big><center>Sessione scaduta!</center></big></b>";
     print "<br><b><big><center>Rieffettuare il <a href='../'>login</a>.</center></big></b>";
+    die;
 }
 
 // VERIFICO CHE NON SIA RICHIESTO IL TOKEN

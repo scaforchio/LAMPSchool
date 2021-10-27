@@ -14,7 +14,7 @@ require_once 'funzioni_install.php';
 
 $json = leggeFileJSON('../lampschool.json');
 $titolo = $json['titolo'] . ' ' . $json['versione'] . ' Installazione';
-////session_start();
+
 
 $script = getCssJavascript() . "
 <script>

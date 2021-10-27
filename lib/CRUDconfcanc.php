@@ -28,7 +28,7 @@ session_start();
 
 $id = stringa_html('id');
 // istruzioni per tornare alla pagina di login 
-////session_start();
+
 $daticrud = $_SESSION['daticrud'];
 $titolo = "Conferma Cancellazione " . $daticrud['aliastabella'];
 $script = "";

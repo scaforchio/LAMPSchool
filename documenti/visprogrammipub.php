@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
@@ -36,7 +36,7 @@ else
 @require_once("../php-ini" . $suffisso . ".php");
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 require "../lib/req_assegna_parametri_a_sessione.php";
-////session_start();
+
 $_SESSION["annoscol"] = $_SESSION['annoscol']; //prende la variabile presente nella sessione
 $_SESSION['versione'] = $_SESSION['versioneprecedente'];
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida

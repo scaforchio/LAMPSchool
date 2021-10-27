@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
@@ -21,7 +21,7 @@ session_start();
 @include '../lib/funzioni.php';
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 // istruzioni per tornare alla pagina di login
-////session_start();
+
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 $iddocente = $_SESSION['idutente'];
 $idcattedra = stringa_html('idcattedra');

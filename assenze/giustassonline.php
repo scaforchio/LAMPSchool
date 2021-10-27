@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once '../lib/req_apertura_sessione.php';
 $_SESSION['nogoback']=false;
 /*
   Copyright (C) 2015 Pietro Tamburrano
@@ -30,7 +30,7 @@ require_once '../lib/funzioni.php';
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 // $lQuery = LQuery::getIstanza();
 //  istruzioni per tornare alla pagina di login se non c'è una sessione valida
-////session_start();
+
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 
 if ($tipoutente == "")

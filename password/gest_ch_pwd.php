@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once '../lib/req_apertura_sessione.php';
 /*
   Copyright (C) 2015 Pietro Tamburrano
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
@@ -16,7 +16,7 @@ session_start();
   Dovreste aver ricevuto una copia della GNU Affero General Public License
   in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
  */
-////session_start();
+
 $tipoutente = $_SESSION["tipoutente"];
 $userid = $_SESSION["userid"]; //prende la variabile presente nella sessione
 if ($tipoutente == "")

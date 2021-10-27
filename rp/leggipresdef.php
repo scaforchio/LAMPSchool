@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once '../lib/req_apertura_sessione.php';
 
 @require_once("../lib/funzioni.php");
 $suffisso = stringa_html('suffisso');
@@ -15,7 +15,7 @@ require_once("../lib/req_assegna_parametri_a_sessione.php");
 
 inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . IndirizzoIpReale() . "§Invio dati", $_SESSION['nomefilelog'] . "rp", $suff);
 
-//session_start();
+//require_once '../lib/req_apertura_sessione.php';
 //$_SESSION['nomefilelog']=$_SESSION['nomefilelog'];
 //$_SESSION['suffisso']=$suffisso;$indirizzoip = IndirizzoIpReale();
 //if (!$_SESSION['abilitata']=='yes')

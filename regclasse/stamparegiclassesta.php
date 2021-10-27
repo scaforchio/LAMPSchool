@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
@@ -23,7 +23,7 @@ require_once '../lib/funzioni.php';
 require_once '../lib/funregi.php';
 
 // istruzioni per tornare alla pagina di login se non c'è una sessione valida
-////session_start();
+
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 $idclasse = stringa_html('idclasse');
 if ($tipoutente == "")

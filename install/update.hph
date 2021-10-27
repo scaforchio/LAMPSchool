@@ -22,7 +22,7 @@ require_once 'funzioni_install.php';
 
 $json = leggeFileJSON('../lampschool.json');
 $titolo = 'Installazione di '. $json['titolo']. ' '. $json['versione'];
-////session_start();
+
 
 //if (isset($versione)) {
     $_SESSION['versioneprecedente'] = $versioneprecedente;

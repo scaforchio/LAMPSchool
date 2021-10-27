@@ -22,7 +22,7 @@ session_start();
 @require_once("../lib/funzioni.php");
 
 // istruzioni per tornare alla pagina di login se non c'è una sessione valida
-////session_start();
+
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 if ($tipoutente == "")
 {

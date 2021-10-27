@@ -26,7 +26,7 @@ if ($_GET['azione']=="abbandona")
     
 else
 {
-    session_start();
+    require_once '../lib/req_apertura_sessione.php';
     $suffisso=$_GET['suffisso'];
     session_destroy();
     header("location: login.php?suffisso=$suffisso");

@@ -8,7 +8,7 @@ require_once '../lib/funzioni.php';
 //require_once '../lib/ db / query.php';
 //$lQuery = LQuery::getIstanza();
 // istruzioni per tornare alla pagina di login 
-////session_start();
+
 
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione

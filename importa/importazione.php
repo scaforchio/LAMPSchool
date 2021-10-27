@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once '../lib/req_apertura_sessione.php';
 
 
 /*
@@ -26,7 +26,7 @@ session_start();
 
 
 // istruzioni per tornare alla pagina di login se non c'è una sessione valida
-////session_start();
+
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 $idesterno = "";
 if ($tipoutente == "")

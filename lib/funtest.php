@@ -10,7 +10,8 @@
 function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, $token = true,$onload="")
 {
     $_SESSION['tempotrascorso']=0;
-    
+    if (!isset($_SESSION['prefisso']))
+         header("location: ../");
     if ($contr)
     {
         controllo_privilegi($abil);

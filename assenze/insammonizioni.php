@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
@@ -25,7 +25,7 @@ session_start();
 $dataammoniz = date('Y-m-d');
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
-////session_start();
+
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 
 

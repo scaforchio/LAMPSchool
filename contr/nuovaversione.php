@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once '../lib/req_apertura_sessione.php';
 /**
  * Elenco degli indici del database
  *
@@ -12,7 +12,7 @@ require_once '../lib/funzioni.php';
 
 
 // istruzioni per tornare alla pagina di login 
-////session_start();
+
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 
 if ($tipoutente == "")

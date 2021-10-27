@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once '../lib/req_apertura_sessione.php';
 /**
  * Elenco degli indici del database
  *
@@ -13,7 +13,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 //require_once '../lib/ db / query.php';
 //$lQuery = LQuery::getIstanza();
 // istruzioni per tornare alla pagina di login 
-////session_start();
+
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 

@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once '../lib/req_apertura_sessione.php';
 /*
   Copyright (C) 2015 Pietro Tamburrano
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
@@ -19,7 +19,7 @@ session_start();
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 
-////session_start();
+
 $tipoutente = $_SESSION["tipoutente"];
 $userid = $_SESSION["userid"]; //prende la variabile presente nella sessione
 $idutente = $_SESSION['idutente'];

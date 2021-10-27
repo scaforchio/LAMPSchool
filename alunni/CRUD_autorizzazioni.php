@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2018 Pietro Tamburrano

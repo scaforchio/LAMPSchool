@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once '../lib/req_apertura_sessione.php';
 /*
   Copyright (C) 2018 Pietro Tamburrano
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
@@ -95,7 +95,7 @@ $_SESSION['daticrud'] = $daticrud;
 
 header("location: ../lib/CRUD.php?suffisso=" . $_SESSION['suffisso']);
 
-//session_start();
+//require_once '../lib/req_apertura_sessione.php';
 ///*
 //  Copyright (C) 2018 Pietro Tamburrano
 //  Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della

@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
@@ -27,7 +27,7 @@ session_start();
 
 
 // istruzioni per tornare alla pagina di login 
-////session_start();
+
 $a = stringa_html('a');
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 if ($tipoutente == "")

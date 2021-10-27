@@ -20,7 +20,7 @@ session_start();
 @require_once("../lib/funzioni.php");
 
 
-////session_start();
+
 $titolo = "Installazione del registro elettronico";
 
 $script = "";

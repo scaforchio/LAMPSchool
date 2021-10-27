@@ -12,7 +12,7 @@ require_once 'funzioni_install.php';
 
 $json = leggeFileJSON('../lampschool.json');
 $titolo = $json['titolo'] . ' ' . $json['versione'] . ' Installazione';
-////session_start();
+
 
 stampa_head('Installazione Lampschool', '', getCssJavascript(), "", false);
 stampa_testata_installer($titolo, '', '');
