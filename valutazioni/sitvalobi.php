@@ -38,7 +38,7 @@ if ($tipoutente == "")
 $titolo = "Visualizzazione voti per obiettivo";
 $script = "";
 stampa_head($titolo, "", $script, "SDMAP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 $cattedra = stringa_html('cattedra');
 $obiettivo = stringa_html('obiettivo');
 $periodo = stringa_html('periodo');
