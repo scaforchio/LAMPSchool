@@ -744,9 +744,9 @@ function inserisci_log($testo, $nflog = "", $suff = "")
  */
 function leggeFileJSON($url)
 {
+    
     $content = file_get_contents($url);
     $json = json_decode($content, true);
-
     return $json;
 }
 
@@ -761,9 +761,12 @@ function leggeFileJSON($url)
 function controlloNuovaVersione()
 {
     $jsonlocale = leggeFileJSON('../lampschool.json');
+    
+    //print "DIMENSIONI JSON LOCALE".sizeof($jsonlocale);
     $urlaggiornamento = $jsonlocale['urlaggiornamento'];
-
+    
     $jsonremoto = leggeFileJSON($urlaggiornamento);
+    
     $versioneremota = $jsonremoto['versione'];
     $esito = version_compare($versioneremota, $_SESSION['versione'], ">");
 
