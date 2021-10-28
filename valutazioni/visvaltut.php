@@ -103,7 +103,14 @@ if (mysqli_num_rows($ris) > 0)
             $querymedia = "select avg(voto) as votomedio from tbl_valutazioniintermedie where idalunno=$idalunno and idmateria=$idmateria";
             $rismedia = eseguiQuery($con, $querymedia);
             $recmedia = mysqli_fetch_array($rismedia);
-            $mediacalc = floatval($recmedia['votomedio']);
+            //arrotondiamo a due cifre decimali
+            $mediacalc = round(
+                floatval(
+                    $recmedia['votomedio']
+                ),
+                2,
+                PHP_ROUND_HALF_UP
+            );
             //stampiamo il valore subito dopo il nome della materia
             print("<tr style=\"background-color: #cfcfcf\"><td colspan=4 align=center>");
             //se la media è inferiore a 6 stampa il valore in rosso
