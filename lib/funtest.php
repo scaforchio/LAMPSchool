@@ -10,8 +10,10 @@
 function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, $token = true,$onload="")
 {
     $_SESSION['tempotrascorso']=0;
-    if (!isset($_SESSION['prefisso']))
-         header("location: ../");
+    //su un'installazione "Fresca" di lampschool il prefisso in sessione non esiste!
+    //ignoriamo i casi dove la funzione viene chiamata dagli script di installazione
+    if (!isset($_SESSION['prefisso']) && $titolo != 'Installazione Lampschool')
+        header("location: ../");
     if ($contr)
     {
         controllo_privilegi($abil);

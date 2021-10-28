@@ -40,7 +40,7 @@ if ($tipoutente == "")
 $titolo = "Visualizzazione voti alunno";
 $script = "";
 stampa_head($titolo, "", $script, "TL");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", "$nome_scuola", "$comune_scuola");
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $idalunno = $_SESSION['idstudente'];
@@ -97,6 +97,25 @@ if (mysqli_num_rows($ris) > 0)
         {
             $mat = $materia;
             print("<tr class=prima><td colspan=4 align=center>$materia</td></tr>");
+            //facciamo l'avg() di tutti i voti per la determinata materia per il determinato alunno
+            $idmateria = $val["idmateria"];
+            $querymedia = "select avg(voto) as votomedio from tbl_valutazioniintermedie where idalunno=$idalunno and idmateria=$idmateria";
+            $rismedia = eseguiQuery($con, $querymedia);
+            $recmedia = mysqli_fetch_array($rismedia);
+            $mediacalc = floatval($recmedia['votomedio']);
+            //stampiamo il valore subito dopo il nome della materia
+            print("<tr style=\"background-color: #cfcfcf\"><td colspan=4 align=center>");
+            //se la media è inferiore a 6 stampa il valore in rosso
+            if ($mediacalc < 6)
+            {
+                $colini = "<font color=red><b>";
+                $colfin = "</font>";
+            } else
+            {
+                $colini = "";
+                $colfin = "";
+            }
+            print("Media: $colini$mediacalc$colfin</td></tr>");
         }
 
         if ($voto != "&nbsp;&nbsp;" | $giudizio != "&nbsp;")
