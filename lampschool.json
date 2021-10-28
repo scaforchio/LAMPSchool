@@ -2,7 +2,7 @@
     "titolo": "LAMPSchool",
     "versione": "2020.11",
     "url": "www.lampschool.it",
-    "urlaggiornamento": "http://www.lampschool.net/lampschool/lampschool.json?format=raw",
+    "urlaggiornamento": "https://github.com/scaforchio/LAMPSchool/blob/master/lampschool.json?format=raw",
     "autore": {
         "nome": "Pietro Tamburrano",
         "mail": "pietro.tamburrano@gmail.com"
