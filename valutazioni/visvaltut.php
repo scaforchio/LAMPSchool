@@ -59,6 +59,7 @@ $ris = eseguiQuery($con, $query);
 if ($val = mysqli_fetch_array($ris))
 {
     echo '<center><b>Voti dell\'Alunno: ' . $val["cognome"] . ' ' . $val["nome"] . '</b></center><br/>';
+    echo '<center>Le medie calcolate sono <b>aritmetiche</b> e potrebbero non<br>corrispondere al voto in pagella.</center><br>';
     $idclasse = $val['idclasse'];
 }
 
