@@ -29,7 +29,7 @@ if ($tipoutente == "")
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
-$titolo = "Riepilogo argomenti svolti";
+$titolo = "Riepilogo argomenti svolti (per materia)";
 $script = "<script type='text/javascript'>
          <!--
                var stile = 'top=10, left=10, width=1024, height=400, status=no, menubar=no, toolbar=no, scrollbars=yes';

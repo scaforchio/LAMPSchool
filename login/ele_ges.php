@@ -1319,7 +1319,8 @@ if ($cambiamentopassword)
             if ($_SESSION['argomentigenitori'] == "yes")
             {
                 menu_title_begin("ARGOMENTI LEZIONI");
-                menu_item('../lezioni/riepargomgen.php', 'VISUALIZZA ARGOMENTI');
+                menu_item('../lezioni/riepargomgen.php', 'VISUALIZZA ARGOMENTI per materia');
+                menu_item('../lezioni/riepargomgendata.php', 'VISUALIZZA ARGOMENTI per data');
                 menu_title_end();
             }
             if ($_SESSION['visualizzapagelle'] == 'yes')
@@ -1451,7 +1452,8 @@ if ($cambiamentopassword)
             if ($_SESSION['argomentigenitori'] == "yes")
             {
                 menu_title_begin("ARGOMENTI LEZIONI");
-                menu_item('../lezioni/riepargomgen.php', 'VISUALIZZA ARGOMENTI');
+                menu_item('../lezioni/riepargomgen.php', 'VISUALIZZA ARGOMENTI per materia');
+                menu_item('../lezioni/riepargomgendata.php', 'VISUALIZZA ARGOMENTI per data');
                 menu_title_end();
             }
             menu_title_begin("LEZIONI A DISTANZA");
