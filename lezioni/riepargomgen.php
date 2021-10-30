@@ -141,7 +141,7 @@ if ($idmateria != "")
 
             while ($reclez = mysqli_fetch_array($rislez))
             {
-                if ($reclez['idlezionegruppo']==NULL)
+                if ($reclez['idlezionegruppo']==NULL || $reclez['idlezionegruppo']==0 )
                     print "<tr><td>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
                 else
                 {

@@ -192,7 +192,7 @@ if ($dataieri >= $_SESSION['datainiziolezioni'] && $datadomani <= $_SESSION['dat
                             <td width=45%>Attivit&agrave;</td>";
 
             while ($reclez = mysqli_fetch_array($rislez)) {
-                if ($reclez['idlezionegruppo'] == NULL)
+                if ($reclez['idlezionegruppo'] == NULL || $reclez['idlezionegruppo'] == 0)
                     print "<tr><td>" . $matassoclist[$reclez['idmateria']] . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
                 else {
                     // VERIFICO SE ALUNNO APPARTIENE A GRUPPO
