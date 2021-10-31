@@ -139,15 +139,13 @@ if (mysqli_num_rows($ris) > 0)
             print("<td align=center>$tipo</td>");
             if ($val['voto'] < 6) // is_numeric($val['votoscritto']))
             {
-                $colini = "<font color=red><b>";
-                $colfin = "</font>";
+                $colorecasella = '#ff0200';
+
             } else
             {
-                $colini = "";
-                $colfin = "";
+                $colorecasella = '#05ac50'; 
             }
-
-            print("<td align=center>$colini$voto$colfin</td>");
+            print("<td bgcolor=$colorecasella align=center>$voto</td>");
             print("<td>$giudizio</td>");
             print("</tr>");
         }
