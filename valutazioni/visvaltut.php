@@ -139,10 +139,10 @@ if (mysqli_num_rows($ris) > 0)
             print("<td style=\"text-align: center;\">$tipo</td>");
             if ($val['voto'] < 6) // is_numeric($val['votoscritto']))
             {
-                $stilecasella = 'style="background: #ff0200; text-align: center;"';
+                $stilecasella = 'style="background: #eb4034; text-align: center;"';
             } else
             {
-                $stilecasella = 'style="background: #eb4034; text-align: center;"'; 
+                $stilecasella = 'style="background: #05ac50; text-align: center;"'; 
             }
             print("<td $stilecasella>$voto</td>");
             print("<td>$giudizio</td>");
