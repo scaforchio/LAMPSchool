@@ -140,10 +140,9 @@ if (mysqli_num_rows($ris) > 0)
             if ($val['voto'] < 6) // is_numeric($val['votoscritto']))
             {
                 $colorecasella = '#ff0200';
-
             } else
             {
-                $colorecasella = '#05ac50'; 
+                $colorecasella = '#eb4034'; 
             }
             print("<td bgcolor=$colorecasella align=center>$voto</td>");
             print("<td>$giudizio</td>");
