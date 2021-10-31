@@ -134,17 +134,17 @@ if (mysqli_num_rows($ris) > 0)
                 $colore = 'grey';
                 $cambiamentoclasse = true;
             }
-            print("<tr bgcolor=$colore>");
+            print('<tr style="background: $colore; text-align: center;">');
             print("<td>$data</td>");
-            print("<td align=center>$tipo</td>");
+            print("<td style=\"text-align: center;\">$tipo</td>");
             if ($val['voto'] < 6) // is_numeric($val['votoscritto']))
             {
-                $colorecasella = '#ff0200';
+                $stilecasella = 'style="background: #ff0200; text-align: center;"';
             } else
             {
-                $colorecasella = '#eb4034'; 
+                $stilecasella = 'style="background: #eb4034; text-align: center;"'; 
             }
-            print("<td bgcolor=$colorecasella align=center>$voto</td>");
+            print("<td $stilecasella>$voto</td>");
             print("<td>$giudizio</td>");
             print("</tr>");
         }
