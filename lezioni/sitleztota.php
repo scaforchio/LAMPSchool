@@ -556,18 +556,21 @@ if ($per != "" & $catt != "")
         while ($recvot = mysqli_fetch_array($risvot))
         {
             $visvoto = "";
+            $stilerosso = 'style="background-color: #eb4034; border: 1px solid #000000;"';
+            $stileverde = 'style="background-color: #05ac50; border: 1px solid #000000;"';
             //print "tttt $iddocente ttt".$recvot['iddocente'];
             if ($recvot['iddocente'] != $iddocente)
-                $visvoto .= "&nbsp;<u>";
+                //$visvoto .= "&nbsp;<u>";
+                $visvoto .= "<u>";
             else
-                $visvoto .= "&nbsp;";
+                //$visvoto .= "&nbsp;";
             if ($recvot['voto'] >= 6)
-                $visvoto .= "<font color='green' size='1'>" . dec_to_mod($recvot['voto']) . "<sub>" . $recvot['tipo'] . "</sub></font>";
+                $visvoto .= "<div $stileverde>" . dec_to_mod($recvot['voto']) . "<sub>" . $recvot['tipo'] . "</sub></div>";
             else
-                $visvoto .= "<font color='red' size='1'>" . dec_to_mod($recvot['voto']) . "<sub>" . $recvot['tipo'] . "</sub></font>";
+                $visvoto .= "<div $stilerosso>" . dec_to_mod($recvot['voto']) . "<sub>" . $recvot['tipo'] . "</sub></div>";
             if ($recvot['iddocente'] != $iddocente)
                 $visvoto .= "</u>";
-
+            
             $vot[] = $visvoto;
             $lezv[] = $recvot['idlezione'];
         }
@@ -577,7 +580,7 @@ if ($per != "" & $catt != "")
         foreach ($giornilezione as $gg)
         {
 
-            print "<td align='center'>";
+            print "<td align='center'><div style='display: flex; flex-direction: row; gap:2px; width: 100%; height: 100%;'>";
 
 
 
@@ -600,7 +603,7 @@ if ($per != "" & $catt != "")
 
 
 
-            print "&nbsp;</td>";
+            print "</div></td>";
         }
 
         print("<td align='center'><font size=1>$totoreass</font></td>");
