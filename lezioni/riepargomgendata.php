@@ -59,6 +59,16 @@ while ($nom = mysqli_fetch_array($ris)) {
     $matassoclist[$nom["idmateria"]] = $nom["denominazione"];
 }
 
+//creiamo la matrice di associazione degli ID docenti ai nomi e cognomi
+//per evitare query "spreca risorse" durante la stampa della tabella
+$querydoc = "SELECT `iddocente`, `cognome`, `nome` FROM `tbl_docenti`;";
+$risdoc = eseguiQuery($con, $querydoc);
+$docassoclist = array();
+
+while($doc = mysqli_fetch_array($risdoc)) {
+    $docassoclist[$doc["iddocente"]] = $doc["cognome"] . " " . $doc["nome"];
+}
+
 $giorno = '';
 $meseanno = '';
 $anno = '';
@@ -187,17 +197,18 @@ if ($dataieri >= $_SESSION['datainiziolezioni'] && $datadomani <= $_SESSION['dat
             print "
                     <table border=2 align='center'>
                         <tr class='prima'>
-                            <td width=10%>Materia</td>
-                            <td width=45%>Argomenti</td>
-                            <td width=45%>Attivit&agrave;</td>";
+                            <td width=15%>Docente</td>    
+                            <td width=15%>Materia</td>
+                            <td width=35%>Argomenti</td>
+                            <td width=35%>Attivit&agrave;</td>";
 
             while ($reclez = mysqli_fetch_array($rislez)) {
                 if ($reclez['idlezionegruppo'] == NULL || $reclez['idlezionegruppo'] == 0)
-                    print "<tr><td>" . $matassoclist[$reclez['idmateria']] . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
+                    print "<tr><td>" . $docassoclist[$reclez['iddocente']] . "</td><td>" . $matassoclist[$reclez['idmateria']] . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
                 else {
                     // VERIFICO SE ALUNNO APPARTIENE A GRUPPO
                     if (verifica_alunno_lezionegruppo($id_ut_doc, $reclez['idlezionegruppo'], $con))
-                        print "<tr><td>" . $matassoclist[$reclez['idmateria']] . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
+                        print "<tr><td>" . $docassoclist[$reclez['iddocente']] . "</td><td>" . $matassoclist[$reclez['idmateria']] . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
                 }
             }
 
@@ -215,12 +226,13 @@ if ($dataieri >= $_SESSION['datainiziolezioni'] && $datadomani <= $_SESSION['dat
                     print "<center><br><b>Attività di sostegno</b><br><br></center>
                     <table border=2 align='center'>
                         <tr class='prima'>
-                            <td width=10%>Materia</td>
-                            <td width=45%>Argomenti</td>
-                            <td width=45%>Attivit&agrave;</td>";
+                            <td width=15%>Docente</td>    
+                            <td width=15%>Materia</td>
+                            <td width=35%>Argomenti</td>
+                            <td width=35%>Attivit&agrave;</td>";
 
                     while ($reclez = mysqli_fetch_array($rislez)) {
-                        print "<tr><td>" . $matassoclist[$reclez['idmateria']] . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
+                        print "<tr><td>" . $docassoclist[$reclez['iddocente']] . "</td><td>" . $matassoclist[$reclez['idmateria']] . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
                     }
 
                     print "</table>";
