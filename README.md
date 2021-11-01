@@ -18,7 +18,7 @@ Attenzione: come per ogni software, LAMPSchool viene fornito senza alcuna garanz
 
 Vedi le note di installazione:
 
-* [LICENSE.md](https://github.com/scaforchio/LAMPSchool/blob/master/INSTALL.md#note-di-installazione-di-lampschool)
+* [INSTALL.md](https://github.com/scaforchio/LAMPSchool/blob/master/INSTALL.md#note-di-installazione-di-lampschool)
 
 ## Assistenza commerciale
 
@@ -34,7 +34,7 @@ Si segnala anche l'esistenza dei seguenti registri elettronici liberi, attivi su
 
 * [registro elettronico giuia@school](https://github.com/trinko/giuaschool) - nato successivamente a LAMPSchool e al momento focalizzato solo sull'istituto I.I.S. Michele Giua
 
-## Segnalazioni e contributi
+## Segnalazioni
 
 Per aprire una segnalazione o discussione su problemi o funzionalità riguardanti LAMPSchool, vedi qui:
 
@@ -42,9 +42,17 @@ Per aprire una segnalazione o discussione su problemi o funzionalità riguardant
 
 Attenzione: per avere i tuoi sviluppi realizzati in tempi certi, il modo più efficace è farli preventivare e coprire le spese (vedi [assistenza commerciale per LAMPSchool](https://github.com/scaforchio/LAMPSchool#assistenza-commerciale)).
 
+Grazie per ogni idea e contributo!
+
+## Sviluppo
+
+Si incoraggia i contributori (volontari, società di sviluppo, ..) a sviluppare nuove funzionalità per LAMPSchool!
+
 Ogni contributo è bene accetto ma deve essere pensato con retro-compatibilità e rilasciato con una licenza di software libero prima di poter essere unito al ramo principale di sviluppo.
 
-Grazie per ogni idea e contributo!
+A seconda della modifica fatta al `composer.json` potrebbe essere richiesto un'aggiornamento del file `composer.lock` (da non modificare però a mano). In questo caso lanciare `composer update --lock`.
+
+In caso di domande aprire una issue. Grazie!
 
 ## Roadmap
 
