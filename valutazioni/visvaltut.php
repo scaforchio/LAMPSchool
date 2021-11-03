@@ -100,7 +100,7 @@ if (mysqli_num_rows($ris) > 0)
             print("<tr class=prima><td colspan=4 align=center>$materia</td></tr>");
             //facciamo l'avg() di tutti i voti per la determinata materia per il determinato alunno
             $idmateria = $val["idmateria"];
-            $querymedia = "select avg(voto) as votomedio from tbl_valutazioniintermedie where idalunno=$idalunno and idmateria=$idmateria";
+            $querymedia = "select avg(voto) as votomedio from tbl_valutazioniintermedie where idalunno=$idalunno and idmateria=$idmateria and voto<99";
             $rismedia = eseguiQuery($con, $querymedia);
             $recmedia = mysqli_fetch_array($rismedia);
             //arrotondiamo a due cifre decimali
@@ -142,7 +142,10 @@ if (mysqli_num_rows($ris) > 0)
                 $stilecasella = 'style="background: #eb4034; text-align: center;"';
             } else
             {
-                $stilecasella = 'style="background: #05ac50; text-align: center;"'; 
+                if ($val['voto']!=99)
+                    $stilecasella = 'style="background: #05ac50; text-align: center;"'; 
+                else
+                    $stilecasella = 'text-align: center;"'; 
             }
             print("<td $stilecasella>$voto</td>");
             print("<td>$giudizio</td>");
