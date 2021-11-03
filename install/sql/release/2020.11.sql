@@ -11815,7 +11815,7 @@ CREATE TABLE IF NOT EXISTS tbl_valutazioniobiettivi (
   idvalutazioneobiettivo int(11) AUTO_INCREMENT PRIMARY KEY,
   idalunno int(11) not null,
   idobiettivo int(11) not null,
-  perdiodo char(1) not null,
+  periodo char(1) not null,
   idlivelloobiettivo int(11) not null default 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
