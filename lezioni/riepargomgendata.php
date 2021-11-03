@@ -290,5 +290,6 @@ function stampa_lez($con, $docassoclist, $idlezione, $materia, $argomenti, $attv
         print "</td>";
     }
     //stampa il resto della tabella
+    //i dati sono safe perchè sanificati in input, non serve stringa_html()
     print "<td>" . $materia . "</td><td>" . $argomenti . "&nbsp;</td><td>" . $attvità . "&nbsp;</td></tr>";
 }
