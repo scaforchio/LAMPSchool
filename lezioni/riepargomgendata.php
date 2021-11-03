@@ -65,7 +65,7 @@ $querydoc = "SELECT `iddocente`, `cognome`, `nome` FROM `tbl_docenti`;";
 $risdoc = eseguiQuery($con, $querydoc);
 $docassoclist = array();
 
-while($doc = mysqli_fetch_array($risdoc)) {
+while ($doc = mysqli_fetch_array($risdoc)) {
     $docassoclist[$doc["iddocente"]] = $doc["cognome"] . " " . $doc["nome"];
 }
 
@@ -203,18 +203,33 @@ if ($dataieri >= $_SESSION['datainiziolezioni'] && $datadomani <= $_SESSION['dat
                             <td width=35%>Attivit&agrave;</td>";
 
             while ($reclez = mysqli_fetch_array($rislez)) {
-                if ($reclez['idlezionegruppo'] == NULL || $reclez['idlezionegruppo'] == 0)
-                    print "<tr><td>" . $docassoclist[$reclez['iddocente']] . "</td><td>" . $matassoclist[$reclez['idmateria']] . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
-                else {
+                //se non è lezione di gruppo stampa direttamente
+                if ($reclez['idlezionegruppo'] == NULL || $reclez['idlezionegruppo'] == 0) {
+                    stampa_lez(
+                        $con,
+                        $docassoclist,
+                        $reclez['idlezione'], 
+                        $matassoclist[$reclez['idmateria']],
+                        $reclez['argomenti'],
+                        $reclez['attivita']
+                    );
+                } else {
                     // VERIFICO SE ALUNNO APPARTIENE A GRUPPO
-                    if (verifica_alunno_lezionegruppo($id_ut_doc, $reclez['idlezionegruppo'], $con))
-                        print "<tr><td>" . $docassoclist[$reclez['iddocente']] . "</td><td>" . $matassoclist[$reclez['idmateria']] . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
+                    if (verifica_alunno_lezionegruppo($id_ut_doc, $reclez['idlezionegruppo'], $con)){
+                        stampa_lez(
+                            $con,
+                            $docassoclist,
+                            $reclez['idlezione'], 
+                            $matassoclist[$reclez['idmateria']],
+                            $reclez['argomenti'],
+                            $reclez['attivita']
+                        );
+                    }
                 }
             }
-
-
             print "</table>";
-
+            
+            // VISUALIZZARE ARGOMENTI SOSTEGNO
             if (alunno_certificato($id_ut_doc, $con)) {
                 $query = "select * from tbl_lezionicert where idclasse='$idclasse' and datalezione='$dataoggi' and idalunno='$id_ut_doc' order by datalezione";
 
@@ -232,17 +247,48 @@ if ($dataieri >= $_SESSION['datainiziolezioni'] && $datadomani <= $_SESSION['dat
                             <td width=35%>Attivit&agrave;</td>";
 
                     while ($reclez = mysqli_fetch_array($rislez)) {
-                        print "<tr><td>" . $docassoclist[$reclez['iddocente']] . "</td><td>" . $matassoclist[$reclez['idmateria']] . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
+                        stampa_lez(
+                            $con,
+                            $docassoclist,
+                            $reclez['idlezione'], 
+                            $matassoclist[$reclez['idmateria']],
+                            $reclez['argomenti'],
+                            $reclez['attivita']
+                        );
                     }
 
                     print "</table>";
                 }
             }
         }
-        // VISUALIZZARE ARGOMENTI SOSTEGNO
     }
 }
 
 mysqli_close($con);
 
 stampa_piede("");
+
+function stampa_lez($con, $docassoclist, $idlezione, $materia, $argomenti, $attvità)
+{
+    print "<tr>";
+    //selezioniamo tutti i docenti che hanno firmato quella lezione
+    $lezquery = "SELECT `iddocente` FROM `tbl_firme` WHERE `idlezione` = $idlezione;";
+    $risdocs = eseguiQuery($con, $lezquery);
+    if(mysqli_num_rows($risdocs) == 0){
+        print "<td>Nessuna firma</td>";
+    }else{
+        //stampa tutti i docenti corrispondenti alla lezione
+        print "<td>";
+        $f = true;
+        while($docente = mysqli_fetch_array($risdocs)){
+            //stampa la virgola solo se ci sono più docenti
+            if(!$f)
+                print ", ";
+            $f = false;
+            print $docassoclist[$docente['iddocente']];
+        }
+        print "</td>";
+    }
+    //stampa il resto della tabella
+    print "<td>" . $materia . "</td><td>" . $argomenti . "&nbsp;</td><td>" . $attvità . "&nbsp;</td></tr>";
+}
