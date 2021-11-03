@@ -228,7 +228,7 @@ if ($dataieri >= $_SESSION['datainiziolezioni'] && $datadomani <= $_SESSION['dat
                 }
             }
             print "</table>";
-
+            
             // VISUALIZZARE ARGOMENTI SOSTEGNO
             if (alunno_certificato($id_ut_doc, $con)) {
                 $query = "select * from tbl_lezionicert where idclasse='$idclasse' and datalezione='$dataoggi' and idalunno='$id_ut_doc' order by datalezione";
@@ -290,6 +290,5 @@ function stampa_lez($con, $docassoclist, $idlezione, $materia, $argomenti, $attv
         print "</td>";
     }
     //stampa il resto della tabella
-    print "<td>" . stringa_html($materia) . "</td><td>" . stringa_html($argomenti) . "&nbsp;</td><td>" . stringa_html($attvità) . "&nbsp;</td></tr>";
-    
+    print "<td>" . $materia . "</td><td>" . $argomenti . "&nbsp;</td><td>" . $attvità . "&nbsp;</td></tr>";
 }
