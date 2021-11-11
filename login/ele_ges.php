@@ -22,37 +22,31 @@ require_once '../lib/req_apertura_sessione.php';
 
 // CONTROLLO ORIGINE DELLA RICHIESTA PER IMPEDIRE ACCESSI DALL'ESTERNO
 $urlorigine = $_SERVER['HTTP_REFERER'];
-if (isset($_SERVER['HTTPS']))
-{
+if (isset($_SERVER['HTTPS'])) {
     $urlattuale = 'http' . ($_SERVER['HTTPS'] == 'on' ? 's' : '') . '://' . $_SERVER['SERVER_NAME'];
-} else
-{
+} else {
     $urlattuale = 'http://' . $_SERVER['SERVER_NAME'];
 }
 
-if ($urlattuale == substr($urlorigine, 0, strlen($urlattuale)))
-{
+if ($urlattuale == substr($urlorigine, 0, strlen($urlattuale))) {
     $origineok = true;
 }
 
 
 //VERIFICO CHE LA SESSIONE NON SIA SCADUTA
-if (isset($_SESSION['prefisso']))
-{
-    
+if (isset($_SESSION['prefisso'])) {
+
     require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
     require_once '../lib/funzioni.php';
-} else
-{
-   
+} else {
+
     print "<br><br><b><big><center>Sessione scaduta!</center></big></b>";
     print "<br><b><big><center>Rieffettuare il <a href='../'>login</a>.</center></big></b>";
     die;
 }
 
 // VERIFICO CHE NON SIA RICHIESTO IL TOKEN
-if (!$_SESSION['tokenok'])
-{
+if (!$_SESSION['tokenok']) {
     header("location: login.php?suffisso=" . $_SESSION['suffisso']);
 }
 //print "PAR ".$_SESSION['annoscol'];
@@ -65,8 +59,6 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
 $json = leggeFileJSON('../lampschool.json');
 $_SESSION['versione'] = $json['versione'];
-
-
 
 //$_SESSION['giustifica_ritardi'] = $_SESSION['giustifica_ritardi'];
 // AZZERO LA SESIONE DEL REGISTRO
@@ -83,14 +75,12 @@ $ultimoaccesso = "";
 //Connessione al server SQL
 
 
-if (!$con)
-{
+if (!$con) {
     die("<h1> Connessione al server fallita </h1>");
 }
 $JSdisab = is_stringa_html('js_enabled') ? stringa_html('js_enabled') : '0';
 
-if ($JSdisab == 1)
-{
+if ($JSdisab == 1) {
     die("<center><b>Attenzione! Abilitare Java Script per utilizzare LAMPSchool!</b></center>");
 }
 
@@ -104,10 +94,8 @@ $cambiamentopassword = false;
 // passwordok=verifica_password($)
 // TTTT
 
-if ($_SESSION['tipoutente'] != 'E')
-{
-    if (!$_SESSION['accessouniversale'])
-    {
+if ($_SESSION['tipoutente'] != 'E') {
+    if (!$_SESSION['accessouniversale']) {
         $sql = "SELECT unix_timestamp(ultimamodifica) AS ultmod FROM " . $_SESSION['prefisso'] . "tbl_utenti WHERE userid='" . $_SESSION['userid'] . "'";
         $data = mysqli_fetch_array(eseguiQuery($con, $sql, false));
         $dataultimamodifica = $data['ultmod'];
@@ -116,15 +104,13 @@ if ($_SESSION['tipoutente'] != 'E')
         // print "Differenza: $giornidiff";
 
         $cambiamentopassword = false;
-        if (($giornidiff > $_SESSION['maxgiornipass']) & ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'P' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'A'))
-        {
+        if (($giornidiff > $_SESSION['maxgiornipass']) & ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'P' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'A')) {
             $cambiamentopassword = true;
         }
     }
 }
 
-if ($_SESSION['tipoutente'] == "S" | $_SESSION['tipoutente'] == "D")
-{
+if ($_SESSION['tipoutente'] == "S" | $_SESSION['tipoutente'] == "D") {
     $sost = $_SESSION['cattsost'];
     $norm = $_SESSION['cattnorm'];
 }
@@ -140,8 +126,7 @@ $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sess
 $idutente = $_SESSION["idutente"];
 $idesterno = "";
 
-if ($tipoutente == "" || !$origineok)
-{
+if ($tipoutente == "" || !$origineok) {
     header("location: login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -157,18 +142,14 @@ $script = $script . "}\n";
 $script = $script . "</script>\n";
 
 stampa_head($titolo, "", $script, "SDMAPTEL");
-if ($_SESSION['ultimoaccesso'] != "")
-{
+if ($_SESSION['ultimoaccesso'] != "") {
     $ult = " <b>(Ultimo accesso: " . $_SESSION['ultimoaccesso'] . ")</b>";
-} else
-{
+} else {
     $ult = "";
 }
 stampa_testata("MENU PRINCIPALE $ult", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
-
-if ($_SESSION['sitoinmanutenzione'] == "yes" & $_SESSION['tipoutente'] != 'M')
-{
+if ($_SESSION['sitoinmanutenzione'] == "yes" & $_SESSION['tipoutente'] != 'M') {
     print "<br><br><br><center><b>REGISTRO IN MANUTENZIONE!</b></center>";
     stampa_piede();
     die;
@@ -180,12 +161,10 @@ if ($_SESSION['sitoinmanutenzione'] == "yes" & $_SESSION['tipoutente'] != 'M')
 
 
 
-if ($cambiamentopassword)
-{
+if ($cambiamentopassword) {
     print "<br><br><center><b><big>Password scaduta, modificarla!</big></b></center>";
     print "<br><center><a href='../password/cambpwd.php'>Cambia password</a></center>";
-} else
-{
+} else {
     print "<table border=1 width=100%>
 					<tr class='prima'>
 						<td width='33%'><center>MENU</center></td>
@@ -195,9 +174,7 @@ if ($cambiamentopassword)
     print "<td align='center' valign='top'>";
     menu_open();
 
-
-    if ($tipoutente == 'E')
-    {
+    if ($tipoutente == 'E') {
 
         menu_title_begin('ESAMI DI STATO');
         menu_item('../esame3m/esmaterieclasse.php', 'MATERIE ESAME');
@@ -218,8 +195,7 @@ if ($cambiamentopassword)
     }
 //menu_item('../evacuazione/ricannotaz.php', 'EVACUAZIONE');
 
-    if ($tipoutente == 'D')
-    {
+    if ($tipoutente == 'D') {
 
         menu_title_begin('REGISTRO DI CLASSE');
         menu_item('../regclasse/riepgiorno.php', 'VISUALIZZA GIORNATA');
@@ -230,16 +206,14 @@ if ($cambiamentopassword)
         menu_item('../classi/CRUDevacuazione.php', 'NOMINE ALUNNI PER EVACUAZIONI');
         menu_item('../evacuazione/evacuazione.php', 'MODULO EVACUAZIONE');
         // menu_item("../assemblee/assdoc.php?iddocente=$idutente", 'ASSEMBLEE DI CLASSE');
-        if ($_SESSION['livello_scuola'] == '4')
-        {
+        if ($_SESSION['livello_scuola'] == '4') {
             menu_item("../assemblee/assdoc.php", 'ASSEMBLEE DI CLASSE');
         }
         //menu_item('../evacuazione/ricannotaz.php', 'EVACUAZIONE');
         menu_title_end();
         menu_title_begin('ASSENZE');
         // menu_item('../assenze/ass.php', 'ASSENZE');
-        if ($_SESSION['gestcentrautorizz'] == 'no')
-        {
+        if ($_SESSION['gestcentrautorizz'] == 'no') {
             //  menu_item('../assenze/rit.php', 'RITARDI');
             //  menu_item('../assenze/usc.php', 'USCITE ANTICIPATE');
         }
@@ -273,10 +247,8 @@ if ($cambiamentopassword)
         menu_item('../note/noteindmul.php', 'NOTE INDIVIDUALI');
         menu_item('../note/ricnoteind.php', 'RICERCA NOTE INDIVIDUALI');
 
-
         menu_title_end();
         menu_title_begin('OSSERVAZIONI E DIARIO DI CLASSE');
-
 
         menu_item('../valutazioni/osssist.php', 'OSSERVAZIONI SISTEMATICHE');
         menu_item('../valutazioni/ricosssist.php', 'RICERCA OSSERV. SIST.');
@@ -284,8 +256,7 @@ if ($cambiamentopassword)
         menu_item('../valutazioni/diariocl.php', 'DIARIO DI CLASSE');
         menu_item('../valutazioni/ricdiariocl.php', 'RICERCA SU DIARIO DI CLASSE');
         menu_item('../valutazioni/stampadiariocl.php', 'STAMPA DIARIO DI CLASSE');
-        if ($sost)
-        {
+        if ($sost) {
             menu_item('../valutazioni/osssistcert.php', 'OSSERVAZIONI SISTEMATICHE AL. CERT.');
             menu_item('../valutazioni/ricosssistcert.php', 'RICERCA OSSERV. SIST. AL. CERT.');
             menu_item('../valutazioni/stampaosssistcert.php', 'STAMPA OSSERV. SIST. AL. CERT.');
@@ -297,21 +268,18 @@ if ($cambiamentopassword)
         menu_item('../valutazionecomportamento/valcomp.php', 'VOTO COMPORTAMENTO');
         menu_item('../valutazionecomportamento/sitvalcompalu.php', 'SITUAZIONE VOTI COMPORTAMENTO');
         menu_item('../obiettivi/obproposte.php', 'PROPOSTE VALUTAZIONI PER ALUNNI');
-       
+
         menu_title_end();
-        if ($_SESSION['livello_scuola'] != 4)
-        {
+        if ($_SESSION['livello_scuola'] != 4) {
             menu_title_begin('CERTIFICAZIONE COMPETENZE');
-             menu_item('../obiettivi/CRUDobiettivi.php', 'GESTIONE OBIETTIVI MATERIE/CLASSE');
+            menu_item('../obiettivi/CRUDobiettivi.php', 'GESTIONE OBIETTIVI MATERIE/CLASSE');
             menu_item('../obiettivi/scrutobiettiviintermedio.php', 'SCRUTINIO OBIETTIVI');
-            
 
             menu_title_end();
         }
 
 
-        if (estrai_docente_coordinatore($idutente, $con))
-        {
+        if (estrai_docente_coordinatore($idutente, $con)) {
             menu_title_begin('FUNZIONI COORDINATORE');
 
             menu_item('../valutazioni/riepvoticlasse.php', 'SITUAZIONE VOTI MEDI PER CLASSE');
@@ -326,12 +294,10 @@ if ($cambiamentopassword)
             menu_item('../assenze/visderoghe.php', 'SITUAZIONE DEROGHE ASSENZE');
             menu_item('../scrutini/riepvoti.php', 'TABELLONE SCRUTINI INTERMEDI');
             menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
-            if ($_SESSION['livello_scuola'] == '4')
-            {
+            if ($_SESSION['livello_scuola'] == '4') {
                 menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
             }
-            if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2')
-            {
+            if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2') {
                 menu_item('../consorientativo/cotabellone.php?tipoaccesso=coordinatore', 'CONSIGLI ORIENTATIVI');
             }
             menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
@@ -340,8 +306,7 @@ if ($cambiamentopassword)
             menu_title_end();
         }
 
-        if ($norm & $_SESSION['valutazionepercompetenze'] == 'yes')
-        {
+        if ($norm & $_SESSION['valutazionepercompetenze'] == 'yes') {
             menu_title_begin('VALUTAZIONE COMPETENZE');
             menu_item('../valutazioni/valabilcono.php', 'VERIFICHE');
             menu_item('../valutazioni/valaluabilcono.php?modo=norm', 'VALUTAZIONI ALUNNO');
@@ -351,8 +316,7 @@ if ($cambiamentopassword)
             menu_title_end();
         }
 
-        if ($norm & $_SESSION['valutazionepercompetenze'] == 'yes')
-        {
+        if ($norm & $_SESSION['valutazionepercompetenze'] == 'yes') {
             menu_title_begin('PROGRAMMAZIONE');
             menu_item('../programmazione/compdo.php', 'GEST. COMPETENZE');
             menu_item('../programmazione/abcodo.php', 'GEST. ABIL./CONO');
@@ -380,9 +344,7 @@ if ($cambiamentopassword)
 
         menu_title_end();
 
-
-        if ($sost)
-        {
+        if ($sost) {
             menu_separator("SOSTEGNO");
 
             menu_title_begin('LEZIONI');
@@ -413,8 +375,7 @@ if ($cambiamentopassword)
             menu_title_end();
         }
         menu_separator("&nbsp;");
-        if ($_SESSION['tokenservizimoodle'] != "" & docente_gestore_moodle($idutente, $con))
-        {
+        if ($_SESSION['tokenservizimoodle'] != "" & docente_gestore_moodle($idutente, $con)) {
             menu_title_begin('GESTIONE MOODLE');
             menu_item('../moodle/esporta_moodle.php', 'ESPORTA DATI PER MOODLE');
             menu_item('../moodle/creacorsimoodle.php', 'CREA E SINCRONIZZA CORSI MOODLE');
@@ -445,8 +406,7 @@ if ($cambiamentopassword)
         menu_title_end();
     }
 
-    if ($tipoutente == 'S')
-    {
+    if ($tipoutente == 'S') {
         menu_title_begin('REGISTRO DI CLASSE');
         menu_item('../regclasse/riepgiorno.php', 'VISUALIZZA GIORNATA');
         menu_item('../regclasse/riepsett.php', 'VISUALIZZA SETTIMANA');
@@ -484,7 +444,6 @@ if ($cambiamentopassword)
         menu_item('../rp/selealunnitimbraturaforzata.php', 'FORZA TIMBRATURE');
         menu_item('../rp/elencotimbratureforzate.php', 'REPORT FORZATURE');
 
-
         menu_separator("");
         menu_item('../assenze/visgiustifiche.php', 'ELIMINA GIUSTIFICHE');
         menu_item('../assenze/deroghe.php', 'DEROGHE ASSENZE');
@@ -510,7 +469,6 @@ if ($cambiamentopassword)
             menu_item('../lezioni/riepargomcert.php?modo=norm', 'RIEPILOGO ARGOMENTI SOSTEGNO');
         menu_title_end();
 
-
         menu_title_begin('NOTE DISCIPLINARI');
         menu_item('../note/notecl.php', 'NOTE DI CLASSE');
         menu_item('../note/ricnotecl.php', 'RICERCA NOTE DI CLASSE');
@@ -519,8 +477,7 @@ if ($cambiamentopassword)
         menu_item('../note/stampanote.php', 'STAMPA NOTE PER CLASSE');
 
         menu_title_end();
-        if ($_SESSION['livello_scuola'] == '4')
-        {
+        if ($_SESSION['livello_scuola'] == '4') {
             menu_title_begin('ASSEMBLEE DI CLASSE');
             // menu_item("../assemblee/assdoc.php?iddocente=$idutente", 'CONCESSIONE');
             // menu_item("../assemblee/assstaff.php?iddocente=$idutente", 'AUTORIZZAZIONE');
@@ -541,15 +498,13 @@ if ($cambiamentopassword)
         menu_item('../valutazioni/diariocl.php', 'DIARIO DI CLASSE');
         menu_item('../valutazioni/ricdiariocl.php', 'RICERCA SU DIARIO DI CLASSE');
         menu_item('../valutazioni/stampadiariocl.php', 'STAMPA DIARIO DI CLASSE');
-        if ($sost)
-        {
+        if ($sost) {
             menu_item('../valutazioni/osssistcert.php', 'OSSERVAZIONI SISTEMATICHE AL. CERT.');
             menu_item('../valutazioni/ricosssistcert.php', 'RICERCA OSSERV. SIST. AL. CERT.');
             menu_item('../valutazioni/stampaosssistcert.php', 'STAMPA OSSERV. SIST. AL. CERT.');
         }
         menu_title_end();
-        if (estrai_docente_coordinatore($idutente, $con))
-        {
+        if (estrai_docente_coordinatore($idutente, $con)) {
             menu_title_begin('FUNZIONI COORDINATORE');
 
             menu_item('../valutazioni/riepvoticlasse.php', 'SITUAZIONE VOTI MEDI PER CLASSE');
@@ -558,12 +513,10 @@ if ($cambiamentopassword)
             menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
             menu_item('../assenze/sitassmate.php', 'SITUAZIONI ASSENZE PER MATERIA');
             menu_item('../alunni/CRUD_autorizzazioni.php?soloclasse=yes', 'Gestione autorizzazioni ad uscita anticipata con classe');
-            if ($_SESSION['livello_scuola'] == '4')
-            {
+            if ($_SESSION['livello_scuola'] == '4') {
                 menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
             }
-            if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2')
-            {
+            if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2') {
                 menu_item('../consorientativo/cotabellone.php?tipoaccesso=coordinatore', 'CONSIGLI ORIENTATIVI');
             }
             menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
@@ -575,22 +528,19 @@ if ($cambiamentopassword)
         menu_title_begin('SCRUTINI');
         menu_item('../scrutini/riepvoti.php', 'TABELLONE SCRUTINI INTERMEDI');
         menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
-        if ($_SESSION['livello_scuola'] == '4')
-        {
+        if ($_SESSION['livello_scuola'] == '4') {
             menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
         }
         menu_item('../scrutini/sitscrutini.php', 'SITUAZIONE SCRUTINI');
         menu_item('../scrutini/schedaalu.php', 'SCRUTINIO INTERMEDIO ALUNNO');
         menu_item('../scrutini/schedafinalealu.php', 'SCRUTINIO FINALE ALUNNO');
-         menu_item('../obiettivi/obvalutazioni.php', 'SCRUTINIO OBIETTIVI APPRENDIMENTO');
+        menu_item('../obiettivi/obvalutazioni.php', 'SCRUTINIO OBIETTIVI APPRENDIMENTO');
         menu_item('../obiettivi/obstampaschede.php', 'STAMPA SCHEDE OBIETTIVI APPRENDIMENTO');
         menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
-        if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2')
-        {
+        if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2') {
             menu_item('../consorientativo/cotabellone.php', 'CONSIGLI ORIENTATIVI');
         }
         menu_title_end();
-
 
         menu_title_begin('VOTI');
         //menu_item('../valutazioni/val.php', 'INSERIMENTO');
@@ -600,24 +550,22 @@ if ($cambiamentopassword)
         menu_item('../valutazionecomportamento/valcomp.php', 'VOTO COMPORTAMENTO');
         menu_item('../valutazionecomportamento/sitvalcompalu.php', 'SITUAZIONE VOTI COMPORTAMENTO');
         menu_item('../obiettivi/obproposte.php', 'PROPOSTE VALUTAZIONI PER ALUNNI');
-        
+
         menu_title_end();
 
-        if ($_SESSION['livello_scuola'] != 4)
-        {
+        if ($_SESSION['livello_scuola'] != 4) {
             menu_title_begin('CERTIFICAZIONE COMPETENZE');
 
-             menu_item('../obiettivi/CRUDobiettivi.php', 'GESTIONE OBIETTIVI MATERIE/CLASSE');
+            menu_item('../obiettivi/CRUDobiettivi.php', 'GESTIONE OBIETTIVI MATERIE/CLASSE');
             menu_item('../certcomp/ccproposte.php', 'PROPOSTE PER ALUNNI');
-           
+
             //menu_item('../certcomp/ccvalutazioni.php', 'CERTIFICAZIONE ALUNNI');
             menu_item('../certcomp/cctabellone.php', 'TABELLONE CLASSE');
 
             menu_title_end();
         }
 
-        if ($norm & $_SESSION['valutazionepercompetenze'] == 'yes')
-        {
+        if ($norm & $_SESSION['valutazionepercompetenze'] == 'yes') {
             menu_title_begin('VALUTAZIONE COMPETENZE');
             menu_item('../valutazioni/valabilcono.php', 'VERIFICHE');
             menu_item('../valutazioni/valaluabilcono.php?modo=norm', 'VALUTAZIONI ALUNNO');
@@ -626,8 +574,7 @@ if ($cambiamentopassword)
             menu_title_end();
         }
 
-        if ($norm & $_SESSION['valutazionepercompetenze'] == 'yes')
-        {
+        if ($norm & $_SESSION['valutazionepercompetenze'] == 'yes') {
             menu_title_begin('PROGRAMMAZIONE');
             menu_item('../programmazione/compdo.php', 'GEST. COMPETENZE');
             menu_item('../programmazione/abcodo.php', 'GEST. ABIL./CONO');
@@ -676,8 +623,7 @@ if ($cambiamentopassword)
 
         menu_title_end();
 
-        if ($_SESSION['tokenservizimoodle'] != "" & docente_gestore_moodle($idutente, $con))
-        {
+        if ($_SESSION['tokenservizimoodle'] != "" & docente_gestore_moodle($idutente, $con)) {
             menu_title_begin('GESTIONE MOODLE');
             menu_item('../moodle/esporta_moodle.php', 'ESPORTA DATI PER MOODLE');
             menu_item('../moodle/creacorsimoodle.php', 'CREA E SINCRONIZZA CORSI MOODLE');
@@ -700,8 +646,7 @@ if ($cambiamentopassword)
         menu_item('../contr/sitorelezione.php', 'VISUALIZZA ORE LEZIONE');
         menu_title_end();
 
-        if ($sost)
-        {
+        if ($sost) {
             menu_separator("SOSTEGNO");
 
             menu_title_begin('LEZIONI');
@@ -791,8 +736,7 @@ if ($cambiamentopassword)
     }
 
 
-    if ($tipoutente == 'P')
-    {   // Presidenza
+    if ($tipoutente == 'P') {   // Presidenza
         menu_title_begin('REGISTRO DI CLASSE');
         menu_item('../regclasse/riepgiorno.php', 'VISUALIZZA GIORNO');
         menu_item('../regclasse/riepsett.php', 'VISUALIZZA SETTIMANA');
@@ -800,8 +744,7 @@ if ($cambiamentopassword)
         menu_item('../regclasse/ricannotaz.php', 'RICERCA ANNOTAZIONI');
         menu_item('../regclasse/CRUDannotazioni.php?mod=1&can=1&ins=1', 'GESTIONE ANNOTAZIONI');
         menu_item('../regclasse/stamparegiclasse.php', 'STAMPA REGISTRI DI CLASSE');
-        if ($_SESSION['maxgiorniritardolez'] < 300)
-        {
+        if ($_SESSION['maxgiorniritardolez'] < 300) {
             menu_separator("");
             menu_item('../contr/derogainserimento.php', 'DEROGA A LIMITE INSERIMENTO');
             menu_item('../contr/cambiautente.php', 'ASSUMI ALIAS ALTRO UTENTE');
@@ -828,19 +771,15 @@ if ($cambiamentopassword)
         menu_item('../rp/autorizzaritardo.php', 'AUTORIZZA ENTRATA IN RITARDO');
         menu_item('../rp/elencotimbratureforzate.php', 'REPORT FORZATURE');
 
-
-
         menu_separator("");
         menu_item('../assenze/deroghe.php', 'DEROGHE ASSENZE');
         menu_item('../assenze/visderoghe.php', 'SITUAZIONE DEROGHE ASSENZE');
-
 
         // menu_item('../assenze/ricalcolaoreritardo.php', 'RICALCOLA RITARDI');
         // menu_item('../assenze/ricalcolaoreuscita.php', 'RICALCOLA USCITE ANTICIPATE');
         // menu_item('../assenze/ricalcolaassenze.php', 'RICALCOLA ASSENZE LEZIONI');
         menu_title_end();
-        if ($_SESSION['livello_scuola'] == '4')
-        {
+        if ($_SESSION['livello_scuola'] == '4') {
             menu_title_begin('ASSEMBLEE DI CLASSE');
             // menu_item("../assemblee/assdoc.php?iddocente=$idutente", 'CONCESSIONE');
             // menu_item("../assemblee/assstaff.php?iddocente=$idutente", 'AUTORIZZAZIONE');
@@ -877,23 +816,20 @@ if ($cambiamentopassword)
         menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
         menu_item('../scrutini/sitscrutini.php', 'SITUAZIONE SCRUTINI');
         menu_item('../scrutini/schedaalu.php', 'SCHEDA INTERMEDIA ALUNNO');
-        if ($_SESSION['livello_scuola'] == '4')
-        {
+        if ($_SESSION['livello_scuola'] == '4') {
             menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
         }
         menu_item('../scrutini/schedafinalealu.php', 'SCRUTINIO FINALE ALUNNO');
         menu_item('../obiettivi/obvalutazioni.php', 'SCRUTINIO OBIETTIVI APPRENDIMENTO');
         menu_item('../obiettivi/obstampaschede.php', 'STAMPA SCHEDE OBIETTIVI APPRENDIMENTO');
         menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
-        if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2')
-        {
+        if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2') {
             menu_item('../consorientativo/cotabellone.php', 'CONSIGLI ORIENTATIVI');
         }
-       
+
         menu_title_end();
 
-        if ($_SESSION['livello_scuola'] != 4)
-        {
+        if ($_SESSION['livello_scuola'] != 4) {
             menu_title_begin('CERTIFICAZIONE COMPETENZE');
             menu_item('../obiettivi/scrutobiettiviintermedio.php', 'SCRUTINIO OBIETTIVI');
             //menu_item('../certcomp/ccvalutazioni.php', 'CERTIFICAZIONE ALUNNI');
@@ -967,7 +903,6 @@ if ($cambiamentopassword)
         menu_item('../contr/cambiautente.php', 'ASSUMI ALIAS ALTRO UTENTE');
         menu_item('../contr/derogainserimento.php', 'DEROGA A LIMITE INSERIMENTO');
 
-
         menu_title_end();
 
         menu_title_begin('AVVISI, CIRCOLARI ED SMS');
@@ -981,8 +916,6 @@ if ($cambiamentopassword)
         menu_item('../sms/vis_sospinviosms.php', 'SOSPENSIONI INVIO AUTOMATICO SMS');
         menu_item('../collegamenti/collegamentiweb.php', 'PREPARAZIONE COLLEGAMENTI WEB');
         menu_title_end();
-
-
 
         menu_title_begin('PERMESSI DOCENTI');
 
@@ -1011,8 +944,7 @@ if ($cambiamentopassword)
         menu_title_end();
     }
 
-    if ($tipoutente == 'M')
-    {  // Amministratore
+    if ($tipoutente == 'M') {  // Amministratore
         // inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Inizio menu");
         menu_separator("STRUMENTI DI AMMINISTRAZIONE");
         menu_title_begin('DATI E CONFIGURAZIONE');
@@ -1076,14 +1008,11 @@ if ($cambiamentopassword)
 
         menu_title_end();
 
-
         menu_title_begin('TABELLE');
-        if ($_SESSION['plesso_specializzazione'] == "Specializzazione")
-        {
+        if ($_SESSION['plesso_specializzazione'] == "Specializzazione") {
             menu_item('../classi/CRUDspecializzazioni.php', 'SPECIALIZZAZIONI');
         }
-        if ($_SESSION['plesso_specializzazione'] == "Plesso")
-        {
+        if ($_SESSION['plesso_specializzazione'] == "Plesso") {
             menu_item('../classi/CRUDspecializzazioni.php', 'PLESSI');
         }
         menu_item('../classi/CRUDsezioni.php', 'SEZIONI');
@@ -1130,8 +1059,7 @@ if ($cambiamentopassword)
         menu_item('../sms/seleinviosmsvari.php', 'SMS VARI');
         menu_item('../sms/seleinviosmsdoc.php', 'SMS DOCENTI');
         menu_title_end();
-        if ($_SESSION['tokenservizimoodle'] != "")
-        {
+        if ($_SESSION['tokenservizimoodle'] != "") {
             menu_title_begin('GESTIONE MOODLE');
             menu_item('../moodle/esporta_moodle.php', 'ESPORTA DATI PER MOODLE');
             menu_item('../moodle/testcollegamentomoodle.php', 'TEST COLLEGAMENTO MOODLE');
@@ -1161,14 +1089,12 @@ if ($cambiamentopassword)
         menu_item('../contr/test.php', 'TEST ');
         menu_title_end();
 
-
         menu_title_begin('ASSENZE');
         menu_item('../assenze/forzaassenzapertutti.php', 'FORZA ASSENZE PER TUTTI! (Da usare in caso di mancate timbrature)');
         menu_title_end();
     }
 
-    if ($tipoutente == 'A')
-    {  // Amministrativo
+    if ($tipoutente == 'A') {  // Amministrativo
         menu_title_begin('ANAGRAFICHE');
         menu_item('../alunni/vis_alu_cla.php', 'ALUNNI');
         // menu_item('../alunni/carica_anagrafe_sidi.php', 'Carica alunni da file SIDI');
@@ -1185,9 +1111,6 @@ if ($cambiamentopassword)
         menu_item('../sms/seleinviosmsvari.php', 'SMS VARI');
         menu_title_end();
 
-
-
-
         menu_title_begin('PASSWORD');
         menu_item('../password/rigenera_password.php', 'Rigenera e stampa password tutor');
         if ($_SESSION['gestioneutentialunni'] == 'yes')
@@ -1200,12 +1123,10 @@ if ($cambiamentopassword)
         menu_title_end();
 
         menu_title_begin('TABELLE');
-        if ($_SESSION['plesso_specializzazione'] == "Specializzazione")
-        {
+        if ($_SESSION['plesso_specializzazione'] == "Specializzazione") {
             menu_item('../classi/CRUDspecializzazioni.php', 'SPECIALIZZAZIONI');
         }
-        if ($_SESSION['plesso_specializzazione'] == "Plesso")
-        {
+        if ($_SESSION['plesso_specializzazione'] == "Plesso") {
             menu_item('../classi/CRUDspecializzazioni.php', 'PLESSI');
         }
         menu_item('../classi/CRUDsezioni.php', 'SEZIONI');
@@ -1234,20 +1155,17 @@ if ($cambiamentopassword)
         menu_title_begin('SCRUTINI');
         menu_item('../scrutini/riepvoti.php', 'SCRUTINI INTERMEDI');
         menu_item('../scrutini/riepvotifinali.php', 'SCRUTINI FINALI');
-       // menu_item('../obiettivi/obstampaschede.php', 'STAMPA SCHEDE VALUTAZIONE OBIETTIVI DI APPRENDIMENTO');
-        if ($_SESSION['livello_scuola'] == '4')
-        {
+        // menu_item('../obiettivi/obstampaschede.php', 'STAMPA SCHEDE VALUTAZIONE OBIETTIVI DI APPRENDIMENTO');
+        if ($_SESSION['livello_scuola'] == '4') {
             menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
         }
         menu_item('../scrutini/schedaalu.php', 'SCRUTINIO INTERMEDIO ALUNNO');
         menu_item('../scrutini/schedafinalealu.php', 'SCRUTINIO FINALE ALUNNO');
-        if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2')
-        {
+        if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2') {
             menu_item('../consorientativo/cotabellone.php', 'CONSIGLI ORIENTATIVI');
         }
         menu_title_end();
-        if ($_SESSION['livello_scuola'] != 4)
-        {
+        if ($_SESSION['livello_scuola'] != 4) {
             menu_title_begin('CERTIFICAZIONE COMPETENZE');
             menu_item('../certcomp/cctabellone.php', 'STAMPA CERTIFICATI');
             menu_title_end();
@@ -1283,22 +1201,19 @@ if ($cambiamentopassword)
 
     // print "Solo comunicazioni $_SESSION['gensolocomunicazioni']";
 
-    if ($tipoutente == 'T' & $_SESSION['gensolocomunicazioni'] == 'no')
-    {
+    if ($tipoutente == 'T' & $_SESSION['gensolocomunicazioni'] == 'no') {
 
         //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
         $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . $_SESSION['idutente'] . "'";
         $ris = eseguiQuery($con, $sql);
-        if ($val = mysqli_fetch_array($ris))
-        {
+        if ($val = mysqli_fetch_array($ris)) {
             $idstudente = $val["idalunno"];
         }
 
 
         $sql = "select * from tbl_alunni where idalunno='$idstudente'";
         $ris = eseguiQuery($con, $sql);
-        if ($val = mysqli_fetch_array($ris))
-        {
+        if ($val = mysqli_fetch_array($ris)) {
             $cognome = $val["cognome"];
             $nome = $val["nome"];
             $idstudente = $val["idalunno"];
@@ -1316,24 +1231,19 @@ if ($cambiamentopassword)
             if ($_SESSION['assenzegenitori'] == "yes")
                 menu_item('../assenze/sitassalut.php', 'ASSENZE');
             menu_title_end();
-            if ($_SESSION['argomentigenitori'] == "yes")
-            {
+            if ($_SESSION['argomentigenitori'] == "yes") {
                 menu_title_begin("ARGOMENTI LEZIONI");
                 menu_item('../lezioni/riepargomgen.php', 'VISUALIZZA ARGOMENTI per materia');
                 menu_item('../lezioni/riepargomgendata.php', 'VISUALIZZA ARGOMENTI per data');
                 menu_title_end();
             }
-            if ($_SESSION['visualizzapagelle'] == 'yes')
-            {
+            if ($_SESSION['visualizzapagelle'] == 'yes') {
                 menu_title_begin("PAGELLE");
-                if ($_SESSION['numeroperiodi'] == 2)
-                {
+                if ($_SESSION['numeroperiodi'] == 2) {
                     menu_item('../valutazioni/vispagper.php?periodo=Primo', 'Pagella primo quadrimestre');
                     menu_item('../valutazioni/vispagfin.php', 'PAGELLA FINALE');
-                } else
-                {
-                    if ($_SESSION['numeroperiodi'] == 3)
-                    {
+                } else {
+                    if ($_SESSION['numeroperiodi'] == 3) {
                         menu_item('../valutazioni/vispagper.php?periodo=Primo', 'Pagella primo trimestre');
                         menu_item('../valutazioni/vispagper.php?periodo=Secondo', 'Pagella secondo trimestre');
                         menu_item('../valutazioni/vispagfin.php', 'PAGELLA FINALE');
@@ -1343,49 +1253,43 @@ if ($cambiamentopassword)
             }
             menu_title_begin('COLLOQUI');
             menu_item("../colloqui/visdisponibilita.php?idclasse=$idclasse", 'PRENOTAZIONE COLLOQUIO MATTUTINO');
-            
+
             menu_item("../colloqui/prenotazionecolloqui.php", 'PRENOTAZIONE COLLOQUI POMERIDIANI');
             menu_item("../colloqui/riepilogocolloqui.php", 'RIEPILOGO APPUNTAMENTI COLLOQUI POMERIDIANI');
-            
+
             menu_title_end();
             menu_title_begin('COMUNICAZIONI SCUOLA-FAMIGLIA');
             if ($_SESSION['utentesms'] != '')
                 menu_item('../assenze/giustassonline.php', 'GIUSTIFICA ASSENZE');
             menu_item('../circolari/viscircolari.php', 'LEGGI CIRCOLARI');
             menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');
-            if (!strpos($telcel, ","))
-            {
-                if ($_SESSION['agg_dati_genitori'] == 'yes')
-                {
+            if (!strpos($telcel, ",")) {
+                if ($_SESSION['agg_dati_genitori'] == 'yes') {
                     menu_item("../alunni/mod_contatto.php", 'AGGIORNA DATI DI CONTATTO');
                 }
+            }
+            menu_title_end();
+            if (!$_SESSION['dischpwd']) {
+                menu_title_begin('PASSWORD');
+                menu_item('../password/cambpwd.php', 'CAMBIAMENTO PROPRIA PASSWORD');
                 menu_title_end();
-                if (!$_SESSION['dischpwd'])
-                {
-                    menu_title_begin('PASSWORD');
-                    menu_item('../password/cambpwd.php', 'CAMBIAMENTO PROPRIA PASSWORD');
-                    menu_title_end();
-                }
             }
         }
     }
 
-    if ($tipoutente == 'T' & $_SESSION['gensolocomunicazioni'] == 'yes')
-    {
+    if ($tipoutente == 'T' & $_SESSION['gensolocomunicazioni'] == 'yes') {
 
         //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
         $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . $_SESSION['idutente'] . "'";
         $ris = eseguiQuery($con, $sql);
-        if ($val = mysqli_fetch_array($ris))
-        {
+        if ($val = mysqli_fetch_array($ris)) {
             $idstudente = $val["idalunno"];
         }
 
 
         $sql = "select * from tbl_alunni where idalunno='$idstudente'";
         $ris = eseguiQuery($con, $sql);
-        if ($val = mysqli_fetch_array($ris))
-        {
+        if ($val = mysqli_fetch_array($ris)) {
             $cognome = $val["cognome"];
             $nome = $val["nome"];
             $idstudente = $val["idalunno"];
@@ -1393,7 +1297,6 @@ if ($cambiamentopassword)
             $idesterno = $val["idesterno"];
             $pwesterna = $val["pwesterna"];
             $telcel = $val["telcel"];
-
 
             menu_title_begin('COMUNICAZIONI SCUOLA-FAMIGLIA');
 
@@ -1405,22 +1308,19 @@ if ($cambiamentopassword)
     }
 
 
-    if ($tipoutente == 'L')
-    {
+    if ($tipoutente == 'L') {
 
         //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
         $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . ($_SESSION['idutente'] - 2100000000) . "'";
         $ris = eseguiQuery($con, $sql);
-        if ($val = mysqli_fetch_array($ris))
-        {
+        if ($val = mysqli_fetch_array($ris)) {
             $idstudente = $val["idalunno"];
         }
 
 
         $sql = "select * from tbl_alunni where idalunno='$idstudente'";
         $ris = eseguiQuery($con, $sql);
-        if ($val = mysqli_fetch_array($ris))
-        {
+        if ($val = mysqli_fetch_array($ris)) {
             $cognome = $val["cognome"];
             $nome = $val["nome"];
             $idstudente = $val["idalunno"];
@@ -1438,8 +1338,7 @@ if ($cambiamentopassword)
             menu_title_end();
 
             // VERIFICO SE L'ALUNNO E' UN RAPPRESENTANTE DI CLASSE
-            if ($_SESSION['livello_scuola'] == '4')
-            {
+            if ($_SESSION['livello_scuola'] == '4') {
                 // $query = "select * from tbl_classi where rappresentante1=$idstudente or rappresentante2=$idstudente";
                 // $riscontr = eseguiQuery($con,$query);
                 // if (mysqli_num_rows($riscontr) != 0)
@@ -1449,8 +1348,7 @@ if ($cambiamentopassword)
                 menu_title_end();
                 //}
             }
-            if ($_SESSION['argomentigenitori'] == "yes")
-            {
+            if ($_SESSION['argomentigenitori'] == "yes") {
                 menu_title_begin("ARGOMENTI LEZIONI");
                 menu_item('../lezioni/riepargomgen.php', 'VISUALIZZA ARGOMENTI per materia');
                 menu_item('../lezioni/riepargomgendata.php', 'VISUALIZZA ARGOMENTI per data');
@@ -1482,40 +1380,33 @@ if ($cambiamentopassword)
 
 
 
-    if ($tipoutente == 'D' | $tipoutente == 'S' | $tipoutente == 'T' | $tipoutente == 'A' | $tipoutente == 'E' | $tipoutente == 'L')
-    {
+    if ($tipoutente == 'D' | $tipoutente == 'S' | $tipoutente == 'T' | $tipoutente == 'A' | $tipoutente == 'E' | $tipoutente == 'L') {
 
         $dataoggi = date('Y-m-d');
-
 
         print ("<td valign=top>");
 
         //VERIFICO PRESENZA ASSEMBLEE DI CLASSE DA AUTORIZZARE
-        if ($_SESSION['livello_scuola'] == '4')
-        {
-            if ($tipoutente == 'S' | $tipoutente == 'P')
-            {
+        if ($_SESSION['livello_scuola'] == '4') {
+            if ($tipoutente == 'S' | $tipoutente == 'P') {
                 $query = "SELECT DISTINCT * FROM tbl_assemblee
 				  WHERE (autorizzato=0) 
 				  AND ((docenteconcedente1!=0 AND concesso1=1) AND (docenteconcedente2=0) OR (docenteconcedente2!=0 AND concesso2=1))";
                 $ris = eseguiQuery($con, $query);
-                if (mysqli_num_rows($ris) > 0)
-                {
+                if (mysqli_num_rows($ris) > 0) {
                     print ("<center><br><i><b><font color='red'><big><big>Ci sono assemblee da autorizzare! <a href='../assemblee/assstaff.php'>Esamina ora!</a></big></big></font></b></i><br/></center>");
                     print ("<br/>");
                 }
             }
 
             //VERIFICO PRESENZA RICHIESTE DI ASSEMBLEE DI CLASSE
-            if ($tipoutente == 'D' | $tipoutente == 'S')
-            {
+            if ($tipoutente == 'D' | $tipoutente == 'S') {
                 $query = "SELECT * FROM tbl_assemblee 
 		  WHERE ((docenteconcedente1=$idutente AND concesso1=0)
                         OR (docenteconcedente2=$idutente AND concesso2=0))
                         AND (rappresentante1<>0 and rappresentante2<>0)";
                 $ris = eseguiQuery($con, $query);
-                if (mysqli_num_rows($ris) > 0)
-                {
+                if (mysqli_num_rows($ris) > 0) {
                     print ("<center><br><i><b><font color='red'><big><big>Ci sono richieste di assemblee da visionare! <a href='../assemblee/assdoc.php'>Esamina ora!</a></big></big></font></b></i><br/></center>");
                     print ("<br/>");
                 }
@@ -1533,8 +1424,7 @@ if ($cambiamentopassword)
 							  and datainserimento<='$dataoggi'";
         // print "tttt ".inspref($query);
         $ris = eseguiQuery($con, $query);
-        if (mysqli_num_rows($ris) > 0)
-        {
+        if (mysqli_num_rows($ris) > 0) {
             print ("<center><br><i><b><font color='red'><big><big>Ci sono circolari non lette! <a href='../circolari/viscircolari.php'>Leggi ora!</a></big></big></font></b></i><br/></center>");
             print ("<br/>");
         }
@@ -1543,8 +1433,7 @@ if ($cambiamentopassword)
         // VERIFICO PRESENZA COLLOQUI
         //
 
-        if ($tipoutente == "D" | $tipoutente == "S")
-        {
+        if ($tipoutente == "D" | $tipoutente == "S") {
             $dataoggi = date('Y-m-d');
             $oraattuale = date('H:i');
             //$datadomani=aggiungi_giorni($dataoggi,1);
@@ -1559,11 +1448,9 @@ if ($cambiamentopassword)
 								  and tbl_prenotazioni.valido
 								  and conferma=1";
 
-
             // print "tttt ".inspref($query);
             $ris = eseguiQuery($con, $query);
-            if (mysqli_num_rows($ris) > 0)
-            {
+            if (mysqli_num_rows($ris) > 0) {
 
                 print ("<center><br><i><b><font color='red'>Ci sono prenotazioni per colloqui a cui rispondere! <a href='../colloqui/visrichieste_doc.php'>Rispondi ora!</a></font></b></i><br/></center>");
                 print ("<br/>");
@@ -1582,13 +1469,10 @@ if ($cambiamentopassword)
 								  and conferma in (2,4)";
 
             $ris = eseguiQuery($con, $query);
-            if (mysqli_num_rows($ris) > 0)
-            {
-                while ($rec = mysqli_fetch_array($ris))
-                {
+            if (mysqli_num_rows($ris) > 0) {
+                while ($rec = mysqli_fetch_array($ris)) {
 
-                    if ($rec['data'] > $dataoggi | $oraattuale < substr($rec['fine'], 0, 5))
-                    {
+                    if ($rec['data'] > $dataoggi | $oraattuale < substr($rec['fine'], 0, 5)) {
                         if ($rec['conferma'] == 2)
                             print ("<center><br><i><b><font color='red'>Colloquio con genitore di " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . ". " . $rec['notaprenotazione'] . "</font></b></i><br/></center>");
 
@@ -1600,8 +1484,7 @@ if ($cambiamentopassword)
             }
         }
 
-        if ($tipoutente == "T")
-        {
+        if ($tipoutente == "T") {
             $dataoggi = date('Y-m-d');
             //$datadomani=aggiungi_giorni($dataoggi,1);
             //$datadopodomani=aggiungi_giorni($dataoggi,2);
@@ -1620,13 +1503,10 @@ if ($cambiamentopassword)
 								  and conferma in (2,4)";
 
             $ris = eseguiQuery($con, $query);
-            if (mysqli_num_rows($ris) > 0)
-            {
-                while ($rec = mysqli_fetch_array($ris))
-                {
+            if (mysqli_num_rows($ris) > 0) {
+                while ($rec = mysqli_fetch_array($ris)) {
 
-                    if ($rec['data'] > $dataoggi | $oraattuale < substr($rec['fine'], 0, 5))
-                    {
+                    if ($rec['data'] > $dataoggi | $oraattuale < substr($rec['fine'], 0, 5)) {
                         if ($rec['conferma'] == 2)
                             print ("<center><br><i><b><font color='red'>Colloquio con Prof. " . $rec['cognome'] . " " . $rec['nome'] . " il " . data_italiana($rec['data']) . " or. ricev. " . substr($rec['inizio'], 0, 5) . " - " . substr($rec['fine'], 0, 5) . "<br>" . $rec['notaprenotazione'] . "</a></font></b></i><br/></center>");
                         if ($rec['conferma'] == 4)
@@ -1651,10 +1531,8 @@ if ($cambiamentopassword)
                     order by data";
 
             $ris = eseguiQuery($con, $query);
-            if (mysqli_num_rows($ris) > 0)
-            {
-                while ($rec = mysqli_fetch_array($ris))
-                {
+            if (mysqli_num_rows($ris) > 0) {
+                while ($rec = mysqli_fetch_array($ris)) {
 
 
                     print ("<center><br><i>" . data_italiana($rec['data']) . "</i><b><font color='green'><br> " . $rec['testo'] . " <small>(" . $rec['cognome'] . " " . $rec['nome'] . ")<big></font></b><br/></center>");
@@ -1663,8 +1541,7 @@ if ($cambiamentopassword)
             }
         }
 
-        if ($tipoutente == "L")
-        {
+        if ($tipoutente == "L") {
 
 
             //
@@ -1681,10 +1558,8 @@ if ($cambiamentopassword)
                     order by data";
 
             $ris = eseguiQuery($con, $query);
-            if (mysqli_num_rows($ris) > 0)
-            {
-                while ($rec = mysqli_fetch_array($ris))
-                {
+            if (mysqli_num_rows($ris) > 0) {
+                while ($rec = mysqli_fetch_array($ris)) {
 
 
                     print ("<center><br><i>" . data_italiana($rec['data']) . "</i><b><font color='green'><br> " . $rec['testo'] . " <small>(" . $rec['cognome'] . " " . $rec['nome'] . ")<big></font></b><br/></center>");
@@ -1698,8 +1573,7 @@ if ($cambiamentopassword)
         //
         $query = "select * from tbl_avvisi where inizio<='$dataoggi' and fine>='$dataoggi' and LOCATE('$tipoutente',destinatari)<>0 order by inizio desc";
         $ris = eseguiQuery($con, $query);
-        while ($val = mysqli_fetch_array($ris))
-        {
+        while ($val = mysqli_fetch_array($ris)) {
             $inizio = data_italiana($val["inizio"]);
             $oggetto = $val["oggetto"];
             $testo = inserisci_parametri($val["testo"], $con);   // TTTT Modifica per parametrizzazione messaggi
@@ -1709,12 +1583,10 @@ if ($cambiamentopassword)
         }
 
         print ("</td></tr></table>");
-    } else
-    {  // ADMIN e PRESIDE
+    } else {  // ADMIN e PRESIDE
         $dataoggi = date('Y-m-d');
         print ("<td valign=top>");
-        if ($tipoutente == 'M')
-        {
+        if ($tipoutente == 'M') {
             //
             //  VERIFICO PRESENZA AGGIORNAMENTI
             //
@@ -1747,9 +1619,8 @@ if ($cambiamentopassword)
             $risultato = controlloNuovaVersione();
             $esito = $risultato['esito'];
             $nuovaVersione = $risultato['versione'];
-            
-            if ($esito)
-            {
+
+            if ($esito) {
                 print "<center><h5><font color='red'>E' disponibile sul sito di LAMPSchool la versione $nuovaVersione</font></h5></center>";
             }
 
@@ -1762,8 +1633,7 @@ if ($cambiamentopassword)
         $query = "select * from tbl_avvisi where inizio<='$dataoggi' and fine>='$dataoggi' order by inizio desc";
         $ris = eseguiQuery($con, $query);
         //inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§3");
-        while ($val = mysqli_fetch_array($ris))
-        {
+        while ($val = mysqli_fetch_array($ris)) {
             $inizio = data_italiana($val["inizio"]);
             $oggetto = $val["oggetto"];
             $destinatari = $val["destinatari"];
@@ -1784,42 +1654,36 @@ stampa_piede("");
 
 // Crea il menu'
 
-function menu_open($enable = TRUE)
-{
+function menu_open($enable = TRUE) {
     $enable and print "\n<form id='formMenu' method='POST'>\n<div id='accordion'>";
 }
 
 // Chiude il menu'
 
-function menu_close($enable = TRUE)
-{
+function menu_close($enable = TRUE) {
     $enable and print "</div>\n</form>\n";
 }
 
 // Disegna il titolo contenitore del menu'
 
-function menu_title_begin($label, $enable = TRUE)
-{
+function menu_title_begin($label, $enable = TRUE) {
     $enable and print "\n<h3>$label</h3><div>";
 }
 
 // Chiude il titolo contenitore
 
-function menu_title_end($enable = TRUE)
-{
+function menu_title_end($enable = TRUE) {
     $enable and print "\n</div>";
 }
 
 // Disegna una voce del menu'
 
-function menu_item($url, $label, $enable = TRUE)
-{
+function menu_item($url, $label, $enable = TRUE) {
 
     $enable and print "\n<button onclick=\"setAction('$url');\" class='button'>$label</button>";
 }
 
-function menu_item_new_page($url, $label, $enable = TRUE)
-{
+function menu_item_new_page($url, $label, $enable = TRUE) {
 // $enable and print "\n<button onclick=\"window.open('$url','_self');\" class='button'>$label</button>";
 // permette di cambiare l'attributo action della form
 // la function setAction è definita nella sezione HEAD
@@ -1830,8 +1694,7 @@ function menu_item_new_page($url, $label, $enable = TRUE)
 
 // Disegna una riga vuota nel menu'
 
-function menu_separator($titolo)
-{
+function menu_separator($titolo) {
     // print "\n<p>&nbsp;</p>";
     print "<br>$titolo<br>";
 }
