@@ -1,6 +1,9 @@
 name: Commit stage
 
-on: [ push ]
+on:
+  push:
+  pull_request:
+    branches: [ master ]
 
 env:
   PHP_EXTENSIONS: curl, opcache, mbstring, mysql
