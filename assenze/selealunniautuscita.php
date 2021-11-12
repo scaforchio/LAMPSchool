@@ -203,8 +203,19 @@ if ($idclasse != "")
             order by cognome, nome, datanascita";
 
     $ris = eseguiQuery($con, $query);
+
+
     while ($rec = mysqli_fetch_array($ris))
     {
+        $alunnoassente = false;
+        $idalu = $rec['idalunno'];
+        $query_ca = "SELECT COUNT(*) FROM `tbl_assenze` WHERE `idalunno` = $idalu AND `data` = CURDATE();";
+        $ris_ca = eseguiQuery($con, $query_ca);
+        $conteggioassenze = mysqli_fetch_array($ris_ca, MYSQLI_NUM);
+        if($conteggioassenze[0] > 0){
+            $alunnoassente = true;
+        }
+
         print "<tr>";
         print "     <td>" . $rec['cognome'] . " " . $rec['nome'] . " " . data_italiana($rec['datanascita']);
         if ($rec['firmapropria'])
@@ -218,9 +229,12 @@ if ($idclasse != "")
         }
         print "</td>";
 
-
-        print "<td align='center'><input type='checkbox' name='pres" . $rec['idalunno'] . "'></td>";
-
+        if($alunnoassente){
+            print "<td align='center'><b>Alunno Assente</b></td>";
+        }else{
+            print "<td align='center'><input type='checkbox' name='pres" . $rec['idalunno'] . "'></td>";
+        }
+        
         print "<td align='center'>";
 
         $seledata = " data <= '" . $_SESSION['fineprimo'] . "' ";
