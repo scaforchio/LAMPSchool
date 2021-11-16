@@ -558,19 +558,19 @@ if ($per != "" & $catt != "")
             $visvoto = "";
             $stilerosso = 'style="background-color: #eb4034; border: 1px solid #000000;"';
             $stileverde = 'style="background-color: #05ac50; border: 1px solid #000000;"';
-            //print "tttt $iddocente ttt".$recvot['iddocente'];
-            if ($recvot['iddocente'] != $iddocente)
-                //$visvoto .= "&nbsp;<u>";
+            if ($recvot['iddocente'] != $iddocente) {
                 $visvoto .= "<u>";
-            else
-                //$visvoto .= "&nbsp;";
-            if ($recvot['voto'] >= 6)
+            }
+            if ($recvot['voto'] >= 6){
                 $visvoto .= "<div $stileverde>" . dec_to_mod($recvot['voto']) . "<sub>" . $recvot['tipo'] . "</sub></div>";
+            }
             else
+            {
                 $visvoto .= "<div $stilerosso>" . dec_to_mod($recvot['voto']) . "<sub>" . $recvot['tipo'] . "</sub></div>";
-            if ($recvot['iddocente'] != $iddocente)
+            }
+            if ($recvot['iddocente'] != $iddocente) {
                 $visvoto .= "</u>";
-            
+            }
             $vot[] = $visvoto;
             $lezv[] = $recvot['idlezione'];
         }
