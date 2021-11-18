@@ -20,6 +20,8 @@ function validazione() {
     host = document.getElementById('host').value.trim();
     db = document.getElementById('db').value.trim();
     user = document.getElementById('user').value.trim();
+    password = document.getElementById('password').value.trim();
+
     msg = '';
     
     if (host.length == 0) {
@@ -30,6 +32,9 @@ function validazione() {
     }
     if (user.length == 0) {
         msg += 'Inserire il Nome utente';
+    }
+    if (password.length == 0) {
+        msg += 'Inserire la password del database';
     }
     if (msg.length > 0) {
         alert(msg);
@@ -118,8 +123,8 @@ print "
                 <td><input type='text' id='user' name='par_db_user' size='25' value='$par_db_user'></td>
             </tr>
             <tr>
-                <td>Password</td>
-                <td><input type='password' name='par_db_password' size='25' value='$par_db_password'></td>
+                <td>Password <span>*</span></td>
+                <td><input type='password' id='password' name='par_db_password' size='25' value='$par_db_password'></td>
             </tr>
             <tr>
                 <td>Prefisso tabelle</td>
