@@ -98,9 +98,7 @@ if (!($result))
 
     print("<FORM NAME='VI2' ACTION='ins_doc.php' method='POST'>");
 
-    if ($modo != 'vis')
-        print("<CENTER><INPUT TYPE='SUBMIT' VALUE='Inserisci nuovo docente'><br><br>");
-    print("\n<table border=1>\n");
+    print("\n<CENTER><table border=1>\n");
 
     print("<tr class='prima'><td>Cognome Nome</td>
 		<td>Data di nascita</td>
@@ -167,6 +165,7 @@ if (!($result))
                     print("&nbsp;<a href='can_doc.php?a=" . $Data['iddocente'] . "'><img src='../immagini/delete.png' title='Elimina'></a>");
                 }
             }
+            print("<a href='../password/doc_manda_mail_cred.php?iddoc=" . $Data['iddocente'] . "'><img src='../immagini/mailIcon.png' title='invia per mail le credenziali'></a>");
             print("&nbsp;&nbsp;&nbsp;<a href='../password/rigenera_password_ins_sta_doc.php?iddoc=" . $Data['iddocente'] . "'><img src='../immagini/key.png' title='Rigenera password' class='pwdreset'></a>");
 
             if ($tipoutente == 'P')
