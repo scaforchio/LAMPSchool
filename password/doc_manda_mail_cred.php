@@ -10,13 +10,19 @@ require_once '../lib/req_apertura_sessione.php';
 
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
+$iddocente = stringa_html('iddoc');
 if ($tipoutente == "")
 {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
+else if($tipoutente !== "M" && $iddocente == 0)
+{
+    header("location: ../docenti/vis_doc.php");
+    die;
+}
 
-$iddocente = stringa_html('iddocente');
+
 
 $titolo = "Invio mail con credenziali docenti";
 $script = "";
@@ -24,28 +30,37 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 $idcl = estrai_classe_alunno($idalu, $con);
 
 stampa_head($titolo, "", $script, "SMPA");
-if ($_SESSION['tipoutente'] == 'M')
-    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='alu_rigenera_password.php'>Rigenera password</a> -  $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
-else
-    stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='../alunni/vis_alu.php?idcla=$idcl'>Elenco alunni</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
-$annoscolastico = $_SESSION['annoscol'] . "/" . ($_SESSION['annoscol'] + 1);
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='../docenti/vis_doc.php'>Docenti</a> -  $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
+$query = "SELECT userid FROM tbl_utenti WHERE idutente = ".$iddocente.";";
+$res = eseguiQuery($con,$query);
+$userid = mysqli_fetch_assoc($res)["userid"];
+$newPwd = creapassword();
 
-if ($idclasse != 0)
+$query = "UPDATE tbl_utenti SET password = md5('" . md5($newPwd) . "') WHERE idutente = ".$iddocente.";";
+$res = eseguiQuery($con,$query);
+
+if($res !== false)
 {
-    $query = "select idclasse,anno,sezione,specializzazione from tbl_classi where idclasse=$idclasse";
-    $ris = eseguiQuery($con, $query);
+    print("<center>
+    <h2>La mail contiene le seguenti credenziali: </h2>
+    <h3>username: $userid</h3>
+    <h3>password: $newPwd</h3>");
 
-    $val = mysqli_fetch_array($ris);
+//TODO: stampare mail intera grazie al generatore di mail da template
+//TODO: mandare mial con funzione apposita
 
-    print "<center><b>Elenco password per alunni della classe: " . $val['anno'] . $val['sezione'] . " " . $val['specializzazione'] . "</b></center><br/><br/>";
 }
-print "<form name='stampa'  target='_blank' action='../alunni/alu_stampa_pass_alu.php' method='POST'>";
+else
+{
+    print("<h2 style='color:red' >errore nel cambiamento della password</h2>");
+}
 
-print "<table align='center' border='1'><tr><td><b>Alunno</b></td><td><b>Utente</b></td><td><b>Password</b></td></tr>";
 
 
-print ("<br/><center><a href='".$_SESSION['cartellabuffer']."/$nf'><img src='../immagini/csv.png'></a></center>");
+print("<a href='../docenti/vis_doc.php' class='button'>Torna alla lista dei docenti</a>
+       </center>");
+
 
 stampa_piede("");
 mysqli_close($con);
