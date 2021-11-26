@@ -165,11 +165,11 @@ if (!($result))
                     print("&nbsp;<a href='can_doc.php?a=" . $Data['iddocente'] . "'><img src='../immagini/delete.png' title='Elimina'></a>");
                 }
             }
-            print("<a href='../password/doc_manda_mail_cred.php?iddoc=" . $Data['iddocente'] . "'><img src='../immagini/mailIcon.png' title='invia per mail le credenziali'></a>");
+            print("&nbsp;&nbsp;&nbsp;<a href='../password/rigenera_password_ins_sta_doc.php?iddoc=" . $Data['iddocente'] . "'><img src='../immagini/key.png' title='Rigenera password' class='pwdreset'></a>");
             
             if ($tipoutente == 'M')
             {
-                print("&nbsp;&nbsp;&nbsp;<a href='../password/rigenera_password_ins_sta_doc.php?iddoc=" . $Data['iddocente'] . "'><img src='../immagini/key.png' title='Rigenera password' class='pwdreset'></a>");
+                print("<a href='../password/doc_manda_mail_cred.php?iddoc=" . $Data['iddocente'] . "'><img src='../immagini/mailIcon.png' title='invia per mail le credenziali'></a>");
             }
 
             if ($tipoutente == 'P')
