@@ -59,7 +59,7 @@ else
 
 
 
-print("<a href='../docenti/vis_doc.php' class='button'>Torna alla lista dei docenti</a>
+print("<a href='../segreteria/vis_imp.php' class='button'>Torna alla lista dell'amministrativo</a>
        </center>");
 
 
