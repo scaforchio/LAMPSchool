@@ -16,5 +16,7 @@ $db_user = "root";
 $db_password = "passroot";
 $prefisso_tabelle = "itt_";
 
+define("__URL__","http://foo.com/");//TODO: mettere url nella configurazione
+
 include_once './lib/inc_inizializzazione.php';
 include_once '../lib/inc_inizializzazione.php';
