@@ -10,35 +10,35 @@ require_once '../lib/req_apertura_sessione.php';
 
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-$iddocente = stringa_html('iddoc');
+$idamministrativo = stringa_html('idamm');
 
 if ($tipoutente == "")
 {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
-else if($tipoutente !== "M" && $iddocente == 0)
+else if($tipoutente !== "M")
 {
-    header("location: ../docenti/vis_doc.php");
+    header("location: ../segreteria/vis_imp.php");
     die;
 }
 
 
 
-$titolo = "Invio mail con credenziali docenti";
+$titolo = "Invio mail con credenziali Amministrativo";
 $script = "";
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 $idcl = estrai_classe_alunno($idalu, $con);
 
 stampa_head($titolo, "", $script, "SMPA");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='../docenti/vis_doc.php'>Docenti</a> -  $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='../segreteria/vis_imp.php'>Segreteria</a> -  $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
-$query = "SELECT userid FROM tbl_utenti WHERE idutente = ".$iddocente.";";
+$query = "SELECT userid FROM tbl_utenti WHERE idutente = ".$idamministrativo.";";
 $res = eseguiQuery($con,$query);
 $userid = mysqli_fetch_assoc($res)["userid"];
 $newPwd = creapassword();
 
-$query = "UPDATE tbl_utenti SET password = md5('" . md5($newPwd) . "') WHERE idutente = ".$iddocente.";";
+$query = "UPDATE tbl_utenti SET password = md5('" . md5($newPwd) . "') WHERE idutente = ".$idamministrativo.";";
 $res = eseguiQuery($con,$query);
 
 if($res !== false)

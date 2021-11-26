@@ -112,6 +112,11 @@ else
                 print("&nbsp;<a href='can_imp.php?a=" . $Data['idamministrativo'] . "'><img src='../immagini/delete.png' title='Elimina'></a>");
             }
 
+            if ($tipoutente == 'M')
+            {
+                print("<a href='../password/amm_manda_mail_cred.php?idamm=" . $Data['idamministrativo'] . "'><img src='../immagini/mailIcon.png' title='invia per mail le credenziali'></a>");
+            }
+
             if ($tipoutente == 'P')
             {
                 print("&nbsp;&nbsp;&nbsp;<a href='../contr/cambiautenteok.php?nuovoutente=" . $Data['userid'] . "'><img src='../immagini/alias.png' title='Assumi identità'></a>");
