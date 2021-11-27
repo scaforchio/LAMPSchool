@@ -169,7 +169,7 @@ if (!($result))
             
             if ($tipoutente == 'M')
             {
-                print("<a href='../password/doc_manda_mail_cred.php?iddoc=" . $Data['iddocente'] . "'><img src='../immagini/mailIcon.png' title='invia per mail le credenziali'></a>");
+                print("<a href='../password/manda_mail_cred.php?iddoc=" . $Data['iddocente'] . "'><img src='../immagini/mailIcon.png' title='invia per mail le credenziali'></a>");
             }
 
             if ($tipoutente == 'P')

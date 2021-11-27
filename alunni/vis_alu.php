@@ -196,8 +196,14 @@ if (!(mysqli_num_rows($result) > 0))
         {
             print ("&nbsp;");
         }
+        if ($tipoutente == 'M')
+        {
+            print("<a href='../password/manda_mail_cred.php?idalu=" . $dati['idalunno'] . "&tutor=1'><img src='../immagini/mailIcon.png' title='invia per mail le credenziali tutor'></a>");
+            print("<a href='../password/manda_mail_cred.php?idalu=" . $dati['idalunno'] . "&tutor=0'><img src='../immagini/mailIcon.png' title='invia per mail le credenziali alunni'></a>");
+        }
         print("&nbsp;&nbsp;&nbsp;<a href='../password/rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera password tutor'  class='pwdreset'></a>");
         print("&nbsp;&nbsp;&nbsp;<a href='../password/alu_rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera password alunni'  class='pwdresetalu'></a>");
+        
         if ($tipoutente == 'P')
         {
             print("&nbsp;&nbsp;&nbsp;<a href='../contr/cambiautenteok.php?nuovoutente=" . $dati['userid'] . "'><img src='../immagini/alias.png' title='Assumi identità tutor'></a>");

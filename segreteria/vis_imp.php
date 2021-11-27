@@ -114,7 +114,7 @@ else
 
             if ($tipoutente == 'M')
             {
-                print("<a href='../password/amm_manda_mail_cred.php?idamm=" . $Data['idamministrativo'] . "'><img src='../immagini/mailIcon.png' title='invia per mail le credenziali'></a>");
+                print("<a href='../password/manda_mail_cred.php?idamm=" . $Data['idamministrativo'] . "'><img src='../immagini/mailIcon.png' title='invia per mail le credenziali'></a>");
             }
 
             if ($tipoutente == 'P')
