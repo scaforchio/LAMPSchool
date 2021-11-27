@@ -17,6 +17,7 @@ $iddocente = stringa_html('iddoc');
 $email = "email";
 $titolo = "Invio mail con credenziali";
 
+// settaggio variabili in base alla categoria specificata nei parametri GET
 if ($tipoutente == "")
 {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
@@ -24,7 +25,7 @@ if ($tipoutente == "")
 }
 else if($idalunno !== "")
 {
-    $tutor = stringa_html('tutor');
+    $tutor = stringa_html('tutor'); //indica se mandare la mail al tutor o allo studente
     $titolo = "Invio mail ".($tutor == 1 ? "al tutor" : "all'alunno")." con credenziali";
     $prevPagPath = "../alunni/vis_alu.php";
     $id = $idalunno;
@@ -57,32 +58,37 @@ else
     die;
 }
 
+// controllo permessi
 if($tipoutente !== "M")
 {
     header("location: $prevPagPath");
     die;
 }
 
+//inizializzazione connesione e stampa intestazione
 $script = "";
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
-$idcl = estrai_classe_alunno($idalu, $con);
-
 stampa_head($titolo, "", $script, "SMPA");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='$prevPagPath'>$categoria</a> -  $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
+//acquisizione username con id specificato nel pametro GET
 $queryPerUsername = "SELECT userid FROM tbl_utenti WHERE idutente = ".$id.";";
 $res = eseguiQuery($con,$queryPerUsername);
 $username = mysqli_fetch_assoc($res)["userid"];
 
+//acquisizione emi con id specificato nel pametro GET dalla tabella della categoria specificata
 $queryPerEmail = "SELECT $email FROM $DBtable WHERE $nomeCampoId = ".$id.";";
 $res = eseguiQuery($con,$queryPerEmail);
 $email = mysqli_fetch_assoc($res)[$email];
 
+//creazione nuova password
 $newPwd = creapassword();
 
+//aggiornamento della password
 $queryAggPass = "UPDATE tbl_utenti SET password = md5('" . md5($newPwd) . "') WHERE idutente = ".$id.";";
 $res = eseguiQuery($con,$queryAggPass);
 
+//se l'aggiornamento è andato a buon fine procede a creare la mail e a mandarla
 if($res !== false)
 {
     $loginPath = __URL__."login/login.php?suffisso=" . $_SESSION['suffisso'];
