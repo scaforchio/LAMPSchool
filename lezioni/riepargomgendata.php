@@ -192,7 +192,7 @@ if ($dataieri >= $_SESSION['datainiziolezioni'] && $datadomani <= $_SESSION['dat
         $rislez = eseguiQuery($con, $query);
 
         if (mysqli_num_rows($rislez) == 0) {
-            print "<center><br><b>Nessum argomento registrato oggi!</b><br></center>";
+            print "<center><br><b>Nessun argomento registrato oggi!</b><br></center>";
         } else {
             print "
                     <table border=2 align='center'>
