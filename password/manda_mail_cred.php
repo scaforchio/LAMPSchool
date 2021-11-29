@@ -1,8 +1,8 @@
 <?php
 
-require_once '../lib/req_apertura_sessione.php';
+include_once '../lib/req_apertura_sessione.php';
 
-@require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
+@include_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 
 @require_once("../lib/funzioni.php");
 
