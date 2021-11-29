@@ -64,6 +64,13 @@ class Installer
      */
     public function run()
     {
+        if (!$this->checkRequirements())
+        {
+            $errorMessage = 'Errore: Server non conforme con i criteri d\' installazione. ';
+            $errorMessage .= 'Verificare i requisiti minimi di sistema.';
+            throw new \RuntimeException($errorMessage);
+        }
+
         $this->executeDbMigration();
 
         $this->addSchoolName($this->schoolName);
@@ -208,5 +215,44 @@ class Installer
         }
         copy($globalDataDirectory .'/index.html', $schoolDataDirectory . '/index.html');
         copy(__DIR__ . "/../../css/stile.css", __DIR__ . "/../../css/stile$installationSuffix.css");
+    }
+
+    public function checkRequirements()
+    {
+        /**
+         * ORIGINAL CODE
+         *
+         * ORIGINAL FILE: install/installprerequisiti.php (line 21-25)
+         *
+         * $versionephp = phpversion();
+         * $versionephpok = version_compare(substr($versionephp, 0, 3), '5.0', '>=');
+         * $autostart = ini_get('session.auto_start');
+         * $estensionemysql = extension_loaded('mysqli');
+         * $estensionezip = extension_loaded('zip');
+         *
+         **/
+
+        $result =  false;
+
+        $phpVersion = phpversion();
+        $isSupportedPhpVersion = version_compare(substr($phpVersion, 0, 3), '5.0', '>=');
+        $parameterAutostart = ini_get('session.auto_start');
+        $extensionMysql = extension_loaded('mysqli');
+        $extensionZip = extension_loaded('zip');
+
+        if ($isSupportedPhpVersion){
+            $result = true;
+        }
+        if (!$parameterAutostart){
+            $result = true;
+        }
+        if ($extensionMysql){
+            $result = true;
+        }
+        if ($extensionZip){
+            $result = true;
+        }
+
+        return $result;
     }
 }
