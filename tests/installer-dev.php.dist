@@ -5,13 +5,13 @@ require dirname(__DIR__).'/vendor/autoload.php';
 use LampSchool\Tests\Support\Installer;
 
 $installer = new Installer(
-    'mysql host', # change me..
-    'mysql database name', # change me..
-    'mysql database user',
-    'mysql database password', # change me..
+    'mysql host',               # <REQUIRED> change me..
+    'mysql database name',      # <REQUIRED> change me..
+    'mysql database user',      # <REQUIRED> change me..
+    'mysql database password',  # <REQUIRED> change me..
     '',
-    '',
-    'password', # change me..
+    'adminlamp',
+    'admin-password',           # <REQUIRED> change me..
     '',
     'I.T.I.S. Alan Turing'
 );
