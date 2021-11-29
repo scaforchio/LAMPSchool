@@ -5,19 +5,21 @@ require dirname(__DIR__).'/vendor/autoload.php';
 use LampSchool\Tests\Support\Installer;
 
 $installer = new Installer(
-    'mysql', # change me..
-    'dev-lamp', # change me..
-    'dev-lamp', # change me..
-    'dev-lamp', # change me..
-    'beta',
+    'mysql host', # change me..
+    'mysql database name', # change me..
+    'mysql database user',
+    'mysql database password', # change me..
     '',
-    'beta',
-    'beta',
-    'istituto beta'
+    '',
+    'password', # change me..
+    '',
+    'I.T.I.S. Alan Turing'
 );
 
 
 echo "Inizio installazione LAMPSchool...\n\n";
+
+echo "L\'installazione richiederà diversi minuti, attendere...\n\n";
 
 try {
     $installer->run();
