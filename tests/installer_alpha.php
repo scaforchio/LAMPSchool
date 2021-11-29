@@ -16,6 +16,14 @@ $installer = new Installer(
     'istituto alpha' # change me..
 );
 
-echo "Inizio installazione LAMPSchool...\n";
-$installer->run();
-echo "Installazione terminata...\n";
+
+echo "Inizio installazione LAMPSchool...\n\n";
+
+try {
+    $installer->run();
+}catch (\Exception $exception){
+    echo $exception->getMessage() . "\n\n";
+
+}
+
+echo "Installazione terminata...\n\n";
