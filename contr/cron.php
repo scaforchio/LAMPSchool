@@ -15,7 +15,7 @@
   Dovreste aver ricevuto una copia della GNU Affero General Public License
   in questo programma; se non l'avete ricevuta, vedete http://www.gnu.org/licenses/
  */
-require_once '../lib/req_apertura_sessione.php';
+session_start();
 @require_once("../php-ini" . $_GET['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
 //@require_once("../lib/sms/php-send.php");
