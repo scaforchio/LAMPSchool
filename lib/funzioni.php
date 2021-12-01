@@ -859,3 +859,32 @@ function sendTelegramMessageToken($chat_id, $testo, $tokenBot)
     else
         return false; //operazione fallita
 }
+
+/**
+ * Get a full URL to the LampSchool base directory.
+ *
+ * It always ends with a slash.
+ *
+ * Example return value:
+ *    http://example.com/dir/
+ *
+ * @return String
+ */
+function lampschool_url() {
+    $url = null;
+
+    // the user may customize the URL
+    if( defined( 'LAMPSCHOOL_URL' ) ) {
+        $url = LAMPSCHOOL_URL;
+    }
+
+    // as default it's just the current URL
+    if( !$url ) {
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        // finds the folders between the webroot and the root of the site
+        $regFolder = str_replace( str_replace('/','\\',$_SERVER['DOCUMENT_ROOT']).'\\' , '', dirname(__DIR__));
+        $url = $protocol . $_SERVER[ 'HTTP_HOST'] . '/' . $regFolder. "/";
+    }
+
+    return $url;
+}
