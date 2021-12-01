@@ -112,7 +112,7 @@ if($res !== false)
             
             Per favore dopo il primo accesso cambia questa password. Non condividere questa password.<br>
             $email<br>";
-
+            
     invia_mail($email,"Nuova password registro elettronico",$msg);
 }
 else

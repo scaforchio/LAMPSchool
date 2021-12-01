@@ -883,7 +883,7 @@ function lampschool_url() {
         $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
         // finds the folders between the webroot and the root of the site
         $regFolder = str_replace( str_replace('/','\\',$_SERVER['DOCUMENT_ROOT']).'\\' , '', dirname(__DIR__));
-        $url = $protocol . $_SERVER[ 'HTTP_HOST'] . '/' . $regFolder. "/";
+        $url = $protocol . $_SERVER[ 'HTTP_HOST'] . '/' . ($regFolder === '' ? '' : $regFolder . '/');
     }
 
     return $url;
