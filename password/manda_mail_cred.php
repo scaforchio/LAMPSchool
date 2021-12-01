@@ -91,7 +91,7 @@ $res = eseguiQuery($con,$queryAggPass);
 //se l'aggiornamento è andato a buon fine procede a creare la mail e a mandarla
 if($res !== false)
 {
-    $loginPath = __URL__."login/login.php?suffisso=" . $_SESSION['suffisso'];
+    $loginPath = lampschool_url()."login/login.php?suffisso=" . $_SESSION['suffisso'];
     print("<center>
             <h2>La mail contiene le seguenti credenziali: </h2>
             <h3>username: $username</h3>
@@ -113,7 +113,6 @@ if($res !== false)
             Per favore dopo il primo accesso cambia questa password. Non condividere questa password.<br>
             $email<br>";
 
-    print($msg);
     invia_mail($email,"Nuova password registro elettronico",$msg);
 }
 else
