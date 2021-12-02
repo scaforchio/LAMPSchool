@@ -139,13 +139,20 @@ if (mysqli_num_rows($ris) > 0)
             print("<td style=\"text-align: center;\">$tipo</td>");
             if ($val['voto'] < 6) // is_numeric($val['votoscritto']))
             {
+                // voto negativo stile rosso
                 $stilecasella = 'style="background: #eb4034; text-align: center;"';
             } else
             {
+                // voto valido quindi verde
                 if ($val['voto']!=99)
+                {
                     $stilecasella = 'style="background: #05ac50; text-align: center;"'; 
+                }      
                 else
-                    $stilecasella = 'text-align: center;"'; 
+                {
+                    //solo giudizio quindi grigio
+                    $stilecasella = 'style="background: #cfcfcf; text-align: center;"'; 
+                }
             }
             print("<td $stilecasella>$voto</td>");
             print("<td>$giudizio</td>");
