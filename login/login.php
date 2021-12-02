@@ -5,7 +5,7 @@
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
   sia (a vostra scelta) ogni versione successiva.
- 
+
   Questo programma è distribuito nella speranza che sia utile
   ma SENZA ALCUNA GARANZIA; senza anche l'implicita garanzia di
   POTER ESSERE VENDUTO o di IDONEITA' A UN PROPOSITO PARTICOLARE.
@@ -30,10 +30,11 @@ require_once '../lib/funzioni.php';
 
 
 session_start();
-session_unset();
-session_destroy();
-session_start();
-
+//if (isset($_GET['logout'])) {
+    session_unset();
+    session_destroy();
+    session_start();
+//}
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 require "../lib/req_assegna_parametri_a_sessione.php";
 $_SESSION["prefisso"] = $prefisso_tabelle;
@@ -43,14 +44,12 @@ $_SESSION["suffisso"] = $suffisso;
 //$_SESSION["nomefilelog"] = $_SESSION['nomefilelog'];
 $_SESSION["alias"] = false;
 
-
 $json = leggeFileJSON('../lampschool.json');
 $_SESSION['versione'] = $json['versione'];
 
 $titolo = "Inserimento dati di accesso";
 $seedcasuale = mt_rand(100000, 999999);
-$seme = md5(date('Y-m-d').$seedcasuale);
-
+$seme = md5(date('Y-m-d') . $seedcasuale);
 
 $script = "<script src='../lib/js/crypto.js'></script>\n";
 $script .= "<script>
@@ -76,15 +75,12 @@ stampa_testata("Accesso al registro", "", $_SESSION['nome_scuola'], $_SESSION['c
 
 $messaggio = stringa_html('messaggio');
 
-if (strlen($messaggio) > 0)
-{
+if (strlen($messaggio) > 0) {
     $mex = '<center><font color="red"><br><b>';
 
-    if ($messaggio == 'errore')
-    {
+    if ($messaggio == 'errore') {
         $mex .= 'Nome utente e/o password errati !';
-    } else
-    {
+    } else {
         $mex .= $messaggio;
     }
     echo $mex . '</b><br></font></center>';
@@ -112,19 +108,19 @@ if (strlen($messaggio) > 0)
     </form>
     <br/>
     <br>
-   
-    <?php
-     print "<a href='richresetpwd.php?suffisso=".$_SESSION['suffisso']."'>Password dimenticata</a>";
 
-    print "<br><br><a href='".$_SESSION['sito_scuola']."' target='_top'>Ritorna ad home page</a>";
-    ?>
+<?php
+print "<a href='richresetpwd.php?suffisso=" . $_SESSION['suffisso'] . "'>Password dimenticata</a>";
+
+print "<br><br><a href='" . $_SESSION['sito_scuola'] . "' target='_top'>Ritorna ad home page</a>";
+?>
 </center>
 <script>
     document.getElementById('utente').focus();
 </script>
-<?php
+    <?php
 //$json = leggeFileJSON('../lampschool.json');
 
-stampa_piede($_SESSION['versioneprecedente']);
-eseguiQuery($con,"insert into ".$prefisso_tabelle."tbl_seed(seed) values('$seme')",false,false);
-?>
+    stampa_piede($_SESSION['versioneprecedente']);
+    eseguiQuery($con, "insert into " . $prefisso_tabelle . "tbl_seed(seed) values('$seme')", false, false);
+    ?>

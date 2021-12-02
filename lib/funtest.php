@@ -159,7 +159,7 @@ function stampa_testata($funzione, $ct, $ns, $cs)
 
     if ($nome != 'login')
     {
-        print "<div class='logout' align='right'>$descrizione <a href='../login/login.php?suffisso=" . get_suffisso() . "'><img src='../immagini/logout.png' title='Logout'></a></div>\n";
+        print "<div class='logout' align='right'>$descrizione <a href='../login/login.php?suffisso=" . get_suffisso() . "&logout=true'><img src='../immagini/logout.png' title='Logout'></a></div>\n";
     }
     print "<div id='testata'>";
     $label = "";

@@ -111,10 +111,12 @@ foreach($arrayidselez as $iddocente)
 {
   if(!in_array($iddocente, $docassenti))
   {
-    $query = "INSERT INTO `tbl_assenzedocenticolloqui` (`idgiornatacolloqui`, `iddocente`) VALUES
+    $query = "INSERT INTO tbl_assenzedocenticolloqui (idgiornatacolloqui, iddocente) VALUES
              ($idgiornatacolloqui, $iddocente)";
-
     $risultato = eseguiQuery($con, $query);
+    $query = "DELETE FROM tbl_slotcolloqui WHERE iddocente=$iddocente and idgiornatacolloqui=$idgiornatacolloqui";
+    eseguiQuery($con, $query);
+    
   }
 }
 
