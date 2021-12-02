@@ -26,21 +26,21 @@ require_once '../lib/funzioni.php';
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore connessione");
 
-if (!$con)
-{
+if (!$con) {
     die("<h1> Connessione al server fallita </h1>");
 }
 
 // Passaggio dei parametri nella sessione
 //require "../lib/req_assegna_parametri_a_sessione.php";
+//print ("Controllo sessione:".$_SESSION['idutente']);
+//die();
+/*
+if (isset($_SESSION['idutente'])) {
+    //session_destroy();
 
-/* if ($_SESSION['idutente']!="") 
-  {
-  session_destroy();
-
-  die ("Già aperta sessione in altra scheda!");
-  }
- */
+    die("<center><br><br><b>Già aperta sessione in altra scheda!<br><br>Se non ci sono altre schede attive chiudere e riaprire il browser.");
+}
+*/
 
 $query = "select idseed from tbl_seed ORDER BY idseed DESC LIMIT 1";
 $ris = eseguiQuery($con, $query);
@@ -50,15 +50,11 @@ $primoseed = $ultimoseed - 30;
 $query = "delete from tbl_seed where idseed<$primoseed";
 eseguiQuery($con, $query);
 
-
-
-
 $indirizzoip = IndirizzoIpReale();
 
 $_SESSION['indirizzoip'] = $indirizzoip;
 
 $_SESSION['ultimoaccesso'] = "";
-
 
 //  $_SESSION['versione']=$versione;
 //Connessione al server SQL
@@ -71,8 +67,7 @@ $password = stringa_html('password');
 
 $query = "select * from tbl_torlist where indirizzo LIKE '$indirizzoip%'";
 $ris = eseguiQuery($con, $query);
-if (mysqli_num_rows($ris) > 0)
-{
+if (mysqli_num_rows($ris) > 0) {
     inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§" . $indirizzoip . "§Bloccato Accesso TOR: $username - $password§" . $_SERVER['HTTP_USER_AGENT']);
     header("location: login.php?messaggio=Utente sconosciuto&suffisso=" . $_SESSION['suffisso']);
     die;
@@ -85,21 +80,18 @@ $tipoaccesso = controlla_password($con, $password, $username, $_SESSION['chiaveu
 // print "Tipo accesso: $tipoaccesso";
 
 
-if ($tipoaccesso == 0)
-{
+if ($tipoaccesso == 0) {
     inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Accesso errato: $username - $password");
     header("location: login.php?messaggio=Utente sconosciuto&suffisso=" . $_SESSION['suffisso']);
     die();
 }
 
-if ($tipoaccesso == 2)
-{
+if ($tipoaccesso == 2) {
     $accessouniversale = true;
     $_SESSION['accessouniversale'] = true;
 }
 
-if ($tipoaccesso == 3)
-{// die("Sono qui!");
+if ($tipoaccesso == 3) {// die("Sono qui!");
     $_SESSION['tipoutente'] = 'E';
     $_SESSION['userid'] = 'ESAMI';
     $_SESSION['idutente'] = 'esamedistato';
@@ -113,8 +105,7 @@ if ($tipoaccesso == 3)
 $sql = "SELECT *,unix_timestamp(ultimamodifica) AS ultmod FROM tbl_utenti WHERE userid='" . $username . "'";
 $result = eseguiQuery($con, $sql);
 
-if ($tipoaccesso == 1 | $tipoaccesso == 2)
-{  // UTENTE TROVATO
+if ($tipoaccesso == 1 | $tipoaccesso == 2) {  // UTENTE TROVATO
     $data = mysqli_fetch_array($result);
     $_SESSION['userid'] = $data['userid'];
     $_SESSION['tipoutente'] = $data['tipo'];
@@ -132,30 +123,26 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2)
 
 
 
-    if ($_SESSION['tipoutente'] == 'T')
-    {
+    if ($_SESSION['tipoutente'] == 'T') {
         //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
         $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . $_SESSION['idutente'] . "'";
         $ris = eseguiQuery($con, $sql);
 
-        if ($val = mysqli_fetch_array($ris))
-        {
+        if ($val = mysqli_fetch_array($ris)) {
             $_SESSION['idstudente'] = $val["idalunno"];
             $_SESSION['cognome'] = $val["cognome"];
             $_SESSION['nome'] = $val["nome"];
         }
     }
 
-    if ($_SESSION['tipoutente'] == 'L')
-    {
+    if ($_SESSION['tipoutente'] == 'L') {
         //print "PASSDB: $passdb";
         //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";
         $sql = "SELECT * FROM tbl_alunni WHERE idalunno='" . ($_SESSION['idutente'] - 2100000000) . "'";
 
         $ris = eseguiQuery($con, $sql);
 
-        if ($val = mysqli_fetch_array($ris))
-        {
+        if ($val = mysqli_fetch_array($ris)) {
             $_SESSION['idstudente'] = $val["idalunno"];
             $_SESSION['cognome'] = $val["cognome"];
             $_SESSION['nome'] = $val["nome"];
@@ -163,13 +150,11 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2)
         }
     }
 
-    if ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P')
-    {
+    if ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P') {
         $sql = "SELECT * FROM tbl_docenti WHERE idutente='" . $_SESSION['idutente'] . "'";
         $ris = eseguiQuery($con, $sql);
 
-        if ($val = mysqli_fetch_array($ris))
-        {
+        if ($val = mysqli_fetch_array($ris)) {
             $_SESSION['cognome'] = $val["cognome"];
             $_SESSION['nome'] = $val["nome"];
         }
@@ -177,44 +162,36 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2)
         $sql = "SELECT * FROM tbl_derogheinserimento WHERE iddocente='" . $_SESSION['idutente'] . "' AND DATA='" . date('Y-m-d') . "'";
         $ris = eseguiQuery($con, $sql);
 
-
-        if (mysqli_num_rows($ris) > 0)
-        {
+        if (mysqli_num_rows($ris) > 0) {
             $_SESSION['derogalimite'] = true;
-        } else
-        {
+        } else {
             $_SESSION['derogalimite'] = false;
         }
     }
 
-    if ($_SESSION['tipoutente'] == 'A')
-    {
+    if ($_SESSION['tipoutente'] == 'A') {
         $sql = "SELECT * FROM tbl_amministrativi WHERE idutente='" . $_SESSION['idutente'] . "'";
         $ris = eseguiQuery($con, $sql);
 
-        if ($val = mysqli_fetch_array($ris))
-        {
+        if ($val = mysqli_fetch_array($ris)) {
             $_SESSION['cognome'] = $val["cognome"];
             $_SESSION['nome'] = $val["nome"];
         }
     }
 
-    if ($_SESSION['tipoutente'] == "S" | $_SESSION['tipoutente'] == "D")
-    {
+    if ($_SESSION['tipoutente'] == "S" | $_SESSION['tipoutente'] == "D") {
         $_SESSION['cattsost'] = cattedre_sostegno($_SESSION['idutente'], $con);
         $_SESSION['cattnorm'] = cattedre_normali($_SESSION['idutente'], $con);
     }
 
-    if ($_SESSION['tipoutente'] == 'M')
-    {
+    if ($_SESSION['tipoutente'] == 'M') {
         // $idscuola = md5($_SESSION['nomefilelog']);
         // print "<iframe style='visibility:hidden;display:none' src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$_SESSION['nome_scuola']&cos=$_SESSION['comune_scuola']&ver=$_SESSION['versioneprecedente']&asc=$_SESSION['annoscol']'></iframe>";
     }
     //
     //  AZIONI PRIMO ACCESSO DELLA GIORNATA
     //
-    if ($_SESSION['modocron'] == "acc")
-    {
+    if ($_SESSION['modocron'] == "acc") {
         $query = "SELECT dataacc FROM tbl_logacc
                    WHERE idlog = (SELECT max(idlog) FROM tbl_logacc)";
         $ris = eseguiQuery($con, $query);
@@ -224,8 +201,7 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2)
         //print $dataultimo;
         $dataoggi = date("Y/m/d");
         //print $dataoggi;
-        if ($dataoggi > $dataultimo)
-        {
+        if ($dataoggi > $dataultimo) {
             daily_cron($_SESSION['suffisso'], $con, '110100');
         }
     }
@@ -233,8 +209,7 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2)
     //  FINE AZIONI PRIMO ACCESSO DELLA GIORNATA
     //
     // Inserimento nel log dell'accesso
-    if ($_SESSION['suffisso'] != "")
-    {
+    if ($_SESSION['suffisso'] != "") {
         $suff = $_SESSION['suffisso'] . "/";
     } else
         $suff = "";
@@ -243,11 +218,9 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2)
     // Ricerca ultimo accesso
     $query = "select dataacc from " . $_SESSION["prefisso"] . "tbl_logacc where idlog=(select max(idlog) from " . $_SESSION["prefisso"] . "tbl_logacc where utente='$username' and comando='Accesso')";
     $ris = eseguiQuery($con, $query, false);
-    if (mysqli_num_rows($ris) == 0)
-    {
+    if (mysqli_num_rows($ris) == 0) {
         $_SESSION['ultimoaccesso'] = "";
-    } else
-    {
+    } else {
         $rec = mysqli_fetch_array($ris);
         $ultimoaccesso = $rec['dataacc'];
         $dataultaccute = substr($ultimoaccesso, 0, 10);
@@ -259,8 +232,7 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2)
     // $indirizzoip = IndirizzoIpReale();
     // $_SESSION['indirizzoip'] = $indirizzoip;
 
-    if ($tipoaccesso == 1)
-    {
+    if ($tipoaccesso == 1) {
         $sql = "INSERT INTO " . $_SESSION["prefisso"] . "tbl_logacc( utente , dataacc, comando,indirizzo) values('$username','" . date('Y/m/d - H:i') . "','Accesso','$indirizzoip')";
         eseguiQuery($con, $sql, false);
     }
@@ -272,30 +244,26 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2)
 //if ($controllootp)
 //if (true)
 
-if (!$accessouniversale & ($_SESSION['modoinviotoken'] == 'S' | $_SESSION['modoinviotoken'] == 'M' | $_SESSION['modoinviotoken'] == 'T' | $_SESSION['modoinviotoken'] == 'G'))
-{
+if (!$accessouniversale & ($_SESSION['modoinviotoken'] == 'S' | $_SESSION['modoinviotoken'] == 'M' | $_SESSION['modoinviotoken'] == 'T' | $_SESSION['modoinviotoken'] == 'G')) {
     $_SESSION['tentativiotp'] = 0;
     $token = rand(10000, 99999);
     $query = "update tbl_utenti set token=$token where idutente=" . $_SESSION['idutente'];
     eseguiQuery($con, $query);
 
-    if ($_SESSION['modoinviotoken'] == "M" & ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P' ))
-    {
+    if ($_SESSION['modoinviotoken'] == "M" & ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P' )) {
 
         $mail = estrai_mail_docente($_SESSION['idutente'], $con);
 
         invia_mail($mail, "OTP: $token", "OTP per l'accesso a LampSchool: $token", $_SESSION['indirizzomailfrom']);
     }
-    if ($_SESSION['modoinviotoken'] == "S" & ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P' ))
-    {
+    if ($_SESSION['modoinviotoken'] == "S" & ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P' )) {
 
         $cell = estrai_cell_docente($_SESSION['idutente'], $con);
         $destinatario = array();
         $destinatario[] = "39" . trim($cell);
         $result = skebbyGatewaySendSMS($_SESSION['utentesms'], $_SESSION['passsms'], $destinatario, "OTP per l'accesso a LampSchool: $token", SMS_TYPE_CLASSIC_PLUS, '', $_SESSION['testatasms'], $_SESSION['suffisso']);
     }
-    if ($_SESSION['modoinviotoken'] == "G" & ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P' ))
-    {
+    if ($_SESSION['modoinviotoken'] == "G" & ($_SESSION['tipoutente'] == 'D' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'P' )) {
         $query = "select idtelegram from tbl_utenti where idutente=" . $_SESSION['idutente'];
         $ris = eseguiQuery($con, $query);
         $rec = mysqli_fetch_array($ris, MYSQLI_BOTH);
@@ -303,8 +271,7 @@ if (!$accessouniversale & ($_SESSION['modoinviotoken'] == 'S' | $_SESSION['modoi
         sendTelegramMessageToken($chat_id, "Codice login: " . $token, $_SESSION['tokenbototp']);
     }
     header("location: otpcheck.php?suffisso=" . $_SESSION['suffisso']);
-} else
-{
+} else {
     //print "qui ".$_SESSION['modoinviotoken']."-";die;
     $_SESSION['tokenok'] = true;
     header("location: ele_ges.php?suffisso=" . $_SESSION['suffisso']);
