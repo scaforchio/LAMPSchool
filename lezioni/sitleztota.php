@@ -558,19 +558,50 @@ if ($per != "" & $catt != "")
             $visvoto = "";
             $stilerosso = 'style="background-color: #eb4034; border: 1px solid #000000;"';
             $stileverde = 'style="background-color: #05ac50; border: 1px solid #000000;"';
-            if ($recvot['iddocente'] != $iddocente) {
-                $visvoto .= "<u>";
-            }
-            if ($recvot['voto'] >= 6){
-                $visvoto .= "<div $stileverde>" . dec_to_mod($recvot['voto']) . "<sub>" . $recvot['tipo'] . "</sub></div>";
+            $stilegrigio = 'style="background-color: #cfcfcf; border: 1px solid #000000;"';
+            $stilearancione = 'style="background-color: #ff9c63; border: 1px solid #000000;"';
+            // se il voto è stato inserito da un altro docente forza la colorazione arancione
+            if ($recvot['iddocente'] != $iddocente)
+            {
+                $visvoto .= "<div $stilearancione>";
             }
             else
             {
-                $visvoto .= "<div $stilerosso>" . dec_to_mod($recvot['voto']) . "<sub>" . $recvot['tipo'] . "</sub></div>";
+                if ($recvot['voto'] < 6)
+                {
+                    // se il voto è inferiore a 6 colora di rosso
+                    $visvoto .= "<div $stilerosso>";
+                }
+                else
+                {
+                    if ($recvot['voto'] > 98)
+                    {
+                        // se il voto non è popolato colora di grigio
+                        $visvoto .= "<div $stilegrigio>";
+                    }
+                    else
+                    {
+                        // se il voto è positivo colora di verde
+                        $visvoto .= "<div $stileverde>";
+                    }
+                }
             }
-            if ($recvot['iddocente'] != $iddocente) {
-                $visvoto .= "</u>";
+            
+            if ($recvot['voto'] > 98)
+            {
+                // se il campo voto non è popolato stampa il link per il giudizio grande
+                $visvoto .= linkGiudizio($recvot['giudizio']) . "<sub>" . $recvot['tipo'] . "</sub></div>";
+            }else
+            {
+                // se il campo voto è popolato innanzitutto stampa il voto
+                $visvoto .= dec_to_mod($recvot['voto']) . "<sub>" . $recvot['tipo'] . "</sub>";
+                // se è anche presente un giudizio stampa il link per visualizzarlo in alto
+                if(!empty($recvot['giudizio'])){
+                    $visvoto .= linkGiudizioUp($recvot['giudizio']);
+                }
+                $visvoto .= "</div>";
             }
+                           
             $vot[] = $visvoto;
             $lezv[] = $recvot['idlezione'];
         }
@@ -579,16 +610,14 @@ if ($per != "" & $catt != "")
 
         foreach ($giornilezione as $gg)
         {
-
             print "<td align='center'><div style='display: flex; flex-direction: row; gap:2px; width: 100%; height: 100%;'>";
-
-
 
             // RICERCA ORE DI ASSENZA
             $assenze = ricerca_assenza($ass, $leza, substr($gg, 21, 11));
+            $stileassenze = 'style="background-color: #63fff2; border: 1px solid #000000;"';
             if ($assenze != 0)
             {
-                print "<font size='1'>A<sub>$assenze</sub>";
+                print "<div $stileassenze>A<sub>$assenze</sub></div>";
                 $totoreass = $totoreass + $assenze;
             }
 
@@ -598,10 +627,6 @@ if ($per != "" & $catt != "")
             {
                 print "$voti";
             }
-
-
-
-
 
             print "</div></td>";
         }
@@ -644,6 +669,15 @@ function ricerca_voti($vot, $lez, $idlez)
 
     return $trovato;
 }
+
+function linkGiudizio($messaggio){
+    return "<a href='#' onclick='alert(\"GIUDIZIO: $messaggio\");'>G</a>";
+}
+
+function linkGiudizioUp($messaggio){
+    return "<sup><a href='#' onclick='alert(\"GIUDIZIO: $messaggio\");'>G</a></sup>";
+}
+
 
 mysqli_close($con);
 stampa_piede("");
