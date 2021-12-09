@@ -543,7 +543,7 @@ if ($per != "" & $catt != "")
             $ass[] = $recass['oreassenza'];
             $leza[] = $recass['idlezione'];
         }
-
+        
         $query = "select idlezione,voto, giudizio, tipo,iddocente,pei from tbl_valutazioniintermedie 
               where idclasse=$idclasse and idalunno=" . $val['idalunno'] . "
               and idmateria=$idmateria " . $perioquery . " order by idlezione";

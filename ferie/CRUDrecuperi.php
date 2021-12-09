@@ -10,7 +10,7 @@ $daticrud = array();
 $daticrud['tabella'] = ("tbl_recuperipermessi");
 
 // Nome della tabella per visualizzazioni
-$daticrud['aliastabella'] = "Recuperi Permessi";
+$daticrud['aliastabella'] = "RecuperiPermessi";
 $daticrud['larghezzatabella'] = "80%";
 // Campo con l'id univoco per la tabella
 $daticrud['campochiave'] = "idrecupero";
