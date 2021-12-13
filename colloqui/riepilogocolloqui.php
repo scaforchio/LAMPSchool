@@ -89,7 +89,7 @@ if(!empty($_GET['sceltaData']) && $_GET['sceltaData'] != 'null')
             where s.idalunno = $idalunno
 		           and s.iddocente = d.iddocente
                            and s.idgiornatacolloqui = g.idgiornatacolloqui
-                           and data>'".date('Y-m-d')."'
+                           and data>='".date('Y-m-d')."'
                      order by data, s.orainizio";
 
   $querymat = "select idmateria
