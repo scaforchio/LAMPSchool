@@ -57,7 +57,14 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 $idalunno = $_SESSION['idutente'];
 $idclassealunno = estrai_classe_alunno($idalunno, $con);
+$query = "select distinct tbl_colloquiclasse.idgiornatacolloqui,data"
+        . " from tbl_colloquiclasse,tbl_giornatacolloqui"
+        . " where tbl_colloquiclasse.idgiornatacolloqui=tbl_giornatacolloqui.idgiornatacolloqui"
+        . " and ((data>'" . date('Y-m-d') . "') or (data='".date('Y-m-d')."' and '$oraattuale' < orainizio))"
+        . " and idclasse=$idclassealunno "
+        . " order by data";
 
+//print inspref($query);
 print "<form name='giornata' action='prenotazionecolloqui.php' method='post'>";
 print("<table align='center'>
 			  <tr>
@@ -68,14 +75,7 @@ print("<table align='center'>
 //
 //  Riempimento combobox delle giornate
 //
-$query = "select distinct tbl_colloquiclasse.idgiornatacolloqui,data"
-        . " from tbl_colloquiclasse,tbl_giornatacolloqui"
-        . " where tbl_colloquiclasse.idgiornatacolloqui=tbl_giornatacolloqui.idgiornatacolloqui"
-        . " and data>='" . date('Y-m-d') . "'"
-        . " and '$oraattuale' < orainizio "
-        . " and idclasse=$idclassealunno "
-        . " order by data";
-print inspref($query);
+
 $ris = eseguiQuery($con, $query);
 while ($nom = mysqli_fetch_array($ris))
 {

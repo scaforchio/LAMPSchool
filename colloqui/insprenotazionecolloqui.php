@@ -58,9 +58,7 @@ if (mysqli_num_rows($ris) == 0) {
               values ($iddocente,$idalunno,$idgiornatacolloqui,'$slot','$orafine')";
     eseguiQuery($con, $query);
 }
-print ("
-
-       
+print ("      
 
         <form method='post' action='../colloqui/prenotazionecolloqui.php' id='formdisp'>
    
