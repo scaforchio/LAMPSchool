@@ -9,7 +9,12 @@ $idgiornatacolloqui = stringa_html('idgiornata');
 $d = "DELETE FROM tbl_giornatacolloqui WHERE idgiornatacolloqui=$idgiornatacolloqui";
 
 eseguiQuery($con, $d);
+$d = "DELETE FROM tbl_colloquiclasse WHERE idgiornatacolloqui=$idgiornatacolloqui";
 
+eseguiQuery($con, $d);
+$d = "DELETE FROM tbl_assenzedocenticolloqui WHERE idgiornatacolloqui=$idgiornatacolloqui";
+
+eseguiQuery($con, $d);
 header('Location:insgiornatecoll.php');
 
 mysqli_close($con);
