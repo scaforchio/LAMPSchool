@@ -24,8 +24,7 @@ require_once '../lib/req_apertura_sessione.php';
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "")
-{
+if ($tipoutente == "") {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -40,20 +39,25 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 $iddocente = stringa_html('iddoc');
 $idalunno = stringa_html('idal');
 $slot = stringa_html('slot');
-$idgiornatacolloqui=stringa_html('idgiornatacolloqui');
-
+$idgiornatacolloqui = stringa_html('idgiornatacolloqui');
 
 $query = "select durataslot from tbl_giornatacolloqui where idgiornatacolloqui=$idgiornatacolloqui";
-             
+
 $ris = eseguiQuery($con, $query);
 $rec = mysqli_fetch_array($ris);
-$durata=$rec['durataslot'];
+$durata = $rec['durataslot'];
 
-$orafine= aggiungi_minuti($slot, $durata);
-$query = "insert into tbl_slotcolloqui(iddocente,idalunno,idgiornatacolloqui,orainizio,orafine)
-              values ($iddocente,$idalunno,$idgiornatacolloqui,'$slot','$orafine')";
+$orafine = aggiungi_minuti($slot, $durata);
+$query = "select * from tbl_slotcolloqui "
+        . " where iddocente=$iddocente"
+        . " and idgiornatacolloqui=$idgiornatacolloqui"
+        . " and orainizio='$slot'";
 $ris = eseguiQuery($con, $query);
-
+if (mysqli_num_rows($ris) == 0) {
+    $query = "insert into tbl_slotcolloqui(iddocente,idalunno,idgiornatacolloqui,orainizio,orafine)
+              values ($iddocente,$idalunno,$idgiornatacolloqui,'$slot','$orafine')";
+    eseguiQuery($con, $query);
+}
 print ("
 
        
