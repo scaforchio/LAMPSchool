@@ -46,7 +46,8 @@ $script = "<script type='text/javascript'>
 stampa_head($titolo, "", $script, "TDASPM");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
-
+ $oraattuale = date('G:i:s');
+ // print $oraattuale;
 // INIZIO SCRIPT
 
 $idgiornatacolloqui = stringa_html("idgiornatacolloqui");
@@ -71,6 +72,7 @@ $query = "select distinct tbl_colloquiclasse.idgiornatacolloqui,data"
         . " from tbl_colloquiclasse,tbl_giornatacolloqui"
         . " where tbl_colloquiclasse.idgiornatacolloqui=tbl_giornatacolloqui.idgiornatacolloqui"
         . " and data>='" . date('Y-m-d') . "'"
+        . " and '$oraattuale' < orainizio "
         . " and idclasse=$idclassealunno "
         . " order by data";
 print inspref($query);

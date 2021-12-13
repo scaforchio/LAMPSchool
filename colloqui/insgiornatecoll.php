@@ -41,7 +41,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Gestione 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $query = "SELECT * FROM tbl_giornatacolloqui"
-        . " where data>'" . date('Y-m-d') . "'"
+        . " where data>='" . date('Y-m-d') . "'"
         . " order by data";
 
 $result = eseguiQuery($con, $query);
