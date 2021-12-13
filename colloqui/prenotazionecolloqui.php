@@ -70,7 +70,7 @@ print("<table align='center'>
 $query = "select distinct tbl_colloquiclasse.idgiornatacolloqui,data"
         . " from tbl_colloquiclasse,tbl_giornatacolloqui"
         . " where tbl_colloquiclasse.idgiornatacolloqui=tbl_giornatacolloqui.idgiornatacolloqui"
-        . " and data>'" . date('Y-m-d') . "'"
+        . " and data>='" . date('Y-m-d') . "'"
         . " and idclasse=$idclassealunno "
         . " order by data";
 print inspref($query);

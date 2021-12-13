@@ -69,7 +69,7 @@ if ($iddocente != "")
            and tbl_prenotazioni.valido
            and iddocente='$iddocente'
            and idalunno=" . $_SESSION['idutente'] . "
-           and tbl_prenotazioni.data>='$dataoggi'";
+           and tbl_prenotazioni.data>'$dataoggi'";
     $ris = eseguiQuery($con, $query);
 
 
