@@ -650,8 +650,9 @@ function inserisciAmmonizioneGiustRitardi($idalunno, $iddocente, $datalimiteinfe
         $elenco .= substr(data_italiana($recass['data']), 0, 5) . ", ";
     }
 
-    $query = "UPDATE tbl_ritardi SET dataammonizione='" . date('Y.-m-d') . "' WHERE (isnull(giustifica) or giustifica=0) AND data< '$datalimiteinferiore'
+    $query = "UPDATE tbl_ritardi SET dataammonizione='" . date('Y-m-d') . "' WHERE (isnull(giustifica) or giustifica=0) AND data< '$datalimiteinferiore'
             AND dataammonizione IS NULL AND idalunno=$idalunno";
+    
     eseguiQuery($con, $query);
     $elenco = substr($elenco, 0, strlen($elenco) - 1);
     if (strlen($elenco) > 7)
