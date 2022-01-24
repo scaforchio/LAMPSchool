@@ -203,10 +203,10 @@ if (!$flagsovrapposizione)
                  and idgruppo=$idgruppo
                  and idclasse=$idclasse";
     }
-    $ris = eseguiQuery($con, $query);
+        $risalu = eseguiQuery($con, $query);
 
 
-    while ($id = mysqli_fetch_array($ris))            //    <-----------  ttttttt
+    while ($id = mysqli_fetch_array($risalu))            //    <-----------  ttttttt
     {
         require '../lib/req_salva_voti.php';
         if (gestione_manuale_assenze($idclasse, $data, $con))
@@ -215,7 +215,7 @@ if (!$flagsovrapposizione)
         }
         
     }
-}
+}   
 
 echo "<p align='center'>";
 /*

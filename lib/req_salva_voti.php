@@ -3,6 +3,7 @@
 /*
  * Utilizzato in inslez.php e inslezgruppi.php
  */
+//print "IDAL ".$id['al'];
 $idal = $id['al'];
 $tipivoti = ['S', 'O', 'P'];
 foreach ($tipivoti as $tv)

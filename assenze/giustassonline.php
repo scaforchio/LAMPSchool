@@ -144,7 +144,7 @@ if ($rs1)
     if (mysqli_num_rows($rs9) > 0)
     {
         $assdagiust = true;
-        print "<table border='1' align='center'><tr class='prima'><td colspan=2><b>GIUSTIFICAZIONE ASSENZE IN DAD</b></td></tr>";
+        print "<table border='1' align='center'><tr class='prima'><td colspan=2><b>GIUSTIFICAZIONE ASSENZE ORARIE</b></td></tr>";
         
         while ($rec = mysqli_fetch_array($rs9))
         {

@@ -146,9 +146,9 @@ if ($ope == 'D')
 
 
 $query = "SELECT idalunno AS al FROM tbl_gruppialunni WHERE idgruppo=" . $idgruppo;
-$ris = eseguiQuery($con, $query);
+$risalu = eseguiQuery($con, $query);
 
-while ($id = mysqli_fetch_array($ris))
+while ($id = mysqli_fetch_array($risalu))
 {
 
     $va = "oreass" . $id['al'];

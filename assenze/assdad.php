@@ -41,7 +41,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 // preparazione del link per tornare indietro nel registro di classe
 $goback = goBackRiepilogoRegistro($con);
 
-$titolo = "Visualizza situazione assenze DAD";
+$titolo = "Visualizza situazione assenze orarie";
 $script = "<script type='text/javascript'>
          <!--
                var stile = 'top=10, left=10, width=1024, height=400, status=no, menubar=no, toolbar=no, scrollbars=yes';

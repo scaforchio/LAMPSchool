@@ -167,7 +167,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 
                 if ((lezione_dad($idclasse, $data, $conn)) & ($_SESSION['disabilitaassenzeindad'] == 'yes'))
                 {
-                    $collegamenti = "<a href='../assenze/assdad.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese&idclasse=$idclasse'>Riepilogo assenze DAD giornata</a>&nbsp;&nbsp;&nbsp;";
+                    $collegamenti = "<a href='../assenze/assdad.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese&idclasse=$idclasse'>Riepilogo assenze orarie giornata</a>&nbsp;&nbsp;&nbsp;";
                 } else
                 {
                     $collegamenti = "<a href='../assenze/ass.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese&idclasse=$idclasse'>Assenze</a>&nbsp;&nbsp;&nbsp;";
@@ -178,7 +178,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 {
                     if ((lezione_dad($idclasse, $data, $conn)) & ($_SESSION['disabilitaassenzeindad'] == 'yes'))
                     {
-                       $collegamenti = "<a href='../assenze/assdad.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese&idclasse=$idclasse'>Riepilogo assenze DAD giornata</a>&nbsp;&nbsp;&nbsp;";
+                       $collegamenti = "<a href='../assenze/assdad.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese&idclasse=$idclasse'>Riepilogo assenze orarie giornata</a>&nbsp;&nbsp;&nbsp;";
                     } else
                     {
                         $collegamenti = "<a href='../assenze/ass.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese&idclasse=$idclasse'>Assenze</a>&nbsp;&nbsp;&nbsp;";
