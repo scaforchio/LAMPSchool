@@ -44,7 +44,7 @@ if ($asslezal != 0) {
 
     eseguiQuery($con, $query);
 } else {
-    if ($esistelezione) {
+    if ($esisteassenza) {
         $query = "delete from tbl_asslezione where idalunno=$idal and idlezione=$idlezione";
         eseguiQuery($con, $query);
     }
