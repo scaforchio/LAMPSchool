@@ -34,10 +34,10 @@ if ($tipoutente == "")
 //    Parte iniziale della pagina
 //
 
-$titolo = "Inserimento e modifica valutazioni obiettivi";
+$titolo = "Inserimento e modifica valutazioni obiettivi primo quadrimestre";
 $script = "";
 
-stampa_head($titolo, "", $script, "SP");
+stampa_head($titolo, "", $script, "DS");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 //
@@ -57,8 +57,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 $idclasse = stringa_html('idclasse');
 $idalunno = stringa_html('idalunno');
-$ritorno = stringa_html('ritorno');
-//$idmateria = stringa_html('idmateria');
+$idmateria = stringa_html('idmateria');
 /* if ($idalunno!="")
   $idclasse= estrai_classe_alunno($idalunno, $con);
   else
@@ -67,7 +66,7 @@ $ritorno = stringa_html('ritorno');
 $id_ut_doc = $_SESSION["idutente"];
 
 print ('
-         <form method="post" action="obvalutazioni.php" name="voti">
+         <form method="post" action="obproposteint.php" name="voti">
    
          <p align="center">
          <table align="center">
@@ -78,6 +77,28 @@ print ('
 //   Leggo il nominativo del docente e lo visualizzo
 //
 
+$query = "select cognome, nome from tbl_docenti where idutente='$id_ut_doc'";
+$ris = eseguiQuery($con, $query);
+if ($nom = mysqli_fetch_array($ris))
+{
+    $cognomedoc = $nom["cognome"];
+    $nomedoc = $nom["nome"];
+    $nominativo = $nomedoc . " " . $cognomedoc;
+}
+
+
+print("    
+        <tr>
+              <td><b>Docente</b></td>
+
+          <td>
+          <INPUT TYPE='text' VALUE='$nominativo' disabled>
+          <input type='hidden' value='$iddocente' name='iddocente'>
+          </td></tr>");
+
+//
+//   Classi
+//
 
 print('
         <tr>
@@ -115,9 +136,43 @@ echo('
 
 if ($idclasse != '')
 {
-    if (scrutinio_aperto($idclasse, $_SESSION['numeroperiodi'], $con))
+    if (scrutinio_aperto($idclasse, 1, $con))
     {
+        print('
+        <tr>
+        <td width="50%"><b>Materia</b></td>
+        <td width="50%">
+        <SELECT ID="idmateria" NAME="idmateria" ONCHANGE="voti.submit()"><option value="">');
 
+        $query = "select distinct tbl_materie.idmateria, denominazione from tbl_cattnosupp, tbl_materie "
+                . "where tbl_cattnosupp.idmateria=tbl_materie.idmateria "
+                . "and idclasse='$idclasse'"
+                . "and iddocente='$id_ut_doc' order by denominazione";
+        // print inspref($query);
+        $ris = eseguiQuery($con, $query);
+        while ($nom = mysqli_fetch_array($ris))
+        {
+            print "<option value='";
+            print ($nom["idmateria"]);
+            print "'";
+            if ($idmateria == $nom["idmateria"])
+            {
+                print " selected";
+            }
+            print ">";
+            print ($nom["denominazione"]);
+        }
+
+        echo('
+      </SELECT>
+      </td></tr>');
+    }
+    else
+        
+        print "<tr><td colspan=2><b><center><br>Scrutinio già chiuso!<br></center></b></td></tr>";
+        
+    if ($idclasse != '' && $idmateria != '')
+    {
         print('
         <tr>
         <td width="50%"><b>Alunno</b></td>
@@ -148,8 +203,7 @@ if ($idclasse != '')
         echo('
       </SELECT>
       </td></tr>');
-    } else
-        print "<tr><td colspan=2><b><center><br>Scrutinio già chiuso!<br></center></b></td></tr>";
+    } 
 }
 echo('</table>
  
@@ -164,51 +218,48 @@ echo('</form><hr>');
 //Stabilisco il livello scuola
 
 /*
-  $annoclasse = decodifica_anno_classe($idclasse, $con);
+$annoclasse = decodifica_anno_classe($idclasse, $con);
 
-  if ($annoclasse == 3 || $annoclasse == 8)
-  $livscuola = 2;
-  if ($annoclasse == 5)
-  $livscuola = $_SESSION['livello_scuola']; */
+if ($annoclasse == 3 || $annoclasse == 8)
+    $livscuola = 2;
+if ($annoclasse == 5)
+    $livscuola = $_SESSION['livello_scuola']; */
 
 if ($idalunno != '')
 {
-    print "<form name='regprop' action='obinsvalutazioni.php' method='POST'>";
+    print "<form name='regprop' action='obinsproposteint.php' method='POST'>";
     print "<input type='hidden' name='iddocente' value='$id_ut_doc'>";
     print "<input type='hidden' name='idalunno' value='$idalunno'>";
     print "<input type='hidden' name='idclasse' value='$idclasse'>";
-    print "<input type='hidden' name='ritorno' value='$ritorno'>";
+    print "<input type='hidden' name='idmateria' value='$idmateria'>";
 
     print "<table border=1 align = 'center'>";
     print "<tr class='prima'><td>Progr.</td><td>Obiettivo</td><td>Valutazione</td></tr>";
-    $query = "select * from tbl_obiettivi,tbl_materie where tbl_obiettivi.idmateria=tbl_materie.idmateria"
-            . " and idclasse=$idclasse "
-            . " order by tbl_materie.progrpag, tbl_obiettivi.progressivo";
-
+    $query = "select * from tbl_obiettivi where idmateria=$idmateria and idclasse=$idclasse order by progressivo";
     $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris))
     {
-
+        
         print "<tr>";
         print "<td valign='middle' width=5%>" . $rec['progressivo'] . "</td>";
 
-        print "<td valign='middle' width=60%><b>" . $rec['denominazione'] . "</b><br>" . $rec['obiettivo'] . "</td>";
+        print "<td valign='middle' width=60%>" . $rec['obiettivo'] . "</td>";
         // CERCO EVENTUALE VALUTAZIONE GIA' INSERITA
-        $idlivelloob = "";
-        $query = "select * from tbl_valutazioniobiettivi where idalunno=$idalunno and idobiettivo=" . $rec['idobiettivo'] . " and periodo=2";
-
-        $risvalob = eseguiQuery($con, $query);
-        if (mysqli_num_rows($risvalob) == 1)
-        {
-
-            $recvalob = mysqli_fetch_array($risvalob);
-            $idlivelloob = $recvalob['idlivelloobiettivo'];
-        }
-
-
-        print("<td>
+        $idlivelloob="";
+        $query="select * from tbl_valutazioniobiettivi where idalunno=$idalunno and idobiettivo=".$rec['idobiettivo']." and periodo=1";
         
-        <SELECT ID='idlivelloob_" . $rec['idobiettivo'] . "' NAME='idlivelloob_" . $rec['idobiettivo'] . "' ><option value=''>");
+        $risvalob= eseguiQuery($con,$query);
+        if (mysqli_num_rows($risvalob)==1)
+        {
+            
+            $recvalob= mysqli_fetch_array($risvalob);
+            $idlivelloob=$recvalob['idlivelloobiettivo'];
+        }
+        
+        
+         print("<td>
+        
+        <SELECT ID='idlivelloob_".$rec['idobiettivo']."' NAME='idlivelloob_".$rec['idobiettivo']."' ><option value=''>");
 
         $query = "select * from tbl_livelliobiettivi ";
 
@@ -224,29 +275,23 @@ if ($idalunno != '')
             }
             print ">";
             print ($nomlivob["abbreviazione"]);
+            
         }
 
         echo('
       </SELECT></td>');
+        
+        
+        
+      
     }
     print "</tr>";
-    print "</table>";
-    if (scrutinio_aperto($idclasse, $_SESSION['numeroperiodi'], $con))
-    {
-    print "<center><br><input type='submit' value='Registra proposte'><br></center>";
-    }
-    print "</form>";
-    print "<center><a href='obstampaschede.php?idalunno=$idalunno'>Stampa scheda</a></center>";
-    
-   
-    if ($ritorno=='tab')
-    {
-       
-        print "<br><br>";
-        print "<center><a href='../scrutini/riepvotifinali.php?cl=$idclasse'>Ritorno a tabellone</a></center>";
-    }
-    
 }
+print "</table>";
+
+print "<center><br><input type='submit' value='Registra proposte'><br>";
+
+print "</form>";
 
 mysqli_close($con);
 stampa_piede("");

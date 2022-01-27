@@ -31,13 +31,13 @@ $ris= eseguiQuery($con, $query);
 while ($rec=mysqli_fetch_array($ris))
 {
     $idobiettivo=$rec['idobiettivo'];
-    $query="select * from tbl_valutazioniobiettivi where idobiettivo=$idobiettivo and idalunno=$idalunno and periodo=2";
+    $query="select * from tbl_valutazioniobiettivi where idobiettivo=$idobiettivo and idalunno=$idalunno and periodo=1";
      print $query;
     $risval= eseguiQuery($con, $query);
     if (mysqli_num_rows($risval)==0)
     {
         $query="insert into tbl_valutazioniobiettivi(idalunno,idobiettivo,periodo)"
-                . " values ($idalunno,$idobiettivo,2)";
+                . " values ($idalunno,$idobiettivo,1)";
          print $query;
         eseguiQuery($con, $query);
     }
@@ -62,7 +62,7 @@ $daticrud['campiordinamento'] = "idmateria,progressivo";
 // Condizione di selezione, specificare solo 'true' se non ce ne sono
 
 
-$daticrud['condizione'] = "idalunno=$idalunno and periodo='2'"; 
+$daticrud['condizione'] = "idalunno=$idalunno and periodo='1'"; 
 
 
 $daticrud['abilitazionemodifica'] = 1;

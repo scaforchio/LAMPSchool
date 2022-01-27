@@ -24,8 +24,7 @@ require_once '../lib/req_apertura_sessione.php';
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "")
-{
+if ($tipoutente == "") {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -67,7 +66,7 @@ $ritorno = stringa_html('ritorno');
 $id_ut_doc = $_SESSION["idutente"];
 
 print ('
-         <form method="post" action="obvalutazioni.php" name="voti">
+         <form method="post" action="obvalutazioniint.php" name="voti">
    
          <p align="center">
          <table align="center">
@@ -88,13 +87,11 @@ print('
 $query = "select distinct tbl_cattnosupp.idclasse, anno, sezione, specializzazione from tbl_cattnosupp, tbl_classi where tbl_cattnosupp.idclasse=tbl_classi.idclasse and iddocente='$id_ut_doc' order by anno, sezione, specializzazione";
 
 $ris = eseguiQuery($con, $query);
-while ($nom = mysqli_fetch_array($ris))
-{
+while ($nom = mysqli_fetch_array($ris)) {
     print "<option value='";
     print ($nom["idclasse"]);
     print "'";
-    if ($idclasse == $nom["idclasse"])
-    {
+    if ($idclasse == $nom["idclasse"]) {
         print " selected";
     }
     print ">";
@@ -113,10 +110,8 @@ echo('
 //  ALUNNI
 //
 
-if ($idclasse != '')
-{
-    if (scrutinio_aperto($idclasse, $_SESSION['numeroperiodi'], $con))
-    {
+if ($idclasse != '') {
+    if (scrutinio_aperto($idclasse, 1, $con)) {
 
         print('
         <tr>
@@ -127,13 +122,11 @@ if ($idclasse != '')
         $query = "select idalunno, cognome, nome, datanascita from tbl_alunni where idclasse='$idclasse' order by cognome,nome,datanascita";
 
         $ris = eseguiQuery($con, $query);
-        while ($nom = mysqli_fetch_array($ris))
-        {
+        while ($nom = mysqli_fetch_array($ris)) {
             print "<option value='";
             print ($nom["idalunno"]);
             print "'";
-            if ($idalunno == $nom["idalunno"])
-            {
+            if ($idalunno == $nom["idalunno"]) {
                 print " selected";
             }
             print ">";
@@ -171,9 +164,8 @@ echo('</form><hr>');
   if ($annoclasse == 5)
   $livscuola = $_SESSION['livello_scuola']; */
 
-if ($idalunno != '')
-{
-    print "<form name='regprop' action='obinsvalutazioni.php' method='POST'>";
+if ($idalunno != '') {
+    print "<form name='regprop' action='obinsvalutazioniint.php' method='POST'>";
     print "<input type='hidden' name='iddocente' value='$id_ut_doc'>";
     print "<input type='hidden' name='idalunno' value='$idalunno'>";
     print "<input type='hidden' name='idclasse' value='$idclasse'>";
@@ -186,8 +178,7 @@ if ($idalunno != '')
             . " order by tbl_materie.progrpag, tbl_obiettivi.progressivo";
 
     $ris = eseguiQuery($con, $query);
-    while ($rec = mysqli_fetch_array($ris))
-    {
+    while ($rec = mysqli_fetch_array($ris)) {
 
         print "<tr>";
         print "<td valign='middle' width=5%>" . $rec['progressivo'] . "</td>";
@@ -195,11 +186,10 @@ if ($idalunno != '')
         print "<td valign='middle' width=60%><b>" . $rec['denominazione'] . "</b><br>" . $rec['obiettivo'] . "</td>";
         // CERCO EVENTUALE VALUTAZIONE GIA' INSERITA
         $idlivelloob = "";
-        $query = "select * from tbl_valutazioniobiettivi where idalunno=$idalunno and idobiettivo=" . $rec['idobiettivo'] . " and periodo=2";
+        $query = "select * from tbl_valutazioniobiettivi where idalunno=$idalunno and idobiettivo=" . $rec['idobiettivo'] . " and periodo=1";
 
         $risvalob = eseguiQuery($con, $query);
-        if (mysqli_num_rows($risvalob) == 1)
-        {
+        if (mysqli_num_rows($risvalob) == 1) {
 
             $recvalob = mysqli_fetch_array($risvalob);
             $idlivelloob = $recvalob['idlivelloobiettivo'];
@@ -213,13 +203,11 @@ if ($idalunno != '')
         $query = "select * from tbl_livelliobiettivi ";
 
         $rislivob = eseguiQuery($con, $query);
-        while ($nomlivob = mysqli_fetch_array($rislivob))
-        {
+        while ($nomlivob = mysqli_fetch_array($rislivob)) {
             print "<option value='";
             print ($nomlivob["idlivelloobiettivo"]);
             print "'";
-            if ($idlivelloob == $nomlivob["idlivelloobiettivo"])
-            {
+            if ($idlivelloob == $nomlivob["idlivelloobiettivo"]) {
                 print " selected";
             }
             print ">";
@@ -231,21 +219,17 @@ if ($idalunno != '')
     }
     print "</tr>";
     print "</table>";
-    if (scrutinio_aperto($idclasse, $_SESSION['numeroperiodi'], $con))
-    {
-    print "<center><br><input type='submit' value='Registra proposte'><br></center>";
+    if (scrutinio_aperto($idclasse, 1, $con)) {
+        print "<center><br><input type='submit' value='Registra proposte'><br></center>";
     }
     print "</form>";
-    print "<center><a href='obstampaschede.php?idalunno=$idalunno'>Stampa scheda</a></center>";
-    
-   
-    if ($ritorno=='tab')
-    {
-       
+    print "<center><a href='obstampaschedeint.php?idalunno=$idalunno'>Stampa scheda</a></center>";
+
+    if ($ritorno == 'tab') {
+
         print "<br><br>";
-        print "<center><a href='../scrutini/riepvotifinali.php?cl=$idclasse'>Ritorno a tabellone</a></center>";
+        print "<center><a href='../scrutini/riepvoti.php?cl=$idclasse&periodo=1'>Ritorno a tabellone</a></center>";
     }
-    
 }
 
 mysqli_close($con);

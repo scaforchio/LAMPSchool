@@ -86,6 +86,18 @@ $script = "<script type='text/javascript'>
                   window.open(link);
 			   }
                
+               function stampaOB(alunno='')
+                {
+                    datast=document.getElementById('datastampa').value;
+                    firmadir=document.getElementById('firmadirigente').value;
+                    gioass=document.getElementById('gioass').value;
+                    link='../obiettivi/obstampaschedeint.php?classe=$idclasse&periodo=$numper&firma='+firmadir+'&data='+datast+'&gioass='+gioass;
+                    if (alunno!='')
+                       link='../obiettivi/obstampaschedeint.php?firma='+firmadir+'&data='+datast+'&gioass='+gioass+'&idalunno='+alunno;
+
+                    window.open(link);
+		}      
+
                function stampaTAB()
                {
                   datast=document.getElementById('datastampa').value;
@@ -478,6 +490,10 @@ if ($idclasse != "")
                 {
                     print "<img src='../immagini/stampaA4.png' height='24' width='24' onclick='stampaA4($idalunno)'  onmouseover=$(this).css('cursor','pointer')>";
                 }
+                if ($_SESSION['livello_scuola'] != '4')
+                {
+                    print "&nbsp;<a href='../obiettivi/obvalutazioniint.php?idclasse=$idclasse&idalunno=$idalunno&ritorno=tab'>OB</a>";
+                }
                 print "</td>";
                 //     }
                 //     else
@@ -687,7 +703,10 @@ if ($idclasse != "")
 				   ";
             print "</div>";
             print "<br><div style=\"text-align: center;\"><img src='../immagini/stampaA4.png' onclick='stampaA4(\"\")'  onmouseover=$(this).css('cursor','pointer')>";
+            print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaOB.png' onclick='stampaOB()'  onmouseover=$(this).css('cursor','pointer')>";
+        
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaVERB.png' onclick='stampaVERB()'  onmouseover=$(this).css('cursor','pointer')>";
+            
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaTAB.png' onclick='stampaTAB()'  onmouseover=$(this).css('cursor','pointer')>";
             print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaSEP.png' onclick='stampaSEP()'  onmouseover=$(this).css('cursor','pointer')>";
 
@@ -812,6 +831,7 @@ if ($idclasse != "")
                                <input type='hidden' name='votitab' value='yes'>
                                ";
         print "<br><center><img src='../immagini/stampaA4.png' onclick='stampaA4(\"\")'  onmouseover=$(this).css('cursor','pointer')>";
+        print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaOB.png' onclick='stampaOB()'  onmouseover=$(this).css('cursor','pointer')>";
         print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaVERB.png' onclick='stampaVERB()'  onmouseover=$(this).css('cursor','pointer')>";
         print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaTAB.png' onclick='stampaTAB()'  onmouseover=$(this).css('cursor','pointer')>";
         print "&nbsp;&nbsp;&nbsp;<img src='../immagini/stampaSEP.png' onclick='stampaSEP()'  onmouseover=$(this).css('cursor','pointer')>";

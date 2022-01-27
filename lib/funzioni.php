@@ -648,7 +648,7 @@ function controlla_password($con,$password, $utente, $cu, $pe)
     foreach ($listasemi as $seme)
     {
        
-
+       // die (print "Unikey $unikey Seme $seme Password $password");
         if (md5($unikey . $seme) == $password | md5(md5($cu) . $seme) == $password)
         {
             

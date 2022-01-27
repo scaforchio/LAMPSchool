@@ -1703,7 +1703,8 @@ ADD PRIMARY KEY (idabilita), ADD KEY idcompetenza (idcompetenza);
 ALTER TABLE tbl_abilscol
 ADD PRIMARY KEY (idabilita), ADD UNIQUE KEY idcompetenza (idcompetenza,numeroordine,abil_cono);
 
-
+ALTER TABLE tbl_diffusionecircolari
+ADD KEY utenti(idutente), ADD KEY circolare(idcircolare);
 
 ALTER TABLE tbl_recuperipermessi
 ADD PRIMARY KEY (idrecupero);
@@ -2660,7 +2661,7 @@ MODIFY idesmaterie int(11) AUTO_INCREMENT;
 
 -- IMPORTAZIONE DATI
 
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2020.10', 'Versione del software', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2020.11', 'Versione del software', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'nome_scuola', '', 'Nome della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'comune_scuola', '', 'Comune sede della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'sito_scuola', 'http://', 'Indirizzo web dell''home page della scuola', '');
@@ -11814,6 +11815,7 @@ CREATE TABLE IF NOT EXISTS tbl_valutazioniobiettivi (
   idvalutazioneobiettivo int(11) AUTO_INCREMENT PRIMARY KEY,
   idalunno int(11) not null,
   idobiettivo int(11) not null,
+  periodo char(1) not null,
   idlivelloobiettivo int(11) not null default 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

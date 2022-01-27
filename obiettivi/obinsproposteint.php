@@ -39,11 +39,11 @@ $idmateria = stringa_html('idmateria');
 $idalunno = stringa_html('idalunno');
 $idclasse = stringa_html('idclasse');
 
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='obproposte.php?idclasse=$idclasse'>PROPOSTE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='obproposteint.php?idclasse=$idclasse'>PROPOSTE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 // Cancello le vecchie proposte
 
-$querydel = "delete from tbl_valutazioniobiettivi where idalunno=$idalunno and periodo=2 and idobiettivo in (select idobiettivo from tbl_obiettivi where idclasse=$idclasse and idmateria=$idmateria)";
+$querydel = "delete from tbl_valutazioniobiettivi where idalunno=$idalunno and periodo=1 and idobiettivo in (select idobiettivo from tbl_obiettivi where idclasse=$idclasse and idmateria=$idmateria)";
 
 eseguiQuery($con, $querydel);
 
@@ -62,7 +62,7 @@ while ($rec = mysqli_fetch_array($ris))
     
     if ($giud != '')
     {
-        $queryins = "insert into tbl_valutazioniobiettivi(idalunno,idobiettivo,idlivelloobiettivo,periodo) values ($idalunno, $idobiettivo,$giud,2)";
+        $queryins = "insert into tbl_valutazioniobiettivi(idalunno,idobiettivo,idlivelloobiettivo,periodo) values ($idalunno, $idobiettivo,$giud,1)";
         eseguiQuery($con, $queryins);
     }
 }
@@ -71,7 +71,7 @@ while ($rec = mysqli_fetch_array($ris))
 
 print "<br><br><center><big>Inserimento effettuato!</big>";
 print ('
-			<form method="post" action="obproposte.php">
+			<form method="post" action="obproposteint.php">
 			<p align="center">');
 
     // Se la lezione non è stata cancellata si passa il codice

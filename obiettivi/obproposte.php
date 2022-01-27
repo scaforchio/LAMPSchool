@@ -167,7 +167,9 @@ if ($idclasse != '')
       </SELECT>
       </td></tr>');
     }
-    if ($idclasse != '' and idmateria != '')
+    else
+        print "<tr><td colspan=2><b><center><br>Scrutinio già chiuso!<br></center></b></td></tr>";
+    if ($idclasse != '' && $idmateria != '')
     {
         print('
         <tr>
@@ -199,8 +201,7 @@ if ($idclasse != '')
         echo('
       </SELECT>
       </td></tr>');
-    } else
-        print "<tr><td colspan=2><b><center><br>Scrutinio già chiuso!<br></center></b></td></tr>";
+    } 
 }
 echo('</table>
  

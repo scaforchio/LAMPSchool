@@ -49,7 +49,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a>$goback[1] -
 $idclasse = stringa_html('idclasse');
 
 print ('
-   <form method="post" action="scrutobiettiviintermedio.php" name="obiettivi">
+   <form method="post" action="scrutobiettivifinale.php" name="obiettivi">
          
          <input type="hidden" name="idclasse" value="' . $nome . '">
    

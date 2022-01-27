@@ -267,14 +267,15 @@ if ($cambiamentopassword) {
         menu_item('../valutazioni/proposte.php', 'MEDIE E PROPOSTE DI VOTO');
         menu_item('../valutazionecomportamento/valcomp.php', 'VOTO COMPORTAMENTO');
         menu_item('../valutazionecomportamento/sitvalcompalu.php', 'SITUAZIONE VOTI COMPORTAMENTO');
-        menu_item('../obiettivi/obproposte.php', 'PROPOSTE VALUTAZIONI PER ALUNNI');
+        menu_item('../obiettivi/obproposteint.php', 'PROPOSTE VALUTAZIONI INTERMEDIE PER ALUNNI');
+        menu_item('../obiettivi/obproposte.php', 'PROPOSTE VALUTAZIONI FINALI PER ALUNNI');
 
         menu_title_end();
         if ($_SESSION['livello_scuola'] != 4) {
             menu_title_begin('CERTIFICAZIONE COMPETENZE');
             menu_item('../obiettivi/CRUDobiettivi.php', 'GESTIONE OBIETTIVI MATERIE/CLASSE');
-            menu_item('../obiettivi/scrutobiettiviintermedio.php', 'SCRUTINIO OBIETTIVI');
-
+            menu_item('../obiettivi/scrutobiettiviintermedio.php', 'SCRUTINIO INTERMEDIO OBIETTIVI');
+            menu_item('../obiettivi/scrutobiettivifinale.php', 'SCRUTINIO FINALE OBIETTIVI');
             menu_title_end();
         }
 
@@ -548,7 +549,8 @@ if ($cambiamentopassword) {
         menu_item('../valutazioni/visvalpre.php', 'VISUALIZZA SITUAZIONE ALUNNO');
         menu_item('../valutazionecomportamento/valcomp.php', 'VOTO COMPORTAMENTO');
         menu_item('../valutazionecomportamento/sitvalcompalu.php', 'SITUAZIONE VOTI COMPORTAMENTO');
-        menu_item('../obiettivi/obproposte.php', 'PROPOSTE VALUTAZIONI PER ALUNNI');
+         menu_item('../obiettivi/obproposteint.php', 'PROPOSTE VALUTAZIONI INTERMEDIE PER ALUNNI');
+        menu_item('../obiettivi/obproposte.php', 'PROPOSTE VALUTAZIONI FINALI PER ALUNNI');
 
         menu_title_end();
 

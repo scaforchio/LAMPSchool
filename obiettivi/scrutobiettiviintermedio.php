@@ -118,7 +118,7 @@ if (($idclasse != ""))
     {
         $cont++;
         $idalunno=$val['idalunno'];
-        $query = "select * from tbl_valutazioniobiettivi where idalunno=$idalunno";
+        $query = "select * from tbl_valutazioniobiettivi where idalunno=$idalunno and periodo=1";
         $risvalins = eseguiQuery($con, $query);
         if (mysqli_num_rows($risvalins) == 0)
             $azione = "INSERISCI";
@@ -132,7 +132,7 @@ if (($idclasse != ""))
           
           
           
-          <td><b> <a href='CRUDobiettiviscrutini.php?idalunno=" . $val['idalunno'] . "'>$azione</a> </b></td></tr>";
+          <td><b> <a href='CRUDobiettiviscrutiniint.php?idalunno=" . $val['idalunno'] . "'>$azione</a> </b></td></tr>";
     }
     print "</table>";
 // fine if

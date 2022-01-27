@@ -44,7 +44,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='
 
 // Cancello le vecchie proposte
 
-$querydel = "delete from tbl_valutazioniobiettivi where idalunno=$idalunno and idobiettivo in (select idobiettivo from tbl_obiettivi where idclasse=$idclasse)";
+$querydel = "delete from tbl_valutazioniobiettivi where idalunno=$idalunno and periodo=2 and idobiettivo in (select idobiettivo from tbl_obiettivi where idclasse=$idclasse)";
 
 eseguiQuery($con, $querydel);
 

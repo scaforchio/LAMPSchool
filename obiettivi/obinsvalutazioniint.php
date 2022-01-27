@@ -35,21 +35,22 @@ $script = "";
 stampa_head($titolo, "", $script, "SDP");
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
-$idmateria = stringa_html('idmateria');
+//$idmateria = stringa_html('idmateria');
 $idalunno = stringa_html('idalunno');
 $idclasse = stringa_html('idclasse');
+$ritorno = stringa_html('ritorno');
 
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='obproposte.php?idclasse=$idclasse'>PROPOSTE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='obvalutazioni.php?idclasse=$idclasse'>PROPOSTE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 // Cancello le vecchie proposte
 
-$querydel = "delete from tbl_valutazioniobiettivi where idalunno=$idalunno and periodo=2 and idobiettivo in (select idobiettivo from tbl_obiettivi where idclasse=$idclasse and idmateria=$idmateria)";
+$querydel = "delete from tbl_valutazioniobiettivi where idalunno=$idalunno and periodo=1 and idobiettivo in (select idobiettivo from tbl_obiettivi where idclasse=$idclasse)";
 
 eseguiQuery($con, $querydel);
 
 // Inserisco le nuove proposte per ogni competenza presente
 
-$query = "select * from tbl_obiettivi where idclasse=$idclasse and idmateria=$idmateria";
+$query = "select * from tbl_obiettivi where idclasse=$idclasse";
 
 $ris = eseguiQuery($con, $query);
 
@@ -62,7 +63,7 @@ while ($rec = mysqli_fetch_array($ris))
     
     if ($giud != '')
     {
-        $queryins = "insert into tbl_valutazioniobiettivi(idalunno,idobiettivo,idlivelloobiettivo,periodo) values ($idalunno, $idobiettivo,$giud,2)";
+        $queryins = "insert into tbl_valutazioniobiettivi(idalunno,idobiettivo,idlivelloobiettivo,periodo) values ($idalunno, $idobiettivo,$giud,1)";
         eseguiQuery($con, $queryins);
     }
 }
@@ -71,14 +72,14 @@ while ($rec = mysqli_fetch_array($ris))
 
 print "<br><br><center><big>Inserimento effettuato!</big>";
 print ('
-			<form method="post" action="obproposte.php">
+			<form method="post" action="obvalutazioniint.php">
 			<p align="center">');
 
     // Se la lezione non è stata cancellata si passa il codice
     
         print ('<p align="center"><input type=hidden value=' . $idclasse . ' name=idclasse>');
         print ('<p align="center"><input type=hidden value=' . $idalunno . ' name=idalunno>');
-        print ('<p align="center"><input type=hidden value=' . $idmateria . ' name=idmateria>');
+        print ('<p align="center"><input type=hidden value=' . $ritorno . ' name=ritorno>');
     print('<input type="submit" value="OK" name="b"></p></form>');
 
 
