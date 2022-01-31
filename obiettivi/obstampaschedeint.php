@@ -248,7 +248,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
         if ($_SESSION['livello_scuola'] != 4) {
             $numasse = $recasse['numassenze'];
             $schede->SetFont('Arial', 'B', 7);
-            $schede->Cell(55, 6, "Numero assenze", 0);
+            $schede->Cell(55, 6, "Numero assenze nel periodo", 0);
             $schede->SetFont('Arial', 'BI', 8);
             $schede->Cell(35, 6, $numasse, 1, 1, 'C');
         }
