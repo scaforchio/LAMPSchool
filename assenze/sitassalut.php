@@ -183,7 +183,7 @@ echo "
 if ($rs9)
 {
     print "<tr><td colspan=3>";
-    print "<center><b>Assenze a lezioni in didattica a distanza</b></center><br>";
+    print "<center><b>Assenze orarie a lezioni</b></center><br>";
     while ($val9 = mysqli_fetch_array($rs9))
     {
         
