@@ -191,7 +191,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
     $ris = eseguiQuery($con, $query);
     while ($rec = mysqli_fetch_array($ris)) {
         $posizioneraggiunta = $schede->GetY();
-        if ($posizioneraggiunta > 250) {
+        if ($posizioneraggiunta > 240) {
             $schede->AddPage();
             $posY = 0;
         }
@@ -216,7 +216,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
                 . " and idalunno=$alu and tbl_valutazioniobiettivi.idobiettivo=" . $rec['idobiettivo'] . " and periodo=1 order by progrpag, progressivo";
         $risval = eseguiQuery($con, $query);
         if ($recval = mysqli_fetch_array($risval)) {
-            if ($posizioneraggiunta > 270) {
+            if ($posizioneraggiunta > 260) {
                 $schede->AddPage();
                 $posY = 0;
             }

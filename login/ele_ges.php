@@ -1152,6 +1152,7 @@ if ($cambiamentopassword) {
         menu_title_begin('ASSENZE');
 
         menu_item('../assenze/sitmensassalu.php', 'ASSENZE MENSILI ALUNNO');
+        menu_item('../valutazioni/visvalpre.php', 'ASSENZE ALUNNO');
         menu_title_end();
         menu_title_begin('SCRUTINI');
         menu_item('../scrutini/riepvoti.php', 'SCRUTINI INTERMEDI');

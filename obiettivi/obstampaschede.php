@@ -202,7 +202,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
     while ($rec = mysqli_fetch_array($ris))
     {
         $posizioneraggiunta = $schede->GetY();
-        if ($posizioneraggiunta > 250)
+        if ($posizioneraggiunta > 240)
         {
             $schede->AddPage();
             $posY = 0;
@@ -230,7 +230,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
         $risval = eseguiQuery($con, $query);
         if ($recval = mysqli_fetch_array($risval))
         {
-            if ($posizioneraggiunta > 270)
+            if ($posizioneraggiunta > 260)
             {
                 $schede->AddPage();
                 $posY = 0;
@@ -256,6 +256,19 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
     $posY = 10;
     // }
 
+    // ESTRAGGO NUMERO DI ASSENZE
+    $query = "select count(*) as numassenze from tbl_assenze where idalunno=$alu";
+    $risasse = eseguiQuery($con, $query);
+
+    if ($recasse = mysqli_fetch_array($risasse)) {
+        if ($_SESSION['livello_scuola'] != 4) {
+            $numasse = $recasse['numassenze'];
+            $schede->SetFont('Arial', 'B', 7);
+            $schede->Cell(55, 6, "Numero assenze nell'anno", 0);
+            $schede->SetFont('Arial', 'BI', 8);
+            $schede->Cell(35, 6, $numasse, 1, 1, 'C');
+        }
+    }
     $query = "SELECT giudizio from tbl_giudizi
 						WHERE idalunno=$alu
 						AND periodo='" . $_SESSION['numeroperiodi'] . "'";
