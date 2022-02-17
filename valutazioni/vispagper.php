@@ -32,8 +32,7 @@ require_once '../lib/req_apertura_sessione.php';
 //  istruzioni per tornare alla pagina di login se non c'è una sessione valida
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "")
-{
+if ($tipoutente == "") {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -49,13 +48,9 @@ $script = "";
 stampa_head($titolo, "", $script, "SDMAPT");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
-
 $codalunno = $_SESSION['idstudente'];
 
-
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
-
-
 
 // prelevamento dati alunno
 
@@ -64,97 +59,96 @@ $ris = eseguiQuery($con, $query);
 
 // echo '<table border=1 align="center" width="800"  >';
 
-if ($val = mysqli_fetch_array($ris))
-{
+if ($val = mysqli_fetch_array($ris)) {
     echo '<center><b>Pagella dell\'Alunno: ' . $val["cognome"] . ' ' . $val["nome"] . '</b></center><br/>';
 }
 
 
-if (!scrutinio_aperto($val['idclasse'], $per, $con))
-{
-
-    // prelevamento voti
-    $query = "SELECT * from tbl_valutazionifinali,tbl_materie 
+if (!scrutinio_aperto($val['idclasse'], $per, $con)) {
+    if ($_SESSION['livello_scuola'] == 4) {
+        // prelevamento voti
+        $query = "SELECT * from tbl_valutazionifinali,tbl_materie 
           where tbl_valutazionifinali.idmateria=tbl_materie.idmateria
           and idalunno=$codalunno and periodo = $per order by tbl_materie.progrpag";
 
-    $ris = eseguiQuery($con, $query);
-    // print $query;
-    if (mysqli_num_rows($ris) > 0)
-    {
-        print ("<table border=2 align=center><tr class='prima'><td>Materia</td><td align=center>Scritto</td><td align=center>Orale</td><td>Pratico</td><td align=center>Unico</td><td align=center>Annotazioni</td><td align=center>Assenze</td></tr>");
-        $mat = "";
-        while ($val = mysqli_fetch_array($ris))
-        {
-            $query = "select * from tbl_materie where idmateria = " . $val['idmateria'];
-            $rismat = eseguiQuery($con, $query);
-            $recmat = mysqli_fetch_array($rismat);
-            $materia = $recmat['denominazione'];
+        $ris = eseguiQuery($con, $query);
+        // print $query;
+        if (mysqli_num_rows($ris) > 0) {
+            print ("<table border=2 align=center><tr class='prima'><td>Materia</td><td align=center>Scritto</td><td align=center>Orale</td><td>Pratico</td><td align=center>Unico</td><td align=center>Annotazioni</td><td align=center>Assenze</td></tr>");
+            $mat = "";
+            while ($val = mysqli_fetch_array($ris)) {
+                $query = "select * from tbl_materie where idmateria = " . $val['idmateria'];
+                $rismat = eseguiQuery($con, $query);
+                $recmat = mysqli_fetch_array($rismat);
+                $materia = $recmat['denominazione'];
 
-            print "<tr>";
-            print "<td>";
-            print $materia;
-            print "</td>";
-            print "<td align=center>&nbsp;";
-            if ($val['votoscritto'] < 6 | ($val['votoscritto'] > 10 & $val['votoscritto'] < 16)) // is_numeric($val['votoscritto']))
-                print "<font color=red><b>";
-            else
-                print "<font color=green><b>";
-            print dec_to_vot($val['votoscritto']);
-            print "</td>";
-            print "<td align=center>&nbsp;";
-            if ($val['votoorale'] < 6 | ($val['votoorale'] > 10 & $val['votoorale'] < 16)) // is_numeric($val['votoscritto']))
-                print "<font color=red><b>";
-            else
-                print "<font color=green><b>";
-            print dec_to_vot($val['votoorale']);
-            print "</td>";
-            print "<td align=center>&nbsp;";
-            if ($val['votopratico'] < 6 | ($val['votopratico'] > 10 & $val['votopratico'] < 16)) // is_numeric($val['votoscritto']))
-                print "<font color=red><b>";
-            else
-                print "<font color=green><b>";
-            print dec_to_vot($val['votopratico']);
-            print "</td>";
-            print "<td align=center>&nbsp;";
-            if ($val['votounico'] < 6 | ($val['votounico'] > 10 & $val['votounico'] < 16)) // is_numeric($val['votoscritto']))
-                print "<font color=red><b>";
-            else
-                print "<font color=green><b>";
-            print dec_to_vot($val['votounico']);
-            print "</td>";
-            print "<td align=center>&nbsp;";
-            print $val['note'];
-            print "</td>";
-            print "<td align=center>&nbsp;";
-            print $val['assenze'];
-            print "</td>";
-            print "</tr>";
+                print "<tr>";
+                print "<td>";
+                print $materia;
+                print "</td>";
+                print "<td align=center>&nbsp;";
+                if ($val['votoscritto'] < 6 | ($val['votoscritto'] > 10 & $val['votoscritto'] < 16)) // is_numeric($val['votoscritto']))
+                    print "<font color=red><b>";
+                else
+                    print "<font color=green><b>";
+                print dec_to_vot($val['votoscritto']);
+                print "</td>";
+                print "<td align=center>&nbsp;";
+                if ($val['votoorale'] < 6 | ($val['votoorale'] > 10 & $val['votoorale'] < 16)) // is_numeric($val['votoscritto']))
+                    print "<font color=red><b>";
+                else
+                    print "<font color=green><b>";
+                print dec_to_vot($val['votoorale']);
+                print "</td>";
+                print "<td align=center>&nbsp;";
+                if ($val['votopratico'] < 6 | ($val['votopratico'] > 10 & $val['votopratico'] < 16)) // is_numeric($val['votoscritto']))
+                    print "<font color=red><b>";
+                else
+                    print "<font color=green><b>";
+                print dec_to_vot($val['votopratico']);
+                print "</td>";
+                print "<td align=center>&nbsp;";
+                if ($val['votounico'] < 6 | ($val['votounico'] > 10 & $val['votounico'] < 16)) // is_numeric($val['votoscritto']))
+                    print "<font color=red><b>";
+                else
+                    print "<font color=green><b>";
+                print dec_to_vot($val['votounico']);
+                print "</td>";
+                print "<td align=center>&nbsp;";
+                print $val['note'];
+                print "</td>";
+                print "<td align=center>&nbsp;";
+                print $val['assenze'];
+                print "</td>";
+                print "</tr>";
+            }
+
+            // Cerco il giudizio
+
+            $query = "select * from tbl_giudizi where idalunno = $codalunno and periodo = '$per'";
+            $risgiu = eseguiQuery($con, $query);
+            if ($recgiu = mysqli_fetch_array($risgiu)) {
+                print "<tr class='prima'><td colspan=7 align=center><b>Giudizio complessivo</b></td></tr>";
+                print "<tr><td colspan=7 align=center>" . $recgiu['giudizio'] . "</b></td></tr>";
+            }
+            print ("</table><br/>");
+            print "<br><center><a href='../scrutini/stampaschedealu.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a></center>";
+        } else {
+            print("<br/><big><big><center>Non ci sono voti registrati!</center><small><small><br/>");
         }
-
-        // Cerco il giudizio
-
-        $query = "select * from tbl_giudizi where idalunno = $codalunno and periodo = '$per'";
-        $risgiu = eseguiQuery($con, $query);
-        if ($recgiu = mysqli_fetch_array($risgiu))
-        {
-            print "<tr class='prima'><td colspan=7 align=center><b>Giudizio complessivo</b></td></tr>";
-            print "<tr><td colspan=7 align=center>" . $recgiu['giudizio'] . "</b></td></tr>";
-        }
-        print ("</table><br/>");
-        print "<br><center><a href='../scrutini/stampaschedealu.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a></center>";
-    } else
-    {
-        print("<br/><big><big><center>Non ci sono voti registrati!</center><small><small><br/>");
+    } else {
+        
+         print "<br><center><a href='../obiettivi/obstampaschedeint.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampa.png'></a>";
+         
+         print "&nbsp;&nbsp;&nbsp;<a href='../scrutini/stampaschedeseparatefin.php?idalunno=$codalunno&periodo=$per' target='_blank'><img src='../immagini/stampaSEP.png'></a>";
+           
+        
+        
     }
-} else
-{
+} else {
     print("<br/><big><big><center>Scrutinio non ancora chiuso!</center><small><small><br/>");
 }
 
 mysqli_close($con);
 stampa_piede("");
-
-
-
 
