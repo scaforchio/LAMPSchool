@@ -20,7 +20,7 @@ function elimina_assenze_lezione($conn, $idalunno, $datalezione, $idclasse = "")
 }
 
 function inserisci_assenze_per_ritardi_uscite($conn, $idalunno, $data) {
-
+    
     $idclasse = estrai_classe_alunno_data($idalunno, $data, $conn);
     $query = "select * from tbl_lezioni where  idclasse='$idclasse' and datalezione='$data'";
     $rislez = eseguiQuery($conn, $query);
@@ -30,14 +30,23 @@ function inserisci_assenze_per_ritardi_uscite($conn, $idalunno, $data) {
         $durata = $reclez['numeroore'];
         $idmateria = $reclez['idmateria'];
         $inizio = $reclez['orainizio'];
-
+   
         $numeroore = oreassenza($inizio, $durata, $idalunno, $data, $conn);
+     
         if ($numeroore > 0) {
-            // Modifica per giustificare in automatico le assenze orarie in caso di uscita anticipata o ritardo
-            // $query = "insert into tbl_asslezione(idalunno, idlezione, idmateria, data, oreassenza) values ($idalunno,$idlezione,$idmateria,'$data',$numeroore)";
-            $query = "insert into tbl_asslezione(idalunno, idlezione,idmateria,data,oreassenza,forzata,giustifica,iddocentegiust,datagiustifica) values ($idalunno,$idlezione,$idmateria,'$data',$numeroore,true,true,0,'$data')";
-            eseguiQuery($conn, $query);
+             $query = "insert into tbl_asslezione(idalunno, idlezione, idmateria, data, oreassenza) values ($idalunno,$idlezione,$idmateria,'$data',$numeroore)";
+             eseguiQuery($conn, $query);
         }
+        // tttt
+        //    Modifica per giustificare in automatico le assenze orarie in caso di uscita anticipata o ritardo
+          
+        if (lezione_dad($idclasse, $data, $conn))
+        {
+            $query = "update tbl_asslezione set giustifica=true,iddocentegiust=0,datagiustifica='$data' 
+                                  where idalunno=$idalunno and idlezione=$idlezione";
+            eseguiQuery($conn,$query);
+        }
+    
     }
 }
 

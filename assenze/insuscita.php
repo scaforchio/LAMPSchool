@@ -125,6 +125,7 @@ while ($id = mysqli_fetch_array($ris))
     }
     if ($cambiamento)
     {
+      
         //ricalcola_uscite($con, $idalunno, $data, $data);
         elimina_assenze_lezione($con, $idalunno, $data);
         inserisci_assenze_per_ritardi_uscite($con, $idalunno, $data);
