@@ -23,7 +23,9 @@ if ($asslezal != 0) {
     if (mysqli_num_rows($ris) > 0) {
         $query = "select * from tbl_usciteanticipate where idalunno=$idal and data = '$data'";
         $ris = eseguiQuery($con, $query);
-        if (mysqli_num_rows($ris) > 0) {
+        $query2 = "select * from tbl_autorizzazioniuscite where idalunno=$idal and data = '$data'";
+        $ris2 = eseguiQuery($con, $query2);
+        if ((mysqli_num_rows($ris) > 0) | (mysqli_num_rows($ris2) > 0)) {
             $flaguscent = true;
         } else {
             $query = "select * from tbl_ritardi where idalunno=$idal and data = '$data'";
