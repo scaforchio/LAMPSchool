@@ -52,6 +52,7 @@ print " <center>
         <td align='center'>Data</td>
         <td align='center'>Elimina</td>
         <td align='center'>Modifica classi</td>
+        <td align='center'>Att./Dis.</td>
         </tr>";
 
 while ($row = mysqli_fetch_array($result))
@@ -66,6 +67,10 @@ while ($row = mysqli_fetch_array($result))
                   <td align='center'> <a href= './salvaclassicoll.php?idgiornata=$idgiornata'> <img src='../immagini/edit.png'> <a/> </td>";
     else
         print "<td>&nbsp;</td><td>&nbsp;</td>";
+    if ($row['attiva'])
+        print "<td align='center'><a href= './disattivagiornata.php?idgiornata=$idgiornata'> DISATTIVA </a> </td>";
+    else
+        print "<td align='center'><a href= './attivagiornata.php?idgiornata=$idgiornata'> ATTIVA </a> </td>";
     print "</tr>";
 };
 

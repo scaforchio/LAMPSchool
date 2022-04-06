@@ -62,6 +62,7 @@ $query = "select distinct tbl_colloquiclasse.idgiornatacolloqui,data"
         . " where tbl_colloquiclasse.idgiornatacolloqui=tbl_giornatacolloqui.idgiornatacolloqui"
         . " and ((data>'" . date('Y-m-d') . "') or (data='".date('Y-m-d')."' and '$oraattuale' < orainizio))"
         . " and idclasse=$idclassealunno "
+        . " and attiva "
         . " order by data";
 
 //print inspref($query);
