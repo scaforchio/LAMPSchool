@@ -66,7 +66,7 @@ function skebbyGatewaySendSMS($username, $password, $recipients, $text, $sms_typ
 {
     // print "$username|$password|$recipients[0]|$text|$sms_type|$sender_number|$sender_string|$user_reference";
     
-    $url = 'http://gateway.skebby.it/api/send/smseasy/advanced/http.php';
+    $url = 'https://gateway.skebby.it/api/send/smseasy/advanced/http.php';
 
     if (!is_array($recipients))
     {
@@ -138,7 +138,7 @@ function skebbyGatewaySendSMSParam($username, $password, $recipients, $text, $sm
 {
     
     //  print "$username|$password|$recipients|$text|$sms_type|$sender_number|$sender_string|$user_reference";
-    $url = 'http://gateway.skebby.it/api/send/smseasy/advanced/http.php';
+    $url = 'https://gateway.skebby.it/api/send/smseasy/advanced/http.php';
 
     if (!is_array($recipients))
     {
@@ -220,7 +220,7 @@ function skebbyGatewaySendSMSParam($username, $password, $recipients, $text, $sm
 
 function skebbyGatewayGetCredit($username, $password, $charset = '')
 {
-    $url = "http://gateway.skebby.it/api/send/smseasy/advanced/http.php";
+    $url = "https://gateway.skebby.it/api/send/smseasy/advanced/http.php";
     $method = "get_credit";
 
     $parameters = 'method='
