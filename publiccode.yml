@@ -1,0 +1,81 @@
+# This repository adheres to the publiccode.yml standard by including this 
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.2'
+categories:
+  - learning-management-system
+description:
+  it:
+    features:
+      - Gestione voti
+      - Gestione assenze
+    genericName: Registro elettronico LAMPSchool
+    longDescription: |
+      Registro elettronico per la gestione di:
+
+
+      - alunni
+
+      - classi
+
+      - assenze
+
+      - voti
+
+      - valutazioni
+
+      - note
+
+      - pagelle
+
+      - assenze docenti
+
+      - colloqui
+
+      - invio SMS
+
+      - invio email
+
+      - interfacciamento con Moodle
+
+
+      Il software permette di gestire tutte le attività relative alla didattica.
+      L'interfacciamento con Moodle consente inoltre di creare facilmente corsi
+      associando direttamente i docenti e gli alunni ai vari corsi.
+
+
+      Il software può interfacciarsi inoltre con un apparato marca tempo
+      (Arduino con software e progetto open source) che rileva gli ingressi e le
+      uscite degli alunni. 
+    shortDescription: Registro elettronico per scuole di ogni ordine e grado.
+developmentStatus: stable
+it:
+  conforme:
+    gdpr: false
+    lineeGuidaDesign: false
+    misureMinimeSicurezza: false
+    modelloInteroperabilita: false
+  countryExtensionVersion: '0.2'
+  piattaforme:
+    anpr: false
+    cie: false
+    pagopa: false
+    spid: false
+legal:
+  license: AGPL-3.0-or-later
+localisation:
+  availableLanguages:
+    - it
+  localisationReady: false
+maintenance:
+  contacts:
+    - email: pietro.tamburrano@gmail.com
+      name: Pietro Tamburrano
+  type: community
+name: LAMPSchool
+platforms:
+  - web
+releaseDate: '2022-04-20'
+softwareType: standalone/web
+url: 'https://github.com/scaforchio/LAMPSchool'
