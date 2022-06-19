@@ -230,7 +230,7 @@ function stampa_alunno(&$schede, $alu, $idclasse, $firmadir, $datastampa, $tipos
         $risval = eseguiQuery($con, $query);
         if ($recval = mysqli_fetch_array($risval))
         {
-            if ($posizioneraggiunta > 260)
+            if ($posizioneraggiunta > 250)
             {
                 $schede->AddPage();
                 $posY = 0;
