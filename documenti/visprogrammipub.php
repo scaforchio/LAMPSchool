@@ -44,7 +44,7 @@ else
 @require_once("../php-ini" . $suffisso . ".php");
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 require "../lib/req_assegna_parametri_a_sessione.php";
-
+$_SESSION['prefisso'] = $prefisso_tabelle;
 $_SESSION["annoscol"] = $_SESSION['annoscol']; //prende la variabile presente nella sessione
 $_SESSION['versione'] = $_SESSION['versioneprecedente'];
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
@@ -127,6 +127,7 @@ if ($classe != "")
 			  order by anno, specializzazione,sezione, denominazione";
     //print inspref($query);
     $ris = eseguiQuery($con, $query);
+   // print inspref($query);
     while ($nom = mysqli_fetch_array($ris))
     {
 
@@ -149,6 +150,10 @@ if ($classe != "")
 
     print "</table>";
 }
+
+// print "Prefisso ".$_SESSION['prefisso'];
+// print "Suffisso ".$_SESSION['suffisso'];
+// print "Tipo utente ".$_SESSION['tipoutente'];
 mysqli_close($con);
 stampa_piede("", false);
 
