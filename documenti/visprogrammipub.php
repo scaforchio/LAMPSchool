@@ -1,7 +1,15 @@
 <?php
 
-require_once '../lib/req_apertura_sessione.php';
-
+session_start();
+/* if (!isset($_SESSION['prefisso']))
+{
+    print "<br><br><b><big><center>Sessione scaduta!</center></big></b>";
+    print "<br><b><big><center>Rieffettuare il <a href='../'>login</a>.</center></big></b>";
+    die;
+}
+ * 
+ * 
+ */
 /*
   Copyright (C) 2015 Pietro Tamburrano
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
