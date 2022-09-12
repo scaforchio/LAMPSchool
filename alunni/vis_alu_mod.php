@@ -190,7 +190,7 @@ if (!$res)
         }
 
         print("</select> </td> </tr>");
-        print ("<tr> <td> <i> Indirizzo <span style=\"color: #cc0000; \"></span></i> </td> <td align='left'> <input type='text' value='$indirizzo' name='indirizzo' size='30' maxlength='30'> </td> </tr>");
+        print ("<tr> <td> <i> Indirizzo <span style=\"color: #cc0000; \"></span></i> </td> <td align='left'> <input type='text' value='$indirizzo' name='indirizzo' size='60' maxlength='60'> </td> </tr>");
         //$sqlb="SELECT * FROM tbl_comuni ORDER BY denominazione";
         mysqli_data_seek($resa, 0); // Ritorna all'inizio del resultset
         $resb = $resa; // Evita di rifare la query sui comuni : eseguiQuery($con,$sqlb);

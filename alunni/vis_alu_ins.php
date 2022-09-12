@@ -129,7 +129,7 @@ if (!$DB)
 
     print("</select> </td> </tr>");
     print ("<tr> <td> <i> Indirizzo</i></td>");
-    print("<td> <input type='text' name='indirizzo' size='30' maxlength='30' value=''> </td> </tr>");
+    print("<td> <input type='text' name='indirizzo' size='60' maxlength='60' value=''> </td> </tr>");
     mysqli_data_seek($resa, 0); // Ritorna all'inizio del resultset
     $resb = $resa; // Evita di rifare la query sui comuni : eseguiQuery($con,$sqlb);
     if (!$resb)
