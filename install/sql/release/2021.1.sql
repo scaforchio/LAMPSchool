@@ -2661,7 +2661,7 @@ MODIFY idesmaterie int(11) AUTO_INCREMENT;
 
 -- IMPORTAZIONE DATI
 
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2020.11', 'Versione del software', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2021.1', 'Versione del software', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'nome_scuola', '', 'Nome della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'comune_scuola', '', 'Comune sede della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'sito_scuola', 'http://', 'Indirizzo web dell''home page della scuola', '');
