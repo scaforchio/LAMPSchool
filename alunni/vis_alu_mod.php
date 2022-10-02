@@ -320,12 +320,15 @@ if (!$res)
 
         print("</td></tr></table></td></tr>");
         print("<tr bgcolor='lightgrey'><td>Data inizio frequenza nella classe<br><small><b><span style=\"color: red; \">(Da compilare per cambiamenti di classe durante l'anno,<br>lasciare vuota se la classe è valida da inizio anno<br>o per cancellare i cambiamenti inseriti.)</b></span>");
-
+        
 
         print("</td>");
         print("<td align='left'><input type='text' name='datacambioclasse' id='datacambioclasse' maxlength='10' size='10'></td></tr>"); // TTTTT Da completare
 
 
+        print("</tr>");
+
+        print("<tr bgcolor='lightgrey'> Per cambiare le impostazioni OIDC usare la pagina dedicata.");
         print("</tr>");
 
 

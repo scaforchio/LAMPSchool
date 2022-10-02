@@ -4,6 +4,7 @@ require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
+  Copyright (C) 2022 Pietro Tamburrano, Vittorio Lo Mele
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
@@ -62,6 +63,10 @@ $provenienza = stringa_html('provenienza');
 $titoloammissione = stringa_html('titoloammissione');
 $sequenzaiscrizione = stringa_html('sequenzaiscrizione');
 $datacambio = stringa_html('datacambioclasse');
+$oidc_enable = stringa_html('oidc_enable');
+$oidc_uid = stringa_html('oidc_uid');
+$oidc_enable_gen = stringa_html('oidc_enable_gen');
+$oidc_uid_gen = stringa_html('oidc_uid_gen');
 $datacambio = $datacambio != "" ? data_to_db($datacambio) : "";
 
 //connessione al server
@@ -237,7 +242,7 @@ if (!$DB)
                 $utentealunno = "al" . $_SESSION['suffisso'] . $idalunnoinserito;
                 $passwordalunno = creapassword();
             }
-            $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idalunnoinserito','$utente',md5('" . md5($password) . "'),'T')";
+            $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo,oidc_uid,oidc_authmode) values ('$idalunnoinserito','$utente',md5('" . md5($password) . "'),'T', '$oidc_uid_gen' , '$oidc_enable_gen')";
             $res = eseguiQuery($con, $sqlt);
             $sqlt = "update tbl_alunni set idtutore=$idalunnoinserito,idutente=$idalunnoinserito where idalunno=$idalunnoinserito";
             $res = eseguiQuery($con, $sqlt);
@@ -245,7 +250,7 @@ if (!$DB)
             if ($_SESSION['gestioneutentialunni'] == 'yes')
             {
                 $idutentealunno = $idalunnoinserito + 2100000000;
-                $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$idutentealunno','$utentealunno',md5('" . md5($passwordalunno) . "'),'L')";
+                $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo,oidc_uid,oidc_authmode) values ('$idutentealunno','$utentealunno',md5('" . md5($passwordalunno) . "'),'L' , '$oidc_uid', '$oidc_enable')";
                 $res = eseguiQuery($con, $sqlt);
             }
 
