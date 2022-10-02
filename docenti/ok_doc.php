@@ -4,6 +4,7 @@ require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
+  Copyright (C) 2022 Pietro Tamburrano, Vittorio Lo Mele
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
@@ -52,6 +53,9 @@ $sostegno = stringa_html('sostegno');
 $gestoremoodle = stringa_html('gestoremoodle');
 $telefono = stringa_html('telefono');
 $cellulare = stringa_html('telcel');
+
+$oidc_enable = stringa_html('oidc_enable');
+$oidc_uid = stringa_html('oidc_uid');
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 if (!$con)
@@ -147,7 +151,7 @@ if ($err == 1)
         $utente = "doc" . ($iddocenteinserito - 1000000000);
         $utentemoodle = "doc" . $_SESSION['suffisso'] . ($iddocenteinserito - 1000000000);
         $password = creapassword();
-        $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('$iddocenteinserito','$utente',md5('" . md5($password) . "'),'D')";
+        $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo,oidc_uid,oidc_authmode) values ('$iddocenteinserito','$utente',md5('" . md5($password) . "'),'D', '$oidc_uid', '$oidc_enable')";
         $res = eseguiQuery($con, $sqlt);
         if ($_SESSION['tokenservizimoodle'] != '')
         {

@@ -1581,6 +1581,8 @@ CREATE TABLE IF NOT EXISTS tbl_utenti (
   numutilizzitoken tinyint(1)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE tbl_utenti ADD oidc_uid VARCHAR(255) NOT NULL AFTER numutilizzitoken, ADD oidc_authmode VARCHAR(1) NOT NULL DEFAULT 'd' COMMENT 'd = disabled, e = enabled, x = exclusive' AFTER oidc_uid;
+
 -- --------------------------------------------------------
 
 --
@@ -2792,6 +2794,13 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'tempomassimosessione', '60', 'Tempo logout in minuti dopo ultima azione', '5|10|15|20|30|40|50|60|120|1440');
 
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'mailpermdopoauto', 'yes', 'Invio della mail per richiesta permesso a protocollo dopo autorizzazione (yes/no).', 'yes|no');
+
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_issuer', NULL, 'URL del server e realm di autenticazione OpenID', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_client_id', NULL, 'Client ID', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_enabled', 'no', 'Abilita accesso tramite OIDC, se impostato su exclusive l accesso al registro sarà possibile solo tramite OIDC.', 'no|yes|exclusive');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_provider_name', NULL, 'Nome da mostrare sulla pagina di accesso per OIDC.', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_client_secret', NULL, 'Client secret', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_redirect_uri', NULL, 'Redirect URI dopo il logout', '');
 
 INSERT INTO tbl_materie (idmateria, denominazione, idclasseconcorso, tipovalutazione, sigla) VALUES (-1, 'Comportamento', 0, 'CU', 'COMPO');
 INSERT INTO tbl_materie (idmateria, denominazione, idclasseconcorso, tipovalutazione, sigla) VALUES ( 0, 'Supplenza',     0, 'N', 'SUPP');

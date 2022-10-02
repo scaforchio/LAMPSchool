@@ -135,6 +135,9 @@ else
     print("<tr>\n\t<td> Email</td>\n\t");
     print(" <td><input type ='text' size='20' name='email' value= '" . $Data['email'] . "'></td>\n</tr>\n");
 
+    print("<tr bgcolor='lightgrey'> Per cambiare le impostazioni OIDC usare la pagina dedicata.");
+        print("</tr>");
+
     print("</table><br/>");
     print("<INPUT TYPE='SUBMIT' VALUE='Modifica'>");
     print("</form><br/>");

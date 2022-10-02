@@ -7,6 +7,7 @@ require_once '../lib/funzioni.php';
 //@require_once("../lib/sms/php-send.php");
 /*
   Copyright (C) 2015 Pietro Tamburrano
+  Copyright (C) 2022 Pietro Tamburrano, Vittorio Lo Mele
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
@@ -73,11 +74,15 @@ if (mysqli_num_rows($ris) > 0) {
     die;
 }
 
-
-
 $tipoaccesso = controlla_password($con, $password, $username, $_SESSION['chiaveuniversale'], $_SESSION['passwordesame']);
 
-// print "Tipo accesso: $tipoaccesso";
+// controlla se utente ha accesso esclusivo OIDC
+$sqlc = "SELECT oidc_authmode FROM tbl_utenti WHERE userid='" . $username . "' AND oidc_authmode = 'x'";
+$risc = eseguiQuery($con, $sqlc);
+if(mysqli_num_rows($risc) > 0){
+    header("location: login.php?messaggio=Utente sconosciuto&suffisso=" . $_SESSION['suffisso']);
+    die();
+}
 
 
 if ($tipoaccesso == 0) {

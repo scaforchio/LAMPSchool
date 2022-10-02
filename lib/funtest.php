@@ -113,7 +113,7 @@ function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, 
  * @param string $ns
  * @param string $cs
  */
-function stampa_testata($funzione, $ct, $ns, $cs)
+function stampa_testata($funzione, $ct, $ns, $cs, $isProfileSelector = false)
 { //,$ab="DSPM") {
     $annoscolastico = 'A.S. ' . $_SESSION['annoscol'] . " / " . ($_SESSION['annoscol'] + 1);
     $nome = str_replace(".php", "", basename($_SERVER['PHP_SELF']));
@@ -125,42 +125,64 @@ function stampa_testata($funzione, $ct, $ns, $cs)
         $tipoutente = $_SESSION['tipoutente'];
     }
 
+    $descrizione = "";
 
-    $descrizione = '';
+    $urlCorrente = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $urlProfili = $_SESSION["oidc_redirect_uri"] . "/login/oidclogin.php?suffisso=" . $_SESSION["suffisso"];
 
-    if ($tipoutente == 'D' | $tipoutente == 'P' | $tipoutente == 'S' | $tipoutente == 'A')
-    {
-        $descrizione .= $_SESSION['cognome'] . " " . $_SESSION['nome'];
-    } elseif ($tipoutente == 'T')
-    {
-        $descrizione .= 'Tutore alunno ' . $_SESSION['cognome'] . " " . $_SESSION['nome'];
-    } elseif ($tipoutente == 'L')
-    {
-        $descrizione .= 'Alunno ' . $_SESSION['cognome'] . " " . $_SESSION['nome'];
-    } elseif ($tipoutente == 'M')
-    {
-        $descrizione .= 'Admin';
-    } elseif ($tipoutente == 'E')
-    {
-        $descrizione .= 'ESAMI DI STATO';
-    } else
-    {
-        $descrizione .= 'Ospite';
+    if($_SESSION["oidc-step2"]){
+        $descrizione .= "SSO: ";
     }
 
+    if($isProfileSelector){
+        $descrizione .= $_SESSION["oidc_fullname"];
+    }else{
+        if ($tipoutente == 'D' | $tipoutente == 'P' | $tipoutente == 'S' | $tipoutente == 'A') // doc pres staff amm
+        {
+            $descrizione .= $_SESSION['cognome'] . " " . $_SESSION['nome'];
+        } elseif ($tipoutente == 'T')
+        {
+            $descrizione .= 'Tutore alunno ' . $_SESSION['cognome'] . " " . $_SESSION['nome'];
+        } elseif ($tipoutente == 'L')
+        {
+            $descrizione .= 'Alunno ' . $_SESSION['cognome'] . " " . $_SESSION['nome'];
+        } elseif ($tipoutente == 'M')
+        {
+            $descrizione .= 'Admin';
+        } elseif ($tipoutente == 'E')
+        {
+            $descrizione .= 'ESAMI DI STATO';
+        } else
+        {
+            if($_SESSION["oidc-step2"]){
+                $descrizione .= $_SESSION["oidc_fullname"];
+            }else{
+                $descrizione .= 'Ospite';
+            }
+        }
+    }
 
     if ($_SESSION['alias'])
     {
         $descrizione .= " (<a href='../contr/cambiautenteritorno.php'>Esci da ALIAS</a>)";
     }
 
-    
-        print "\n<body><div class='contenuto'>";
+    print "\n<body><div class='contenuto'>";
 
     if ($nome != 'login')
     {
-        print "<div class='logout' align='right'>$descrizione <a href='../login/login.php?suffisso=" . get_suffisso() . "&logout=true'><img src='../immagini/logout.png' title='Logout'></a></div>\n";
+        print "<div class='logout' align='right'>$descrizione ";
+        if($_SESSION["oidc_multiprofile"]){
+            print "<a href='$urlProfili' style='margin-right: 5px;'><img src='../immagini/profili.png' title='Cambia profilo'></a>";
+        }
+        if($_SESSION["oidc-step2"]){
+            $impacc = $_SESSION["oidc_issuer"]."/account?referrer=";
+            $impacc .= $_SESSION["oidc_client_id"] . "&referrer_uri=" . urlencode($urlCorrente);
+            print "<a href='$impacc' style='margin-right: 5px;'><img src='../immagini/impro.png' title='Impostazioni profilo'></a>";
+        }
+        print "<a href='../login/login.php?suffisso=" . get_suffisso() . "&logout=true'><img src='../immagini/logout.png' title='Logout'></a></div>";
     }
+    
     print "<div id='testata'>";
     $label = "";
 

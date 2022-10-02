@@ -16,9 +16,6 @@ if (isset($_GET['suffisso']))
 else
     $suffisso = '*';
 
-
-
-
 $scuole = array();
 $anni = array();
 $suffissi = array();
