@@ -241,7 +241,7 @@ per un totale di ore <input type='number' class='narrow' id='orepermessobreve' n
 				tel. <input type='text' name='telefonorecapito'>
 				<div>
 					Si allega (da consegnare in segreteria):
-					<input class='wide' type='text' name='allegati'>
+					<input class='wide' type='text' name='allegati' id='allegati'>
 				</div>
 			</div>
 
@@ -249,15 +249,7 @@ per un totale di ore <input type='number' class='narrow' id='orepermessobreve' n
 			
 		</form>
                 <script>
-			/*function dateFormat(d) {
-				var day = d.getDate();
-				var month = d.getMonth() + 1;
-				var year = d.getFullYear();
-				return day + '/' + month + '/' + year;
-			}
-                        */
-
-                    
+			                  
 
 			$(document).ready(function() {
 				$('input:radio[name=\\'reason\']').prop('checked', false);
@@ -306,6 +298,10 @@ per un totale di ore <input type='number' class='narrow' id='orepermessobreve' n
                                     document.getElementById('altromotivo').setAttribute('required',true);
                                 else
                                    document.getElementById('altromotivo').removeAttribute('required');
+                                if (selezione==1)
+                                    document.getElementById('allegati').setAttribute('required',true);
+                                else
+                                   document.getElementById('allegati').removeAttribute('required');   
 			});
 		</script>
 		

@@ -59,6 +59,7 @@ $visualizzabili = array("image/jpeg", "application/pdf", "image/pjpeg", "image/g
 $titolo = "Visualizzazione programmi svolti";
 $script = "";
 stampa_head($titolo, "", $script, "ASDTMO", false);
+// stampa_head($titolo, "", $script, "O", false);
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 $classe = stringa_html("classe");
 

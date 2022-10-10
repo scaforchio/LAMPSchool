@@ -43,6 +43,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 $nominativo = estrai_dati_docente($_SESSION['idutente'], $con);
 
+/*
 $cooldown_query = "SELECT COUNT(*) FROM `tbl_richiesteferie` WHERE `iddocente` = " . $_SESSION['idutente'] . " AND `oraultmod` > DATE_SUB(NOW(), INTERVAL 5 MINUTE)";
 $cooldown_res = eseguiQuery($con, $cooldown_query);
 $cooldown = mysqli_fetch_array($cooldown_res, MYSQLI_NUM);
@@ -52,7 +53,7 @@ if($cooldown[0] > 0){
     stampa_piede("");
     die;
 }
-
+*/
 $to = $_SESSION['indirizzomailassenze'];
 
 // NON USATA LA FUNZIONE stringa_html per evitare modifica dei tag html 
@@ -64,7 +65,7 @@ if ($numerogiorni == '')
     $numerogiorni = 0;
 if ($orepermessobreve == '')
     $orepermessobreve = 0;
-$query = "insert into tbl_richiesteferie(iddocente, subject, testomail,numerogiorni,orepermessobreve) values ('$iddocente','$subject','$testomail',$numerogiorni,$orepermessobreve)";
+$query = "insert into tbl_richiesteferie(iddocente, subject, testomail,numerogiorni,orepermessobreve,orariorichiesta) values ('$iddocente','$subject','$testomail',$numerogiorni,$orepermessobreve,'".date('H:i')."')";
 eseguiQuery($con, $query);
 $idrichiesta = mysqli_insert_id($con);
 

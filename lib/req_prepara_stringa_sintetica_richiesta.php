@@ -2,7 +2,10 @@
 
 $testocompleto = $rec['testomail'];
 
-print "<td><small><small>$testocompleto<big><big></td>";
+print "<td><small><small>$testocompleto<big><big>";
+if ($_SESSION['tipoutente']=='P')
+    print ("<br>Ora richiesta: ".$rec['orariorichiesta']);
+print "</td>";
 $concesso = $rec['concessione'];
 $annullata = $rec['annullata'];
 print "<td align='center' valign='middle'>";
