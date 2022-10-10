@@ -35,13 +35,15 @@ if ($tipoutente == "")
 }
 
 $titolo = "Richiesta astensione dal lavoro - testo mail";
+
 $script = " <script>
             $(function(){
                  $('inviorichiesta').submit(function(){
                  $(this).find(':input[type=submit]').prop('disabled', true);
                  });
             });
-            </script>"             ;
+            </script>"  ;
+
 stampa_head($titolo, "", $script, "MSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
