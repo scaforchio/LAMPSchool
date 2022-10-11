@@ -35,7 +35,15 @@ if ($tipoutente == "")
 }
 
 $titolo = "Richiesta astensione dal lavoro - testo mail";
-$script = "";
+
+$script = " <script>
+            $(function(){
+                 $('inviorichiesta').submit(function(){
+                 $(this).find(':input[type=submit]').prop('disabled', true);
+                 });
+            });
+            </script>"  ;
+
 stampa_head($titolo, "", $script, "MSD");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
@@ -115,7 +123,7 @@ $testomail .= "<br><br>";
 $testomail .= "<center>IN FEDE<br>$nominativo<br></center>";
 
 print "<br><br>" . $testomail;
-print "<br><form action='inviamailrichferie.php' method='post'>"
+print "<br><form action='inviamailrichferie.php' method='post' name='inviorichiesta'>"
         . "<input type='hidden' name='subject' value='$subject'>"
         . "<input type='hidden' name='testomail' value='$testomail'>"
         . "<input type='hidden' name='numerogiorni' value='$numerogiorni'>"

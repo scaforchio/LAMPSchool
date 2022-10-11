@@ -43,11 +43,12 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 
 $nominativo = estrai_dati_docente($_SESSION['idutente'], $con);
 
-$cooldown_query = "SELECT COUNT(*) FROM `tbl_richiesteferie` WHERE `iddocente` = " . $_SESSION['idutente'] . " AND `oraultmod` > DATE_SUB(NOW(), INTERVAL 5 MINUTE)";
+
+$cooldown_query = "SELECT COUNT(*) FROM `tbl_richiesteferie` WHERE `iddocente` = " . $_SESSION['idutente'] . " AND `oraultmod` > DATE_SUB(NOW(), INTERVAL 2 MINUTE)";
 $cooldown_res = eseguiQuery($con, $cooldown_query);
 $cooldown = mysqli_fetch_array($cooldown_res, MYSQLI_NUM);
 if($cooldown[0] > 0){
-    print "Errore!<br>Puoi inviare solo una richiesta ogni 5 minuti! <br><br>";
+    print "Errore!<br>Puoi inviare solo una richiesta ogni 2 minuti! <br><br>";
     mysqli_close($con);
     stampa_piede("");
     die;
@@ -64,7 +65,7 @@ if ($numerogiorni == '')
     $numerogiorni = 0;
 if ($orepermessobreve == '')
     $orepermessobreve = 0;
-$query = "insert into tbl_richiesteferie(iddocente, subject, testomail,numerogiorni,orepermessobreve) values ('$iddocente','$subject','$testomail',$numerogiorni,$orepermessobreve)";
+$query = "insert into tbl_richiesteferie(iddocente, subject, testomail,numerogiorni,orepermessobreve,orariorichiesta) values ('$iddocente','$subject','$testomail',$numerogiorni,$orepermessobreve,'".date('H:i')."')";
 eseguiQuery($con, $query);
 $idrichiesta = mysqli_insert_id($con);
 
