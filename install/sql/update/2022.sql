@@ -1,8 +1,9 @@
 --
--- Aggiornamento di LAMPSchool alla versione 2021.1
+-- Aggiornamento di LAMPSchool alla versione 2022
 --
 
 ALTER TABLE tbl_alunni CHANGE indirizzo indirizzo VARCHAR(60); 
+ALTER TABLE tbl_richiesteferie ADD orariorichiesta CHAR(5);
 
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_issuer', NULL, 'URL del server e realm di autenticazione OpenID', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_client_id', NULL, 'Client ID', '');
