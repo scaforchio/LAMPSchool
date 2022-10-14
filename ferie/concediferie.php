@@ -24,7 +24,7 @@ require_once '../lib/funzioni.php';
 //$lQuery = LQuery::getIstanza();
 // istruzioni per tornare alla pagina di login se non c'è una sessione valida
 
-
+inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §CONCFERIE: Inizio", $_SESSION['nomefilelog'], $suff);
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 //$iddocente = $_SESSION["idutente"];
 
@@ -45,6 +45,7 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 $nominativodirigente = estrai_dati_docente(1000000000, $con);
 $prot = stringa_html('prot');
 $conc = stringa_html('conc');
+inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §CONCFERIE: STEP 1", $_SESSION['nomefilelog'], $suff);
 $query = "select testomail from tbl_richiesteferie where idrichiestaferie=$prot";
 $ris = eseguiQuery($con, $query);
 $rec = mysqli_fetch_array($ris);
@@ -69,7 +70,7 @@ if (!$senzaconteggio)
 else
     $query = "update tbl_richiesteferie set concessione=$conc, numerogiorni=0, orepermessobreve=0, testomail=concat(testomail,'" . $esito . "') where idrichiestaferie=$prot";
 eseguiQuery($con, $query);
-
+inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §CONCFERIE: STEP 2", $_SESSION['nomefilelog'], $suff);
 $query = "select * from tbl_richiesteferie where idrichiestaferie=$prot";
 $ris = eseguiQuery($con, $query);
 $rec = mysqli_fetch_array($ris);
@@ -82,7 +83,7 @@ $query = "select email from tbl_docenti where iddocente=$iddocente";
 $risemail = eseguiQuery($con, $query);
 $recemail = mysqli_fetch_array($risemail);
 $indirizzomaildocente = $recemail['email'];
-
+inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §CONCFERIE: STEP 3", $_SESSION['nomefilelog'], $suff);
 if ($conc != 2)
 {
     $esitomailprotocollo = invia_mail($_SESSION['indirizzomailassenze'], $subject, $testomail);
@@ -130,5 +131,6 @@ if ($conc != 2)
        <center><input type='submit' value='OK'></center>
        </form>";
 }
+inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §CONCFERIE: FINE", $_SESSION['nomefilelog'], $suff);
 mysqli_close($con);
 stampa_piede("");
