@@ -240,7 +240,7 @@ per un totale di ore <input type='number' class='narrow' id='orepermessobreve' n
 				alla via <input type='text' name='indirizzodomicilio'> n <input type='text' class='narrow' name='numerodomicilio'>
 				tel. <input type='text' name='telefonorecapito'>
 				<div>
-					Si allega (da consegnare in segreteria):
+					Si allega motivazione che funge da autocertificazione (ovvero certificazione da consegnare in segreteria):
 					<input class='wide' type='text' name='allegati' id='allegati'>
 				</div>
 			</div>
