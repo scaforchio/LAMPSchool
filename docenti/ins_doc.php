@@ -4,6 +4,7 @@ require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
+  Copyright (C) 2022 Pietro Tamburrano, Vittorio Lo Mele
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
@@ -116,6 +117,15 @@ print ("</select></td></tr>");
 print ("<tr><td>Gestione moodle</td><td><select name='gestoremoodle'>");
 print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
 print ("</select></td></tr>");
+
+print ("<tr> <td><i>UUID OIDC</i></td>");
+print ("<td> <input type='text' name='oidc_uid' size='37' value=''> </td> </tr>");
+print ("<tr><td>Abilita accesso OIDC</td><td><select name='oidc_enable'>");
+print ("<option value='d' selected>No</option>");
+print ("<option value='e'>Si</option>");
+print ("<option value='x'>Forzato</option>");
+print ("</select>");
+print ('</td></tr>');
 
 print("</table><br/>");
 print("<INPUT TYPE='SUBMIT' VALUE='Inserisci'>");

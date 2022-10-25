@@ -4,6 +4,7 @@ require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
+  Copyright (C) 2022 Pietro Tamburrano, Vittorio Lo Mele
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
@@ -50,6 +51,9 @@ $comresi = stringa_html('idcomr')!=''?stringa_html('idcomr'):'0';
 $email = stringa_html('email');
 $telefono = stringa_html('telefono');
 $cellulare = stringa_html('telcel');
+
+$oidc_enable = stringa_html('oidc_enable');
+$oidc_uid = stringa_html('oidc_uid');
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 if (!$con)
@@ -144,7 +148,7 @@ if (mysqli_num_rows($res) != 0)
             // INSERISCO ANCHE IL RECORD NELLA TABELLA DEGLI tbl_utenti
             $utente = "preside";
             $password = creapassword();
-            $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo) values ('1000000000','$utente',md5('" . md5($password) . "'),'P')";
+            $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo,oidc_uid,oidc_authmode) values ('1000000000','$utente',md5('" . md5($password) . "'),'P', '$oidc_uid', '$oidc_enable')";
             $res = eseguiQuery($con, $sqlt);
 
 

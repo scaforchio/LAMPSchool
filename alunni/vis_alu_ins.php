@@ -4,6 +4,7 @@ require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
+  Copyright (C) 2022 Pietro Tamburrano, Vittorio Lo Mele
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
@@ -154,6 +155,21 @@ if (!$DB)
     }
     print ("<tr> <td><i>Codice SIDI</i></td>");
     print ("<td> <input type='text' name='sidi' size='20' maxlength='20' value=''> </td> </tr>");
+
+    print ("<tr> <td><i>UUID OIDC</i></td>");
+    print ("<td> <input type='text' name='oidc_uid' size='37' value=''> </td> </tr>");
+    print ("<tr> <td><i>UUID(s) OIDC Tutori	<br><small>(massimo 2 separati eventualmente da virgola)</small> </i></td>");
+    print ("<td> <input type='text' name='oidc_uid_gen' size='74' value=''> </td> </tr>");
+    print ("<tr><td>Abilita accesso OIDC ALU/TUTORE</td><td><select name='oidc_enable'>");
+    print ("<option value='d' selected>No</option>");
+    print ("<option value='e'>Si</option>");
+    print ("<option value='x'>Forzato</option>");
+    print ("</select><select name='oidc_enable_gen'>");
+    print ("<option value='d' selected>No</option>");
+    print ("<option value='e'>Si</option>");
+    print ("<option value='x'>Forzato</option>");
+    print ('</td></tr>');
+
     print ("<tr> <td><i>Numero di telefono</i></td>");
     print ("<td> <input type='text' name='tel' size='30' maxlength='15' value=''> </td> </tr>");
     print ("<tr> <td><i>Numero di cellulare<br><small>(massimo 2 separati eventualmente da virgola)</small> </i></td>");

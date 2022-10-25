@@ -4,6 +4,7 @@ require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
+  Copyright (C) 2022 Pietro Tamburrano, Vittorio Lo Mele
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
@@ -117,6 +118,15 @@ else
     print(" <td> <input type ='text' size='20' name='telcel'></td>\n</tr>\n");
     print("<tr>\n\t<td> Email</td>\n\t");
     print(" <td><input type ='text' size='20' name='email'></td>\n</tr>\n");
+
+    print ("<tr> <td><i>UUID OIDC</i></td>");
+    print ("<td> <input type='text' name='oidc_uid' size='37' value=''> </td> </tr>");
+    print ("<tr><td>Abilita accesso OIDC</td><td><select name='oidc_enable'>");
+    print ("<option value='d' selected>No</option>");
+    print ("<option value='e'>Si</option>");
+    print ("<option value='x'>Forzato</option>");
+    print ("</select>");
+    print ('</td></tr>');
 
     print("</table><br/>");
     print("<INPUT TYPE='SUBMIT' VALUE='Inserisci'>");
