@@ -1261,7 +1261,7 @@ if ($cambiamentopassword) {
 
             menu_title_end();
             menu_title_begin('COMUNICAZIONI SCUOLA-FAMIGLIA');
-            if ($_SESSION['utentesms'] != '')
+            if ($_SESSION['utentesms'] != '' & $_SESSION['abilgiustonline']=='yes')
                 menu_item('../assenze/giustassonline.php', 'GIUSTIFICA ASSENZE');
             menu_item('../circolari/viscircolari.php', 'LEGGI CIRCOLARI');
             menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');
