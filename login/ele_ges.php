@@ -32,6 +32,13 @@ if ($urlattuale == substr($urlorigine, 0, strlen($urlattuale))) {
     $origineok = true;
 }
 
+// il controllo dell'origine deve essere saltato in caso di accesso
+// tramite OIDC a profilo singolo, siccome il redirect verso LAMPSchool
+// da parte dell'IDP OIDC, passando direttamente senza bisogno di un clic di scelta
+// sul profilo da usare, non contiene l'header Referer, quindi il controllo fallisce
+if($_SESSION["oidc-step3"] == true && !isset($_SESSION["oidc_multiprofile"])){
+    $origineok = true;
+}
 
 //VERIFICO CHE LA SESSIONE NON SIA SCADUTA
 if (isset($_SESSION['prefisso'])) {
@@ -47,7 +54,7 @@ if (isset($_SESSION['prefisso'])) {
 
 // VERIFICO CHE NON SIA RICHIESTO IL TOKEN
 if (!$_SESSION['tokenok']) {
-    header("location: login.php?suffisso=" . $_SESSION['suffisso']);
+    header("location: login.php?messaggio=Errore token&suffisso=" . $_SESSION['suffisso']);
 }
 //print "PAR ".$_SESSION['annoscol'];
 
@@ -127,7 +134,7 @@ $idutente = $_SESSION["idutente"];
 $idesterno = "";
 
 if ($tipoutente == "" || !$origineok) {
-    header("location: login.php?suffisso=" . $_SESSION['suffisso']);
+    header("location: login.php?messaggio=Utente sconosciuto&suffisso=" . $_SESSION['suffisso']);
     die;
 }
 
@@ -981,6 +988,8 @@ if ($cambiamentopassword) {
         if ($_SESSION['gestioneutentialunni'] == 'yes')
             menu_item('../alunni/creautentialunni.php', 'Crea utenze per alunni');
         menu_item('../esame3m/abilitautenteesame.php', 'Abilita utente esame di stato');
+        if ($_SESSION['oidc_enabled'] == 'yes')
+            menu_item('../contr/oidcbindings.php', 'Bindings utenti Locali<->OIDC');
         menu_title_end();
 
         menu_separator("STRUMENTI DI SEGRETERIA");
@@ -1279,6 +1288,7 @@ if ($cambiamentopassword) {
         }
     }
 
+    
     if ($tipoutente == 'T' & $_SESSION['gensolocomunicazioni'] == 'yes') {
 
 //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";

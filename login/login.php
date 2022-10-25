@@ -1,6 +1,7 @@
 <?php
 /*
   Copyright (C) 2015 Pietro Tamburrano
+  Copyright (C) 2022 Pietro Tamburrano, Vittorio Lo Mele
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
@@ -28,13 +29,25 @@ require_once '../lib/funzioni.php';
 // si pulisce tutto il contenuto della sessione 
 // e si torna alla pagina di login
 
-
 session_start();
-//if (isset($_GET['logout'])) {
+
+// controlla se la sessione esistente è OIDC
+if($_SESSION["oidc-step2"]){
+    // effettua il logout anche sull'IDP OIDC
+    require "../lib/oidc/OpenIDConnectClient.php";
+    $oidc = new Jumbojett\OpenIDConnectClient($_SESSION["oidc_issuer"], $_SESSION["oidc_client_id"], $_SESSION["oidc_client_secret"]);
+    $token = $_SESSION["oidc_idtoken"];
+    $redi = $_SESSION["oidc_redirect_uri"];
     session_unset();
     session_destroy();
     session_start();
-//}
+    $oidc->signOut($token, $redi);
+}
+
+session_unset();
+session_destroy();
+session_start();
+
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 require "../lib/req_assegna_parametri_a_sessione.php";
 $_SESSION["prefisso"] = $prefisso_tabelle;
@@ -46,6 +59,10 @@ $_SESSION["alias"] = false;
 
 $json = leggeFileJSON('../lampschool.json');
 $_SESSION['versione'] = $json['versione'];
+
+if($_SESSION["oidc_enabled"] == "exclusive"){
+    header("Location: oidclogin.php");
+}
 
 $titolo = "Inserimento dati di accesso";
 $seedcasuale = mt_rand(100000, 999999);
@@ -108,9 +125,13 @@ if (strlen($messaggio) > 0) {
     </form>
     <br/>
     <br>
-
 <?php
-print "<a href='richresetpwd.php?suffisso=" . $_SESSION['suffisso'] . "'>Password dimenticata</a>";
+
+if ($_SESSION["oidc_enabled"] == "yes") {
+    print "<a href='oidclogin.php?suffisso=" . $_SESSION['suffisso'] . "'>Accedi con " . $_SESSION['oidc_provider_name']."</a>";
+}
+
+print "<br><br><a href='richresetpwd.php?suffisso=" . $_SESSION['suffisso'] . "'>Password dimenticata</a>";
 
 print "<br><br><a href='" . $_SESSION['sito_scuola'] . "' target='_top'>Ritorna ad home page</a>";
 ?>

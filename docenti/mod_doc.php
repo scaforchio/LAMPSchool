@@ -146,7 +146,11 @@ else
     else
         print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");
     print ("</select></td></tr>");
+    print("<tr bgcolor='lightgrey'> Per cambiare le impostazioni OIDC usare la pagina dedicata.");
+    print("</tr>");
+
     print("</table><br/>");
+
     print("<INPUT TYPE='SUBMIT' VALUE='Modifica'>");
     print("</form><br/>");
 }

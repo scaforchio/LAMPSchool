@@ -1,5 +1,3 @@
-para
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 
 -- --------------------------------------------------------
@@ -2662,7 +2660,7 @@ MODIFY idesmaterie int(11) AUTO_INCREMENT;
 
 -- IMPORTAZIONE DATI
 
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2022', 'Versione del software', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2022.1', 'Versione del software', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'nome_scuola', '', 'Nome della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'comune_scuola', '', 'Comune sede della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'sito_scuola', 'http://', 'Indirizzo web dell''home page della scuola', '');
@@ -2794,6 +2792,16 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'mailpermdopoauto', 'yes', 'Invio della mail per richiesta permesso a protocollo dopo autorizzazione (yes/no).', 'yes|no');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'abilgiustonline', 'no', 'Abilitazione giustifiche online (yes/no).', 'yes|no');
+
+
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_issuer', NULL, 'URL del server e realm di autenticazione OpenID', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_client_id', NULL, 'Client ID', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_enabled', 'no', 'Abilita accesso tramite OIDC, se impostato su exclusive l accesso al registro sarà possibile solo tramite OIDC.', 'no|yes|exclusive');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_provider_name', NULL, 'Nome da mostrare sulla pagina di accesso per OIDC.', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_client_secret', NULL, 'Client secret', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_redirect_uri', NULL, 'Redirect URI dopo il logout', '');
+
+
 
 INSERT INTO tbl_materie (idmateria, denominazione, idclasseconcorso, tipovalutazione, sigla) VALUES (-1, 'Comportamento', 0, 'CU', 'COMPO');
 INSERT INTO tbl_materie (idmateria, denominazione, idclasseconcorso, tipovalutazione, sigla) VALUES ( 0, 'Supplenza',     0, 'N', 'SUPP');
