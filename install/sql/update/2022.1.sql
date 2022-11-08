@@ -5,7 +5,6 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_client_secret', NULL, 'Client secret', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_redirect_uri', NULL, 'Redirect URI dopo il logout', '');
 
-
 ALTER TABLE tbl_utenti ADD oidc_uid VARCHAR(255) NOT NULL  AFTER numutilizzitoken, ADD oidc_authmode VARCHAR(1) NOT NULL DEFAULT 'd' COMMENT 'd = disabled, e = enabled, x = exclusive'  AFTER oidc_uid;
 
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'abilgiustonline', 'no', 'Abilitazione giustifiche online (yes/no).', 'yes|no');

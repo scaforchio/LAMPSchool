@@ -237,8 +237,10 @@ function skebbyGatewayGetCredit($username, $password, $charset = '')
             break;
         default:
     }
-
+     
     parse_str(do_post_request($url, $parameters), $result);
+    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . "§$indirizzoip §SMSSkebby risposta: $result", $_SESSION['nomefilelog'], $suff);
+
     return $result;
 }
 
