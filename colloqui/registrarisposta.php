@@ -1,5 +1,4 @@
 <?php
-
 require_once '../lib/req_apertura_sessione.php';
 
 /*

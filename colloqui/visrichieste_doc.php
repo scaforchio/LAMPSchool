@@ -108,7 +108,6 @@ while ($rec = mysqli_fetch_array($ris))
     if ($dataoggi > $rec['data'])
         print " class='red'";
 
-
     print ">";
     print " <td>$alunno</td>
            <td>$data</td>";

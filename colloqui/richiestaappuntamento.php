@@ -1,7 +1,6 @@
 <?php
 
 require_once '../lib/req_apertura_sessione.php';
-
 /*
   Copyright (C) 2015 Pietro Tamburrano
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
@@ -137,7 +136,7 @@ if ($iddocente != "") {
                         if ($stato[0] == 3)
                             print "<td align=center colspan=2><image src='../immagini/red_cross.gif'></td><td>" . $stato[1] . "</td>";
                         if ($stato[0] == 4)
-                            print "<td align=center colspan=2><image src='../immagini/webex.ico'></td><td>" . $stato[1] . " (online)</td>";
+                            print "<td align=center colspan=2><image src='../immagini/webex.ico'></td><td>" . $stato[1] . " (ONLINE)</td>";
 
                         if ($stato[0] != 0)
                             print "<td align=center colspan=2><a href='cancprenotazione.php?idprenotazione=$idprenotazione&iddocente=$iddocente&idclasse=$idclasse'><img src='../immagini/delete.png'></a></td> ";
