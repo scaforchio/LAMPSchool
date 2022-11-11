@@ -118,7 +118,7 @@ while ($rec = mysqli_fetch_array($ris))
         {
             print " <td><form action='registrarisposta.php' method='post'>
                    <input type='hidden' name='idprenotazione' value='$idprenotazione'>
-                   <select name='risposta'><option value='1'$sele1>In sosp.</option><option value='2'$sele2>Sì</option><option value='4'$sele4>Sì online</option><option value='3'$sele3>No</option></select>
+                   <select name='risposta'><option value='1'$sele1>In sosp.</option><option value='2'$sele2>Sì a scuola</option><option value='4'$sele4>Sì online</option><option value='3'$sele3>No</option></select>
                    <input type='text' name='note' value='$note' maxlength='255' size='50'>";
             if ($risp == 1)
                 print "<input type='submit' value='Invia risposta'>";
@@ -129,7 +129,7 @@ while ($rec = mysqli_fetch_array($ris))
         } else
             print " <td><form action='registrarisposta.php' method='post'>
                    <input type='hidden' name='idprenotazione' value='$idprenotazione'>
-                   <select name='risposta' disabled><option value='1'$sele1>In sosp.</option><option value='2'$sele2>Sì</option><option value='4'$sele4>Sì online</option><option value='3'$sele3>No</option></select>
+                   <select name='risposta' disabled><option value='1'$sele1>In sosp.</option><option value='2'$sele2>Sì a scuola</option><option value='4'$sele4>Sì online</option><option value='3'$sele3>No</option></select>
                    <input type='text' name='note' value='$note' maxlength='255' size='50'>
                    
                    </form>

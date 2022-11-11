@@ -30,8 +30,7 @@ $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sess
 $iddocente = stringa_html('iddocente');
 $idclasse = stringa_html('idclasse');
 $numeromassimocolloqui = 2;
-if ($tipoutente == "")
-{
+if ($tipoutente == "") {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -41,14 +40,11 @@ $script = "";
 stampa_head($titolo, "", $script, "T");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='visdisponibilita.php?idclasse=$idclasse'>Orari disponibilita</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
-
-
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $numeromassimocolloqui = numero_colloqui_massimi_docente($iddocente, $con);
 
-if ($iddocente != "")
-{
+if ($iddocente != "") {
     //print "<center><br><b><font color='red'>Funzionalità attiva a breve!</font></b><br></center>";
     print "<center><img src='../immagini/grey_tick.gif'>&nbsp;Colloquio prenotato &nbsp;&nbsp;&nbsp;<img src='../immagini/green_tick.gif'>&nbsp;Colloquio confermato &nbsp;&nbsp;&nbsp;<img src='../immagini/red_cross.gif'>&nbsp;Colloquio non possibile &nbsp;&nbsp;&nbsp;<img src='../immagini/delete.png'>&nbsp;Disdetta prenotazione</center>";
     $ore = array("xyz");
@@ -72,9 +68,7 @@ if ($iddocente != "")
            and tbl_prenotazioni.data>'$dataoggi'";
     $ris = eseguiQuery($con, $query);
 
-
-    while ($rec = mysqli_fetch_array($ris))
-    {
+    while ($rec = mysqli_fetch_array($ris)) {
         $ore[] = giornodanum($rec['giorno']);
         $idore[] = $rec['idoraricevimento'];
         $inizi[] = $rec['inizio'];
@@ -89,8 +83,7 @@ if ($iddocente != "")
            and iddocente='$iddocente'";
     $ris = eseguiQuery($con, $query);
 
-    while ($rec = mysqli_fetch_array($ris))
-    {
+    while ($rec = mysqli_fetch_array($ris)) {
         $ore[] = giornodanum($rec['giorno']);
         $idore[] = $rec['idoraricevimento'];
         $inizi[] = $rec['inizio'];
@@ -106,24 +99,21 @@ if ($iddocente != "")
     print "<br><input type='submit' value='Inoltra richiesta'><br><br>";
     print "<input type='hidden' name='iddocente' value='$iddocente'>";
     print "<input type='hidden' name='idclasse' value='$idclasse'>";
-    print "<table border=1 align='center'><tr class='prima'><td>Data e ora</td><td>Prenotaz.</td><td>Comunicazioni del docente</td><td>Elimina prenotaz.</td></tr>";
-    do
-    {
+    print "<table border=1 align='center'><tr class='prima'><td>Data e ora</td><td colspan=2>Prenotaz.</td><td>Comunicazioni del docente</td><td>Elimina prenotaz.</td></tr>";
+    print "<tr class='prima'><td>&nbsp;</td><td>Scuola</td><td>Online</td><td>&nbsp;</td><td>&nbsp;</td></tr>";
+    
+    do {
         $numgiorni++;
         $dataattuale = aggiungi_giorni($datadomani, $numgiorni);
-
 
         $giornoutile = array_search(giorno_settimana($dataattuale), $ore);
         if ($giornoutile > 0)
             $idoraricevimento = $idore[$giornoutile];
         //print "tttt ".$giornoutile;
 
-        if (giorno_settimana($dataattuale) != 'Dom' && !giorno_festa($dataattuale, $con) && !giorno_sospensione_colloqui($dataattuale, $con) && $dataattuale <= $_SESSION['datafinecolloqui'])
-        {
-            for ($i = 1; $i < count($ore); $i++)
-            {
-                if ($ore[$i] == giorno_settimana($dataattuale))
-                {
+        if (giorno_settimana($dataattuale) != 'Dom' && !giorno_festa($dataattuale, $con) && !giorno_sospensione_colloqui($dataattuale, $con) && $dataattuale <= $_SESSION['datafinecolloqui']) {
+            for ($i = 1; $i < count($ore); $i++) {
+                if ($ore[$i] == giorno_settimana($dataattuale)) {
                     print "<tr>";
                     print "<td><br>" . giorno_settimana($dataattuale) . " " . data_italiana($dataattuale) . " (" . substr($inizi[$i], 0, 5) . "-" . substr($fini[$i], 0, 5) . ")</td>";
                     $stato = esiste_prenotazione($dataattuale, $idore[$i], $con);
@@ -132,23 +122,25 @@ if ($iddocente != "")
                     //      if ($stato[0] == 0 & ($dataattuale<=$_SESSION['datafinecolloqui']) & numero_colloqui_docente($iddocente,$idore[$i],$dataattuale,$con)<$numeromassimocolloqui)
                     $ncd = numero_colloqui_docente($iddocente, $idore[$i], $dataattuale, $con);
                     // print "NCD $ncd NMC $numeromassimocolloqui idore ".$idore[$i];
-                    if (($stato[0] == 0) & ($ncd < $numeromassimocolloqui))
-                        print "<td align=center><input type='radio' name='giorno' value='$dataattuale|" . $idore[$i] . "'></td><td>&nbsp;</td><td>&nbsp;</td>";
-                    else
-                    {
+                    if (($stato[0] == 0) & ($ncd < $numeromassimocolloqui)) {
+                        print "<td align=center><input type='radio' name='giorno' value='$dataattuale|" . $idore[$i] ."|sc"."'>";
+                        print "<td align=center><input type='radio' name='giorno' value='$dataattuale|" . $idore[$i] ."|ol"."'>";
+                        print "</td><td>&nbsp;</td><td>&nbsp;</td>";
+                        
+                    } else {
                         if ($stato[0] == 0)
-                            print "<td align=center>NON PRENOTABILE!</td><td>&nbsp;</td><td>&nbsp;</td>";
+                            print "<td align=center colspan=2>NON PRENOTABILE!</td><td>&nbsp;</td><td>&nbsp;</td>";
                         if ($stato[0] == 1)
-                            print "<td align=center><img src='../immagini/grey_tick.gif'></td><td>" . $stato[1] . " (da confermare)</td>";
+                            print "<td align=center colspan=2><img src='../immagini/grey_tick.gif'></td><td>" . $stato[1] . " (da confermare)</td>";
                         if ($stato[0] == 2)
-                            print "<td align=center><image src='../immagini/green_tick.gif'></td><td>" . $stato[1] . "</td>";
+                            print "<td align=center colspan=2><image src='../immagini/green_tick.gif'></td><td>" . $stato[1] . "</td>";
                         if ($stato[0] == 3)
-                            print "<td align=center><image src='../immagini/red_cross.gif'></td><td>" . $stato[1] . "</td>";
+                            print "<td align=center colspan=2><image src='../immagini/red_cross.gif'></td><td>" . $stato[1] . "</td>";
                         if ($stato[0] == 4)
-                            print "<td align=center><image src='../immagini/webex.ico'></td><td>" . $stato[1] . " (online)</td>";
-                      
+                            print "<td align=center colspan=2><image src='../immagini/webex.ico'></td><td>" . $stato[1] . " (online)</td>";
+
                         if ($stato[0] != 0)
-                            print "<td align=center><a href='cancprenotazione.php?idprenotazione=$idprenotazione&iddocente=$iddocente&idclasse=$idclasse'><img src='../immagini/delete.png'></a></td> ";
+                            print "<td align=center colspan=2><a href='cancprenotazione.php?idprenotazione=$idprenotazione&iddocente=$iddocente&idclasse=$idclasse'><img src='../immagini/delete.png'></a></td> ";
                     }
 
                     print "</tr>";
@@ -161,8 +153,7 @@ if ($iddocente != "")
           print "&nbsp;&nbsp;<input type='radio' name='giorno' value='$dataattuale|$idoraricevimento'>";
           }
          */
-    }
-    while ($dataattuale < $_SESSION['datafinelezioni']);
+    } while ($dataattuale < $_SESSION['datafinelezioni']);
     print "</table>";
 
     print "<br><input type='submit' value='Inoltra richiesta'>";
@@ -171,8 +162,7 @@ if ($iddocente != "")
 stampa_piede("");
 mysqli_close($con);
 
-function esiste_prenotazione($data, $idoraric, $conn)
-{
+function esiste_prenotazione($data, $idoraric, $conn) {
     $statoprenotazione = array(0, "");
     $query = "select * from tbl_prenotazioni 
 	        where data='$data' 
@@ -180,8 +170,7 @@ function esiste_prenotazione($data, $idoraric, $conn)
 	        and idalunno=" . $_SESSION['idutente'] . "
 	        and idoraricevimento=$idoraric";
     $ris = eseguiQuery($conn, $query);
-    if (mysqli_num_rows($ris) > 0)
-    {
+    if (mysqli_num_rows($ris) > 0) {
         $rec = mysqli_fetch_array($ris);
         $statoprenotazione[0] = $rec['conferma'];
         $statoprenotazione[1] = $rec['note'];
@@ -191,8 +180,7 @@ function esiste_prenotazione($data, $idoraric, $conn)
         return $statoprenotazione;
 }
 
-function id_prenotazione($data, $idoraric, $conn)
-{
+function id_prenotazione($data, $idoraric, $conn) {
     $idprenotazione = 0;
     $query = "select * from tbl_prenotazioni 
 	        where data='$data' 
@@ -200,8 +188,7 @@ function id_prenotazione($data, $idoraric, $conn)
 	        and idalunno=" . $_SESSION['idutente'] . "
 	        and idoraricevimento=$idoraric";
     $ris = eseguiQuery($conn, $query);
-    if (mysqli_num_rows($ris) > 0)
-    {
+    if (mysqli_num_rows($ris) > 0) {
         $rec = mysqli_fetch_array($ris);
         $idprenotazione = $rec['idprenotazione'];
         return $idprenotazione;
@@ -209,12 +196,11 @@ function id_prenotazione($data, $idoraric, $conn)
         return 0;
 }
 
-function giorno_sospensione_colloqui($data, $conn)
-{
+function giorno_sospensione_colloqui($data, $conn) {
     $query = "select * from tbl_sospensionicolloqui where data='$data'";
     $ris = eseguiQuery($conn, $query);
     if (mysqli_num_rows($ris) > 0)
         return true;
-    
+
     return false;
 }

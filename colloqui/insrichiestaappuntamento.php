@@ -2,7 +2,6 @@
 
 require_once '../lib/req_apertura_sessione.php';
 
-
 /*
   Copyright (C) 2015 Pietro Tamburrano
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
@@ -25,8 +24,7 @@ require_once '../lib/req_apertura_sessione.php';
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "")
-{
+if ($tipoutente == "") {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -40,24 +38,28 @@ $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Erro
 $iddocente = stringa_html('iddocente');
 $idclasse = stringa_html('idclasse');
 
-
 $giorno = stringa_html('giorno');
-$idalunno = $_SESSION['idutente'];
 
-$data = substr($giorno, 0, 10);
-$idoraricevimento = substr($giorno, 11);
-$query="select * from tbl_orericevimento,tbl_orario "
+$idalunno = $_SESSION['idutente'];
+$appuntamento=explode("|",$giorno);
+//$data = $substr($giorno, 0, 10);
+//$idoraricevimento = substr($giorno, 11);
+$data=$appuntamento[0];
+$idoraricevimento=$appuntamento[1];
+$tiporicevimento =$appuntamento[2];
+$query = "select * from tbl_orericevimento,tbl_orario "
         . "where tbl_orericevimento.idorario=tbl_orario.idorario and idoraricevimento=$idoraricevimento";
 //print $query;
-$ris= eseguiQuery($con, $query);
-$rec=mysqli_fetch_array($ris);
-$inizio=$rec['inizio'];
-$fine=$rec['fine'];
+$ris = eseguiQuery($con, $query);
+$rec = mysqli_fetch_array($ris);
+$inizio = $rec['inizio'];
+$fine = $rec['fine'];
 $numerocolloqui = numero_colloqui_docente($iddocente, $idoraricevimento, $data, $con);
 $note = "Appuntamento ore " . proponi_orario($inizio, $fine, $iddocente, $numerocolloqui, $con);
+if ($tiporicevimento=="ol")
+    $note.=" (ONLINE)";
 //print "$data $idoraricevimento $inizio $fine";die();
-if ($data != "")
-{
+if ($data != "") {
     $query = "insert into tbl_prenotazioni(idalunno,data,idoraricevimento,conferma,note)
         values ($idalunno,'$data',$idoraricevimento,1,'$note')";
     $ris = eseguiQuery($con, $query);
@@ -78,8 +80,7 @@ print ("<form method='post' action='../colloqui/richiestaappuntamento.php' id='f
        ");
 stampa_piede("");
 
-function proponi_orario($inizio, $fine, $iddocente, $sequenzaudienza, $conn)
-{
+function proponi_orario($inizio, $fine, $iddocente, $sequenzaudienza, $conn) {
     $query = "select nummaxcolloqui from tbl_docenti where iddocente=$iddocente";
     $ris = eseguiQuery($conn, $query);
     $rec = mysqli_fetch_array($ris);

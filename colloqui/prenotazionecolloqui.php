@@ -27,8 +27,7 @@ $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sess
 
 $iddocente = stringa_html('iddocente');
 
-if ($tipoutente == "")
-{
+if ($tipoutente == "") {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
     die;
 }
@@ -46,8 +45,8 @@ $script = "<script type='text/javascript'>
 stampa_head($titolo, "", $script, "TDASPM");
 stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
- $oraattuale = date('G:i:s');
- // print $oraattuale;
+$oraattuale = date('G:i:s');
+// print $oraattuale;
 // INIZIO SCRIPT
 
 $idgiornatacolloqui = stringa_html("idgiornatacolloqui");
@@ -60,7 +59,7 @@ $idclassealunno = estrai_classe_alunno($idalunno, $con);
 $query = "select distinct tbl_colloquiclasse.idgiornatacolloqui,data"
         . " from tbl_colloquiclasse,tbl_giornatacolloqui"
         . " where tbl_colloquiclasse.idgiornatacolloqui=tbl_giornatacolloqui.idgiornatacolloqui"
-        . " and ((data>'" . date('Y-m-d') . "') or (data='".date('Y-m-d')."' and '$oraattuale' < orainizio))"
+        . " and ((data>'" . date('Y-m-d') . "') or (data='" . date('Y-m-d') . "' and '$oraattuale' < orainizio))"
         . " and idclasse=$idclassealunno "
         . " and attiva "
         . " order by data";
@@ -78,8 +77,7 @@ print("<table align='center'>
 //
 
 $ris = eseguiQuery($con, $query);
-while ($nom = mysqli_fetch_array($ris))
-{
+while ($nom = mysqli_fetch_array($ris)) {
     print "<option value='";
     print ($nom["idgiornatacolloqui"]);
     print "'";
@@ -91,8 +89,7 @@ while ($nom = mysqli_fetch_array($ris))
 
 print ("</select></td></tr></table></form>");
 
-if ($idgiornatacolloqui != "")
-{
+if ($idgiornatacolloqui != "") {
 
 
 
@@ -115,8 +112,7 @@ if ($idgiornatacolloqui != "")
     print "<tr class='prima'><td></td>";
     $cont = 0;
     $orainizioslot = $orainizio;
-    do
-    {
+    do {
         $slots[] = $orainizioslot;
         print "<td>" . $orainizioslot . "</td>";
         $orainizioslot = aggiungi_minuti($orainizioslot, $durataslot);
@@ -129,8 +125,7 @@ if ($idgiornatacolloqui != "")
     $query = "select iddocente,idalunno,orainizio from tbl_slotcolloqui
 	        where  idgiornatacolloqui=$idgiornatacolloqui";
     $risprenotazioni = eseguiQuery($con, $query);
-    while ($recprenotazioni = mysqli_fetch_array($risprenotazioni))
-    {
+    while ($recprenotazioni = mysqli_fetch_array($risprenotazioni)) {
         $strprenotazione = $recprenotazioni['iddocente'] . " " . substr($recprenotazioni['orainizio'], 0, 5);
         $prenotazioni[$strprenotazione] = $recprenotazioni['idalunno'];
     }
@@ -142,70 +137,57 @@ if ($idgiornatacolloqui != "")
 	        and tbl_cattnosupp.iddocente!=1000000000
                 order by cognome,nome";
     $ris = eseguiQuery($con, $query);
-    while ($nom = mysqli_fetch_array($ris))
-    {
+    while ($nom = mysqli_fetch_array($ris)) {
 
 
         $iddocente = $nom['iddocente'];
         $docenti[] = $iddocente;
     }
-    foreach ($docenti as $docente)
-    {
+    foreach ($docenti as $docente) {
 
 
         print "<tr><td class='prima'>" . estrai_dati_docente($docente, $con);
 
-        if (!docente_sostegno($docente, $con))
-        {
+        if (!docente_sostegno($docente, $con)) {
             $query = "select idmateria from tbl_cattnosupp
 			         where idclasse=$idclassealunno and iddocente=" . $docente .
                     " and idalunno=0";
 
             $rismat = eseguiQuery($con, $query);
             print "<small>";
-            while ($recmat = mysqli_fetch_array($rismat))
-            {
+            while ($recmat = mysqli_fetch_array($rismat)) {
                 print "<br>" . decodifica_materia($recmat['idmateria'], $con) . "  ";
             }
 // if ($nom['collegamentowebex']!='')
 //     print "<br><a href='" . $nom['collegamentowebex'] . "'><b>Colloquio online</b></a>  ";
             print "</small>";
-        }
-        else
-            {
-            
+        } else {
+
             print "<small>";
-            
-                print "<br>Sostegno";
-           
+
+            print "<br>Sostegno";
+
             print "</small>";
         }
         print "</td>";
-        foreach ($slots as $slot)
-        {
+        foreach ($slots as $slot) {
 
             print "<td align='center'>";
             if (assenteDocente($docente, $idgiornatacolloqui, $con))
                 print "ASS";
-            else
-            {
-                if ($prenotazioni[$docente . " " . $slot] == $idalunno)
+            else {
+                if ($prenotazioni[$docente . " " . $slot] == $idalunno) {
                     print "<a href='delprenotazionecolloqui.php?idal=$idalunno&iddoc=$docente&slot=$slot&idgiornatacolloqui=$idgiornatacolloqui'>ANN</A>";
-                else
-                {
+                } else {
                     if (esistePrenotazioneDocente($idalunno, $docente, $prenotazioni, $slots))
                         print "--";
-                    else
-                    {
+                    else {
                         if (esistePrenotazioneSlot($idalunno, $slot, $prenotazioni, $docenti))
                             print "--";
-                        else
-                        {
-                            if (isset($prenotazioni[$docente . " " . $slot]))
-                            {
+                        else {
+                            if (isset($prenotazioni[$docente . " " . $slot])) {
                                 print "OCC";
-                            } else
-                            {
+                            } else {
                                 print "<a href='insprenotazionecolloqui.php?idal=$idalunno&iddoc=$docente&slot=$slot&idgiornatacolloqui=$idgiornatacolloqui'>PREN</A>";
                             }
                         }
@@ -231,10 +213,8 @@ if ($idgiornatacolloqui != "")
 mysqli_close($con);
 stampa_piede("");
 
-function esistePrenotazioneDocente($idalunno, $iddocente, $prenotazioni, $slots)
-{
-    foreach ($slots as $slot)
-    {
+function esistePrenotazioneDocente($idalunno, $iddocente, $prenotazioni, $slots) {
+    foreach ($slots as $slot) {
         $indice = $iddocente . " " . $slot;
 
         if (isset($prenotazioni[$indice]) & ($prenotazioni[$indice] == $idalunno))
@@ -243,10 +223,8 @@ function esistePrenotazioneDocente($idalunno, $iddocente, $prenotazioni, $slots)
     return false;
 }
 
-function esistePrenotazioneSlot($idalunno, $slot, $prenotazioni, $docenti)
-{
-    foreach ($docenti as $docente)
-    {
+function esistePrenotazioneSlot($idalunno, $slot, $prenotazioni, $docenti) {
+    foreach ($docenti as $docente) {
         $indice = $docente . " " . $slot;
 
         if (isset($prenotazioni[$indice]) & ($prenotazioni[$indice] == $idalunno))
@@ -255,8 +233,7 @@ function esistePrenotazioneSlot($idalunno, $slot, $prenotazioni, $docenti)
     return false;
 }
 
-function assenteDocente($iddocente, $idgiornatacolloqui, $con)
-{
+function assenteDocente($iddocente, $idgiornatacolloqui, $con) {
     $query = "select * from tbl_assenzedocenticolloqui"
             . " where iddocente=$iddocente and idgiornatacolloqui=$idgiornatacolloqui";
     $ris = eseguiQuery($con, $query);

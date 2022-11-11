@@ -32,6 +32,8 @@ if ($tipoutente == "")
 
 $note = stringa_html('note');
 $risposta = stringa_html('risposta');
+if ($risposta==2)
+    $note=str_replace("(ONLINE)", "", $note);
 $idprenotazione = stringa_html('idprenotazione');
 $titolo = "Variazione appuntamento";
 $script = "";
