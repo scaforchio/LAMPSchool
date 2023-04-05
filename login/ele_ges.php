@@ -40,6 +40,12 @@ if($_SESSION["oidc-step3"] == true && !isset($_SESSION["oidc_multiprofile"])){
     $origineok = true;
 }
 
+// salta il controllo dell'origine se in devmode
+if($_SESSION["devmode"] == true)
+{
+    $origineok = true;
+}
+
 //VERIFICO CHE LA SESSIONE NON SIA SCADUTA
 if (isset($_SESSION['prefisso'])) {
 

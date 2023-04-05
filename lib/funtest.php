@@ -192,6 +192,11 @@ function stampa_testata($funzione, $ct, $ns, $cs, $isProfileSelector = false)
         $label = " <br><font color='red'>(SOLA LETTURA)</font>";
     }
 
+    if (isset($_SESSION['devmode']) && $_SESSION['devmode'] == true)
+    {
+        $label = " <br><font color='red'>(DEVMODE ON)</font>";
+    }
+
     print "<div class='titolo'>REGISTRO ON LINE$label</div>\n";
     print "<div class='sottotitolo'>$ns<br/>$annoscolastico</div></div>\n";
     print "<div id='help'><a href='http://www.lampschool.net/help/help.php?modulo=$nome&tipoutente=$tipoutente' target='_blank'><img src='../immagini/help.png' title='HELP'></a></div>\n";
