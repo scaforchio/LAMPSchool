@@ -1580,6 +1580,8 @@ CREATE TABLE IF NOT EXISTS tbl_utenti (
   numutilizzitoken tinyint(1)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE tbl_utenti ADD oidc_uid VARCHAR(255) NOT NULL  AFTER numutilizzitoken, ADD oidc_authmode VARCHAR(1) NOT NULL DEFAULT 'd' COMMENT 'd = disabled, e = enabled, x = exclusive'  AFTER oidc_uid;
+
 -- --------------------------------------------------------
 
 --
