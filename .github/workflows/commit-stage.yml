@@ -11,7 +11,7 @@ env:
 
 jobs:
   lint-composer:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
       matrix:
@@ -69,7 +69,7 @@ jobs:
 
 
   test-legacy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
       matrix:
