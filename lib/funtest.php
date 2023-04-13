@@ -172,11 +172,16 @@ function stampa_testata($funzione, $ct, $ns, $cs, $isProfileSelector = false)
     if ($nome != 'login')
     {
         
-        print "<div class='logout' align='right'>$descrizione ";
+        print "<div class='logout' align='right'>";
         if (isset($_SESSION['devmode']) && $_SESSION['devmode'] == true)
         {
             // session inspector
             print "<a href='#' onclick='si()' style='margin-right: 5px;'><img src='../immagini/sessioninspector.png' width='24px' height='24px' title='Session Inspector'></a>";
+        }
+        if (isset($_SESSION['accessouniversale']) && $_SESSION['accessouniversale'] == true)
+        {
+            // mostra un avviso se in accesso universale
+            print "<a href='#' onclick='alert(`Attenzione! Accesso effettuato con unikey!`)' style='margin-right: 5px;'><img src='../immagini/accuniwarn.png' width='24px' height='24px' title='Accesso Universale'></a>";
         }
         if($_SESSION["oidc_multiprofile"]){
             print "<a href='$urlProfili' style='margin-right: 5px;'><img src='../immagini/profili.png' title='Cambia profilo'></a>";
@@ -186,7 +191,7 @@ function stampa_testata($funzione, $ct, $ns, $cs, $isProfileSelector = false)
             $impacc .= $_SESSION["oidc_client_id"] . "&referrer_uri=" . urlencode($urlCorrente);
             print "<a href='$impacc' style='margin-right: 5px;'><img src='../immagini/impro.png' title='Impostazioni profilo'></a>";
         }
-        print "<a href='../login/login.php?suffisso=" . get_suffisso() . "&logout=true'><img src='../immagini/logout.png' title='Logout'></a></div>";
+        print "$descrizione <a href='../login/login.php?suffisso=" . get_suffisso() . "&logout=true'><img src='../immagini/logout.png' title='Logout'></a></div>";
     }
     
     print "<div id='testata'>";
