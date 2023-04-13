@@ -194,7 +194,7 @@ if ($idclasse != "")
            <p align='center'>
 
            <table align='center' border='1'>
-           <tr class='prima'><td>Cognome Nome</td><td>Autorizzazione</td><td>Prec. uscite</td></tr>";
+           <tr class='prima'><td>Cognome Nome</td><td>Autorizzazione</td><td>Prec. uscite</td><td>Usc. Quad.</td></tr>";
 
     $query = "select idalunno,cognome, nome, datanascita,firmapropria,autuscita
             from tbl_alunni
@@ -204,6 +204,17 @@ if ($idclasse != "")
 
     $ris = eseguiQuery($con, $query);
 
+    // controlla se fare la query per il primo o secondo quadrimestre
+    $date_now = date("Y-m-d");
+    $fpdt = new DateTime($_SESSION['fineprimo']);
+    $fpdt->modify("+1 day");
+    $iniziosecondo = date_format($fpdt,"Y-m-d");
+    $fineprimo = $_SESSION['fineprimo'];
+    if ($date_now > $fineprimo) {
+        $queryextension = "and data > '$fineprimo'";
+    }else{
+        $queryextension = "and data < '$iniziosecondo'";
+    }
 
     while ($rec = mysqli_fetch_array($ris))
     {
@@ -215,6 +226,9 @@ if ($idclasse != "")
         if($conteggioassenze[0] > 0){
             $alunnoassente = true;
         }
+
+        // conta uscite per quadrimestre selezionato
+        $conteggiouscite = eseguiQuery($con, "select count(*) as numusc from tbl_usciteanticipate where idalunno = $idalu $queryextension")->fetch_assoc()['numusc'];
 
         print "<tr>";
         print "     <td>" . $rec['cognome'] . " " . $rec['nome'] . " " . data_italiana($rec['datanascita']);
@@ -257,9 +271,15 @@ if ($idclasse != "")
             $numuscprimo = $ass['numusc'];
         }
         print " - 2°=<b>" . $numuscprimo . "</b>";
-
-
         print "</td>";
+        // conteggio uscite
+        if ($conteggiouscite >= $_SESSION['uscite_max']){
+            //troppi
+            print("<td><center> <img src='../immagini/ritwarn.png' style='margin-right: 2px;' width='20' height='20'> <b style='padding-top: 2px;'>$conteggiouscite</b></center></td>");
+        }else {
+            //normale
+            print("<td><center>$conteggiouscite</center></td>");
+        }
         print "</tr>";
     }
     print "</table><br><center><input type='submit' value='Registra autorizz.'></center></p></form>";

@@ -255,8 +255,21 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
           <td><b> Orario(HH:MM)</b></td>
           <td><b> Dettaglio </b></td> 
           <td><b> Giust. </b></td>
+          <td><b> Rit. Q. </b></td>
    </tr>
   ';
+
+    // controlla se fare la query per il primo o secondo quadrimestre
+    $date_now = date("Y-m-d");
+    $fpdt = new DateTime($_SESSION['fineprimo']);
+    $fpdt->modify("+1 day");
+    $iniziosecondo = date_format($fpdt,"Y-m-d");
+    $fineprimo = $_SESSION['fineprimo'];
+    if ($date_now > $fineprimo) {
+        $queryextension = "and data > '$fineprimo'";
+    }else{
+        $queryextension = "and data < '$iniziosecondo'";
+    }
 
 
     $query = "SELECT * FROM tbl_alunni WHERE idalunno in (" . estrai_alunni_classe_data($idclasse, $anno . '-' . $mese . '-' . $giorno, $con) . ")  order by cognome, nome, datanascita";
@@ -265,6 +278,10 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
     $cont = 0;
     while ($val = mysqli_fetch_array($ris))
     {
+        $idalu = $val["idalunno"];
+        // conta ritardi per quadrimestre selezionato
+        $conteggioritardi = eseguiQuery($con, "select count(*) as numrit from tbl_ritardi where idalunno = $idalu $queryextension")->fetch_assoc()['numrit'];
+    
         $cont++;
         if ($val['autentrata'] != "")
         {
@@ -315,6 +332,14 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
         //  }
         print "</center></td>";
 
+        // conteggio ritardi
+        if ($conteggioritardi >= $_SESSION['entrate_max']){
+            //troppi
+            print("<td><center> <img src='../immagini/ritwarn.png' style='margin-right: 2px;' width='20' height='20'> <b style='padding-top: 2px;'>$conteggioritardi</b></center></td>");
+        }else {
+            //normale
+            print("<td><center>$conteggioritardi</center></td>");
+        }
 
         print"</tr>";
     }
