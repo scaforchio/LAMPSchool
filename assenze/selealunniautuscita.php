@@ -194,7 +194,7 @@ if ($idclasse != "")
            <p align='center'>
 
            <table align='center' border='1'>
-           <tr class='prima'><td>Cognome Nome</td><td>Autorizzazione</td><td>Prec. uscite</td><td>Usc. Quad.</td></tr>";
+           <tr class='prima'><td>Cognome Nome</td><td>Autorizzazione</td><td>Usc. 1˚Q.</td><td>Usc. 2˚Q.</td></tr>";
 
     $query = "select idalunno,cognome, nome, datanascita,firmapropria,autuscita
             from tbl_alunni
@@ -210,11 +210,6 @@ if ($idclasse != "")
     $fpdt->modify("+1 day");
     $iniziosecondo = date_format($fpdt,"Y-m-d");
     $fineprimo = $_SESSION['fineprimo'];
-    if ($date_now > $fineprimo) {
-        $queryextension = "and data > '$fineprimo'";
-    }else{
-        $queryextension = "and data < '$iniziosecondo'";
-    }
 
     while ($rec = mysqli_fetch_array($ris))
     {
@@ -227,8 +222,8 @@ if ($idclasse != "")
             $alunnoassente = true;
         }
 
-        // conta uscite per quadrimestre selezionato
-        $conteggiouscite = eseguiQuery($con, "select count(*) as numusc from tbl_usciteanticipate where idalunno = $idalu $queryextension")->fetch_assoc()['numusc'];
+        $uscprimo = eseguiQuery($con, "select count(*) as numusc from tbl_usciteanticipate where idalunno = $idalu and data < '$iniziosecondo'")->fetch_assoc()['numusc'];
+        $uscsecondo = eseguiQuery($con, "select count(*) as numusc from tbl_usciteanticipate where idalunno = $idalu and data > '$fineprimo'")->fetch_assoc()['numusc'];
 
         print "<tr>";
         print "     <td>" . $rec['cognome'] . " " . $rec['nome'] . " " . data_italiana($rec['datanascita']);
@@ -249,37 +244,23 @@ if ($idclasse != "")
             print "<td align='center'><input type='checkbox' name='pres" . $rec['idalunno'] . "'></td>";
         }
         
-        print "<td align='center'>";
-
-        $seledata = " data <= '" . $_SESSION['fineprimo'] . "' ";
-        $queryusc = "select count(*) as numusc from tbl_usciteanticipate where idalunno = '" . $rec["idalunno"] . "' and" . $seledata;
-        //print inspref($queryusc);
-        $risusc = eseguiQuery($con, $queryusc);
-
-        while ($ass = mysqli_fetch_array($risusc))
-        {
-            $numuscprimo = $ass['numusc'];
-        }
-        print "1°=<b>" . $numuscprimo . "</b>";
-
-        $seledata = " data > '" . $_SESSION['fineprimo'] . "' ";
-        $queryusc = "select count(*) as numusc from tbl_usciteanticipate where idalunno = '" . $rec["idalunno"] . "' and" . $seledata;
-        //print inspref($queryusc);
-        $risusc = eseguiQuery($con, $queryusc);
-        while ($ass = mysqli_fetch_array($risusc))
-        {
-            $numuscprimo = $ass['numusc'];
-        }
-        print " - 2°=<b>" . $numuscprimo . "</b>";
-        print "</td>";
         // conteggio uscite
-        if ($conteggiouscite >= $_SESSION['uscite_max']){
+        if ($uscprimo >= $_SESSION['uscite_max']){
             //troppi
-            print("<td><center> <img src='../immagini/ritwarn.png' style='margin-right: 2px;' width='20' height='20'> <b style='padding-top: 2px;'>$conteggiouscite</b></center></td>");
+            print("<td><center> <img src='../immagini/ritwarn.png' style='margin-right: 2px;' width='20' height='20'> <b style='padding-top: 2px;'>$uscprimo</b></center></td>");
         }else {
             //normale
-            print("<td><center>$conteggiouscite</center></td>");
+            print("<td><center>$uscprimo</center></td>");
         }
+
+        if ($uscsecondo >= $_SESSION['uscite_max']){
+            //troppi
+            print("<td><center> <img src='../immagini/ritwarn.png' style='margin-right: 2px;' width='20' height='20'> <b style='padding-top: 2px;'>$uscsecondo</b></center></td>");
+        }else {
+            //normale
+            print("<td><center>$uscsecondo</center></td>");
+        }
+
         print "</tr>";
     }
     print "</table><br><center><input type='submit' value='Registra autorizz.'></center></p></form>";
