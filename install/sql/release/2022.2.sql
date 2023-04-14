@@ -2795,7 +2795,6 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'mailpermdopoauto', 'yes', 'Invio della mail per richiesta permesso a protocollo dopo autorizzazione (yes/no).', 'yes|no');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'abilgiustonline', 'no', 'Abilitazione giustifiche online (yes/no).', 'yes|no');
 
-
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_issuer', NULL, 'URL del server e realm di autenticazione OpenID', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_client_id', NULL, 'Client ID', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_enabled', 'no', 'Abilita accesso tramite OIDC, se impostato su exclusive l accesso al registro sarà possibile solo tramite OIDC.', 'no|yes|exclusive');
@@ -2803,7 +2802,13 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_client_secret', NULL, 'Client secret', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('autenticazione', 'oidc_redirect_uri', NULL, 'Redirect URI dopo il logout', '');
 
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('redis', 'redis_host', NULL, 'Hostname del server REDIS', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('redis', 'redis_port', '6379', 'Porta del server REDIS', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('redis', 'redis_user', NULL, 'Username del server REDIS', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('redis', 'redis_pass', NULL, 'Password del server REDIS', '');
 
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'entrate_max', '5', 'Numero di ingressi in ritardo per quadrimestre che fa scattare allarme rosso sulla pagina di inserimento', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'uscite_max', '5', 'Numero di uscite anticipate per quadrimestre che fa scattare allarme rosso sulla pagina', '');
 
 INSERT INTO tbl_materie (idmateria, denominazione, idclasseconcorso, tipovalutazione, sigla) VALUES (-1, 'Comportamento', 0, 'CU', 'COMPO');
 INSERT INTO tbl_materie (idmateria, denominazione, idclasseconcorso, tipovalutazione, sigla) VALUES ( 0, 'Supplenza',     0, 'N', 'SUPP');

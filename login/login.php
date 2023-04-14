@@ -53,6 +53,12 @@ require "../lib/req_assegna_parametri_a_sessione.php";
 $_SESSION["prefisso"] = $prefisso_tabelle;
 //$_SESSION["annoscol"] = $_SESSION['annoscol'];
 $_SESSION["suffisso"] = $suffisso;
+
+// controllo presenza file devmode
+if(file_exists("../.devmode")){
+    $_SESSION["devmode"] = true;
+}
+
 //$_SESSION["versioneprecedente"]=$_SESSION['versioneprecedente'];
 //$_SESSION["nomefilelog"] = $_SESSION['nomefilelog'];
 $_SESSION["alias"] = false;

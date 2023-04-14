@@ -19,6 +19,12 @@ else
 $scuole = array();
 $anni = array();
 $suffissi = array();
+
+if(count($elencoinstallazioni) < 1){
+    // se non ci sono installazioni, fai il redirect alla pagina di installazione
+    header("Location: install/");
+}
+
 for ($i = 0; $i < count($elencoinstallazioni); $i++)
 {
     $fileinclude = $elencoinstallazioni[$i];

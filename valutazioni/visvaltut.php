@@ -59,6 +59,20 @@ $ris = eseguiQuery($con, $query);
 if ($val = mysqli_fetch_array($ris))
 {
     echo '<center><b>Voti dell\'Alunno: ' . $val["cognome"] . ' ' . $val["nome"] . '</b></center><br/>';
+    $querymediasg = "select avg(voto) as votomedio from tbl_valutazioniintermedie where idalunno=$idalunno and voto<99";
+    $rismediasg = eseguiQuery($con, $querymediasg);
+    $recmediasg = mysqli_fetch_array($rismediasg);
+    //arrotondiamo a due cifre decimali
+    $mediacalcsg = round(
+        floatval(
+            $recmediasg['votomedio']
+        ),
+        2,
+        PHP_ROUND_HALF_UP
+    );
+    ?>
+    <h3> <center> MEDIA GLOBALE: <?php echo $mediacalcsg; ?> <center></h3>
+    <?php
     echo '<center>Le medie calcolate sono <b>aritmetiche</b> e potrebbero non<br>corrispondere al voto in pagella.</center><br>';
     $idclasse = $val['idclasse'];
 }
@@ -116,14 +130,76 @@ if (mysqli_num_rows($ris) > 0)
             //se la media è inferiore a 6 stampa il valore in rosso
             if ($mediacalc < 6)
             {
-                $colini = "<font color=red><b>";
-                $colfin = "</font>";
+                $coloreglobale = "#eb4034";
             } else
             {
-                $colini = "";
-                $colfin = "";
+                $coloreglobale = "#05ac50";
             }
-            print("Media: $colini$mediacalc$colfin</td></tr>");
+            //print("Media: $colini$mediacalc$colfin</td></tr>");
+
+            // CONTROLLO PRIMO QUADRIMESTRE
+            $fpdt = new DateTime($_SESSION['fineprimo']);
+            $fpdt->modify("+1 day");
+            $iniziosecondo = date_format($fpdt,"Y-m-d");
+            $querymediaprimo = "select avg(voto) as votomedio from tbl_valutazioniintermedie where idalunno=$idalunno and idmateria=$idmateria and voto<99 and data < '$iniziosecondo' ";
+            $rismediaprimo = eseguiQuery($con, $querymediaprimo);
+            $recmediaprimo = mysqli_fetch_array($rismediaprimo);
+            //arrotondiamo a due cifre decimali
+            $mc_primo = round(
+                floatval(
+                    $recmediaprimo['votomedio']
+                ),
+                2,
+                PHP_ROUND_HALF_UP
+            );
+            if ($mc_primo < 6)
+            {
+                $coloreprimo = "#eb4034";
+            } else
+            {
+                $coloreprimo = "#05ac50";
+            }
+            if($mc_primo == 0){
+                $mc_primo = "-";
+                $coloreprimo = "#cfcfcf";
+            }
+
+            // CONTROLLO SECONDO QUADRIMESTRE
+            $fp = $_SESSION['fineprimo'];
+            $querymediasecondo= "select avg(voto) as votomedio from tbl_valutazioniintermedie where idalunno=$idalunno and idmateria=$idmateria and voto<99 and data > '$fp' ";
+            $rismediasecondo = eseguiQuery($con, $querymediasecondo);
+            $recmediasecondo = mysqli_fetch_array($rismediasecondo);
+            //arrotondiamo a due cifre decimali
+            $mc_secondo = round(
+                floatval(
+                    $recmediasecondo['votomedio']
+                ),
+                2,
+                PHP_ROUND_HALF_UP
+            );
+            if ($mc_secondo < 6)
+            {
+                $coloresecondo = "#eb4034";
+            } else
+            {
+                $coloresecondo = "#05ac50";
+            }
+            if($mc_secondo == 0){
+                $mc_secondo = "-";
+                $coloresecondo = "#cfcfcf";
+            }
+            ?>
+                <table style="width: 100%;" border="1">
+                    <tbody>
+                        <tr>
+                            <td style="text-align: center; background-color: <?php echo $coloreglobale; ?>;">Media Globale: <b><?php echo $mediacalc; ?></b></td>
+                            <td style="text-align: center; background-color: <?php echo $coloreprimo; ?>;">Media 1˚ Quadrimestre: <b><?php echo $mc_primo; ?></b></td>
+                            <td style="text-align: center; background-color: <?php echo $coloresecondo; ?>;">Media 2˚ Quadrimestre: <b><?php echo $mc_secondo; ?></b></td>
+                        </tr>
+                    </tbody>
+                </table>
+            <?php
+            print("</td></tr>");
         }
 
         if ($voto != "&nbsp;&nbsp;" | $giudizio != "&nbsp;")

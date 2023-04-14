@@ -6,9 +6,11 @@ abc/**/*
 lampschooldata
 css
 php-ini.php
-php-ini*.php
+php-ini*
 php-iniit.php
+install/new*
 project.xml
 /vendor/
 /tests/installer-*.php
 unikey.txt
+.devmode

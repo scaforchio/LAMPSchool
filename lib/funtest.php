@@ -171,7 +171,18 @@ function stampa_testata($funzione, $ct, $ns, $cs, $isProfileSelector = false)
 
     if ($nome != 'login')
     {
-        print "<div class='logout' align='right'>$descrizione ";
+        
+        print "<div class='logout' align='right'>";
+        if (isset($_SESSION['devmode']) && $_SESSION['devmode'] == true)
+        {
+            // session inspector
+            print "<a href='#' onclick='si()' style='margin-right: 5px;'><img src='../immagini/sessioninspector.png' width='24px' height='24px' title='Session Inspector'></a>";
+        }
+        if (isset($_SESSION['accessouniversale']) && $_SESSION['accessouniversale'] == true)
+        {
+            // mostra un avviso se in accesso universale
+            print "<a href='#' onclick='alert(`Attenzione! Accesso effettuato con unikey!`)' style='margin-right: 5px;'><img src='../immagini/accuniwarn.png' width='24px' height='24px' title='Accesso Universale'></a>";
+        }
         if($_SESSION["oidc_multiprofile"]){
             print "<a href='$urlProfili' style='margin-right: 5px;'><img src='../immagini/profili.png' title='Cambia profilo'></a>";
         }
@@ -180,7 +191,7 @@ function stampa_testata($funzione, $ct, $ns, $cs, $isProfileSelector = false)
             $impacc .= $_SESSION["oidc_client_id"] . "&referrer_uri=" . urlencode($urlCorrente);
             print "<a href='$impacc' style='margin-right: 5px;'><img src='../immagini/impro.png' title='Impostazioni profilo'></a>";
         }
-        print "<a href='../login/login.php?suffisso=" . get_suffisso() . "&logout=true'><img src='../immagini/logout.png' title='Logout'></a></div>";
+        print "$descrizione <a href='../login/login.php?suffisso=" . get_suffisso() . "&logout=true'><img src='../immagini/logout.png' title='Logout'></a></div>";
     }
     
     print "<div id='testata'>";
@@ -190,6 +201,11 @@ function stampa_testata($funzione, $ct, $ns, $cs, $isProfileSelector = false)
     if (isset($_SESSION['sola_lettura']) && $_SESSION['sola_lettura'] == 'yes')
     {
         $label = " <br><font color='red'>(SOLA LETTURA)</font>";
+    }
+
+    if (isset($_SESSION['devmode']) && $_SESSION['devmode'] == true)
+    {
+        $label = " <br><font color='red'>(DEVMODE ON)</font>";
     }
 
     print "<div class='titolo'>REGISTRO ON LINE$label</div>\n";
@@ -221,14 +237,65 @@ function stampa_piede($ver = '', $csrf = false)   // Gestione token disabilitata
     }
 */
     print("
-   <br/></div>
-   <div id='piede'>
-      <a href='../login/info.php' target='_blank'><img src='../immagini/lstrasp.gif'></a>
-      $vers
-      <a href='http://www.gnu.org/licenses/agpl-3.0.txt' target='_blank'><img src='../immagini/agplv3.png'></a>
-   </div>
-</body>
-</html>");
+    <br/></div>
+    <div id='piede'>
+        <a href='../login/info.php' target='_blank'><img src='../immagini/lstrasp.gif'></a>
+        $vers
+        <a href='http://www.gnu.org/licenses/agpl-3.0.txt' target='_blank'><img src='../immagini/agplv3.png'></a>
+    </div>");
+
+    // se devmode attiva inietta script session inspector
+
+    if (isset($_SESSION['devmode']) && $_SESSION['devmode'] == true)
+    {
+        // session inspector
+        $datisessionejs = json_encode($_SESSION);
+        ?>
+        <script>
+            const SESSION_INSPECTOR_DATA = `<?php echo $datisessionejs ?>`;
+            // https://stackoverflow.com/questions/4810841/pretty-print-json-using-javascript
+            function syntaxHighlight(json) {
+                if (typeof json != 'string') {
+                    json = JSON.stringify(json, undefined, 2);
+                }
+                json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+                    var cls = 'number';
+                    if (/^"/.test(match)) {
+                        if (/:$/.test(match)) {
+                            cls = 'key';
+                        } else {
+                            cls = 'string';
+                        }
+                    } else if (/true|false/.test(match)) {
+                        cls = 'boolean';
+                    } else if (/null/.test(match)) {
+                        cls = 'null';
+                    }
+                    return '<span class="' + cls + '">' + match + '</span>';
+                });
+            }
+            function si() {
+                // genera finestra esterna
+                var obj = JSON.parse(SESSION_INSPECTOR_DATA);
+                var str = JSON.stringify(obj, undefined, 4);
+                var win = window.open("", "LampSchool - Session Inspector", "toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=780,top="+(screen.height-400)+",left="+(screen.width-840));
+                win.document.body.appendChild(document.createElement('style')).innerText = `
+                    pre {outline: 1px solid #ccc; padding: 5px; margin: 5px; }
+                    .string { color: green; }
+                    .number { color: darkorange; }
+                    .boolean { color: blue; }
+                    .null { color: magenta; }
+                    .key { color: red; }
+                `;
+                win.document.body.appendChild(document.createElement('pre')).innerHTML = syntaxHighlight(str);
+            }
+        </script>
+        <?php
+    }
+
+    print("</body>
+    </html>");
 
     // Gestione del token
 

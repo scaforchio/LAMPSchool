@@ -11,7 +11,7 @@ env:
 
 jobs:
   lint-composer:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
       matrix:
@@ -45,7 +45,7 @@ jobs:
           extensions: ${{ env.PHP_EXTENSIONS }}
           ini-values: memory_limit=-1
           coverage: none
-          tools: composer, composer-normalize
+          tools: composer, composer-normalize:2.16.0
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -69,7 +69,7 @@ jobs:
 
 
   test-legacy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     timeout-minutes: 5
     strategy:
       matrix:
