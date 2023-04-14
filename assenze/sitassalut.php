@@ -141,7 +141,13 @@ if ($rs5)
     while ($val5 = mysqli_fetch_array($rs5))
     {
         $data = $val5["data"];
-        echo ' ' . data_italiana($data) . ' ' . giorno_settimana($data) . '<br/>';
+        $giustificata = "";
+        if($val5["giustifica"] == 1){
+            $giustificata = "<span> Giustificata</span>";
+        }else{
+            $giustificata = "<span style=\"color: red;\" > NON GIUSTIFICATA</span>";
+        }
+        echo ' ' . data_italiana($data) . ' ' . giorno_settimana($data) . $giustificata . '<br/>';
     }
 }
 echo "</td>";
