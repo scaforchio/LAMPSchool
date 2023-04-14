@@ -126,11 +126,26 @@ if($count > 1){
             ?>
         </table>
     </center>
-     
     <?php
+    
 }else{
+
     foreach ($utenti_abilitati as $utente) {
         header("Location: oidclogincheck.php?suffisso=" . $_SESSION["suffisso"] . "&username=" . $utente["userid"]);
         die;
     }
+
+    $_SESSION["oidc_multiprofile"] = true;
+    $titolo = "Nessun profilo associato";
+    stampa_head($titolo, "", $script, "", false);
+    stampa_testata("Scelta del profilo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola'], true);
+    ?>
+    
+    <center>
+        <h3>Nessun profilo risulta associato a questo account SSO!</h3>
+        <h3>Si prega di eseguire il logout</h3>
+    </center>
+    
+    <?php
+    
 }
