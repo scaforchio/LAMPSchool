@@ -255,7 +255,8 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
           <td><b> Orario(HH:MM)</b></td>
           <td><b> Dettaglio </b></td> 
           <td><b> Giust. </b></td>
-          <td><b> Rit. Q. </b></td>
+          <td><b> Rit. 1˚Q.</b></td>
+          <td><b> Rit. 2˚Q.</b></td>
    </tr>
   ';
 
@@ -265,12 +266,6 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
     $fpdt->modify("+1 day");
     $iniziosecondo = date_format($fpdt,"Y-m-d");
     $fineprimo = $_SESSION['fineprimo'];
-    if ($date_now > $fineprimo) {
-        $queryextension = "and data > '$fineprimo'";
-    }else{
-        $queryextension = "and data < '$iniziosecondo'";
-    }
-
 
     $query = "SELECT * FROM tbl_alunni WHERE idalunno in (" . estrai_alunni_classe_data($idclasse, $anno . '-' . $mese . '-' . $giorno, $con) . ")  order by cognome, nome, datanascita";
 
@@ -280,8 +275,9 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
     {
         $idalu = $val["idalunno"];
         // conta ritardi per quadrimestre selezionato
-        $conteggioritardi = eseguiQuery($con, "select count(*) as numrit from tbl_ritardi where idalunno = $idalu $queryextension")->fetch_assoc()['numrit'];
-    
+        $ritprimo = eseguiQuery($con, "select count(*) as numrit from tbl_ritardi where idalunno = $idalu and data < '$iniziosecondo'")->fetch_assoc()['numrit'];
+        $ritsecondo = eseguiQuery($con, "select count(*) as numrit from tbl_ritardi where idalunno = $idalu and data > '$fineprimo'")->fetch_assoc()['numrit'];
+        
         $cont++;
         if ($val['autentrata'] != "")
         {
@@ -333,12 +329,20 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
         print "</center></td>";
 
         // conteggio ritardi
-        if ($conteggioritardi >= $_SESSION['entrate_max']){
+        if ($ritprimo >= $_SESSION['entrate_max']){
             //troppi
-            print("<td><center> <img src='../immagini/ritwarn.png' style='margin-right: 2px;' width='20' height='20'> <b style='padding-top: 2px;'>$conteggioritardi</b></center></td>");
+            print("<td><center> <img src='../immagini/ritwarn.png' style='margin-right: 2px;' width='20' height='20'> <b style='padding-top: 2px;'>$ritprimo</b></center></td>");
         }else {
             //normale
-            print("<td><center>$conteggioritardi</center></td>");
+            print("<td><center>$ritprimo</center></td>");
+        }
+
+        if ($ritsecondo >= $_SESSION['entrate_max']){
+            //troppi
+            print("<td><center> <img src='../immagini/ritwarn.png' style='margin-right: 2px;' width='20' height='20'> <b style='padding-top: 2px;'>$ritsecondo</b></center></td>");
+        }else {
+            //normale
+            print("<td><center>$ritsecondo</center></td>");
         }
 
         print"</tr>";
