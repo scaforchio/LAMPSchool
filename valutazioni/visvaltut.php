@@ -46,7 +46,7 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 $idalunno = $_SESSION['idstudente'];
 $idclasse = "";
 $cambiamentoclasse = false;
-
+$ultima_data_in_secondo = true;
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
@@ -77,6 +77,11 @@ if ($val = mysqli_fetch_array($ris))
     $idclasse = $val['idclasse'];
 }
 
+// verifica se siamo ancora nel primo per disabilitare split
+$splitattivo = false;
+if(date("Y-m-d") > $_SESSION['fineprimo']){
+    $splitattivo = true;
+}
 
 // prelevamento voti discipline
 $query = "select * from tbl_valutazioniintermedie, tbl_materie
@@ -177,6 +182,7 @@ if (mysqli_num_rows($ris) > 0)
                 2,
                 PHP_ROUND_HALF_UP
             );
+
             if ($mc_secondo < 6)
             {
                 $coloresecondo = "#eb4034";
@@ -210,7 +216,12 @@ if (mysqli_num_rows($ris) > 0)
                 $colore = 'grey';
                 $cambiamentoclasse = true;
             }
-            print('<tr style="background: $colore; text-align: center;">');
+            if($splitattivo && $ultima_data_in_secondo && ($val['data'] < $iniziosecondo)){
+                $bordo = "border-top: 2px solid black";
+            }else {
+                $bordo = "";
+            }
+            print("<tr style='background: $colore; text-align: center; $bordo'>");
             print("<td>$data</td>");
             print("<td style=\"text-align: center;\">$tipo</td>");
             if ($val['voto'] < 6) // is_numeric($val['votoscritto']))
@@ -234,6 +245,7 @@ if (mysqli_num_rows($ris) > 0)
             print("<td>$giudizio</td>");
             print("</tr>");
         }
+        $ultima_data_in_secondo = $val['data'] > $_SESSION['fineprimo'];
     }
     print ("</table><br/>");
     // CALCOLO IL VOTO MEDIO DI COMPORTAMENTO
