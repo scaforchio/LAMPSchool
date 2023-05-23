@@ -21,16 +21,16 @@ require_once '../lib/req_apertura_sessione.php';
 /* Programma per la visualizzazione del menu principale. */
 
 // CONTROLLO ORIGINE DELLA RICHIESTA PER IMPEDIRE ACCESSI DALL'ESTERNO
-$urlorigine = $_SERVER['HTTP_REFERER'];
-if (isset($_SERVER['HTTPS'])) {
-    $urlattuale = 'http' . ($_SERVER['HTTPS'] == 'on' ? 's' : '') . '://' . $_SERVER['SERVER_NAME'];
-} else {
-    $urlattuale = 'http://' . $_SERVER['SERVER_NAME'];
-}
+$urlorigine = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+$urlattuale = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? "https://" : "http://";
+$urlattuale .= $_SERVER['HTTP_HOST'];
 
-if ($urlattuale == substr($urlorigine, 0, strlen($urlattuale))) {
+$origineok = false;
+
+if (!empty($urlorigine) && strpos($urlorigine, $urlattuale) === 0) {
     $origineok = true;
 }
+
 
 // il controllo dell'origine deve essere saltato in caso di accesso
 // tramite OIDC a profilo singolo, siccome il redirect verso LAMPSchool
