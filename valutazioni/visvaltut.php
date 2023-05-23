@@ -46,10 +46,40 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo",
 $idalunno = $_SESSION['idstudente'];
 $idclasse = "";
 $cambiamentoclasse = false;
-
+$ultima_data_in_secondo = true;
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
+function datatostr($int){
+    switch ($int) {
+        case '1':
+            return "Gennaio";
+        case '2':
+            return "Febbraio";
+        case '3':
+            return "Marzo";
+        case '4':
+            return "Aprile";
+        case '5':
+            return "Maggio";
+        case '6':
+            return "Giugno";
+        case '7':
+            return "Luglio";
+        case '8':
+            return "Agosto";
+        case '9':
+            return "Settembre";
+        case '10':
+            return "Ottobre";
+        case '11':
+            return "Novembre";
+        case '12':
+            return "Dicembre";
+        default:
+            return "Default";
+    }
+}
 
 // prelevamento dati alunno
 
@@ -77,6 +107,11 @@ if ($val = mysqli_fetch_array($ris))
     $idclasse = $val['idclasse'];
 }
 
+// verifica se siamo ancora nel primo per disabilitare split
+$splitattivo = false;
+if(date("Y-m-d") > $_SESSION['fineprimo']){
+    $splitattivo = true;
+}
 
 // prelevamento voti discipline
 $query = "select * from tbl_valutazioniintermedie, tbl_materie
@@ -92,7 +127,10 @@ if (mysqli_num_rows($ris) > 0)
     while ($val = mysqli_fetch_array($ris))
     {
         $materia = $val['denominazione'];
-        $data = data_italiana($val['data']);
+        $data_y = date_format(date_create($val['data']), "Y");
+        $data_m = datatostr(date_format(date_create($val['data']), "n"));
+        $data_d = date_format(date_create($val['data']), "j");
+        $data = "$data_d $data_m $data_y";
         $tipo = $val['tipo'];
         if ($tipo == 'O')
             $tipo = 'Orale';
@@ -111,6 +149,8 @@ if (mysqli_num_rows($ris) > 0)
         if ($materia != $mat)
         {
             $mat = $materia;
+	    print("<tr style='border-left: 1px solid white; border-right: 1px solid white'>
+		    <td colspan=4 style='color: white; font-size: 16px;'>-</td></tr>");
             print("<tr class=prima><td colspan=4 align=center>$materia</td></tr>");
             //facciamo l'avg() di tutti i voti per la determinata materia per il determinato alunno
             $idmateria = $val["idmateria"];
@@ -127,10 +167,12 @@ if (mysqli_num_rows($ris) > 0)
             );
             //stampiamo il valore subito dopo il nome della materia
             print("<tr style=\"background-color: #cfcfcf\"><td colspan=4 align=center>");
-            //se la media è inferiore a 6 stampa il valore in rosso
-            if ($mediacalc < 6)
+            //se la media è inferiore a 5 stampa il valore in rosso
+            if ($mediacalc < 5)
             {
                 $coloreglobale = "#eb4034";
+            } else if ($mediacalc >= 5 && $mediacalc < 6) {
+                $coloreglobale = "#ebac34";
             } else
             {
                 $coloreglobale = "#05ac50";
@@ -152,9 +194,11 @@ if (mysqli_num_rows($ris) > 0)
                 2,
                 PHP_ROUND_HALF_UP
             );
-            if ($mc_primo < 6)
+            if ($mc_primo < 5)
             {
                 $coloreprimo = "#eb4034";
+            } else if ($mc_primo >= 5 && $mc_primo < 6) {
+                $coloreprimo = "#ebac34";
             } else
             {
                 $coloreprimo = "#05ac50";
@@ -177,9 +221,12 @@ if (mysqli_num_rows($ris) > 0)
                 2,
                 PHP_ROUND_HALF_UP
             );
-            if ($mc_secondo < 6)
+
+            if ($mc_secondo < 5)
             {
                 $coloresecondo = "#eb4034";
+            } else if ($mc_secondo >= 5 && $mc_secondo < 6) {
+                $coloresecondo = "#ebac34";
             } else
             {
                 $coloresecondo = "#05ac50";
@@ -210,13 +257,22 @@ if (mysqli_num_rows($ris) > 0)
                 $colore = 'grey';
                 $cambiamentoclasse = true;
             }
-            print('<tr style="background: $colore; text-align: center;">');
-            print("<td>$data</td>");
+            if($splitattivo && $ultima_data_in_secondo && ($val['data'] < $iniziosecondo)){ ?>
+                <tr style="background: #cfcfcf">
+                    <td colspan=4 style="font-size: 1px;">
+                        <center style="color: #cfcfcf">-<center>
+                    </td>
+                </tr>
+            <?php }
+            print("<tr style='background: $colore; text-align: center; $bordo'>");
+            print("<td style='text-align: left;'>$data</td>");
             print("<td style=\"text-align: center;\">$tipo</td>");
-            if ($val['voto'] < 6) // is_numeric($val['votoscritto']))
+            if ($val['voto'] < 5) // is_numeric($val['votoscritto']))
             {
                 // voto negativo stile rosso
                 $stilecasella = 'style="background: #eb4034; text-align: center;"';
+            } else if ($val['voto'] >= 5 && $val['voto'] < 6) {
+                $stilecasella = 'style="background: #ebac34; text-align: center;"';
             } else
             {
                 // voto valido quindi verde
@@ -234,6 +290,7 @@ if (mysqli_num_rows($ris) > 0)
             print("<td>$giudizio</td>");
             print("</tr>");
         }
+        $ultima_data_in_secondo = $val['data'] > $_SESSION['fineprimo'];
     }
     print ("</table><br/>");
     // CALCOLO IL VOTO MEDIO DI COMPORTAMENTO
