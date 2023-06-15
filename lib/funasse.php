@@ -459,7 +459,7 @@ function oreassenza($inizio, $durata, $idalunno, $data, $con) {
  * @param object $conn Connessione al db
  * @return string
  */
-function calcola_ore_assenza($idalunno, $datainizio, $datafine, $conn) {
+function calcola_ore_assenza($idalunno, $datainizio, $datafine, $conn, $supp=true) {
 
 
     $seledata = "";
@@ -482,6 +482,9 @@ function calcola_ore_assenza($idalunno, $datainizio, $datafine, $conn) {
     $query = "select tbl_asslezione.data as dataass,orainizio,oreassenza from tbl_asslezione,tbl_lezioni
                   where tbl_asslezione.idlezione=tbl_lezioni.idlezione
                   and idalunno='$idalunno' $seledata";
+    if (!$supp){
+        $query.= " and tbl_asslezione.idmateria <> 0";
+    }    
 
     $risass = eseguiQuery($conn, $query);
     while ($recass = mysqli_fetch_array($risass)) {
@@ -499,7 +502,7 @@ function calcola_ore_assenza($idalunno, $datainizio, $datafine, $conn) {
     return $oreassenza;
 }
 
-function calcola_ore_deroga($idalunno, $datainizio, $datafine, $conn) {
+function calcola_ore_deroga($idalunno, $datainizio, $datafine, $conn, $supp=true) {
 
     $seledata = "";
 
@@ -516,6 +519,9 @@ function calcola_ore_deroga($idalunno, $datainizio, $datafine, $conn) {
                   where tbl_asslezione.idlezione=tbl_lezioni.idlezione
                   and idalunno='$idalunno' $seledata and not tbl_asslezione.data in (select distinct data from tbl_deroghe where idalunno=$idalunno and numeroore=0)";
 
+    if (!$supp){
+        $query.= " and tbl_asslezione.idmateria <> 0";
+    }     
     $risass = eseguiQuery($conn, $query);
     while ($recass = mysqli_fetch_array($risass)) {
         $dataass = substr($recass['dataass'], 5, 2) . substr($recass['dataass'], 8, 2);

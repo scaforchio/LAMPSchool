@@ -52,6 +52,7 @@ $query = "SELECT DISTINCT tbl_materie.idmateria as idmateria, tbl_alunni.idclass
         AND tbl_alunni.idalunno =$id_ut_doc
         AND tbl_docenti.iddocente <>1000000000
         ORDER BY denominazione";
+
 $ris = eseguiQuery($con, $query);
 $matassoclist = array();
 
@@ -61,7 +62,8 @@ while ($nom = mysqli_fetch_array($ris)) {
 
 //creiamo la matrice di associazione degli ID docenti ai nomi e cognomi
 //per evitare query "spreca risorse" durante la stampa della tabella
-$querydoc = "SELECT `iddocente`, `cognome`, `nome` FROM `tbl_docenti`;";
+$querydoc = "SELECT iddocente, cognome, nome FROM tbl_docenti";
+
 $risdoc = eseguiQuery($con, $querydoc);
 $docassoclist = array();
 
@@ -232,7 +234,7 @@ if ($dataieri >= $_SESSION['datainiziolezioni'] && $datadomani <= $_SESSION['dat
             // VISUALIZZARE ARGOMENTI SOSTEGNO
             if (alunno_certificato($id_ut_doc, $con)) {
                 $query = "select * from tbl_lezionicert where idclasse='$idclasse' and datalezione='$dataoggi' and idalunno='$id_ut_doc' order by datalezione";
-
+                
                 $rislez = eseguiQuery($con, $query);
 
                 if (mysqli_num_rows($rislez) == 0) {
@@ -247,13 +249,15 @@ if ($dataieri >= $_SESSION['datainiziolezioni'] && $datadomani <= $_SESSION['dat
                             <td width=35%>Attivit&agrave;</td>";
 
                     while ($reclez = mysqli_fetch_array($rislez)) {
-                        stampa_lez(
+                        stampa_lezcert(
                             $con,
                             $docassoclist,
                             $reclez['idlezione'], 
                             $matassoclist[$reclez['idmateria']],
                             $reclez['argomenti'],
-                            $reclez['attivita']
+                            
+                            $reclez['attivita'],
+                            $reclez['iddocente']
                         );
                     }
 
@@ -289,6 +293,23 @@ function stampa_lez($con, $docassoclist, $idlezione, $materia, $argomenti, $attv
         }
         print "</td>";
     }
+    //stampa il resto della tabella
+    //i dati sono safe perchè sanificati in input, non serve stringa_html()
+    print "<td>" . $materia . "</td><td>" . $argomenti . "&nbsp;</td><td>" . $attvità . "&nbsp;</td></tr>";
+}
+
+function stampa_lezcert($con, $docassoclist, $idlezione, $materia, $argomenti, $attvità, $iddocente)
+{
+    print "<tr>";
+    //selezioniamo tutti i docenti che hanno firmato quella lezione
+    
+        //stampa tutti i docenti corrispondenti alla lezione
+        print "<td>";
+        
+            print $docassoclist[$iddocente];
+       
+        print "</td>";
+    
     //stampa il resto della tabella
     //i dati sono safe perchè sanificati in input, non serve stringa_html()
     print "<td>" . $materia . "</td><td>" . $argomenti . "&nbsp;</td><td>" . $attvità . "&nbsp;</td></tr>";

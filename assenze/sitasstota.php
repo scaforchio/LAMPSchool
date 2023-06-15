@@ -232,10 +232,12 @@ if ($nome != "")
     //
     // CONTEGGIO ORE DI LEZIONE EFFETTIVAMENTE SVOLTE NELLA CLASSE
     //
-
+/*
     $arrlezioni = array();
+    $arrmaterie = array();
     $querylez = "select * from tbl_lezioni
                where idclasse=$idclasse
+                   
                $seledatalezione";
 
     $rislez = eseguiQuery($con, $querylez);
@@ -244,15 +246,34 @@ if ($nome != "")
         $datalez = $reclez['datalezione'];
         $orainizio = $reclez['orainizio'];
         $numeroore = $reclez['numeroore'];
+        $idmateria = $reclez['idmateria'];
+        
         for ($i = $orainizio; $i < ($orainizio + $numeroore); $i++)
         {
             $indicearray = $datalez . $i;
             $arrlezioni[$indicearray] = 1;
+            $arrmaterie[$indicearray] = $idmateria; 
         }
     }
+*/
+    
+    $queryorelez = "select sum(numeroore) as oretot from tbl_lezioni
+               where idclasse=$idclasse
+               and idmateria<>0    
+               $seledatalezione";
+    
+    $res = eseguiQuery($con, $queryorelez);
+    $rec = mysqli_fetch_array($res);
+    $oresvolte = $rec['oretot'];
 
-    $oresvolte = count($arrlezioni);
-
+    $queryorelez = "select sum(numeroore) as oretot from tbl_lezioni
+               where idclasse=$idclasse
+               and idmateria=0    
+               $seledatalezione";
+    
+    $res = eseguiQuery($con, $queryorelez);
+    $rec = mysqli_fetch_array($res);
+    $oresupplenze = $rec['oretot'];
 
     $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
     $ris = eseguiQuery($con, $query);
@@ -277,7 +298,7 @@ if ($nome != "")
     echo "<p align='center'>
           <font size=4 color='black'>Assenze della classe $classe <br>
                                      nel periodo $datainizio - $datafine
-          <br>Ore svolte nel periodo: $oresvolte</font>
+          <br>Ore svolte nel periodo: $oresvolte (+ $oresupplenze di supplenza)</font>
           <table border=2 align='center'>";
 
     echo '
@@ -286,7 +307,7 @@ if ($nome != "")
           <td><font size=1><b> Cognome </b></td>
           <td><font size=1><b> Nome  </b></td>
           <td><font size=1><b> Data di nascita </b></td>';
-    print ("<td><font size=1><center>Ass</td><td><font size=1><center>Rit (Rit. Brevi)</td><td><font size=1><center>Usc</td><td align=center><font size=1>Perc. ass.<br/>su monte ore<br/>($numoretot)</td><td align=center><font size=1>Perc. ass.<br/>su monte ore<br/>(con deroghe)</td></tr>");
+    print ("<td><font size=1><center>Ass</td><td><font size=1><center>Rit (Rit. Brevi)</td><td><font size=1><center>Usc</td><td align=center><font size=1>Perc. ass.<br/>su monte ore<br/>($numoretot)</td><td align=center><font size=1>Perc. ass.<br/>su monte ore<br/>(con deroghe)</td><td align=center><font size=1>Perc. ass.<br/>su ore svolte<br/>(con deroghe)</td></tr>");
 
 
     $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
@@ -327,9 +348,9 @@ if ($nome != "")
 
         $numoretot = round(33 * $oresettimanali);  // 33.3333
         $numoregio = $oresettimanali / $_SESSION['giornilezsett']; //calcolo ore medie giornaliere
-        $oreassenza = calcola_ore_assenza($idalunno, $datainizio, $datafine, $con);
+        $oreassenza = calcola_ore_assenza($idalunno, $datainizio, $datafine, $con,false);
 
-        $oreassenzader = calcola_ore_deroga($idalunno, $datainizio, $datafine, $con);
+        $oreassenzader = calcola_ore_deroga($idalunno, $datainizio, $datafine, $con, false);
 
 
         $oreassenzaperm = calcola_ore_deroga_oraria($idalunno, $datainizio, $datafine, $con);
@@ -338,8 +359,9 @@ if ($nome != "")
 
         $percass = round($oreassenza / $numoretot * 100, 2);
         $percassder = round($oreassenzader / $numoretot * 100, 2);
+        $percasssusvolte = round($oreassenzader / $oresvolte * 100, 2);
 
-        print "<td><center>$numass</td><td><center>$numrit ($numritardibrevi) </td><td><center>$numusc</td><td align=center>$percass (Ore: $oreassenza) </td><td align=center>$percassder (Ore: $oreassenzader) </td></tr>";
+        print "<td><center>$numass</td><td><center>$numrit ($numritardibrevi) </td><td><center>$numusc</td><td align=center>$percass (Ore: $oreassenza) </td><td align=center>$percassder (Ore: $oreassenzader) </td><td><center>$percasssusvolte</td></tr>";
     }
 
     echo '</table>';
