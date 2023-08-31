@@ -52,13 +52,15 @@ if (!$DB)
 }
 $a = stringa_html('a');
 $sql = "SELECT * from tbl_docenti where (iddocente='$a')";
+$sqlpass = "SELECT * from tbl_utenti where idutente=$a";
 $result = eseguiQuery($con, $sql);
+$resultpass = eseguiQuery($con, $sqlpass);
 $Data = mysqli_fetch_array($result);
+$Datapass = mysqli_fetch_array($resultpass);
 if (!($result))
     print("Query fallita");
 else
 {
-
 
     $sql1 = "SELECT denominazione FROM tbl_comuni WHERE idcomune=" . $Data['idcomnasc'] . "";
     $result1 = eseguiQuery($con, $sql1);
@@ -136,6 +138,12 @@ else
     print(" <td><input type ='text' size='20' name='email' value= '" . $Data['email'] . "'></td>\n</tr>\n");
     print ("<tr><td>Sostegno</td><td><select name='sostegno'>");
     if (!$Data['sostegno'])
+        print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
+    else
+        print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");
+    print ("</select></td></tr>");
+    print ("<tr><td>Accesso WiFi</td><td><select name='accessowifi'>");
+    if (!$Datapass['wifi'])
         print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
     else
         print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");

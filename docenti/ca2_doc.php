@@ -23,7 +23,7 @@ require_once '../lib/req_apertura_sessione.php';
   riceve in ingresso i dati del docente */
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
-
+@require_once("../lib/admqtt.php");
 
 // istruzioni per tornare alla pagina di login 
 
@@ -42,6 +42,8 @@ stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='
 
 
 $al = stringa_html('al');
+$alok = "doc".$al-1000000000;
+
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 if (!$con)
 {
@@ -58,6 +60,12 @@ $f = "DELETE FROM tbl_docenti WHERE iddocente='$al'";
 $res = eseguiQuery($con, $f);
 $f = "DELETE FROM tbl_utenti WHERE idutente='$al'";
 $res = eseguiQuery($con, $f);
+
+if($_SESSION['adautosync_disabled'] == "no" && $_SESSION['ad_module_enabled'] == "yes") {
+  $queue = array();
+  queueDeleteOperation($queue, $alok);
+  sendQueueToBroker($queue, $_SESSION['broker_host'], $_SESSION['broker_port'], $_SESSION['broker_user'], $_SESSION['broker_pass'], $_SESSION['broker_topic']);
+}
 
 print("<Center>CANCELLAZIONE EFFETTUATA!</Center>");
 stampa_piede("");

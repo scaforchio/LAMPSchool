@@ -118,6 +118,10 @@ print ("<tr><td>Gestione moodle</td><td><select name='gestoremoodle'>");
 print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
 print ("</select></td></tr>");
 
+print ("<tr><td>Accesso WiFi</td><td><select name='accessowifi'>");
+print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");
+print ("</select></td></tr>");
+
 print ("<tr> <td><i>UUID OIDC</i></td>");
 print ("<td> <input type='text' name='oidc_uid' size='37' value=''> </td> </tr>");
 print ("<tr><td>Abilita accesso OIDC</td><td><select name='oidc_enable'>");

@@ -22,6 +22,7 @@ require_once '../lib/req_apertura_sessione.php';
   riceve in ingresso i valori del docente */
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
+@require_once("../lib/admqtt.php");
 
 // istruzioni per tornare alla pagina di login 
 
@@ -51,6 +52,7 @@ $comresi = stringa_html('idcomr')!=''?stringa_html('idcomr'):'0';
 $email = stringa_html('email');
 $sostegno = stringa_html('sostegno');
 $gestoremoodle = stringa_html('gestoremoodle');
+$accessowifi = stringa_html('accessowifi');
 $telefono = stringa_html('telefono');
 $cellulare = stringa_html('telcel');
 
@@ -151,7 +153,7 @@ if ($err == 1)
         $utente = "doc" . ($iddocenteinserito - 1000000000);
         $utentemoodle = "doc" . $_SESSION['suffisso'] . ($iddocenteinserito - 1000000000);
         $password = creapassword();
-        $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo,oidc_uid,oidc_authmode) values ('$iddocenteinserito','$utente',md5('" . md5($password) . "'),'D', '$oidc_uid', '$oidc_enable')";
+        $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo,oidc_uid,oidc_authmode,wifi) values ('$iddocenteinserito','$utente',md5('" . md5($password) . "'),'D', '$oidc_uid', '$oidc_enable', $accessowifi)";
         $res = eseguiQuery($con, $sqlt);
         if ($_SESSION['tokenservizimoodle'] != '')
         {
@@ -165,11 +167,16 @@ if ($err == 1)
             {
                 print "<br> Inserito utente Moodle: $cognome $nome $usernamedocente $password $email";
             }
-
-
+            
             $idmoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $utentemoodle);
-            //print "IDMOODLE $idmoodle";
             cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idmoodle, $utentemoodle, $password);
+        }
+
+        if($_SESSION['adautosync_disabled'] == "no" && $_SESSION['ad_module_enabled'] == "yes" && $_SESSION['adgroup_docenti'] != "" && $_SESSION['adgroup_docenti'] != null) {
+            $queue = array();
+            queueCreateUpdateOperation($queue, $utente, $nome, $cognome, $accessowifi == '0' ? false : true, $_SESSION['adgroup_docenti']);
+            queueUpdatePasswordOperation($queue, $utente, $password);
+            sendQueueToBroker($queue, $_SESSION['broker_host'], $_SESSION['broker_port'], $_SESSION['broker_user'], $_SESSION['broker_pass'], $_SESSION['broker_topic']);
         }
         // print "risultato inserimento $iddocenteinserito<br/>"; 
         print "<FONT SIZE='+2'><CENTER>Inserimento eseguito</CENTER></FONT>";

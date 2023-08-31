@@ -1,7 +1,7 @@
 <?php
 
 require_once '../lib/req_apertura_sessione.php';
-require_once '../lib/admqtt.php';
+
 /*
   Copyright (C) 2015 Pietro Tamburrano
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della

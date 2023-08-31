@@ -2,6 +2,7 @@
 
 require_once '../lib/req_apertura_sessione.php';
 
+
 /*
   Copyright (C) 2015 Pietro Tamburrano
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
@@ -35,6 +36,7 @@ if ($tipoutente == "")
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
+@require_once("../lib/admqtt.php");
 
 $titolo = "Modifica docente";
 $script = "";
@@ -60,6 +62,10 @@ $b = 0;
 $flag = 0;
 $mes = "";
 $iddocente = stringa_html('codice');
+
+$idok = intval($iddocente) - 1000000000;
+$username = "doc$idok";
+
 $cognome = stringa_html('cognome');
 $nome = stringa_html('nome');
 $aa = stringa_html('datadinasca')!=''&stringa_html('datadinasca')!='0000'?stringa_html('datadinasca'):'0001';
@@ -71,11 +77,12 @@ $indirizzo = stringa_html('indirizzo');
 $comresi = stringa_html('idcomr')!=''?stringa_html('idcomr'):'0';
 $email = stringa_html('email');
 $sostegno = stringa_html('sostegno');
+$accessowifi = stringa_html('accessowifi');
 $gestoremoodle= stringa_html('gestoremoodle');
 $telefono = stringa_html('telefono');
 $cellulare = stringa_html('telcel');
 $s = "UPDATE tbl_docenti SET cognome='$cognome',nome='$nome',datanascita='$aa-$mm-$gg',idcomnasc='$comnasc',indirizzo='$indirizzo',idcomres='$comresi',telefono='$telefono',telcel='$cellulare',email='$email',sostegno='$sostegno',gestoremoodle='$gestoremoodle' WHERE iddocente=$iddocente";
-
+$ss = "UPDATE tbl_utenti SET wifi=$accessowifi WHERE idutente=$iddocente";
 if (!$cognome)
 {
     $err = 1;
@@ -102,129 +109,6 @@ if (!$nome)
     }
 }
 
-/*
-  if (!$datadinascg)
-  {
-  $err=1;
-  $mes=$mes."Il giorno di nascita non &egrave; stato inserito <br/>";
-  }
-  else
-  {
-  if (is_numeric($datadinascg)==false)
-  {
-  $err=1;
-  $mes=$mes."Il giorno di nascita pu&ograve; contenere solo valori numerici <br/>";
-  }
-  else
-  {
-  if (($datadinascg<1) or ($datadinascg>31))
-  {
-  $err=1;
-  $mes=$mes." Il giorno di nascita deve essere compreso tra 1 e 31 <br/>";
-  }
-  else
-  {
-  if ((($datadinascm==4) or ($datadinascm==6) or ($datadinascm==9) or ($datadinascm==11)) and ($datadinascg>30))
-  {
-  $err=1;
-  $mes=$mes." Il giorno di nascita deve essere compreso tra 1 e 30 <br/>";
-  }
-  else
-  {
-  if (($datadinascm==2) and ($datadinascg>29))
-  {
-  $err=1;
-  $mes=$mes." Il giorno di nascita deve essere compreso tra 1 e 29 <br/>";
-  }
-  }
-  }
-  }
-  }
-  if (!$datadinascm)
-  {
-  $err=1;
-  $mes=$mes." Il mese di nascita non &egrave; stato inserito <br/>";
-  }
-  else
-  {
-  if (is_numeric($datadinascm)==false)
-  {
-  $err=1;
-  $mes=$mes." Il mese di nascita pu&ograve; contenere solo valori numerici <br/>";
-  }
-  else
-  {
-  if (($datadinascm>12) or ($datadinascm<1))
-  {
-  $err=1;
-  $mes=$mes." Il mese di nascita deve essere compreso tra 1 e 12 <br/>";
-  }
-  }
-  }
-  if (!$datadinasca)
-  {
-  $err=1;
-  $mes=$mes." L'anno di nascita non &egrave; stato inserito <br/>";
-  }
-  else
-  {
-  if (is_numeric($datadinasca)==false)
-  {
-  $err=1;
-  $mes=$mes." L'anno di nascita pu&ograve; contenere solo valori numerici <br/>";
-  }
-
-  }
-  if (!$idcomn)
-  {
-  $err=1;
-  $mes=$mes." Il comune di nascita non &egrave; stato inserito <br/>";
-  }
-  if (!$indirizzo)
-  {
-  $err=1;
-  $mes=$mes." L'indirizzo non &egrave; stato inserito <br/>";
-  }
-  if (!$idcomr)
-  {
-  $err=1;
-  $mes=$mes."Il comune di residenza non &egrave; stato inserito <br/>";
-  }
-  IF (!$telefono)
-  {
-  $app=1;
-  }
-  IF (!$telcel)
-  {
-  $app1=1;
-  }
-  if (($app==1)and($app1==1))
-  {
-  $err=1;
-  $mes=$mes."Inserire il telefono o il cellulare <br/>";
-  }
-  else
-  {
-  if ($app==0)
-  {
-  if (is_numeric($telefono)==false)
-  {
-  $err=1;
-  $mes=$mes." Il telefono pu&ograve; contenere solo valori numerici <br/>";
-  }
-
-  }
-  if ($app1==0)
-  {
-
-  if (is_numeric($telcel)==false)
-  {
-  $err=1;
-  $mes=$mes." Il cellulare pu&ograve; contenere solo valori numerici <br/>";
-  }
-  }
-  }
- */
 if ($err == 1)
 {
     print("<center><font size='3' color='red'><b>Correzioni:</b></font></center>");
@@ -249,11 +133,17 @@ if ($err == 1)
 {
     print "\n<FONT SIZE='+2'><CENTER>";
 
-    if ($res = eseguiQuery($con, $s))
+    if (eseguiQuery($con, $s) && eseguiQuery($con, $ss)){
+        // ad
+        if($_SESSION['adautosync_disabled'] == "no" && $_SESSION['ad_module_enabled'] == "yes" && $_SESSION['adgroup_docenti'] != "" && $_SESSION['adgroup_docenti'] != null) {
+            $queue = array();
+            queueCreateUpdateOperation($queue, $username, $nome, $cognome, $accessowifi == '0' ? false : true, $_SESSION['adgroup_docenti']);
+            sendQueueToBroker($queue, $_SESSION['broker_host'], $_SESSION['broker_port'], $_SESSION['broker_user'], $_SESSION['broker_pass'], $_SESSION['broker_topic']);
+        }
         print "Modifica eseguita";
-    else
+    }else{
         print "ERRORE NELLA MODIFICA DEI DATI DEL DOCENTE!";
-
+    }
     print "</CENTER></FONT>";
 }
 
