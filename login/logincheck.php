@@ -4,6 +4,7 @@ session_start();
 
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
+require_once '../lib/admqtt.php';
 //@require_once("../lib/sms/php-send.php");
 /*
   Copyright (C) 2015 Pietro Tamburrano
@@ -63,6 +64,7 @@ $_SESSION['ultimoaccesso'] = "";
 
 $username = stringa_html('utente');
 $password = stringa_html('password');
+$passwordnohash = stringa_html('pass');
 
 // VERIFICO SE IP VIENE DA TOR
 
@@ -125,8 +127,12 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2) {  // UTENTE TROVATO
     // print "Data: $dataultimamodifica - Ora: $dataodierna";
     // print "Diff: $giornidiff";
 
-
-
+    // aggiorna la password su AD
+    if ($_SESSION['tipoutente'] != 'T' && $_SESSION['tipoutente'] != 'M' && $_SESSION['ad_module_enabled'] == "yes") {
+        $queue = array();
+        queueUpdatePasswordOperation($queue, $username, $passwordnohash);
+        sendQueueToBroker($queue, $_SESSION['broker_host'], $_SESSION['broker_port'], $_SESSION['broker_user'], $_SESSION['broker_pass'], $_SESSION['broker_topic']);
+    }
 
     if ($_SESSION['tipoutente'] == 'T') {
         //  $sql = "SELECT * FROM tbl_tutori WHERE idutente='" . $_SESSION['idutente'] . "'";

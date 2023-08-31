@@ -1,6 +1,7 @@
 <?php
 
 require_once '../lib/req_apertura_sessione.php';
+require_once '../lib/admqtt.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
@@ -65,6 +66,7 @@ $sequenzaiscrizione = stringa_html('sequenzaiscrizione');
 $datacambio = stringa_html('datacambioclasse');
 $oidc_enable = stringa_html('oidc_enable');
 $oidc_uid = stringa_html('oidc_uid');
+$accessowifi = stringa_html('accessowifi');
 $oidc_enable_gen = stringa_html('oidc_enable_gen');
 $oidc_uid_gen = stringa_html('oidc_uid_gen');
 $datacambio = $datacambio != "" ? data_to_db($datacambio) : "";
@@ -241,6 +243,13 @@ if (!$DB)
             {
                 $utentealunno = "al" . $_SESSION['suffisso'] . $idalunnoinserito;
                 $passwordalunno = creapassword();
+
+                if($_SESSION['adautosync_disabled'] == "no" && $_SESSION['ad_module_enabled'] == "yes" && $_SESSION['adgroup_alunni'] != "" && $_SESSION['adgroup_alunni'] != null) {
+                    $queue = array();
+                    queueCreateUpdateOperation($queue, $utentealunno, $nome, $cognome, $accessowifi == '0' ? false : true, $_SESSION['adgroup_alunni']);
+                    queueUpdatePasswordOperation($queue, $utentealunno, $passwordalunno);
+                    sendQueueToBroker($queue, $_SESSION['broker_host'], $_SESSION['broker_port'], $_SESSION['broker_user'], $_SESSION['broker_pass'], $_SESSION['broker_topic']);
+                }
             }
             $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo,oidc_uid,oidc_authmode) values ('$idalunnoinserito','$utente',md5('" . md5($password) . "'),'T', '$oidc_uid_gen' , '$oidc_enable_gen')";
             $res = eseguiQuery($con, $sqlt);
@@ -250,12 +259,16 @@ if (!$DB)
             if ($_SESSION['gestioneutentialunni'] == 'yes')
             {
                 $idutentealunno = $idalunnoinserito + 2100000000;
-                $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo,oidc_uid,oidc_authmode) values ('$idutentealunno','$utentealunno',md5('" . md5($passwordalunno) . "'),'L' , '$oidc_uid', '$oidc_enable')";
+                $sqlt = "insert into tbl_utenti(idutente,userid,password,tipo,oidc_uid,oidc_authmode, wifi) values ('$idutentealunno','$utentealunno',md5('" . md5($passwordalunno) . "'),'L' , '$oidc_uid', '$oidc_enable', $accessowifi)";
                 $res = eseguiQuery($con, $sqlt);
             }
 
             // print "risultato inserimento $idalunnoinserito<br/>";
             print("Il nuovo alunno &egrave; stato inserito<br/><br/>Utente: $utente<br/><br/>Password:$password<br/>");
+            if ($_SESSION['gestioneutentialunni'] == 'yes')
+            {
+                print("<br> Credenziali alunno<br/><br/>Utente: $utentealunno<br/><br/>Password:$passwordalunno<br/><br>");
+            }
         }
         print(" <form action='vis_alu.php' method='POST'>");
         print ("<input type='hidden'  name='idcla' value='$datc'>");

@@ -87,7 +87,7 @@ function codifica()
     seme='$seme';
    
     document.getElementById('passwordmd5').value = hex_md5(hex_md5(hex_md5(document.getElementById('password').value))+seme);
-    document.getElementById('password').value = '';
+    // document.getElementById('password').value = '';
     return true;
 }
    

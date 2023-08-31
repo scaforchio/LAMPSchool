@@ -24,6 +24,8 @@ require_once '../lib/req_apertura_sessione.php';
 @require_once("../lib/funzioni.php");    //parametri di uscita: codice dell'alunno, dati dell'alunno modificati, flag di errore
 // istruzioni per tornare alla pagina di login 
 
+require_once '../lib/admqtt.php';
+
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 if ($tipoutente == "")
 {
@@ -48,6 +50,7 @@ if (!$DB)
     print("<h1> Connessione al database fallita </h1>");
 }
 $c = stringa_html('idal');
+$cs = $c + 2100000000;
 $cognome = stringa_html('cognome');
 $nome = stringa_html('nome');
 $codfiscale = stringa_html('codfiscale');
@@ -70,6 +73,7 @@ $autentrata = stringa_html('autentrata');
 $autuscita = stringa_html('autuscita');
 $bloccopassword = stringa_html('bloccopassword');
 $firmapropria = stringa_html('firmapropria');
+$accessowifi = stringa_html('accessowifi');
 $numeroregistro = stringa_html('numeroregistro');
 $provenienza = stringa_html('provenienza');
 $titoloammissione = stringa_html('titoloammissione');
@@ -91,7 +95,7 @@ if ($dato = mysqli_fetch_array($resw))
 }
 
 $sqla = "UPDATE tbl_alunni SET cognome='$cognome', nome='$nome', datanascita='$aa-$mm-$gg',codfiscale='$codfiscale',certificato='$certificato',firmapropria='$firmapropria',autorizzazioni='$autorizzazioni',";
-$sqlpass = "UPDATE tbl_utenti SET dischpwd=$bloccopassword WHERE idutente=$c";
+$sqlpass = "UPDATE tbl_utenti SET dischpwd=$bloccopassword, wifi=$accessowifi WHERE idutente=$cs";
 if ($idcomn != null)
 {
     $sqla = $sqla . "idcomnasc=$idcomn,";
@@ -235,9 +239,16 @@ if ($mm > 12)
 if ($err == 0)
 {
     eseguiQuery($con, $sqla);
-
-
     eseguiQuery($con, $sqlpass);
+
+    $utentealunno = "al" . $_SESSION['suffisso'] . $c;
+
+    if($_SESSION['adautosync_disabled'] == "no" && $_SESSION['ad_module_enabled'] == "yes" && $_SESSION['adgroup_alunni'] != "" && $_SESSION['adgroup_alunni'] != null && $_SESSION['gestioneutentialunni'] == 'yes') {
+        $queue = array();
+        queueCreateUpdateOperation($queue, $utentealunno, $nome, $cognome, $accessowifi == '0' ? false : true, $_SESSION['adgroup_alunni']);
+        sendQueueToBroker($queue, $_SESSION['broker_host'], $_SESSION['broker_port'], $_SESSION['broker_user'], $_SESSION['broker_pass'], $_SESSION['broker_topic']);
+    }
+
     // print "ttt $datacambio";
     if ($idclasseold != $datc)
     {

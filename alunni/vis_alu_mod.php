@@ -84,12 +84,13 @@ if (!$DB)
 }
 
 $c = stringa_html('idal');
+$cs = $c + 2100000000;
 $strcogn = stringa_html('strcogn');
 $strnome = stringa_html('strnome');
 
 
 $sql = "SELECT * FROM tbl_alunni WHERE idalunno='$c'";
-$sqlpass = "SELECT dischpwd FROM tbl_utenti WHERE idutente='$c'";
+$sqlpass = "SELECT * FROM tbl_utenti WHERE idutente='$cs'";
 //esecuzione query
 $res = eseguiQuery($con, $sql);
 if (!$res)
@@ -127,6 +128,7 @@ if (!$res)
         $autentrata = $dato['autentrata'];
         $autuscita = $dato['autuscita'];
         $firmapropria = $dato['firmapropria'];
+        $accessowifi = $recpass['wifi'];
         $autorizzazioni = $dato['autorizzazioni'];
         $idcla = $dato['idclasse'];
         $numeroregistro = $dato['numeroregistro'];
@@ -243,6 +245,17 @@ if (!$res)
             print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");
         }
         print ("</select></td></tr>");
+
+        print ("<tr> <td><i>Accesso WiFi</i> </td> <td align='left'> <select name='accessowifi'>");
+        if (!$accessowifi)
+        {
+            print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
+        } else
+        {
+            print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");
+        }
+        print ("</select></td></tr>");
+
         print ("<tr> <td><i>Blocco cambiamento password</i> </td> <td align='left'> <select name='bloccopassword'>");
 
         if (!$bloccopassword)
