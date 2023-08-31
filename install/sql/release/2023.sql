@@ -2816,8 +2816,6 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('adsync', 'adautosync_disabled', 'no', 'Disattivazione sincronizzazione automatica', 'yes|no');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('adsync', 'adgroup_alunni', NULL, 'Gruppo AD da associare agli alunni', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('adsync', 'adgroup_docenti', NULL, 'Gruppo AD da associare ai docenti', '');
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('adsync', 'adgroup_amministrativi', NULL, 'Gruppo AD da associare agli amministrativi', '');
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('adsync', 'adgroup_presidi', NULL, 'Gruppo AD da associare ai presidi', '');
 
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'entrate_max', '5', 'Numero di ingressi in ritardo per quadrimestre che fa scattare allarme rosso sulla pagina di inserimento', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'uscite_max', '5', 'Numero di uscite anticipate per quadrimestre che fa scattare allarme rosso sulla pagina', '');

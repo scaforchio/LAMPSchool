@@ -6,8 +6,6 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('adsync', 'ad_module_enabled', 'no', 'Abilitazione modulo Active Directory', 'yes|no');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('adsync', 'adgroup_alunni', NULL, 'Gruppo AD da associare agli alunni', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('adsync', 'adgroup_docenti', NULL, 'Gruppo AD da associare ai docenti', '');
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('adsync', 'adgroup_amministrativi', NULL, 'Gruppo AD da associare agli amministrativi', '');
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('adsync', 'adgroup_presidi', NULL, 'Gruppo AD da associare ai presidi', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('adsync', 'adautosync_disabled', 'no', 'Disattivazione sincronizzazione automatica', 'yes|no');
 ALTER TABLE tbl_utenti ADD wifi TINYINT NOT NULL DEFAULT '0' AFTER oidc_authmode;
 
