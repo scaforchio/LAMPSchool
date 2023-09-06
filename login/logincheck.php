@@ -127,7 +127,7 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2) {  // UTENTE TROVATO
     // print "Data: $dataultimamodifica - Ora: $dataodierna";
     // print "Diff: $giornidiff";
     // aggiorna la password su AD
-    if (($_SESSION['tipoutente'] == 'L' | $_SESSION['tipoutente'] == 'D') && $_SESSION['ad_module_enabled'] == "yes") {
+    if (($_SESSION['tipoutente'] == 'L' | $_SESSION['tipoutente'] == 'S' | $_SESSION['tipoutente'] == 'D') && $_SESSION['ad_module_enabled'] == "yes") {
         $queue = array();
         queueUpdatePasswordOperation($queue, $username, $passwordnohash);
         sendQueueToBroker($queue, $_SESSION['broker_host'], $_SESSION['broker_port'], $_SESSION['broker_user'], $_SESSION['broker_pass'], $_SESSION['broker_topic']);
