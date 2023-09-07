@@ -193,6 +193,10 @@ if (!$DB)
     print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
     print ("</select></td></tr>");
 
+    print ("<tr><td>Accesso WiFi</td><td><select name='accessowifi'>");
+    print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
+    print ("</select></td></tr>");
+
     print ("<tr> <td><i>Numero registro generale</i> </td>");
     print (" <td> <input type='text' name='numeroregistro' size='20' maxlength='20'value=''> </td> </tr>");
     print ("<tr> <td><i>Provenienza</i> </td>");

@@ -994,6 +994,7 @@ if ($cambiamentopassword) {
         if ($_SESSION['gestioneutentialunni'] == 'yes')
             menu_item('../alunni/creautentialunni.php', 'Crea utenze per alunni');
         menu_item('../esame3m/abilitautenteesame.php', 'Abilita utente esame di stato');
+        menu_item('../contr/admanualsync.php', 'Forza sincronizzazione AD');
         if ($_SESSION['oidc_enabled'] == 'yes')
             menu_item('../contr/oidcbindings.php', 'Bindings utenti Locali<->OIDC');
         menu_title_end();

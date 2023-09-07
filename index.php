@@ -4,6 +4,7 @@
  * Pagina principale dell'applicazione web LAMPSchool.
  *
  * @copyright  Copyright (C) 2015 Renato Tamilio. Pietro Tamburrano
+ * @copyright  Copyright (C) 2023 Renato Tamilio, Pietro Tamburrano, Vittorio Lo Mele
  * @license    GNU Affero General Public License versione 3 o successivi; vedete agpl-3.0.txt
  */
 // include ("funzioni.php");
@@ -80,27 +81,94 @@ if ($suffisso != "*")
     }
 }
 
+?>
 
-print "<!DOCTYPE html>
-<html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
-<title>Inserimento dati di accesso</title>
-</head><body>";
-print "<center><big><big>Seleziona scuola - anno</big></big></center><br><br>";
+<!DOCTYPE html>
+<html lang="it" data-bs-theme="light">
 
+<head>
+    <script src="lib/js/themepicker.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Inserimento dati di accesso</title>
+    <link href="index.css" rel="stylesheet">
+    <link href="vendor/twbs/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+    <link rel="manifest" href="favicons/site.webmanifest">
+    <link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#603cba">
+    <link rel="shortcut icon" href="favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#603cba">
+    <meta name="msapplication-config" content="favicons/browserconfig.xml">
+    <meta name="theme-color" content="#603cba">
+</head>
 
-print "<table align='center' border=1><tr><td><b>Scuola</b></td><td align='center'><b>A.S.</b></td><td align='center'><b>Reg.</b></td></tr>";
-for ($i = 0; $i < count($scuole); $i++)
-{
-    print "<tr>";
-    print "<td>" . $scuole[$i] . "</td>";
-    print "<td align='center'>" . $anni[$i] . "/" . ($anni[$i] + 1) . "</td>";
-    print "<td><a href='login/login.php?suffisso=" . $suffissi[$i] . "'><img src='./immagini/lstrasp.gif'></a></td>";
-    print "</tr>";
-}
+<body>
+    <main class="container">
+        <div class="row justify-content-center" style="margin-top: 8%">
+            <div class="col col-md-auto">
+                <div class="card" >
+                    <div class="card-body">
+                        <h5 class="card-title" style="margin-bottom: 15px">
+                            Seleziona la scuola
+                        </h5>
 
-print "</table>";
-print "</body></html>";
+                        <?php for ($i = 0; $i < count($scuole); $i++) { ?>
+                            <div class="card selector">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col col-md-auto">
+                                            <img class="cazzo" src="favicons/icon.png" alt="icona registro" width="40" height="40" />
+                                        </div>
+
+                                        <div class="col" style="padding-left: 0px">
+                                            <p class="lh-80 del-margin">
+                                                <span class="fs-5"><?php echo $scuole[$i]; ?></span>
+                                                <br />
+                                                <span class="fs-6 grey">A.S. <?php echo $anni[$i]; ?>/<?php echo $anni[$i] + 1; ?></span>
+                                            </p>
+                                        </div>
+
+                                        <div class="col col-md-auto text-center">
+                                            <button type="button" class="btn btn-outline-secondary" onclick="document.location.href = 'login/login.php?suffisso=<?php echo $suffissi[$i] ?>'">
+                                                <i class="bi bi-door-open" style="margin-right: 0px"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top">
+        <p class="col-md-4 mb-0 text-muted">LampSchool ver. 2023</p> 
+            <a href='login/info.php' class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <img src="favicons/icon.png" alt="icona registro" class="bi me-2" height="40">
+            </a>
+        <ul class="nav col-md-4 justify-content-end">
+          <li class="nav-item"><a href="http://lampschool.net" class="nav-link px-2 text-muted">Sito Web</a></li>
+          <li class="nav-item"><a href="https://github.com/scaforchio/lampschool/" class="nav-link px-2 text-muted">GitHub</a></li>
+          <li class="nav-item"><a href="https://github.com/scaforchio/LAMPSchool/issues/new" class="nav-link px-2 text-muted">Segnala Bug</a></li>
+          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="flipTheme()" style="margin-left: 10px;">
+            <i class="bi bi-circle-half" style="margin-right: 0px"></i>
+          </button>
+        </ul>
+    </footer>
+
+    <script src="vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
+
+<?php
 
 //	
 

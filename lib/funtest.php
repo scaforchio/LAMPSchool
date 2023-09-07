@@ -23,17 +23,28 @@ function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, 
     }
 
     print "<!DOCTYPE html>
-           <html><head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
+           <html lang='it'>
+           <head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>
             <title>$titolo</title>
+            <meta name='viewport' content='width=device-width, initial-scale=1'>
+            <link rel='apple-touch-icon' sizes='180x180' href='../favicons/apple-touch-icon.png'>
+            <link rel='icon' type='image/png' sizes='32x32' href='../favicons/favicon-32x32.png'>
+            <link rel='icon' type='image/png' sizes='16x16' href='../favicons/favicon-16x16.png'>
+            <link rel='manifest' href='../favicons/site.webmanifest'>
+            <link rel='mask-icon' href='../favicons/safari-pinned-tab.svg' color='#603cba'>
+            <link rel='shortcut icon' href='../favicons/favicon.ico'>
+            <meta name='msapplication-TileColor' content='#603cba'>
+            <meta name='msapplication-config' content='../favicons/browserconfig.xml'>
+            <meta name='theme-color' content='#603cba'>
+            
             <link rel='stylesheet' type='text/css' href='../css/stile" . get_suffisso() . ".css' />
-            <link rel='icon' href='../immagini/favicon.ico?v=2' />
             <link rel='stylesheet' type='text/css' href='../lib/js/jquery-ui-1.10.3.smoothness.css' />
             <link rel='stylesheet' type='text/css' href='../lib/js/datetimepicker/jquery.datetimepicker.css'/>
-
             <script src='../lib/js/jquery-1.10.2.min.js'></script>
             <script src='../lib/js/jquery-ui-1.10.3.custom.min.js'></script>
             <script src='../lib/js/datetimepicker/jquery.datetimepicker.js'></script>";
-    print "<script>
+    
+            print "<script>
     
             window.onload=function(){";
     if (basename($_SERVER['PHP_SELF'])!='login.php')
@@ -205,7 +216,7 @@ function stampa_testata($funzione, $ct, $ns, $cs, $isProfileSelector = false)
 
     if (isset($_SESSION['devmode']) && $_SESSION['devmode'] == true)
     {
-        $label = " <br><font color='red'>(DEVMODE ON)</font>";
+        $label = " <font color='red'>(DEVMODE ON)</font>";
     }
 
     print "<div class='titolo'>REGISTRO ON LINE$label</div>\n";

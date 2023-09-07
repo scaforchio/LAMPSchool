@@ -1,6 +1,7 @@
 <?php
 
 require_once '../lib/req_apertura_sessione.php';
+
 /*
   Copyright (C) 2015 Pietro Tamburrano
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
@@ -22,6 +23,7 @@ require_once '../lib/req_apertura_sessione.php';
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
+@require_once("../lib/admqtt.php");
 
 // istruzioni per tornare alla pagina di login 
 
@@ -67,6 +69,15 @@ $res = eseguiQuery($con, $sql);
 $sql = "DELETE FROM tbl_alunni WHERE idalunno='$c'";
 //esecuzione query
 $res = eseguiQuery($con, $sql);
+
+//ad 
+$utentealunno = "al" . $_SESSION['suffisso'] . $c;
+
+if($_SESSION['adautosync_disabled'] == "no" && $_SESSION['ad_module_enabled'] == "yes" && $_SESSION['adgroup_alunni'] != "" && $_SESSION['adgroup_alunni'] != null && $_SESSION['gestioneutentialunni'] == 'yes') {
+    $queue = array();
+    queueDeleteOperation($queue, $utentealunno);
+    sendQueueToBroker($queue, $_SESSION['broker_host'], $_SESSION['broker_port'], $_SESSION['broker_user'], $_SESSION['broker_pass'], $_SESSION['broker_topic']);
+}
 
 if (!$res)
 {
