@@ -2824,8 +2824,14 @@ INSERT INTO tbl_materie (idmateria, denominazione, idclasseconcorso, tipovalutaz
 INSERT INTO tbl_materie (idmateria, denominazione, idclasseconcorso, tipovalutazione, sigla) VALUES ( 0, 'Supplenza',     0, 'N', 'SUPP');
 
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'gest_itrp', 'no','Rilevazione entrate e uscite tramite NUOVO sistema di badge. NON ABILITARE CON IL VECCHIO SISTEMA ATTIVO!', 'yes|no');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'protogiustonline', 'totp', 'Protocollo di gestione OTP assenze online', 'totp|sms');
 
-ALTER TABLE `it_tbl_alunni` ADD `maggiorenne` TINYINT NOT NULL DEFAULT '0' AFTER `autorizzazioni`, ADD `censito` TINYINT NOT NULL DEFAULT '0' AFTER `maggiorenne`, ADD `idgrupporitardo` INT NOT NULL DEFAULT '0' AFTER `censito`;
+ALTER TABLE `tbl_alunni`
+  ADD `maggiorenne` TINYINT NOT NULL DEFAULT '0' after `autorizzazioni`,
+  ADD `censito` TINYINT NOT NULL DEFAULT '0' after `maggiorenne`,
+  ADD `idgrupporitardo` INT NOT NULL DEFAULT '0' after `censito`;
+
+ALTER TABLE `tbl_alunni` ADD `totpgiustass` VARCHAR(50) NULL DEFAULT NULL AFTER `autorizzazioni`;
 
 CREATE TABLE IF NOT EXISTS tbl_gruppiritardi ( 
     `idgrupporitardo` INT NOT NULL AUTO_INCREMENT , 
