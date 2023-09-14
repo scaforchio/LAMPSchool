@@ -33,6 +33,23 @@ if ($tipoutente == "")
     die;
 }
 
+function censimento($num) {
+    if($num == 1) {
+        return "Si";
+    }else{
+        return "No";
+    }
+}
+
+function maggiorenneok($data) {
+    $res = maggiorenne($data);
+    if($res){
+        return "Si";
+    }else {
+        return "No";
+    }
+}
+
 $titolo = "Elenco alunni di una classe";
 $script = "<script type='text/javascript'>
          <!--
@@ -147,6 +164,8 @@ print("<td align='center'><b> N.</b> </td>");
 print("<td align='center'><b> Cognome</b> </td>");
 print("<td align='center'><b> Nome</b> </td>");
 print("<td align='center'> <b>Data di Nascita </b></td>");
+print("<td align='center'> <b>Maggiorenne </b></td>");
+print("<td align='center'> <b>Censito </b></td>");
 print("<td align='center'><b>Id. Utente</b> </td>");
 print("<td align='center'><b>Telefono</b> </td>");
 print("<td align='center' ><b> E-mail</b> </td>");
@@ -169,6 +188,8 @@ if (!(mysqli_num_rows($result) > 0))
         print("<td>" . $dati['cognome'] . "</td><td>" . $dati['nome'] . "</td>");
 
         print("<td>" . data_italiana($dati['datanascita']) . "</td>");
+        print("<td>" . maggiorenneok($dati['datanascita']) . "</td>");
+        print("<td>" . censimento($dati['censito']) . "</td>");
         print("<td>" . $dati['userid'] . "</td>");
         if ($dati['telefono'])
         {

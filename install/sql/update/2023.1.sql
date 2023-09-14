@@ -1,10 +1,10 @@
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'gest_itrp', 'no','Rilevazione entrate e uscite tramite NUOVO sistema di badge. NON ABILITARE CON IL VECCHIO SISTEMA ATTIVO!', 'yes|no');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'protogiustonline', 'totp', 'Protocollo di gestione OTP assenze online', 'totp|sms');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'orarioingresso', '08:05', 'Orario massimo di ingresso a scuola dopo il quale viene registrato un ritardo espresso in formato HH:mm', '');
 
 ALTER TABLE `tbl_alunni`
-  ADD `maggiorenne` TINYINT NOT NULL DEFAULT '0' after `autorizzazioni`,
-  ADD `censito` TINYINT NOT NULL DEFAULT '0' after `maggiorenne`,
-  ADD `idgrupporitardo` INT NOT NULL DEFAULT '0' after `censito`;
+  ADD `censito` TINYINT NOT NULL DEFAULT '0' after `autorizzazioni`,
+  ADD `idgrupporitardo` INT NOT NULL DEFAULT '1' after `censito`;
 
 ALTER TABLE `tbl_alunni` ADD `totpgiustass` VARCHAR(50) NULL DEFAULT NULL AFTER `autorizzazioni`;
 

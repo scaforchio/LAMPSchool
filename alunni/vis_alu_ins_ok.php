@@ -67,8 +67,10 @@ $datacambio = stringa_html('datacambioclasse');
 $oidc_enable = stringa_html('oidc_enable');
 $oidc_uid = stringa_html('oidc_uid');
 $accessowifi = stringa_html('accessowifi');
+$censito = stringa_html('censito');
 $oidc_enable_gen = stringa_html('oidc_enable_gen');
 $oidc_uid_gen = stringa_html('oidc_uid_gen');
+$idgrupporitardo = stringa_html('idgrupporitardo');
 $datacambio = $datacambio != "" ? data_to_db($datacambio) : "";
 
 //connessione al server
@@ -89,7 +91,7 @@ if (!$DB)
     //print "<html>";
     //print " <head> ";
     //print (" <title> Controllo dati dell'inserimento</title> </head>");
-    $query = "insert into tbl_alunni (cognome,nome,datanascita,codfiscale,certificato,idcomnasc,indirizzo,idcomres,codmeccanografico,telefono,telcel,email,email2,autentrata,autuscita,idclasse,note,numeroregistro,provenienza,titoloammissione,sequenzaiscrizione,firmapropria)values('$cognome','$nome','$aa-$mm-$gg','$codfiscale','$certificato','$idcomn','$indirizzo','$idcomr','$sidi','$tel','$cel','$mail','$mail2','$autentrata','$autuscita','$datc','$note','$numeroregistro','$provenienza','$titoloammissione',$sequenzaiscrizione,$firmapropria)";
+    $query = "insert into tbl_alunni (cognome,nome,datanascita,codfiscale,certificato,idcomnasc,indirizzo,idcomres,codmeccanografico,telefono,telcel,email,email2,autentrata,autuscita,idclasse,note,numeroregistro,provenienza,titoloammissione,sequenzaiscrizione,firmapropria,censito,idgrupporitardo)values('$cognome','$nome','$aa-$mm-$gg','$codfiscale','$certificato','$idcomn','$indirizzo','$idcomr','$sidi','$tel','$cel','$mail','$mail2','$autentrata','$autuscita','$datc','$note','$numeroregistro','$provenienza','$titoloammissione',$sequenzaiscrizione,$firmapropria,$censito,$idgrupporitardo)";
     $err = 0;
     $mes = "";
     if (!$cognome)
@@ -320,6 +322,9 @@ if (!$DB)
         print ("<input type='hidden' name='titoloammissione'  value='$titoloammissione'> ");
         print ("<input type='hidden' name='sequenzaiscrizione'  value='$sequenzaiscrizione'> ");
         print ("<input type='hidden' name='firmapropria'  value='$firmapropria'> ");
+        print ("<input type='hidden' name='censito'  value='$censito'> ");
+        print ("<input type='hidden' name='wifi'  value='$wifi'> ");
+        print ("<input type='hidden' name='idgrupporitardo'  value='$idgrupporitardo'> ");
         print ("<h3> Correzioni:</h3>");
         print $mes;
         print ("<br/><input type='submit' value=' << Indietro '> ");
