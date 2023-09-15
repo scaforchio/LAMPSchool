@@ -316,6 +316,8 @@ if ($cambiamentopassword) {
             }
             menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
             menu_item('../documenti/stampafirmaprogrammi.php?docente=' . $idutente, 'STAMPE PER PRESA VISIONE PROGRAMMI');
+            menu_item('../documenti/stampafirmacdc.php?docente=' . $idutente, 'STAMPE FIRMA PRESENZA CDC');
+            
             menu_item('../documenti/documenticlasse.php', 'DOCUMENTI CLASSE');
             menu_title_end();
         }
