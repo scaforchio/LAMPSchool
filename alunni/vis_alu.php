@@ -33,20 +33,24 @@ if ($tipoutente == "")
     die;
 }
 
-function censimento($num) {
-    if($num == 1) {
-        return "Si";
-    }else{
-        return "No";
+function censito($data, $num) {
+    if(maggiorenne($data)){
+        if($num == 1) {
+            return "<td style='background-color: #00ff0087;'>Si</td>";
+        }else{
+            return "<td style='background-color: #ff000087;'>No</td>";
+        }
+    } else {
+        return "<td>No</td>";
     }
+    
 }
 
 function maggiorenneok($data) {
-    $res = maggiorenne($data);
-    if($res){
-        return "Si";
+    if(maggiorenne($data)){
+        return "<td style='background-color: #00ff0087;'>Si</td>";
     }else {
-        return "No";
+        return "<td>No</td>";
     }
 }
 
@@ -188,8 +192,8 @@ if (!(mysqli_num_rows($result) > 0))
         print("<td>" . $dati['cognome'] . "</td><td>" . $dati['nome'] . "</td>");
 
         print("<td>" . data_italiana($dati['datanascita']) . "</td>");
-        print("<td>" . maggiorenneok($dati['datanascita']) . "</td>");
-        print("<td>" . censimento($dati['censito']) . "</td>");
+        print(maggiorenneok($dati['datanascita']));
+        print(censito($dati['datanascita'], $dati['censito']));
         print("<td>" . $dati['userid'] . "</td>");
         if ($dati['telefono'])
         {
