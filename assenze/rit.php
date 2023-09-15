@@ -257,6 +257,8 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
           <td><b> Giust. </b></td>
           <td><b> Rit. 1˚Q.</b></td>
           <td><b> Rit. 2˚Q.</b></td>
+          <td><b> Maggiorenne</b></td>
+          <td><b> Censito</b></td>
    </tr>
   ';
 
@@ -344,6 +346,9 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
             //normale
             print("<td><center>$ritsecondo</center></td>");
         }
+
+        print(maggiorenneok($val["datanascita"]));
+        print(censito($val["datanascita"], $val["censito"]));
 
         print"</tr>";
     }

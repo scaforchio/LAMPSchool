@@ -194,7 +194,7 @@ if ($idclasse != "")
            <p align='center'>
 
            <table align='center' border='1'>
-           <tr class='prima'><td>Cognome Nome</td><td>Autorizzazione</td><td>Usc. 1˚Q.</td><td>Usc. 2˚Q.</td></tr>";
+           <tr class='prima'><td>Cognome Nome</td><td>Autorizzazione</td><td>Usc. 1˚Q.</td><td>Usc. 2˚Q.</td><td>Maggiorenne</td><td>Censito</td></tr>";
 
     $query = "select idalunno,cognome, nome, datanascita,firmapropria,autuscita
             from tbl_alunni
@@ -260,6 +260,9 @@ if ($idclasse != "")
             //normale
             print("<td><center>$uscsecondo</center></td>");
         }
+
+        print(maggiorenneok($rec["datanascita"]));
+        print(censito($rec["datanascita"], $rec["censito"]));
 
         print "</tr>";
     }

@@ -216,8 +216,14 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
           <td><b> N. </b></td>
           <td><b> Alunno </b></td>
           
-          <td><b> Assenza  </b></td>
-          <td><b> Dettaglio </b></td> 
+          <td><b> Assenza  </b></td>';
+
+    if($_SESSION['tipoutente']== 'S' | $_SESSION['tipoutente'] == 'P'){
+            echo '<td><b> Maggiorenne  </b></td>
+        <td><b> Censito  </b></td>';
+    }
+          
+    echo  '<td><b> Dettaglio </b></td> 
           <td><b> Giust. </b></td>
           </tr>
         ';
@@ -245,6 +251,7 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
                  <td><b>' . $cont . '</b></td><td><b> ' . $val["cognome"] . ' ' . $val["nome"] . ' ' . data_italiana($val["datanascita"]) . ' ' . $autoentr . '</b></td>
                 <td><center>   <input type=checkbox name="ass' . $val["idalunno"] . '"';
 
+
         // VERIFICA PRESENZA FORZATA
         $querypf = 'SELECT * FROM tbl_presenzeforzate WHERE idalunno = ' . $val["idalunno"] . ' AND data = "' . $a . '-' . $m . '-' . $g . '"';
 
@@ -267,6 +274,12 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
         // Fine codice per ricerca tbl_assenze già inserite
 
         print "></center></td>";
+
+        if($_SESSION['tipoutente']== 'S' | $_SESSION['tipoutente'] == 'P'){
+            print(maggiorenneok($val["datanascita"]));
+            print(censito($val["datanascita"], $val["censito"]));
+        }
+
         print "<td><center>";
 
         print "<a href=javascript:Popup('stasitassalu.php?alunno=" . $val['idalunno'] . "')>

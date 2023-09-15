@@ -33,27 +33,6 @@ if ($tipoutente == "")
     die;
 }
 
-function censito($data, $num) {
-    if(maggiorenne($data)){
-        if($num == 1) {
-            return "<td style='background-color: #00ff0087;'>Si</td>";
-        }else{
-            return "<td style='background-color: #ff000087;'>No</td>";
-        }
-    } else {
-        return "<td>No</td>";
-    }
-    
-}
-
-function maggiorenneok($data) {
-    if(maggiorenne($data)){
-        return "<td style='background-color: #00ff0087;'>Si</td>";
-    }else {
-        return "<td>No</td>";
-    }
-}
-
 $titolo = "Elenco alunni di una classe";
 $script = "<script type='text/javascript'>
          <!--

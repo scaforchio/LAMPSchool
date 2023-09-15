@@ -440,7 +440,7 @@ if ($cambiamentopassword) {
         menu_item('../rp/autorizzaritardo.php', 'AUTORIZZA ENTRATA IN RITARDO');
         menu_item('../rp/vis_ritcla.php', 'ENTRATE POSTICIPATE CLASSI');
         menu_item('../rp/vis_usccla.php', 'USCITE ANTICIPATE CLASSI');
-// menu_item('../rp/CRUDentrateposticipate.php', 'ENTRATE POSTICIPATE CLASSI');
+        menu_item('../rp/programmer.php', 'PROGRAMMATORE BADGE');
         menu_item('../assenze/sitgiustifiche.php', 'VISUALIZZA MANCANZA GIUSTIFICHE');
 
         menu_separator("");

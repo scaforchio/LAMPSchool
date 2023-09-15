@@ -93,6 +93,8 @@ if (strlen($strcogn) > 1 | strlen($strnome) > 1 | strlen($codice))
     print("<td align='center'><b>Id. Utente</b> </td>");
     print("<td align='center'><b>Classe</b> </td>");
     print("<td align='center' ><b> E-mail</b> </td>");
+    print("<td align='center' ><b> Maggiorenne</b> </td>");
+    print("<td align='center' ><b> Censito</b> </td>");
     print("<td align='center' ><b> Cert.</b> </td>");
     print("<td align='center' ><b> Note</b> </td>");
     print("<td colspan='2' align='center'><b> Azione </b></td>");
@@ -112,6 +114,8 @@ if (strlen($strcogn) > 1 | strlen($strnome) > 1 | strlen($codice))
             print("<td>" . $dati['userid'] . "</td>");
             print("<td>" . decodifica_classe($dati['idclasse'], $con) . "</td>");
             print("<td><a href='MAILTO:" . $dati['email'] . "'>" . $dati['email'] . "</A></td>");
+            print(maggiorenneok($dati["datanascita"]));
+            print(censito($dati["datanascita"], $dati["censito"]));
             if ($dati['certificato'])
             {
                 print("<td><img src='../immagini/apply_small.png'></td>");
