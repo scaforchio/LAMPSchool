@@ -1040,6 +1040,7 @@ if ($cambiamentopassword) {
         menu_item('../scrutini/tabesiti.php', 'TIPI ESITI');
         menu_item('../colloqui/orario.php', 'ORARIO');
         menu_item('../colloqui/festivita.php', 'FESTIVITA\'');
+        menu_item('../assenze/gruppiritardi.php', 'GRUPPI RITARDI');
         menu_item('../colloqui/CRUDsospensionicolloqui.php', 'SOSPENSIONI COLLOQUI');
         menu_item('../colloqui/disponibilita.php', 'DISPONIBIL. DOCENTI');
         menu_item('../colloqui/visdisponibilita.php', 'VISUALIZZA DISP. DOCENTI');
@@ -1152,6 +1153,7 @@ if ($cambiamentopassword) {
         menu_item('../documenti/vis_tdoc.php', 'TIPI DOCUMENTO');
         menu_item('../materie/ordmaterie.php', 'ORDINAMENTO MATERIE');
         menu_item('../colloqui/orario.php', 'ORARIO');
+        menu_item('../assenze/gruppiritardi.php', 'GRUPPI RITARDI');
         menu_item('../colloqui/festivita.php', 'FESTIVITA\'');
 
         menu_item('../scrutini/tabesiti.php', 'TIPI ESITI');

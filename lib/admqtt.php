@@ -36,7 +36,7 @@ function queueUpdatePasswordOperation(
 
 function queueDeleteOperation(
     array &$queue,
-    string $logonName,
+    string $logonName
 ) {
     $arr = array(
         "Action" => "Delete",

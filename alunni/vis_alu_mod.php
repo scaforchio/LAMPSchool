@@ -125,6 +125,8 @@ if (!$res)
         $mail = $dato['email'];
         $mail2 = $dato['email2'];
         $note = $dato['note'];
+        $censito = $dato['censito'];
+        $grupporitardo = $dato['idgrupporitardo'];
         $autentrata = $dato['autentrata'];
         $autuscita = $dato['autuscita'];
         $firmapropria = $dato['firmapropria'];
@@ -136,6 +138,14 @@ if (!$res)
         $titoloammissione = $dato['titoloammissione'];
         $sequenzaiscrizione = $dato['sequenzaiscrizione'];
 
+        if(maggiorenne($dato['datanascita'])){
+            $maggiorenne = "<span style='color: green;'>MAGGIORENNE</span>";
+            $disabledmagg = "";
+        } else {
+            $maggiorenne = "<span style='color: red;'>MINORENNE</span>";
+            $disabledmagg = "disabled";
+        }
+
         //	 }
         print ("\n \t <tr> <td align='left'>  <input type='hidden' name='idal' value='$idal'> </td> </tr>");
         print ("\n \t <tr> <td><i> Cognome <span style=\"color: #cc0000; \"> <b> * </b> </span></i> </td> ");
@@ -143,7 +153,12 @@ if (!$res)
         print ("<tr> <td><i>Nome <span style=\"color: #cc0000; \"> <b> * </b> </span></i> </td> <td align='left'> <input type='text' value='$nome' name='nome' size='30' maxlength='30'> </td> </tr>");
         print ("<tr> <td><i>Codice fiscale <span style=\"color: #cc0000; \"> <b> * </b> </span></i> </td> <td align='left'> <input type='text' value='$codfiscale' name='codfiscale' size='16' maxlength='16'> </td> </tr>");
 
-        print ("<tr> <td> <i> Data di nascita <span style=\"color: #cc0000; \"> <b> * </b> </span></i> </td> <td align='left'> <input type='text' value='$gg' name='gg' size='1'  maxlength='2'> / <input type='text' value='$mm' name='mm' size='1'  maxlength='2'> / <input type='text' value='$aa' name='aa' size='3'  maxlength='4'> (gg/mm/aaaa) </td> </tr>");
+        print ("<tr> <td> <i> Data di nascita <span style=\"color: #cc0000; \"> <b> * </b> </span></i> </td> <td align='left'> <input type='text' value='$gg' name='gg' size='1'  maxlength='2'> / <input type='text' value='$mm' name='mm' size='1'  maxlength='2'> / <input type='text' value='$aa' name='aa' size='3'  maxlength='4'> (gg/mm/aaaa) ");
+        
+        // inserisci se maggiorenne o minorenne
+        print($maggiorenne);
+
+        print("</td></tr>");
         print ("<tr> <td> <i>Comune o stato estero di nascita<span style=\"color: #cc0000; \"></span></i> </td> <td align='left'> <select name='idcomn'>");
         $sqla = "SELECT * FROM tbl_comuni WHERE statoestero='N' ORDER BY denominazione ";
         $resa = eseguiQuery($con, $sqla);
@@ -236,6 +251,14 @@ if (!$res)
         print ("<tr> <td><i>Autorizz. perm. usc. ant.</i> </td> <td align='left'> <input type='text' value='$autuscita' name='autuscita' size='100' maxlength='100'> </td> </tr>");
         print ("<tr> <td><i>Autorizz. ed esoneri</i> </td> <td align='left'> <textarea cols=50 rows=10 name='autorizzazioni'>$autorizzazioni</textarea></td> </tr>");
 
+        print ("<tr> <td><i>Gruppo Ritardo Totem</i> </td> <td align='left'> <select name='idgrupporitardo'>");
+        $gruppiritardi = eseguiQuery($con, "SELECT * FROM `tbl_gruppiritardi`;");
+        while ($gruppo = mysqli_fetch_assoc($gruppiritardi)) {
+            if($gruppo['idgrupporitardo'] == $grupporitardo){$sel = "selected";} else {$sel = "no";}
+            print ("<option value='". $gruppo['idgrupporitardo'] ."' $sel>" . $gruppo["descrizione"]  ." (+" . $gruppo["minutiaggiuntivi"] . "m)</option>");
+        }
+        print ("</select></td></tr>");
+        
         print ("<tr> <td><i>Autorizz. firma propria</i> </td> <td align='left'> <select name='firmapropria'>");
         if (!$firmapropria)
         {
@@ -248,6 +271,16 @@ if (!$res)
 
         print ("<tr> <td><i>Accesso WiFi</i> </td> <td align='left'> <select name='accessowifi'>");
         if (!$accessowifi)
+        {
+            print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
+        } else
+        {
+            print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");
+        }
+        print ("</select></td></tr>");
+
+        print ("<tr> <td><i>Censito</i> </td> <td align='left'> <select name='censito' $disabledmagg>");
+        if (!$censito)
         {
             print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
         } else
