@@ -33,6 +33,27 @@ if ($tipoutente == "")
     die;
 }
 
+function censito($data, $num) {
+    if(maggiorenne($data)){
+        if($num == 1) {
+            return "<td style='background-color: #00ff0087;'>Si</td>";
+        }else{
+            return "<td style='background-color: #ff000087;'>No</td>";
+        }
+    } else {
+        return "<td>No</td>";
+    }
+    
+}
+
+function maggiorenneok($data) {
+    if(maggiorenne($data)){
+        return "<td style='background-color: #00ff0087;'>Si</td>";
+    }else {
+        return "<td>No</td>";
+    }
+}
+
 $titolo = "Elenco alunni di una classe";
 $script = "<script type='text/javascript'>
          <!--
@@ -147,6 +168,8 @@ print("<td align='center'><b> N.</b> </td>");
 print("<td align='center'><b> Cognome</b> </td>");
 print("<td align='center'><b> Nome</b> </td>");
 print("<td align='center'> <b>Data di Nascita </b></td>");
+print("<td align='center'> <b>Maggiorenne </b></td>");
+print("<td align='center'> <b>Censito </b></td>");
 print("<td align='center'><b>Id. Utente</b> </td>");
 print("<td align='center'><b>Telefono</b> </td>");
 print("<td align='center' ><b> E-mail</b> </td>");
@@ -169,6 +192,8 @@ if (!(mysqli_num_rows($result) > 0))
         print("<td>" . $dati['cognome'] . "</td><td>" . $dati['nome'] . "</td>");
 
         print("<td>" . data_italiana($dati['datanascita']) . "</td>");
+        print(maggiorenneok($dati['datanascita']));
+        print(censito($dati['datanascita'], $dati['censito']));
         print("<td>" . $dati['userid'] . "</td>");
         if ($dati['telefono'])
         {

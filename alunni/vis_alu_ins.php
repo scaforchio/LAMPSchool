@@ -189,11 +189,22 @@ if (!$DB)
     print ("<tr> <td><i>Autorizz. perm. usc. antic.</i> </td>");
     print (" <td> <input type='text' name='autuscita' size='100' maxlength='100'value=''> </td> </tr>");
 
+    print ("<tr><td>Gruppo ritardi totem</td><td><select name='idgrupporitardo'>");
+    $gruppiritardi = eseguiQuery($con, "SELECT * FROM `tbl_gruppiritardi`;");
+    while ($gruppo = mysqli_fetch_assoc($gruppiritardi)) {
+        print ("<option value='". $gruppo['idgrupporitardo'] ."'>" . $gruppo["descrizione"]  ." (+" . $gruppo["minutiaggiuntivi"] . "m)</option>");
+    }
+    print ("</select></td></tr>");
+
     print ("<tr><td>Autorizz. firma propria</td><td><select name='firmapropria'>");
     print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
     print ("</select></td></tr>");
 
     print ("<tr><td>Accesso WiFi</td><td><select name='accessowifi'>");
+    print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
+    print ("</select></td></tr>");
+
+    print ("<tr><td>Censito</td><td><select name='censito'>");
     print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
     print ("</select></td></tr>");
 

@@ -691,7 +691,7 @@ function maggiorenne($datanascita)
     {
         if ($mesenasc < $cm)
             return true;
-        elseif (mesenasc == $cm)
+        elseif ($mesenasc == $cm)
         {
             if ($giornasc <= $cg)
                 return true;

@@ -26,12 +26,13 @@ Sistemi operativi consigliati:
 * Debian GNU/Linux stable
 * Ubuntu LTS
 
-Software supportato:
-* PHP >= 5.6
+Software richiesto:
+* PHP >= 7.3
 * MySQL o MariaDB
+* Composer
 
-Software consigliato:
-* PHP 7.3
+Versioni consigliate:
+* PHP 8.1
 * MariaDB 10.5
 
 Specifiche consigliate per 100 persone:
@@ -50,8 +51,11 @@ Questi sono i passi per un'installazione da zero, singola o multi-ambiente di LA
 NOTA: Se in qualsiasi punto ci fossero dei dubbi, consulta il tuo tecnico o consulente
 locale di riferimento, esperto in PHP e sistemi GNU/Linux.
 
-Prima di tutto è necessario trasferire via FTP
+Prima di tutto è necessario trasferire via FTP o GIT (metodo consigliato)
 i file del programma su una cartella del nostro web server.
+
+Successivamente, bisogna scaricare le dipendenze composer. Per fare questo, una volta installato composer sul server
+(vedi [Installazione Composer](https://getcomposer.org/download/)) bisogna lanciare nella cartella root il comando `composer install`.
 
 Considerando che ogni anno la procedura potrebbe essere ripetuta
 e che quindi, dopo qualche tempo, sul nostro web server potrebbero

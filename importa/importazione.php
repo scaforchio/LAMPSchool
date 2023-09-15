@@ -76,6 +76,7 @@ foreach ($arrbkp as $ambito)
     if ($ambito == 'tab')
     {
         $tabelle[] = 'tbl_classi';
+        $tabelle[] = 'tbl_gruppiritardi';
         $tabelle[] = 'tbl_sezioni';
         $tabelle[] = 'tbl_specializzazioni';
         $tabelle[] = 'tbl_esiti';
