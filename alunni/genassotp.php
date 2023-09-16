@@ -102,7 +102,6 @@ eseguiQuery($con, "UPDATE tbl_alunni SET totpgiustass = '$code' WHERE idalunno =
         <code><?php echo  $code;?></code>
     </div> <br><br>
 
-    <button onclick="window.close()" class="button">Chiudi</button> <br>
     <button onclick="window.close()" class="button">Chiudi</button>
 
 </center>
