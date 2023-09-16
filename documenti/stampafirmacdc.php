@@ -78,7 +78,7 @@ while ($reccla = mysqli_fetch_array($riscla))
 
     $denclasse = converti_utf8("Classe: " . decodifica_classe($idclasse, $con));
     // print $denclasse;
-    $schede->SetFont('arial', '', 16);
+    $schede->SetFont('arial', '', 11);
     $schede->setXY(20, 40);
     $schede->Cell(172, 8, $denclasse, 0, 0, "C");
     $schede->setXY(20, 50);
@@ -88,19 +88,29 @@ while ($reccla = mysqli_fetch_array($riscla))
     $schede->SetFont('arial', '', 10);
     $intest = converti_utf8("DOCENTE");
     $schede->Cell(76, 8, $intest, "TBLR", 1, "C");
+    
     $schede->setXY(96, 60);
-    $intest = converti_utf8("ALUNNI");
-    $schede->Cell(96, 8, $intest, "TBLR", 1, "C");
+    $intest = converti_utf8("INGR.");
+    $schede->Cell(20, 8, $intest, "TBLR", 1, "C");
+    
+    $schede->setXY(116, 60);
+    $intest = converti_utf8("USC. ");
+    $schede->Cell(20, 8, $intest, "TBLR", 1, "C");
+    
+    $schede->setXY(136, 60);
+    $intest = converti_utf8("FIRMA");
+    $schede->Cell(56, 8, $intest, "TBLR", 1, "C");
 
 
-    $query = "select distinct denominazione,tbl_materie.idmateria from tbl_cattnosupp,tbl_materie
-               where tbl_cattnosupp.idmateria=tbl_materie.idmateria
+   
+
+    $query = "select distinct cognome, nome, tbl_cattnosupp.iddocente,tbl_cattnosupp.idalunno from tbl_cattnosupp,tbl_docenti
+               where tbl_cattnosupp.iddocente=tbl_docenti.iddocente
                and tbl_cattnosupp.idclasse=$idclasse
                and tbl_cattnosupp.iddocente!=1000000000
-               and idalunno=0
-               order by denominazione";
-
-
+               
+               order by cognome, nome";
+    
     $ris = eseguiQuery($con, $query);
     $posY = 68;
     while ($nom = mysqli_fetch_array($ris))
@@ -110,35 +120,46 @@ while ($reccla = mysqli_fetch_array($riscla))
         $schede->setXY(20, $posY);
         $schede->SetFont('arial', 'B', 10);
 
-        $intest = converti_utf8($nom['denominazione']);
-        $schede->Cell(76, 7, $intest, "TLR", 1, "");
+        $intest = converti_utf8($nom['cognome']." ".$nom['nome']);
+        $schede->Cell(76, 6, $intest, "TLR", 1, "");
         $docenti = "";
         if ($idclasse != "")
         {
             //print "<br>";
-            $query = "select tbl_cattnosupp.iddocente from tbl_cattnosupp,tbl_docenti
-                        where idclasse=$idclasse and idmateria=" . $nom['idmateria'] .
-                    " and idalunno=0 and tbl_cattnosupp.iddocente<>1000000000 and tbl_cattnosupp.iddocente=tbl_docenti.iddocente order by cognome";
-            // print inspref($query);
-            $rismat = eseguiQuery($con, $query);
-            $docenti = "";
-            while ($recmat = mysqli_fetch_array($rismat))
+            if ($nom['idalunno']==0)
             {
-                $docenti .= converti_utf8(estrai_dati_docente($recmat['iddocente'], $con) . "  ");
+                $query = "select tbl_cattnosupp.idmateria from tbl_cattnosupp,tbl_materie
+                            where tbl_cattnosupp.idclasse=$idclasse and tbl_cattnosupp.iddocente=" . $nom['iddocente'] .
+                        " and idalunno=0 and tbl_cattnosupp.iddocente<>1000000000 and tbl_cattnosupp.idmateria=tbl_materie.idmateria order by denominazione";
+                // print inspref($query);
+                $rismat = eseguiQuery($con, $query);
+                $docenti = "";
+                while ($recmat = mysqli_fetch_array($rismat))
+                {
+                    $docenti .= converti_utf8(decodifica_materia($recmat['idmateria'], $con) . "  ");
+                }
             }
-        }
-        $posY += 7;
+            else
+                $docenti="Sostegno";
+            
+        } 
+        $posY += 6;
         $schede->SetFont('arial', '', 8);
         $schede->setXY(20, $posY);
-        $schede->Cell(76, 7, $docenti, "BLR", 1, "");
-        $posY -= 7;
+        $schede->Cell(76, 6, $docenti, "BLR", 1, "");
+        $posY -= 6;
 
         $schede->setXY(96, $posY);
-        $schede->Cell(96, 7, "", "TBLR", 1, "");
-        $posY += 7;
-        $schede->setXY(96, $posY);
-        $schede->Cell(96, 7, "", "TBLR", 1, "");
-        $posY += 7;
+        $schede->Cell(20, 12, "", "TBLR", 1, "");
+        
+        $schede->setXY(116, $posY);
+        $schede->Cell(20, 12, "", "TBLR", 1, "");
+        
+        $schede->setXY(136, $posY);
+        $schede->Cell(56, 12, "", "TBLR", 1, "");
+        $posY += 12;
+        
+        
     }
 
     $posY += 4;
