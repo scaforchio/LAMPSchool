@@ -136,7 +136,7 @@ while ($reccla = mysqli_fetch_array($riscla))
                 $docenti = "";
                 while ($recmat = mysqli_fetch_array($rismat))
                 {
-                    $docenti .= converti_utf8(decodifica_materia($recmat['idmateria'], $con) . "  ");
+                    $docenti .= converti_utf8(decodifica_sigla_materia($recmat['idmateria'], $con) . "   ");
                 }
             }
             else

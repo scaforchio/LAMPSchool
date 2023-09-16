@@ -299,3 +299,19 @@ function decodifica_materia($idmateria, $conn)
 
     return $datimateria;
 }
+
+/**
+ *
+ * @param int $idmateria
+ * @param object $conn Connessione al db
+ * @return string
+ */
+function decodifica_sigla_materia($idmateria, $conn)
+{
+    $query = "select * from tbl_materie where idmateria='$idmateria'";
+    $ris = eseguiQuery($conn, $query);
+    $rec = mysqli_fetch_array($ris);
+    $datimateria = $rec['sigla'];
+
+    return $datimateria;
+}
