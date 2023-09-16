@@ -6,7 +6,7 @@ ALTER TABLE `tbl_alunni`
   ADD `censito` TINYINT NOT NULL DEFAULT '0' after `autorizzazioni`,
   ADD `idgrupporitardo` INT NOT NULL DEFAULT '1' after `censito`;
 
-ALTER TABLE `tbl_alunni` ADD `totpgiustass` VARCHAR(50) NULL DEFAULT NULL AFTER `autorizzazioni`;
+ALTER TABLE `tbl_alunni` ADD `totpgiustass` VARCHAR(120) NULL DEFAULT NULL AFTER `autorizzazioni`;
 
 CREATE TABLE IF NOT EXISTS tbl_gruppiritardi ( 
     `idgrupporitardo` INT NOT NULL AUTO_INCREMENT , 

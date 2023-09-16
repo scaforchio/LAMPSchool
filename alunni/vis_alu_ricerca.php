@@ -132,7 +132,8 @@ if (strlen($strcogn) > 1 | strlen($strnome) > 1 | strlen($codice))
             {
                 print ("<td>&nbsp;</td>");
             }
-            print("<td><a href='../password/rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'>Rig. password tutor</a>&nbsp;<a href='../password/alu_rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'>Rig. password alunno</a></td>");
+            print("<td><a href='../password/rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'>Rig. password tutor</a>&nbsp;<a href='../password/alu_rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'>Rig. password alunno</a>");
+            print("&nbsp;&nbsp;&nbsp;<a target='_blank' href='../alunni/genassotp.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera OTP tutor'></a></td>");
             print("</tr>");
         }
     }

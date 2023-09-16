@@ -31,6 +31,14 @@ if ($tipoutente == "") {
 
 $titolo = "Programmazione Badge";
 $script = "<link rel='stylesheet' type='text/css' href='../lib/js/datatables/datatables.min.css'/>
+            <style>
+            .dataTables_length{
+                margin-bottom: 10px;
+            }
+            .dataTables_filter{
+                margin-bottom: 10px;
+            }
+            </style>
            <script type='text/javascript' src='../lib/js/datatables/datatables.min.js'></script>
            <script> 
            $(document).ready( function () {
@@ -91,13 +99,34 @@ $ris = mysqli_query($con, $query);
 
 ?>
 
-<div class="programmatore">
-    <button>Connetti Seriale</button>
+<div style="margin-left: 10px; margin-right:10px; margin-bottom: 10px; padding: 10px 10px 10px 10px; border: 1px solid black;">
+    <button>Connetti Seriale</button> 
+    <label for="programmerState">Stato Programmatore:</label>
+    <input type="text" name="programmerState" disabled value="DISCONNESSO"><br>
+    <table border="2" style="margin-top: 10px; width: 100%">
+        <thead>
+            <tr class='prima'>
+                <td>OPERAZIONE</td>
+                <td>MATRICOLA</td>
+                <td>Nome</td>
+                <td>Cognome</td>
+                <td>Data di Nascita</td>              
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+                <td id="opcode"></td>
+                <td id="matricola"></td>
+                <td id="nome"></td>
+                <td id="cognome"></td>
+                <td id="datanascita"></td>              
+            </tr>
+        </tbody>
+    </table>
 </div>
 
-
 <div class="modal_caricamento"></div>
-<center>
+<center style="margin-left: 10px; margin-right:10px;">
     <table border="1" id="tabelladati">
         <thead>
             <tr class='prima'>
@@ -118,12 +147,16 @@ $ris = mysqli_query($con, $query);
                 print("<td>" . data_italiana($alunno["datanascita"]) . "</td>");
                 print("<td>" . $alunno["anno"] . $alunno["sezione"] . " " . $alunno["specializzazione"]. "</td>");
                 print("<td>" . $alunno["descrizione"] . " (+" . $alunno["minutiaggiuntivi"]. " minuti)</td>");
-                print("<td> <button class='button' onclick='applicaModifiche(\"" . $utente["idalunno"] ."\")'>Invia al Programmatore</button></td>");
+                print("<td> <button class='button' onclick='applicaModifiche(" . $alunno["idalunno"] .")'>Invia al Programmatore</button></td>");
                 print("</tr>");
             }
             ?>
         </tbody>
     </table>
+
+    <br>
+    <br>
+    <b>ATTENZIONE! PAGINA IN SVILUPPO (NON FUNZIONANTE)...</b>
 </center>
 <?php
 
