@@ -21,6 +21,7 @@
     "require": {
         "php": ">=5.6",
         "php-mqtt/client": "^1.8",
+        "spomky-labs/otphp": "^10.0",
         "twbs/bootstrap": "^5.3"
     },
     "require-dev": {

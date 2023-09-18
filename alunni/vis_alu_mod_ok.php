@@ -85,6 +85,8 @@ $idtut = stringa_html('idtut');
 $datacambio = stringa_html('datacambioclasse');
 $datacambio = $datacambio != "" ? data_to_db($datacambio) : "";
 
+if($censito == '') $censito = 0;
+
 $sql = "SELECT * FROM tbl_alunni WHERE idalunno='$c'";
 $resw = eseguiQuery($con, $sql);
 if ($dato = mysqli_fetch_array($resw))

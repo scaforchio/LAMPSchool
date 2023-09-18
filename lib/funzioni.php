@@ -859,3 +859,24 @@ function sendTelegramMessageToken($chat_id, $testo, $tokenBot)
     else
         return false; //operazione fallita
 }
+
+function censito($data, $num) {
+    if(maggiorenne($data)){
+        if($num == 1) {
+            return "<td style='background-color: #00ff0087;'>Si</td>";
+        }else{
+            return "<td style='background-color: #ff000087;'>No</td>";
+        }
+    } else {
+        return "<td>No</td>";
+    }
+    
+}
+
+function maggiorenneok($data) {
+    if(maggiorenne($data)){
+        return "<td style='background-color: #00ff0087;'>Si</td>";
+    }else {
+        return "<td>No</td>";
+    }
+}

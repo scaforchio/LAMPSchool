@@ -33,27 +33,6 @@ if ($tipoutente == "")
     die;
 }
 
-function censito($data, $num) {
-    if(maggiorenne($data)){
-        if($num == 1) {
-            return "<td style='background-color: #00ff0087;'>Si</td>";
-        }else{
-            return "<td style='background-color: #ff000087;'>No</td>";
-        }
-    } else {
-        return "<td>No</td>";
-    }
-    
-}
-
-function maggiorenneok($data) {
-    if(maggiorenne($data)){
-        return "<td style='background-color: #00ff0087;'>Si</td>";
-    }else {
-        return "<td>No</td>";
-    }
-}
-
 $titolo = "Elenco alunni di una classe";
 $script = "<script type='text/javascript'>
          <!--
@@ -221,6 +200,7 @@ if (!(mysqli_num_rows($result) > 0))
         {
             print ("&nbsp;");
         }
+        print("&nbsp;&nbsp;&nbsp;<a target='_blank' href='../alunni/genassotp.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/barcode.png' width=22 height=22 title='Rigenera OTP tutor'></a>");
         print("&nbsp;&nbsp;&nbsp;<a href='../password/rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera password tutor'  class='pwdreset'></a>");
         print("&nbsp;&nbsp;&nbsp;<a href='../password/alu_rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera password alunni'  class='pwdresetalu'></a>");
         if ($tipoutente == 'P')
