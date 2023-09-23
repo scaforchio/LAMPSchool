@@ -312,7 +312,7 @@ if ($err == 0)
     print ("<input type='hidden' name='autuscita' value='$autuscita'> ");
     print ("<input type='hidden' name='bloccopassword' value='$bloccopassword'> ");
     print ("<input type='hidden' name='firmapropria' value='$firmapropria'> ");
-    print ("<input type='hidden' name='firmapropria' value='$censito'> ");
+    print ("<input type='hidden' name='censito' value='$censito'> ");
     print ("<input type='hidden' name='idtut'  value='$idtut'> ");
     print ("<input type ='hidden' name='strcogn' value='$strcogn'>");
     print ("<input type ='hidden' name='strnome' value='$strnome'>");

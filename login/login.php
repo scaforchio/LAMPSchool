@@ -32,7 +32,7 @@ require_once '../lib/funzioni.php';
 session_start();
 
 // controlla se la sessione esistente è OIDC
-if($_SESSION["oidc-step2"]){
+if ($_SESSION["oidc-step2"]) {
     // effettua il logout anche sull'IDP OIDC
     require "../lib/oidc/OpenIDConnectClient.php";
     $oidc = new Jumbojett\OpenIDConnectClient($_SESSION["oidc_issuer"], $_SESSION["oidc_client_id"], $_SESSION["oidc_client_secret"]);
@@ -55,7 +55,7 @@ $_SESSION["prefisso"] = $prefisso_tabelle;
 $_SESSION["suffisso"] = $suffisso;
 
 // controllo presenza file devmode
-if(file_exists("../.devmode")){
+if (file_exists("../.devmode")) {
     $_SESSION["devmode"] = true;
 }
 
@@ -66,7 +66,7 @@ $_SESSION["alias"] = false;
 $json = leggeFileJSON('../lampschool.json');
 $_SESSION['versione'] = $json['versione'];
 
-if($_SESSION["oidc_enabled"] == "exclusive"){
+if ($_SESSION["oidc_enabled"] == "exclusive") {
     header("Location: oidclogin.php");
 }
 
@@ -93,61 +93,101 @@ function codifica()
    
 
 </script>\n";
-stampa_head($titolo, "", $script, "", false);
-stampa_testata("Accesso al registro", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "", false);
 
 $messaggio = stringa_html('messaggio');
 
-if (strlen($messaggio) > 0) {
-    $mex = '<center><font color="red"><br><b>';
+$mex = "";
 
+if (strlen($messaggio) > 0) {
+    $mex = "<div class='alert alert-danger' role='alert'>";
     if ($messaggio == 'errore') {
         $mex .= 'Nome utente e/o password errati !';
     } else {
         $mex .= $messaggio;
     }
-    echo $mex . '</b><br></font></center>';
-}
-?>
-<center>
-    <form id='formLogin' action='logincheck.php' method='POST' onsubmit='return codifica();'>
-        <table border='0'>
-            <tr>
-                <td> Utente</td>
-                <td><input type='text' name='utente' id='utente'></td>
-            </tr>
-            <tr>
-                <td> Password</td>
-                <td><input type='password' name='pass' id='password'></td>
-            </tr>
-            <tr>
-                <td colspan='2' align='center'><br/><input type='submit' name='OK' value='Accedi'></td>
-            </tr>
-        </table>
-        <noscript>
-        <input name='js_enabled' type='hidden' value='1'>
-        </noscript>
-        <input type='hidden' name='password' id='passwordmd5'>
-    </form>
-    <br/>
-    <br>
-<?php
-
-if ($_SESSION["oidc_enabled"] == "yes") {
-    print "<a href='oidclogin.php?suffisso=" . $_SESSION['suffisso'] . "'>Accedi con " . $_SESSION['oidc_provider_name']."</a>";
+    $mex .= "</div>";
 }
 
-print "<br><br><a href='richresetpwd.php?suffisso=" . $_SESSION['suffisso'] . "'>Password dimenticata</a>";
-
-print "<br><br><a href='" . $_SESSION['sito_scuola'] . "' target='_top'>Ritorna ad home page</a>";
 ?>
-</center>
+
+<div class="container">
+    <div class="row justify-content-center" style="margin-top: 8%; min-width: 100px">
+        <div class="col col-md-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" style="margin-bottom: 15px">
+                        Accedi al registro
+                    </h5>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col col-auto">
+                                    <img src="../favicons/icon.png" alt="icona registro" width="40" height="40" />
+                                </div>
+
+                                <div class="col" style="padding-left: 0px">
+                                    <p class="lh-80 del-margin">
+                                        <span class="fs-5"><?php echo $_SESSION['nome_scuola'] ?> </span>
+                                        <br />
+                                        <span class="fs-6 grey">A.S. <?php echo $_SESSION['annoscol']."/".$_SESSION['annoscol']+1 ?></span>
+                                    </p>
+                                </div>
+
+                                <div class="col col-auto text-center">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="window.location.href = '../'">
+                                        <i class="bi bi-arrow-left-right" style="margin-right: 0px"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-red">
+                        <div class="card-body">
+                            <form id='formLogin' action='logincheck.php' method='POST' onsubmit='return codifica();'>
+
+                                <?php echo $mex; ?>
+
+                                <div class="form-floating mb-3">
+                                    <input type="username" class="form-control" name='utente' id='utente'>
+                                    <label for="utente">Username</label>
+                                </div>
+
+                                <div class="form-floating">
+                                    <input type="password" class="form-control" name='pass' id='password'>
+                                    <label for="password">Password</label>
+                                </div>
+
+                                <div class="d-grid gap-2 pt-3">
+                                    <input class="btn btn-outline-secondary" type="submit" name='OK' value='Accedi'>
+                                </div>
+                                <noscript>
+                                    <input name='js_enabled' type='hidden' value='1'>
+                                </noscript>
+                                <input type='hidden' name='password' id='passwordmd5'>
+                            </form>
+                            <hr style="margin-bottom: 0 !important;">
+                            <div class="d-grid gap-2 pt-3">
+                            <?php if ($_SESSION["oidc_enabled"] == "yes") { ?> 
+                                <button class="btn btn-outline-secondary" type="button" onclick="document.location.href = 'oidclogin.php?suffisso=<?php echo $_SESSION['suffisso']; ?> '">Accedi con <?php echo $_SESSION['oidc_provider_name']; ?> </button>
+                            <?php } ?> 
+                            <button class="btn btn-outline-secondary" type="button" onclick="document.location.href = 'richresetpwd.php?suffisso=<?php echo $_SESSION['suffisso']; ?> '">Password Dimenticata</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     document.getElementById('utente').focus();
 </script>
-    <?php
-//$json = leggeFileJSON('../lampschool.json');
-
-    stampa_piede($_SESSION['versioneprecedente']);
-    eseguiQuery($con, "insert into " . $prefisso_tabelle . "tbl_seed(seed) values('$seme')", false, false);
-    ?>
+<?php
+stampa_piede_new($_SESSION['versioneprecedente']);
+eseguiQuery($con, "insert into " . $prefisso_tabelle . "tbl_seed(seed) values('$seme')", false, false);
+?>
