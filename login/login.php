@@ -131,7 +131,7 @@ if (strlen($messaggio) > 0) {
                                     <p class="lh-80 del-margin">
                                         <span class="fs-5"><?php echo $_SESSION['nome_scuola'] ?> </span>
                                         <br />
-                                        <span class="fs-6 grey">A.S. <?php echo $_SESSION['annoscol']."/".$_SESSION['annoscol']+1 ?></span>
+                                        <span class="fs-6 grey">A.S. <?php echo $_SESSION['annoscol'] ?> / <?php echo $_SESSION['annoscol']+1 ?></span>
                                     </p>
                                 </div>
 

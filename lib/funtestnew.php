@@ -166,7 +166,7 @@ function stampa_testata_new($funzione, $ct, $ns, $cs, $isProfileSelector = false
                                 <li>
                                     <h6 class="dropdown-item">
                                         <i class="bi bi-calendar-fill"></i>
-                                        A.S. <?php echo $_SESSION['annoscol']."/".$_SESSION['annoscol']+1 ?>
+                                        A.S. <?php echo $_SESSION['annoscol'] ?> / <?php echo $_SESSION['annoscol']+1 ?>
                                     </h6>
                                 </li>
 
@@ -375,7 +375,7 @@ function stampa_testata_ges_new($funzione, $ct, $ns, $cs, $isProfileSelector = f
                                 <li>
                                     <h6 class="dropdown-item"> 
                                         <i class="bi bi-calendar-fill"></i>
-                                        A.S. <?php echo $_SESSION['annoscol']."/".$_SESSION['annoscol']+1 ?>
+                                        A.S. <?php echo $_SESSION['annoscol'] ?> / <?php echo $_SESSION['annoscol']+1 ?>
                                     </h6>
                                 </li>
 

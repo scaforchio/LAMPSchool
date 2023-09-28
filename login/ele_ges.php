@@ -185,7 +185,7 @@ if ($tipoutente == 'E') {
 if ($tipoutente == 'D') {
 
     menu_title_begin('REGISTRO DI CLASSE', $icon="journal-bookmark-fill");
-    menu_item('../regclasse/riepgiorno.php', 'Visualizza Giorntata', $icon="calendar-fill");
+    menu_item('../regclasse/riepgiorno.php', 'Visualizza Giornata', $icon="calendar-fill");
     menu_item('../regclasse/riepsett.php', 'Visualizza Settimana', $icon="calendar-week");
     menu_item('../regclasse/annotaz.php', 'Annotazioni su Registro', $icon="chat-quote-fill");
     menu_item('../regclasse/ricannotaz.php', 'Ricerca Annotazioni', $icon="search");
@@ -222,7 +222,7 @@ if ($tipoutente == 'D') {
     menu_item('../note/ricnoteind.php', 'Ricerca Note Individuali', $icon="search-heart");
 
     menu_title_end();
-    menu_title_begin('OSSERVAZIONI E DIARIO DI CLASSE', $icon="journal-medical");
+    menu_title_begin('OSSERV. E DIARIO CLASSE', $icon="journal-medical");
 
     menu_item('../valutazioni/osssist.php', 'Inserisci Osservazioni Sistematiche', $icon="patch-exclamation-fill");
     menu_item('../valutazioni/ricosssist.php', 'Ricerca Osservaz. Sistematiche', $icon="search");
@@ -256,44 +256,44 @@ if ($tipoutente == 'D') {
     if (estrai_docente_coordinatore($idutente, $con)) {
         menu_title_begin('FUNZIONI COORDINATORE', $icon="person-lines-fill");
 
-        menu_item('../valutazioni/riepvoticlasse.php', 'SITUAZIONE VOTI MEDI PER CLASSE', $icon="clipboard-check-fill");
-        menu_item('../valutazioni/visvalpre.php', 'SITUAZIONE ALUNNO', $icon="person-bounding-box");
-        menu_item('../note/stampanote.php', 'STAMPA NOTE PER CLASSE', $icon="printer-fill");
-        menu_item('../assenze/sitassmens.php', 'SITUAZIONE MENSILE ASSENZE', $icon="calendar-month");
-        menu_item('../assenze/sitasstota.php', 'SITUAZIONE TOTALE ASSENZE', $icon="calendar-fill");
-        menu_item('../assenze/sitassprob.php', 'SITUAZIONI PROBLEMATICHE ASSENZE', $icon="exclamation-diamond");
-        menu_item('../assenze/sitassmate.php', 'SITUAZIONI ASSENZE PER MATERIA', $icon="bookmark-x-fill");
-        menu_item('../assenze/deroghe.php', 'DEROGHE ASSENZE', $icon="question-octagon-fill");
+        menu_item('../valutazioni/riepvoticlasse.php', 'Situazione Voti Medi per Classe', $icon="clipboard-check-fill");
+        menu_item('../valutazioni/visvalpre.php', 'Situazione per Alunno', $icon="person-bounding-box");
+        menu_item('../note/stampanote.php', 'Stampa note di Classe', $icon="printer-fill");
+        menu_item('../assenze/sitassmens.php', 'Situazione Mensile Assenze', $icon="calendar-month");
+        menu_item('../assenze/sitasstota.php', 'Situazione Totale Assenze', $icon="calendar-fill");
+        menu_item('../assenze/sitassprob.php', 'Situazioni PROBLEMATICHE Assenze', $icon="exclamation-diamond");
+        menu_item('../assenze/sitassmate.php', 'Situazioni Assenze per MATERIA', $icon="bookmark-x-fill");
+        menu_item('../assenze/deroghe.php', 'Deroghe Assenze', $icon="question-octagon-fill");
         menu_item('../alunni/CRUD_autorizzazioni.php?soloclasse=yes', 'Gestione autorizzazioni uscita anticipata con classe', $icon="box-arrow-left");
-        menu_item('../assenze/visderoghe.php', 'SITUAZIONE DEROGHE ASSENZE', $icon="journal-text");
-        menu_item('../scrutini/riepvoti.php', 'TABELLONE SCRUTINI INTERMEDI', $icon="file-spreadsheet");
-        menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI', $icon="table");
+        menu_item('../assenze/visderoghe.php', 'Situazione Deroghe Assenze', $icon="journal-text");
+        menu_item('../scrutini/riepvoti.php', 'Tabelllone Scrutini Intermedi', $icon="file-spreadsheet");
+        menu_item('../scrutini/riepvotifinali.php', 'Tabellone Scritini Finali', $icon="table");
         if ($_SESSION['livello_scuola'] == '4') {
-            menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI', $icon="node-plus");
+            menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'Scrutini Integrativi', $icon="node-plus");
         }
         if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2') {
-            menu_item('../consorientativo/cotabellone.php?tipoaccesso=coordinatore', 'CONSIGLI ORIENTATIVI');
+            menu_item('../consorientativo/cotabellone.php?tipoaccesso=coordinatore', 'Consigli Orientativi');
         }
-        menu_item('../scrutini/riepproposte.php', 'RIEPILOGO PROPOSTE DI VOTO');
-        menu_item('../documenti/stampafirmaprogrammi.php?docente=' . $idutente, 'STAMPE PER PRESA VISIONE PROGRAMMI');
-        menu_item('../documenti/stampafirmacdc.php?docente=' . $idutente, 'STAMPE FIRMA PRESENZA CDC');
+        menu_item('../scrutini/riepproposte.php', 'Riepilogo Proposte di Voto', $icon="card-heading");
+        menu_item('../documenti/stampafirmaprogrammi.php?docente=' . $idutente, 'Stampe per Presa Visione Programmi', $icon="printer");
+        menu_item('../documenti/stampafirmacdc.php?docente=' . $idutente, 'Stampe Firme Presenze Cons. di Classe', $icon="printer");
 
-        menu_item('../documenti/documenticlasse.php', 'DOCUMENTI CLASSE');
+        menu_item('../documenti/documenticlasse.php', 'Elenco Documenti Classe', $icon="file-earmark");
         menu_title_end();
     }
 
     if ($norm & $_SESSION['valutazionepercompetenze'] == 'yes') {
-        menu_title_begin('VALUTAZIONE COMPETENZE');
-        menu_item('../valutazioni/valabilcono.php', 'VERIFICHE');
-        menu_item('../valutazioni/valaluabilcono.php?modo=norm', 'VALUTAZIONI ALUNNO');
-        menu_item('../valutazioni/sitvalalu.php', 'VISUALIZZA SITUAZIONE ALUNNO');
-        menu_item('../valutazioni/sitvalobi.php', 'VISUALIZZA SITUAZ. PER OBIETT.');
+        menu_title_begin('VALUTAZIONE COMPETENZE', $icon="motherboard-fill");
+        menu_item('../valutazioni/valabilcono.php', 'Verifiche', $icon="8-square-fill");
+        menu_item('../valutazioni/valaluabilcono.php?modo=norm', 'Inserisci Valutazioni Alunni', $icon="person-add");
+        menu_item('../valutazioni/sitvalalu.php', 'Visualizza Situazione Alunno', $icon="person-fill");
+        menu_item('../valutazioni/sitvalobi.php', 'Visualizza Situazione per Obiett.', $icon="table");
 
         menu_title_end();
     }
 
     if ($norm & $_SESSION['valutazionepercompetenze'] == 'yes') {
-        menu_title_begin('PROGRAMMAZIONE');
+        menu_title_begin('PROGRAMMAZIONE', $icon="menu-app");
         menu_item('../programmazione/compdo.php', 'GEST. COMPETENZE');
         menu_item('../programmazione/abcodo.php', 'GEST. ABIL./CONO');
         menu_item('../programmazione/confimportaprogr.php', 'IMPORTA PROGR. SCOLAST.');
@@ -455,7 +455,7 @@ if ($tipoutente == 'S') {
         menu_item("../classi/CRUDrappresentanti.php", 'GESTIONE RAPPRESENTANTI');
         menu_title_end();
     }
-    menu_title_begin('OSSERVAZIONI E DIARIO DI CLASSE');
+    menu_title_begin('OSSERV. E DIARIO CLASSE');
 
     menu_item('../valutazioni/osssist.php', 'OSSERVAZIONI SISTEMATICHE');
     menu_item('../valutazioni/ricosssist.php', 'RICERCA OSSERV. SIST.');
@@ -747,7 +747,7 @@ if ($tipoutente == 'P') {   // Presidenza
     menu_item('../note/stampanote.php', 'STAMPA NOTE PER CLASSE');
     menu_title_end();
 
-    menu_title_begin('OSSERVAZIONI E DIARIO DI CLASSE');
+    menu_title_begin('OSSERV. E DIARIO CLASSE');
     menu_item('../valutazioni/ricosssist.php', 'RICERCA OSSERV. SIST.');
     menu_item('../valutazioni/stampaosssist.php', 'STAMPA OSSERV. SIST.');
     menu_item('../valutazioni/ricdiariocl.php', 'RICERCA SU DIARIO DI CLASSE');
