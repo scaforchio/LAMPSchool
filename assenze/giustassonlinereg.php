@@ -26,10 +26,10 @@ require_once '../lib/req_apertura_sessione.php';
 
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
-//@require_once("../lib/sms/php-send.php");
-// require_once '../lib/db / query.php';
+require_once("../vendor/autoload.php"); //carica librerie
+use OTPHP\TOTP;
+
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
-// $lQuery = LQuery::getIstanza();
 //  istruzioni per tornare alla pagina di login se non c'è una sessione valida
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
@@ -41,12 +41,8 @@ if ($tipoutente == "")
 }
 
 $titolo = "Convalida giustificazione assenze alunni";
-$script = "<script>
-             
-   </script>"
-;
-stampa_head($titolo, "", $script, "T");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", "", "T");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 $_SESSION['nogoback']=true;
 $token = stringa_html('token');
 $elencoass = stringa_html('elencoass');
@@ -54,10 +50,18 @@ $elencousc = stringa_html('elencousc');
 $elencorit = stringa_html('elencorit');
 $elencodad = stringa_html('elencodad');
 
+$idutente = str_replace("gen", "", $_SESSION['userid']);
+
 //print "token $token ass $elencoass usc $elencousc rit $elencorit dad $elencodad";
-$verificatoken = verificaToken($con, $_SESSION['idutente'], 'giust', $token);
+if($_SESSION['protogiustonline'] == "sms"){
+    $verificatoken = verificaToken($con, $_SESSION['idutente'], 'giust', $token);
+}else {
+    $cod = mysqli_fetch_assoc(eseguiQuery($con, "SELECT totpgiustass FROM tbl_alunni WHERE idtutore = $idutente"))['totpgiustass'];
+    $otp = TOTP::create($cod);
+    $verificatoken = $otp->verify($_POST["token"]);
+}
 //print "Verifica token $verificatoken";
-if ($verificatoken == 1)
+if ($verificatoken == 1 || $verificatoken == true)
 {
     $arrass = array();
     $arrusc = array();
@@ -101,15 +105,14 @@ if ($verificatoken == 1)
     }
     print "
         <form method='post' id='formass' action='giustassonline.php?suffisso='".$_SESSION['suffisso'].">
-        
         </form>
-        <SCRIPT language='JavaScript'>
+        <script>
            document.getElementById('formass').submit();
-        </SCRIPT>";
+        </script>";
 }
 else
 {
-    print "<br><br><font color='red'> <b><center>Errore password di convalida ".$verificatoken."</center></b>";
-    print "<br><br><center><a href='../login/ele_ges.php?suffisso=".$_SESSION['suffisso']."'>Esci</a><center>";
+    alert("Errore password di convalida ".$verificatoken, "", "danger", "exclamation-octagon");
+    print"<center><a class='btn btn-sm btn-outline-secondary' href='../login/ele_ges.php?suffisso=".$_SESSION['suffisso']."'>Esci</a><center>";
 }
-stampa_piede();
+stampa_piede_new();

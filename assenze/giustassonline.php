@@ -59,12 +59,11 @@ $script = "
         }
         </script>";
        
-stampa_head($titolo, "", $script, "T");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "T");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $codalunno = $_SESSION['idstudente'];
 $idclasse = estrai_classe_alunno($codalunno, $con);
-
 
 $rs1 = eseguiQuery($con, "select * from tbl_alunni where idalunno=$codalunno");
 $rs5 = eseguiQuery($con, "select * from tbl_assenze where idalunno=$codalunno and giustifica=0 order by data desc");
@@ -75,23 +74,20 @@ $rs9 = eseguiQuery($con, "select * from tbl_asslezione where idalunno=$codalunno
         . " and data in (select datadad from tbl_dad where idclasse=$idclasse)"
         . " order by data ");
 
-// prelevamento data ultima assenza
-// $val0 = $rs0->fetch();
-// $ultimoaggiornamento = $val0["ultimoaggiornamento"];
-// print "<center><i>Dati aggiornati al ".data_italiana($ultimoaggiornamento).".</i></center>
+$idutente = str_replace("gen", "", $_SESSION['userid']);
+
+print("<div class='container'>");
 
 if ($rs1)
 {
-
     $val1 = mysqli_fetch_array($rs1);
-    print "<center><b>Alunno: " . $val1["cognome"] . " " . $val1["nome"] . "</b></center><br><br>";
-
+    //print "<center>Alunno: <b>" . $val1["cognome"] . " " . $val1["nome"] . "</b></center><br>";
     print "<form action='giustassonlineok.php' name='giustass'>";
     $assdagiust = false;
     if (mysqli_num_rows($rs5) > 0)
     {
         $assdagiust = true;
-        print "<table border='1' align='center'><tr class='prima'><td colspan=2><b>GIUSTIFICAZIONE ASSENZE</b></td></tr>";
+        print "<table class='table table-striped table-bordered' align='center'><tr class='prima'><td colspan=2><b>GIUSTIFICAZIONE ASSENZE</b></td></tr>";
         
         while ($rec = mysqli_fetch_array($rs5))
         {print "<tr><td align='left'>";
@@ -108,7 +104,7 @@ if ($rs1)
     if (mysqli_num_rows($rs6) > 0)
     {
         $assdagiust = true;
-        print "<table border='1' align='center'><tr class='prima'><td colspan=2><b>GIUSTIFICAZIONE RITARDI</b></td></tr>";
+        print "<table class='table table-striped table-bordered' align='center'><tr class='prima'><td colspan=2><b>GIUSTIFICAZIONE RITARDI</b></td></tr>";
        
         while ($rec = mysqli_fetch_array($rs6))
         {
@@ -126,7 +122,7 @@ if ($rs1)
     if (mysqli_num_rows($rs7) > 0)
     {
         $assdagiust = true;
-        print "<table border='1' align='center'><tr class='prima'><td colspan=2><b>GIUSTIFICAZIONE USCITE</b></td></tr>";
+        print "<table class='table table-striped table-bordered' align='center'><tr class='prima'><td colspan=2><b>GIUSTIFICAZIONE USCITE</b></td></tr>";
         
         while ($rec = mysqli_fetch_array($rs6))
         {
@@ -144,7 +140,7 @@ if ($rs1)
     if (mysqli_num_rows($rs9) > 0)
     {
         $assdagiust = true;
-        print "<table border='1' align='center'><tr class='prima'><td colspan=2><b>GIUSTIFICAZIONE ASSENZE ORARIE</b></td></tr>";
+        print "<table class='table table-striped table-bordered' align='center'><tr class='prima'><td colspan=2><b>GIUSTIFICAZIONE ASSENZE ORARIE</b></td></tr>";
         
         while ($rec = mysqli_fetch_array($rs9))
         {
@@ -165,57 +161,69 @@ if ($rs1)
     {
         $contasms = 0;
         $telcel = $val1['telcel'];
-        if ($telcel != '')
-        {
-            if (strpos($telcel, "+") != FALSE)
+        if($_SESSION["protogiustonline"] == "sms"){
+            if ($telcel != '')
             {
-                $dest = array();
-                $destinatarialunno = array();
-                $destinatarialunno = explode("+", $telcel);
-                foreach ($destinatarialunno as $destalu)
+                if (strpos($telcel, "+") != FALSE)
                 {
-                    $dest[] = "39" . trim($destalu); // .$rec['telcel'];
+                    $dest = array();
+                    $destinatarialunno = array();
+                    $destinatarialunno = explode("+", $telcel);
+                    foreach ($destinatarialunno as $destalu)
+                    {
+                        $dest[] = "39" . trim($destalu); // .$rec['telcel'];
 
-                    $contasms++;
-                }
-            } else if (strpos($telcel, ",") != FALSE)
-            {
-                $dest = array();
-                $destinatarialunno = array();
-                $destinatarialunno = explode(",", $telcel);
-                foreach ($destinatarialunno as $destalu)
+                        $contasms++;
+                    }
+                } else if (strpos($telcel, ",") != FALSE)
                 {
-                    $dest[] = "39" . trim($destalu); // .$rec['telcel'];
+                    $dest = array();
+                    $destinatarialunno = array();
+                    $destinatarialunno = explode(",", $telcel);
+                    foreach ($destinatarialunno as $destalu)
+                    {
+                        $dest[] = "39" . trim($destalu); // .$rec['telcel'];
 
-                    $contasms++;
-                }
-            } else
-            {
-                $dest = array();
-                $destinatarialunno = array();
-                $destinatarialunno[] = $telcel;
-                foreach ($destinatarialunno as $destalu)
+                        $contasms++;
+                    }
+                } else
                 {
-                    $dest[] = "39" . trim($destalu); // .$rec['telcel'];
+                    $dest = array();
+                    $destinatarialunno = array();
+                    $destinatarialunno[] = $telcel;
+                    foreach ($destinatarialunno as $destalu)
+                    {
+                        $dest[] = "39" . trim($destalu); // .$rec['telcel'];
 
-                    $contasms++;
+                        $contasms++;
+                    }
                 }
+                print "<center>Cellulare per invio OTP: <select name='telcel'>";
+
+                foreach ($dest as $destinatario)
+                {
+                    print "<option value='$destinatario'>$destinatario</option>";
+                }
+                print "</select></center>";
+                print "<center><input class='btn btn-sm btn-outline-secondary' type='submit' id='subnp' value='Giustifica' name='subnp' disabled></center>";
+            } else {
+                alert("Non ci sono numeri di cellulare per invio OTP");
             }
-            print "<center>Cellulare per invio OTP: <select name='telcel'>";
-
-            foreach ($dest as $destinatario)
-            {
-                print "<option value='$destinatario'>$destinatario</option>";
+        } else {
+            $cod = mysqli_fetch_assoc(eseguiQuery($con, "SELECT totpgiustass FROM tbl_alunni WHERE idtutore = $idutente"))['totpgiustass'];
+            if($cod != null && $cod != ""){
+                print("<input type='hidden' name='totp' value='true'>");
+                print"<center><input class='btn btn-sm btn-outline-secondary' type='submit' id='subnp' value='Giustifica TOTP' name='subnp' disabled></center>";
             }
-            print "</select></center>";
-            print "<br><br><center><input type='submit' id='subnp' value='Giustifica' name='subnp' disabled></center>";
-        } else
-            print "<br><center>Non ci sono numeri di cellulare per invio OTP</center>";
-    } else
-        print "<br><center>Non ci sono assenze da giustificare!</center>";
+        } 
+    } else {
+        alert("Non ci sono assenze da giustificare!");
+    }
 }
 
-stampa_piede();
+print("</div>");
+
+stampa_piede_new();
 
 
 

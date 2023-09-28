@@ -5,12 +5,6 @@ require_once '../lib/req_apertura_sessione.php';
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
 
-//require_once '../lib/ db / query.php';
-//$lQuery = LQuery::getIstanza();
-// istruzioni per tornare alla pagina di login 
-
-
-
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
 
 if ($tipoutente == "")
@@ -57,37 +51,15 @@ $stringaopzioniord = "[" . $stringaopzioniord . "]";
 //$strcampiordinamento = implode(",", $daticrud['campiordinamento']);
 
 
-
-
-$script = "<link rel='stylesheet' type='text/css' href='../lib/js/datatables/datatables.min.css'/>
- 
-           <script type='text/javascript' src='../lib/js/datatables/datatables.min.js'></script>
-           <script> 
-           $(document).ready( function () {
-                 $('#tabelladati').DataTable({
-                     'order':" . $stringaopzioniord . ",
-                     'pageLength': 100,
-                     'language': {
-                                   'search': 'Filtra risultati:',
-                                   'zeroRecords': 'Nessun dato da visualizzare',
-                                   'info': 'Mostrate righe da _START_ a _END_ di _TOTAL_',
-                                    'lengthMenu': 'Visualizzate _MENU_ righe',
-                                    
-                                            'paginate': {
-                                                        'first':    'Prima',
-                                                        'previous': 'Prec.',
-                                                        'next':     'Succ.',
-                                                        'last':     'Ultima'
-                                                        }
-                                   
-                                            
-                                }
-                 });
-            } );
-            
-            </script>";
-stampa_head($titolo, "", $script, "PMSDA");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+$script = "
+<style>
+.lscontainer {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+</style>";
+stampa_head_new($titolo, "", $script, "PMSDA");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 
 
@@ -111,11 +83,15 @@ $query = "select " . $daticrud['campochiave'] . ", $strcampi from " . $daticrud[
 // print $query;
 $ris = eseguiQuery($con, $query);
 if ($daticrud['abilitazioneinserimento'] == 1)
-    print "<br><center><a href='CRUDmodifica.php?id=0'><b>INSERISCI</b></a></center><br><br>";
-
-print "<table id='tabelladati' class='display' width='" . $daticrud['larghezzatabella'] . "'>";
+//print "<br><center><a href='CRUDmodifica.php?id=0'><b>INSERISCI</b></a></center><br><br>";
+?> 
+    <button style='margin-left:5px;' class="btn btn-outline-secondary mb-3" onclick="window.location.href = 'CRUDmodifica.php?id=0'">
+    INSERISCI</button>
+<?php
+//print "<table id='tabelladati' class='table table-striped table-bordered' width='" . $daticrud['larghezzatabella'] . "'>";
+print "<div style='margin-left:5px; margin-right:5px;'><table id='tabelladati' class='table table-striped table-bordered'>";
 // Visualizzazione intestazioni
-print "<thead><tr class='prima'>";
+print "<thead><tr>";
 foreach ($daticrud['campi'] as $c)
     if ($c[1] != 0)
         print "<th>$c[6]</th>";
@@ -240,11 +216,39 @@ foreach ($dativis as $riga)
     print "</tr>";
 }
 print "</tbody>";
-print "</table><br>";
+print "</table></div>";
 
 
+import_datatables();
 
-stampa_piede();
+?>
+<script> 
+           $(document).ready( function () {
+                let table = new DataTable('#tabelladati', {
+                     'order': <?php echo $stringaopzioniord ?>,
+                     'pageLength': 100,
+                     'language': {
+                                   'search': 'Filtra risultati:',
+                                   'zeroRecords': 'Nessun dato da visualizzare',
+                                   'info': 'Mostrate righe da _START_ a _END_ di _TOTAL_',
+                                    'lengthMenu': 'Visualizzate _MENU_ righe',
+                                    
+                                            'paginate': {
+                                                        'first':    'Prima',
+                                                        'previous': 'Prec.',
+                                                        'next':     'Succ.',
+                                                        'last':     'Ultima'
+                                                        }
+                                   
+                                            
+                                }
+                 });
+            } );
+            
+            </script>
+
+<?php
+stampa_piede_new();
 
 function controlloCanc($con, $vincolicanc, $chiave)
 {

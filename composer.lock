@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "53e4651c9c6a9d930eaaa39f74954250",
+    "content-hash": "fe0ec074ac1986d62a20d111fe33c513",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -72,6 +72,429 @@
                 "source": "https://github.com/beberlei/assert/tree/v3.3.2"
             },
             "time": "2021-12-16T21:41:27+00:00"
+        },
+        {
+            "name": "components/jquery",
+            "version": "v3.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/jquery.git",
+                "reference": "8edc7785239bb8c2ad2b83302b856a1d61de60e7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/jquery/zipball/8edc7785239bb8c2ad2b83302b856a1d61de60e7",
+                "reference": "8edc7785239bb8c2ad2b83302b856a1d61de60e7",
+                "shasum": ""
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "jquery.js"
+                    ],
+                    "files": [
+                        "jquery.min.js",
+                        "jquery.min.map",
+                        "jquery.slim.js",
+                        "jquery.slim.min.js",
+                        "jquery.slim.min.map"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "JS Foundation and other contributors"
+                }
+            ],
+            "description": "jQuery JavaScript Library",
+            "homepage": "http://jquery.com",
+            "support": {
+                "forum": "http://forum.jquery.com",
+                "irc": "irc://irc.freenode.org/jquery",
+                "issues": "https://github.com/jquery/jquery/issues",
+                "source": "https://github.com/jquery/jquery",
+                "wiki": "http://docs.jquery.com/"
+            },
+            "time": "2023-09-22T01:43:46+00:00"
+        },
+        {
+            "name": "datatables.net/datatables.net",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DataTables/Dist-DataTables.git",
+                "reference": "7f934ea958418d960a92641bf0f6a83221ec66ae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables/zipball/7f934ea958418d960a92641bf0f6a83221ec66ae",
+                "reference": "7f934ea958418d960a92641bf0f6a83221ec66ae",
+                "shasum": ""
+            },
+            "require": {
+                "components/jquery": ">=1.7"
+            },
+            "default-branch": true,
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "SpryMedia",
+                    "homepage": "https://datatables.net"
+                }
+            ],
+            "description": "DataTables is a plug-in for the jQuery Javascript library. It is a highly flexible tool, based upon the foundations of progressive enhancement, which will add advanced interaction controls to any HTML table. This is jQuery DataTables",
+            "homepage": "http://www.datatables.net/",
+            "keywords": [
+                "datatables",
+                "jquery",
+                "table"
+            ],
+            "support": {
+                "forum": "https://datatables.net/forums",
+                "source": "https://github.com/DataTables/Dist-DataTables"
+            },
+            "time": "2023-09-22T16:11:01+00:00"
+        },
+        {
+            "name": "datatables.net/datatables.net-bs5",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DataTables/Dist-DataTables-Bootstrap5.git",
+                "reference": "d0ccff4c118e33c50cfc7ea08abc4bb04b1fdcf2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Bootstrap5/zipball/d0ccff4c118e33c50cfc7ea08abc4bb04b1fdcf2",
+                "reference": "d0ccff4c118e33c50cfc7ea08abc4bb04b1fdcf2",
+                "shasum": ""
+            },
+            "require": {
+                "datatables.net/datatables.net": ">=1.12.1",
+                "twbs/bootstrap": "5.*"
+            },
+            "default-branch": true,
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "SpryMedia",
+                    "homepage": "https://datatables.net"
+                }
+            ],
+            "description": "DataTables is a plug-in for the jQuery Javascript library. It is a highly flexible tool, based upon the foundations of progressive enhancement, which will add advanced interaction controls to any HTML table. This is DataTables with styling for [Bootstrap5](https://getbootstrap.com/)",
+            "homepage": "http://www.datatables.net/",
+            "keywords": [
+                "bootstrap",
+                "bootstrap5",
+                "datatables",
+                "jquery",
+                "table"
+            ],
+            "support": {
+                "forum": "https://datatables.net/forums",
+                "issues": "https://github.com/DataTables/Dist-DataTables-Bootstrap5/issues",
+                "source": "https://github.com/DataTables/Dist-DataTables-Bootstrap5"
+            },
+            "time": "2023-09-22T16:12:23+00:00"
+        },
+        {
+            "name": "datatables.net/datatables.net-buttons",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DataTables/Dist-DataTables-Buttons.git",
+                "reference": "68fa179c91ad25fb95a161475cb32430dd636bea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Buttons/zipball/68fa179c91ad25fb95a161475cb32430dd636bea",
+                "reference": "68fa179c91ad25fb95a161475cb32430dd636bea",
+                "shasum": ""
+            },
+            "require": {
+                "datatables.net/datatables.net": ">=1.12.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "SpryMedia",
+                    "homepage": "https://datatables.net"
+                }
+            ],
+            "description": "The Buttons extension for DataTables provides a common set of options, API methods and styling to display buttons on a page that will interact with a DataTable. It also provides plug-ins for file export (HTML5 and Flash), print view and column visibility. Other libraries, such as Editor and Select also provide buttons specific to their use cases. This is Buttons for DataTables",
+            "homepage": "http://www.datatables.net/",
+            "keywords": [
+                "Column Visibility",
+                "buttons",
+                "csv",
+                "datatables",
+                "excel",
+                "jquery",
+                "pdf",
+                "print",
+                "table"
+            ],
+            "support": {
+                "forum": "https://datatables.net/forums",
+                "source": "https://github.com/DataTables/Dist-DataTables-Buttons"
+            },
+            "time": "2023-08-30T12:40:23+00:00"
+        },
+        {
+            "name": "datatables.net/datatables.net-buttons-bs5",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DataTables/Dist-DataTables-Buttons-Bootstrap5.git",
+                "reference": "5fde933850874007a8d7841749aab468ee57d024"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Buttons-Bootstrap5/zipball/5fde933850874007a8d7841749aab468ee57d024",
+                "reference": "5fde933850874007a8d7841749aab468ee57d024",
+                "shasum": ""
+            },
+            "require": {
+                "datatables.net/datatables.net-bs5": ">=1.12.1",
+                "datatables.net/datatables.net-buttons": ">=2.2.3"
+            },
+            "default-branch": true,
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "SpryMedia",
+                    "homepage": "https://datatables.net"
+                }
+            ],
+            "description": "The Buttons extension for DataTables provides a common set of options, API methods and styling to display buttons on a page that will interact with a DataTable. It also provides plug-ins for file export (HTML5 and Flash), print view and column visibility. Other libraries, such as Editor and Select also provide buttons specific to their use cases. This is Buttons for DataTables with styling for [Bootstrap5](https://getbootstrap.com/)",
+            "homepage": "http://www.datatables.net/",
+            "keywords": [
+                "Column Visibility",
+                "bootstrap",
+                "bootstrap5",
+                "buttons",
+                "csv",
+                "datatables",
+                "excel",
+                "jquery",
+                "pdf",
+                "print",
+                "table"
+            ],
+            "support": {
+                "forum": "https://datatables.net/forums",
+                "issues": "https://github.com/DataTables/Dist-DataTables-Buttons-Bootstrap5/issues",
+                "source": "https://github.com/DataTables/Dist-DataTables-Buttons-Bootstrap5"
+            },
+            "time": "2023-08-30T12:41:12+00:00"
+        },
+        {
+            "name": "datatables.net/datatables.net-keytable",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DataTables/Dist-DataTables-KeyTable.git",
+                "reference": "f07c07ba786b11318d1a22c3a2c623bd31e76837"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-KeyTable/zipball/f07c07ba786b11318d1a22c3a2c623bd31e76837",
+                "reference": "f07c07ba786b11318d1a22c3a2c623bd31e76837",
+                "shasum": ""
+            },
+            "require": {
+                "datatables.net/datatables.net": ">=1.12.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "SpryMedia",
+                    "homepage": "https://datatables.net"
+                }
+            ],
+            "description": "KeyTable allows you to use keyboard navigation on a DataTables enhanced table, like an Excel spreadsheet - a cell shows a focus outline which can be moved using the keyboard or mouse operations. This can be particularly useful in an editable table that uses Editor allowing end users to update data very quickly. This is KeyTable for DataTables",
+            "homepage": "http://www.datatables.net/",
+            "keywords": [
+                "datatables",
+                "excel",
+                "jquery",
+                "keyboard",
+                "keytable",
+                "spreadsheet",
+                "table"
+            ],
+            "support": {
+                "forum": "https://datatables.net/forums",
+                "source": "https://github.com/DataTables/Dist-DataTables-KeyTable"
+            },
+            "time": "2023-08-30T11:55:24+00:00"
+        },
+        {
+            "name": "datatables.net/datatables.net-keytable-bs5",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DataTables/Dist-DataTables-KeyTable-Bootstrap5.git",
+                "reference": "d79a1b2fa4c52e081ec65d412b5bc7b17e32f87e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-KeyTable-Bootstrap5/zipball/d79a1b2fa4c52e081ec65d412b5bc7b17e32f87e",
+                "reference": "d79a1b2fa4c52e081ec65d412b5bc7b17e32f87e",
+                "shasum": ""
+            },
+            "require": {
+                "datatables.net/datatables.net-bs5": ">=1.12.1",
+                "datatables.net/datatables.net-keytable": ">=2.7.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "SpryMedia",
+                    "homepage": "https://datatables.net"
+                }
+            ],
+            "description": "KeyTable allows you to use keyboard navigation on a DataTables enhanced table, like an Excel spreadsheet - a cell shows a focus outline which can be moved using the keyboard or mouse operations. This can be particularly useful in an editable table that uses Editor allowing end users to update data very quickly. This is KeyTable for DataTables with styling for [Bootstrap5](https://getbootstrap.com/)",
+            "homepage": "http://www.datatables.net/",
+            "keywords": [
+                "bootstrap",
+                "bootstrap5",
+                "datatables",
+                "excel",
+                "jquery",
+                "keyboard",
+                "keytable",
+                "spreadsheet",
+                "table"
+            ],
+            "support": {
+                "forum": "https://datatables.net/forums",
+                "issues": "https://github.com/DataTables/Dist-DataTables-KeyTable-Bootstrap5/issues",
+                "source": "https://github.com/DataTables/Dist-DataTables-KeyTable-Bootstrap5"
+            },
+            "time": "2023-08-30T11:56:15+00:00"
+        },
+        {
+            "name": "datatables.net/datatables.net-responsive",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DataTables/Dist-DataTables-Responsive.git",
+                "reference": "21b7bd1b53e4c2e393505a940c99b2f7aa9759e7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Responsive/zipball/21b7bd1b53e4c2e393505a940c99b2f7aa9759e7",
+                "reference": "21b7bd1b53e4c2e393505a940c99b2f7aa9759e7",
+                "shasum": ""
+            },
+            "require": {
+                "datatables.net/datatables.net": ">=1.12.1"
+            },
+            "default-branch": true,
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "SpryMedia",
+                    "homepage": "https://datatables.net"
+                }
+            ],
+            "description": "In the modern world of responsive web design tables can often cause a particular problem for designers due to their row based layout. Responsive is an extension for DataTables that resolves that problem by optimising the table's layout for different screen sizes through the dynamic insertion and removal of columns from the table. This is Responsive for DataTables",
+            "homepage": "http://www.datatables.net/",
+            "keywords": [
+                "datatables",
+                "jquery",
+                "responsive",
+                "table"
+            ],
+            "support": {
+                "forum": "https://datatables.net/forums",
+                "source": "https://github.com/DataTables/Dist-DataTables-Responsive"
+            },
+            "time": "2023-08-30T11:58:10+00:00"
+        },
+        {
+            "name": "datatables.net/datatables.net-responsive-bs5",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DataTables/Dist-DataTables-Responsive-Bootstrap5.git",
+                "reference": "6bd1a4ce23ace1b0d81bf06153160a54aac2e1f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Responsive-Bootstrap5/zipball/6bd1a4ce23ace1b0d81bf06153160a54aac2e1f9",
+                "reference": "6bd1a4ce23ace1b0d81bf06153160a54aac2e1f9",
+                "shasum": ""
+            },
+            "require": {
+                "datatables.net/datatables.net-bs5": ">=1.12.1",
+                "datatables.net/datatables.net-responsive": ">=2.3.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "SpryMedia",
+                    "homepage": "https://datatables.net"
+                }
+            ],
+            "description": "In the modern world of responsive web design tables can often cause a particular problem for designers due to their row based layout. Responsive is an extension for DataTables that resolves that problem by optimising the table's layout for different screen sizes through the dynamic insertion and removal of columns from the table. This is Responsive for DataTables with styling for [Bootstrap5](https://getbootstrap.com/)",
+            "homepage": "http://www.datatables.net/",
+            "keywords": [
+                "bootstrap",
+                "bootstrap5",
+                "datatables",
+                "jquery",
+                "responsive",
+                "table"
+            ],
+            "support": {
+                "forum": "https://datatables.net/forums",
+                "issues": "https://github.com/DataTables/Dist-DataTables-Responsive-Bootstrap5/issues",
+                "source": "https://github.com/DataTables/Dist-DataTables-Responsive-Bootstrap5"
+            },
+            "time": "2023-08-30T11:59:00+00:00"
         },
         {
             "name": "myclabs/php-enum",
@@ -526,16 +949,16 @@
         },
         {
             "name": "twbs/bootstrap",
-            "version": "v5.3.1",
+            "version": "v5.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "2a1bf52b73fc9a97f6fef75aa1b29b3e9f0288b3"
+                "reference": "344e912d04b5b6a04482113eff20ab416ff01048"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/2a1bf52b73fc9a97f6fef75aa1b29b3e9f0288b3",
-                "reference": "2a1bf52b73fc9a97f6fef75aa1b29b3e9f0288b3",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/344e912d04b5b6a04482113eff20ab416ff01048",
+                "reference": "344e912d04b5b6a04482113eff20ab416ff01048",
                 "shasum": ""
             },
             "replace": {
@@ -570,9 +993,48 @@
             ],
             "support": {
                 "issues": "https://github.com/twbs/bootstrap/issues",
-                "source": "https://github.com/twbs/bootstrap/tree/v5.3.1"
+                "source": "https://github.com/twbs/bootstrap/tree/v5.3.2"
             },
-            "time": "2023-07-26T07:46:38+00:00"
+            "time": "2023-09-14T14:19:27+00:00"
+        },
+        {
+            "name": "twbs/bootstrap-icons",
+            "version": "v1.11.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twbs/icons.git",
+                "reference": "8d7bc695fb407627378cb184976b348e6a128d59"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twbs/icons/zipball/8d7bc695fb407627378cb184976b348e6a128d59",
+                "reference": "8d7bc695fb407627378cb184976b348e6a128d59",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Otto",
+                    "email": "markdotto@gmail.com"
+                }
+            ],
+            "description": "Official open source SVG icon library for Bootstrap",
+            "homepage": "https://icons.getbootstrap.com/",
+            "keywords": [
+                "bootstrap",
+                "icon font",
+                "icons",
+                "svg"
+            ],
+            "support": {
+                "issues": "https://github.com/twbs/icons/issues",
+                "source": "https://github.com/twbs/icons/tree/v1.11.1"
+            },
+            "time": "2023-09-17T14:09:28+00:00"
         }
     ],
     "packages-dev": [
@@ -989,16 +1451,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.24.0",
+            "version": "1.24.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "3510b0a6274cc42f7219367cb3abfc123ffa09d6"
+                "reference": "9f854d275c2dbf84915a5c0ec9a2d17d2cd86b01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/3510b0a6274cc42f7219367cb3abfc123ffa09d6",
-                "reference": "3510b0a6274cc42f7219367cb3abfc123ffa09d6",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/9f854d275c2dbf84915a5c0ec9a2d17d2cd86b01",
+                "reference": "9f854d275c2dbf84915a5c0ec9a2d17d2cd86b01",
                 "shasum": ""
             },
             "require": {
@@ -1030,9 +1492,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.24.0"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.24.1"
             },
-            "time": "2023-09-07T20:46:32+00:00"
+            "time": "2023-09-18T12:18:02+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -2230,7 +2692,16 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "datatables.net/datatables.net": 20,
+        "datatables.net/datatables.net-bs5": 20,
+        "datatables.net/datatables.net-buttons": 20,
+        "datatables.net/datatables.net-buttons-bs5": 20,
+        "datatables.net/datatables.net-keytable": 20,
+        "datatables.net/datatables.net-keytable-bs5": 20,
+        "datatables.net/datatables.net-responsive": 20,
+        "datatables.net/datatables.net-responsive-bs5": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

@@ -91,3 +91,8 @@ function converti_utf8($stringa)
       $strpul=utf8_decode($stringa); */
     return $strpul;
 }
+
+function shorten($stringa, $lunghezza){
+    $out = strlen($stringa) > $lunghezza ? substr($stringa,0,$lunghezza)."..." : $stringa;
+    return $out;
+}

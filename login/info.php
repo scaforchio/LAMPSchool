@@ -23,23 +23,19 @@ require_once '../lib/req_apertura_sessione.php';
 
 $titolo = "Credits";
 $script = "";
-stampa_head($titolo, "", $script, "", false);
-//   stampa_testata("$titolo","",$_SESSION['nome_scuola'],$_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "", false);
 ?>
-
-<html><head></head>
-
-    <body>
         <p align="center" >
+        <br/><br/>
             <b> LAMPSchool<br/>REGISTRO ON LINE<br/></b>
-
         </p>
-    <center><img src='../immagini/logo.gif'><br/><br/>
+
+        <center><img src='../favicons/icon.png' width="150" height="150" onclick="flipTheme()"><br/><br/>
 
         <b>Hanno contribuito (in ordine di intervento):</b><br/><br/>
-        <table border=1>
-            <tr><td><a href='mailto:pietro.tamburrano@gmail.com'>Pietro Tamburrano</a></td><td><i>(Analisi, Sviluppo, Debugging, Documentazione)</i></td><td>ISIS Luigi Di Maggio - San Giovanni Rotondo</td></tr>
-            <tr><td><a href='mailto:gpgorgoglione@alice.it'>Giovanni Gorgoglione</a></td><td><i>(Analisi, Debugging)</i></td><td>ISIS Luigi Di Maggio - San Giovanni Rotondo</td></tr>
+        <table class="table table-bordered table-striped" style="max-width: 1200px">
+            <tr><td><a href='mailto:pietro.tamburrano@gmail.com'>Pietro Tamburrano</a></td><td><i>(Analisi, Sviluppo, Debugging, Documentazione)</i></td><td>IT Luigi Di Maggio - San Giovanni Rotondo</td></tr>
+            <tr><td><a href='mailto:gpgorgoglione@alice.it'>Giovanni Gorgoglione</a></td><td><i>(Analisi, Debugging)</i></td><td>IT Luigi Di Maggio - San Giovanni Rotondo</td></tr>
             <tr><td><a href='mailto:massimo.cunico@ic16verona.gov.it'>Massimo Cunico</a></td><td><i>(Analisi, Debugging, Documentazione)</i></td><td>IC 16 Verona</td></tr>
             <tr><td><a href='mailto:ubaldo@pernigo.com'>Ubaldo Pernigo</a></td><td><i>(Analisi, Debugging)</i></td><td>IC 04 Verona</td></tr>
             <tr><td><a href='mailto:renato.tamilio@gmail.com'>Renato Tamilio</a></td><td><i>(Analisi, Sviluppo, Debugging, Documentazione)</i></td><td>Consigliere c/o IC di Trofarello (TO)</td></tr>
@@ -56,49 +52,18 @@ stampa_head($titolo, "", $script, "", false);
             <tr><td><a href='mailto:marco.benaglia@gmail.com'>Marco Benaglia</a></td><td><i>(Debugging, Analisi, Sviluppo)</i></td><td>&nbsp;</td></tr>
             <tr><td><a href='mailto:giulio.ollasci@gmail.com'>Giulio Ollasci</a></td><td><i>(Debugging, Analisi)</i></td><td>&nbsp;</td></tr>
             <tr><td><a href='mailto:matt.ruffoni@gmail.com'>Matteo Ruffoni</a></td><td><i>(Debugging, Analisi)</i></td><td>&nbsp;</td></tr>
-
+            <tr><td><a href='mailto:hi@vitto.dev'>Vittorio Lo Mele</a></td><td><i>(Analisi, Nuovo Logo, Sviluppo, Debugging)</i></td><td>IT Luigi Di Maggio - San Giovanni Rotondo</td></tr>
 
         </table>
         <br/><br/>
         <b>Patrocinato da:</b><br/><br/>
         <table align='center'>
-            <tr><td><a href='http://www.isdimaggio.it'><img src='../immagini/isisdimaggio.png'></a></td><td>ISIS Luigi Di Maggio - San Giovanni Rotondo</td></tr>
+            <tr><td><a href='http://www.isdimaggio.it'><img src='../immagini/isisdimaggio.png'></a></td><td>IT Luigi Di Maggio - San Giovanni Rotondo</td></tr>
             <tr><td><a href='http://www.lampschool.it'><img src='../immagini/dematvr.png'></a></td><td>Rete delle scuole veronesi per la dematerializzazione</td></tr>
-
         </table>
-
-        <div>
-
-            <center><br><br><b>Applicazioni per smartphone per accesso a LAMPSchool da parte dei genitori: </b><br><br></center>
-
-            <table border="1">
-                <tr> 
-                    <td align='center'> 
-                        LAMPSchool App by ISIS Di Maggio<br>
-                        <a style="text-decoration:none;" href='https://play.google.com/store/apps/details?id=net.lampschool&hl=it'>
-                            <img style="width: 150px;" alt='Disponibile su Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/it_badge_web_generic.png'/>
-                        </a>
-                    </td>
-                    <td align='center'>
-                        Registro LampSchool by Gabriel Tavernini<br>
-                        <a style="text-decoration:none;" href='https://play.google.com/store/apps/details?id=com.gabriel.Registro'>
-                            <img style="width: 150px;" alt='Disponibile su Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/it_badge_web_generic.png'/>
-                        </a>
-
-                        <a style="text-decoration:none;" href='https://itunes.apple.com/us/app/registro-lampschool/id1364584771?l=it&ls=1&mt=8'>
-                            <img style="width: 123px;" alt="Disponibile su AppStore" src="https://devimages-cdn.apple.com/app-store/marketing/guidelines/images/badge-download-on-the-app-store.svg" >
-                        </a>
-                    </td>
-            </table>
-
-
-        </div>
-
-
-        <br><br><small><a href='mailto:pietro.tamburrano@gmail.com'>Informazioni e segnalazioni</a></small><br/><br/>
-        <small><a href='https://github.com/scaforchio/LAMPSchool'>Codice</a></small><br/><br/>
-    </center></body>
-</html>
-<?
+        </center>
+        <br/><br/>
+        <br/><br/>
+<?php
 
 ?>

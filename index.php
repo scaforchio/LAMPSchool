@@ -98,11 +98,11 @@ if ($suffisso != "*")
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
     <link rel="manifest" href="favicons/site.webmanifest">
-    <link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#603cba">
+    <link rel="mask-icon" href="favicons/safari-pinned-tab.svg" color="#212529">
     <link rel="shortcut icon" href="favicons/favicon.ico">
-    <meta name="msapplication-TileColor" content="#603cba">
+    <meta name="msapplication-TileColor" content="#212529">
     <meta name="msapplication-config" content="favicons/browserconfig.xml">
-    <meta name="theme-color" content="#603cba">
+    <meta name="theme-color" content="#212529">
 </head>
 
 <body>
@@ -119,8 +119,8 @@ if ($suffisso != "*")
                             <div class="card selector">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col col-md-auto">
-                                            <img class="cazzo" src="favicons/icon.png" alt="icona registro" width="40" height="40" />
+                                        <div class="col col-auto">
+                                            <img src="favicons/icon.png" alt="icona registro" width="40" height="40" />
                                         </div>
 
                                         <div class="col" style="padding-left: 0px">
@@ -131,7 +131,7 @@ if ($suffisso != "*")
                                             </p>
                                         </div>
 
-                                        <div class="col col-md-auto text-center">
+                                        <div class="col col-auto text-center">
                                             <button type="button" class="btn btn-outline-secondary" onclick="document.location.href = 'login/login.php?suffisso=<?php echo $suffissi[$i] ?>'">
                                                 <i class="bi bi-door-open" style="margin-right: 0px"></i>
                                             </button>
@@ -147,25 +147,23 @@ if ($suffisso != "*")
         </div>
     </main>
 
-    <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top">
-        <p class="col-md-4 mb-0 text-muted">LampSchool ver. 2023</p> 
-            <a href='login/info.php' class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <img src="favicons/icon.png" alt="icona registro" class="bi me-2" height="40">
-            </a>
-        <ul class="nav col-md-4 justify-content-end">
-          <li class="nav-item"><a href="http://lampschool.net" class="nav-link px-2 text-muted">Sito Web</a></li>
-          <li class="nav-item"><a href="https://github.com/scaforchio/lampschool/" class="nav-link px-2 text-muted">GitHub</a></li>
-          <li class="nav-item"><a href="https://github.com/scaforchio/LAMPSchool/issues/new" class="nav-link px-2 text-muted">Segnala Bug</a></li>
+    <footer class="d-flex flex-wrap align-items-center py-3 border-top footer-justify">
+        <p class="col col-auto mb-0 text-muted">
+            <img src="favicons/icon.png" alt="icona registro" height="40">
+            LampSchool ver. 2023
+        </p> 
+        <ul class="nav col col-auto justify-content-end footer2">
+          <li class="nav-item hidewhen"><a href="http://lampschool.net" class="nav-link px-2 text-muted">Sito Web</a></li>
+          <li class="nav-item hidewhen"><a href="https://github.com/scaforchio/lampschool/" class="nav-link px-2 text-muted">GitHub</a></li>
+          <li class="nav-item"><a href="../login/info.php" class="nav-link px-2 text-muted">Crediti</a></li>
           <button type="button" class="btn btn-sm btn-outline-secondary" onclick="flipTheme()" style="margin-left: 10px;">
             <i class="bi bi-circle-half" style="margin-right: 0px"></i>
           </button>
         </ul>
     </footer>
-
     <script src="vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>
 
 <?php

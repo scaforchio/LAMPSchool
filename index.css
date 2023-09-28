@@ -22,10 +22,6 @@
     margin-bottom: 10px;
 }
 
-.selector {
-    min-width: 30em !important;
-}
-
 .alias-selector {
     padding-top: 3px;
     padding-bottom: 3px;
@@ -50,4 +46,40 @@ footer {
     margin-top: auto;
     margin-left: 1%;
     margin-right: 1%;
+}
+
+@media screen and (max-width: 485px) {
+    .hidewhen {
+       display: none !important;
+    }
+}
+
+.footer-justify {
+    justify-content: center !important;
+}
+
+.alt-theme {
+    display: none;
+}
+
+.footer-justify {
+    justify-content: space-between !important;
+}
+
+.alt-theme {
+    display: none !important;
+}
+
+@media screen and (max-width: 600px) {
+    .footer2 {
+       display: none !important;
+    }
+
+    .alt-theme {
+        display: block !important;
+    }
+
+    .footer-justify {
+        justify-content: center !important;
+    }
 }

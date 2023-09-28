@@ -39,17 +39,8 @@ if ($tipoutente == "")
 
 
 $titolo = "Assemblee di classe";
-$script = "<script type='text/javascript'>
-         <!--
-               var stile = 'top=10, left=10, width=800, height=400, status=no, menubar=no, toolbar=no, scrollbars=yes';
-               function Popup(apri) 
-               {
-                  window.open(apri, '', stile);
-               }
-         //-->
-         </script>";
-stampa_head($titolo, "", $script, "L");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "L");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $idalunno = $_SESSION['idstudente'];
@@ -71,15 +62,14 @@ $queryass = "SELECT * FROM tbl_assemblee
 $risass = eseguiQuery($con, $queryass);
 if (mysqli_num_rows($risass) == 0)
 {
-    print "<br/><CENTER><b>Non hai richiesto/effettuato ancora nessuna assemblea</b>";
+    alert("Non hai richiesto/effettuato ancora nessuna assemblea");
 } else
 {
     $classe = "SELECT anno,sezione,specializzazione FROM tbl_classi WHERE idclasse=$idclasse";
     $risclasse = eseguiQuery($con, $classe);
     $val = mysqli_fetch_array($risclasse);
-//print "<center><b>PROVA</b></center><br/>";
     print "<center><b>Riepilogo assemblee " . $val['anno'] . $val['sezione'] . "&nbsp;" . $val['specializzazione'] . "</b></center><br/>";
-    print "<CENTER><table border ='1' cellpadding='5'>";
+    print "<table border ='1' cellpadding='5'>";
     print "<tr class='prima'>
 		<td colspan=5 align=center width=40%>RICHIESTA</td> 
 		<td colspan=1 align=center width=40%>SVOLGIMENTO</td>
@@ -288,12 +278,12 @@ if ($alurapp)
 {
     print "<form action='ricgen.php' method='POST'>";
     print " <p align='center'><input type=hidden value='" . $idclasse . "' name='idclasse'></p>";
-    print "	<p align='center'><input type=submit value='Richiedi nuova assemblea'>";
+    print "	<p align='center'><input type=submit class='btn btn-outline-secondary btn-sm' value='Richiedi nuova assemblea'>";
     print "</form>";
 }
 
 
-stampa_piede("");
+stampa_piede_new("");
 mysqli_close($con);
 
 

@@ -12,6 +12,12 @@ function data_italiana($datainglese)
     return $datait;
 }
 
+function data_dt($datainglese)
+{
+    $datait = substr($datainglese, 8, 2) . '-' . substr($datainglese, 5, 2) . '-' . substr($datainglese, 0, 4);
+    return $datait;
+}
+
 /**
  * Funzione che trasforma la data da formato AAAAMMGG a formato AAAA-MM-GG
  *

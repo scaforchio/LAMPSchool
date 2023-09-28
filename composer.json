@@ -20,9 +20,18 @@
     ],
     "require": {
         "php": ">=5.6",
+        "datatables.net/datatables.net": "dev-master",
+        "datatables.net/datatables.net-bs5": "dev-master",
+        "datatables.net/datatables.net-buttons": "dev-master",
+        "datatables.net/datatables.net-buttons-bs5": "dev-master",
+        "datatables.net/datatables.net-keytable": "dev-master",
+        "datatables.net/datatables.net-keytable-bs5": "dev-master",
+        "datatables.net/datatables.net-responsive": "dev-master",
+        "datatables.net/datatables.net-responsive-bs5": "dev-master",
         "php-mqtt/client": "^1.8",
         "spomky-labs/otphp": "^10.0",
-        "twbs/bootstrap": "^5.3"
+        "twbs/bootstrap": "^5.3",
+        "twbs/bootstrap-icons": "^1.11"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7"

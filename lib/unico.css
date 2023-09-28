@@ -1,0 +1,229 @@
+.contenuto {
+    min-height: 90%;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.fs-5 {
+    position: relative;
+    top: 2px;
+}
+
+.del-margin {
+    margin-left: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.lh-80 {
+    line-height: 130%;
+}
+
+.grey {
+    color: #aaa;
+}
+
+.card {
+    margin-bottom: 10px;
+}
+
+.alias-selector {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+hr {
+    margin-top: 18px;
+    margin-bottom: 1px;
+}
+
+.btn-light {
+    border-color: #d8d8d8;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.lscontainer {
+    margin-left: 10px;
+    margin-right: 10px;
+    flex-grow: 1;
+}
+
+footer {
+    margin-top: auto;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.lsnavbar {
+    padding: 8px 8px 8px 8px;
+    margin-bottom: 10px;
+    background-color: #a3a3a3;
+}
+
+.btn-toggle {
+    padding: .25rem .5rem;
+    font-weight: 600;
+    color: var(--bs-emphasis-color);
+    background-color: transparent;
+}
+
+.btn-toggle:hover,
+.btn-toggle:focus {
+    color: rgba(var(--bs-emphasis-color-rgb), .85);
+    background-color: var(--bs-tertiary-bg);
+}
+
+.btn-toggle::before {
+    width: 1.25em;
+    line-height: 0;
+    content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%280,0,0,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+    transition: transform .35s ease;
+    transform-origin: .5em 50%;
+}
+
+[data-bs-theme="dark"] .btn-toggle::before {
+    content: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='rgba%28255,255,255,.5%29' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M5 14l6-6-6-6'/%3e%3c/svg%3e");
+}
+
+.btn-toggle[aria-expanded="true"] {
+    color: rgba(var(--bs-emphasis-color-rgb), .85);
+}
+
+.btn-toggle[aria-expanded="true"]::before {
+    transform: rotate(90deg);
+}
+
+.btn-toggle-nav a {
+    padding: .1875rem .5rem;
+    margin-top: .125rem;
+    margin-left: 1.25rem;
+}
+
+.btn-toggle-nav a:hover,
+.btn-toggle-nav a:focus {
+    background-color: var(--bs-tertiary-bg);
+}
+
+.b-example-divider {
+    width: 100%;
+    height: 3rem;
+    background-color: var(--bs-border-color);
+    border: solid var(--bs-border-color);
+    border-width: 1px 0;
+    box-shadow: inset 0 .5em 1.5em var(--bs-border-color), inset 0 .125em .5em var(--bs-border-color);
+}
+
+.b-example-vr {
+    flex-shrink: 0;
+    width: 0.1rem;
+    margin-right: 10px;
+    height: auto;
+}
+
+.mil {
+    margin-left: 40px !important;
+}
+
+.gescontainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.sidebar-fix div {
+    background-color: var(--bs-body-bg) !important;
+}
+
+[sidebarjs-container] {
+    max-width: 400px !important;
+    -webkit-box-shadow: 1px 0 0 var(--bs-border-color) !important;
+    box-shadow: 1px 0 0 var(--bs-border-color) !important;
+}
+
+@media screen and (min-width: 1025px) {
+    .widthcalc {
+        width: -webkit-calc(100% - 400px) !important;
+        width: calc(100% - 400px) !important;
+    }
+
+    [sidebarjs-container] {
+        width: 400px !important;
+        max-width: none !important;
+    }
+} 
+
+.grow {
+    flex-grow: 1;
+}
+
+@media screen and (max-width: 485px) {
+    .hidewhen {
+       display: none !important;
+    }
+}
+
+.funzionemenu {
+    display: none;
+}
+
+.fsbig {
+    font-size: x-large;
+}
+
+.fsvbig {
+    font-size: xx-large;
+}
+
+@media screen and (max-width: 1024px) {
+    .funzione {
+       display: none !important;
+    }
+
+    .funzionemenu {
+        display: block !important;
+    }
+}
+
+.footer-justify {
+    justify-content: space-between !important;
+}
+
+.alt-theme {
+    display: none !important;
+}
+
+@media screen and (max-width: 600px) {
+    .footer2 {
+       display: none !important;
+    }
+
+    .alt-theme {
+        display: block !important;
+    }
+
+    .footer-justify {
+        justify-content: center !important;
+    }
+}
+
+.pagination {
+    margin-top: 10px !important;
+}
+
+.scrolly {
+    overflow-y: scroll;
+}
+
+.container-form {
+    width: 350px;
+}
+
+.container-form-pre {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

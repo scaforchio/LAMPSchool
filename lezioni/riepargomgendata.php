@@ -30,8 +30,8 @@ if ($tipoutente == "") {
 }
 $titolo = "Riepilogo argomenti svolti (per data)";
 $script = "";
-stampa_head($titolo, "", $script, "LT");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "LT");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
@@ -102,44 +102,25 @@ if ($anno == '') {
     $anno = date('Y');
 }
 
-print('
-         <form method="post" action="riepargomgendata.php" name="argomenti">
-   
-         <p align="center">
-         <table align="center">');
+?>
+<div class="container-form-pre">
+    <form style="width: 400px;" method="post" action="riepargomgendata.php" name="argomenti" class="row g-3">
+    <div class="col">
+        <label for="giorno" class="form-label">Giorno</label>
+        <select class="form-select form-select-sm mb-2" name="gio" id="giorno" ONCHANGE="argomenti.submit()">
+            <?php require '../lib/req_aggiungi_giorni_a_select.php'; ?>
+        </select>
+    </div>
+    <div class="col">
+        <label for="meseanno" class="form-label">Mese e Anno</label>
+        <select class="form-select form-select-sm mb-2" name="meseanno" id="meseanno" ONCHANGE="argomenti.submit()">
+            <?php require '../lib/req_aggiungi_mesi_a_select.php'; ?>
+        </select>
+    </div>
+    </form>
+</div>
 
-print(' <tr>
-         <td width="50%"><b>Data (gg/mm/aaaa)</b></td>');
-
-
-//
-//   Inizio visualizzazione della data
-//
-
-
-echo ('   <td width="50%">');
-echo ('   <select name="gio" ONCHANGE="argomenti.submit()">');
-require '../lib/req_aggiungi_giorni_a_select.php';
-
-echo ("</select>");
-
-echo ('   <select name="meseanno" ONCHANGE="argomenti.submit()">');
-require '../lib/req_aggiungi_mesi_a_select.php';
-echo ("</select>");
-
-
-//
-//  Fine visualizzazione della data
-//
-
-
-echo ("        
-      </td></tr>");
-
-
-echo ('</table>');
-echo ('</form>');
-
+<?php
 $dataoggi = "$anno-$mese-$giorno";
 $datadomani = aggiungi_giorni($dataoggi, 1);
 $dataieri = aggiungi_giorni($dataoggi, -1);
@@ -161,12 +142,11 @@ $giodomani = substr($datadomani, 8, 2);
 $maieri = substr($dataieri, 5, 2) . " - " . substr($dataieri, 0, 4);
 $madomani = substr($datadomani, 5, 2) . " - " . substr($datadomani, 0, 4);
 
-print "<br><center>";
+print "<center>";
 if ($dataieri >= $_SESSION['datainiziolezioni'])
-    print("<a href='riepargomgendata.php?gio=$gioieri&meseanno=$maieri'><img src='../immagini/indietro.png'></a>");
-print("&nbsp;&nbsp;&nbsp;");
+    print("<a href='riepargomgendata.php?gio=$gioieri&meseanno=$maieri' style='margin-right: 15px' class='fsvbig'><i class='bi bi-arrow-left'></i></a>");
 if ($datadomani <= $_SESSION['datafinelezioni'])
-    print("<a href='riepargomgendata.php?gio=$giodomani&meseanno=$madomani'><img src='../immagini/avanti.png'></a>");
+    print("<a href='riepargomgendata.php?gio=$giodomani&meseanno=$madomani' class='fsvbig'><i class='bi bi-arrow-right'></i></a>");
 print "</center>";
 
 echo ('<hr>');
@@ -182,7 +162,7 @@ if ($dataieri >= $_SESSION['datainiziolezioni'] && $datadomani <= $_SESSION['dat
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
     }
 
-    echo '<center><h3>Argomenti ed attivit&agrave; svolte nella classe ' . $classe . '</h3></center>';
+    //echo '<center><h3>Argomenti ed attivit&agrave; svolte nella classe ' . $classe . '</h3></center>';
 
     //
     //   ESTRAZIONE DATI DELLE LEZIONI
@@ -194,16 +174,21 @@ if ($dataieri >= $_SESSION['datainiziolezioni'] && $datadomani <= $_SESSION['dat
         $rislez = eseguiQuery($con, $query);
 
         if (mysqli_num_rows($rislez) == 0) {
-            print "<center><br><b>Nessun argomento registrato oggi!</b><br></center>";
+            alert("Nessun argomento registrato oggi!");
         } else {
-            print "
-                    <table border=2 align='center'>
-                        <tr class='prima'>
-                            <td width=15%>Docente</td>    
-                            <td width=15%>Materia</td>
-                            <td width=35%>Argomenti</td>
-                            <td width=35%>Attivit&agrave;</td>";
-
+            ?>
+            <div style='margin-left:5px; margin-right:5px; margin-bottom: 10px;'>
+            <table class='table table-striped table-bordered' id='tabelladati' width='100%' >
+            <thead>
+                <tr>
+                    <td>Docenti</td>
+                    <td>Materia</td>
+                    <td class='not-mobile'>Argomenti</td>
+                    <td class='not-mobile'>Attivit&agrave;</td>
+                </tr>
+            </thead>
+            <tbody>
+        <?php
             while ($reclez = mysqli_fetch_array($rislez)) {
                 //se non è lezione di gruppo stampa direttamente
                 if ($reclez['idlezionegruppo'] == NULL || $reclez['idlezionegruppo'] == 0) {
@@ -229,7 +214,7 @@ if ($dataieri >= $_SESSION['datainiziolezioni'] && $datadomani <= $_SESSION['dat
                     }
                 }
             }
-            print "</table>";
+            print "</tbody></table></div>";
             
             // VISUALIZZARE ARGOMENTI SOSTEGNO
             if (alunno_certificato($id_ut_doc, $con)) {
@@ -238,16 +223,22 @@ if ($dataieri >= $_SESSION['datainiziolezioni'] && $datadomani <= $_SESSION['dat
                 $rislez = eseguiQuery($con, $query);
 
                 if (mysqli_num_rows($rislez) == 0) {
-                    print "<center><br><b>Nessuna attività di sostegno registrata!</b><br></center>";
+                    alert("Nessuna attività di sostegno registrata!");
                 } else {
-                    print "<center><br><b>Attività di sostegno</b><br><br></center>
-                    <table border=2 align='center'>
-                        <tr class='prima'>
-                            <td width=15%>Docente</td>    
-                            <td width=15%>Materia</td>
-                            <td width=35%>Argomenti</td>
-                            <td width=35%>Attivit&agrave;</td>";
-
+                    print "<center><br><b>Attività di sostegno</b><br></center>";
+                    ?>
+                    <div style='margin-left:5px; margin-right:5px; margin-bottom: 10px;'>
+                    <table class='table table-striped table-bordered' id='tabelladati2' width='100%' >
+                    <thead>
+                        <tr>
+                            <td>Docenti</td>
+                            <td>Materia</td>
+                            <td class='not-mobile'>Argomenti</td>
+                            <td class='not-mobile'>Attivit&agrave;</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                <?php
                     while ($reclez = mysqli_fetch_array($rislez)) {
                         stampa_lezcert(
                             $con,
@@ -261,16 +252,71 @@ if ($dataieri >= $_SESSION['datainiziolezioni'] && $datadomani <= $_SESSION['dat
                         );
                     }
 
-                    print "</table>";
+                    print "</tbody></table></div>";
                 }
             }
         }
     }
 }
 
+import_datatables();
+?>
+
+<script>
+    $(document).ready(function() {
+        let table = new DataTable('#tabelladati', {
+            responsive: true,
+            pageLength: 10,
+            scrollX: true,
+            paging: false,
+            sorting: false,
+            filter: false,
+            order: [[0, 'desc']],
+            'language': {
+                'search': 'Filtra risultati:',
+                'zeroRecords': 'Nessun dato da visualizzare',
+                'info': 'Mostrate righe da _START_ a _END_ di _TOTAL_',
+                'lengthMenu': 'Visualizzate _MENU_ righe',
+                'paginate': {
+                    'first': 'Prima',
+                    'previous': 'Prec.',
+                    'next': 'Succ.',
+                    'last': 'Ultima'
+                }
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        let table = new DataTable('#tabelladati2', {
+            responsive: true,
+            pageLength: 10,
+            scrollX: true,
+            paging: false,
+            sorting: false,
+            filter: false,
+            order: [[0, 'desc']],
+            'language': {
+                'search': 'Filtra risultati:',
+                'zeroRecords': 'Nessun dato da visualizzare',
+                'info': 'Mostrate righe da _START_ a _END_ di _TOTAL_',
+                'lengthMenu': 'Visualizzate _MENU_ righe',
+                'paginate': {
+                    'first': 'Prima',
+                    'previous': 'Prec.',
+                    'next': 'Succ.',
+                    'last': 'Ultima'
+                }
+            }
+        });
+    });
+</script>
+
+<?php
+
 mysqli_close($con);
 
-stampa_piede("");
+stampa_piede_new("");
 
 function stampa_lez($con, $docassoclist, $idlezione, $materia, $argomenti, $attvità)
 {

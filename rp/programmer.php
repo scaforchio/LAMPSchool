@@ -30,48 +30,8 @@ if ($tipoutente == "") {
 }
 
 $titolo = "Programmazione Badge";
-$script = "<link rel='stylesheet' type='text/css' href='../lib/js/datatables/datatables.min.css'/>
-            <style>
-            .dataTables_length{
-                margin-bottom: 10px;
-            }
-            .dataTables_filter{
-                margin-bottom: 10px;
-            }
-            </style>
-           <script type='text/javascript' src='../lib/js/datatables/datatables.min.js'></script>
-           <script> 
-           $(document).ready( function () {
-                 $('#tabelladati').DataTable({
-                     'pageLength': 10,
-                     columnDefs: [
-                        { orderable: true, className: 'reorder', targets: 0 },
-                        { orderable: true, className: 'reorder', targets: 1 },
-                        { orderable: true, className: 'reorder', targets: 3 },
-                        { orderable: true, className: 'reorder', targets: 4 },
-                        { orderable: false, targets: '_all' },
-                        { 'width': '10%', 'targets': 5 }
-                     ],
-                     'language': {
-                                   'search': 'Filtra risultati:',
-                                   'zeroRecords': 'Nessun dato da visualizzare',
-                                   'info': 'Mostrate righe da _START_ a _END_ di _TOTAL_',
-                                    'lengthMenu': 'Visualizzate _MENU_ righe',
-                                            'paginate': {
-                                                        'first':    'Prima',
-                                                        'previous': 'Prec.',
-                                                        'next':     'Succ.',
-                                                        'last':     'Ultima'
-                                                        }
-                                   
-                                            
-                                }
-                 });
-                 $('.modal_caricamento').hide();
-            } );
-            </script>";
-stampa_head($titolo, "", $script, "MS");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", "", "MS");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 if (!$con) {
@@ -79,8 +39,8 @@ if (!$con) {
     exit;
 }
 
-$query = 
-"SELECT
+$query =
+    "SELECT
     it_tbl_alunni.idalunno,
     it_tbl_alunni.cognome,
     it_tbl_alunni.nome,
@@ -99,35 +59,55 @@ $ris = mysqli_query($con, $query);
 
 ?>
 
-<div style="margin-left: 10px; margin-right:10px; margin-bottom: 10px; padding: 10px 10px 10px 10px; border: 1px solid black;">
-    <button>Connetti Seriale</button> 
-    <label for="programmerState">Stato Programmatore:</label>
-    <input type="text" name="programmerState" disabled value="DISCONNESSO"><br>
-    <table border="2" style="margin-top: 10px; width: 100%">
-        <thead>
-            <tr class='prima'>
-                <td>OPERAZIONE</td>
-                <td>MATRICOLA</td>
-                <td>Nome</td>
-                <td>Cognome</td>
-                <td>Data di Nascita</td>              
-            </tr>
-        </thead>
-        <tbody>
-        <tr>
-                <td id="opcode"></td>
-                <td id="matricola"></td>
-                <td id="nome"></td>
-                <td id="cognome"></td>
-                <td id="datanascita"></td>              
-            </tr>
-        </tbody>
-    </table>
-</div>
+<div style="margin-left: 10px; margin-right:10px; margin-bottom: 10px;">
+    <h5>Operazioni:</h5>
+    <button class="btn btn-outline-secondary" onclick="serialHandler.init()">Connetti Seriale</button>
+    <button class="btn btn-outline-secondary" onclick="document.location.reload()">Reset connessione</button>
+    <button class="btn btn-outline-secondary" onclick="readd()">Leggi dati carta</button> <br><br>
 
-<div class="modal_caricamento"></div>
-<center style="margin-left: 10px; margin-right:10px;">
-    <table border="1" id="tabelladati">
+    <div class="row mb-2">
+        <div class="col">
+            <label for="programmerState" class="h6">Stato Programmatore:</label>
+            <input type="text" id="programmerState" class="form-control" disabled value="DISCONNESSO">
+        </div>
+        <div class="col">
+            <label for="inbound" class="h6">Inbound:</label>
+            <input type="text" id="inbound" class="form-control" disabled value="">
+        </div>
+        <div class="col">
+            <label for="outbound" class="h6">Outbound:</label>
+            <input type="text" id="outbound" class="form-control" disabled value="">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <label for="opcode" class="h6">Operazione:</label>
+            <input type="text" id="opcode" class="form-control" disabled value="">
+        </div>
+        <div class="col">
+            <label for="matricola" class="h6">Matricola:</label>
+            <input type="text" id="matricola" class="form-control" disabled value="">
+        </div>
+        <div class="col">
+            <label for="nome" class="h6">Nome:</label>
+            <input type="text" id="nome" class="form-control" disabled value="">
+        </div>
+        <div class="col">
+            <label for="cognome" class="h6">Cognome:</label>
+            <input type="text" id="cognome" class="form-control" disabled value="">
+        </div>
+        <div class="col">
+            <label for="datanascita" class="h6">Data di nascita:</label>
+            <input type="text" id="datanascita" class="form-control" disabled value="">
+        </div>
+    </div>
+    <span id="errorMessage" style="color: red;"></span><br>
+</div>    
+
+<div style="margin-left: 10px; margin-right:10px;">
+    <h5>Lista alunni:</h5>
+    <table class="table table-striped table-bordered" id="tabelladati">
         <thead>
             <tr class='prima'>
                 <td>Cognome</td>
@@ -145,20 +125,150 @@ $ris = mysqli_query($con, $query);
                 print("<td>" . $alunno["cognome"] . "</td>");
                 print("<td>" . $alunno["nome"] . "</td>");
                 print("<td>" . data_italiana($alunno["datanascita"]) . "</td>");
-                print("<td>" . $alunno["anno"] . $alunno["sezione"] . " " . $alunno["specializzazione"]. "</td>");
-                print("<td>" . $alunno["descrizione"] . " (+" . $alunno["minutiaggiuntivi"]. " minuti)</td>");
-                print("<td> <button class='button' onclick='applicaModifiche(" . $alunno["idalunno"] .")'>Invia al Programmatore</button></td>");
+                print("<td>" . $alunno["anno"] . $alunno["sezione"] . " " . $alunno["specializzazione"] . "</td>");
+                print("<td>" . $alunno["descrizione"] . " (+" . $alunno["minutiaggiuntivi"] . " minuti)</td>");
+                print("<td> <button class='btn btn-outline-secondary' onclick=\"writee(");
+
+                print("'" . $_SESSION['suffisso'] . $alunno['idalunno'] . "',");
+                print("'" . $alunno["nome"] . "',");
+                print("'" . $alunno["cognome"] . "',");
+                print("'" . $alunno["datanascita"] . "'");
+
+                print(")\">Invia al Programmatore</button></td>");
                 print("</tr>");
             }
             ?>
         </tbody>
     </table>
+</div>
 
-    <br>
-    <br>
-    <b>ATTENZIONE! PAGINA IN SVILUPPO (NON FUNZIONANTE)...</b>
-</center>
+<script>
+    // SOURCE FOR THIS SCRIPT: https://github.com/UnJavaScripter/web-serial-example/blob/master/src/serial-handler.ts
+
+    class SerialHandler {
+        reader;
+        writer;
+        isConnected = false;
+        encoder = new TextEncoder();
+        decoder = new TextDecoder();
+
+        async init() {
+            if ('serial' in navigator) {
+                try {
+                    const port = await (navigator).serial.requestPort();
+                    await port.open({
+                        baudRate: 115200
+                    });
+
+                    this.writer = port.writable.getWriter();
+                    this.reader = port.readable.getReader();
+
+                    const signals = await port.getSignals();
+                    console.log(signals);
+                    this.isConnected = true;
+                    $("#programmerState").attr("value", "CONNESSO");
+                    $("#programmerState").attr("style", "color: green");
+                    $("#errorMessage").html('');
+                } catch (err) {
+                    $("#errorMessage").html('Errore apertura porta seriale:', err);
+                }
+            } else {
+                $("#errorMessage").html('WebSerial non abilitata nel browser. Visita https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API#browser_compatibility per maggiori info.')
+            }
+        }
+
+        async write(data) {
+            const dataArrayBuffer = this.encoder.encode(data);
+            return await this.writer.write(dataArrayBuffer);
+        }
+
+        async read() {
+            try {
+                const readerData = await this.reader.read();
+                return this.decoder.decode(readerData.value);
+            } catch (err) {
+                const errorMessage = `impossibile leggere dati: ${err}`;
+                $("#errorMessage").html(errorMessage);
+                return errorMessage;
+            }
+        }
+    }
+    const serialHandler = new SerialHandler();
+</script>
+
+<?php import_datatables(); ?>
+
+<script>
+    $(document).ready(function() {
+        let table = new DataTable('#tabelladati', {
+            responsive: true,
+            'pageLength': 10,
+            columnDefs: [{
+                    orderable: true,
+                    className: 'reorder',
+                    targets: 0
+                },
+                {
+                    orderable: true,
+                    className: 'reorder',
+                    targets: 1
+                },
+                {
+                    orderable: true,
+                    className: 'reorder',
+                    targets: 3
+                },
+                {
+                    orderable: true,
+                    className: 'reorder',
+                    targets: 4
+                },
+                {
+                    orderable: false,
+                    targets: '_all'
+                },
+            ],
+            'language': {
+                'search': 'Filtra risultati:',
+                'zeroRecords': 'Nessun dato da visualizzare',
+                'info': 'Mostrate righe da _START_ a _END_ di _TOTAL_',
+                'lengthMenu': 'Visualizzate _MENU_ righe',
+                'paginate': {
+                    'first': 'Prima',
+                    'previous': 'Prec.',
+                    'next': 'Succ.',
+                    'last': 'Ultima'
+                }
+            }
+        });
+    });
+</script>
+
+<script>
+    function writee(matricola, nome, cognome, datanascita) {
+        if (serialHandler.isConnected) {
+            $("#opcode").attr("value", "SCRITTURA PRONTA di");
+            $("#matricola").attr("value", matricola);
+            $("#nome").attr("value", nome);
+            $("#cognome").attr("value", cognome);
+            $("#datanascita").attr("value", datanascita);
+
+            let mess = `W|${matricola}|${nome}|${cognome}|${datanascita}`;
+            $("#outbound").attr("value", mess);
+            serialHandler.write(mess);
+            console.log(mess);
+            $("#errorMessage").html("");
+        } else {
+            $("#errorMessage").html("Impossibile scrivere con seriale disconnessa");
+        }
+    }
+
+    function readd() {
+
+    }
+</script>
+
 <?php
 
-stampa_piede("");
+stampa_piede_new("");
 mysqli_close($con);

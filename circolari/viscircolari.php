@@ -36,59 +36,31 @@ if ($tipoutente == "")
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $titolo = "Visualizza circolari";
-
-$script = "";
-$script .= "<script>
-               
-               jQuery(function($){
-	$.datepicker.regional['it'] = {
-		clearText: 'Svuota', clearStatus: 'Annulla',
-		closeText: 'Chiudi', closeStatus: 'Chiudere senza modificare',
-		prevText: '&#x3c;Prec', prevStatus: 'Mese precedente',
-		prevBigText: '&#x3c;&#x3c;', prevBigStatus: 'Mostra l\'anno precedente',
-		nextText: 'Succ&#x3e;', nextStatus: 'Mese successivo',
-		nextBigText: '&#x3e;&#x3e;', nextBigStatus: 'Mostra l\'anno successivo',
-		currentText: 'Oggi', currentStatus: 'Mese corrente',
-		monthNames: ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
-		'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'],
-		monthNamesShort: ['Gen','Feb','Mar','Apr','Mag','Giu',
-		'Lug','Ago','Set','Ott','Nov','Dic'],
-		monthStatus: 'Seleziona un altro mese', yearStatus: 'Seleziona un altro anno',
-		weekHeader: 'Sm', weekStatus: 'Settimana dell\'anno',
-		dayNames: ['Domenica','Luned&#236','Marted&#236','Mercoled&#236','Gioved&#236','Venerd&#236','Sabato'],
-		dayNamesShort: ['Dom','Lun','Mar','Mer','Gio','Ven','Sab'],
-		dayNamesMin: ['Do','Lu','Ma','Me','Gio','Ve','Sa'],
-		dayStatus: 'Usa DD come primo giorno della settimana', dateStatus: '\'Seleziona\' D, M d',
-		dateFormat: 'dd/mm/yy', firstDay: 1,
-		initStatus: 'Scegliere una data', isRTL: false};
-	$.datepicker.setDefaults($.datepicker.regional['it']);
-});
-
-               
-                $(document).ready(function(){
-	                 $('#datainserimento').datepicker({ dateFormat: 'dd/mm/yy' });
-	                 
-	             });
-</script>";
-stampa_head($titolo, "", $script, "MSAPDTL");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+$script = "
+<style>
+.lscontainer {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+</style>";
+stampa_head_new($titolo, "", $script, "MSAPDTL");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $visualizzabili = array("image/jpeg", "application/pdf", "image/pjpeg", "image/gif", "image/png");
 
 
 print ("
-		
-		
-		<p align='center'>
-		<table align='center' border='1'>
+    <div style='margin-left:5px; margin-right:5px; margin-bottom: 10px;'>
+		<table class='table table-striped table-bordered' id='tabelladati' width='100%' >
+        <thead>
 		<tr class='prima'>
-			<td><b>Circolare</b></td>
-			<td><b>Data inizio</b></td>
+			<td data-priority='1'><b>Circolare</b></td>
+			<td data-priority='3' class='not-mobile'><b>Data</b></td>
 			
-			<td><b>Lett.</b></td>
-			<td><b>Azione</b></td>
-			<td><b>Firma per conferma</b></td>");
+			<td data-priority='2' class=''><b>Lett.</b></td>
+			<td data-priority='4' class='not-mobile'><b>Azione</b></td>
+			<td data-priority='5' class='not-mobile'><b>Firma</b></td></tr></thead><tbody>");
 
 $dataoggi = date('Y-m-d');
 $query = "select tbl_diffusionecircolari.idcircolare,tbl_circolari.iddocumento,ricevuta,tbl_circolari.descrizione,datainserimento, datalettura,dataconfermalettura,docsize,docnome,doctype
@@ -106,26 +78,29 @@ while ($nom = mysqli_fetch_array($ris))
 
 
     print "<tr><td>" . $nom['descrizione'] .
-            "</td><td>" . data_italiana($nom['datainserimento']) .
+            "</td><td data-sort='" . data_dt($nom['datainserimento'])  . "' >" . data_italiana($nom['datainserimento']) .
             "</td><td>";
     // print "TTTT".$nom['datalettura'];
     if ($nom['datalettura'] != "0000-00-00" & $nom['datalettura']!=NULL)
     {
-        print ("<img src='../immagini/apply_small.png'>");
+        print ("<i class='bi bi-check-all'></i>");
     }
-    print "</td><td><a href='actions.php?action=download&Id=" . $nom["iddocumento"] . "&Circ=" . $nom["idcircolare"] . "&Ute=" . $idutente . "' target='_blank'><img src='../immagini/download.jpg' alt='scarica'></a> ";
+    print "</td><td>
+    <a class='btn btn-outline-secondary btn-sm' href='actions.php?action=download&Id=" . $nom["iddocumento"] . "&Circ=" . $nom["idcircolare"] . "&Ute=" . $idutente . "' target='_blank'>
+    <i class='bi bi-save'></i></a> ";
 
     if (in_array($nom["doctype"], $visualizzabili))
     {
-        echo "<a href='actions.php?action=view&Id=" . $nom["iddocumento"] . "&Circ=" . $nom["idcircolare"] . "&Ute=" . $idutente . "' target='_blank'>";
-        echo "<img src='../immagini/view.jpg' alt='visualizza'></a>  ";
+        echo "<a class='btn btn-outline-secondary btn-sm' href='actions.php?action=view&Id=" . $nom["iddocumento"] . "&Circ=" . $nom["idcircolare"] . "&Ute=" . $idutente . "' target='_blank'>";
+        echo "<i class='bi bi-search'></i></a>  ";
     }
     print "</td>";
-    print "<td>&nbsp;";
+    print "<td>";
     // print "TTTT".$nom['dataconfermalettura'];
     if (($nom['dataconfermalettura'] == '0000-00-00' | $nom['dataconfermalettura'] == '') & $nom['ricevuta'] == 1) // & $nom['datalettura']!="0000-00-00")
     {
-        print "<a href='firmacirc.php?idcircolare=" . $nom['idcircolare'] . "&idutente=$idutente'><img src='../immagini/stilo.png'></a>";
+        print "<a class='btn btn-outline-secondary btn-sm' href='firmacirc.php?idcircolare=" . $nom['idcircolare'] . "&idutente=$idutente'>
+        <i class='bi bi-pencil'></i></a>";
     }
     if (($nom['dataconfermalettura'] != '0000-00-00' & $nom['dataconfermalettura'] != '') & $nom['ricevuta'] == 1)
     {
@@ -135,9 +110,36 @@ while ($nom = mysqli_fetch_array($ris))
     print "</tr>";
 }
 
-print "</table>";
+print "</tbody></table></div>";
 
+import_datatables();
+?>
+
+<script>
+    $(document).ready(function() {
+        let table = new DataTable('#tabelladati', {
+            responsive: true,
+            pageLength: 10,
+            scrollX: true,
+            order: [[3, 'desc']],
+            'language': {
+                'search': 'Filtra risultati:',
+                'zeroRecords': 'Nessun dato da visualizzare',
+                'info': 'Mostrate righe da _START_ a _END_ di _TOTAL_',
+                'lengthMenu': 'Visualizzate _MENU_ righe',
+                'paginate': {
+                    'first': 'Prima',
+                    'previous': 'Prec.',
+                    'next': 'Succ.',
+                    'last': 'Ultima'
+                }
+            }
+        });
+    });
+</script>
+
+<?php
 
 mysqli_close($con);
-stampa_piede("");
+stampa_piede_new("");
 

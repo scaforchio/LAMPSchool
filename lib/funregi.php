@@ -457,7 +457,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 if ($numeropresenti > 1)
                     print "Gli alunni $elencopresenti non sono in classe per $motivo.<br>";
                 else
-                    print "L'alunno $elencopresenti non &egrave; in classe per $motivo.<br>";
+                    print "L'alunno/alunna $elencopresenti non &egrave; in classe per $motivo.<br>";
                 $elencopresenti = "";
             }
 
@@ -468,7 +468,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
         if ($numeropresenti > 1)
             print "Gli alunni $elencopresenti non sono in classe per $motivo.<br>";
         else
-            print "L'alunno $elencopresenti non &egrave; in classe per $motivo.<br>";
+            print "L'alunno/alunna $elencopresenti non &egrave; in classe per $motivo.<br>";
         $elencopresenti = "";
         // CREO LINK PER VISUALIZZAZIONE ALUNNI CHE RESTANO IN CLASSE
         if ($stampacollegamenti) {

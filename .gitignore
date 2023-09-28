@@ -14,3 +14,4 @@ project.xml
 /tests/installer-*.php
 unikey.txt
 .devmode
+node_modules
