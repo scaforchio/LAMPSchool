@@ -214,6 +214,8 @@ if ($rs1)
             if($cod != null && $cod != ""){
                 print("<input type='hidden' name='totp' value='true'>");
                 print"<center><input class='btn btn-sm btn-outline-secondary' type='submit' id='subnp' value='Giustifica TOTP' name='subnp' disabled></center>";
+            }else{
+                alert("Il codice TOTP non è stato ancora configurato: rivolgersi alla segreteria.", "", "danger");
             }
         } 
     } else {
