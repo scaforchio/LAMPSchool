@@ -147,7 +147,8 @@ function stampa_testata_new($funzione, $ct, $ns, $cs, $isProfileSelector = false
 
             <header class="p-3 border-bottom mb-3" id="lsheader">
                 <div class="d-flex justify-content-between align-items-center">
-                    <span><?php echo $funzione; ?></span>
+                    <span class="funzione"><?php echo $funzione; ?></span>
+                    <a href="../login/ele_ges.php" class="funzionemenu fsbig" sidebarjs-toggle><i class="bi bi-arrow-left"></i></a>
                     <div>
                         <div class="dropdown">
                             <a aria-expanded="false" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" href="#">
@@ -157,16 +158,16 @@ function stampa_testata_new($funzione, $ct, $ns, $cs, $isProfileSelector = false
                             <ul class="dropdown-menu text-small shadow">
 
                                 <li>
-                                    <a class="dropdown-item">
+                                    <h6 class="dropdown-item">
                                         <i class="bi bi-bank"></i>
                                         <?php echo $_SESSION['nome_scuola'] ?>
-                                    </a>
+                                    </h6>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item">
+                                    <h6 class="dropdown-item">
                                         <i class="bi bi-calendar-fill"></i>
                                         A.S. <?php echo $_SESSION['annoscol']."/".$_SESSION['annoscol']+1 ?>
-                                    </a>
+                                    </h6>
                                 </li>
 
                                 <?php if ($devmode) { ?>
@@ -366,16 +367,16 @@ function stampa_testata_ges_new($funzione, $ct, $ns, $cs, $isProfileSelector = f
                             <ul class="dropdown-menu text-small shadow">
 
                                 <li>
-                                    <a class="dropdown-item">
+                                    <h6 class="dropdown-item">
                                         <i class="bi bi-bank"></i>
                                         <?php echo $_SESSION['nome_scuola'] ?>
-                                    </a>
+                                    </h6>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item">
+                                    <h6 class="dropdown-item"> 
                                         <i class="bi bi-calendar-fill"></i>
                                         A.S. <?php echo $_SESSION['annoscol']."/".$_SESSION['annoscol']+1 ?>
-                                    </a>
+                                    </h6>
                                 </li>
 
                                 <?php if ($devmode) { ?>
@@ -670,5 +671,14 @@ function import_datatables(){ ?>
 
         if ($csrf) {
             csrfguard_start();
+        }
+    }
+
+    function alert($title, $sub = "", $severity = "secondary", $icon = "info-circle")
+    {
+        if ($sub == "") {
+            print("<div class='alert alert-$severity' role='alert'> <i class='bi bi-$icon' style='margin-right: 8px;'></i> $title </div>");
+        } else {
+            print("<div class='alert alert-$severity' role='alert'> <i class='bi bi-$icon' style='margin-right: 8px;'></i> <b>$title</b> <hr> <p class='mb-0'> $sub </p> </div>");
         }
     }

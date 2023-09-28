@@ -74,7 +74,7 @@ eseguiQuery($con, "UPDATE tbl_alunni SET totpgiustass = '$code' WHERE idalunno =
 ?>
 
 <center>
-    <b>Rigenerazione OTP Giustifica Assenze per alunno</b><br>
+    <b>Ai genitori dell'alunno</b><br>
     <table border="1" style="margin-top: 8px">
         <thead>
             <tr class="prima">
@@ -92,8 +92,10 @@ eseguiQuery($con, "UPDATE tbl_alunni SET totpgiustass = '$code' WHERE idalunno =
         </tbody>
     </table><br>
 
-    Il codice appena generato pu&ograve; essere visualizzato una sola volta! <br>
-    Scansionare con un telefono cellulare munito di Authenticator TOTP <br>
+    Il seguente codice, una volta scansionato, permette l'utilizzo da parte dei genitori della funzione "Giustifica Assenze Online".
+    <br><br>
+    Per utilizzare il codice è richiesta l'applicazione "Google Authenticator" scaricabile <br> dal Play Store (Android) o dall'App Store (iOS),<br><br>
+    Il codice può essere scansionato su più dispositivi per permettere a entrambi i genitori <br> di utilizzare la funzione, tuttavia si raccomanda di strappare il foglio dopo la scansione per motivi di sicurezza.<br>
 
     <img src="../lib/genqr.php?code=<?php echo $code ?>" alt="QR_code" width="200" height="200" > <br>
 
@@ -102,9 +104,18 @@ eseguiQuery($con, "UPDATE tbl_alunni SET totpgiustass = '$code' WHERE idalunno =
         <code><?php echo  $code;?></code>
     </div> <br><br>
 
-    <button onclick="window.close()" class="button">Chiudi</button>
+    <button id='btn1' onclick="window.close()" class="button">Chiudi</button>
+    <button id='btn2' onclick="stampa()" class="button">Stampa</button>
 
 </center>
+
+<script>
+    function stampa() {
+        document.getElementById("btn1").style.display = "none";
+        document.getElementById("btn2").style.display = "none";
+        window.print();
+    }
+</script>
 
 <?php
 

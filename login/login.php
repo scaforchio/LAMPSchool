@@ -117,7 +117,7 @@ if (strlen($messaggio) > 0) {
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title" style="margin-bottom: 15px">
-                        Accedi al registro
+                        Benvenuto, Accedi
                     </h5>
 
                     <div class="card">

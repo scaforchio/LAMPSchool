@@ -3,6 +3,7 @@
 require_once '../lib/req_apertura_sessione.php';
 /*
   Copyright (C) 2015 Pietro Tamburrano
+  Copyright (C) 2013 Pietro Tamburrano, Vittorio Lo Mele
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
@@ -32,8 +33,8 @@ if ($tipoutente == "")
 
 $titolo = "Cambiamento password";
 $script = "";
-stampa_head($titolo, "", $script, "TDSPAML");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "TDSPAML");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 /* Programma per il cambiamento password. */
 
@@ -75,20 +76,20 @@ $sql = "SELECT * FROM tbl_utenti WHERE userid='" . $ute . "' AND  password=md5('
 $result = eseguiQuery($con, $sql);
 if (mysqli_num_rows($result) <= 0)
 {
-    print "<center>Nome utente e password non risultano presenti: verificare.</center>";
+    alert("Nome utente e password non risultano presenti: verificare.", "", "warning", "question-octagon");
 } else
 {
     $rec = mysqli_fetch_array($result);
     $passwordprecedenti = $rec['passprecedenti'];
     if ($npass != $rnpass | $npass == $pwd)
     {
-        print "<center>Le password inserite sono diverse tra loro o coincidono con la vecchia password!</center>";
+        alert("La password inserita è diversa dalla conferma o coincide con la vecchia password!", "", "danger", "exclamation-octagon");
     } else
     {
         $penultimapassword = substr($passwordprecedenti, strlen($passwordprecedenti) - 33, 32);
         if ($penultimapassword == md5(md5($npass))) // CONTROLLO CHE NON SIA STATA USATA DI RECENTE
         {
-            print "<center>Le password inserita è stata usata di recente!<center>";
+            alert("La password inserita è stata usata di recente!", "", "danger", "exclamation-octagon");
         } else
         {
             $query = "UPDATE tbl_utenti SET password = '" . md5(md5($npass)) . "',passprecedenti=concat(passprecedenti,md5('" . $pwd . "'),'|') WHERE userid='" . $ute . "'";
@@ -101,24 +102,24 @@ if (mysqli_num_rows($result) <= 0)
                 {
                     $idmoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $ute);
                     cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idmoodle, $ute, $npass);
-                    print "<center>Password cambiata correttamente anche per l'elearning per utente $ute ($idmoodle).</center>";
+                    alert("Password cambiata correttamente anche per l'elearning per utente $ute ($idmoodle)", "", "success");
                 } else if (($tipoutente == 'D' | $tipoutente == 'S') & $_SESSION['tokenservizimoodle'] != '')
                 {
                     $ndocente = $idutente - 1000000000;
                     $ute = "doc" . $_SESSION['suffisso'] . $ndocente;
                     $idmoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $ute);
                     cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idmoodle, $ute, $npass);
-                    print "<center>Password cambiata correttamente anche per l'elearning per utente $ute ($idmoodle).</center>";
+                    alert("Password cambiata correttamente anche per l'elearning per utente $ute ($idmoodle)", "", "success");
                 } else
-                    print "<center>Password cambiata correttamente.</center>";
+                alert("Password cambiata correttamente", "", "success");
             }
             else
             {
-                print "<center>Errore nel database! Contattare il sistemista.</center>";
+                alert("Errore nel database, contattare il sistemista", "", "danger", "exclamation-octagon");
             }
         }
     }
 }
 mysqli_close($con);
-stampa_piede("");
+stampa_piede_new("");
 

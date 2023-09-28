@@ -4,6 +4,7 @@ require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
+  Copyright (C) 2023 Pietro Tamburrano, Vittorio Lo Mele
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
@@ -30,18 +31,15 @@ if ($tipoutente == "")
     die;
 }
 $titolo = "Riepilogo argomenti svolti (per materia)";
-$script = "<script type='text/javascript'>
-         <!--
-               var stile = 'top=10, left=10, width=1024, height=400, status=no, menubar=no, toolbar=no, scrollbars=yes';
-               function Popup(apri) 
-               {
-                  window.open(apri, '', stile);
-               }
-         //-->
-         </script>";
-
-stampa_head($titolo, "", $script, "LT");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+$script = "
+<style>
+.lscontainer {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+</style>";
+stampa_head_new($titolo, "", $script, "LT");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
@@ -52,11 +50,7 @@ if ($id_ut_doc > 2100000000)
     $id_ut_doc -= 2100000000;
 $idmateria = stringa_html('idmateria');
 
-print ('
-   <form method="post" action="riepargomgen.php" name="argomenti">
-   
-   <p align="center">
-   <table align="center"><tr><td align="center">');
+print ('<form method="post" action="riepargomgen.php" class="container-form-pre" name="argomenti">');
 //
 //  Riempimento combobox delle cattedre
 //
@@ -70,7 +64,7 @@ $query = "SELECT DISTINCT tbl_materie.idmateria as idmateria, tbl_alunni.idclass
         ORDER BY denominazione";
 
 // print inspref($query);   
-print "<select name='idmateria' ONCHANGE='argomenti.submit()'><option value=''>&nbsp;</option>";
+print "<select style='width:400px;' class='form-select form-select-sm mb-2' name='idmateria' ONCHANGE='argomenti.submit()'><option value=''>Seleziona una materia...</option>";
 
 $ris = eseguiQuery($con, $query);
 
@@ -88,23 +82,7 @@ while ($nom = mysqli_fetch_array($ris))
     print ($nom["denominazione"]);
 }
 
-
-print("</select></td></tr>");
-
-
-print("</table></form>");
-
-//  if ($mese=="")
-//     $m=0;
-//  else
-//     $m=$mese; 
-//  if ($anno=="") 
-//     $a=0;
-//  else
-//     $a=$anno; 
-// print($nome." -   ". $g.$m.$a.$giornosettimana);
-//   $idclasse=$nome;
-//  $classe="";
+print("</select></form>");
 
 if ($idmateria != "")
 {
@@ -116,11 +94,6 @@ if ($idmateria != "")
         $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
     }
 
-    echo '<center><h3>Argomenti ed attivit&agrave; svolte nella classe ' . $classe . '</h3></center>';
-
-//
-//   ESTRAZIONE DATI DELLE LEZIONI
-//
     if ($idclasse != "")
     {
         $query = "select * from tbl_lezioni where idclasse='$idclasse' and idmateria='$idmateria' and (argomenti<>'' or attivita<>'') order by datalezione";
@@ -129,31 +102,38 @@ if ($idmateria != "")
 
         if (mysqli_num_rows($rislez) == 0)
         {
-            print "<center><br><b>Nessun argomento registrato!</b><br></center>";
+            alert("Nessun argomento registrato");
         } else
         {
-            print "
-                    <table border=2 align='center'>
-                        <tr class='prima'>
-                            <td width=10%>Data</td>
-                            <td width=45%>Argomenti</td>
-                            <td width=45%>Attivit&agrave;</td>";
-
+        ?>
+            <center class="mb-2"><b>Attività svolte</b></center>
+            <div style='margin-left:5px; margin-right:5px; margin-bottom: 10px;'>
+            <table class='table table-striped table-bordered' id='tabelladati' width='100%' >
+            <thead>
+                <tr>
+                    <td>Data</td>
+                    <td class='not-mobile'>Argomenti</td>
+                    <td class='max-mobile'>Argomenti</td>
+                    <td class='not-mobile'>Attivit&agrave;</td>
+                </tr>
+            </thead>
+            <tbody>
+        <?php
             while ($reclez = mysqli_fetch_array($rislez))
             {
                 if ($reclez['idlezionegruppo']==NULL || $reclez['idlezionegruppo']==0 )
-                    print "<tr><td>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
+                    print "<tr><td data-sort='" . data_dt($reclez['datalezione'])  . "'>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "</td><td>" . shorten($reclez['argomenti'], 15) . "</td><td>" . $reclez['attivita'] . "</td></tr>";
                 else
                 {
                     // VERIFICO SE ALUNNO APPARTIENE A GRUPPO
                     if (verifica_alunno_lezionegruppo($id_ut_doc, $reclez['idlezionegruppo'], $con))
-                         print "<tr><td>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";   
+                         print "<tr><td data-sort='" . data_dt($reclez['datalezione'])  . "'>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "</td><td>" . shorten($reclez['argomenti'], 15) . "</td><td>" . $reclez['attivita'] . "</td></tr>";   
                 }
                 
             }
 
             
-            print "</table>";
+            print "</tbody></table></div>";
 
             if (alunno_certificato($id_ut_doc, $con))
             {
@@ -163,22 +143,29 @@ if ($idmateria != "")
 
                 if (mysqli_num_rows($rislez) == 0)
                 {
-                    print "<center><br><b>Nessuna attività di sostegno registrata!</b><br></center>";
+                    alert("Nessuna attività di sostegno registrata!");
                 } else
                 {
-                    print "<center><br><b>Attività di sostegno</b><br><br></center>
-                    <table border=2 align='center'>
-                        <tr class='prima'>
-                            <td width=10%>Data</td>
-                            <td width=45%>Argomenti</td>
-                            <td width=45%>Attivit&agrave;</td>";
-
+                    print "<center><b>Attività di sostegno</b><br></center>";
+                    ?>
+            <div style='margin-left:5px; margin-right:5px; margin-bottom: 10px;'>
+            <table class='table table-striped table-bordered' id='tabelladati2' width='100%' >
+            <thead>
+                <tr>
+                    <td>Data</td>
+                    <td class='not-mobile'>Argomenti</td>
+                    <td class='max-mobile'>Argomenti</td>
+                    <td class='not-mobile'>Attivit&agrave;</td>
+                </tr>
+            </thead>
+            <tbody>
+        <?php
                     while ($reclez = mysqli_fetch_array($rislez))
                     {
-                        print "<tr><td>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "&nbsp;</td><td>" . $reclez['attivita'] . "&nbsp;</td></tr>";
+                        print "<tr><td data-sort='" . data_dt($reclez['datalezione'])  . "'>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "</td><td>" . shorten($reclez['argomenti'], 15) . "</td><td>" . $reclez['attivita'] . "</td><td>" . $reclez['attivita'] . "</td></tr>";
                     }
 
-                    print "</table>";
+                    print "</tbody></table></div>";
                 }
             }
         }
@@ -186,6 +173,56 @@ if ($idmateria != "")
     }
 }
 
+import_datatables();
+
+?>
+
+<script>
+    $(document).ready(function() {
+        let table = new DataTable('#tabelladati', {
+            responsive: true,
+            pageLength: 10,
+            scrollX: true,
+            order: [[0, 'desc']],
+            'language': {
+                'search': 'Filtra risultati:',
+                'zeroRecords': 'Nessun dato da visualizzare',
+                'info': 'Mostrate righe da _START_ a _END_ di _TOTAL_',
+                'lengthMenu': 'Visualizzate _MENU_ righe',
+                'paginate': {
+                    'first': 'Prima',
+                    'previous': 'Prec.',
+                    'next': 'Succ.',
+                    'last': 'Ultima'
+                }
+            }
+        });
+    });
+
+    $(document).ready(function() {
+        let table = new DataTable('#tabelladati2', {
+            responsive: true,
+            pageLength: 10,
+            scrollX: true,
+            order: [[0, 'desc']],
+            'language': {
+                'search': 'Filtra risultati:',
+                'zeroRecords': 'Nessun dato da visualizzare',
+                'info': 'Mostrate righe da _START_ a _END_ di _TOTAL_',
+                'lengthMenu': 'Visualizzate _MENU_ righe',
+                'paginate': {
+                    'first': 'Prima',
+                    'previous': 'Prec.',
+                    'next': 'Succ.',
+                    'last': 'Ultima'
+                }
+            }
+        });
+    });
+</script>
+
+<?php
+
 mysqli_close($con);
-stampa_piede("");
+stampa_piede_new("");
 

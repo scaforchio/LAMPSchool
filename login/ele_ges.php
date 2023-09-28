@@ -159,7 +159,7 @@ if ($cambiamentopassword) {
 
 <body>
     <div class="flex-shrink-0 sidebar-fix" sidebarjs>
-        <ul class="list-unstyled p-3 w-400">
+        <ul class="list-unstyled p-3 w-400 scrolly">
             <span class="funzionemenu">
             MENU PRINCIPALE <br> <?php echo $ult; ?>
         <hr>
@@ -184,65 +184,65 @@ if ($tipoutente == 'E') {
 
 if ($tipoutente == 'D') {
 
-    menu_title_begin('REGISTRO DI CLASSE');
-    menu_item('../regclasse/riepgiorno.php', 'VISUALIZZA GIORNATA');
-    menu_item('../regclasse/riepsett.php', 'VISUALIZZA SETTIMANA');
-    menu_item('../regclasse/annotaz.php', 'ANNOTAZIONI SU REGISTRO');
-    menu_item('../regclasse/ricannotaz.php', 'RICERCA ANNOTAZIONI');
-    menu_item('../regclasse/CRUDannotazioni.php?mod=1&can=1&ins=1', 'GESTIONE ANNOTAZIONI');
-    menu_item('../classi/CRUDevacuazione.php', 'NOMINE ALUNNI PER EVACUAZIONI');
-    menu_item('../evacuazione/evacuazione.php', 'MODULO EVACUAZIONE');
+    menu_title_begin('REGISTRO DI CLASSE', $icon="journal-bookmark-fill");
+    menu_item('../regclasse/riepgiorno.php', 'Visualizza Giorntata', $icon="calendar-fill");
+    menu_item('../regclasse/riepsett.php', 'Visualizza Settimana', $icon="calendar-week");
+    menu_item('../regclasse/annotaz.php', 'Annotazioni su Registro', $icon="chat-quote-fill");
+    menu_item('../regclasse/ricannotaz.php', 'Ricerca Annotazioni', $icon="search");
+    menu_item('../regclasse/CRUDannotazioni.php?mod=1&can=1&ins=1', 'Gestisci Annotazioni', $icon="chat-left-quote-fill");
+    menu_item('../classi/CRUDevacuazione.php', 'Nomine ALUNNI per Evacuazione', $icon="building-fill-down");
+    menu_item('../evacuazione/evacuazione.php', 'Gestione Modulo Evacuazione', $icon="building-fill-exclamation");
     if ($_SESSION['livello_scuola'] == '4') {
-        menu_item("../assemblee/assdoc.php", 'ASSEMBLEE DI CLASSE');
+        menu_item("../assemblee/assdoc.php", 'Assemblee di Classe', $icon="person-raised-hand");
     }
     menu_title_end();
-    menu_title_begin('ASSENZE');
-    menu_item('../assenze/sitassmens.php', 'SITUAZIONE MENSILE');
-    menu_item('../assenze/visgiustifiche.php', 'ELIMINA GIUSTIFICHE');
+    menu_title_begin('ASSENZE', $icon="journal-x");
+    menu_item('../assenze/sitassmens.php', 'Situazione Mensile', $icon="calendar-month");
+    menu_item('../assenze/visgiustifiche.php', 'Elimina Giustifiche', $icon="trash-fill");
     menu_title_end();
-    menu_title_begin('LEZIONI');
-    menu_item('../lezioni/sitleztota.php', 'TABELLONE RIEPILOGO');
+    menu_title_begin('LEZIONI', $icon="view-list");
+    menu_item('../lezioni/sitleztota.php', 'Tabellone di Riepilogo', $icon="clipboard");
 
     if ($norm)
-        menu_item('../lezioni/riepargom.php', 'RIEPILOGO ARGOMENTI');
-    menu_item('../lezioni/lezsupp.php', 'INSERIMENTO SUPPLENZA');
+        menu_item('../lezioni/riepargom.php', 'Riepilogo Argomenti Svolti', $icon="clock-history");
+    menu_item('../lezioni/lezsupp.php', 'Inserisci Supplenza', $icon="file-plus");
     if ($norm)
-        menu_item('../lezionigruppo/lezgru.php', 'LEZIONI A GRUPPI DI ALUNNI');
+        menu_item('../lezionigruppo/lezgru.php', 'Lezioni a Gruppi di Alunni', $icon="people-fill");
 
-    menu_item('../contr/verifsovrappdoc.php', 'CONTROLLO PROPRIE LEZIONI');
-    menu_item("../lezioni/vis_lez.php?iddocente=$idutente", "CORREZIONE PROPRIE LEZIONI");
-    menu_item("../lezionigruppo/vis_lez_gru.php?iddocente=$idutente", "CORREZIONE PROPRIE LEZIONI A GRUPPI");
+    menu_item('../contr/verifsovrappdoc.php', 'Controlla sovrapposizione lezioni', $icon="card-checklist");
+    menu_item("../lezioni/vis_lez.php?iddocente=$idutente", "Correzzioni proprie lezioni", $icon="pencil-square");
+    menu_item("../lezionigruppo/vis_lez_gru.php?iddocente=$idutente", "Correzioni proprie lezioni a gruppi", $icon="person-fill-check");
     if ($norm)
-        menu_item('../lezioni/riepargomcert.php?modo=norm', 'RIEPILOGO ARGOMENTI SOSTEGNO');
+        menu_item('../lezioni/riepargomcert.php?modo=norm', 'Riepilogo Argomenti Sostegno', $icon="arrow-clockwise");
     menu_title_end();
-    menu_title_begin('NOTE DISCIPLINARI');
-    menu_item('../note/notecl.php', 'NOTE DI CLASSE');
-    menu_item('../note/ricnotecl.php', 'RICERCA NOTE DI CLASSE');
-    menu_item('../note/noteindmul.php', 'NOTE INDIVIDUALI');
-    menu_item('../note/ricnoteind.php', 'RICERCA NOTE INDIVIDUALI');
+    menu_title_begin('NOTE DISCIPLINARI', $icon="hand-thumbs-down-fill");
+    menu_item('../note/notecl.php', 'Inserisci Note di Classe', $icon="people");
+    menu_item('../note/ricnotecl.php', 'Ricerca Note di Classe', $icon="search-heart-fill");
+    menu_item('../note/noteindmul.php', 'Inserisci Note Individuali', $icon="person-fill-exclamation");
+    menu_item('../note/ricnoteind.php', 'Ricerca Note Individuali', $icon="search-heart");
 
     menu_title_end();
-    menu_title_begin('OSSERVAZIONI E DIARIO DI CLASSE');
+    menu_title_begin('OSSERVAZIONI E DIARIO DI CLASSE', $icon="journal-medical");
 
-    menu_item('../valutazioni/osssist.php', 'OSSERVAZIONI SISTEMATICHE');
-    menu_item('../valutazioni/ricosssist.php', 'RICERCA OSSERV. SIST.');
-    menu_item('../valutazioni/stampaosssist.php', 'STAMPA OSSERV. SIST.');
-    menu_item('../valutazioni/diariocl.php', 'DIARIO DI CLASSE');
-    menu_item('../valutazioni/ricdiariocl.php', 'RICERCA SU DIARIO DI CLASSE');
-    menu_item('../valutazioni/stampadiariocl.php', 'STAMPA DIARIO DI CLASSE');
+    menu_item('../valutazioni/osssist.php', 'Inserisci Osservazioni Sistematiche', $icon="patch-exclamation-fill");
+    menu_item('../valutazioni/ricosssist.php', 'Ricerca Osservaz. Sistematiche', $icon="search");
+    menu_item('../valutazioni/stampaosssist.php', 'Stampa Osservaz. Sistematice', $icon="printer-fill");
+    menu_item('../valutazioni/diariocl.php', 'Diario di Classe', $icon="passport");
+    menu_item('../valutazioni/ricdiariocl.php', 'Ricerca su Diario di Classe', $icon="search");
+    menu_item('../valutazioni/stampadiariocl.php', 'Stampa Diario di Classe', $icon="printer-fill");
     if ($sost) {
-        menu_item('../valutazioni/osssistcert.php', 'OSSERVAZIONI SISTEMATICHE AL. CERT.');
-        menu_item('../valutazioni/ricosssistcert.php', 'RICERCA OSSERV. SIST. AL. CERT.');
-        menu_item('../valutazioni/stampaosssistcert.php', 'STAMPA OSSERV. SIST. AL. CERT.');
+        menu_item('../valutazioni/osssistcert.php', 'Osservaz. Sistematiche Alunni Certificati', $icon="patch-exclamation-fill");
+        menu_item('../valutazioni/ricosssistcert.php', 'Ricerca Osservaz. Sistematiche Al. Cert.', $icon="search");
+        menu_item('../valutazioni/stampaosssistcert.php', 'Stampa Osservaz. Sistematiche Al. Cert.', $icon="printer-fill");
     }
     menu_title_end();
-    menu_title_begin('VOTI');
-    menu_item('../valutazioni/prospettovoti.php', 'PROSPETTO VOTI');
-    menu_item('../valutazioni/proposte.php', 'MEDIE E PROPOSTE DI VOTO');
-    menu_item('../valutazionecomportamento/valcomp.php', 'VOTO COMPORTAMENTO');
-    menu_item('../valutazionecomportamento/sitvalcompalu.php', 'SITUAZIONE VOTI COMPORTAMENTO');
-    menu_item('../obiettivi/obproposteint.php', 'PROPOSTE VALUTAZIONI INTERMEDIE PER ALUNNI');
-    menu_item('../obiettivi/obproposte.php', 'PROPOSTE VALUTAZIONI FINALI PER ALUNNI');
+    menu_title_begin('VOTI', $icon="list-ol");
+    menu_item('../valutazioni/prospettovoti.php', 'Prospetto Voti Classe', $icon="card-list");
+    menu_item('../valutazioni/proposte.php', 'Medie e Proposte Voto', $icon="question-circle");
+    menu_item('../valutazionecomportamento/valcomp.php', 'Voto Comportamento', $icon="emoji-angry");
+    menu_item('../valutazionecomportamento/sitvalcompalu.php', 'Situazione Voti Comportamento', $icon="clock-history");
+    menu_item('../obiettivi/obproposteint.php', 'Proposte Valutazioni Intermedie per Alunni', $icon="check");
+    menu_item('../obiettivi/obproposte.php', 'Proposte Valutazioni Finali per Alunni', $icon="check-all");
 
     menu_title_end();
     if ($_SESSION['livello_scuola'] != 4) {
@@ -254,22 +254,22 @@ if ($tipoutente == 'D') {
     }
 
     if (estrai_docente_coordinatore($idutente, $con)) {
-        menu_title_begin('FUNZIONI COORDINATORE');
+        menu_title_begin('FUNZIONI COORDINATORE', $icon="person-lines-fill");
 
-        menu_item('../valutazioni/riepvoticlasse.php', 'SITUAZIONE VOTI MEDI PER CLASSE');
-        menu_item('../valutazioni/visvalpre.php', 'SITUAZIONE ALUNNO');
-        menu_item('../note/stampanote.php', 'STAMPA NOTE PER CLASSE');
-        menu_item('../assenze/sitassmens.php', 'SITUAZIONE MENSILE ASSENZE');
-        menu_item('../assenze/sitasstota.php', 'SITUAZIONE TOTALE ASSENZE');
-        menu_item('../assenze/sitassprob.php', 'SITUAZIONI PROBLEMATICHE ASSENZE');
-        menu_item('../assenze/sitassmate.php', 'SITUAZIONI ASSENZE PER MATERIA');
-        menu_item('../assenze/deroghe.php', 'DEROGHE ASSENZE');
-        menu_item('../alunni/CRUD_autorizzazioni.php?soloclasse=yes', 'Gestione autorizzazioni ad uscita anticipata con classe');
-        menu_item('../assenze/visderoghe.php', 'SITUAZIONE DEROGHE ASSENZE');
-        menu_item('../scrutini/riepvoti.php', 'TABELLONE SCRUTINI INTERMEDI');
-        menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI');
+        menu_item('../valutazioni/riepvoticlasse.php', 'SITUAZIONE VOTI MEDI PER CLASSE', $icon="clipboard-check-fill");
+        menu_item('../valutazioni/visvalpre.php', 'SITUAZIONE ALUNNO', $icon="person-bounding-box");
+        menu_item('../note/stampanote.php', 'STAMPA NOTE PER CLASSE', $icon="printer-fill");
+        menu_item('../assenze/sitassmens.php', 'SITUAZIONE MENSILE ASSENZE', $icon="calendar-month");
+        menu_item('../assenze/sitasstota.php', 'SITUAZIONE TOTALE ASSENZE', $icon="calendar-fill");
+        menu_item('../assenze/sitassprob.php', 'SITUAZIONI PROBLEMATICHE ASSENZE', $icon="exclamation-diamond");
+        menu_item('../assenze/sitassmate.php', 'SITUAZIONI ASSENZE PER MATERIA', $icon="bookmark-x-fill");
+        menu_item('../assenze/deroghe.php', 'DEROGHE ASSENZE', $icon="question-octagon-fill");
+        menu_item('../alunni/CRUD_autorizzazioni.php?soloclasse=yes', 'Gestione autorizzazioni uscita anticipata con classe', $icon="box-arrow-left");
+        menu_item('../assenze/visderoghe.php', 'SITUAZIONE DEROGHE ASSENZE', $icon="journal-text");
+        menu_item('../scrutini/riepvoti.php', 'TABELLONE SCRUTINI INTERMEDI', $icon="file-spreadsheet");
+        menu_item('../scrutini/riepvotifinali.php', 'TABELLONE SCRUTINI FINALI', $icon="table");
         if ($_SESSION['livello_scuola'] == '4') {
-            menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI');
+            menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'SCRUTINI INTEGRATIVI', $icon="node-plus");
         }
         if ($_SESSION['livello_scuola'] == '3' || $_SESSION['livello_scuola'] == '2') {
             menu_item('../consorientativo/cotabellone.php?tipoaccesso=coordinatore', 'CONSIGLI ORIENTATIVI');
@@ -1142,25 +1142,25 @@ if ($tipoutente == 'T' & $_SESSION['gensolocomunicazioni'] == 'no') {
         $idesterno = $val["idesterno"];
         $pwesterna = $val["pwesterna"];
         $telcel = $val["telcel"];
-        menu_title_begin("SITUAZIONE ALUNNO");
+        menu_title_begin("SITUAZIONE ALUNNO", $icon="person-video2");
         if ($_SESSION['votigenitori'] == "yes")
-            menu_item('../valutazioni/visvaltut.php', 'VOTI');
+            menu_item('../valutazioni/visvaltut.php', 'Voti', $icon="card-list");
         if ($_SESSION['notegenitori'] == "yes")
-            menu_item('../note/sitnotealu.php', 'NOTE');
+            menu_item('../note/sitnotealu.php', 'Note Disciplinari', $icon="hand-thumbs-down-fill");
         if ($_SESSION['assenzegenitori'] == "yes")
-            menu_item('../assenze/sitassalut.php', 'ASSENZE');
+            menu_item('../assenze/sitassalut.php', 'Assenze', $icon="journal-x");
         menu_title_end();
         if ($_SESSION['argomentigenitori'] == "yes") {
-            menu_title_begin("ARGOMENTI LEZIONI");
-            menu_item('../lezioni/riepargomgen.php', 'VISUALIZZA ARGOMENTI per materia');
-            menu_item('../lezioni/riepargomgendata.php', 'VISUALIZZA ARGOMENTI per data');
+            menu_title_begin("ARGOMENTI LEZIONI", $icon="calendar2-day");
+            menu_item('../lezioni/riepargomgen.php', 'Visualizza Argomenti per MATERIA', $icon="book-half");
+            menu_item('../lezioni/riepargomgendata.php', 'Visualizza Argomenti per DATA', $icon="calendar-date-fill");
             menu_title_end();
         }
         if ($_SESSION['visualizzapagelle'] == 'yes') {
-            menu_title_begin("PAGELLE");
+            menu_title_begin("PAGELLE", $icon="file-binary-fill");
             if ($_SESSION['numeroperiodi'] == 2) {
-                menu_item('../valutazioni/vispagper.php?periodo=Primo', 'Pagella primo quadrimestre');
-                menu_item('../valutazioni/vispagfin.php', 'PAGELLA FINALE');
+                menu_item('../valutazioni/vispagper.php?periodo=Primo', 'Pagella primo quadrimestre', $icon="file-ruled");
+                menu_item('../valutazioni/vispagfin.php', 'Pagella Finale', $icon="file-ruled-fill");
             } else {
                 if ($_SESSION['numeroperiodi'] == 3) {
                     menu_item('../valutazioni/vispagper.php?periodo=Primo', 'Pagella primo trimestre');
@@ -1170,27 +1170,27 @@ if ($tipoutente == 'T' & $_SESSION['gensolocomunicazioni'] == 'no') {
             }
             menu_title_end();
         }
-        menu_title_begin('COLLOQUI');
-        menu_item("../colloqui/visdisponibilita.php?idclasse=$idclasse", 'PRENOTAZIONE COLLOQUIO MATTUTINO');
+        menu_title_begin('PRENOT. COLLOQUI', $icon="people-fill");
+        menu_item("../colloqui/visdisponibilita.php?idclasse=$idclasse", 'Colloqui Mattutini', $icon="brightness-high");
 
-        menu_item("../colloqui/prenotazionecolloqui.php", 'PRENOTAZIONE COLLOQUI POMERIDIANI');
-        menu_item("../colloqui/riepilogocolloqui.php", 'RIEPILOGO APPUNTAMENTI COLLOQUI POMERIDIANI');
+        menu_item("../colloqui/prenotazionecolloqui.php", 'Colloqui Pomeridiani', $icon="moon-fill");
+        menu_item("../colloqui/riepilogocolloqui.php", 'Riepilogo Colloqui Pomeridiani', $icon="moon-stars-fill");
 
         menu_title_end();
-        menu_title_begin('COMUNICAZIONI SCUOLA-FAMIGLIA');
-        if ($_SESSION['utentesms'] != '' & $_SESSION['abilgiustonline'] == 'yes')
-            menu_item('../assenze/giustassonline.php', 'GIUSTIFICA ASSENZE');
-        menu_item('../circolari/viscircolari.php', 'LEGGI CIRCOLARI');
-        menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');
+        menu_title_begin('COMUNICAZIONI', $icon="newspaper");
+        if ($_SESSION['abilgiustonline'] == 'yes')
+            menu_item('../assenze/giustassonline.php', 'Giustifiche Online', $icon="check-square-fill");
+        menu_item('../circolari/viscircolari.php', 'Circolari', $icon="newspaper");
+        menu_item("../collegamenti/coll.php", 'Collegamenti WEB', $icon="link-45deg");
         if (!strpos($telcel, ",")) {
             if ($_SESSION['agg_dati_genitori'] == 'yes') {
-                menu_item("../alunni/mod_contatto.php", 'AGGIORNA DATI DI CONTATTO');
+                menu_item("../alunni/mod_contatto.php", 'Aggiorna Dati Contatto', $icon="person-lines-fill");
             }
         }
         menu_title_end();
         if (!$_SESSION['dischpwd']) {
-            menu_title_begin('PASSWORD');
-            menu_item('../password/cambpwd.php', 'CAMBIAMENTO PROPRIA PASSWORD');
+            menu_title_begin('PASSWORD', $icon="key-fill");
+            menu_item('../password/cambpwd.php', 'Cambia Password', $icon="key-fill");
             menu_title_end();
         }
     }
@@ -1244,33 +1244,33 @@ if ($tipoutente == 'L') {
         $pwesterna = $val["pwesterna"];
         $telcel = $val["telcel"];
 
-        menu_title_begin("SITUAZIONE ALUNNO");
+        menu_title_begin("SITUAZIONE ALUNNO", $icon="person-video2");
         if ($_SESSION['votigenitori'] == "yes")
-            menu_item('../valutazioni/visvaltut.php', 'VOTI');
-        menu_item('../note/sitnotealu.php', 'NOTE');
-        menu_item('../assenze/sitassalut.php', 'ASSENZE');
+            menu_item('../valutazioni/visvaltut.php', 'Voti', $icon="card-list");
+        menu_item('../note/sitnotealu.php', 'Note Disciplinari', $icon="hand-thumbs-down-fill");
+        menu_item('../assenze/sitassalut.php', 'Assenze', $icon="journal-x");
         menu_title_end();
 
-        // VERIFICO SE L'ALUNNO E' UN RAPPRESENTANTE DI CLASSE
+        // VERIFICO SE L'ALUNNO E' UN RAPPRESENTANTE DI CLASSE (VERIFICO IL LIVELLO DELLA SCUOLA)
         if ($_SESSION['livello_scuola'] == '4') {
-            menu_title_begin("ASSEMBLEE DI CLASSE");
-            menu_item('../assemblee/assricgen.php', 'ASSEMBLEE DI CLASSE');
+            menu_title_begin("ASSEMBLEE DI CLASSE", $icon="person-raised-hand");
+            menu_item('../assemblee/assricgen.php', 'Gestione Assemblee Classe', $icon="journal-album");
             menu_title_end();
         }
         if ($_SESSION['argomentigenitori'] == "yes") {
-            menu_title_begin("ARGOMENTI LEZIONI");
-            menu_item('../lezioni/riepargomgen.php', 'VISUALIZZA ARGOMENTI per materia');
-            menu_item('../lezioni/riepargomgendata.php', 'VISUALIZZA ARGOMENTI per data');
+            menu_title_begin("ARGOMENTI LEZIONI", $icon="calendar2-day");
+            menu_item('../lezioni/riepargomgen.php', 'Visualizza per MATERIA', $icon="book-half");
+            menu_item('../lezioni/riepargomgendata.php', 'Visualizza per DATA', $icon="calendar-date-fill");
             menu_title_end();
         }
-        menu_title_begin("LEZIONI A DISTANZA");
-        menu_item('../docenti/elencocollegamentiwebex.php', 'VISUALIZZA COLLEGAMENTI DOCENTI');
+        menu_title_begin("LEZIONI A DISTANZA", $icon="webcam");
+        menu_item('../docenti/elencocollegamentiwebex.php', 'Link Docenti', $icon="camera-video-fill");
         menu_title_end();
-        menu_title_begin('PASSWORD');
-        menu_item('../password/cambpwd.php', 'CAMBIAMENTO PROPRIA PASSWORD');
+        menu_title_begin('PASSWORD', $icon="key-fill");
+        menu_item('../password/cambpwd.php', 'Modifica Password', $icon="key-fill");
         menu_title_end();
-        menu_title_begin('COMUNICAZIONI');
-        menu_item('../circolari/viscircolari.php', 'LETTURA CIRCOLARI');
+        menu_title_begin('COMUNICAZIONI', $icon="newspaper");
+        menu_item('../circolari/viscircolari.php', 'Circolari', $icon="newspaper");
         menu_title_end();
     }
 }
@@ -1507,7 +1507,7 @@ print("</div>");
 stampa_piede_ges_new("");
 print("</div></main></body>");
 
-function menu_title_begin($label, $icon = "asterisk", $enable = TRUE)
+function menu_title_begin($label, $icon = "", $enable = TRUE)
 {
     if (!$enable) return;
     global $trig;
@@ -1517,12 +1517,14 @@ function menu_title_begin($label, $icon = "asterisk", $enable = TRUE)
 ?>
     <li class="mb-1">
         <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#l<?php echo $index; ?>-collapse" aria-expanded="false">
-        <i class="bi bi-<?php echo $icon; ?>" style="margin-right: 8px;"></i>        
-        <?php echo $label; ?>
+        <?php if($icon != "") { ?>
+            <i class="bi bi-<?php echo $icon; ?>" style="margin-right: 8px;"></i> 
+        <?php } ?>    
+        <b><?php echo $label; ?></b>
         </button>
         <div class="collapse" id="l<?php echo $index; ?>-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            <?php
+    <?php
 }
 
 function menu_title_end($enable = TRUE)
@@ -1532,28 +1534,33 @@ function menu_title_end($enable = TRUE)
     $enable and print "</ul> </div> </li>";
 }
 
-function menu_item($url, $label, $icon = "asterisk", $enable = TRUE)
+function menu_item($url, $label, $icon = "dot", $enable = TRUE)
 {
     global $trig;
     $trig = true;
     if (!$enable) return; ?>
     <li>
         <a href='#' class='link-body-emphasis mil d-inline-flex text-decoration-none rounded' onclick="post('<?php echo $url; ?>')">
-        <i class="bi bi-<?php echo $icon; ?>" style="margin-right: 8px;"></i>    
+        <?php if($icon != "") { ?>
+            <i class="bi bi-<?php echo $icon; ?>" style="margin-right: 8px;"></i> 
+        <?php } ?>
         <?php echo $label; ?></a>
     </li>
 <?php
 }
 
 // apre in nuova pagina
-function menu_item_new_page($url, $label, $icon = "asterisk", $enable = TRUE)
+function menu_item_new_page($url, $label, $icon = "dot", $enable = TRUE)
 {
     global $trig;
     $trig = true;
     if (!$enable) return;
 ?>
     <li><a href='#' class='mil link-body-emphasis d-inline-flex text-decoration-none rounded' onclick="postnp('<?php echo $url; ?>')">
-    <i class="bi bi-<?php echo $icon; ?>" style="margin-right: 8px;"></i> <?php echo $label; ?></a></li>
+    <?php if($icon != "") { ?>
+        <i class="bi bi-<?php echo $icon; ?>" style="margin-right: 8px;"></i> 
+    <?php } ?>
+    <?php echo $label; ?></a></li>
 <?php
 }
 
@@ -1562,15 +1569,6 @@ function menu_separator($titolo)
     global $trig; //per il momento disabilitato
     if ($trig) {
         //print("<li class='border-top my-3'></li>");
-    }
-}
-
-function alert($title, $sub = "", $severity = "secondary", $icon = "info-circle")
-{
-    if ($sub == "") {
-        print("<div class='alert alert-$severity' role='alert'> <i class='bi bi-$icon' style='margin-right: 8px;'></i> $title </div>");
-    } else {
-        print("<div class='alert alert-$severity' role='alert'> <i class='bi bi-$icon' style='margin-right: 8px;'></i> <b>$title</b> <hr> <p class='mb-0'> $sub </p> </div>");
     }
 }
 

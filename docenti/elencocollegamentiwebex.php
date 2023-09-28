@@ -4,6 +4,7 @@ require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
+  Copyright (C) 2023 Pietro Tamburrano, Vittorio Lo Mele
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
@@ -21,7 +22,6 @@ require_once '../lib/req_apertura_sessione.php';
 
 @require_once("../php-ini" . $_SESSION['suffisso'] . ".php");
 @require_once("../lib/funzioni.php");
-require_once("../lib/fpdf/fpdf.php");
 
 // istruzioni per tornare alla pagina di login se non c'� una sessione valida
 
@@ -35,12 +35,16 @@ if ($tipoutente == "")
     die;
 }
 
-
-
 $titolo = "Collegamenti videolezioni docenti";
-$script = "";
-stampa_head($titolo, "", $script, "L");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+$script = "
+<style>
+.lscontainer {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+</style>";
+stampa_head_new($titolo, "", $script, "L");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
@@ -51,7 +55,7 @@ $idclasse = estrai_classe_alunno($idutentealunno-2100000000, $con);
 $nomeclasse = decodifica_classe($idclasse, $con);
 
 
-print "<br><br><b><center>Docenti classe $nomeclasse </b></center>" ;
+print "<b><center>Docenti classe $nomeclasse </b></center> <br>" ;
 
 
 $query = "select distinct cognome, nome,tbl_docenti.iddocente as iddoc, collegamentowebex from tbl_cattnosupp,tbl_docenti
@@ -65,8 +69,8 @@ $query = "select distinct cognome, nome,tbl_docenti.iddocente as iddoc, collegam
 $ris= eseguiQuery($con, $query);
 
 print "<center>";
-print "<table border=1>";
-print "<tr class='prima'><td>Docente</td><td>Coll. WebEx</td></tr>";
+print "<table class='table table-striped table-bordered'>";
+print "<tr><td>Docente</td><td>Coll. WebEx</td></tr>";
 while ($rec= mysqli_fetch_array($ris))
 {
     print "<tr>";
@@ -91,6 +95,6 @@ while ($rec= mysqli_fetch_array($ris))
 print "</table>";
 
 mysqli_close($con);
-stampa_piede("",false); 
+stampa_piede_new("",false); 
 
 
