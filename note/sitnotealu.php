@@ -42,8 +42,8 @@ if ($tipoutente == "")
 $titolo = "Situazione note alunno";
 $script = "";
 
-stampa_head($titolo, "", $script, "TDSPAML");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "TDSPAML");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $codalunno = $_SESSION['idstudente'];
 // $codclasse = stringa_html('classe');
@@ -61,18 +61,12 @@ $codclasse = $rec['idclasse'];
 $query = "select * from tbl_alunni,tbl_classi where tbl_alunni.idclasse=tbl_classi.idclasse and idalunno='$codalunno'";
 $ris = eseguiQuery($con, $query);
 
-echo '<table border=1 align="center" width="800"  >';
+echo '<table border=1 align="center" >';
 
 if ($val = mysqli_fetch_array($ris))
 {
-    echo ' 
-       <tr>
-          <td align=center><b> Alunno: ' . $val["cognome"] . ' ' . $val["nome"] . ' Classe ' . $val["anno"] . ' ' . $val["sezione"] . ' ' . $val["specializzazione"] . '</b></td>
-        </tr> </table><br>
-   ';
+    echo '<center> Alunno: <b>' . $val["cognome"] . ' ' . $val["nome"] . '</b> Classe <b>' . $val["anno"] . ' ' . $val["sezione"] . ' ' . $val["specializzazione"] . '</b></center><br>';
 }
-
-
 
 $query = "select tbl_notealunno.idnotaalunno, data, tbl_alunni.cognome as cognalunno, tbl_alunni.nome as nomealunno, tbl_alunni.datanascita as dataalunno, tbl_docenti.cognome as cogndocente, tbl_docenti.nome as nomedocente, tbl_alunni.datanascita, testo, provvedimenti 
             from tbl_noteindalu, tbl_notealunno,tbl_classi, tbl_alunni, tbl_docenti 
@@ -89,8 +83,8 @@ $c = mysqli_num_rows($ris);
 
 
 
-print "<table border=1 align=center width=800>";
-print "<tr class=prima><td colspan=4 align=center>Note e provvedimenti disciplinari individuali</td></tr>";
+print "<table class='table table-striped table-bordered' align=center width=800>";
+print "<tr class=prima><td colspan=4 align=center> <b> Note e provvedimenti disciplinari individuali </b> </td></tr>";
 if ($c == 0)
 {
     echo "<tr><td colspan=4 align=center>Nessuna nota da visualizzare!</td></tr>";
@@ -132,8 +126,8 @@ $ris = eseguiQuery($con, $query);
 $c = mysqli_num_rows($ris);
 
 
-print "<table border=1 align=center width=800>";
-print "<tr class=prima><td colspan=4 align=center>Note di classe</td></tr>";
+print "<table class='table table-striped table-bordered' align=center width=800>";
+print "<tr class=prima><td colspan=4 align=center> <b> Note di classe </b> </td></tr>";
 if ($c == 0)
 {
     echo "<tr><td colspan=4 align=center>Nessuna nota da visualizzare!</td></tr>";
@@ -163,7 +157,7 @@ if ($c == 0)
 print "</table> <br/> <br/>";
 
 mysqli_close($con);
-stampa_piede("");
+stampa_piede_new("");
 
 
 
