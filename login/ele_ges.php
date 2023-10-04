@@ -320,28 +320,28 @@ if ($tipoutente == 'D') {
     if ($sost) {
         menu_separator("SOSTEGNO");
 
-        menu_title_begin('LEZIONI');
+        menu_title_begin('LEZIONI SOSTEGNO', $icon="person-fill-check");
 
-        menu_item('../lezioni/lezcert.php', 'INSERIMENTO E MODIFICA SOST.');
-        menu_item('../lezioni/riepargomcert.php?modo=sost', 'RIEPILOGO ARGOMENTI SOSTEGNO');
-        menu_item("../lezioni/vis_lez_cert.php?iddocente=$idutente", "CORREZIONE PROPRIE LEZIONI");
+        menu_item('../lezioni/lezcert.php', 'Inserimento e Modifica Lezioni Sostegno', $icon="calendar-fill");
+        menu_item('../lezioni/riepargomcert.php?modo=sost', 'Riepilogo Argomenti Sostegno', $icon="calendar-range-fill");
+        menu_item("../lezioni/vis_lez_cert.php?iddocente=$idutente", "Correzioni Proprie Lezioni", $icon="pencil-square");
         menu_title_end();
-        menu_title_begin('VALUTAZIONE COMPETENZE');
-        menu_item('../valutazioni/valaluabilcono.php?modo=sost', 'VALUTAZIONI ALUNNI CERTIFICATI');
+        menu_title_begin('VALUTAZIONE COMPETENZE SOST.', $icon="person-fill-check");
+        menu_item('../valutazioni/valaluabilcono.php?modo=sost', 'Valutazioni Alunni Certificati', $icon="8-square-fill");
         if (!$norm)
-            menu_item('../valutazioni/sitvalalu.php', 'VISUALIZZA SITUAZIONE ALUNNO');
+            menu_item('../valutazioni/sitvalalu.php', 'Visualizza Situazione Alunno', $icon="person-badge");
 
         menu_title_end();
-        menu_title_begin('PEI');
-        menu_item('../progrcert/seletipoprogr.php', 'TIPO PROGR. ALUNNI');
-        menu_item('../progrcert/visprogralu.php', 'VISUALIZZA PROGRAMMI ALUNNI');
-        menu_item('../progrcert/compalu.php', 'COMPETENZE PEI');
-        menu_item('../progrcert/abcoalu.php', 'ABIL./CONO');
-        menu_item('../progrcert/modivoceprogalu.php', 'CORREGGI ABIL./CONO ALUNNO');
-        menu_item('../progrcert/modicompetenzaalu.php', 'CORREGGI COMPETENZA ALUNNO');
-        menu_item('../documenti/documenti.php?tipo=pei', 'ALLEGATI PEI');
-        menu_item('../pei/sele_stampa_pei.php?modo=sost', 'STAMPA PEI');
-        menu_item('../pei/scarica_doc_pei.php?modo=sost', 'SCARICA DOCUMENTI PEI');
+        menu_title_begin('PEI', $icon="person-fill-check");
+        menu_item('../progrcert/seletipoprogr.php', 'Tipo Programmazione Alunni Cert.', $icon="person-arms-up");
+        menu_item('../progrcert/visprogralu.php', 'Visualizza Programmi Alunni Cert.', $icon="eye");
+        menu_item('../progrcert/compalu.php', 'Competenze PEI', $icon="journal-check");
+        menu_item('../progrcert/abcoalu.php', 'Abilità/Conoscenze PEI', $icon="emoji-smile-fill");
+        menu_item('../progrcert/modivoceprogalu.php', 'Correggi Abil./Con. Alunno Cert.', $icon="pencil-square");
+        menu_item('../progrcert/modicompetenzaalu.php', 'Correggi Competenza Alunno Cert.', $icon="pencil");
+        menu_item('../documenti/documenti.php?tipo=pei', 'Allegati PEI', $icon="link-45deg");
+        menu_item('../pei/sele_stampa_pei.php?modo=sost', 'Stampa PEI', $icon="printer");
+        menu_item('../pei/scarica_doc_pei.php?modo=sost', 'Scarica Documenti PEI', $icon="cloud-download-fill");
         menu_title_end();
     }
     menu_separator("&nbsp;");
