@@ -75,15 +75,15 @@ $ris = mysqli_query($con, $query);
             <div class="mb-3">
                 <button class="btn btn-outline-secondary" onclick="serialHandler.init()">Connetti Seriale</button>
                 <button class="btn btn-outline-secondary" onclick="document.location.reload()">Reset connessione</button>
-                <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalLog">Visualizza Log PN532</button>
+                <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalLog">Visualizza Log</button>
                 <button class="btn btn-outline-secondary" onclick="readd()">Leggi dati carta</button> 
             </div>
         </div>
         <div class="col">
             <div class="alert alert-secondary mb-0" style="padding-top: 6px !important; padding-bottom:6px !important;">
                 <i class="bi bi-exclamation-triangle-fill" style="margin-right: 8px;"></i>
-                Prima di effettuare qualsiasi operazione di lettura o scrittura assicurati che il programmatore sia connesso, 
-                la carta sia appoggiata sul programmatore e rimuovila solo al termine delle operazioni.
+                Prima di effettuare qualsiasi operazione di lettura o scrittura assicurati che il programmatore sia connesso
+                e che la carta non sia già appoggiata.
             </div>
         </div>
     </div>
@@ -94,11 +94,11 @@ $ris = mysqli_query($con, $query);
             <input type="text" id="programmerState" class="form-control" disabled value="DISCONNESSO">
         </div>
         <div class="col">
-            <label for="outbound" class="h6">Richiesta PN532 (HEX):</label>
+            <label for="outbound" class="h6">Richiesta HEX:</label>
             <input type="text" id="outbound" class="form-control" disabled value="">
         </div>
         <div class="col">
-            <label for="inbound" class="h6">Risposta PN532 (HEX):</label>
+            <label for="inbound" class="h6">Risposta HEX:</label>
             <input type="text" id="inbound" class="form-control" disabled value="">
         </div>
     </div>
@@ -169,7 +169,7 @@ $ris = mysqli_query($con, $query);
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="labello">Log comunicazione con PN532</h1>
+        <h1 class="modal-title fs-5" id="labello">Log comunicazione</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -290,15 +290,49 @@ $ris = mysqli_query($con, $query);
             $("#nome").attr("value", nome);
             $("#cognome").attr("value", cognome);
             $("#datanascita").attr("value", datanascita);
-
             $("#errorMessage").html("");
+
+            let te = new TextEncoder();
+
+            serialHandler.write([0x02]) // start of transmission
+            serialHandler.write(te.encode("W")) // write command
+            serialHandler.write(te.encode(matricola))
+            if(matricola.length < 16){
+                for (let int = 0; int < 16 - matricola.length; int++) {
+                    serialHandler.write([0x30]) // spacer
+                }
+            }
+
+            serialHandler.write(te.encode(nome))
+            if(nome.length < 16){
+                for (let int = 0; int < 16 - nome.length; int++) {
+                    serialHandler.write([0x30]) // spacer
+                }
+            }
+
+            serialHandler.write(te.encode(cognome))
+            if(cognome.length < 16){
+                for (let int = 0; int < 16 - cognome.length; int++) {
+                    serialHandler.write([0x30]) // spacer
+                }
+            }
+
+            serialHandler.write(te.encode(datanascita))
+            if(datanascita.length < 16){
+                for (let int = 0; int < 16 - datanascita.length; int++) {
+                    serialHandler.write([0x30]) // spacer
+                }
+            }
+
+            serialHandler.write([0x02]) // end of transmission
+
         } else {
             $("#errorMessage").html("Impossibile scrivere con seriale disconnessa");
         }
     }
 
     function readd() {
-
+        
     }
 
     function pushLogRequest(requestArray) {
