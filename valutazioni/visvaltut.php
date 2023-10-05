@@ -39,9 +39,8 @@ if ($tipoutente == "")
 
 $titolo = "Visualizzazione voti alunno";
 $script = "";
-stampa_head($titolo, "", $script, "TL");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
-
+stampa_head_new($titolo, "", $script, "TL");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $idalunno = $_SESSION['idstudente'];
 $idclasse = "";
@@ -100,8 +99,23 @@ if ($val = mysqli_fetch_array($ris))
         2,
         PHP_ROUND_HALF_UP
     );
+    // Verifichiamo il valore della media e impostiamo il colore del testo a ROSSO/ARANCIO/VERDE o DEFAULT (nero) per Nessun Voto
+    if($mediacalcsg < 5 && $mediacalcsg > 0)
+    {
+        $mediatextcolor = "#eb4034";
+    }
+    elseif ($mediacalcsg >=5 && $mediacalcsg <6){
+        $mediatextcolor = "#ebac34";
+    }
+    elseif ($mediacalcsg >=6){
+        $mediatextcolor = "#05ac50";
+    }
+    else{
+        $mediatextcolor = "#000";
+    }
+    /*  */
     ?>
-    <h3> <center> MEDIA GLOBALE: <?php echo $mediacalcsg; ?> <center></h3>
+    <html> <body> <h3 style="color: <?php echo $mediatextcolor; ?>;"> <center> MEDIA GLOBALE: <?php echo $mediacalcsg; ?> <center></h3> </body> </html>
     <?php
     echo '<center>Le medie calcolate sono <b>aritmetiche</b> e potrebbero non<br>corrispondere al voto in pagella.</center><br>';
     $idclasse = $val['idclasse'];
@@ -122,7 +136,15 @@ $ris = eseguiQuery($con, $query);
 // print $query;
 if (mysqli_num_rows($ris) > 0)
 {
-    print ("<table border=1 align=center><tr><td>Data</td><td align=center>Tipo<br/>valutazione</td><td align=center>Voto</td><td>Giudizio</td></tr>");
+    print ("<div style='margin-left: 20px; margin-right: 20px; @media only screen and (max-width: 768px){margin-left: 0px; margin-right: 0px;}'>
+            <table border=1 align=center class='table table-striped table-bordered'> 
+            <thead style='font-weight: bold;'> <tr class='prima'> 
+                        <td data-priority='1' align=center>Data e Tipo Valutazione</td>  
+                        <td data-priority='2' align=center>Voto</td> 
+                        <td data-priority='3' class='not-mobile'>Giudizio</td> 
+            </tr> </thead><tbody>");
+    
+            //<td align=center>Tipo valutazione</td>
     $mat = "";
     while ($val = mysqli_fetch_array($ris))
     {
@@ -149,9 +171,12 @@ if (mysqli_num_rows($ris) > 0)
         if ($materia != $mat)
         {
             $mat = $materia;
-	    print("<tr style='border-left: 1px solid white; border-right: 1px solid white'>
-		    <td colspan=4 style='color: white; font-size: 16px;'>-</td></tr>");
-            print("<tr class=prima><td colspan=4 align=center>$materia</td></tr>");
+            $matupp = strtoupper($materia);
+            
+                // SEPARATORE
+	            //print("<tr style='border-left: 1px solid white; border-right: 1px solid white'>
+		        // <td colspan=4 style='color: white; font-size: 16px;'>-</td></tr>");
+            print("<tr class=prima><td colspan=4 align=center><b>$matupp</b></td></tr>");
             //facciamo l'avg() di tutti i voti per la determinata materia per il determinato alunno
             $idmateria = $val["idmateria"];
             $querymedia = "select avg(voto) as votomedio from tbl_valutazioniintermedie where idalunno=$idalunno and idmateria=$idmateria and voto<99";
@@ -240,8 +265,8 @@ if (mysqli_num_rows($ris) > 0)
                     <tbody>
                         <tr>
                             <td style="text-align: center; background-color: <?php echo $coloreglobale; ?>;">Media Globale: <b><?php echo $mediacalc; ?></b></td>
-                            <td style="text-align: center; background-color: <?php echo $coloreprimo; ?>;">Media 1˚ Quadrimestre: <b><?php echo $mc_primo; ?></b></td>
-                            <td style="text-align: center; background-color: <?php echo $coloresecondo; ?>;">Media 2˚ Quadrimestre: <b><?php echo $mc_secondo; ?></b></td>
+                            <td style="text-align: center; background-color: <?php echo $coloreprimo; ?>;">Media 1˚ Quadr.: <b><?php echo $mc_primo; ?></b></td>
+                            <td style="text-align: center; background-color: <?php echo $coloresecondo; ?>;">Media 2˚ Quadr.: <b><?php echo $mc_secondo; ?></b></td>
                         </tr>
                     </tbody>
                 </table>
@@ -265,25 +290,26 @@ if (mysqli_num_rows($ris) > 0)
                 </tr>
             <?php }
             print("<tr style='background: $colore; text-align: center; $bordo'>");
-            print("<td style='text-align: left;'>$data</td>");
-            print("<td style=\"text-align: center;\">$tipo</td>");
+            print("<td style='text-align: center;'>$data | <b>$tipo</b></td>");
+            // print("<td style=\"text-align: center;\">$tipo</td>");
             if ($val['voto'] < 5) // is_numeric($val['votoscritto']))
             {
                 // voto negativo stile rosso
-                $stilecasella = 'style="background: #eb4034; text-align: center;"';
+                $stilecasella = 'style="color: #eb4034; text-align: center; font-weight: bold;"';
             } else if ($val['voto'] >= 5 && $val['voto'] < 6) {
-                $stilecasella = 'style="background: #ebac34; text-align: center;"';
+                // voto tra 5 e 6 - arancio
+                $stilecasella = 'style="color: #ebac34; text-align: center; font-weight: bold;"';
             } else
             {
                 // voto valido quindi verde
                 if ($val['voto']!=99)
                 {
-                    $stilecasella = 'style="background: #05ac50; text-align: center;"'; 
+                    $stilecasella = 'style="color: #05ac50; text-align: center; font-weight: bold;"'; 
                 }      
                 else
                 {
                     //solo giudizio quindi grigio
-                    $stilecasella = 'style="background: #cfcfcf; text-align: center;"'; 
+                    $stilecasella = 'style="background: #cfcfcf; text-align: center; font-weight: bold;"'; 
                 }
             }
             print("<td $stilecasella>$voto</td>");
@@ -292,7 +318,7 @@ if (mysqli_num_rows($ris) > 0)
         }
         $ultima_data_in_secondo = $val['data'] > $_SESSION['fineprimo'];
     }
-    print ("</table><br/>");
+    print ("</tbody></table></div><br/>");
     // CALCOLO IL VOTO MEDIO DI COMPORTAMENTO
     if ($_SESSION['visvotocomp'] == 'yes')
     {
@@ -319,6 +345,5 @@ if (mysqli_num_rows($ris) > 0)
     print("<br/><big><big><center>Non ci sono voti registrati!</center><small><small><br/>");
 }
 
-
 mysqli_close($con);
-stampa_piede("");
+stampa_piede_new("");

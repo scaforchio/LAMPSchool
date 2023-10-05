@@ -173,7 +173,10 @@ if (strlen($messaggio) > 0) {
                             <?php if ($_SESSION["oidc_enabled"] == "yes") { ?> 
                                 <button class="btn btn-outline-secondary" type="button" onclick="document.location.href = 'oidclogin.php?suffisso=<?php echo $_SESSION['suffisso']; ?> '">Accedi con <?php echo $_SESSION['oidc_provider_name']; ?> </button>
                             <?php } ?> 
+                            <?php if ($_SESSION["pwdreset"] == "yes") { ?> 
                             <button class="btn btn-outline-secondary" type="button" onclick="document.location.href = 'richresetpwd.php?suffisso=<?php echo $_SESSION['suffisso']; ?> '">Password Dimenticata</button>
+                            <?php } ?> 
+                            <a class="btn btn-outline-secondary" href="<?php echo $_SESSION['sito_scuola']; ?>">Sito Scuola</a>
                             </div>
                         </div>
                     </div>

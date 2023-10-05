@@ -34,8 +34,8 @@ if ($tipoutente == "")
 
 $titolo = "Elenco parametri";
 $script = "";
-stampa_head($titolo, "", $script, "PMSD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "PMSD");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 //
@@ -66,8 +66,8 @@ if (!($ris = eseguiQuery($con, $query)))
     print "\nQuery fallita";
 } else
 {
-    print "<center><br><font color='red'>ATTENZIONE! Non modificare i parametri se non si è consapevoli delle conseguenze!!</font></center><br>	";
-    print "<CENTER><TABLE BORDER='1'>";
+    alert("ATTENZIONE! Non modificare i parametri se non si è consapevoli delle conseguenze!", "", "danger", "radioactive");
+    print "<CENTER><table class='table table-striped table-bordered'>";
     //print "<TR class='prima'><TD ALIGN='CENTER'><B>Parametro</B></TD><TD ALIGN='CENTER'><B>Significato</B></TD><TD ALIGN='CENTER'><B>Valore</B></TD><TD COLSPAN='2' ALIGN='CENTER'><B>Azioni</B></TD></TR>";
     print "<TR class='prima'><TD ALIGN='CENTER'><B>Gruppo</B></TD><TD ALIGN='CENTER'><B>Parametro</B></TD><TD ALIGN='CENTER'><B>Descrizione</B></TD><TD ALIGN='CENTER'><B>Valore</B></TD><TD COLSPAN='2' ALIGN='CENTER'><B>Azioni</B></TD></TR>";
     while ($dati = mysqli_fetch_array($ris))
@@ -84,7 +84,7 @@ if (!($ris = eseguiQuery($con, $query)))
 }
 
 
-stampa_piede("");
+stampa_piede_new("");
 mysqli_close($con);
 
 

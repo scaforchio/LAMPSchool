@@ -82,12 +82,12 @@ $strcondizione = " and " . $daticrud['condizione'];
 $query = "select " . $daticrud['campochiave'] . ", $strcampi from " . $daticrud['tabella'] . " " . $daticrud['aliastabella'] . " where true " . $strcondizione;
 // print $query;
 $ris = eseguiQuery($con, $query);
-if ($daticrud['abilitazioneinserimento'] == 1)
+if ($daticrud['abilitazioneinserimento'] == 1) {
 //print "<br><center><a href='CRUDmodifica.php?id=0'><b>INSERISCI</b></a></center><br><br>";
 ?> 
     <button style='margin-left:5px;' class="btn btn-outline-secondary mb-3" onclick="window.location.href = 'CRUDmodifica.php?id=0'">
     INSERISCI</button>
-<?php
+<?php }
 //print "<table id='tabelladati' class='table table-striped table-bordered' width='" . $daticrud['larghezzatabella'] . "'>";
 print "<div style='margin-left:5px; margin-right:5px;'><table id='tabelladati' class='table table-striped table-bordered'>";
 // Visualizzazione intestazioni

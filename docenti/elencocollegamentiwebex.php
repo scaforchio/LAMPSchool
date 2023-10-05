@@ -77,10 +77,10 @@ while ($rec= mysqli_fetch_array($ris))
     $iddocente=$rec['iddoc'];
     $query="select idmateria from tbl_cattnosupp where idclasse=$idclasse and iddocente=$iddocente";
     $ris2= eseguiQuery($con,$query);
-    print "<td>".$rec['cognome']." ".$rec['nome'];
+    print "<td> <b>".$rec['cognome']." ".$rec['nome'] ."</b>";
     while($rec2=mysqli_fetch_array($ris2))
     {       
-        print"<br><small><small>". decodifica_materia($rec2['idmateria'], $con)."<big><big>";
+        print"<p>". decodifica_materia($rec2['idmateria'], $con)."</p>";
     }
     print "</td>";
     print "<td align='center'>";

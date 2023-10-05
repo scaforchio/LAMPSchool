@@ -127,7 +127,7 @@ if ($suffisso != "*")
                                             <p class="lh-80 del-margin">
                                                 <span class="fs-5"><?php echo $scuole[$i]; ?></span>
                                                 <br />
-                                                <span class="fs-6 grey">A.S. <?php echo $anni[$i]; ?>/<?php echo $anni[$i] + 1; ?></span>
+                                                <span class="fs-6 grey">A.S. <?php echo $anni[$i]; ?> / <?php echo $anni[$i] + 1; ?></span>
                                             </p>
                                         </div>
 

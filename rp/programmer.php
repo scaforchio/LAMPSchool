@@ -30,7 +30,15 @@ if ($tipoutente == "") {
 }
 
 $titolo = "Programmazione Badge";
-stampa_head_new($titolo, "", "", "MS");
+$script = "
+<style>
+    .codescroll{
+        max-height: 500px;
+        overflow-y: scroll;
+    }
+</style>
+";
+stampa_head_new($titolo, "", $script, "MS");
 stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
@@ -60,10 +68,25 @@ $ris = mysqli_query($con, $query);
 ?>
 
 <div style="margin-left: 10px; margin-right:10px; margin-bottom: 10px;">
+
     <h5>Operazioni:</h5>
-    <button class="btn btn-outline-secondary" onclick="serialHandler.init()">Connetti Seriale</button>
-    <button class="btn btn-outline-secondary" onclick="document.location.reload()">Reset connessione</button>
-    <button class="btn btn-outline-secondary" onclick="readd()">Leggi dati carta</button> <br><br>
+    <div class="row">
+        <div class="col col-auto">
+            <div class="mb-3">
+                <button class="btn btn-outline-secondary" onclick="serialHandler.init()">Connetti Seriale</button>
+                <button class="btn btn-outline-secondary" onclick="document.location.reload()">Reset connessione</button>
+                <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalLog">Visualizza Log</button>
+                <button class="btn btn-outline-secondary" onclick="readd()">Leggi dati carta</button> 
+            </div>
+        </div>
+        <div class="col">
+            <div class="alert alert-secondary mb-0" style="padding-top: 6px !important; padding-bottom:6px !important;">
+                <i class="bi bi-exclamation-triangle-fill" style="margin-right: 8px;"></i>
+                Prima di effettuare qualsiasi operazione di lettura o scrittura assicurati che il programmatore sia connesso
+                e che la carta non sia già appoggiata.
+            </div>
+        </div>
+    </div>
 
     <div class="row mb-2">
         <div class="col">
@@ -71,12 +94,12 @@ $ris = mysqli_query($con, $query);
             <input type="text" id="programmerState" class="form-control" disabled value="DISCONNESSO">
         </div>
         <div class="col">
-            <label for="inbound" class="h6">Inbound:</label>
-            <input type="text" id="inbound" class="form-control" disabled value="">
+            <label for="outbound" class="h6">Richiesta HEX:</label>
+            <input type="text" id="outbound" class="form-control" disabled value="">
         </div>
         <div class="col">
-            <label for="outbound" class="h6">Outbound:</label>
-            <input type="text" id="outbound" class="form-control" disabled value="">
+            <label for="inbound" class="h6">Risposta HEX:</label>
+            <input type="text" id="inbound" class="form-control" disabled value="">
         </div>
     </div>
 
@@ -142,8 +165,24 @@ $ris = mysqli_query($con, $query);
     </table>
 </div>
 
+<div class="modal fade" id="modalLog" tabindex="-1" aria-labelledby="labello" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="labello">Log comunicazione</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        In cima i più recenti. <br>
+         <code class="codescroll" id="actualLog"></code>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
     // SOURCE FOR THIS SCRIPT: https://github.com/UnJavaScripter/web-serial-example/blob/master/src/serial-handler.ts
+    // SUPPORTA SOLO PN532
 
     class SerialHandler {
         reader;
@@ -178,14 +217,13 @@ $ris = mysqli_query($con, $query);
         }
 
         async write(data) {
-            const dataArrayBuffer = this.encoder.encode(data);
-            return await this.writer.write(dataArrayBuffer);
+            return await this.writer.write(data);
         }
 
         async read() {
             try {
                 const readerData = await this.reader.read();
-                return this.decoder.decode(readerData.value);
+                return readerData;
             } catch (err) {
                 const errorMessage = `impossibile leggere dati: ${err}`;
                 $("#errorMessage").html(errorMessage);
@@ -247,24 +285,68 @@ $ris = mysqli_query($con, $query);
 <script>
     function writee(matricola, nome, cognome, datanascita) {
         if (serialHandler.isConnected) {
-            $("#opcode").attr("value", "SCRITTURA PRONTA di");
+            $("#opcode").attr("value", "SCRITTURA");
             $("#matricola").attr("value", matricola);
             $("#nome").attr("value", nome);
             $("#cognome").attr("value", cognome);
             $("#datanascita").attr("value", datanascita);
-
-            let mess = `W|${matricola}|${nome}|${cognome}|${datanascita}`;
-            $("#outbound").attr("value", mess);
-            serialHandler.write(mess);
-            console.log(mess);
             $("#errorMessage").html("");
+
+            let te = new TextEncoder();
+
+            serialHandler.write([0x02]) // start of transmission
+            serialHandler.write(te.encode("W")) // write command
+            serialHandler.write(te.encode(matricola))
+            if(matricola.length < 16){
+                for (let int = 0; int < 16 - matricola.length; int++) {
+                    serialHandler.write([0x30]) // spacer
+                }
+            }
+
+            serialHandler.write(te.encode(nome))
+            if(nome.length < 16){
+                for (let int = 0; int < 16 - nome.length; int++) {
+                    serialHandler.write([0x30]) // spacer
+                }
+            }
+
+            serialHandler.write(te.encode(cognome))
+            if(cognome.length < 16){
+                for (let int = 0; int < 16 - cognome.length; int++) {
+                    serialHandler.write([0x30]) // spacer
+                }
+            }
+
+            serialHandler.write(te.encode(datanascita))
+            if(datanascita.length < 16){
+                for (let int = 0; int < 16 - datanascita.length; int++) {
+                    serialHandler.write([0x30]) // spacer
+                }
+            }
+
+            serialHandler.write([0x02]) // end of transmission
+
         } else {
             $("#errorMessage").html("Impossibile scrivere con seriale disconnessa");
         }
     }
 
     function readd() {
+        
+    }
 
+    function pushLogRequest(requestArray) {
+        $("#outbound").attr("value", requestArray);
+        let ext = $("#actualLog").html();
+        let date = new Date().toLocaleString();
+        $("#actualLog").html(`[${date}] REQUEST> ` +  requestArray + "<br>" + ext);
+    }
+
+    function pushLogResponse(responseArray) {
+        $("#inbound").attr("value", responseArray);
+        let ext = $("#actualLog").html();
+        let date = new Date().toLocaleString();
+        $("#actualLog").html(`[${date}] RESPONSE> ` +  responseArray + "<br>" + ext);
     }
 </script>
 

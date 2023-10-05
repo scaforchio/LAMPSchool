@@ -56,9 +56,7 @@ if (isset($_SESSION['prefisso'])) {
     require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
     require_once '../lib/funzioni.php';
 } else {
-
-    print "<br><br><b><big><center>Sessione scaduta!</center></big></b>";
-    print "<br><b><big><center>Rieffettuare il <a href='../'>login</a>.</center></big></b>";
+    stampa_sessionescaduta();
     die;
 }
 
@@ -210,7 +208,7 @@ if ($tipoutente == 'D') {
         menu_item('../lezionigruppo/lezgru.php', 'Lezioni a Gruppi di Alunni', $icon="people-fill");
 
     menu_item('../contr/verifsovrappdoc.php', 'Controlla sovrapposizione lezioni', $icon="card-checklist");
-    menu_item("../lezioni/vis_lez.php?iddocente=$idutente", "Correzzioni proprie lezioni", $icon="pencil-square");
+    menu_item("../lezioni/vis_lez.php?iddocente=$idutente", "Correzione proprie lezioni", $icon="pencil-square");
     menu_item("../lezionigruppo/vis_lez_gru.php?iddocente=$idutente", "Correzioni proprie lezioni a gruppi", $icon="person-fill-check");
     if ($norm)
         menu_item('../lezioni/riepargomcert.php?modo=norm', 'Riepilogo Argomenti Sostegno', $icon="arrow-clockwise");
@@ -226,7 +224,7 @@ if ($tipoutente == 'D') {
 
     menu_item('../valutazioni/osssist.php', 'Inserisci Osservazioni Sistematiche', $icon="patch-exclamation-fill");
     menu_item('../valutazioni/ricosssist.php', 'Ricerca Osservaz. Sistematiche', $icon="search");
-    menu_item('../valutazioni/stampaosssist.php', 'Stampa Osservaz. Sistematice', $icon="printer-fill");
+    menu_item('../valutazioni/stampaosssist.php', 'Stampa Osservaz. Sistematiche', $icon="printer-fill");
     menu_item('../valutazioni/diariocl.php', 'Diario di Classe', $icon="passport");
     menu_item('../valutazioni/ricdiariocl.php', 'Ricerca su Diario di Classe', $icon="search");
     menu_item('../valutazioni/stampadiariocl.php', 'Stampa Diario di Classe', $icon="printer-fill");
@@ -267,7 +265,7 @@ if ($tipoutente == 'D') {
         menu_item('../alunni/CRUD_autorizzazioni.php?soloclasse=yes', 'Gestione autorizzazioni uscita anticipata con classe', $icon="box-arrow-left");
         menu_item('../assenze/visderoghe.php', 'Situazione Deroghe Assenze', $icon="journal-text");
         menu_item('../scrutini/riepvoti.php', 'Tabelllone Scrutini Intermedi', $icon="file-spreadsheet");
-        menu_item('../scrutini/riepvotifinali.php', 'Tabellone Scritini Finali', $icon="table");
+        menu_item('../scrutini/riepvotifinali.php', 'Tabellone Scrutini Finali', $icon="table");
         if ($_SESSION['livello_scuola'] == '4') {
             menu_item('../scrutini/riepvotifinali.php?integrativo=yes', 'Scrutini Integrativi', $icon="node-plus");
         }
@@ -294,56 +292,56 @@ if ($tipoutente == 'D') {
 
     if ($norm & $_SESSION['valutazionepercompetenze'] == 'yes') {
         menu_title_begin('PROGRAMMAZIONE', $icon="menu-app");
-        menu_item('../programmazione/compdo.php', 'GEST. COMPETENZE');
-        menu_item('../programmazione/abcodo.php', 'GEST. ABIL./CONO');
-        menu_item('../programmazione/confimportaprogr.php', 'IMPORTA PROGR. SCOLAST.');
-        menu_item('../programmazione/copiaprogdoc.php', 'COPIA PROGRAMMAZIONE');
-        menu_item('../programmazione/visprogrdo.php', 'VISUALIZZA PROGRAMMA');
-        menu_item('../programmazione/modivoceprog.php', 'CORREGGI ABIL./CONO');
-        menu_item('../programmazione/modicompetenza.php', 'CORREGGI COMPETENZA');
-        menu_item('../programmazione/esportaprogrammazioneincsv.php', 'ESPORTA PROGRAMMAZIONE');
-        menu_item('../programmazione/importaprogrammazionedacsv.php', 'IMPORTA DA CSV');
-        menu_item('../progrcert/seletipoprogr.php', 'TIPO PROGR. ALUNNI');
-        menu_item('../progrcert/visprogralu.php', 'VISUALIZZA PROGRAMMI ALUNNI CERTIFICATI');
+        menu_item('../programmazione/compdo.php', 'Gestione Competenze', $icon="book-half");
+        menu_item('../programmazione/abcodo.php', 'Gestione Abilità/Conoscenze', $icon="emoji-smile-fill");
+        menu_item('../programmazione/confimportaprogr.php', 'Importa Programmaz. Scolast.', $icon="cloud-download");
+        menu_item('../programmazione/copiaprogdoc.php', 'Copia Programmazione', $icon="copy");
+        menu_item('../programmazione/visprogrdo.php', 'Visualizza Programma', $icon="eye-fill");
+        menu_item('../programmazione/modivoceprog.php', 'Correggi Abilità/Conoscenze', $icon="pencil-square");
+        menu_item('../programmazione/modicompetenza.php', 'Correggi Comptenze', $icon="pencil-square");
+        menu_item('../programmazione/esportaprogrammazioneincsv.php', 'Esporta programmazione in CSV', $icon="cloud-download");
+        menu_item('../programmazione/importaprogrammazionedacsv.php', 'Importa programamzione da CSV', $icon="filetype-csv");
+        menu_item('../progrcert/seletipoprogr.php', 'Tipo Programmaz. ALUNNI CERTIFICATI', $icon="person-fill-check");
+        menu_item('../progrcert/visprogralu.php', 'Visualizza Programmi ALUNNI CERTIFICATI', $icon="eye-fill");
         menu_title_end();
     }
 
 
-    menu_title_begin('DOCUMENTI');
+    menu_title_begin('DOCUMENTI', $icon="file-earmark-post");
 
-    menu_item('../documenti/documprog.php?tipodoc=pia', 'PIANI LAVORO');
-    menu_item('../documenti/documprog.php?tipodoc=pro', 'PROGRAMMI SVOLTI');
-    menu_item('../documenti/documprog.php?tipodoc=rel', 'RELAZIONI FINALI');
+    menu_item('../documenti/documprog.php?tipodoc=pia', 'Piani di Lavoro', $icon="file-binary-fill");
+    menu_item('../documenti/documprog.php?tipodoc=pro', 'Programmi Svolti', $icon="file-medical-fill");
+    menu_item('../documenti/documprog.php?tipodoc=rel', 'Relazioni Finali', $icon="files-alt");
     if ($norm)
-        menu_item('../documenti/documenti.php', 'DOCUMENTI ALUNNO');
+        menu_item('../documenti/documenti.php', 'Documenti Alunno', $icon="file-earmark-person");
 
     menu_title_end();
 
     if ($sost) {
         menu_separator("SOSTEGNO");
 
-        menu_title_begin('LEZIONI');
+        menu_title_begin('LEZIONI SOSTEGNO', $icon="person-fill-check");
 
-        menu_item('../lezioni/lezcert.php', 'INSERIMENTO E MODIFICA SOST.');
-        menu_item('../lezioni/riepargomcert.php?modo=sost', 'RIEPILOGO ARGOMENTI SOSTEGNO');
-        menu_item("../lezioni/vis_lez_cert.php?iddocente=$idutente", "CORREZIONE PROPRIE LEZIONI");
+        menu_item('../lezioni/lezcert.php', 'Inserimento e Modifica Lezioni Sostegno', $icon="calendar-fill");
+        menu_item('../lezioni/riepargomcert.php?modo=sost', 'Riepilogo Argomenti Sostegno', $icon="calendar-range-fill");
+        menu_item("../lezioni/vis_lez_cert.php?iddocente=$idutente", "Correzioni Proprie Lezioni", $icon="pencil-square");
         menu_title_end();
-        menu_title_begin('VALUTAZIONE COMPETENZE');
-        menu_item('../valutazioni/valaluabilcono.php?modo=sost', 'VALUTAZIONI ALUNNI CERTIFICATI');
+        menu_title_begin('VALUTAZIONE COMPETENZE SOST.', $icon="person-fill-check");
+        menu_item('../valutazioni/valaluabilcono.php?modo=sost', 'Valutazioni Alunni Certificati', $icon="8-square-fill");
         if (!$norm)
-            menu_item('../valutazioni/sitvalalu.php', 'VISUALIZZA SITUAZIONE ALUNNO');
+            menu_item('../valutazioni/sitvalalu.php', 'Visualizza Situazione Alunno', $icon="person-badge");
 
         menu_title_end();
-        menu_title_begin('PEI');
-        menu_item('../progrcert/seletipoprogr.php', 'TIPO PROGR. ALUNNI');
-        menu_item('../progrcert/visprogralu.php', 'VISUALIZZA PROGRAMMI ALUNNI');
-        menu_item('../progrcert/compalu.php', 'COMPETENZE PEI');
-        menu_item('../progrcert/abcoalu.php', 'ABIL./CONO');
-        menu_item('../progrcert/modivoceprogalu.php', 'CORREGGI ABIL./CONO ALUNNO');
-        menu_item('../progrcert/modicompetenzaalu.php', 'CORREGGI COMPETENZA ALUNNO');
-        menu_item('../documenti/documenti.php?tipo=pei', 'ALLEGATI PEI');
-        menu_item('../pei/sele_stampa_pei.php?modo=sost', 'STAMPA PEI');
-        menu_item('../pei/scarica_doc_pei.php?modo=sost', 'SCARICA DOCUMENTI PEI');
+        menu_title_begin('PEI', $icon="person-fill-check");
+        menu_item('../progrcert/seletipoprogr.php', 'Tipo Programmazione Alunni Cert.', $icon="person-arms-up");
+        menu_item('../progrcert/visprogralu.php', 'Visualizza Programmi Alunni Cert.', $icon="eye");
+        menu_item('../progrcert/compalu.php', 'Competenze PEI', $icon="journal-check");
+        menu_item('../progrcert/abcoalu.php', 'Abilità/Conoscenze PEI', $icon="emoji-smile-fill");
+        menu_item('../progrcert/modivoceprogalu.php', 'Correggi Abil./Con. Alunno Cert.', $icon="pencil-square");
+        menu_item('../progrcert/modicompetenzaalu.php', 'Correggi Competenza Alunno Cert.', $icon="pencil");
+        menu_item('../documenti/documenti.php?tipo=pei', 'Allegati PEI', $icon="link-45deg");
+        menu_item('../pei/sele_stampa_pei.php?modo=sost', 'Stampa PEI', $icon="printer");
+        menu_item('../pei/scarica_doc_pei.php?modo=sost', 'Scarica Documenti PEI', $icon="cloud-download-fill");
         menu_title_end();
     }
     menu_separator("&nbsp;");
@@ -360,21 +358,21 @@ if ($tipoutente == 'D') {
         menu_item('../moodle/seleiscrizionecorsidoc.php', 'ISCRIVI DOCENTI A CORSO MOODLE');
         menu_title_end();
     }
-    menu_title_begin('GESTIONE COLLOQUI');
+    menu_title_begin('GESTIONE COLLOQUI', $icon="people-fill");
 
-    menu_item('../colloqui/visappuntamentidoc.php', 'PRENOTAZIONI COLLOQUI POMERIDIANI');
-    menu_item('../colloqui/visrichieste_doc.php', 'PRENOTAZIONI COLLOQUI MATTUTINI');
+    menu_item('../colloqui/visrichieste_doc.php', 'Prenotazioni Colloqui Mattutini', $icon="sun-fill");
+    menu_item('../colloqui/visappuntamentidoc.php', 'Prenotazioni Colloqui Pomeridiani', $icon="moon-fill");
 
     menu_title_end();
-    menu_title_begin('ALTRO');
-    menu_item('../password/cambpwd.php', 'CAMBIAMENTO PROPRIA PASSWORD');
-    menu_item('../circolari/viscircolari.php', 'LEGGI CIRCOLARI');
+    menu_title_begin('ALTRE FUNZIONI', $icon="box-fill");
+    menu_item('../password/cambpwd.php', 'Cambia Password', $icon="key-fill");
+    menu_item('../circolari/viscircolari.php', 'Leggi Circolari', $icon="newspaper");
 
-    menu_item("../docenti/mod_contatto.php", 'AGGIORNA DATI DI CONTATTO');
-    menu_item("../collegamenti/coll.php", 'VISUALIZZA COLLEGAMENTI WEB');
-    menu_item('../ferie/richferie.php', 'RICHIESTA ASTENSIONE DAL LAVORO');
-    menu_item('../ferie/esameproprierichferie.php', 'ESAMINA RICHIESTE FERIE');
-    menu_item('../docenti/visorario.php', 'VISUALIZZA ORARIO');
+    menu_item("../docenti/mod_contatto.php", 'Aggiorna Dati di Contatto', $icon="person-lines-fill");
+    menu_item("../collegamenti/coll.php", 'Collegamenti WEB', $icon="link");
+    menu_item('../ferie/richferie.php', 'Richiesta Astensione dal Lavoro', $icon="person-fill-slash");
+    menu_item('../ferie/esameproprierichferie.php', 'Esamina Richieste di Ferie', $icon="eye-fill");
+    menu_item('../docenti/visorario.php', 'Visualizza Orario', $icon="clock");
     menu_title_end();
 }
 

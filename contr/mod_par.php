@@ -76,8 +76,8 @@ $script = "<script type='text/javascript'>
 
          //-->
          </script>";
-stampa_head($titolo, "", $script, "PMSD");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='paramedit.php'>ELENCO PARAMETRI</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "PMSD");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='paramedit.php'>ELENCO PARAMETRI</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 //Connessione al server SQL
@@ -138,10 +138,10 @@ if (!($ris = eseguiQuery($con, $sql)))
         print "</select></td></tr>";
     }
     print "<tr><td ALIGN='CENTER'><br> <input type='hidden' name='idpar' value='" . $dati['idparametro'] . "'></td></tr>";
-    print "<tr><td ALIGN='CENTER'> <input type='submit' value='REGISTRA'></td></tr>";
+    print "<tr><td ALIGN='CENTER'> <input class='btn btn-sm btn-outline-secondary' type='submit' value='REGISTRA'></td></tr>";
     print "</table></CENTER></form>";
 }
-stampa_piede("");
+stampa_piede_new("");
 mysqli_close($con);
 
 
