@@ -136,7 +136,7 @@ $ris = eseguiQuery($con, $query);
 // print $query;
 if (mysqli_num_rows($ris) > 0)
 {
-    print ("<div style='margin-left: 20px; margin-right: 20px; @media only screen and (max-width: 768px){margin-left: 0px; margin-right: 0px;}'>
+    print ("<div style='margin-left: 10px; margin-right: 10px;'>
             <table border=1 align=center class='table table-striped table-bordered'> 
             <thead style='font-weight: bold;'> <tr class='prima'> 
                         <td data-priority='1' align=center>Data e Tipo Valutazione</td>  

@@ -122,12 +122,12 @@ if ($idmateria != "")
             while ($reclez = mysqli_fetch_array($rislez))
             {
                 if ($reclez['idlezionegruppo']==NULL || $reclez['idlezionegruppo']==0 )
-                    print "<tr><td data-sort='" . data_dt($reclez['datalezione'])  . "'>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "</td><td>" . shorten($reclez['argomenti'], 15) . "</td><td>" . $reclez['attivita'] . "</td></tr>";
+                    print "<tr><td data-sort='" . $reclez['idlezione']  . "'>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "</td><td>" . shorten($reclez['argomenti'], 15) . "</td><td>" . $reclez['attivita'] . "</td></tr>";
                 else
                 {
                     // VERIFICO SE ALUNNO APPARTIENE A GRUPPO
                     if (verifica_alunno_lezionegruppo($id_ut_doc, $reclez['idlezionegruppo'], $con))
-                         print "<tr><td data-sort='" . data_dt($reclez['datalezione'])  . "'>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "</td><td>" . shorten($reclez['argomenti'], 15) . "</td><td>" . $reclez['attivita'] . "</td></tr>";   
+                         print "<tr><td data-sort='" . $reclez['idlezione']  . "'>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "</td><td>" . shorten($reclez['argomenti'], 15) . "</td><td>" . $reclez['attivita'] . "</td></tr>";   
                 }
                 
             }
@@ -162,7 +162,7 @@ if ($idmateria != "")
         <?php
                     while ($reclez = mysqli_fetch_array($rislez))
                     {
-                        print "<tr><td data-sort='" . data_dt($reclez['datalezione'])  . "'>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "</td><td>" . shorten($reclez['argomenti'], 15) . "</td><td>" . $reclez['attivita'] . "</td><td>" . $reclez['attivita'] . "</td></tr>";
+                        print "<tr><td data-sort='" . $reclez['idlezione']  . "'>" . data_italiana($reclez['datalezione']) . "</td><td>" . $reclez['argomenti'] . "</td><td>" . shorten($reclez['argomenti'], 15) . "</td><td>" . $reclez['attivita'] . "</td><td>" . $reclez['attivita'] . "</td></tr>";
                     }
 
                     print "</tbody></table></div>";
