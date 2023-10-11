@@ -31,18 +31,21 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
         <link rel='stylesheet' type='text/css' href='../lib/unico.css' />
         <link rel='stylesheet' href='../vendor/twbs/bootstrap/dist/css/bootstrap.min.css' />
         <link rel='stylesheet' href='../vendor/twbs/bootstrap-icons/font/bootstrap-icons.min.css' />
-    <?php
+        <style>
+            <?php mod_cens_stili(); ?>
+        </style>
+        <?php
 
-    print "<script>window.onload=function(){";
-    if (basename($_SERVER['PHP_SELF']) != 'login.php') {
-        print "refreshSn();";
-    }
-    $upddaeseguire = version_compare($_SESSION['versione'], $_SESSION['versioneprecedente'], ">");
-    if ($upddaeseguire) print " updatedb();";
-    print $onload;
-    print "};</script>";
+        print "<script>window.onload=function(){";
+        if (basename($_SERVER['PHP_SELF']) != 'login.php') {
+            print "refreshSn();";
+        }
+        $upddaeseguire = version_compare($_SESSION['versione'], $_SESSION['versioneprecedente'], ">");
+        if ($upddaeseguire) print " updatedb();";
+        print $onload;
+        print "};</script>";
 
-    ?>
+        ?>
         <script>
             var refreshSn = function() {
                 var time = 300000; // 5 mins
@@ -70,78 +73,78 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
             };
         </script>
 
-    <?php
-    print $script;
-    print "</head>";
-}
-
-function stampa_testata_new($funzione, $ct, $ns, $cs, $isProfileSelector = false)
-{
-    $annoscolastico = 'A.S. ' . $_SESSION['annoscol'] . " / " . ($_SESSION['annoscol'] + 1);
-    $nome = str_replace(".php", "", basename($_SERVER['PHP_SELF']));
-
-    $tipoutente = '';
-
-    if (isset($_SESSION['tipoutente'])) {
-        $tipoutente = $_SESSION['tipoutente'];
+        <?php
+        print $script;
+        print "</head>";
     }
 
-    $descrizione = "";
+    function stampa_testata_new($funzione, $ct, $ns, $cs, $isProfileSelector = false)
+    {
+        $annoscolastico = 'A.S. ' . $_SESSION['annoscol'] . " / " . ($_SESSION['annoscol'] + 1);
+        $nome = str_replace(".php", "", basename($_SERVER['PHP_SELF']));
 
-    $urlCorrente = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    $urlProfili = $_SESSION["oidc_redirect_uri"] . "/login/oidclogin.php?suffisso=" . $_SESSION["suffisso"];
+        $tipoutente = '';
 
-    if ($_SESSION["oidc-step2"]) {
-        $descrizione .= "SSO: ";
-    }
+        if (isset($_SESSION['tipoutente'])) {
+            $tipoutente = $_SESSION['tipoutente'];
+        }
 
-    if ($isProfileSelector) {
-        $descrizione .= $_SESSION["oidc_fullname"];
-    } else {
-        if ($tipoutente == 'D' | $tipoutente == 'P' | $tipoutente == 'S' | $tipoutente == 'A') // doc pres staff amm
-        {
-            $descrizione .= $_SESSION['cognome'] . " " . $_SESSION['nome'];
-        } elseif ($tipoutente == 'T') {
-            $descrizione .= 'Tutore alunno ' . $_SESSION['cognome'] . " " . $_SESSION['nome'];
-        } elseif ($tipoutente == 'L') {
-            $descrizione .= 'Alunno ' . $_SESSION['cognome'] . " " . $_SESSION['nome'];
-        } elseif ($tipoutente == 'M') {
-            $descrizione .= 'Admin';
-        } elseif ($tipoutente == 'E') {
-            $descrizione .= 'ESAMI DI STATO';
+        $descrizione = "";
+
+        $urlCorrente = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $urlProfili = $_SESSION["oidc_redirect_uri"] . "/login/oidclogin.php?suffisso=" . $_SESSION["suffisso"];
+
+        if ($_SESSION["oidc-step2"]) {
+            $descrizione .= "SSO: ";
+        }
+
+        if ($isProfileSelector) {
+            $descrizione .= $_SESSION["oidc_fullname"];
         } else {
-            if ($_SESSION["oidc-step2"]) {
-                $impacc = $_SESSION["oidc_issuer"] . "/account?referrer=";
-                $impacc .= $_SESSION["oidc_client_id"] . "&referrer_uri=" . urlencode($urlCorrente);
-                $descrizione .= $_SESSION["oidc_fullname"];
+            if ($tipoutente == 'D' | $tipoutente == 'P' | $tipoutente == 'S' | $tipoutente == 'A') // doc pres staff amm
+            {
+                $descrizione .= $_SESSION['cognome'] . " " . $_SESSION['nome'];
+            } elseif ($tipoutente == 'T') {
+                $descrizione .= 'Tutore alunno ' . $_SESSION['cognome'] . " " . $_SESSION['nome'];
+            } elseif ($tipoutente == 'L') {
+                $descrizione .= 'Alunno ' . $_SESSION['cognome'] . " " . $_SESSION['nome'];
+            } elseif ($tipoutente == 'M') {
+                $descrizione .= 'Admin';
+            } elseif ($tipoutente == 'E') {
+                $descrizione .= 'ESAMI DI STATO';
             } else {
-                $descrizione .= 'Ospite';
+                if ($_SESSION["oidc-step2"]) {
+                    $impacc = $_SESSION["oidc_issuer"] . "/account?referrer=";
+                    $impacc .= $_SESSION["oidc_client_id"] . "&referrer_uri=" . urlencode($urlCorrente);
+                    $descrizione .= $_SESSION["oidc_fullname"];
+                } else {
+                    $descrizione .= 'Ospite';
+                }
             }
         }
-    }
 
-    print "\n<body>";
+        print "\n<body>";
 
-    if ($nome != 'login') {
-        $warn = false;
-        $ro = false;
-        $devmode = false;
-        $unikey = false;
+        if ($nome != 'login') {
+            $warn = false;
+            $ro = false;
+            $devmode = false;
+            $unikey = false;
 
-        if (isset($_SESSION['sola_lettura']) && $_SESSION['sola_lettura'] == 'yes') {
-            $warn = true;
-            $ro = true;
-        }
+            if (isset($_SESSION['sola_lettura']) && $_SESSION['sola_lettura'] == 'yes') {
+                $warn = true;
+                $ro = true;
+            }
 
-        if (isset($_SESSION['devmode']) && $_SESSION['devmode'] == true) {
-            $warn = true;
-            $devmode = true;
-        }
+            if (isset($_SESSION['devmode']) && $_SESSION['devmode'] == true) {
+                $warn = true;
+                $devmode = true;
+            }
 
-        if (isset($_SESSION['accessouniversale']) && $_SESSION['accessouniversale'] == true) {
-            $warn = true;
-            $unikey = true;
-        }
+            if (isset($_SESSION['accessouniversale']) && $_SESSION['accessouniversale'] == true) {
+                $warn = true;
+                $unikey = true;
+            }
 
         ?>
 
@@ -166,7 +169,7 @@ function stampa_testata_new($funzione, $ct, $ns, $cs, $isProfileSelector = false
                                 <li>
                                     <h6 class="dropdown-item">
                                         <i class="bi bi-calendar-fill"></i>
-                                        A.S. <?php echo $_SESSION['annoscol'] ?> / <?php echo $_SESSION['annoscol']+1 ?>
+                                        A.S. <?php echo $_SESSION['annoscol'] ?> / <?php echo $_SESSION['annoscol'] + 1 ?>
                                     </h6>
                                 </li>
 
@@ -281,76 +284,76 @@ function stampa_testata_new($funzione, $ct, $ns, $cs, $isProfileSelector = false
 
         <?php
 
+        }
+
+        print "<main class='lscontainer'>";
     }
 
-    print "<main class='lscontainer'>";
-}
+    function stampa_testata_ges_new($funzione, $ct, $ns, $cs, $isProfileSelector = false)
+    {
+        $annoscolastico = 'A.S. ' . $_SESSION['annoscol'] . " / " . ($_SESSION['annoscol'] + 1);
+        $nome = str_replace(".php", "", basename($_SERVER['PHP_SELF']));
 
-function stampa_testata_ges_new($funzione, $ct, $ns, $cs, $isProfileSelector = false)
-{
-    $annoscolastico = 'A.S. ' . $_SESSION['annoscol'] . " / " . ($_SESSION['annoscol'] + 1);
-    $nome = str_replace(".php", "", basename($_SERVER['PHP_SELF']));
+        $tipoutente = '';
 
-    $tipoutente = '';
+        if (isset($_SESSION['tipoutente'])) {
+            $tipoutente = $_SESSION['tipoutente'];
+        }
 
-    if (isset($_SESSION['tipoutente'])) {
-        $tipoutente = $_SESSION['tipoutente'];
-    }
+        $descrizione = "";
 
-    $descrizione = "";
+        $urlCorrente = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        $urlProfili = $_SESSION["oidc_redirect_uri"] . "/login/oidclogin.php?suffisso=" . $_SESSION["suffisso"];
 
-    $urlCorrente = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    $urlProfili = $_SESSION["oidc_redirect_uri"] . "/login/oidclogin.php?suffisso=" . $_SESSION["suffisso"];
+        if ($_SESSION["oidc-step2"]) {
+            $descrizione .= "SSO: ";
+        }
 
-    if ($_SESSION["oidc-step2"]) {
-        $descrizione .= "SSO: ";
-    }
-
-    if ($isProfileSelector) {
-        $descrizione .= $_SESSION["oidc_fullname"];
-    } else {
-        if ($tipoutente == 'D' | $tipoutente == 'P' | $tipoutente == 'S' | $tipoutente == 'A') // doc pres staff amm
-        {
-            $descrizione .= $_SESSION['cognome'] . " " . $_SESSION['nome'];
-        } elseif ($tipoutente == 'T') {
-            $descrizione .= 'Tutore alunno ' . $_SESSION['cognome'] . " " . $_SESSION['nome'];
-        } elseif ($tipoutente == 'L') {
-            $descrizione .= 'Alunno ' . $_SESSION['cognome'] . " " . $_SESSION['nome'];
-        } elseif ($tipoutente == 'M') {
-            $descrizione .= 'Admin';
-        } elseif ($tipoutente == 'E') {
-            $descrizione .= 'ESAMI DI STATO';
+        if ($isProfileSelector) {
+            $descrizione .= $_SESSION["oidc_fullname"];
         } else {
-            if ($_SESSION["oidc-step2"]) {
-                $impacc = $_SESSION["oidc_issuer"] . "/account?referrer=";
-                $impacc .= $_SESSION["oidc_client_id"] . "&referrer_uri=" . urlencode($urlCorrente);
-                $descrizione .= $_SESSION["oidc_fullname"];
+            if ($tipoutente == 'D' | $tipoutente == 'P' | $tipoutente == 'S' | $tipoutente == 'A') // doc pres staff amm
+            {
+                $descrizione .= $_SESSION['cognome'] . " " . $_SESSION['nome'];
+            } elseif ($tipoutente == 'T') {
+                $descrizione .= 'Tutore alunno ' . $_SESSION['cognome'] . " " . $_SESSION['nome'];
+            } elseif ($tipoutente == 'L') {
+                $descrizione .= 'Alunno ' . $_SESSION['cognome'] . " " . $_SESSION['nome'];
+            } elseif ($tipoutente == 'M') {
+                $descrizione .= 'Admin';
+            } elseif ($tipoutente == 'E') {
+                $descrizione .= 'ESAMI DI STATO';
             } else {
-                $descrizione .= 'Ospite';
+                if ($_SESSION["oidc-step2"]) {
+                    $impacc = $_SESSION["oidc_issuer"] . "/account?referrer=";
+                    $impacc .= $_SESSION["oidc_client_id"] . "&referrer_uri=" . urlencode($urlCorrente);
+                    $descrizione .= $_SESSION["oidc_fullname"];
+                } else {
+                    $descrizione .= 'Ospite';
+                }
             }
         }
-    }
 
-    if ($nome != 'login') {
-        $warn = false;
-        $ro = false;
-        $devmode = false;
-        $unikey = false;
+        if ($nome != 'login') {
+            $warn = false;
+            $ro = false;
+            $devmode = false;
+            $unikey = false;
 
-        if (isset($_SESSION['sola_lettura']) && $_SESSION['sola_lettura'] == 'yes') {
-            $warn = true;
-            $ro = true;
-        }
+            if (isset($_SESSION['sola_lettura']) && $_SESSION['sola_lettura'] == 'yes') {
+                $warn = true;
+                $ro = true;
+            }
 
-        if (isset($_SESSION['devmode']) && $_SESSION['devmode'] == true) {
-            $warn = true;
-            $devmode = true;
-        }
+            if (isset($_SESSION['devmode']) && $_SESSION['devmode'] == true) {
+                $warn = true;
+                $devmode = true;
+            }
 
-        if (isset($_SESSION['accessouniversale']) && $_SESSION['accessouniversale'] == true) {
-            $warn = true;
-            $unikey = true;
-        }
+            if (isset($_SESSION['accessouniversale']) && $_SESSION['accessouniversale'] == true) {
+                $warn = true;
+                $unikey = true;
+            }
 
         ?>
 
@@ -373,9 +376,9 @@ function stampa_testata_ges_new($funzione, $ct, $ns, $cs, $isProfileSelector = f
                                     </h6>
                                 </li>
                                 <li>
-                                    <h6 class="dropdown-item"> 
+                                    <h6 class="dropdown-item">
                                         <i class="bi bi-calendar-fill"></i>
-                                        A.S. <?php echo $_SESSION['annoscol'] ?> / <?php echo $_SESSION['annoscol']+1 ?>
+                                        A.S. <?php echo $_SESSION['annoscol'] ?> / <?php echo $_SESSION['annoscol'] + 1 ?>
                                     </h6>
                                 </li>
 
@@ -490,32 +493,34 @@ function stampa_testata_ges_new($funzione, $ct, $ns, $cs, $isProfileSelector = f
 
         <?php
 
+        }
     }
-}
 
-function import_datatables(){ ?>
-    <script type='text/javascript' src='../vendor/components/jquery/jquery.min.js'></script>
-    <script type='text/javascript' src='../vendor/datatables.net/datatables.net/js/jquery.dataTables.min.js'></script>
-    <script type='text/javascript' src='../vendor/datatables.net/datatables.net-bs5/js/dataTables.bootstrap5.min.js'></script>
-    <script type='text/javascript' src='../vendor/datatables.net/datatables.net-responsive/js/dataTables.responsive.min.js'></script>
-    <script type='text/javascript' src='../vendor/datatables.net/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js'></script>
-    <link rel='stylesheet' type='text/css' href='../vendor/datatables.net/datatables.net-bs5/css/dataTables.bootstrap5.min.css'/>
-    <link rel='stylesheet' type='text/css' href='../vendor/datatables.net/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css'/>
-    <style>
-        .dataTables_length{
-            margin-bottom: 10px;
-        }
-        .dataTables_filter{
-            margin-bottom: 10px;
-        }
-    </style>
-<?php }
+    function import_datatables()
+    { ?>
+        <script type='text/javascript' src='../vendor/components/jquery/jquery.min.js'></script>
+        <script type='text/javascript' src='../vendor/datatables.net/datatables.net/js/jquery.dataTables.min.js'></script>
+        <script type='text/javascript' src='../vendor/datatables.net/datatables.net-bs5/js/dataTables.bootstrap5.min.js'></script>
+        <script type='text/javascript' src='../vendor/datatables.net/datatables.net-responsive/js/dataTables.responsive.min.js'></script>
+        <script type='text/javascript' src='../vendor/datatables.net/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js'></script>
+        <link rel='stylesheet' type='text/css' href='../vendor/datatables.net/datatables.net-bs5/css/dataTables.bootstrap5.min.css' />
+        <link rel='stylesheet' type='text/css' href='../vendor/datatables.net/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css' />
+        <style>
+            .dataTables_length {
+                margin-bottom: 10px;
+            }
+
+            .dataTables_filter {
+                margin-bottom: 10px;
+            }
+        </style>
+    <?php }
 
 
     function stampa_piede_new($ver = '', $csrf = false)   // Gestione token disabilitata
     {
         $vers = 'LAMPSchool Ver. ' . $_SESSION['versioneprecedente'];
-        ?>
+    ?>
         </main>
         <footer class="d-flex flex-wrap footer-justify align-items-center py-3 border-top">
             <p class="col-md-4 mb-0 text-muted">
@@ -534,7 +539,9 @@ function import_datatables(){ ?>
         </footer>
 
         <script src="../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
         <?php
+        modal_censimento();
         // se devmode attiva inietta script session inspector
         if (isset($_SESSION['devmode']) && $_SESSION['devmode'] == true) {
             // session inspector
@@ -581,7 +588,7 @@ function import_datatables(){ ?>
                     win.document.body.appendChild(document.createElement('pre')).innerHTML = syntaxHighlight(str);
                 }
             </script>
-    <?php
+        <?php
         }
 
         print("</body></html>");
@@ -662,7 +669,7 @@ function import_datatables(){ ?>
                     win.document.body.appendChild(document.createElement('pre')).innerHTML = syntaxHighlight(str);
                 }
             </script>
-    <?php
+        <?php
         }
 
         print("</body></html>");
@@ -681,4 +688,145 @@ function import_datatables(){ ?>
         } else {
             print("<div class='alert alert-$severity' role='alert'> <i class='bi bi-$icon' style='margin-right: 8px;'></i> <b>$title</b> <hr> <p class='mb-0'> $sub </p> </div>");
         }
+    }
+
+    function modal_censimento()
+    { ?>
+        <div id="modcens" class="modal-ce">
+            <div class="modal-content-ce">
+                <span class="close-ce">×</span>
+                <br>
+                <br>
+
+                <div class="modgen"> Comunicazione dei dati sull'andamento... </div>
+                <div class="modgen">Padre: <b id="p1">--</b></div>
+                <div class="modgen">Madre: <b id="m1">--</b></div>
+                <hr>
+
+                <div class="modgen"> Accesso al Registro Elettronico... </div>
+                <div class="modgen">Padre: <b id="p2">--</b></div>
+                <div class="modgen">Madre: <b id="m2">--</b></div>
+                <hr>
+
+                <div class="modgen"> Comunicazione SMS assenze, ritardi, uscite... </div>
+                <div class="modgen">Padre: <b id="p3">--</b></div>
+                <div class="modgen">Madre: <b id="m3">--</b></div>
+                <hr>
+
+                <div class="modgen"> Partecipazione ai colloqui... </div>
+                <div class="modgen">Padre: <b id="p4">--</b></div>
+                <div class="modgen">Madre: <b id="m4">--</b></div>
+                <hr>
+
+                Se i dati non sono aggiornati ricarica la pagina! <br>
+            </div>
+        </div>
+        <script>
+            var modal = document.getElementById("modcens");
+            var span = document.getElementsByClassName("close-ce")[0];
+
+            function cens(conf) {
+                modal.style.display = "block";
+                console.log(conf);
+
+                sww(conf.charAt(0), "1");
+                sww(conf.charAt(1), "2");
+                sww(conf.charAt(2), "3");
+                sww(conf.charAt(3), "4");
+            }
+
+            function sww(letter, number){
+                switch (letter) {
+                    case "N":
+                        document.getElementById("p" + number).innerHTML = "NO";
+                        document.getElementById("m" + number).innerHTML = "NO";
+                        break;
+
+                    case "P":
+                        document.getElementById("p" + number).innerHTML = "SI";
+                        document.getElementById("m" + number).innerHTML = "NO";
+                        break;
+
+                    case "M":
+                        document.getElementById("p" + number).innerHTML = "NO";
+                        document.getElementById("m" + number).innerHTML = "SI";
+                        break;
+
+                    case "E":
+                        document.getElementById("p" + number).innerHTML = "SI";
+                        document.getElementById("m" + number).innerHTML = "SI";
+                        break;
+                
+                    default:
+                        document.getElementById("p" + number).innerHTML = "??";
+                        document.getElementById("m" + number).innerHTML = "??";
+                }
+            }
+
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+        </script>
+    <?php }
+
+    function mod_cens_stili()
+    {
+        print("
+    .modal-ce {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content-ce {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 13%; 
+    }
+
+    .close-ce {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .modgen {
+        border: 1px solid black;
+        margin-bottom: 5px;
+    }
+
+    .button-eme {
+        display: block;
+        text-align: center;
+        border-radius: 5px;
+        color: white;
+        font-weight: bold;
+        line-height: 21px;
+        color: black;
+        background-color: #00ff0087; 
+        width: 100%;
+    }
+
+    .close-ce:hover,
+    .close-ce:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }");
     }

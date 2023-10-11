@@ -75,6 +75,7 @@ $bloccopassword = stringa_html('bloccopassword');
 $firmapropria = stringa_html('firmapropria');
 $accessowifi = stringa_html('accessowifi');
 $censito = stringa_html('censito');
+$nocens = stringa_html('nocens');
 $idgrupporitardo = stringa_html('idgrupporitardo');
 $numeroregistro = stringa_html('numeroregistro');
 $provenienza = stringa_html('provenienza');
@@ -94,11 +95,14 @@ if ($dato = mysqli_fetch_array($resw))
     $idclasseold = $dato['idclasse'];
 } else
 {
-
     print ("<h2> Dati non trovati </h2>");
 }
 
-$sqla = "UPDATE tbl_alunni SET cognome='$cognome', nome='$nome', datanascita='$aa-$mm-$gg',codfiscale='$codfiscale',certificato='$certificato',firmapropria='$firmapropria',censito='$censito',autorizzazioni='$autorizzazioni',idgrupporitardo='$idgrupporitardo',";
+if($nocens == "1"){
+    $sqla = "UPDATE tbl_alunni SET cognome='$cognome', nome='$nome', datanascita='$aa-$mm-$gg',codfiscale='$codfiscale',certificato='$certificato',firmapropria='$firmapropria',autorizzazioni='$autorizzazioni',idgrupporitardo='$idgrupporitardo',";
+} else {
+    $sqla = "UPDATE tbl_alunni SET cognome='$cognome', nome='$nome', datanascita='$aa-$mm-$gg',codfiscale='$codfiscale',certificato='$certificato',firmapropria='$firmapropria',censito='$censito',autorizzazioni='$autorizzazioni',idgrupporitardo='$idgrupporitardo',";
+}
 $sqlpass = "UPDATE tbl_utenti SET dischpwd=$bloccopassword, wifi=$accessowifi WHERE idutente=$cs";
 if ($idcomn != null)
 {

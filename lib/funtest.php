@@ -43,9 +43,9 @@ function stampa_head($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, 
             <link rel='stylesheet' type='text/css' href='../lib/js/datetimepicker/jquery.datetimepicker.css'/>
             <script src='../lib/js/jquery-1.10.2.min.js'></script>
             <script src='../lib/js/jquery-ui-1.10.3.custom.min.js'></script>
-            <script src='../lib/js/datetimepicker/jquery.datetimepicker.js'></script>";
-    
-            print "<script>
+            <script src='../lib/js/datetimepicker/jquery.datetimepicker.js'></script><style>";
+            mod_cens_stili();
+            print "</style><script>
     
             window.onload=function(){";
     if (basename($_SERVER['PHP_SELF'])!='login.php')
@@ -248,6 +248,7 @@ function stampa_piede($ver = '', $csrf = false)   // Gestione token disabilitata
         }
     }
 */
+    modal_censimento();
     print("
     <br/></div>
     <div id='piede'>

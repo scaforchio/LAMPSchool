@@ -97,7 +97,7 @@ if (strlen($strcogn) > 1 | strlen($strnome) > 1 | strlen($codice))
     print("<td align='center' ><b> Censito</b> </td>");
     print("<td align='center' ><b> Cert.</b> </td>");
     print("<td align='center' ><b> Note</b> </td>");
-    print("<td colspan='2' align='center'><b> Azione </b></td>");
+    print("<td align='center'><b> Azione </b></td>");
     print ("</tr>");
     if (!(mysqli_num_rows($result) > 0))
     {
@@ -116,24 +116,28 @@ if (strlen($strcogn) > 1 | strlen($strnome) > 1 | strlen($codice))
             print("<td><a href='MAILTO:" . $dati['email'] . "'>" . $dati['email'] . "</A></td>");
             print(maggiorenneok($dati["datanascita"]));
             print(censito($dati["datanascita"], $dati["censito"]));
+            print("<td>");
             if ($dati['certificato'])
             {
-                print("<td><img src='../immagini/apply_small.png'></td>");
-            } else
-            {
-                print("<td>&nbsp;</td>");
+                print("<img src='../immagini/apply_small.png'>");
             }
+            print("</td>");
             print("<td>" . $dati['note'] . "</td>");
-            print("<td><a href='vis_alu_mod.php?idal=" . $dati['idalunno'] . "&strcogn=$strcogn&strnome=$strnome'><img src='../immagini/modifica.png'></a></td>");
+            print("<td><a href='vis_alu_mod.php?idal=" . $dati['idalunno'] . "&strcogn=$strcogn&strnome=$strnome'><img src='../immagini/modifica.png'></a>&nbsp;&nbsp;");
             if (poss_canc_alu($dati['idalunno'], $con))
             {
-                print ("<td><a href='alu_conf.php?idal=" . $dati['idalunno'] . "&idcla=" . $dati['idclasse'] . "'><img src='../immagini/delete.png'></a></td>");
-            } else
-            {
-                print ("<td>&nbsp;</td>");
+                print ("<a href='alu_conf.php?idal=" . $dati['idalunno'] . "&idcla=" . $dati['idclasse'] . "'><img src='../immagini/delete.png'></a>");
             }
-            print("<td><a href='../password/rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'>Rig. password tutor</a>&nbsp;<a href='../password/alu_rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'>Rig. password alunno</a>");
-            print("&nbsp;&nbsp;&nbsp;<a target='_blank' href='../alunni/genassotp.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera OTP tutor'></a></td>");
+            print("<a href='../password/rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'>Rig. password tutor</a>&nbsp;<a href='../password/alu_rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'>Rig. password alunno</a>");
+            print("&nbsp;&nbsp;&nbsp;<a target='_blank' href='../alunni/genassotp.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera OTP tutor'></a>");
+            if($dati['censito'] != "0"){
+                print("&nbsp;<a target='_blank' href='../alunni/prefcens.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/edit.png' width=22 height=22 title='Preferenze Censimento'></a>");
+            }
+            if ($tipoutente == 'M')
+            {
+                print("<a href='../contr/cambiautenteok.php?nuovoutente=" . $dati['userid'] . "'><img src='../immagini/alias.png' title='Assumi identità tutor'></a>");
+            }
+            print("</td>");
             print("</tr>");
         }
     }
