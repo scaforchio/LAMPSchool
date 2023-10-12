@@ -196,7 +196,7 @@ if ($idclasse != "")
            <table align='center' border='1'>
            <tr class='prima'><td>Cognome Nome</td><td>Autorizzazione</td><td>Usc. 1˚Q.</td><td>Usc. 2˚Q.</td><td>Maggiorenne</td><td>Censito</td></tr>";
 
-    $query = "select idalunno,cognome, nome, datanascita,firmapropria,autuscita
+    $query = "select idalunno,cognome, nome, datanascita,firmapropria,autuscita, censito
             from tbl_alunni
             where tbl_alunni.idclasse=$idclasse
 

@@ -193,7 +193,9 @@ if (mysqli_num_rows($ris) > 0)
             //stampiamo il valore subito dopo il nome della materia
             print("<tr style=\"background-color: #cfcfcf\"><td colspan=4 align=center>");
             //se la media è inferiore a 5 stampa il valore in rosso
-            if ($mediacalc < 5)
+            if ($mediacalc == 0){
+                $coloreglobale = "#cfcfcf";
+            } else if ($mediacalc < 5)
             {
                 $coloreglobale = "#eb4034";
             } else if ($mediacalc >= 5 && $mediacalc < 6) {

@@ -192,7 +192,7 @@ if (!(mysqli_num_rows($result) > 0))
         print("<td>" . $dati['note'] . "</td>");
 
         print("<td><a href='vis_alu_mod.php?idal=" . $dati['idalunno'] . "'><img src='../immagini/modifica.png' title='Modifica'></a>");
-        print "&nbsp;&nbsp;&nbsp;";
+        print "&nbsp;";
         if (poss_canc_alu($dati['idalunno'], $con))
         {
             print ("<a href='alu_conf.php?idal=" . $dati['idalunno'] . "?idcla=" . $dati['idclasse'] . "'><img src='../immagini/delete.png' title='Elimina'></a>");
@@ -200,12 +200,15 @@ if (!(mysqli_num_rows($result) > 0))
         {
             print ("&nbsp;");
         }
-        print("&nbsp;&nbsp;&nbsp;<a target='_blank' href='../alunni/genassotp.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/barcode.png' width=22 height=22 title='Rigenera OTP tutor'></a>");
-        print("&nbsp;&nbsp;&nbsp;<a href='../password/rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera password tutor'  class='pwdreset'></a>");
-        print("&nbsp;&nbsp;&nbsp;<a href='../password/alu_rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera password alunni'  class='pwdresetalu'></a>");
-        if ($tipoutente == 'P')
+        print("&nbsp;<a target='_blank' href='../alunni/genassotp.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/barcode.png' width=22 height=22 title='Rigenera OTP tutor'></a>");
+        print("&nbsp;<a href='../password/rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera password tutor'  class='pwdreset'></a>");
+        print("&nbsp;<a href='../password/alu_rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera password alunni'  class='pwdresetalu'></a>");
+        if($dati['censito'] != "0"){
+            print("&nbsp;<a target='_blank' href='../alunni/prefcens.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/edit.png' width=22 height=22 title='Preferenze Censimento'></a>");
+        }
+        if ($tipoutente == 'M')
         {
-            print("&nbsp;&nbsp;&nbsp;<a href='../contr/cambiautenteok.php?nuovoutente=" . $dati['userid'] . "'><img src='../immagini/alias.png' title='Assumi identità tutor'></a>");
+            print("<a href='../contr/cambiautenteok.php?nuovoutente=" . $dati['userid'] . "'><img src='../immagini/alias.png' title='Assumi identità tutor'></a>");
         }
 
         print "</td>";

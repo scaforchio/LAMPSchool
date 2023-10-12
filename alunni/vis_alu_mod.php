@@ -279,14 +279,20 @@ if (!$res)
         }
         print ("</select></td></tr>");
 
-        print ("<tr> <td><i>Censito</i> </td> <td align='left'> <select name='censito' $disabledmagg>");
-        if (!$censito)
-        {
-            print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
-        } else
-        {
-            print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");
+        if($censito != '0' && $censito != '1'){
+            print("<tr> <td><i>Censito</i> </td> <td align='left'> <b>Preferenze specificate, modifica disabilitata</b> </td>");
+            print('<input type="hidden" name="nocens" value="1">');
+        }else {
+            print ("<tr> <td><i>Censito</i> </td> <td align='left'> <select name='censito' $disabledmagg>");
+            if (!$censito)
+            {
+                print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
+            } else
+            {
+                print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");
+            }
         }
+
         print ("</select></td></tr>");
 
         print ("<tr> <td><i>Blocco cambiamento password</i> </td> <td align='left'> <select name='bloccopassword'>");

@@ -218,10 +218,8 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
           
           <td><b> Assenza  </b></td>';
 
-    if($_SESSION['tipoutente']== 'S' | $_SESSION['tipoutente'] == 'P'){
             echo '<td><b> Maggiorenne  </b></td>
         <td><b> Censito  </b></td>';
-    }
           
     echo  '<td><b> Dettaglio </b></td> 
           <td><b> Giust. </b></td>
@@ -275,10 +273,8 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
 
         print "></center></td>";
 
-        if($_SESSION['tipoutente']== 'S' | $_SESSION['tipoutente'] == 'P'){
             print(maggiorenneok($val["datanascita"]));
             print(censito($val["datanascita"], $val["censito"]));
-        }
 
         print "<td><center>";
 

@@ -862,8 +862,12 @@ function sendTelegramMessageToken($chat_id, $testo, $tokenBot)
 
 function censito($data, $num) {
     if(maggiorenne($data)){
-        if($num == 1) {
-            return "<td style='background-color: #00ff0087;'>Si</td>";
+        if($num != "0") {
+            if($num != "1"){
+                return "<td><a href='#' class='button-eme' onclick='cens(`$num`)'>Si</a></td>";
+            } else {
+                return "<td style='background-color: #ffc65c;'>Si</td>";
+            }
         }else{
             return "<td style='background-color: #ff000087;'>No</td>";
         }
