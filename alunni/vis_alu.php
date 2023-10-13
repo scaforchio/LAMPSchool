@@ -203,9 +203,7 @@ if (!(mysqli_num_rows($result) > 0))
         print("&nbsp;<a target='_blank' href='../alunni/genassotp.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/barcode.png' width=22 height=22 title='Rigenera OTP tutor'></a>");
         print("&nbsp;<a href='../password/rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera password tutor'  class='pwdreset'></a>");
         print("&nbsp;<a href='../password/alu_rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera password alunni'  class='pwdresetalu'></a>");
-        if($dati['censito'] != "0"){
-            print("&nbsp;<a target='_blank' href='../alunni/prefcens.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/edit.png' width=22 height=22 title='Preferenze Censimento'></a>");
-        }
+        print("&nbsp;<a target='_blank' href='../alunni/prefcens.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/ci.png' width=22 height=22 title='Preferenze Censimento'></a>");
         if ($tipoutente == 'M')
         {
             print("<a href='../contr/cambiautenteok.php?nuovoutente=" . $dati['userid'] . "'><img src='../immagini/alias.png' title='Assumi identità tutor'></a>");
