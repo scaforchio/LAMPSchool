@@ -130,9 +130,7 @@ if (strlen($strcogn) > 1 | strlen($strnome) > 1 | strlen($codice))
             }
             print("<a href='../password/rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'>Rig. password tutor</a>&nbsp;<a href='../password/alu_rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'>Rig. password alunno</a>");
             print("&nbsp;&nbsp;&nbsp;<a target='_blank' href='../alunni/genassotp.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera OTP tutor'></a>");
-            if($dati['censito'] != "0"){
-                print("&nbsp;<a target='_blank' href='../alunni/prefcens.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/edit.png' width=22 height=22 title='Preferenze Censimento'></a>");
-            }
+            print("&nbsp;<a target='_blank' href='../alunni/prefcens.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/ci.png' width=22 height=22 title='Preferenze Censimento'></a>");
             if ($tipoutente == 'M')
             {
                 print("<a href='../contr/cambiautenteok.php?nuovoutente=" . $dati['userid'] . "'><img src='../immagini/alias.png' title='Assumi identità tutor'></a>");
