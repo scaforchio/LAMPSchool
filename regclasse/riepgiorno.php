@@ -80,6 +80,10 @@ $mese = substr($meseanno, 0, 2);
 
 $giornosettimana = "";
 
+// Impostazione variabili per giorno attuale - pulsante OGGI
+$gioattuale = date('d');
+$meannoattuale = date('m - Y');
+
 if ($giorno == '')
 {
     $giorno = date('d');
@@ -178,7 +182,8 @@ if ($dataieri >= $_SESSION['datainiziolezioni'])
     print ("<a href='riepgiorno.php?gio=$gioieri&meseanno=$maieri&idclasse=$idclasse'><img src='../immagini/indietro.png'></a>");
 print ("&nbsp;&nbsp;&nbsp;");
 if ($datadomani <= $_SESSION['datafinelezioni'])
-    print ("<a href='riepgiorno.php?gio=$giodomani&meseanno=$madomani&idclasse=$idclasse'><img src='../immagini/avanti.png'></a>");
+    print ("<a href='riepgiorno.php?gio=$gioattuale&meseanno=$meannoattuale&idclasse=$idclasse'><img src='../immagini/today.png'></a> &nbsp;
+            <a href='riepgiorno.php?gio=$giodomani&meseanno=$madomani&idclasse=$idclasse'><img src='../immagini/avanti.png'></a>");
 print "</center>";
 
 //       <table align="center">

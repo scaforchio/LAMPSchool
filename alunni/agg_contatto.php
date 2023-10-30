@@ -35,8 +35,8 @@ $email2 = stringa_html('email2');
 $telcel = stringa_html('telcel');
 $titolo = "Aggiornamento dati di contatto tutor";
 $script = "";
-stampa_head($titolo, "", $script, "T");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "T");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 //Connessione al server SQL
@@ -48,12 +48,12 @@ print "
 		
 		  <center><b>Aggiornamento effettuato!</b></center> 
         <form method='post' id='formcont' action='../login/ele_ges.php'>
-            <center><br><input type='submit' value='OK'></center>
+            <center><br><input type='submit' class='btn btn-outline-success' value='OK'></center>
         </form>
         ";
 
 
-stampa_piede("");
+stampa_piede_new("");
 mysqli_close($con);
 
 

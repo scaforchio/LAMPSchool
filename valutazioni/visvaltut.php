@@ -137,14 +137,13 @@ $ris = eseguiQuery($con, $query);
 if (mysqli_num_rows($ris) > 0)
 {
     print ("<div style='margin-left: 10px; margin-right: 10px;'>
-            <table border=1 align=center class='table table-striped table-bordered'> 
+            <table border=1 align=center class='table table-bordered'> 
             <thead style='font-weight: bold;'> <tr class='prima'> 
                         <td data-priority='1' align=center>Data e Tipo Valutazione</td>  
                         <td data-priority='2' align=center>Voto</td> 
-                        <td data-priority='3' class='not-mobile'>Giudizio</td> 
+                        <td data-priority='3' align=center>Giudizio</td> 
             </tr> </thead><tbody>");
-    
-            //<td align=center>Tipo valutazione</td>
+
     $mat = "";
     while ($val = mysqli_fetch_array($ris))
     {
@@ -176,7 +175,7 @@ if (mysqli_num_rows($ris) > 0)
                 // SEPARATORE
 	            //print("<tr style='border-left: 1px solid white; border-right: 1px solid white'>
 		        // <td colspan=4 style='color: white; font-size: 16px;'>-</td></tr>");
-            print("<tr class=prima><td colspan=4 align=center><b>$matupp</b></td></tr>");
+            print("<tr class=prima><td style='background-color: #F2F2F2' colspan=4 align=center><b>$matupp</b></td></tr>");
             //facciamo l'avg() di tutti i voti per la determinata materia per il determinato alunno
             $idmateria = $val["idmateria"];
             $querymedia = "select avg(voto) as votomedio from tbl_valutazioniintermedie where idalunno=$idalunno and idmateria=$idmateria and voto<99";

@@ -397,7 +397,6 @@ if ($tipoutente == 'S') {
     menu_item('../rp/autorizzaritardo.php', 'AUTORIZZA ENTRATA IN RITARDO');
     menu_item('../rp/vis_ritcla.php', 'ENTRATE POSTICIPATE CLASSI');
     menu_item('../rp/vis_usccla.php', 'USCITE ANTICIPATE CLASSI');
-    menu_item('../rp/programmer.php', 'PROGRAMMATORE BADGE');
     menu_item('../assenze/sitgiustifiche.php', 'VISUALIZZA MANCANZA GIUSTIFICHE');
 
     menu_separator("");
@@ -1322,7 +1321,7 @@ if ($tipoutente == 'D' | $tipoutente == 'S' | $tipoutente == 'T' | $tipoutente =
 							  and datainserimento<='$dataoggi'";
     $ris = eseguiQuery($con, $query);
     if (mysqli_num_rows($ris) > 0) {
-        alert("Ci sono circolari non lette! <a class='alert-link' href='../circolari/viscircolari.php'>Leggi ora!</a>", "", "warning", "eye");
+        alert("<b>Ci sono circolari non lette!</b> <a class='alert-link' href='../circolari/viscircolari.php'>Leggi ora</a>", "", "warning", "eye");
     }
 
     // VERIFICO PRESENZA COLLOQUI
@@ -1415,7 +1414,12 @@ if ($tipoutente == 'D' | $tipoutente == 'S' | $tipoutente == 'T' | $tipoutente =
         $ris = eseguiQuery($con, $query);
         if (mysqli_num_rows($ris) > 0) {
             while ($rec = mysqli_fetch_array($ris)) {
-                annotazione($rec['data'], $rec['testo'], $rec['nome'], $rec['cognome']);
+                if(substr(strtolower($rec['testo']), 0, 8) == "verifica" || substr(strtolower($rec['testo']), 0, 7) == "compito" || substr(strtolower($rec['testo']), 0, 4) == "quiz"){
+                    $tipoalert = "alert-info";
+                }else{
+                    $tipoalert = "alert-primary";
+                }
+                annotazione($rec['data'], $rec['testo'], $rec['nome'], $rec['cognome'], $tipoalert);
             }
         }
     }
@@ -1434,7 +1438,12 @@ if ($tipoutente == 'D' | $tipoutente == 'S' | $tipoutente == 'T' | $tipoutente =
         $ris = eseguiQuery($con, $query);
         if (mysqli_num_rows($ris) > 0) {
             while ($rec = mysqli_fetch_array($ris)) {
-                annotazione($rec['data'], $rec['testo'], $rec['nome'], $rec['cognome']);
+                if(substr(strtolower($rec['testo']), 0, 8) == "verifica" || substr(strtolower($rec['testo']), 0, 7) == "compito" || substr(strtolower($rec['testo']), 0, 4) == "quiz"){
+                    $tipoalert = "alert-info";
+                }else{
+                    $tipoalert = "alert-primary";
+                }
+                annotazione($rec['data'], $rec['testo'], $rec['nome'], $rec['cognome'], $tipoalert);
             }
         }
     }
@@ -1570,9 +1579,9 @@ function menu_separator($titolo)
     }
 }
 
-function annotazione($data, $testo, $nome, $cognome){
+function annotazione($data, $testo, $nome, $cognome, $tipoalert){
     ?>
-        <div class='alert alert-success' role='alert'> 
+        <div class='alert <?php echo $tipoalert ?>' role='alert'> 
             <span>
                 <i class='bi bi-calendar2-week' style='margin-right: 8px;'></i> 
                 <?php echo data_italiana($data); ?>
@@ -1591,7 +1600,7 @@ function annotazione($data, $testo, $nome, $cognome){
 
 function avviso($data, $oggetto, $testo, $destinatari = ""){
     ?>
-        <div class='alert alert-success' role='alert'> 
+        <div class='alert alert-primary' role='alert'> 
             <span>
                 <i class='bi bi-calendar2-week' style='margin-right: 8px;'></i> 
                 <?php echo data_italiana($data); ?>
