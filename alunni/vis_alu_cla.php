@@ -32,8 +32,8 @@ if ($tipoutente == "")
 
 $titolo = "Elenco classi";
 $script = "";
-stampa_head($titolo, "", $script, "MASP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Elenco classi", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "MASP");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - Elenco classi", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 if (!$con)
@@ -48,10 +48,10 @@ if (!$db)
 $sql = "SELECT * FROM tbl_classi ORDER BY specializzazione, sezione, anno";
 $res = eseguiQuery($con, $sql);
 
-print "<center><a href='vis_alu_ins.php'>Inserisci nuovo alunno senza classe</a></center><br/><br/>";
+print "<center><br><a class='btn btn-outline-secondary' href='vis_alu_ins.php'>Inserisci nuovo alunno senza classe</a></center><br/>";
 print "<form method='POST' action='vis_alu.php' name='alunni'>";
 print "<center>";
-print " <select name='idcla' ONCHANGE='alunni.submit()'><option value=''>&nbsp;</option>";
+print "<div style='max-width: 300px'> <select class='form-select' name='idcla' ONCHANGE='alunni.submit()'><option value=''>&nbsp;</option></div>";
 while ($dati = mysqli_fetch_array($res))
 {
     //print("<tr> <td> <font size='3'> <a href='vis_alu.php?idcla=".$dati['idclasse']."'> ".$dati['anno']." ".$dati['sezione']." ".$dati['specializzazione']." </a> </font> </td> </tr>");
@@ -63,6 +63,6 @@ print "</select>";
 print "</form>";
 
 mysqli_close($con);
-stampa_piede("");
+stampa_piede_new("");
 
 

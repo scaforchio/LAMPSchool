@@ -227,6 +227,15 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
                                     </a>
                                 </li>
 
+                                <?php if ($_SESSION['tipoutente'] == "L") { ?>
+                                    <li>
+                                        <a class="dropdown-item" href="../alunni/matricola.php">
+                                            <i class="bi bi-upc-scan"></i>
+                                            Matricola
+                                        </a>
+                                    </li>
+                                <?php } ?>
+
                                 <?php if ($devmode) { ?>
                                     <li>
                                         <a class="dropdown-item" href="#" onclick='si()'>
@@ -435,6 +444,15 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
                                         Cambia Tema
                                     </a>
                                 </li>
+
+                                <?php if ($_SESSION['tipoutente'] == "L") { ?>
+                                    <li>
+                                        <a class="dropdown-item" href="../alunni/matricola.php">
+                                            <i class="bi bi-upc-scan"></i>
+                                            Visualizza Matricola
+                                        </a>
+                                    </li>
+                                <?php } ?>
 
                                 <?php if ($devmode) { ?>
                                     <li>
@@ -721,9 +739,26 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
                 Se i dati non sono aggiornati ricarica la pagina! <br>
             </div>
         </div>
+        <div id="modbar" class="modal-ce">
+            <div class="modal-content-ce">
+                <span class="close-ce">×</span>
+                <br>
+                <div><img alt='barcode' id='barcod' src=''/></div> <br>
+                <span style="font-size: 23px;" id='barcodtext'></span>
+            </div>
+        </div>
         <script>
             var modal = document.getElementById("modcens");
             var span = document.getElementsByClassName("close-ce")[0];
+
+            var modal2 = document.getElementById("modbar");
+            var span2 = document.getElementsByClassName("close-ce")[1];
+
+            function barcode(text) {
+                modal2.style.display = "block";
+                document.getElementById("barcod").setAttribute("src", `../lib/genbarcode.php?data=${text}`);
+                document.getElementById("barcodtext").innerHTML = text;
+            }
 
             function cens(conf) {
                 modal.style.display = "block";
@@ -767,9 +802,14 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
                 modal.style.display = "none";
             }
 
+            span2.onclick = function() {
+                modal2.style.display = "none";
+            }
+
             window.onclick = function(event) {
                 if (event.target == modal) {
                     modal.style.display = "none";
+                    modal2.style.display = "none";
                 }
             }
         </script>

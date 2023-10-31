@@ -37,8 +37,8 @@ if ($tipoutente == "")
 
 $titolo = "Modifica dati di contatto tutor";
 $script = "";
-stampa_head($titolo, "", $script, "T");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "T");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 //Connessione al server SQL
@@ -56,23 +56,19 @@ $ris = eseguiQuery($con, $sql);
 $dati = mysqli_fetch_array($ris);
 
 $email = $dati['email'];
-$email = $dati['email2'];
+$email2 = $dati['email2'];
 $telcel = $dati['telcel'];
 print "<form action='agg_contatto.php' method='POST'>";
 
+print "<CENTER style='max-width: 40%; margin: auto;'>";
 
-print "<CENTER><table border='0'>";
+print "<label for='email1' class='form-label'><i>Email 1</i></label> <input type='text' class='form-control' id='email' name='email' value='$email'>";
+print "<label for='email2' class='form-label' style='margin-top: 10px;'><i>Email 2</i></label> <input type='text' class='form-control' id='email2' name='email2' value='$email2'>";
+print "<label for='email1' class='form-label' style='margin-top: 10px;'><i>Cellulare</i></label> <input type='text' class='form-control' id='telcel' name='telcel' value='$telcel'>";
 
-print "<tr><td>Email 1:</td><td><input type='text' name='email' value='$email'></td></tr>";
-print "<tr><td>Email 2:</td><td><input type='text' name='email2' value='$email2'></td></tr>";
-
-print "<tr><td>Cellulare:</td><td><input type='text' name='telcel' value='$telcel'></td></tr>";
-print "</table>";
-print "<center><br><b>Con la registrazione dei dati inseriti si autorizza la scuola ad inviare email ed SMS riguardanti le attività scolastiche dell'alunno.</b></center>";
-print "<CENTER><br> <input type='submit' value='REGISTRA'>";
+print "<p><br><b>Con la registrazione dei dati inseriti si autorizza la scuola ad inviare email ed SMS riguardanti le attività scolastiche dell'alunno.</b></ps>";
+print "<CENTER><input type='submit' class='btn btn-outline-secondary mb-3' value='REGISTRA'>";
 print "</CENTER></form>";
 
-stampa_piede("");
+stampa_piede_new("");
 mysqli_close($con);
-
-
