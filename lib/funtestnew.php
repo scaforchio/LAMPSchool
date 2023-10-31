@@ -836,7 +836,7 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
         margin: 15% auto;
         padding: 20px;
         border: 1px solid #888;
-        width: 13%; 
+        width: 20%; 
     }
 
     .close-ce {

@@ -126,11 +126,11 @@ if ($rs5)
         $data = $val5["data"];
         $giustificata = "";
         if($val5["giustifica"] == 1){
-            $giustificata = "<span style=\"color: green;\"> (Giustificata) </span>";
+            $giustificata = "<span class=\"badge rounded-pill text-bg-success\">Giustificata</span>";
         }else{
-            $giustificata = "<span style=\"color: red;\" > (NON GIUSTIFICATA)</span>";
+            $giustificata = "<span class=\"badge rounded-pill text-bg-danger\">Non Giustificata</span>";
         }
-        echo ' ' . data_italiana($data) . ' ' . giorno_settimana($data) . " | " . $giustificata . '<br/>';
+        echo ' ' . data_italiana($data) . ' ' . giorno_settimana($data) . " " . $giustificata . '<br/>';
     }
 }
 echo "</td>";
@@ -145,11 +145,11 @@ if ($rs6)
     {
         $data = $val6["data"];
         if($val6["giustifica"] == 1){
-            $giustificato = "<span style=\"color: green;\"> (Giustificato) </span>";
+            $giustificato = "<span class=\"badge rounded-pill text-bg-success\">Giustificato</span>";
         }else{
-            $giustificato = "<span style=\"color: red;\" > (NON GIUSTIFICATO)</span>";
+            $giustificato = "<span class=\"badge rounded-pill text-bg-danger\">Non Giustificato</span>";
         }
-        echo ' ' . data_italiana($data) . ' ' . giorno_settimana($data) . " | " . $giustificato . '<br/>';
+        echo ' ' . data_italiana($data) . ' ' . giorno_settimana($data) . " " . $giustificato . '<br/>';
     }
 }
 echo "</td>";
