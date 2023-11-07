@@ -20,8 +20,6 @@ require_once '../lib/req_apertura_sessione.php';
 
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
-// require_once '../lib/ db / query.php';
-//$lQuery = LQuery::getIstanza();
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
@@ -44,7 +42,6 @@ $titolo = "Elenco alunni senza presenza forzata";
 $script = "";
 stampa_head($titolo, "", $script, "MSPD");
 
-
 print "<center><B>Elenco alunni della " . decodifica_classe($idclasse, $con) . "</B><br><br></center>";
 // prelevamento dati alunno
 // $rs = $lQuery->selectstar('tbl_alunni', 'idalunno=?', array($codalunno));
@@ -53,7 +50,7 @@ $rs = eseguiQuery($con, $query);
 $esistono = false;
 if (mysqli_num_rows($rs) > 0)
 {
-    print "<table align='center' border='1'><tr class='prima'><td>N.</td><td>Cognome</td><td>Nome</td><td>Data nascita</td><td>Cod. Fisc.</td><td>Funz.</td><td>Aut.<br>usc.<br>ant.</td>";
+    print "<table align='center' border='1'><tr class='prima'><td>N.</td><td>Cognome</td><td>Nome</td><td>Data nascita</td><td>Cod. Fisc.</td><td>Magg.</td><td>Cens.</td><td>Funz.</td><td>Aut.<br>usc.<br>ant.</td>";
     if (verifica_classe_coordinata($_SESSION['idutente'], $idclasse, $con))
         {
             print "<td>Telefoni genitori</td>";
@@ -64,6 +61,9 @@ if (mysqli_num_rows($rs) > 0)
     while ($rec = mysqli_fetch_array($rs))
     {
         print "<tr><td>$cont</td><td>" . $rec['cognome'] . "</td><td>" . $rec['nome'] . "</td><td>" . data_italiana($rec['datanascita']) . "</td><td>" . $rec['codfiscale'] . "</td>";
+
+        print maggiorenneok($rec['datanascita']);
+        print censito($rec['datanascita'], $rec['censito']);
 
         if ($rec['idalunno'] == estraiAprifila1($idclasse, $con) | $rec['idalunno'] == estraiAprifila2($idclasse, $con))
             print "<td>A.F.</td>";
@@ -87,4 +87,5 @@ if (mysqli_num_rows($rs) > 0)
 } else
     print "<BR><br><b><i><center>Nessun alunno presente!</b></i></center>";
 mysqli_close($con);
+modal_censimento();
 

@@ -53,7 +53,9 @@ $mat = strtoupper($_SESSION["suffisso"]).$idalunno;
 
 <center>
     <div style="max-width: 350px;">
-        <div><img alt='barcode' src="../lib/genbarcode.php?data=<?php echo $mat ?>"/></div>
+        <div>
+            <img alt='barcode' class="barcode" src="../lib/genbarcode.php?data=<?php echo $mat ?>"/>
+        </div>
         <div style="margin-top: 10px;"><span style="font-size: 23px;"><?php echo $mat ?></span></div>
         <div style="margin-top: 10px;">
             <table>

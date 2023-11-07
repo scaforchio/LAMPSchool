@@ -175,7 +175,8 @@ if (mysqli_num_rows($ris) > 0)
                 // SEPARATORE
 	            //print("<tr style='border-left: 1px solid white; border-right: 1px solid white'>
 		        // <td colspan=4 style='color: white; font-size: 16px;'>-</td></tr>");
-            print("<tr class=prima><td style='background-color: #F2F2F2' colspan=4 align=center><b>$matupp</b></td></tr>");
+            //print("<tr class=prima><td style='background-color: #F2F2F2' colspan=4 align=center><b>$matupp</b></td></tr>");
+            print("<tr class=prima><td style='background-color: var(--bs-secondary-bg-subtle)' colspan=4 align=center><b>$matupp</b></td></tr>");
             //facciamo l'avg() di tutti i voti per la determinata materia per il determinato alunno
             $idmateria = $val["idmateria"];
             $querymedia = "select avg(voto) as votomedio from tbl_valutazioniintermedie where idalunno=$idalunno and idmateria=$idmateria and voto<99";
@@ -190,10 +191,11 @@ if (mysqli_num_rows($ris) > 0)
                 PHP_ROUND_HALF_UP
             );
             //stampiamo il valore subito dopo il nome della materia
-            print("<tr style=\"background-color: #cfcfcf\"><td colspan=4 align=center>");
+            print("<tr style=\"background-color: #cfcfcf\"><td colspan=4 style='padding: 0;' align=center>");
             //se la media è inferiore a 5 stampa il valore in rosso
             if ($mediacalc == 0){
-                $coloreglobale = "#cfcfcf";
+                $coloreglobale = "var(--bs-secondary-bg-subtle)";
+                $mediacalc = "-";
             } else if ($mediacalc < 5)
             {
                 $coloreglobale = "#eb4034";
@@ -231,7 +233,7 @@ if (mysqli_num_rows($ris) > 0)
             }
             if($mc_primo == 0){
                 $mc_primo = "-";
-                $coloreprimo = "#cfcfcf";
+                $coloreprimo = "var(--bs-secondary-bg-subtle)";
             }
 
             // CONTROLLO SECONDO QUADRIMESTRE
@@ -259,10 +261,10 @@ if (mysqli_num_rows($ris) > 0)
             }
             if($mc_secondo == 0){
                 $mc_secondo = "-";
-                $coloresecondo = "#cfcfcf";
+                $coloresecondo = "var(--bs-secondary-bg-subtle)";
             }
             ?>
-                <table style="width: 100%;" border="1">
+                <table style="width: 100%;" class="">
                     <tbody>
                         <tr>
                             <td style="text-align: center; background-color: <?php echo $coloreglobale; ?>;">Media Globale: <b><?php echo $mediacalc; ?></b></td>
@@ -297,23 +299,27 @@ if (mysqli_num_rows($ris) > 0)
             {
                 // voto negativo stile rosso
                 $stilecasella = 'style="color: #eb4034; text-align: center; font-weight: bold;"';
+                $gi = "";
             } else if ($val['voto'] >= 5 && $val['voto'] < 6) {
                 // voto tra 5 e 6 - arancio
                 $stilecasella = 'style="color: #ebac34; text-align: center; font-weight: bold;"';
+                $gi = "";
             } else
             {
                 // voto valido quindi verde
                 if ($val['voto']!=99)
                 {
                     $stilecasella = 'style="color: #05ac50; text-align: center; font-weight: bold;"'; 
+                    $gi = "";
                 }      
                 else
                 {
                     //solo giudizio quindi grigio
-                    $stilecasella = 'style="background: #cfcfcf; text-align: center; font-weight: bold;"'; 
+                    $stilecasella = 'style="color: #9d9d9d; text-align: center; font-weight: bold;"'; 
+                    $gi = "<span style='margin-right: 13px;'>G</span>";
                 }
             }
-            print("<td $stilecasella>$voto</td>");
+            print("<td $stilecasella>$voto $gi</td>");
             print("<td>$giudizio</td>");
             print("</tr>");
         }
