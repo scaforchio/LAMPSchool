@@ -78,6 +78,8 @@ $censito = stringa_html('censito');
 $nocens = stringa_html('nocens');
 $idgrupporitardo = stringa_html('idgrupporitardo');
 $numeroregistro = stringa_html('numeroregistro');
+$telproprio = stringa_html('telproprio');
+$mailpropria = stringa_html('mailpropria');
 $provenienza = stringa_html('provenienza');
 $titoloammissione = stringa_html('titoloammissione');
 $sequenzaiscrizione = stringa_html('sequenzaiscrizione');
@@ -113,7 +115,7 @@ if ($idcomr != null)
 {
     $sqla = $sqla . "idcomres=$idcomr,";
 }
-$sqla = $sqla . " codmeccanografico='$sidi',telefono='$tel', telcel='$cel', email='$mail',email2='$mail2',autentrata='$autentrata',autuscita='$autuscita', idclasse=$datc, idtutore=$idal,note='$note',numeroregistro='$numeroregistro',provenienza='$provenienza',titoloammissione='$titoloammissione',sequenzaiscrizione=$sequenzaiscrizione WHERE idalunno=$c";
+$sqla = $sqla . " codmeccanografico='$sidi',telefono='$tel', telcel='$cel', email='$mail',email2='$mail2',autentrata='$autentrata',autuscita='$autuscita', idclasse=$datc, idtutore=$idal,note='$note',numeroregistro='$numeroregistro',provenienza='$provenienza',titoloammissione='$titoloammissione',sequenzaiscrizione=$sequenzaiscrizione,telproprio='$telproprio',mailpropria='$mailpropria' WHERE idalunno=$c";
 $err = 0;
 $mes = "";
 
@@ -317,6 +319,8 @@ if ($err == 0)
     print ("<input type='hidden' name='bloccopassword' value='$bloccopassword'> ");
     print ("<input type='hidden' name='firmapropria' value='$firmapropria'> ");
     print ("<input type='hidden' name='censito' value='$censito'> ");
+    print ("<input type='hidden' name='telproprio' value='$telproprio'> ");
+    print ("<input type='hidden' name='mailpropria' value='$mailpropria'> ");
     print ("<input type='hidden' name='idtut'  value='$idtut'> ");
     print ("<input type ='hidden' name='strcogn' value='$strcogn'>");
     print ("<input type ='hidden' name='strnome' value='$strnome'>");
