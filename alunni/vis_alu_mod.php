@@ -134,6 +134,8 @@ if (!$res)
         $autorizzazioni = $dato['autorizzazioni'];
         $idcla = $dato['idclasse'];
         $numeroregistro = $dato['numeroregistro'];
+        $telproprio = $dato['telproprio'];
+        $mailpropria = $dato['mailpropria'];
         $provenienza = $dato['provenienza'];
         $titoloammissione = $dato['titoloammissione'];
         $sequenzaiscrizione = $dato['sequenzaiscrizione'];
@@ -305,6 +307,13 @@ if (!$res)
             print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");
         }
         print ("</select></td></tr>");
+
+        print ("<tr> <td><i>Numero di telefono Alunno:</i> </td>");
+        print (" <td align='left'> <input $disabledmagg type='text' name='telproprio' size='20' maxlength='20'value='$telproprio'> </td> </tr>");
+
+        print ("<tr> <td><i>E-Mail Alunno:</i> </td>");
+        print (" <td align='left'> <input $disabledmagg type='email' name='mailpropria' size='30' value='$mailpropria'> </td> </tr>");
+
         print ("<tr> <td><i>Numero registro generale</i> </td>");
         print (" <td align='left'> <input type='text' name='numeroregistro' size='20' maxlength='20'value='$numeroregistro'> </td> </tr>");
         print ("<tr> <td><i>Provenienza</i> </td>");

@@ -68,6 +68,8 @@ $oidc_enable = stringa_html('oidc_enable');
 $oidc_uid = stringa_html('oidc_uid');
 $accessowifi = stringa_html('accessowifi');
 $censito = stringa_html('censito');
+$telproprio = stringa_html('telproprio');
+$mailpropria = stringa_html('mailpropria');
 $oidc_enable_gen = stringa_html('oidc_enable_gen');
 $oidc_uid_gen = stringa_html('oidc_uid_gen');
 $idgrupporitardo = stringa_html('idgrupporitardo');
@@ -91,7 +93,7 @@ if (!$DB)
     //print "<html>";
     //print " <head> ";
     //print (" <title> Controllo dati dell'inserimento</title> </head>");
-    $query = "insert into tbl_alunni (cognome,nome,datanascita,codfiscale,certificato,idcomnasc,indirizzo,idcomres,codmeccanografico,telefono,telcel,email,email2,autentrata,autuscita,idclasse,note,numeroregistro,provenienza,titoloammissione,sequenzaiscrizione,firmapropria,censito,idgrupporitardo)values('$cognome','$nome','$aa-$mm-$gg','$codfiscale','$certificato','$idcomn','$indirizzo','$idcomr','$sidi','$tel','$cel','$mail','$mail2','$autentrata','$autuscita','$datc','$note','$numeroregistro','$provenienza','$titoloammissione',$sequenzaiscrizione,$firmapropria,$censito,$idgrupporitardo)";
+    $query = "insert into tbl_alunni (cognome,nome,datanascita,codfiscale,certificato,idcomnasc,indirizzo,idcomres,codmeccanografico,telefono,telcel,email,email2,autentrata,autuscita,idclasse,note,numeroregistro,provenienza,titoloammissione,sequenzaiscrizione,firmapropria,censito,idgrupporitardo,telproprio,mailpropria)values('$cognome','$nome','$aa-$mm-$gg','$codfiscale','$certificato','$idcomn','$indirizzo','$idcomr','$sidi','$tel','$cel','$mail','$mail2','$autentrata','$autuscita','$datc','$note','$numeroregistro','$provenienza','$titoloammissione',$sequenzaiscrizione,$firmapropria,$censito,$idgrupporitardo,'$telproprio','$mailpropria')";
     $err = 0;
     $mes = "";
     if (!$cognome)
@@ -318,6 +320,8 @@ if (!$DB)
         print ("<input type='hidden' name='datc'  value='$datc'> ");
         print ("<input type='hidden' name='idtut'  value='$idtut'> ");
         print ("<input type='hidden' name='numeroregistro'  value='$numeroregistro'> ");
+        print ("<input type='hidden' name='telproprio' value='$telproprio'> ");
+        print ("<input type='hidden' name='mailpropria' value='$mailpropria'> ");
         print ("<input type='hidden' name='provenienza'  value='$provenienza'> ");
         print ("<input type='hidden' name='titoloammissione'  value='$titoloammissione'> ");
         print ("<input type='hidden' name='sequenzaiscrizione'  value='$sequenzaiscrizione'> ");
