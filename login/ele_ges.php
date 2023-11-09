@@ -1311,6 +1311,25 @@ if ($tipoutente == 'D' | $tipoutente == 'S' | $tipoutente == 'T' | $tipoutente =
         }
     }
 
+    // VERIFICA COMPLEANNO UTENTE
+    if ($tipoutente == 'D' | $tipoutente == 'S') { // docente
+        $idc = $_SESSION['idutente'];
+        $comp_query = "SELECT nome FROM `tbl_docenti` WHERE iddocente = '$idc' and MONTH(datanascita) = MONTH(CURRENT_DATE()) AND DAY(datanascita) = DAY(CURRENT_DATE())";
+    }
+
+    if($tipoutente == 'L'){ // alunno
+        $ida = $_SESSION['idstudente'];
+        $comp_query = "SELECT nome FROM `tbl_alunni` WHERE idalunno = '$ida' and MONTH(datanascita) = MONTH(CURRENT_DATE()) AND DAY(datanascita) = DAY(CURRENT_DATE())";
+    }
+
+    $comp_result = eseguiQuery($con, $comp_query);
+    $comp_mostra = mysqli_num_rows($comp_result) == 1;
+    $comp_nome = ucfirst(strtolower(mysqli_fetch_assoc($comp_result)['nome']));
+    
+    if($comp_mostra){
+        alert("Buon compleanno, $comp_nome!", "", "dark", "cake2-fill");
+    }
+
     // VERIFICO PRESENZA CIRCOLARI NON LETTE
     $dataoggi = date('Y-m-d');
     $query = "select * from tbl_diffusionecircolari,tbl_circolari
