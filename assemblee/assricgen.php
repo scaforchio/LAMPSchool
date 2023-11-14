@@ -69,20 +69,20 @@ if (mysqli_num_rows($risass) == 0)
     $risclasse = eseguiQuery($con, $classe);
     $val = mysqli_fetch_array($risclasse);
     print "<center><b>Riepilogo assemblee " . $val['anno'] . $val['sezione'] . "&nbsp;" . $val['specializzazione'] . "</b></center><br/>";
-    print "<table border ='1' cellpadding='5'>";
-    print "<tr class='prima'>
-		<td colspan=5 align=center width=40%>RICHIESTA</td> 
-		<td colspan=1 align=center width=40%>SVOLGIMENTO</td>
-		<td colspan=2 align=center width=20%>ESITO</td>
-	   </tr>";
+    print "<table border ='1' cellpadding='5' class='table table-bordered'>";
+    print "<thead> <tr class='prima'>
+		<th colspan=5 align=center width=40%>RICHIESTA</th> 
+		<th colspan=1 align=center width=40% class='.d-none'>SVOLGIMENTO</th>
+		<th colspan=2 align=center width=20% class='.d-none'>ESITO</th>
+	   </tr></thead>";
     print "<tr class='prima'>
                 <td>Data</td> 
                 <td>O.d.G.</td>
-                <td>Rappresentanti di classe</td>
-                <td>Docenti ora</td>
+                <td>Rapp. di classe</td>
+                <td>Docenti</td>
                 <td>Autorizzazione</td>
-                <td>Verbale</td>
-                <td>Esame verbale</td>
+                <td >Verbale</td>
+                <td class='.d-none'>Esame verbale</td>
   	   </tr>";
     while ($dataass = mysqli_fetch_array($risass))
     {

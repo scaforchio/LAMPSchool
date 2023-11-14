@@ -2827,6 +2827,7 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'protogiustonline', 'totp', 'Protocollo di gestione OTP assenze online', 'totp|sms');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('tempo', 'orarioingresso', '08:05', 'Orario massimo di ingresso a scuola dopo il quale viene registrato un ritardo espresso in formato HH:mm', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'pwdreset', 'no','Reset password autonomo', 'yes|no');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'appuntamentoonline', 'no','Colloqui mattutini online', 'yes|no');
 
 ALTER TABLE `tbl_alunni`
   ADD `censito` VARCHAR(5) NOT NULL DEFAULT '0' after `autorizzazioni`,
