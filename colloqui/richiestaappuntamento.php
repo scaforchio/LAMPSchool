@@ -123,7 +123,11 @@ if ($iddocente != "") {
                     // print "NCD $ncd NMC $numeromassimocolloqui idore ".$idore[$i];
                     if (($stato[0] == 0) & ($ncd < $numeromassimocolloqui)) {
                         print "<td align=center><input type='radio' name='giorno' value='$dataattuale|" . $idore[$i] ."|sc"."'>";
-                        print "<td align=center><input type='radio' name='giorno' value='$dataattuale|" . $idore[$i] ."|ol"."'>";
+                        if($_SESSION['appuntamentoonline'] == "yes"){
+                            print "<td align=center><input type='radio' name='giorno' value='$dataattuale|" . $idore[$i] ."|ol"."'>";
+                        }else{
+                            print "<td align=center style='background-color: red;'>Disab.";
+                        }
                         print "</td><td>&nbsp;</td><td>&nbsp;</td>";
                         
                     } else {
