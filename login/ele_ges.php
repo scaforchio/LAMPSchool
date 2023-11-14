@@ -1311,22 +1311,28 @@ if ($tipoutente == 'D' | $tipoutente == 'S' | $tipoutente == 'T' | $tipoutente =
         }
     }
 
+    $qqq = false;
+
     // VERIFICA COMPLEANNO UTENTE
     if ($tipoutente == 'D' | $tipoutente == 'S') { // docente
         $idc = $_SESSION['idutente'];
         $comp_query = "SELECT nome FROM `tbl_docenti` WHERE iddocente = '$idc' and MONTH(datanascita) = MONTH(CURRENT_DATE()) AND DAY(datanascita) = DAY(CURRENT_DATE())";
+        $qqq = true;
     }
 
     if($tipoutente == 'L'){ // alunno
         $ida = $_SESSION['idstudente'];
         $comp_query = "SELECT nome FROM `tbl_alunni` WHERE idalunno = '$ida' and MONTH(datanascita) = MONTH(CURRENT_DATE()) AND DAY(datanascita) = DAY(CURRENT_DATE())";
+        $qqq = true;
     }
 
-    $comp_result = eseguiQuery($con, $comp_query);
-    $comp_mostra = mysqli_num_rows($comp_result) == 1;
-    $comp_nome = ucfirst(strtolower(mysqli_fetch_assoc($comp_result)['nome']));
+    if($qqq){
+        $comp_result = eseguiQuery($con, $comp_query);
+        $comp_mostra = mysqli_num_rows($comp_result) == 1;
+        $comp_nome = ucfirst(strtolower(mysqli_fetch_assoc($comp_result)['nome']));
+    }
     
-    if($comp_mostra){
+    if($comp_mostra && $qqq){
         alert("Buon compleanno, $comp_nome!", "", "dark", "cake2-fill");
     }
 
