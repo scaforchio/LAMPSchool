@@ -74,6 +74,7 @@ $autuscita = stringa_html('autuscita');
 $bloccopassword = stringa_html('bloccopassword');
 $firmapropria = stringa_html('firmapropria');
 $accessowifi = stringa_html('accessowifi');
+$liberatoria = stringa_html('liberatoria');
 $censito = stringa_html('censito');
 $nocens = stringa_html('nocens');
 $idgrupporitardo = stringa_html('idgrupporitardo');
@@ -101,9 +102,9 @@ if ($dato = mysqli_fetch_array($resw))
 }
 
 if($nocens == "1"){
-    $sqla = "UPDATE tbl_alunni SET cognome='$cognome', nome='$nome', datanascita='$aa-$mm-$gg',codfiscale='$codfiscale',certificato='$certificato',firmapropria='$firmapropria',autorizzazioni='$autorizzazioni',idgrupporitardo='$idgrupporitardo',";
+    $sqla = "UPDATE tbl_alunni SET cognome='$cognome', nome='$nome', datanascita='$aa-$mm-$gg',codfiscale='$codfiscale',certificato='$certificato',firmapropria='$firmapropria',autorizzazioni='$autorizzazioni',idgrupporitardo='$idgrupporitardo',liberatoria=$liberatoria,";
 } else {
-    $sqla = "UPDATE tbl_alunni SET cognome='$cognome', nome='$nome', datanascita='$aa-$mm-$gg',codfiscale='$codfiscale',certificato='$certificato',firmapropria='$firmapropria',censito='$censito',autorizzazioni='$autorizzazioni',idgrupporitardo='$idgrupporitardo',";
+    $sqla = "UPDATE tbl_alunni SET cognome='$cognome', nome='$nome', datanascita='$aa-$mm-$gg',codfiscale='$codfiscale',certificato='$certificato',firmapropria='$firmapropria',censito='$censito',autorizzazioni='$autorizzazioni',idgrupporitardo='$idgrupporitardo',liberatoria=$liberatoria,";
 }
 $sqlpass = "UPDATE tbl_utenti SET dischpwd=$bloccopassword, wifi=$accessowifi WHERE idutente=$cs";
 if ($idcomn != null)

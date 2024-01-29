@@ -29,6 +29,7 @@
         "datatables.net/datatables.net-responsive": "dev-master",
         "datatables.net/datatables.net-responsive-bs5": "dev-master",
         "php-mqtt/client": "^1.8",
+        "phpmailer/phpmailer": "^6.9",
         "picqer/php-barcode-generator": "^2.4",
         "spomky-labs/otphp": "^10.0",
         "twbs/bootstrap": "^5.3",

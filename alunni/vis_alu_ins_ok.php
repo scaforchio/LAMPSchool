@@ -67,6 +67,7 @@ $datacambio = stringa_html('datacambioclasse');
 $oidc_enable = stringa_html('oidc_enable');
 $oidc_uid = stringa_html('oidc_uid');
 $accessowifi = stringa_html('accessowifi');
+$liberatoria = stringa_html('liberatoria');
 $censito = stringa_html('censito');
 $telproprio = stringa_html('telproprio');
 $mailpropria = stringa_html('mailpropria');
@@ -93,7 +94,7 @@ if (!$DB)
     //print "<html>";
     //print " <head> ";
     //print (" <title> Controllo dati dell'inserimento</title> </head>");
-    $query = "insert into tbl_alunni (cognome,nome,datanascita,codfiscale,certificato,idcomnasc,indirizzo,idcomres,codmeccanografico,telefono,telcel,email,email2,autentrata,autuscita,idclasse,note,numeroregistro,provenienza,titoloammissione,sequenzaiscrizione,firmapropria,censito,idgrupporitardo,telproprio,mailpropria)values('$cognome','$nome','$aa-$mm-$gg','$codfiscale','$certificato','$idcomn','$indirizzo','$idcomr','$sidi','$tel','$cel','$mail','$mail2','$autentrata','$autuscita','$datc','$note','$numeroregistro','$provenienza','$titoloammissione',$sequenzaiscrizione,$firmapropria,$censito,$idgrupporitardo,'$telproprio','$mailpropria')";
+    $query = "insert into tbl_alunni (cognome,nome,datanascita,codfiscale,certificato,idcomnasc,indirizzo,idcomres,codmeccanografico,telefono,telcel,email,email2,autentrata,autuscita,idclasse,note,numeroregistro,provenienza,titoloammissione,sequenzaiscrizione,firmapropria,censito,idgrupporitardo,telproprio,mailpropria,liberatoria)values('$cognome','$nome','$aa-$mm-$gg','$codfiscale','$certificato','$idcomn','$indirizzo','$idcomr','$sidi','$tel','$cel','$mail','$mail2','$autentrata','$autuscita','$datc','$note','$numeroregistro','$provenienza','$titoloammissione',$sequenzaiscrizione,$firmapropria,$censito,$idgrupporitardo,'$telproprio','$mailpropria', $liberatoria)";
     $err = 0;
     $mes = "";
     if (!$cognome)

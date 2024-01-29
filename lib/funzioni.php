@@ -22,6 +22,12 @@
 
 error_reporting(E_ALL & ~E_NOTICE);
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+require '../vendor/autoload.php';
+
 @require_once("funtest.php");
 @require_once("fundate.php");
 @require_once("funstri.php");
@@ -677,17 +683,50 @@ function controlla_password($con,$password, $utente, $cu, $pe)
 function invia_mail($to, $subject, $msg, $from = "", $reply = "")
 {
 
-    if ($from == "")
+    if ($from == "") {
         $from = $_SESSION['indirizzomailfrom'];
-    if ($reply == "")
-        $reply = $from;
-    $intestazioni = "MIME-Version: 1.0\r\n";
-    $intestazioni .= "Content-type: text/html; charset=utf8-general-ci\r\n";
-    $intestazioni .= "From: " . $from . "\r\n";
-// $intestazioni .= "Reply-To: ".$reply."\r\n";
+    }
 
-    $inviata = mail($to, $subject, $msg, $intestazioni);
-    return $inviata;
+    if ($reply == "") {
+        $reply = $from;
+    }
+
+    if(!emailValida($to)){
+        return false;
+    }
+
+    $mail = new PHPMailer(true);
+
+    try {
+        $mail->isSMTP();
+        $mail->Host = $_SESSION['smtphost'];
+        $mail->SMTPAuth = true;
+        $mail->Username = $_SESSION['smtpuser'];
+        $mail->Password = $_SESSION['smtppass'];
+        if($_SESSION['smtpcrypt'] != "none"){
+            $mail->SMTPSecure = $_SESSION['smtpcrypt'];
+        }
+        $mail->Port = $_SESSION['smtpport'];
+
+        $mail->setFrom($from, 'Registro Elettronico LAMPSchool');
+        $mail->addAddress($to);
+        $mail->addReplyTo($reply);
+
+        $mail->isHTML(true);
+        $mail->CharSet = "UTF-8";
+        $mail->Encoding = 'quoted-printable';
+        $mail->Subject = $subject;
+        $mail->Body = $msg;
+
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        return $e->getMessage();
+    }
+}
+
+function emailValida($email) {
+    return filter_var($email, FILTER_VALIDATE_EMAIL) !== false;
 }
 
 function decod_dest($tipodest)

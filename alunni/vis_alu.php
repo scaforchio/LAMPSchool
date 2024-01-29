@@ -189,7 +189,13 @@ if (!(mysqli_num_rows($result) > 0))
         {
             print("<td>&nbsp;</td>");
         }
-        print("<td>" . $dati['note'] . "</td>");
+        print("<td>");
+
+        if($dati['liberatoria'] == 0) {
+            print("<img src='../immagini/nophoto.png' width='22' height='22'>");
+        }
+
+        print( $dati['note'] . "</td>");
 
         print("<td><a href='vis_alu_mod.php?idal=" . $dati['idalunno'] . "'><img src='../immagini/modifica.png' title='Modifica'></a>");
         print "&nbsp;";
