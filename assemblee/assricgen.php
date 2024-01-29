@@ -4,6 +4,7 @@ require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
+  Copyright (C) 2023 Michele Sacco - Flowopia Network [Rielaborazione sezione assemblee per adeguamento nuova UI]
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
@@ -63,228 +64,173 @@ $risass = eseguiQuery($con, $queryass);
 if (mysqli_num_rows($risass) == 0)
 {
     alert("Non hai richiesto/effettuato ancora nessuna assemblea");
-} else
-{
+} else {
+    // Titolo della pagina
     $classe = "SELECT anno,sezione,specializzazione FROM tbl_classi WHERE idclasse=$idclasse";
     $risclasse = eseguiQuery($con, $classe);
     $val = mysqli_fetch_array($risclasse);
     print "<center><b>Riepilogo assemblee " . $val['anno'] . $val['sezione'] . "&nbsp;" . $val['specializzazione'] . "</b></center><br/>";
-    print "<table border ='1' cellpadding='5' class='table table-bordered'>";
-    print "<thead> <tr class='prima'>
-		<th colspan=5 align=center width=40%>RICHIESTA</th> 
-		<th colspan=1 align=center width=40% class='.d-none'>SVOLGIMENTO</th>
-		<th colspan=2 align=center width=20% class='.d-none'>ESITO</th>
-	   </tr></thead>";
-    print "<tr class='prima'>
-                <td>Data</td> 
-                <td>O.d.G.</td>
-                <td>Rapp. di classe</td>
-                <td>Docenti</td>
-                <td>Autorizzazione</td>
-                <td >Verbale</td>
-                <td class='.d-none'>Esame verbale</td>
-  	   </tr>";
-    while ($dataass = mysqli_fetch_array($risass))
-    {
+
+    // Inizio Tabella assemblee
+    print ("
+        <div>
+            <table class='table table-striped table-bordered' width='100%'>
+                <thead><tr class='prima'>
+                    <th colspan=3 align=center width=60%>RICHIESTA</th>
+                    <th colspan=1 align=center width=40%>SVOLGIMENTO</th>
+                </tr></thead>
+                <tr class='prima'>
+                    <td>Data</td> 
+                    <td>Info</td>
+                    <td>Esito</td>
+                    <td>Verbale</td>
+                </tr>
+    ");
+
+    while($dataass = mysqli_fetch_array($risass)){
         $idassemblea = $dataass['idassemblea'];
         print "<tr>";
+        // sezione RICHIESTA
+        // Data
+            // Richiesta
+            print ("<td align='center'>Richiesta il <i>" . data_italiana($dataass['datarichiesta']) . "</i><br>");
+            // Svolgimento
+            print ("Svolta il <i>" . data_italiana($dataass['dataassemblea']) . " (" . $dataass['orainizio'] . " - " . $dataass['orafine'] . ")</i></td>");
 
-
-//DATA RICHIESTA
-        print "<td align='center'>Rich.: " . data_italiana($dataass['datarichiesta']) . "<br>";
-//DATA ASSEMBLEA
-        print "Svolg.: " . data_italiana($dataass['dataassemblea']) . "<br>";
-//INIZIO - FINE
-        print "Ora: " . $dataass['orainizio'] . " - " . $dataass['orafine'] . "</td>";
-
-//ORDINE DEL GIORNO
-        print "<td>" . nl2br($dataass['odg']) . "</td>";
-
-//RAPPRESENTANTI
-        $alu = "SELECT cognome,nome FROM tbl_alunni 
+        // Info (O.d.G. - Docente Ora - Rapp. Richiedenti)
+            print("<td align='center'>");
+            // OdG
+                print("<a tabindex='0' class='btn btn-outline-info' role='button' data-bs-toggle='popover' data-bs-trigger='focus' data-bs-title='Ordine del Giorno' data-bs-content='" .nl2br($dataass['odg']) ."' data-bs-html='true'><i class='bi bi-card-checklist'></i></a>");
+            // Rapp. di Classe
+                // Array nomi rappresentanti
+                $rapp = [];
+                // Query sql
+                $alu = "SELECT cognome,nome FROM tbl_alunni 
 		        WHERE idalunno=" . $dataass['rappresentante1'] . "
 		        OR idalunno=" . $dataass['rappresentante2'] . "
 		        ORDER BY cognome";
-
-        $risalu = eseguiQuery($con, $alu);
-        print "<td>";
-        $numerorappresentantirichiedenti = 0;
-        while ($dataalu = mysqli_fetch_array($risalu))
-        {
-            print ($dataalu['cognome'] . "&nbsp;" . $dataalu['nome'] . "<br/>");
-            $numerorappresentantirichiedenti++;
-        }
-
-        if ($numerorappresentantirichiedenti == 1 & $_SESSION['idstudente'] != $dataass['rappresentante1'])
-        {
-            if ($alurapp)
-            {
-                print "<a href='registra_conferma.php?idassemblea=" . $dataass['idassemblea'] . "'>CONFERMA RICHIESTA</a>";
-            }
-        }
-        print "</td>";
-
-
-//DOCENTI CONCEDENTI
-        $doc = "SELECT cognome,nome FROM tbl_docenti WHERE iddocente=" . $dataass['docenteconcedente1'];
-        if ($dataass['docenteconcedente2'] != 0)
-        {
-            $doc .= " OR iddocente=" . $dataass['docenteconcedente2'] . " ORDER BY cognome";
-        }
-        print "<td>";
-        $risdoc = eseguiQuery($con, $doc);
-        $cont = 1;
-        while ($datadoc = mysqli_fetch_array($risdoc))
-        {
-            if ($cont == 1)
-            {
-                if ($dataass['concesso1'] == 1)
-                {
-                    $fontin = "<font color=green>";
-                    $fontfi = "</font>";
-                } else if ($dataass['concesso1'] == 2)
-                {
-                    $fontin = "<font color=red>";
-                    $fontfi = "</font>";
-                } else
-                {
-                    $fontin = "";
-                    $fontfi = "";
-                }
-            } else
-            {
-                if ($dataass['concesso2'] == 1)
-                {
-                    $fontin = "<font color=green>";
-                    $fontfi = "</font>";
-                } else if ($dataass['concesso2'] == 2)
-                {
-                    $fontin = "<font color=red>";
-                    $fontfi = "</font>";
-                } else
-                {
-                    $fontin = "";
-                    $fontfi = "";
-                }
-            }
-            print ($fontin . $datadoc['cognome'] . "&nbsp;" . $datadoc['nome'] . "<br/>" . $fontfi);
-            $cont++;
-        }
-        print "</td>";
-
-//DOCENTE AUTORIZZANTE (se esiste)
-//AUTORIZZAZIONE
-
-        if ($dataass['autorizzato'] == 0)
-        {
-            print "<td align='center'>&nbsp; </td>";
-        } else
-        {
-            if ($dataass['autorizzato'] == 2)
-            {
-                print "<td><center><img src='../immagini/red_cross.gif'></center><br>" . nl2br($dataass['note']) . "<br><i>" . estrai_dati_docente($dataass['docenteautorizzante'], $con) . "</i></td>";
-            } else
-            {
-                print "<td><center><img src='../immagini/green_tick.gif'></center><br>" . nl2br($dataass['note']) . "<br><i>" . estrai_dati_docente($dataass['docenteautorizzante'], $con) . "</i></td>";
-            }
-        }
-
-//VERBALE
-        if ($alurapp)
-        {
-            if ($dataass['verbale'] == '' and $dataass['autorizzato'] == 1 and date('Y-m-d') > $dataass['dataassemblea'])
-            {
-                print "<td align='center'><img src='../immagini/red_cross.gif'>";
-                print "<br/><a href='insver.php?idassemblea=" . $dataass['idassemblea'] . "&idclasse=$idclasse'>Inserisci verbale!</a>";
-            } else
-            {
-                if ($dataass['verbale'] == '' and $dataass['autorizzato'] == 1 and date('Y-m-d') == $dataass['dataassemblea'])
-                {
-                    print "<td><br/><a href='insver.php?idassemblea=" . $dataass['idassemblea'] . "&idclasse=$idclasse'>INSERISCI</a>";
-                } else
-                {
-                    if (date('Y-m-d') < $dataass['dataassemblea'])
-                        print "<td align='center'>&nbsp;";
-                    else if ($dataass['verbale'] != "")
-                        print "<td>" . nl2br($dataass['verbale']);
-                    else
-                        print "<td>&nbsp;";
-
-                    if ($dataass['verbale'] != "")
+                $risalu = eseguiQuery($con, $alu);
+                while($dataalu = mysqli_fetch_array($risalu)){
+                    $ncrapp = $dataalu['cognome'] ." " .$dataalu['nome'];
+                    array_push($rapp, $ncrapp);
+                };
+                // Check se assemblea confermata | TRUE = Info Rapp. Classe - FALSE = No Info Rapp. Classe
+                if($dataass['rappresentante2'] == 0 & $_SESSION['idstudente'] != $dataass['rappresentante1']){
+                    if ($alurapp)
                     {
-                        if ($dataass['oratermine'] != "00:00:00")
-                        {
-                            print "<br>Ora termine: " . substr($dataass['oratermine'], 0, 5) . "<br>";
-                        } else
-                        {
-                            print "<br>";
-                        }
-//SEGRETARIO
-                        $alu = "SELECT cognome,nome FROM tbl_alunni
-				WHERE idalunno=" . $dataass['alunnosegretario'];
-
-                        $risalu = eseguiQuery($con, $alu);
-                        $dataalu = mysqli_fetch_array($risalu);
-                        print "<center>SEGRETARIO<br>" . $dataalu['cognome'] . "&nbsp;" . $dataalu['nome'] . "</center><br>";
-
-//PRESIDENTE
-                        if ($dataass['alunnopresidente'] != 0)
-                        {
-                            $alu = "SELECT cognome,nome FROM tbl_alunni
-				WHERE idalunno=" . $dataass['alunnopresidente'];
-
-                            $risalu = eseguiQuery($con, $alu);
-                            $dataalu = mysqli_fetch_array($risalu);
-                            print "<center>PRESIDENTE<br>" . $dataalu['cognome'] . "&nbsp;" . $dataalu['nome'] . "</center>";
-                        } else
-                        {
-                            if ($idalunno != $dataass['alunnosegretario'])
-                            {
-                                print "<center><a href='registra_firmapresidente.php?idassemblea=$idassemblea'>CONFERMA E TRASMETTI VERBALE</a></center>";
-                            } else
-                            {
-                                print "<center><a href='insver.php?idassemblea=$idassemblea'>CORREGGI VERBALE</a></center><br><br><center>PRESIDENTE<br>Firma non presente!<br>Verbale non ancora trasmesso!";
-                            }
+                        print (" <a href='registra_conferma.php?idassemblea=" . $dataass['idassemblea'] . "' class='btn btn-outline-success' role='button'><i class='bi bi-check-lg'></i></a> ");
+                    }else{
+                        print(" <button tabindex='0' class='btn btn-outline-primary' disabled><i class='bi bi-people-fill'></i></button>");
+                    }
+                }
+                else{
+                    print(" <a tabindex='0' class='btn btn-outline-primary' role='button' data-bs-toggle='popover' data-bs-trigger='focus' data-bs-title='Rappresentanti di Classe' data-bs-content='" .$rapp[0] ."<br>" .$rapp[1] ."' data-bs-html='true'><i class='bi bi-people-fill'></i></a>");
+                }
+            // Docenti Interessati
+                // Output nomi docenti concedenti
+                    // Check se docente ha concesso l'assemblea
+                    if($dataass['concesso1'] == 1){$fontc1 = '<i class="bi bi-check-lg"></i>';} elseif($dataass['concesso1'] == 2){$fontc1 = '<i class="bi bi-x-lg"></i>';};
+                    if($dataass['concesso2'] == 1){$fontc2 = '<i class="bi bi-check-lg"></i>';} elseif($dataass['concesso2'] == 2){$fontc2 = '<i class="bi bi-x-lg"></i>';};
+                    // Dati Docenti
+                    // Primo
+                    $docout1 = "<span>" .estrai_dati_docente($dataass['docenteconcedente1'], $con) ." $fontc1</span>";
+                    // Secondo (se esiste)
+                    if($dataass['docenteconcedente2'] != 0){
+                        $docout2 = "<br><span>" .estrai_dati_docente($dataass['docenteconcedente2'], $con) ." $fontc2</span>";
+                    }
+                    print(" <a tabindex='0' class='btn btn-outline-secondary' role='button' data-bs-toggle='popover' data-bs-trigger='focus' data-bs-title='Docenti Concedenti' data-bs-content='" .$docout1 .$docout2 ."' data-bs-html='true'><i class='bi bi-person-workspace'></i></a>");
+            print("</td>");
+        // Esito Richiesta
+        print("<td align=center>");
+            if($dataass['autorizzato'] == 2){
+                print("<span style='color: red;'><i class='bi bi-x-lg'></i> ". estrai_dati_docente($dataass['docenteautorizzante'], $con) ."</span>");
+                if($dataass['note'] != NULL){
+                    print("<br/> <a tabindex='0' class='btn btn-outline-danger' role='button' data-bs-toggle='popover' data-bs-trigger='focus' data-bs-title='Annotazioni della Dirigenza' data-bs-content='" .nl2br($dataass['note']) ."' data-bs-html='true'><i class='bi bi-info-circle'></i></a>");
+                }
+            }elseif($dataass['autorizzato'] == 1){
+                print("<span style='color: green;'><i class='bi bi-check-lg'></i> ". estrai_dati_docente($dataass['docenteautorizzante'], $con) ."</span>");
+                if($dataass['note'] != NULL){
+                    print("<br/> <a tabindex='0' class='btn btn-outline-success' role='button' data-bs-toggle='popover' data-bs-trigger='focus' data-bs-title='Annotazioni della Dirigenza' data-bs-content='" .nl2br($dataass['note']) ."' data-bs-html='true'><i class='bi bi-info-circle'></i></a>");
+                }
+            }
+        print("</td>");
+        // Verbale 
+        print("<td align=center>");
+            // Modal visualizzazione verbale
+            $modalverb = "
+                <div class='modal fade' id='modalAss$idassemblea' tabindex='-1' aria-labelledby='modalAssLabel$idassemblea' aria-hidden='true'>
+                    <div class='modal-dialog'>
+                    <div class='modal-content'>
+                        <div class='modal-header'>
+                        <h1 class='modal-title fs-5' id='modalAssLabel$idassemblea'>Visualizza Verbale</h1>
+                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                        </div>
+                        <div class='modal-body'>
+                            " .nl2br($dataass['verbale']) ."<br> Ora Termine: " .substr($dataass['oratermine'], 0, 5) ."<br>
+                            SEGRETARIO: " .estrai_dati_alunno_rid($dataass['alunnosegretario'], $con) ."<br>
+                            PRESIDENTE: " .estrai_dati_alunno_rid($dataass['alunnopresidente'], $con) ."<br>
+                        </div>
+                        <div class='modal-footer'>
+                        <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Chiudi</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>";
+            // Check se alunno è rappresentante
+            if($alurapp){
+                // Check se verbale non è stato inviato
+                if($dataass['verbale'] == NULL & $dataass['autorizzato'] == 1 & date('Y-m-d') >= $dataass['dataassemblea']){
+                    // Pulsante invio verbale
+                    print("<a tabindex='0' class='btn btn-outline-danger' href='insver.php?idassemblea=$idassemblea' role='button' data-bs-toggle='popover' data-bs-trigger='hover' data-bs-content='Inserisci Verbale!'><i class='bi bi-file-post-fill'></i> Inserisci</a>");
+                }else{
+                    // Check se siamo in data dell'assemblea oppure no
+                    if(date('Y-m-d') >= $dataass['dataassemblea']){
+                        // Check se verbale non è firmato dal presidente
+                        if($dataass['alunnopresidente'] == 0 & $idalunno != $dataass['alunnosegretario'] & $dataass['autorizzato'] == 1){
+                            print("<a tabindex='0' class='btn btn-outline-success' href='registra_firmapresidente.php?idassemblea=$idassemblea' role='button' data-bs-toggle='popover' data-bs-trigger='hover' data-bs-content='Conferma e Registra Firma Presidente!'><i class='bi bi-send-check-fill'></i> Firma e Invia</a>");
+                            // Stampa verbale
+                            print($modalverb);
+                            print("<button type='button' class='btn btn-outline-primary' data-bs-toggle='modal' data-bs-target='#modalAss$idassemblea'><i class='bi bi-eye-fill'> Visualizza</i></button>");
+                            // Fine stampa verbale
+                            print(" <a tabindex='0' class='btn btn-outline-warning' href='insver.php?idassemblea=$idassemblea' role='button' data-bs-toggle='popover' data-bs-trigger='hover' data-bs-content='Correggi Verbale'><i class='bi bi-pencil-square'></i> Correggi</a>");
+                        }elseif($dataass['autorizzato'] == 1 & $dataass['alunnopresidente'] == 0){
+                            print($modalverb);
+                            print("<button type='button' class='btn btn-outline-primary' data-bs-toggle='modal' data-bs-target='#modalAss$idassemblea'><i class='bi bi-eye-fill'> Visualizza</i></button>");
+                            print(" <a tabindex='0' class='btn btn-outline-warning' href='insver.php?idassemblea=$idassemblea' role='button' data-bs-toggle='popover' data-bs-trigger='hover' data-bs-content='Correggi Verbale'><i class='bi bi-pencil-square'></i> Correggi</a>");
+                        }elseif($dataass['autorizzato'] == 1){
+                            print($modalverb);
+                            print("<button type='button' class='btn btn-outline-primary' data-bs-toggle='modal' data-bs-target='#modalAss$idassemblea'><i class='bi bi-eye-fill'> Visualizza</i></button>");
                         }
                     }
                 }
+            }else{
+                // Check se verbale è inserito, firmato sia da segretario sia da presidente
+                if($dataass['verbale'] != NULL & $dataass['autorizzato'] == 1 & $dataass['alunnopresidente'] != 0 & $dataass['alunnosegretario'] != 0){
+                    print($modalverb);
+                    print("<button type='button' class='btn btn-outline-primary' data-bs-toggle='modal' data-bs-target='#modalAss$idassemblea'><i class='bi bi-eye-fill'> Visualizza</i></button>");
+                }
             }
-        } else  // Alunno non rappresentante
-        {
-            if ($dataass['alunnopresidente'] != 0 & $dataass['alunnosegretario'] != 0)
-                print "<td align='center'>" . $dataass['verbale'] . "";
-            else
-                print "<td align='center'>";
-        }
-        print "</td>";
-
-
-        print "<td>" . nl2br($dataass['commenti_verbale']) . "<br><i><b>" . estrai_dati_docente($dataass['docente_visione'], $con) . "</b></i></td>";
-
-
-
-
-
-        print "</tr>";
     }
 
+    // Fine tabella assemblee
+    print("
+            </table>
+        </div>
+    ");
 
-    print "</table>";
+    // Output pulsante Richiesta Assemblea
+    if($alurapp){
+        print "<form action='ricgen.php' method='POST'>";
+        print " <p align='center'><input type=hidden value='" . $idclasse . "' name='idclasse'></p>";
+        print "	<p align='center'><input type=submit class='btn btn-outline-secondary btn-sm' value='Richiedi nuova assemblea'>";
+        print "</form>";
+    }
 }
 
+?>
 
-
-if ($alurapp)
-{
-    print "<form action='ricgen.php' method='POST'>";
-    print " <p align='center'><input type=hidden value='" . $idclasse . "' name='idclasse'></p>";
-    print "	<p align='center'><input type=submit class='btn btn-outline-secondary btn-sm' value='Richiedi nuova assemblea'>";
-    print "</form>";
-}
-
-
-stampa_piede_new("");
+<?php
 mysqli_close($con);
-
+stampa_piede_new("");
 
 

@@ -50,7 +50,7 @@ $rs = eseguiQuery($con, $query);
 $esistono = false;
 if (mysqli_num_rows($rs) > 0)
 {
-    print "<table align='center' border='1'><tr class='prima'><td>N.</td><td>Cognome</td><td>Nome</td><td>Data nascita</td><td>Cod. Fisc.</td><td>Magg.</td><td>Cens.</td><td>Funz.</td><td>Aut.<br>usc.<br>ant.</td>";
+    print "<table align='center' border='1'><tr class='prima'><td>N.</td><td>Cognome</td><td>Nome</td><td>Data nascita</td><td>Cod. Fisc.</td><td>Magg.</td><td>Cens.</td><td>Funz.</td><td>Lib.<br>foto</td><td>Aut.<br>usc.<br>ant.</td>";
     if (verifica_classe_coordinata($_SESSION['idutente'], $idclasse, $con))
         {
             print "<td>Telefoni genitori</td>";
@@ -71,12 +71,20 @@ if (mysqli_num_rows($rs) > 0)
             print "<td>C.F.</td>";
         else
             print "<td></td>";
+
+        if ($rec['liberatoria']) {
+            print "<td><b>S</b></td>";
+        } else {
+            print "<td><b>N</b></td>";
+        }
+
         if ($rec['autuscitaantclasse'])
             print "<td><b>S</b></td>";
         elseif (maggiorenne($rec['datanascita']))
             print "<td><b>MAGG.</b></td>";
         else
             print "<td><b>N</b></td>";
+
         $cont++;
         if (verifica_classe_coordinata($_SESSION['idutente'], $idclasse, $con))
         {

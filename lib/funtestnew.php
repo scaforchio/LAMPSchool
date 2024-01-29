@@ -31,6 +31,11 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
         <link rel='stylesheet' type='text/css' href='../lib/unico.css' />
         <link rel='stylesheet' href='../vendor/twbs/bootstrap/dist/css/bootstrap.min.css' />
         <link rel='stylesheet' href='../vendor/twbs/bootstrap-icons/font/bootstrap-icons.min.css' />
+        <link rel='stylesheet' type='text/css' href='../lib/js/jquery-ui-1.10.3.smoothness.css' />
+        <link rel='stylesheet' type='text/css' href='../lib/js/datetimepicker/jquery.datetimepicker.css'/>
+        <script src='../lib/js/jquery-1.10.2.min.js'></script>
+        <script src='../lib/js/jquery-ui-1.10.3.custom.min.js'></script>
+        <script src='../lib/js/datetimepicker/jquery.datetimepicker.js'></script>
         <style>
             <?php mod_cens_stili(); ?>
         </style>
@@ -71,6 +76,13 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
                 });
 
             };
+
+            document.addEventListener("DOMContentLoaded", function(){
+                var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+                var popoverList = popoverTriggerList.map(function(element){
+                return new bootstrap.Popover(element);
+                });
+            });
         </script>
 
         <?php
