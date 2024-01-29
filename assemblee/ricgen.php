@@ -4,6 +4,7 @@ require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
+  Copyright (C) 2023 Michele Sacco - Flowopia Network [Rielaborazione sezione assemblee per adeguamento nuova UI]
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
@@ -37,7 +38,7 @@ if ($tipoutente == "")
     die;
 }
 
-//prendo la data odierna
+// Pickup data odierna
 $giorno = date('d');
 $mese = date('m');
 $anno = date('Y');
@@ -96,8 +97,8 @@ $(document).ready(function(){
 	             </SCRIPT>";
 $idalunno = $_SESSION['idstudente'];
 $idclasse = stringa_html('idclasse');
-stampa_head($titolo, "", $script, "L");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='assricgen.php?idclasse=$idclasse'>Assemblee di classe</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "L");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='assricgen.php?idclasse=$idclasse'>Assemblee di classe</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
@@ -107,150 +108,162 @@ if (!isset($f))
 {
     $f = 0;
 }
-// print "<form name='form' action='ricgen.php?idclasse=$idclasse&f=$f' method='POST'>";
-print "<form name='invia' action='insass.php?idclasse=$idclasse' method='POST'>";
-print "<CENTER><table border ='0' cellpadding='5'>";
-//DATA RICHIESTA
-print "<tr>
-		<td><b>Data richiesta</b></td>
-		<td><input DISABLED name ='datarichiesta' type='text' value='$giorno/$mese/$anno'></td>
-	   </tr>";
 
-//DATA ASSEMBLEA
-$dataassemblea = stringa_html('data');
-print "<tr>
-		<td><b>Data assemblea</b></td>";
+if($idclasse == NULL){
+    print("
+    <div class='mb-3' style='max-width: 900px; margin: auto; position: relative;'>
+        <div class='alert alert-danger text-center' role='alert'>
+            <b>Errore di sistema!</b> Contattare il referente per il registro elettronico! <br>
+            <i style='font-size: 10px;'>Value idclasse is equal to null. Check request and try again</i>
+        </div>
+    </div>
+    ");
+}else{
+    // Estrapolo id alunni dei rapp. di classe da tbl
+    $query = "SELECT * FROM tbl_classi WHERE idclasse=$idclasse";
+    $ris = eseguiQuery($con, $query);
+    $rdc = mysqli_fetch_array($ris);
+    $rappdc1 = $rdc['rappresentante1'];
+    $rappdc2 = $rdc['rappresentante2'];
+}
 
-print" <td><input type='text' id='data' class='datepicker' size='8' maxlength='10' name='data' min='" . date('Y-m-d') . "' required></td>";
+if($idalunno == $rappdc1 || $idalunno == $rappdc2){
+    // Form Richiesta Assemblea
+    print("<form class='mb-3' style='max-width: 500px; margin: auto; position: relative;' name='invia' action='insass.php?idclasse=$idclasse' method='POST'>");
 
-print" </tr>";
+    // Data Richiesta
+    print("
+        <label for='datarichiesta' class='mt-1'>Data Richiesta</label>
+        <input type='text' class='form-control' id='datarichiesta' name='datarichiesta' value='$giorno/$mese/$anno' disabled>");
 
-//ORA INIZIO-FINE
-$ore = stringa_html('ora_inizio');
-print "<tr>
-		<td><b>Ore assemblea (prima-ultima):</b></td>
-		<td><select name='oreass' id='oreass' ONCHANGE='abildisabdoc2()' required>";
-for ($i = 1; $i <= ($_SESSION['numeromassimoore'] - $_SESSION['numeromassimooreassemblea'] + 1); $i++)
-{
-    for ($j = $i; $j <= $i + $_SESSION['numeromassimooreassemblea'] - 1; $j++)
-    {
-        $strore = "$i-$j";
-        if ($ore == $strore)
+    // Data Assemblea
+    $dataassemblea = stringa_html('data');
+    print("
+        <label for='data' class='mt-1'>Data Assemblea</label>
+        <input type='text' class='form-control' id='data' name='data' placeholder='dd/mm/aaaa' min='" . date('Y-m-d') . "' required>");
+
+    // Ora dell'assemblea (Inizio - Fine)
+    $ore = stringa_html('ora_inizio');
+    print("
+        <label for='oreass' class='mt-1'>Ora Svolgimento (Prima-Ultima)</label>
+        <select class='form-select' name='oreass' id='oreass' ONCHANGE='abildisabdoc2()' required>");
+        for ($i = 1; $i <= ($_SESSION['numeromassimoore'] - $_SESSION['numeromassimooreassemblea'] + 1); $i++)
         {
-            print "<option selected>$strore</option>";
-        } else
-        {
-            print "<option>$strore</option>";
+            for ($j = $i; $j <= $i + $_SESSION['numeromassimooreassemblea'] - 1; $j++)
+            {
+                $strore = "$i-$j";
+                if ($ore == $strore)
+                {
+                    print "<option selected>$strore</option>";
+                } else
+                {
+                    print "<option>$strore</option>";
+                }
+            }
         }
-    }
-}
-print "</select></td></tr>";
+        print("</select>");
 
-$ora_inizio = substr($ore, 0, 1);
-$ora_fine = substr($ore, 2, 1);
-
-//controllo se le ore richieste sono 1 o 2
-$ore_richieste = 0;
-if ($ora_inizio == $ora_fine)
-{
-    $ore_richieste = 1;
-}
-
-$docenteconcedente1 = stringa_html('docenteconcedente1');
-$docenteconcedente2 = stringa_html('docenteconcedente2');
-//$materia1 = stringa_html('materia1');
-//$materia2 = stringa_html('materia2');
-//se viene richiesta l'assemblea di 1 ora, il docente concedente sarà uno solo
-print "<tr><td>";
-$sqld = "SELECT DISTINCT tbl_docenti.cognome AS cognome, tbl_docenti.nome AS nome, tbl_docenti.iddocente AS iddocente_doc, tbl_cattnosupp.iddocente AS iddocente_cat, tbl_cattnosupp.idclasse AS idclasse 
-			 FROM tbl_docenti,tbl_cattnosupp 
-			 WHERE (tbl_docenti.iddocente=tbl_cattnosupp.iddocente) AND (tbl_cattnosupp.iddocente!=1000000000) AND (idclasse=$idclasse) ORDER BY cognome, nome";
-print "<b>Docente concedente (prima ora)</b>";
-print "</td><td>";
-$resd = eseguiQuery($con, $sqld);
-if (!$resd)
-{
-    print ("<br/> <br/> <br/> <h2>Impossibile visualizzare i dati </h2>");
-} else
-{
-    print ("<select name='docenteconcedente1' required>");
-    print "<option>";
-    while ($datal = mysqli_fetch_array($resd))
+    $ora_inizio = substr($ore, 0, 1);
+    $ora_fine = substr($ore, 2, 1);
+    //controllo se le ore richieste sono 1 o 2
+    $ore_richieste = 0;
+    if ($ora_inizio == $ora_fine)
     {
-        print("<option value='");
-        print($datal['iddocente_doc'] . "'");
-        if ($docenteconcedente1 == $datal['iddocente_doc'])
-        {
-            print " selected";
-        }
-        print(">");
-        print($datal['cognome']);
-        print("&nbsp;");
-        print($datal['nome']);
-        print("</option>");
+        $ore_richieste = 1;
     }
-}
-print "</select>";
-print "</td></tr>";
-//se le ore sono due, viene visualizzata la select del secondo docente concedente
-if ($_SESSION['numeromassimooreassemblea'] == 2)
-{
-    print("<tr><td>");
 
-    print "<b>Docente concedente (seconda ora)</b>";
-    print "</td><td>";
+    // Docente concedente
+    $docenteconcedente1 = stringa_html('docenteconcedente1');
+    $docenteconcedente2 = stringa_html('docenteconcedente2');
+    //se viene richiesta l'assemblea di 1 ora, il docente concedente sarà uno solo
+    $sqld = "SELECT DISTINCT tbl_docenti.cognome AS cognome, tbl_docenti.nome AS nome, tbl_docenti.iddocente AS iddocente_doc, tbl_cattnosupp.iddocente AS iddocente_cat, tbl_cattnosupp.idclasse AS idclasse 
+                FROM tbl_docenti,tbl_cattnosupp 
+                WHERE (tbl_docenti.iddocente=tbl_cattnosupp.iddocente) AND (tbl_cattnosupp.iddocente!=1000000000) AND (idclasse=$idclasse) ORDER BY cognome, nome";
     $resd = eseguiQuery($con, $sqld);
     if (!$resd)
     {
         print ("<br/> <br/> <br/> <h2>Impossibile visualizzare i dati </h2>");
     } else
     {
-        print ("<select name='docenteconcedente2' id='doc2' disabled>");
-        print "<option>";
+        print("
+            <label for='doc1' class='mt-1'>Docente Concedente (Prima Ora)</label>
+            <select class='form-select' id='doc1' name='docenteconcedente1' required>
+        ");
+        print("<option>");
         while ($datal = mysqli_fetch_array($resd))
         {
-            print("<option value='");
-            print($datal['iddocente_doc'] . "'");
-            if ($docenteconcedente2 == $datal['iddocente_doc'])
+            print("<option value='" .$datal['iddocente_doc'] ."'");
+            if ($docenteconcedente1 == $datal['iddocente_doc'])
             {
                 print " selected";
             }
-            print(">");
-            print($datal['cognome']);
-            print("&nbsp;");
-            print($datal['nome']);
-            print("</option>");
+            print(">" .$datal['cognome'] ." " .$datal['nome'] ."</option>");
         }
-        print "</select>";
     }
-    print "</td></tr>";
+    print "</select>";
+        //se le ore sono due, viene visualizzata la select del secondo docente concedente
+        if ($_SESSION['numeromassimooreassemblea'] == 2)
+        {
+            $resd = eseguiQuery($con, $sqld);
+            if (!$resd)
+            {
+                print ("<br/> <br/> <br/> <h2>Impossibile visualizzare i dati </h2>");
+            } else
+            {
+                print("
+                <label for='doc2' class='mt-1'>Docente Concedente (Seconda Ora)</label>
+                <select class='form-select' id='doc2' name='docenteconcedente2' required>
+                ");
+                print "<option>";
+                while ($datal = mysqli_fetch_array($resd))
+                {
+                    print("<option value='" .$datal['iddocente_doc'] ."'");
+                    if ($docenteconcedente2 == $datal['iddocente_doc'])
+                    {
+                        print " selected";
+                    }
+                    print(">" .$datal['cognome'] ." " .$datal['nome'] ."</option>");
+                }
+                print "</select>";
+            }
+        }
+
+    // Rappresentante Richiedente
+    print("
+        <label for='rapp1' class='mt-1'>Rappresentante Richiedente</label>
+        <input type='text' id='rapp1' class='form-control' value='" . decodifica_alunno($idalunno, $con) . "' disabled>
+        <input type='hidden' name='rappresentante1' value='$idalunno'>
+    ");
+
+    // Ordine del Giorno
+    print("
+        <label for='odg' class='mt-1'>Ordine del Giorno</label>
+        <textarea class='form-control' id='odg' name='odg' rows=10>Ordine del giorno:\n1) ...\n2) ...\n3) ...</textarea>
+    ");
+
+    // Firma Rappresentante
+    print("
+        <label for='rapp1' class='mt-1'>Firma Rappresentante</label>
+        <input type='text' id='rapp1' class='form-control' value='" . decodifica_alunno($idalunno, $con) . "' disabled>
+        <input type='hidden' name='rappresentante1' value='$idalunno'>
+    ");
+    $rap1 = stringa_html('rappresentante1');
+
+    print "<div class='text-center'><input class='btn btn-outline-success mt-3' role='button' type=submit value='Richiedi assemblea'></div>";
+    print "</form>";
+}else{
+    print("
+        <div class='mb-3' style='max-width: 900px; margin: auto; position: relative;'>
+            <div class='alert alert-danger' role='alert'>
+            ATTENZIONE! La tua utenza non risulta abilitata come Rappresentante di Classe! <a href='./assricgen.php'><- TORNA INDIETRO</a>
+            </div>
+        </div>
+    ");
 }
-print "<tr><td><b>Rappresentante</b></td><td><input type='text' value='" . decodifica_alunno($idalunno, $con) . "' disabled><input type='hidden' name='rappresentante1' value='$idalunno'></td></tr>";
-print "<tr><td colspan=2><center><b>Ordine del giorno</b><br><textarea cols=40 rows=10 name='odg' required>Ordine del giorno:\n1) ...\n2) ...\n3) ...</textarea></center></td></tr>";
 
-print "<tr><td><b>Rappresentante</b></td><td><input type='text' value='" . decodifica_alunno($idalunno, $con) . "' disabled><input type='hidden' name='rappresentante1' value='$idalunno'></td></tr>";
-$rap1 = stringa_html('rappresentante1');
-print "</table>";
-print "	<p align='center'><input type=submit value='Richiedi assemblea'>";
-print "</form>";
+?>
 
-//invio dati
-/*
-  print "<p align='center'><textarea cols=80 rows=10 name='odg' WRAP='PHYSICAL'>Elencare i punti all'ordine del giorno\n1) Punto1\n2) Punto2\n3) Punto3...</textarea></p>";
-  print " <p align='center'><input type=hidden value='". $idclasse ."' name='idclasse'></p>";
-  print " <p align='center'><input type=hidden value='$anno-$mese-$giorno' name='datarichiesta'></p>";
-  print " <p align='center'><input type=hidden value='". $dataassemblea ."' name='dataassemblea'></p>";
-  print " <p align='center'><input type=hidden value='". $ora_inizio ."' name='orainizio'></p>";
-  print " <p align='center'><input type=hidden value='". $ora_fine ."' name='orafine'></p>";
-  print " <p align='center'><input type=hidden value='". $docenteconcedente1 ."' name='docenteconcedente1'></p>";
-  print " <p align='center'><input type=hidden value='". $docenteconcedente2 ."' name='docenteconcedente2'></p>";
-
-  print " <p align='center'><input type=hidden value='". $rap1 ."' name='rappresentante1'></p>";
-
-  print "	<p align='center'><input type=submit value='Richiedi assemblea'>";
-  print "</form>";
-
- */
-
-stampa_piede("");
+<?php
+stampa_piede_new("");
 mysqli_close($con);
+

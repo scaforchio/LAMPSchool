@@ -708,7 +708,7 @@ function invia_mail($to, $subject, $msg, $from = "", $reply = "")
         }
         $mail->Port = $_SESSION['smtpport'];
 
-        $mail->setFrom($from, 'Registro Elettronico LAMPSchool');
+        $mail->setFrom($from, $_SESSION['nome_scuola']);
         $mail->addAddress($to);
         $mail->addReplyTo($reply);
 

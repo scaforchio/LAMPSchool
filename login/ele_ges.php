@@ -596,6 +596,7 @@ if ($tipoutente == 'S') {
     }
     menu_title_begin('STATISTICHE E RIEPILOGHI');
     menu_item('../contr/statinsertot.php', 'STATISTICHE INSERIMENTO DATI');
+    menu_item('../contr/compleanni.php', 'COMPLEANNI DI OGGI');
     menu_item('../valutazioni/riepvoticlasse.php', 'RIEPILOGO MEDIE PER CLASSE');
     menu_item('../lezioni/vis_lez.php', 'CORREZIONE LEZIONI');
     menu_item('../contr/verifsovrapp.php', 'VERIFICA SOVRAPPOSIZIONI');
@@ -850,6 +851,7 @@ if ($tipoutente == 'P') {   // Presidenza
     menu_title_end();
     menu_title_begin('STATISTICHE E RIEPILOGHI');
     menu_item('../contr/statinsertot.php', 'STATISTICHE INSERIMENTO DATI');
+    menu_item('../contr/compleanni.php', 'COMPLEANNI DI OGGI');
     menu_item('../valutazioni/riepvoticlasse.php', 'RIEPILOGO MEDIE PER CLASSE');
     menu_item('../lezioni/vis_lez.php', 'CORREZIONE LEZIONI');
     menu_item('../contr/verifsovrapp.php', 'VERIFICA SOVRAPPOSIZIONI');
@@ -1004,6 +1006,7 @@ if ($tipoutente == 'M') {  // Amministratore
     menu_separator("DATI E STATISTICHE");
     menu_title_begin('STATISTICHE E RIEPILOGHI');
     menu_item('../contr/statinsertot.php', 'STATISTICHE INSERIMENTO DATI');
+    menu_item('../contr/compleanni.php', 'COMPLEANNI DI OGGI');
     menu_item('../valutazioni/riepvoticlasse.php', 'RIEPILOGO MEDIE PER CLASSE');
     menu_item('../lezioni/vis_lez.php', 'CORREZIONE LEZIONI');
     menu_item('../contr/verifsovrapp.php', 'VERIFICA SOVRAPPOSIZIONI');

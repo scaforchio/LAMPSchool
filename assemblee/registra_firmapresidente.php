@@ -35,8 +35,8 @@ $idassemblea = stringa_html('idassemblea');
 $idstudente = $_SESSION['idstudente'];
 $titolo = "Firma presidente";
 $script = "";
-stampa_head($titolo, "", $script, "L");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='assricgen.php'>Assemblee di classe</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "L");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='assricgen.php'>Assemblee di classe</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore: " . mysqli_error($con));
 
@@ -56,5 +56,5 @@ print ("<form method='post' action='assricgen.php' id='formdisp'>
       
        ");
 mysqli_close($con);
-stampa_piede("");
+stampa_piede_new("");
 
