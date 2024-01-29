@@ -131,6 +131,7 @@ if (!$res)
         $autuscita = $dato['autuscita'];
         $firmapropria = $dato['firmapropria'];
         $accessowifi = $recpass['wifi'];
+        $liberatoria = $dato['liberatoria'];
         $autorizzazioni = $dato['autorizzazioni'];
         $idcla = $dato['idclasse'];
         $numeroregistro = $dato['numeroregistro'];
@@ -273,6 +274,16 @@ if (!$res)
 
         print ("<tr> <td><i>Accesso WiFi</i> </td> <td align='left'> <select name='accessowifi'>");
         if (!$accessowifi)
+        {
+            print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
+        } else
+        {
+            print ("<option value='0'>No</option><option value='1' selected>S&igrave;</option>");
+        }
+        print ("</select></td></tr>");
+
+        print ("<tr> <td><i>Consenso liberatoria foto</i> </td> <td align='left'> <select name='liberatoria'>");
+        if (!$liberatoria)
         {
             print ("<option value='0' selected>No</option><option value='1'>S&igrave;</option>");
         } else
