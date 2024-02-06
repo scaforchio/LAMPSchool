@@ -69,10 +69,10 @@ $ramm = eseguiQuery($con, $qamm);
             <tbody>
                 <?php
                 if(mysqli_num_rows($ralunni) == 0 || !$ralunni){
-                    print("<td colspan='2'>Nessun compleanno in data odierna</td>");
+                    print("<tr><td colspan='2'>Nessun compleanno in data odierna</td></tr>");
                 }else{
                     while ($alunno = mysqli_fetch_assoc($ralunni)) {
-                        print("<td>" . $alunno['cognome'] . " " . $alunno['nome'] . "</td><td>" . $alunno['anno'] . " " . $alunno['sezione'] . " " . $alunno['specializzazione'] . "</td>");
+                        print("<tr><td>" . $alunno['cognome'] . " " . $alunno['nome'] . "</td><td>" . $alunno['anno'] . " " . $alunno['sezione'] . " " . $alunno['specializzazione'] . "</td></tr>");
                     }
                 }
             ?>
@@ -90,10 +90,10 @@ $ramm = eseguiQuery($con, $qamm);
             <tbody>
             <?php
                 if(mysqli_num_rows($rdocenti) == 0 || !$rdocenti){
-                    print("<td colspan='2'>Nessun compleanno in data odierna</td>");
+                    print("<tr><td colspan='2'>Nessun compleanno in data odierna</td></tr>");
                 }else{
                     while ($docente = mysqli_fetch_assoc($rdocenti)) {
-                        print("<td>" . $docente['cognome'] . " " . $docente['nome'] . "</td>");
+                        print("<tr><td>" . $docente['cognome'] . " " . $docente['nome'] . "</tr></td>");
                     }
                 }
             ?>
@@ -111,10 +111,10 @@ $ramm = eseguiQuery($con, $qamm);
             <tbody>
             <?php
                 if(mysqli_num_rows($ramm) == 0 || !$ramm){
-                    print("<td colspan='2'>Nessun compleanno in data odierna</td>");
+                    print("<tr><td colspan='2'>Nessun compleanno in data odierna</td></tr>");
                 }else{
                     while ($amm = mysqli_fetch_assoc($ramm)) {
-                        print("<td>" . $amm['cognome'] . " " . $amm['nome'] . "</td>");
+                        print("<tr><td>" . $amm['cognome'] . " " . $amm['nome'] . "</td></tr>");
                     }
                 }
             ?>
