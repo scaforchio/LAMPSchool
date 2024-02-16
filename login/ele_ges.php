@@ -445,13 +445,14 @@ if ($tipoutente == 'S') {
     if ($_SESSION['livello_scuola'] == '4') {
         menu_title_begin('ASSEMBLEE DI CLASSE');
         menu_item("../assemblee/assdoc.php", 'ASSEMBLEE PROPRIE ORE');
-        menu_item("../assemblee/assstaff.php", 'AUTORIZZAZIONE ASSEMBLEE');
+        menu_item("../assemblee/ass.php", 'AUTORIZZAZIONE ASSEMBLEE');
         menu_item("../assemblee/contver.php", 'VERIFICA VERBALI');
         menu_item("../assemblee/visionaverbali.php", 'SITUAZIONE ASSEMBLEE');
         menu_item("../assemblee/reportassemblee.php", 'RAPPORTO PER DIRIGENTE');
         menu_item("../classi/CRUDrappresentanti.php", 'GESTIONE RAPPRESENTANTI');
         menu_title_end();
     }
+
     menu_title_begin('OSSERV. E DIARIO CLASSE');
 
     menu_item('../valutazioni/osssist.php', 'OSSERVAZIONI SISTEMATICHE');
@@ -578,6 +579,7 @@ if ($tipoutente == 'S') {
     menu_item('../sms/visualizzasms.php', 'VISUALIZZA STATO SMS INVIATI');
     menu_item('../sms/vis_sospinviosms.php', 'SOSPENSIONI INVIO AUTOMATICO SMS');
     menu_item('../collegamenti/collegamentiweb.php', 'PREPARAZIONE COLLEGAMENTI WEB');
+    menu_item('../sondaggi/sondaggi.php', 'GESTIONE SONDAGGI ALUNNI');
 
     menu_title_end();
 
@@ -1454,7 +1456,8 @@ if ($tipoutente == 'D' | $tipoutente == 'S' | $tipoutente == 'T' | $tipoutente =
 
     if ($tipoutente == "L") {
         //  ANNOTAZIONI RECENTI
-        $idclassealunno = estrai_classe_alunno($_SESSION['idutente'] - 2100000000, $con);
+        $ida = $_SESSION['idutente'] - 2100000000;
+        $idclassealunno = estrai_classe_alunno($ida, $con);
         $datalimiteinferiore = aggiungi_giorni(date('Y-m-d'), -1);
         $query = "select * from tbl_annotazioni,tbl_docenti
                 where tbl_annotazioni.iddocente=tbl_docenti.iddocente
@@ -1462,6 +1465,25 @@ if ($tipoutente == 'D' | $tipoutente == 'S' | $tipoutente == 'T' | $tipoutente =
                     and data>'$datalimiteinferiore'
                     and visibilitaalunni=true
                     order by data";
+
+        // controlla presenza di sondaggi senza risposta
+        $res = eseguiQuery($con, 
+        "SELECT tbl_rispostesondaggi.idsondaggio, 
+        tbl_sondaggi.oggetto 
+        FROM tbl_rispostesondaggi, 
+        tbl_sondaggi 
+        WHERE tbl_rispostesondaggi.idutente = $ida 
+        AND tbl_rispostesondaggi.idopzione = -1 
+        AND tbl_sondaggi.idsondaggio = tbl_rispostesondaggi.idsondaggio 
+        AND tbl_sondaggi.attivo = 1"
+        );
+
+        while ($rec = mysqli_fetch_array($res)) {
+            $idsondaggio = $rec['idsondaggio'];
+            $btn = "<a href='../sondaggi/rispondi.php?id=$idsondaggio' class='alert-link'><b>RISPONDI</b></a>";
+            $oggetto = $rec['oggetto'];
+            alert("Hai un sondaggio da completare! $btn", "Oggetto: $oggetto", "warning", "bar-chart-fill");
+        }
 
         $ris = eseguiQuery($con, $query);
         if (mysqli_num_rows($ris) > 0) {
@@ -1474,6 +1496,7 @@ if ($tipoutente == 'D' | $tipoutente == 'S' | $tipoutente == 'T' | $tipoutente =
                 annotazione($rec['data'], $rec['testo'], $rec['nome'], $rec['cognome'], $tipoalert);
             }
         }
+
     }
 
     // VERIFICO PRESENZA AVVISI
