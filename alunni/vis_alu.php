@@ -193,6 +193,8 @@ if (!(mysqli_num_rows($result) > 0))
 
         if($dati['liberatoria'] == 0) {
             print("<img src='../immagini/nophoto.png' width='22' height='22'>");
+        }elseif ($dati['liberatoria'] == 1){
+            print("<img src='../immagini/yesphoto.png' width='22' height='22'>");
         }
 
         print( $dati['note'] . "</td>");

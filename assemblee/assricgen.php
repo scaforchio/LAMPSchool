@@ -77,7 +77,7 @@ if (mysqli_num_rows($risass) == 0)
             <table class='table table-striped table-bordered' width='100%'>
                 <thead><tr class='prima'>
                     <th colspan=3 align=center width=60%>RICHIESTA</th>
-                    <th colspan=1 align=center width=40%>SVOLGIMENTO</th>
+                    <th colspan=1 align=center width=40%>SVOLGIMENTO & ESITO</th>
                 </tr></thead>
                 <tr class='prima'>
                     <td>Data</td> 
@@ -156,6 +156,12 @@ if (mysqli_num_rows($risass) == 0)
         print("</td>");
         // Verbale 
         print("<td align=center>");
+            // Check se esiste visione verbale e commento rapporto
+            if($dataass['visione_verbale'] == 1){
+                $visverb = "-- <br><b>ESAME VERBALE</b><br>" .$dataass['commenti_verbale'] ."<br><b><i>" .estrai_dati_docente($dataass['docente_visione'], $con) ."</i></b>";
+            }else{
+                $visverb = "";
+            }
             // Modal visualizzazione verbale
             $modalverb = "
                 <div class='modal fade' id='modalAss$idassemblea' tabindex='-1' aria-labelledby='modalAssLabel$idassemblea' aria-hidden='true'>
@@ -169,6 +175,7 @@ if (mysqli_num_rows($risass) == 0)
                             " .nl2br($dataass['verbale']) ."<br> Ora Termine: " .substr($dataass['oratermine'], 0, 5) ."<br>
                             SEGRETARIO: " .estrai_dati_alunno_rid($dataass['alunnosegretario'], $con) ."<br>
                             PRESIDENTE: " .estrai_dati_alunno_rid($dataass['alunnopresidente'], $con) ."<br>
+                            $visverb
                         </div>
                         <div class='modal-footer'>
                         <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Chiudi</button>

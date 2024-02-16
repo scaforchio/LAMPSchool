@@ -923,3 +923,11 @@ function maggiorenneok($data) {
         return "<td>No</td>";
     }
 }
+
+function ellipsis($string, $length) {
+    if (strlen($string) > $length) {
+        return substr($string, 0, $length) . '...';
+    } else {
+        return $string;
+    }
+}
