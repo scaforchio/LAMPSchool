@@ -11,7 +11,7 @@ CREATE TABLE tbl_rispostesondaggi (
     `idrisposta` INT NOT NULL AUTO_INCREMENT , 
     `idutente` INT NOT NULL , 
     `idsondaggio` INT NOT NULL , 
-    `opzione` INT NOT NULL , 
+    `idopzione` INT NOT NULL , 
     PRIMARY KEY (`idrisposta`)
 ) ENGINE = InnoDB;
 

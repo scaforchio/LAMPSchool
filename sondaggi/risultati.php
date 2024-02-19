@@ -3,7 +3,8 @@
 require_once '../lib/req_apertura_sessione.php';
 
 /*
-  Copyright (C) 2024 Vittorio Lo Mele - Michele Sacco
+  Copyright (C) 2024 Vittorio Lo Mele
+  Copyright (C) 2024 Michele Sacco
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
@@ -50,8 +51,27 @@ $risposte = json_decode($tempris['opzioni']);
 $query = "SELECT * FROM tbl_rispostesondaggi WHERE idsondaggio = '$idsond'";
 $ris = eseguiQuery($con, $query);
 
+// Esegui il count di tutte le risposte non registrate (-1)
+$query = "SELECT COUNT(idopzione) as risposte FROM tbl_rispostesondaggi WHERE idsondaggio = $idsond and idopzione = -1;";
+$norispcount = mysqli_fetch_assoc(eseguiQuery($con, $query));
+// Check di quante risposte ci sono e relativo count
+$lun = (count($risposte))-1;
+while($lun != -1){
+    $rispcount[$lun] = mysqli_fetch_assoc(eseguiQuery($con, "SELECT COUNT(idopzione) as risposte FROM tbl_rispostesondaggi WHERE idsondaggio = $idsond and idopzione = $lun;"));
+    $lun = $lun - 1;
+}
 ?>
-<h4 class="text-center">Sondaggio: <?= strtoupper($tempris['oggetto']) ?></h4>
+<center>
+    <b class="text-center">Sondaggio: <?= strtoupper($tempris['oggetto']) ?></b>
+</center> <br>
+<p class="text-center">Descrizione: <br> <?= $tempris['descrizione'] ?></p>
+<p class="text-center"> <b>Risposte Totali</b> <br>
+<?php
+for($i=0;$i<count($rispcount);$i++){
+    print("<b>" .$risposte[$i][1] ."</b>: " .$rispcount[$i]["risposte"] ." ");
+}
+?>
+</p>
 <div style='margin-left: 10px; margin-right: 10px;'>
     <table border=1 align=center class='table table-bordered'> 
         <thead style='font-weight: bold;'> 
@@ -78,6 +98,7 @@ while($sond = mysqli_fetch_array($ris)){
         }elseif($sond['idopzione']> -1){
             $risp = strtoupper($risposte[$sond['idopzione']][1]);
             $col = "000";
+            
         }
     }else{
         // Stampa nome, cognome, risultato dell'alunno
