@@ -29,7 +29,7 @@ if ($tipoutente == "") {
     die;
 }
 
-$titolo = "Gestione sondaggi alunni";
+$titolo = "Gestione Sondaggi Alunni";
 
 stampa_head_new($titolo, "", "", "S");
 stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
