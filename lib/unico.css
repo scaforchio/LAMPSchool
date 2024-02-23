@@ -232,3 +232,18 @@ footer {
     background-color: white;
     padding: 20px 20px 20px 20px;
 }
+
+@media print {
+    header {
+        display: none;
+    }
+
+    .footer-justify {
+        display: none !important;
+        visibility: hidden;
+    }
+
+    .btn {
+        display: none !important;
+    }
+}
