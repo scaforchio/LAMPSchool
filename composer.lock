@@ -128,12 +128,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/DataTables/Dist-DataTables.git",
-                "reference": "7f934ea958418d960a92641bf0f6a83221ec66ae"
+                "reference": "bac98a5baf62bd28c724f8a03fda4e906b39e30b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DataTables/Dist-DataTables/zipball/7f934ea958418d960a92641bf0f6a83221ec66ae",
-                "reference": "7f934ea958418d960a92641bf0f6a83221ec66ae",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables/zipball/bac98a5baf62bd28c724f8a03fda4e906b39e30b",
+                "reference": "bac98a5baf62bd28c724f8a03fda4e906b39e30b",
                 "shasum": ""
             },
             "require": {
@@ -162,7 +162,7 @@
                 "forum": "https://datatables.net/forums",
                 "source": "https://github.com/DataTables/Dist-DataTables"
             },
-            "time": "2023-09-22T16:11:01+00:00"
+            "time": "2024-02-23T11:35:25+00:00"
         },
         {
             "name": "datatables.net/datatables.net-bs5",
@@ -170,12 +170,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/DataTables/Dist-DataTables-Bootstrap5.git",
-                "reference": "d0ccff4c118e33c50cfc7ea08abc4bb04b1fdcf2"
+                "reference": "3db1ba0dd977e912daba4c4ce3fde85084ebb92e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Bootstrap5/zipball/d0ccff4c118e33c50cfc7ea08abc4bb04b1fdcf2",
-                "reference": "d0ccff4c118e33c50cfc7ea08abc4bb04b1fdcf2",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Bootstrap5/zipball/3db1ba0dd977e912daba4c4ce3fde85084ebb92e",
+                "reference": "3db1ba0dd977e912daba4c4ce3fde85084ebb92e",
                 "shasum": ""
             },
             "require": {
@@ -208,7 +208,7 @@
                 "issues": "https://github.com/DataTables/Dist-DataTables-Bootstrap5/issues",
                 "source": "https://github.com/DataTables/Dist-DataTables-Bootstrap5"
             },
-            "time": "2023-09-22T16:12:23+00:00"
+            "time": "2024-02-23T11:35:48+00:00"
         },
         {
             "name": "datatables.net/datatables.net-buttons",
@@ -216,12 +216,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/DataTables/Dist-DataTables-Buttons.git",
-                "reference": "68fa179c91ad25fb95a161475cb32430dd636bea"
+                "reference": "328b71ab068a96c476d35de68900a579775abd04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Buttons/zipball/68fa179c91ad25fb95a161475cb32430dd636bea",
-                "reference": "68fa179c91ad25fb95a161475cb32430dd636bea",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Buttons/zipball/328b71ab068a96c476d35de68900a579775abd04",
+                "reference": "328b71ab068a96c476d35de68900a579775abd04",
                 "shasum": ""
             },
             "require": {
@@ -256,7 +256,7 @@
                 "forum": "https://datatables.net/forums",
                 "source": "https://github.com/DataTables/Dist-DataTables-Buttons"
             },
-            "time": "2023-08-30T12:40:23+00:00"
+            "time": "2024-02-15T11:25:24+00:00"
         },
         {
             "name": "datatables.net/datatables.net-buttons-bs5",
@@ -264,12 +264,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/DataTables/Dist-DataTables-Buttons-Bootstrap5.git",
-                "reference": "5fde933850874007a8d7841749aab468ee57d024"
+                "reference": "ca475e6272511b1daf88fd9cb79e98c12e1b29f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Buttons-Bootstrap5/zipball/5fde933850874007a8d7841749aab468ee57d024",
-                "reference": "5fde933850874007a8d7841749aab468ee57d024",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Buttons-Bootstrap5/zipball/ca475e6272511b1daf88fd9cb79e98c12e1b29f4",
+                "reference": "ca475e6272511b1daf88fd9cb79e98c12e1b29f4",
                 "shasum": ""
             },
             "require": {
@@ -308,7 +308,7 @@
                 "issues": "https://github.com/DataTables/Dist-DataTables-Buttons-Bootstrap5/issues",
                 "source": "https://github.com/DataTables/Dist-DataTables-Buttons-Bootstrap5"
             },
-            "time": "2023-08-30T12:41:12+00:00"
+            "time": "2024-02-15T11:26:52+00:00"
         },
         {
             "name": "datatables.net/datatables.net-keytable",
@@ -316,12 +316,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/DataTables/Dist-DataTables-KeyTable.git",
-                "reference": "f07c07ba786b11318d1a22c3a2c623bd31e76837"
+                "reference": "e0b43f5c4a5d8bc2206f3710952d20661860d40b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-KeyTable/zipball/f07c07ba786b11318d1a22c3a2c623bd31e76837",
-                "reference": "f07c07ba786b11318d1a22c3a2c623bd31e76837",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-KeyTable/zipball/e0b43f5c4a5d8bc2206f3710952d20661860d40b",
+                "reference": "e0b43f5c4a5d8bc2206f3710952d20661860d40b",
                 "shasum": ""
             },
             "require": {
@@ -354,7 +354,7 @@
                 "forum": "https://datatables.net/forums",
                 "source": "https://github.com/DataTables/Dist-DataTables-KeyTable"
             },
-            "time": "2023-08-30T11:55:24+00:00"
+            "time": "2024-02-15T11:45:15+00:00"
         },
         {
             "name": "datatables.net/datatables.net-keytable-bs5",
@@ -362,12 +362,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/DataTables/Dist-DataTables-KeyTable-Bootstrap5.git",
-                "reference": "d79a1b2fa4c52e081ec65d412b5bc7b17e32f87e"
+                "reference": "2bdc11eb7feeebceeffc75b917024e3eb07ca196"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-KeyTable-Bootstrap5/zipball/d79a1b2fa4c52e081ec65d412b5bc7b17e32f87e",
-                "reference": "d79a1b2fa4c52e081ec65d412b5bc7b17e32f87e",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-KeyTable-Bootstrap5/zipball/2bdc11eb7feeebceeffc75b917024e3eb07ca196",
+                "reference": "2bdc11eb7feeebceeffc75b917024e3eb07ca196",
                 "shasum": ""
             },
             "require": {
@@ -404,7 +404,7 @@
                 "issues": "https://github.com/DataTables/Dist-DataTables-KeyTable-Bootstrap5/issues",
                 "source": "https://github.com/DataTables/Dist-DataTables-KeyTable-Bootstrap5"
             },
-            "time": "2023-08-30T11:56:15+00:00"
+            "time": "2024-02-15T11:46:39+00:00"
         },
         {
             "name": "datatables.net/datatables.net-responsive",
@@ -412,12 +412,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/DataTables/Dist-DataTables-Responsive.git",
-                "reference": "21b7bd1b53e4c2e393505a940c99b2f7aa9759e7"
+                "reference": "39dc3b0fff5665e304a54147e723809644578c91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Responsive/zipball/21b7bd1b53e4c2e393505a940c99b2f7aa9759e7",
-                "reference": "21b7bd1b53e4c2e393505a940c99b2f7aa9759e7",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Responsive/zipball/39dc3b0fff5665e304a54147e723809644578c91",
+                "reference": "39dc3b0fff5665e304a54147e723809644578c91",
                 "shasum": ""
             },
             "require": {
@@ -447,7 +447,7 @@
                 "forum": "https://datatables.net/forums",
                 "source": "https://github.com/DataTables/Dist-DataTables-Responsive"
             },
-            "time": "2023-08-30T11:58:10+00:00"
+            "time": "2024-02-15T11:47:27+00:00"
         },
         {
             "name": "datatables.net/datatables.net-responsive-bs5",
@@ -455,12 +455,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/DataTables/Dist-DataTables-Responsive-Bootstrap5.git",
-                "reference": "6bd1a4ce23ace1b0d81bf06153160a54aac2e1f9"
+                "reference": "c6dfd6faf838f86e5b44d215720c77315f59dcb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Responsive-Bootstrap5/zipball/6bd1a4ce23ace1b0d81bf06153160a54aac2e1f9",
-                "reference": "6bd1a4ce23ace1b0d81bf06153160a54aac2e1f9",
+                "url": "https://api.github.com/repos/DataTables/Dist-DataTables-Responsive-Bootstrap5/zipball/c6dfd6faf838f86e5b44d215720c77315f59dcb1",
+                "reference": "c6dfd6faf838f86e5b44d215720c77315f59dcb1",
                 "shasum": ""
             },
             "require": {
@@ -494,7 +494,7 @@
                 "issues": "https://github.com/DataTables/Dist-DataTables-Responsive-Bootstrap5/issues",
                 "source": "https://github.com/DataTables/Dist-DataTables-Responsive-Bootstrap5"
             },
-            "time": "2023-08-30T11:59:00+00:00"
+            "time": "2024-02-15T11:49:12+00:00"
         },
         {
             "name": "myclabs/php-enum",
@@ -1117,16 +1117,16 @@
         },
         {
             "name": "twbs/bootstrap",
-            "version": "v5.3.2",
+            "version": "v5.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "344e912d04b5b6a04482113eff20ab416ff01048"
+                "reference": "6e1f75f420f68e1d52733b8e407fc7c3766c9dba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/344e912d04b5b6a04482113eff20ab416ff01048",
-                "reference": "344e912d04b5b6a04482113eff20ab416ff01048",
+                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/6e1f75f420f68e1d52733b8e407fc7c3766c9dba",
+                "reference": "6e1f75f420f68e1d52733b8e407fc7c3766c9dba",
                 "shasum": ""
             },
             "replace": {
@@ -1161,22 +1161,22 @@
             ],
             "support": {
                 "issues": "https://github.com/twbs/bootstrap/issues",
-                "source": "https://github.com/twbs/bootstrap/tree/v5.3.2"
+                "source": "https://github.com/twbs/bootstrap/tree/v5.3.3"
             },
-            "time": "2023-09-14T14:19:27+00:00"
+            "time": "2024-02-20T15:14:29+00:00"
         },
         {
             "name": "twbs/bootstrap-icons",
-            "version": "v1.11.1",
+            "version": "v1.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twbs/icons.git",
-                "reference": "8d7bc695fb407627378cb184976b348e6a128d59"
+                "reference": "8d88686c03c3768a2d82ba4f20c3c4e1b100fa29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twbs/icons/zipball/8d7bc695fb407627378cb184976b348e6a128d59",
-                "reference": "8d7bc695fb407627378cb184976b348e6a128d59",
+                "url": "https://api.github.com/repos/twbs/icons/zipball/8d88686c03c3768a2d82ba4f20c3c4e1b100fa29",
+                "reference": "8d88686c03c3768a2d82ba4f20c3c4e1b100fa29",
                 "shasum": ""
             },
             "type": "library",
@@ -1200,24 +1200,24 @@
             ],
             "support": {
                 "issues": "https://github.com/twbs/icons/issues",
-                "source": "https://github.com/twbs/icons/tree/v1.11.1"
+                "source": "https://github.com/twbs/icons/tree/v1.11.3"
             },
-            "time": "2023-09-17T14:09:28+00:00"
+            "time": "2024-01-03T15:44:45+00:00"
         }
     ],
     "packages-dev": [
         {
             "name": "doctrine/deprecations",
-            "version": "v1.1.1",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/deprecations.git",
-                "reference": "612a3ee5ab0d5dd97b7cf3874a6efe24325efac3"
+                "reference": "dfbaa3c2d2e9a9df1118213f3b8b0c597bb99fab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/612a3ee5ab0d5dd97b7cf3874a6efe24325efac3",
-                "reference": "612a3ee5ab0d5dd97b7cf3874a6efe24325efac3",
+                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/dfbaa3c2d2e9a9df1118213f3b8b0c597bb99fab",
+                "reference": "dfbaa3c2d2e9a9df1118213f3b8b0c597bb99fab",
                 "shasum": ""
             },
             "require": {
@@ -1249,9 +1249,9 @@
             "homepage": "https://www.doctrine-project.org/",
             "support": {
                 "issues": "https://github.com/doctrine/deprecations/issues",
-                "source": "https://github.com/doctrine/deprecations/tree/v1.1.1"
+                "source": "https://github.com/doctrine/deprecations/tree/1.1.3"
             },
-            "time": "2023-06-03T09:27:29+00:00"
+            "time": "2024-01-30T19:34:25+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -1494,21 +1494,21 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "1.7.3",
+            "version": "1.8.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "3219c6ee25c9ea71e3d9bbaf39c67c9ebd499419"
+                "reference": "153ae662783729388a584b4361f2545e4d841e3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/3219c6ee25c9ea71e3d9bbaf39c67c9ebd499419",
-                "reference": "3219c6ee25c9ea71e3d9bbaf39c67c9ebd499419",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/153ae662783729388a584b4361f2545e4d841e3c",
+                "reference": "153ae662783729388a584b4361f2545e4d841e3c",
                 "shasum": ""
             },
             "require": {
                 "doctrine/deprecations": "^1.0",
-                "php": "^7.4 || ^8.0",
+                "php": "^7.3 || ^8.0",
                 "phpdocumentor/reflection-common": "^2.0",
                 "phpstan/phpdoc-parser": "^1.13"
             },
@@ -1546,9 +1546,9 @@
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "support": {
                 "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
-                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.7.3"
+                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.8.2"
             },
-            "time": "2023-08-12T11:01:26+00:00"
+            "time": "2024-02-23T11:10:43+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -1619,16 +1619,16 @@
         },
         {
             "name": "phpstan/phpdoc-parser",
-            "version": "1.24.1",
+            "version": "1.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpdoc-parser.git",
-                "reference": "9f854d275c2dbf84915a5c0ec9a2d17d2cd86b01"
+                "reference": "231e3186624c03d7e7c890ec662b81e6b0405227"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/9f854d275c2dbf84915a5c0ec9a2d17d2cd86b01",
-                "reference": "9f854d275c2dbf84915a5c0ec9a2d17d2cd86b01",
+                "url": "https://api.github.com/repos/phpstan/phpdoc-parser/zipball/231e3186624c03d7e7c890ec662b81e6b0405227",
+                "reference": "231e3186624c03d7e7c890ec662b81e6b0405227",
                 "shasum": ""
             },
             "require": {
@@ -1660,9 +1660,9 @@
             "description": "PHPDoc parser with support for nullable, intersection and generic types",
             "support": {
                 "issues": "https://github.com/phpstan/phpdoc-parser/issues",
-                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.24.1"
+                "source": "https://github.com/phpstan/phpdoc-parser/tree/1.26.0"
             },
-            "time": "2023-09-18T12:18:02+00:00"
+            "time": "2024-02-23T16:05:55+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -2648,16 +2648,16 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.28.0",
+            "version": "v1.29.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "ea208ce43cbb04af6867b4fdddb1bdbf84cc28cb"
+                "reference": "ef4d7e442ca910c4764bce785146269b30cb5fc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/ea208ce43cbb04af6867b4fdddb1bdbf84cc28cb",
-                "reference": "ea208ce43cbb04af6867b4fdddb1bdbf84cc28cb",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/ef4d7e442ca910c4764bce785146269b30cb5fc4",
+                "reference": "ef4d7e442ca910c4764bce785146269b30cb5fc4",
                 "shasum": ""
             },
             "require": {
@@ -2671,9 +2671,6 @@
             },
             "type": "library",
             "extra": {
-                "branch-alias": {
-                    "dev-main": "1.28-dev"
-                },
                 "thanks": {
                     "name": "symfony/polyfill",
                     "url": "https://github.com/symfony/polyfill"
@@ -2710,7 +2707,7 @@
                 "portable"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.28.0"
+                "source": "https://github.com/symfony/polyfill-ctype/tree/v1.29.0"
             },
             "funding": [
                 {
@@ -2726,7 +2723,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-26T09:26:14+00:00"
+            "time": "2024-01-29T20:11:03+00:00"
         },
         {
             "name": "symfony/yaml",
