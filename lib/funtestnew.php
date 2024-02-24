@@ -529,7 +529,7 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
     function import_datatables()
     { ?>
         <script type='text/javascript' src='../vendor/components/jquery/jquery.min.js'></script>
-        <script type='text/javascript' src='../vendor/datatables.net/datatables.net/js/jquery.dataTables.min.js'></script>
+        <script type='text/javascript' src='../vendor/datatables.net/datatables.net/js/dataTables.min.js'></script>
         <script type='text/javascript' src='../vendor/datatables.net/datatables.net-bs5/js/dataTables.bootstrap5.min.js'></script>
         <script type='text/javascript' src='../vendor/datatables.net/datatables.net-responsive/js/dataTables.responsive.min.js'></script>
         <script type='text/javascript' src='../vendor/datatables.net/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js'></script>
