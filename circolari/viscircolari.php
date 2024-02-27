@@ -4,6 +4,7 @@ require_once '../lib/req_apertura_sessione.php';
 
 /*
   Copyright (C) 2015 Pietro Tamburrano
+  Copyright (C) 2024 Vittorio Lo Mele
   Questo programma è un software libero; potete redistribuirlo e/o modificarlo secondo i termini della
   GNU Affero General Public License come pubblicata
   dalla Free Software Foundation; sia la versione 3,
@@ -78,7 +79,7 @@ while ($nom = mysqli_fetch_array($ris))
 
 
     print "<tr><td>" . $nom['descrizione'] .
-            "</td><td data-sort='" . data_dt($nom['datainserimento'])  . "' >" . data_italiana($nom['datainserimento']) .
+            "</td><td data-sort='" . $nom['iddocumento']  . "' >" . data_italiana($nom['datainserimento']) .
             "</td><td>";
     // print "TTTT".$nom['datalettura'];
     if ($nom['datalettura'] != "0000-00-00" & $nom['datalettura']!=NULL)
@@ -121,7 +122,7 @@ import_datatables();
             responsive: true,
             pageLength: 10,
             scrollX: true,
-            order: [[3, 'desc']],
+            order: [[1, 'desc']],
             'language': {
                 'search': 'Filtra risultati:',
                 'zeroRecords': 'Nessun dato da visualizzare',

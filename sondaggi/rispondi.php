@@ -41,12 +41,6 @@ if (!$con) {
 $idsondaggio = $con->real_escape_string($_GET['id']);
 $autorizzato = eseguiQuery($con, "SELECT idrisposta FROM tbl_rispostesondaggi WHERE idsondaggio = $idsondaggio AND idutente = $idstudente AND idopzione = -1");
 
-if ($autorizzato->num_rows != 1){
-    print("<div class='alert alert-danger' role='alert'>Non sei autorizzato a rispondere!</div>");
-    stampa_piede_new("");
-    exit;
-}
-
 $idrisposta = $autorizzato->fetch_assoc()['idrisposta'];
 $sondaggio = eseguiQuery($con, "SELECT * FROM tbl_sondaggi WHERE idsondaggio = $idsondaggio")->fetch_assoc();
 
@@ -60,6 +54,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
 
 stampa_head_new($titolo, "", "", "L");
 stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+
+if ($autorizzato->num_rows != 1){
+    print("<div class='alert alert-danger' role='alert'>Non sei autorizzato a rispondere!</div>");
+    stampa_piede_new("");
+    exit;
+}
 ?>
 
 <form action="" method="post" class="row justify-content-center">

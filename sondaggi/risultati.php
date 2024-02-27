@@ -33,7 +33,7 @@ if ($tipoutente == "") {
 $titolo = "Stampa Report";
 
 stampa_head_new($titolo, "", "", "S");
-stampa_testata_new("<a href='../login/ele-ges.php'>PAGINA PRINCIPALE</a> - <a href='./sondaggi.php'>Gestione Sondaggi Alunni</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='./sondaggi.php'>Gestione Sondaggi Alunni</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
 if (!$con) {
