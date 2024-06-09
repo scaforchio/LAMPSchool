@@ -42,7 +42,8 @@ Specifiche consigliate per 100 persone:
 
 Per migliorare le performance puoi aumentare il numero di core e aumentare la velocità del disco adottando SSD.
 
-NOTA: Quasi sicuramente hai già un server con specifiche superiori a quelle qui consigliate.
+NOTA: Quasi sicuramente hai già un server con specifiche superiori a quelle qui consigliate.   
+NOTA BENE: AlterVista NON È una piattaforma supportata siccome è nota causare svariate problematiche con LAMPSchool.
 
 ## Installazione di LAMPSchool
 

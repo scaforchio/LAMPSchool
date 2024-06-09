@@ -242,3 +242,18 @@ footer {
        width: 100% !important;
     }
 }
+
+@media print {
+    header {
+        display: none;
+    }
+
+    .footer-justify {
+        display: none !important;
+        visibility: hidden;
+    }
+
+    .btn {
+        display: none !important;
+    }
+}
