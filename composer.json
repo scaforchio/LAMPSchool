@@ -20,6 +20,7 @@
     ],
     "require": {
         "php": ">=5.6",
+        "components/jquery": "^3.7",
         "datatables.net/datatables.net": "dev-master",
         "datatables.net/datatables.net-bs5": "dev-master",
         "datatables.net/datatables.net-buttons": "dev-master",

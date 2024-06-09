@@ -239,6 +239,7 @@ if($idalunno == $rappdc1 || $idalunno == $rappdc2){
     print("
         <label for='odg' class='mt-1'>Ordine del Giorno</label>
         <textarea class='form-control' id='odg' name='odg' rows=10>Ordine del giorno:\n1) ...\n2) ...\n3) ...</textarea>
+        <input type='hidden' name='odgdef' value='Ordine del giorno:\n1) ...\n2) ...\n3) ...'>
     ");
 
     // Firma Rappresentante

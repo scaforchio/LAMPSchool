@@ -189,8 +189,6 @@ if ($classe != "")
         $seledatalezione = $seledatalezione . " and datalezione <= '" . data_to_db($datafine) . "' ";
     }
     
-    
-    
     $query="select * from tbl_lezioni where idclasse=$classe $seledatalezione";
     $ris= eseguiQuery($con, $query);
     while ($rec=mysqli_fetch_array($ris))
@@ -202,27 +200,22 @@ if ($classe != "")
         else
             $orelez["$idmateria"]=$numeroore;
     }
- /*   foreach($orelez as $ol)
-        print "ore $ol";
-    */
+
     $elencoalunni= estrai_alunni_classe_data($classe, date('Y-m-d'), $con);
     $query="select * from tbl_asslezione where idalunno in ($elencoalunni) $seledata";
-    //print $query;
+    
     $ris= eseguiQuery($con, $query);
     while ($rec=mysqli_fetch_array($ris))
     {
         $idmateria=$rec['idmateria'];
         $idalunno=$rec['idalunno'];
         $numeroore=$rec['oreassenza'];
-       // print "$idmateria $idalunno $numeroore";
+        
         if (isset($assenze["$idmateria $idalunno"]))
             $assenze["$idmateria $idalunno"]+=$numeroore;
         else
             $assenze["$idmateria $idalunno"]=$numeroore;
     }
-  /*  foreach($assenze as $ol)
-        print "ore $ol";
-    */
     
     $query = "SELECT distinct tbl_materie.idmateria,tbl_materie.denominazione,sigla,tipovalutazione, progrpag FROM tbl_cattnosupp,tbl_materie
               WHERE tbl_cattnosupp.idmateria=tbl_materie.idmateria
@@ -253,183 +246,9 @@ if ($classe != "")
                  
     }
     
-    
     print "</table>";
-    
-/*  
-    
-    
-    
-    echo('
- 
-    <table align="center">
-      <td>');
-
-    echo('     </form></td>
-   
-</table><hr>
- 
-    ');
-
-    if ($mese == "")
-    {
-        $m = 0;
-    } else
-    {
-        $m = $mese;
-    }
-
-    if ($anno == "")
-    {
-        $a = 0;
-    } else
-    {
-        $a = $anno;
-    }
-
-
-    // print($nome." -   ". $g.$m.$a.$giornosettimana);
-
-    $idclasse = $nome;
-    $classe = "";
-    $oresettimanali = 0;
-    $numoretot = 0;
-    $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
-
-    $seledata = "";
-    $seledatalezione = "";
-    if ($datainizio != "")
-    {
-        $seledata = $seledata . " and data >= '" . data_to_db($datainizio) . "' ";
-        $seledatalezione = $seledatalezione . " and datalezione >= '" . data_to_db($datainizio) . "' ";
-    }
-
-    if ($datafine != "")
-    {
-        $seledata = $seledata . " and data <= '" . data_to_db($datafine) . "' ";
-        $seledatalezione = $seledatalezione . " and datalezione <= '" . data_to_db($datafine) . "' ";
-    }
-    //
-    // CONTEGGIO ORE DI LEZIONE EFFETTIVAMENTE SVOLTE NELLA CLASSE
-    //
-
-    $arrlezioni = array();
-    $querylez = "select * from tbl_lezioni
-               where idclasse=$idclasse
-               $seledatalezione";
-
-    $rislez = eseguiQuery($con, $querylez);
-    while ($reclez = mysqli_fetch_array($rislez))
-    {
-        $datalez = $reclez['datalezione'];
-        $orainizio = $reclez['orainizio'];
-        $numeroore = $reclez['numeroore'];
-        for ($i = $orainizio; $i < ($orainizio + $numeroore); $i++)
-        {
-            $indicearray = $datalez . $i;
-            $arrlezioni[$indicearray] = 1;
-        }
-    }
-
-    $oresvolte = count($arrlezioni);
-
-
-    $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $idclasse . '" ';
-    $ris = eseguiQuery($con, $query);
-    if ($val = mysqli_fetch_array($ris))
-    {
-        $classe = $val["anno"] . " " . $val["sezione"] . " " . $val["specializzazione"];
-        $oresettimanali = $val["oresett"];
-        $numoretot = round(33 * $oresettimanali);  // 33.3333 ?
-    }
-    $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
-    $ris = eseguiQuery($con, $query);
-
-    $c = mysqli_fetch_array($ris);
-    if ($c == NULL)
-    {
-        echo '
-                    <p align="center">
-		    <font size=4 color="black">Nessun alunno presente nella classe </font>
-                   ';
-        exit;
-    }
-    echo "<p align='center'>
-          <font size=4 color='black'>Assenze della classe $classe <br>
-                                     nel periodo $datainizio - $datafine
-          <br>Ore svolte nel periodo: $oresvolte</font>
-          <table border=2 align='center'>";
-
-    echo '
-          <tr class="prima">
-          
-          <td><font size=1><b> Cognome </b></td>
-          <td><font size=1><b> Nome  </b></td>
-          <td><font size=1><b> Data di nascita </b></td>';
-    print ("<td><font size=1><center>Ass</td><td><font size=1><center>Rit (Rit. Brevi)</td><td><font size=1><center>Usc</td><td align=center><font size=1>Perc. ass.<br/>su monte ore<br/>($numoretot)</td><td align=center><font size=1>Perc. ass.<br/>su monte ore<br/>(con deroghe)</td></tr>");
-
-
-    $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
-    $ris = eseguiQuery($con, $query);
-    while ($val = mysqli_fetch_array($ris))
-    {
-        $idalunno = $val["idalunno"];
-        echo '
-             <tr>
-                <td><font size=1><b> ' . $val["cognome"] . ' </b></td>
-                <td><font size=1><b> ' . $val["nome"] . '    </b></td>
-                <td><font size=1><b> ' . data_italiana($val["datanascita"]) . ' </b></td>
-                ';
-
-        $queryass = "SELECT count(*) AS numass FROM tbl_assenze WHERE idalunno = '" . $val['idalunno'] . "' " . $seledata;
-        $queryrit = "SELECT count(*) AS numrit FROM tbl_ritardi WHERE idalunno = '" . $val['idalunno'] . "' " . $seledata;
-        $queryusc = "SELECT count(*) AS numusc FROM tbl_usciteanticipate WHERE idalunno = '" . $val["idalunno"] . "' " . $seledata;
-
-        $risass = eseguiQuery($con, $queryass);
-        $risrit = eseguiQuery($con, $queryrit);
-        $numritardibrevi = calcola_ritardi_brevi($val['idalunno'], $con, $_SESSION['ritardobreve'], $seledata);
-        $risusc = eseguiQuery($con, $queryusc);
-        while ($ass = mysqli_fetch_array($risass))
-        {
-
-            $numass = $ass['numass'];
-        }
-        while ($rit = mysqli_fetch_array($risrit))
-        {
-            $numrit = $rit['numrit'];
-        }
-
-        while ($usc = mysqli_fetch_array($risusc))
-        {
-
-            $numusc = $usc['numusc'];
-        }
-
-        $numoretot = round(33 * $oresettimanali);  // 33.3333
-        $numoregio = $oresettimanali / $_SESSION['giornilezsett']; //calcolo ore medie giornaliere
-        $oreassenza = calcola_ore_assenza($idalunno, $datainizio, $datafine, $con);
-
-        $oreassenzader = calcola_ore_deroga($idalunno, $datainizio, $datafine, $con);
-
-
-        $oreassenzaperm = calcola_ore_deroga_oraria($idalunno, $datainizio, $datafine, $con);
-        $oreassenzader -= $oreassenzaperm;
-
-
-        $percass = round($oreassenza / $numoretot * 100, 2);
-        $percassder = round($oreassenzader / $numoretot * 100, 2);
-
-        print "<td><center>$numass</td><td><center>$numrit ($numritardibrevi) </td><td><center>$numusc</td><td align=center>$percass (Ore: $oreassenza) </td><td align=center>$percassder (Ore: $oreassenzader) </td></tr>";
-    }
-
-    echo '</table>';
-*/
     print "<center><img src='../immagini/stampa.png' onClick='printPage();'</center>";
-    // print"<br/><center><a href=javascript:Popup('staasse.php?classe=$idclasse&datainizio=$datainizio&datafine=$datafine')><img src='../immagini/stampa.png'></a></center><br/><br/>";
-
-    
-        }
-// fine if
+}
 
 mysqli_close($con);
 stampa_piede("");

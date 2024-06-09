@@ -1234,6 +1234,10 @@ if ($tipoutente == 'L') {
         $idstudente = $val["idalunno"];
     }
 
+    $annoalunno = ottieniRigaClasseDaIdAlunno($idstudente, $con)['anno'];
+    $listaAnniAmmessiString = explode(",", $_SESSION['anniannuario']);
+    $vis_annuario = ($_SESSION['annuariopubblico'] == "yes" && 
+        in_array($annoalunno, $listaAnniAmmessiString));
 
     $sql = "select * from tbl_alunni where idalunno='$idstudente'";
     $ris = eseguiQuery($con, $sql);
@@ -1273,6 +1277,8 @@ if ($tipoutente == 'L') {
         menu_title_end();
         menu_title_begin('COMUNICAZIONI', $icon="newspaper");
         menu_item('../circolari/viscircolari.php', 'Circolari', $icon="newspaper");
+        if($vis_annuario)
+            menu_item('../annuario/vis_annuario.php', 'Foto Annuario', $icon="people-fill");
         menu_title_end();
     }
 }

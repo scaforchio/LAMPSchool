@@ -3,11 +3,12 @@
 session_start();
 if (!isset($_SESSION['prefisso']))
 {
-    stampa_sessionescaduta();
+    //stampa_sessionescaduta();
     /* OLD 
     print "<br><br><b><big><center>Sessione scaduta!</center></big></b>";
     print "<br><b><big><center>Rieffettuare il <a href='../'>login</a>.</center></big></b>";
     */
+    header("location: ../?s=1");
     die;
 }
 

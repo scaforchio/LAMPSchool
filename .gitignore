@@ -15,3 +15,4 @@ project.xml
 unikey.txt
 .devmode
 node_modules
+/annuario/storage/a_*
