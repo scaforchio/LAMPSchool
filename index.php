@@ -115,6 +115,18 @@ if ($suffisso != "*")
                             Seleziona la scuola
                         </h5>
 
+                        <?php if (count($scuole) == 0) { ?>
+                            <div class="alert alert-danger" role="alert">
+                                Nessuna scuola installata
+                            </div>
+                        <?php } ?>
+
+                        <?php if ($_GET['s'] == "1") { ?>
+                            <div class="alert alert-danger" role="alert">
+                                Sessione scaduta! Rieffettuare il login...
+                            </div>
+                        <?php } ?>
+
                         <?php for ($i = 0; $i < count($scuole); $i++) { ?>
                             <div class="card selector">
                                 <div class="card-body">
@@ -140,7 +152,6 @@ if ($suffisso != "*")
                                 </div>
                             </div>
                         <?php } ?>
-
                     </div>
                 </div>
             </div>

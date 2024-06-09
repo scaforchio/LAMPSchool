@@ -40,9 +40,9 @@ if ($tipoutente == "")
 
 $titolo = "Inoltro richiesta";
 $script = "";
-stampa_head($titolo, "", $script, "L");
+stampa_head_new($titolo, "", $script, "L");
 $idclasse = stringa_html('idclasse');
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='assricgen.php?idclasse=$idclasse'>Assemblee di classe</a> - <a href='ricgen.php?idclasse=$idclasse'>Richiesta assemblea di classe</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - <a href='assricgen.php?idclasse=$idclasse'>Assemblee di classe</a> - <a href='ricgen.php?idclasse=$idclasse'>Richiesta assemblea di classe</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 $orainizio = substr(stringa_html('oreass'), 0, 1);
 $orafine = substr(stringa_html('oreass'), 2, 1);
@@ -56,6 +56,15 @@ $docenteconcedente1 = stringa_html('docenteconcedente1');
 $docenteconcedente2 = stringa_html('docenteconcedente2');
 
 $odg = stringa_html('odg');
+$odgdef = stringa_html('odgdef');
+
+if($odg == $odgdef){
+    // Check se L'ordine del giorno non è stato modificato dalla textbox
+    print("<div class='alert alert-danger mx-5' role='alert'>
+        Impossibile proseguire! L'Ordine del Giorno non è stato impostato!
+    </div>");
+    die();
+}
 
 $dataassemblea = stringa_html('data');
 $dataassemblea = data_to_db($dataassemblea);
@@ -107,7 +116,7 @@ if (!controlloAssemblee($idclasse, $dataassemblea, $con))
     }
 }
 mysqli_close($con);
-stampa_piede("");
+stampa_piede_new("");
 
 function controlloAssemblee($idclasse, $dataassemblea, $con)
 {

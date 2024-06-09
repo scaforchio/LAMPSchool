@@ -189,3 +189,13 @@ function estrai_classi_coordinate($iddocente, $conn)
     $elenco = substr($elenco, 0, strlen($elenco) - 1);
     return $elenco;
 }
+
+function ottieniRigaClasseDaIdAlunno($idalunno, $conn){
+    $query = "select * from tbl_alunni where idalunno=$idalunno";
+    $ris = eseguiQuery($conn, $query)->fetch_assoc();
+    
+    $idc = $ris['idclasse'];
+    
+    $queryclasse = "select * from tbl_classi where idclasse=$idc";
+    return eseguiQuery($conn, $queryclasse)->fetch_assoc();
+}

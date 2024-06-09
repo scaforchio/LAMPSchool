@@ -48,19 +48,32 @@ if (!$db)
 $sql = "SELECT * FROM tbl_classi ORDER BY specializzazione, sezione, anno";
 $res = eseguiQuery($con, $sql);
 
-print "<center><br><a class='btn btn-outline-secondary' href='vis_alu_ins.php'>Inserisci nuovo alunno senza classe</a></center><br/>";
-print "<form method='POST' action='vis_alu.php' name='alunni'>";
+print "<br><form method='POST' action='vis_alu.php' name='alunni'>";
 print "<center>";
-print "<div style='max-width: 300px'> <select class='form-select' name='idcla' ONCHANGE='alunni.submit()'><option value=''>&nbsp;</option></div>";
+print "<div class='mb-2'>Seleziona classe: </div>";
+print "<div style='max-width: 350px'> <select class='form-select' name='idcla' ONCHANGE='alunni.submit()'><option value=''>&nbsp;</option></div>";
 while ($dati = mysqli_fetch_array($res))
 {
-    //print("<tr> <td> <font size='3'> <a href='vis_alu.php?idcla=".$dati['idclasse']."'> ".$dati['anno']." ".$dati['sezione']." ".$dati['specializzazione']." </a> </font> </td> </tr>");
     print("<option value='" . $dati['idclasse'] . "'> " . $dati['anno'] . " " . $dati['sezione'] . " " . $dati['specializzazione'] . "  </option>");
 }
 print "<option value='0'>Senza classe</option>";
 print "</select>";
-
 print "</form>";
+
+?> 
+<center>
+    <br> oppure <br> <br>
+    <a class='btn btn-outline-secondary mb-3' href='vis_alu_ins.php'>
+        <i class='bi bi-person-plus'></i>
+        Inserisci nuovo alunno senza classe
+    </a>
+    <a class='btn btn-outline-secondary' href='vis_alu_ricerca.php'>
+        <i class='bi bi-search'></i>
+        Ricerca alunni
+    </a> <br>
+</center>
+<br/>
+<?php
 
 mysqli_close($con);
 stampa_piede_new("");

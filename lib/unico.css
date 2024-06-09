@@ -233,6 +233,16 @@ footer {
     padding: 20px 20px 20px 20px;
 }
 
+.card-annuario {
+    width: 685px !important;
+ }
+
+@media screen and (max-width: 700px) {
+    .card-annuario {
+       width: 100% !important;
+    }
+}
+
 @media print {
     header {
         display: none;

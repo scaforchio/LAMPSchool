@@ -913,7 +913,22 @@ function censito($data, $num) {
     } else {
         return "<td>No</td>";
     }
-    
+}
+
+function censito_new($data, $num, $nome, $cognome) {
+    if(maggiorenne($data)){
+        if($num != "0") {
+            if($num != "1"){
+                return "<td><button href='#' class='btn btn-sm btn-outline-secondary' onclick='cens_new(`$num`, `$cognome $nome`)'> <i class='bi bi-eye'></i> </button></td>";
+            } else {
+                return "<td><i style='color: #198753;' class='bi bi-check2-all'></i></td>";
+            }
+        }else{
+            return "<td style='color: #ff9d00;'><i class='bi bi-exclamation-triangle-fill'></i></td>";
+        }
+    } else {
+        return "<td><i class='bi bi-x'></i></td>";
+    }
 }
 
 function maggiorenneok($data) {
@@ -921,6 +936,22 @@ function maggiorenneok($data) {
         return "<td style='background-color: #00ff0087;'>Si</td>";
     }else {
         return "<td>No</td>";
+    }
+}
+
+function maggiorenne_new($data) {
+    if(maggiorenne($data)){
+        return "<td><i style='color: #198753;' class='bi bi-check2-all'></i></td>";
+    }else {
+        return "<td><i class='bi bi-x'></i></td>";
+    }
+}
+
+function visualizza_note_new($nota, $nome, $cognome) {
+    if($nota != ""){
+        return "<td><button href='#' class='btn btn-sm btn-outline-secondary' onclick='note_new(`$nota`, `$cognome $nome`)'> <i class='bi bi-eye'></i> </button></td>";
+    } else {
+        return "<td><i class='bi bi-x'></i></td>";
     }
 }
 

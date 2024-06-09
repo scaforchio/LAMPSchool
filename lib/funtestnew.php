@@ -1,4 +1,5 @@
 <?php
+
 function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = true, $token = true, $onload = "")
 {
     $_SESSION['tempotrascorso'] = 0;
@@ -31,13 +32,12 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
         <link rel='stylesheet' type='text/css' href='../lib/unico.css' />
         <link rel='stylesheet' href='../vendor/twbs/bootstrap/dist/css/bootstrap.min.css' />
         <link rel='stylesheet' href='../vendor/twbs/bootstrap-icons/font/bootstrap-icons.min.css' />
-        <link rel='stylesheet' type='text/css' href='../lib/js/jquery-ui-1.10.3.smoothness.css' />
-        <link rel='stylesheet' type='text/css' href='../lib/js/datetimepicker/jquery.datetimepicker.css'/>
-        <script src='../lib/js/jquery-1.10.2.min.js'></script>
-        <script src='../lib/js/jquery-ui-1.10.3.custom.min.js'></script>
-        <script src='../lib/js/datetimepicker/jquery.datetimepicker.js'></script>
+        <link rel="stylesheet" href="../lib/js/lightbox/css/lightbox.min.css">
+        <script src="../vendor/components/jquery/jquery.min.js"></script>
         <style>
-            <?php mod_cens_stili(); ?>
+            .spa {
+                margin-right: 5px;
+            }
         </style>
         <?php
 
@@ -569,9 +569,10 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
         </footer>
 
         <script src="../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="../lib/js/lightbox/js/lightbox.min.js"></script>
 
         <?php
-        modal_censimento();
+        modal_censimento_new();
         // se devmode attiva inietta script session inspector
         if (isset($_SESSION['devmode']) && $_SESSION['devmode'] == true) {
             // session inspector
@@ -827,6 +828,156 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
         </script>
     <?php }
 
+    function modal_censimento_new() { ?>
+        <div class="modal fade" id="censimentoModal" tabindex="-1" aria-labelledby="censimentoModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="censimentoModalLabel">
+                            Stato censimento
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Alunno: <b id="modalCensimentoAlunno">--</b> <br>
+                            Se i dati non sono aggiornati ricarica la pagina!
+                        </p>
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Servizio</th>
+                                    <th scope="col">Padre</th>
+                                    <th scope="col">Madre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Comunicazione dei dati sull'andamento</td>
+                                    <td id="modalCensimentoPadre1">--</td>
+                                    <td id="modalCensimentoMadre1">--</td>
+                                </tr>
+                                <tr>
+                                    <td>Accesso al Registro Elettronico</td>
+                                    <td id="modalCensimentoPadre2">--</td>
+                                    <td id="modalCensimentoMadre2">--</td>
+                                </tr>
+                                <tr>
+                                    <td>Comunicazione SMS assenze, ritardi, uscite</td>
+                                    <td id="modalCensimentoPadre3">--</td>
+                                    <td id="modalCensimentoMadre3">--</td>
+                                </tr>
+                                <tr>
+                                    <td>Partecipazione ai colloqui</td>
+                                    <td id="modalCensimentoPadre4">--</td>
+                                    <td id="modalCensimentoMadre4">--</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="noteModalLabel">
+                            Visualizza annotazione
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Alunno: <b id="noteModalAlunno">--</b> <br>
+                            <span id="noteModalNota"></span>
+                        </p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="barcodeModal" tabindex="-1" aria-labelledby="barcodeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="barcodeModalLabel">
+                            Codice a barre matricola
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            Alunno: <b id="barcodeModalAlunno">--</b> <br>
+                        </p>
+                        <center>
+                            <img alt='barcode' class="barcode" id='barcodeModalImg' src=''/> <br>
+                            <span style="font-size: 23px;" id='barcodeModalText'></span>
+                        </center>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var censimentoModal = new bootstrap.Modal($('#censimentoModal'));
+            var noteModal = new bootstrap.Modal($('#noteModal'));
+            var barcodeModal = new bootstrap.Modal($('#barcodeModal'));
+
+            function note_new(nota, nome) {
+                $('#noteModalAlunno').html(nome);
+                $('#noteModalNota').html(nota);
+                noteModal.show();
+            }
+
+            function barcode_new(text, nome) {
+                $('#barcodeModalAlunno').html(nome);
+                $('#barcodeModalImg').attr("src", `../lib/genbarcode.php?data=${text}`);
+                $('#barcodeModalText').html(text);
+                barcodeModal.show();
+            }
+
+            function cens_new(conf, nome) {
+                sww_new(conf.charAt(0), "1");
+                sww_new(conf.charAt(1), "2");
+                sww_new(conf.charAt(2), "3");
+                sww_new(conf.charAt(3), "4");
+
+                $('#modalCensimentoAlunno').html(nome);
+
+                censimentoModal.show();
+            }
+
+            function sww_new(letter, number){
+                switch (letter) {
+                    case "N":
+                        document.getElementById("modalCensimentoPadre" + number).innerHTML = "NO";
+                        document.getElementById("modalCensimentoMadre" + number).innerHTML = "NO";
+                        break;
+
+                    case "P":
+                        document.getElementById("modalCensimentoPadre" + number).innerHTML = "SI";
+                        document.getElementById("modalCensimentoMadre" + number).innerHTML = "NO";
+                        break;
+
+                    case "M":
+                        document.getElementById("modalCensimentoPadre" + number).innerHTML = "NO";
+                        document.getElementById("modalCensimentoMadre" + number).innerHTML = "SI";
+                        break;
+
+                    case "E":
+                        document.getElementById("modalCensimentoPadre" + number).innerHTML = "SI";
+                        document.getElementById("modalCensimentoMadre" + number).innerHTML = "SI";
+                        break;
+                
+                    default:
+                        document.getElementById("modalCensimentoPadre" + number).innerHTML = "??";
+                        document.getElementById("modalCensimentoMadre" + number).innerHTML = "??";
+                }
+            }
+        </script>
+    <?php }
+
     function mod_cens_stili()
     {
         print("
@@ -881,4 +1032,195 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
         text-decoration: none;
         cursor: pointer;
     }");
+}
+
+function insCodiceClientModalAnnuario() { ?>
+<div class="modal fade" id="fotoAnnuarioModal" tabindex="-1" aria-labelledby="fotoAnnuarioLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="fotoAnnuarioLabel">
+                    Gestione foto annuario
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="fam_form">
+                    <p>
+                        <b>Tipo Foto:</b> <span id="fam_tipoFoto">--</span> <br>
+                        <b>Caricando per:</b> <span id="fam_caricandoPer" >--</span> <br>
+                        <hr>
+                        Seleziona foto: <input class="form-control mb-2 mt-2" type="file" id="fam_file" accept="image/*" />
+                        Didascalia</b>: <input class="form-control mt-2" type="text" id="fam_didascalia" />
+                    </p>
+                    <div style="display: flex; flex-direction: row; justify-content: end;">
+                        <button type="button" class="btn btn-outline-secondary" onclick="salvaFotoAnnuario()" id="tasto_salvataggio">
+                            <i class="bi bi-floppy"></i>
+                            Salva Foto
+                        </button>
+                        <div class="spinner-border text-secondary" role="status" id="fidget_spinner">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="fam_view">
+                    <img src="" id="fam_img" class="img-fluid mb-3" />
+                    <center>
+                        <i id="fam_dida"></i>
+                    </center>
+                    <hr>
+                    <div style="display: flex; flex-direction: row; justify-content: end;">
+                        <button type="button" class="btn btn-outline-danger" onclick="cancellaFotoAnnuario()" id="tasto_eliminazione">
+                            <i class="bi bi-trash"></i>
+                            Elimina Foto
+                        </button>
+                        <div class="spinner-border text-secondary" role="status" id="fidget_spinner2">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="fam_err" class="alert alert-danger">
+                    <b>Codice errore:</b> <span id="fam_err_code">--</span> <br>
+                    <b>Messaggio:</b> <span id="fam_err_msg">--</span>
+                </div>
+                <div id="fam_succ" class="alert alert-success">
+                    Operazione completata con successo!
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    let UPLOAD_DATA = {};
+    let DELETION_ID = {};
+
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
+
+    function modal_foto_annuario(idd, tipo, nome) {
+        $("#fam_form").hide();
+        $("#fam_view").hide();
+        $("#fam_err").hide();
+        $("#fam_succ").hide();
+        $("#fidget_spinner").hide();
+        $("#fidget_spinner2").hide();
+
+        $.post("../annuario/metadata.php", 
+            { 
+                id: idd,
+                tipoFoto: tipo
+            })
+            .done(function(response) {
+                $("#fam_view").show();
+                $("#fam_img").attr("src", "../annuario/get_pic.php?hash=" + response.data.hash);
+                $("#fam_dida").html(response.data.didascalia);
+                $("#fotoAnnuarioModal").modal("show");
+                DELETION_ID = response.data.id;
+            })
+            .fail(function(error) {
+                if(error.status == 404) {
+                    $("#fam_form").show();
+                    $("#fam_tipoFoto").html(capitalizeFirstLetter(tipo));
+                    $("#fam_caricandoPer").html(nome);
+                    $("#fotoAnnuarioModal").modal("show");
+
+                    $("#fam_file").val("");
+                    $("#fam_didascalia").val("");
+
+                    UPLOAD_DATA = {
+                        id: idd,
+                        tipoFoto: tipo
+                    };
+                } else {
+                    $("#fam_err_code").html(error.status);
+                    $("#fam_err_msg").html(error.responseJSON.data);
+                    $("#fam_err").show();
+                    $("#fotoAnnuarioModal").modal("show");
+                }
+            });
+    }
+
+    function salvaFotoAnnuario() {
+        let file = $("#fam_file")[0].files[0];
+        let didascalia = $("#fam_didascalia").val();
+
+        if(!file) {
+            alert("Devi selezionare un file da caricare!");
+            return;
+        }
+
+        $("#fidget_spinner").show();
+        $("#tasto_salvataggio").hide();
+
+        let formData = new FormData();
+        formData.append("image", file);
+        formData.append("caption", didascalia);
+        formData.append("id", UPLOAD_DATA.id);
+        formData.append("tipoFoto", UPLOAD_DATA.tipoFoto);
+
+        $.ajax({
+            url: "../annuario/upload.php",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                $("#fidget_spinner").hide();
+                $("#tasto_salvataggio").show();
+                $("#fam_succ").show();
+                $("#fam_form").hide();
+                $("#fam_view").hide();
+            },
+            error: function(error) {
+                $("#fidget_spinner").hide();
+                $("#tasto_salvataggio").show();
+                $("#fam_err_code").html(error.status);
+                $("#fam_err_msg").html(error.responseJSON.data);
+                $("#fam_err").show();
+                $("#fam_form").hide();
+                $("#fam_view").hide();
+            }
+        });
+    }
+
+    function cancellaFotoAnnuario() {
+        if(!confirm("Sei sicuro di voler eliminare questa foto?")) {
+            return;
+        }
+
+        $("#fidget_spinner2").show();
+        $("#tasto_eliminazione").hide();
+
+        $.post("../annuario/delete.php", 
+            { 
+                id: DELETION_ID
+            })
+            .done(function(response) {
+                $("#fidget_spinner2").hide();
+                $("#tasto_eliminazione").show();
+                $("#fam_succ").show();
+                $("#fam_form").hide();
+                $("#fam_view").hide();
+            })
+            .fail(function(error) {
+                $("#fidget_spinner2").hide();
+                $("#tasto_eliminazione").show();
+                $("#fam_err_code").html(error.status);
+                $("#fam_err_msg").html(error.responseJSON.data);
+                $("#fam_err").show();
+                $("#fam_form").hide();
+                $("#fam_view").hide();
+            });
+    }
+
+    function foto_classe(idclasse, nome) {
+        modal_foto_annuario(idclasse, "classe", nome);
+    }
+
+    function foto_alunno(idalunno, nome) {
+        modal_foto_annuario(idalunno, "alunno", nome);
+    }
+</script>
+<?php }

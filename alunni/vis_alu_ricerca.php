@@ -28,133 +28,247 @@ require_once '../lib/req_apertura_sessione.php';
 // istruzioni per tornare alla pagina di login
 
 $tipoutente = $_SESSION["tipoutente"]; //prende la variabile presente nella sessione
-if ($tipoutente == "")
-{
+if ($tipoutente == "") {
     header("location: ../login/login.php?suffisso=" . $_SESSION['suffisso']);
 }
 
 $titolo = "Elenco alunni con filtro su cognome e nome";
 $script = "";
-stampa_head($titolo, "", $script, "MASP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> -  $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "MASP");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> -  $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $strcogn = trim(stringa_html('strcogn'));
 $strnome = trim(stringa_html('strnome'));
 $codice = trim(stringa_html('codice'));
 
-
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);
-if (!$con)
-{
+if (!$con) {
     print("<h1>Connessione al server fallita</h1>");
 }
-$db = true;
-if (!$db)
-{
-    print"<h1>Connessione nel database fallita</h1>";
+
+function ottieni_classe_ell($idclasse){
+    global $con;
+    $daticlasse = mysqli_fetch_array(eseguiQuery($con, "SELECT anno, sezione, specializzazione FROM tbl_classi WHERE idclasse = $idclasse"));
+
+    if (!$daticlasse) {
+        return "Nessuna";
+    }
+
+    $anno = $daticlasse['anno'];
+    $sezione = $daticlasse['sezione'];
+    $specializzazione = $daticlasse['specializzazione'];
+
+    if (strlen($specializzazione) > 3) {
+        $specializzazione = substr($specializzazione, 0, 3);
+    }
+
+    return $anno . $sezione . " " . $specializzazione;
 }
-print "<form action='vis_alu_ricerca.php' method='POST'>
-        <table align='center'>
-           <tr>
-               <td>Cognome: <input type='text' name='strcogn' value='$strcogn'></td>
-               <td>Nome: <input type='text' name='strnome' value='$strnome'></td>
-               <td>Codice: <input type='text' name='codice' value='$codice'></td>
-               <td colspan=2><input type='submit' value='CERCA'></td>
-           </tr>
-        </table>
-        </form>";
 
+?>
 
-if (strlen($strcogn) > 1 | strlen($strnome) > 1 | strlen($codice))
-{
-//imposta la tabella del titolo
-    print("<table width='100%'>
-		<tr>
-		   <td align ='center' bgcolor='white'><strong><font size='+1'>Alunni trovati</td>
-		</tr>
-		</table> <br/><br/>");
-    if ($codice == '')
-        $sql = "SELECT * FROM tbl_alunni,tbl_utenti
+<form action="" method="post">
+    <div class="row g-2 mb-2">
+        <div class="col">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="cognome" name="strcogn" value="<?= $strcogn ?>">
+                <label for="cognome">Cognome</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="nome" name="strnome" value="<?= $strnome ?>">
+                <label for="nome">Nome</label>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-floating">
+                <input type="text" class="form-control" id="codice" name="codice" value='<?= $codice ?>'>
+                <label for="durata">Codice alunno</label>
+            </div>
+        </div>
+        <div class="col col-auto">
+            <button type="submit" class="btn btn-outline-secondary h-100">
+                <i class="bi bi-search"></i>
+                Ricerca
+            </button>
+        </div>
+    </div>
+</form>
+
+<table class="table table-striped table-bordered">
+    <thead class="">
+        <tr>
+            <th colspan="13" class="text-center">
+                <div class="row">
+                    <div class="col" style="text-align: left;">
+                        Alunnni trovati
+                    </div>
+                    <div class="col col-auto">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="inserisci_alunno()">
+                            <i class="bi bi-person-fill-add"></i>
+                            Inserisci Alunno (Senza Classe)
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="torna_elenco_classi()">
+                            <i class="bi bi-arrow-left"></i>
+                            Torna all'elenco classi
+                        </button>
+                    </div>
+                </div>  
+            </th>
+        </tr>
+        <tr>
+            <th>Cognome</th>
+            <th>Nome</th>
+            <th>Data di Nascita</th>
+            <th>Id. Utente</th>
+            <th>Classe</th>
+            <th>Telefono</th>
+            <th>E-mail</th>
+            <th>Cert.</th>
+            <th>Foto</th>
+            <th>Magg.</th>
+            <th>Cens.</th>
+            <th>Note</th>
+            <th>Azioni</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        $sql = ""; 
+        $result = false;
+
+        if ($codice == ''){
+            $sql = "SELECT * FROM tbl_alunni,tbl_utenti
             WHERE tbl_alunni.idalunno=tbl_utenti.idutente
             AND cognome LIKE '%$strcogn%' AND nome LIKE '%$strnome%'
             ORDER BY cognome,nome";
-    else
-        $sql = "SELECT * FROM tbl_alunni,tbl_utenti
+        }else {
+            $sql = "SELECT * FROM tbl_alunni,tbl_utenti
             WHERE tbl_alunni.idalunno=tbl_utenti.idutente
             AND idalunno=$codice
             ORDER BY cognome,nome";
-    $result = eseguiQuery($con, $sql);
-    print"<center>";
-    print("<table border=1>");
-    print("<tr class='prima'>");
-    print("<td align='center'><b> Cognome</b> </td>");
-    print("<td align='center'><b> Nome</b> </td>");
-    print("<td align='center'> <b>Data di Nascita </b></td>");
-    print("<td align='center'><b>Id. Utente</b> </td>");
-    print("<td align='center'><b>Classe</b> </td>");
-    print("<td align='center' ><b> E-mail</b> </td>");
-    print("<td align='center' ><b> Maggiorenne</b> </td>");
-    print("<td align='center' ><b> Censito</b> </td>");
-    print("<td align='center' ><b> Cert.</b> </td>");
-    print("<td align='center' ><b> Note</b> </td>");
-    print("<td align='center'><b> Azione </b></td>");
-    print ("</tr>");
-    if (!(mysqli_num_rows($result) > 0))
-    {
-        print("<tr bgcolor='#cccccc'><td colspan='9'><center><b>Nessun alunno presente</b></td></tr>");
-    } else
-    {
-        while ($dati = mysqli_fetch_array($result))
-        {
-            //comunicazione tra le tabelle tbl_alunni,tbl_comuni,tbl_tutori per il passaggio dei valori
-            print("<tr class='oddeven'>");
-            print("<td>" . $dati['cognome'] . "</td><td>" . $dati['nome'] . "</td>");
-
-            print("<td>" . data_italiana($dati['datanascita']) . "</td>");
-            print("<td>" . $dati['userid'] . "</td>");
-            print("<td>" . decodifica_classe($dati['idclasse'], $con) . "</td>");
-            print("<td><a href='MAILTO:" . $dati['email'] . "'>" . $dati['email'] . "</A></td>");
-            print(maggiorenneok($dati["datanascita"]));
-            print(censito($dati["datanascita"], $dati["censito"]));
-            print("<td>");
-            if ($dati['certificato'])
-            {
-                print("<img src='../immagini/apply_small.png'>");
-            }
-            print("</td>");
-            print("<td>" . $dati['note'] . "</td>");
-            print("<td><a href='vis_alu_mod.php?idal=" . $dati['idalunno'] . "&strcogn=$strcogn&strnome=$strnome'><img src='../immagini/modifica.png'></a>&nbsp;&nbsp;");
-            if (poss_canc_alu($dati['idalunno'], $con))
-            {
-                print ("<a href='alu_conf.php?idal=" . $dati['idalunno'] . "&idcla=" . $dati['idclasse'] . "'><img src='../immagini/delete.png'></a>");
-            }
-            print("<a href='../password/rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'>Rig. password tutor</a>&nbsp;<a href='../password/alu_rigenera_password_ins_sta.php?idalu=" . $dati['idalunno'] . "'>Rig. password alunno</a>");
-            print("&nbsp;&nbsp;&nbsp;<a target='_blank' href='../alunni/genassotp.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/key.png' title='Rigenera OTP tutor'></a>");
-            print("&nbsp;<a target='_blank' href='../alunni/prefcens.php?idalu=" . $dati['idalunno'] . "'><img src='../immagini/ci.png' width=22 height=22 title='Preferenze Censimento'></a>");
-            print("&nbsp;&nbsp;<a href='#' onclick='barcode(`" . strtoupper($_SESSION['suffisso']) . $dati['idalunno'] . "`)'><img src='../immagini/card.png' width=22 height=22 title='Codice a barre'></a>");
-            if ($tipoutente == 'M')
-            {
-                print("<a href='../contr/cambiautenteok.php?nuovoutente=" . $dati['userid'] . "'><img src='../immagini/alias.png' title='Assumi identità tutor'></a>");
-            }
-            print("</td>");
-            print("</tr>");
         }
+
+        if($strcogn != '' || $strnome != '' || $codice != ''){
+            $result = eseguiQuery($con, $sql);
+        }
+        
+        if ($result == false || !(mysqli_num_rows($result) > 0))
+        {
+            print("<tr><td colspan='13'><center><b>Nessun alunno trovato</b></td></tr>");
+        } else
+        {
+            while ($dati = mysqli_fetch_array($result)) { ?>                
+                <tr>
+                    <td><?php echo $dati['cognome']; ?></td>
+                    <td><?php echo $dati['nome']; ?></td>
+                    <td><?php echo data_italiana($dati['datanascita']); ?></td>
+                    <td><?php echo $dati['userid']; ?></td>
+                    <td><?php echo ottieni_classe_ell($dati['idclasse']); ?></td>
+                    <td><?php echo ($dati['telefono']) ? $dati['telefono'] : $dati['telcel']; ?></td>
+                    <td><a href='mailto:<?php echo $dati['email']; ?>'><?php echo $dati['email']; ?></a> <a href='mailto:<?php echo $dati['email2']; ?>'><?php echo $dati['email2']; ?></a></td>
+                    <td><?php echo ($dati['certificato']) ? "<i style='color: #198753;' class='bi bi-check2-all'></i>" : "<i class='bi bi-x'>"; ?></td>
+                    <td><?php echo ($dati['liberatoria'] == 0) ? "<i class='bi bi-x'>" : "<i style='color: #198753;' class='bi bi-check2-all'></i>"; ?></td>
+                    <?php echo maggiorenne_new($dati['datanascita']); ?>
+                    <?php echo censito_new($dati['datanascita'], $dati['censito'], $dati['cognome'], $dati['nome']); ?>
+                    <?php echo visualizza_note_new($dati['note'], $dati['nome'], $dati['cognome']) ?>
+                    <td>
+                        <div class="dropdown">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-list"></i>
+                                Azioni
+                            </button>
+                            <ul class="dropdown-menu">
+
+                                <li>
+                                    <a class="dropdown-item" href='vis_alu_mod.php?idal=<?=$dati['idalunno']?>'>
+                                        <i class="bi spa bi-pencil"></i>
+                                        Modifica
+                                    </a>
+                                </li>
+
+                                <?php if(poss_canc_alu($dati['idalunno'], $con)) { ?>
+                                <li>
+                                    <a class="dropdown-item" href='alu_conf.php?idal=<?= $dati['idalunno'] ?>&idcla=<?= $dati['idclasse'] ?>'>
+                                        <i class="bi spa bi-trash"></i>
+                                        Elimina
+                                    </a>
+                                </li>
+                                <?php } ?>
+
+                                <li>
+                                    <a class="dropdown-item" href='../alunni/genassotp.php?idalu=<?= $dati['idalunno']?>'>
+                                        <i class="bi spa bi-shield-check"></i>
+                                        Rigenera OTP Tutor
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href='../password/rigenera_password_ins_sta.php?idalu=<?= $dati['idalunno'] ?>'>
+                                        <i class="bi spa bi-key"></i>
+                                        Rigenera Password Tutor
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href='../password/alu_rigenera_password_ins_sta.php?idalu=<?= $dati['idalunno'] ?>'>
+                                        <i class="bi spa bi-key"></i>
+                                        Rigenera Rassword Alunno
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" target='_blank' href='../alunni/prefcens.php?idalu=<?= $dati['idalunno']?>'>
+                                        <i class="bi spa bi-person-gear"></i>
+                                        Preferenze censimento
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" 
+                                        href="javascript:barcode_new(`<?= strtoupper($_SESSION['suffisso']) . $dati['idalunno'] ?>`, `<?= $dati['cognome'] . " " . $dati['nome'] ?>`)">
+                                        <i class="bi spa bi-upc-scan"></i>
+                                        Codice a barre
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="javascript:foto_alunno(<?= $dati['idalunno'] ?>, `<?= $dati['cognome'] . " " . $dati['nome'] ?>`)">
+                                        <i class="bi spa bi-camera"></i>
+                                        Gestisci foto annuario
+                                    </a>
+                                </li>
+
+                                <?php if($tipoutente == 'M') { ?>
+                                <li>
+                                    <a class="dropdown-item" href='../contr/cambiautenteok.php?nuovoutente=<?= $dati['userid'] ?>'>
+                                        <i class="bi spa bi-person-lock"></i>
+                                        Assumi identità tutor
+                                    </a>
+                                </li>
+                                <?php } ?>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            <?php } 
+        } ?>
+    </tbody>
+</table>
+
+<script>
+    function inserisci_alunno() {
+        window.location.href = 'vis_alu_ins.php';
     }
-    print("</table><br/>");
 
-    print("<center>");
-    print "<form action='vis_alu_ins.php' method='POST'>";
+    function torna_elenco_classi() {
+        window.location.href = 'vis_alu_cla.php';
+    }
+</script>
 
-    print("<input type='hidden' name='strcogn' value=$strcogn>");
-    print("<input type='hidden' name='strnome' value=$strnome>");
-    print("<input type ='submit' value='Inserimento'><br/>");
-    print "</form>";
-    print "<a href='vis_alu_cla.php'>";
+<?php
 
-    print ("<br/>Elenco classi");
-    print ("</a>");
-}
+insCodiceClientModalAnnuario();
 mysqli_close($con);
-stampa_piede("");
-
-
+stampa_piede_new("");
