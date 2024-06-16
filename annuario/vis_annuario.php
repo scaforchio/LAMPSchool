@@ -31,7 +31,7 @@ if ($tipoutente == "") {
 
 $titolo = "Visualizza annuario";
 $script = "";
-stampa_head_new($titolo, "", $script, "L");
+stampa_head_new($titolo, "", $script, "LS");
 stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> -  $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome);

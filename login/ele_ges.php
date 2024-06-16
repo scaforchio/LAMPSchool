@@ -569,7 +569,7 @@ if ($tipoutente == 'S') {
     menu_item('../alunni/vis_alu_solo_vis.php', 'VISUALIZZA ALUNNI');
     menu_title_end();
 
-    menu_title_begin('AVVISI, CIRCOLARI ED SMS');
+    menu_title_begin('AVVISI, CIRCOLARI, SMS E SONDAGGI');
     menu_item('../contr/vis_avvisi.php', 'AVVISI');
     menu_item('../circolari/circolari.php', 'CIRCOLARI');
     menu_item('../circolari/listadistr.php', 'VERIFICA LETTURA CIRCOLARI');
@@ -682,6 +682,8 @@ if ($tipoutente == 'S') {
 
     menu_item('../lezioni/dad.php', 'INSERISCI GIORNATE D.A.D.');
     menu_item('../lezioni/CRUDdad.php', 'ELIMINA GIORNATE D.A.D.');
+
+    menu_item('../annuario/vis_annuario.php', 'VISIONE ANNUARIO SCOLASTICO');
 
     menu_title_end();
 }
