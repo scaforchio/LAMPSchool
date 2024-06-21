@@ -16,5 +16,5 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 
 
 -- LASCIARE SEMPRE ALLA FINE
-UPDATE tbl_parametri set valore='2024' where psarametro='versioneprecedente';
+UPDATE tbl_parametri set valore='2024' where parametro='versioneprecedente';
 -- LASCIARE SEMPRE ALLA FINE
