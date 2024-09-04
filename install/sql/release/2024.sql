@@ -2843,7 +2843,7 @@ ALTER TABLE `tbl_alunni`
   ADD `idgrupporitardo` INT NOT NULL DEFAULT '1' after `censito`,
   ADD `telproprio` VARCHAR(20) NOT NULL DEFAULT '' after `idgrupporitardo`,
   ADD `mailpropria` VARCHAR(100) NOT NULL DEFAULT '' after `telproprio`,
-  ADD `totpgiustass` VARCHAR(120) NULL DEFAULT NULL AFTER `mailpropria`
+  ADD `totpgiustass` VARCHAR(120) NULL DEFAULT NULL AFTER `mailpropria`,
   ADD `liberatoria` TINYINT NOT NULL DEFAULT 0 AFTER `totpgiustass`,
   ADD `idfotoannuario` INT NOT NULL DEFAULT 0 AFTER `liberatoria`;
 
