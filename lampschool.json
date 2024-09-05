@@ -8,7 +8,7 @@
         "mail": "pietro.tamburrano@gmail.com"
     },
     "database": {
-        "installazione": "sql/release/2023.6.sql",
+        "installazione": "sql/release/2024.sql",
         "aggiornamento": "sql/update/"
     }
 }
