@@ -65,57 +65,92 @@ if (!$DB)
 
 $ute = stringa_html('ute');
 $pwd = stringa_html('password');
+$oldnomd5 = stringa_html('old_no_md5');
 
 $npass = stringa_html('npass');
 $rnpass = stringa_html('rnpass');
 
 
-//Esecuzione query
-$sql = "SELECT * FROM tbl_utenti WHERE userid='" . $ute . "' AND  password=md5('" . $pwd . "')";
-
-$result = eseguiQuery($con, $sql);
-if (mysqli_num_rows($result) <= 0)
+// controlla se l'utente ha in sessione un id per una password secondaria
+if (isset($_SESSION['idPasswordSecondaria']))
 {
-    alert("Nome utente e password non risultano presenti: verificare.", "", "warning", "question-octagon");
-} else
-{
-    $rec = mysqli_fetch_array($result);
-    $passwordprecedenti = $rec['passprecedenti'];
-    if ($npass != $rnpass | $npass == $pwd)
+    $idp = $_SESSION['idPasswordSecondaria'];
+    $sql = "SELECT * FROM tbl_passwordalt WHERE id = '$idp'";
+    $res = eseguiQuery($con, $sql);
+    $row = mysqli_fetch_assoc($res);
+    
+    // verifica vecchia password
+    if (!password_verify($oldnomd5, $row['hash']))
     {
-        alert("La password inserita è diversa dalla conferma o coincide con la vecchia password!", "", "danger", "exclamation-octagon");
-    } else
-    {
-        $penultimapassword = substr($passwordprecedenti, strlen($passwordprecedenti) - 33, 32);
-        if ($penultimapassword == md5(md5($npass))) // CONTROLLO CHE NON SIA STATA USATA DI RECENTE
-        {
-            alert("La password inserita è stata usata di recente!", "", "danger", "exclamation-octagon");
-        } else
-        {
-            $query = "UPDATE tbl_utenti SET password = '" . md5(md5($npass)) . "',passprecedenti=concat(passprecedenti,md5('" . $pwd . "'),'|') WHERE userid='" . $ute . "'";
-
-            $result = eseguiQuery($con, $query);
-
+        alert("La password inserita non è corretta", "", "danger", "exclamation-octagon");
+        mysqli_close($con);
+        stampa_piede_new("");
+        exit;
+    }else {
+        if ($npass == $rnpass) {
+            $npass = password_hash($npass, PASSWORD_DEFAULT);
+            $sql = "UPDATE tbl_passwordalt SET hash = '$npass' WHERE id = '$idp'";
+            $res = eseguiQuery($con, $sql);
             if (mysqli_affected_rows($con) == 1)
             {
-                if ($tipoutente == 'L' & $_SESSION['tokenservizimoodle'] != '')
-                {
-                    $idmoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $ute);
-                    cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idmoodle, $ute, $npass);
-                    alert("Password cambiata correttamente anche per l'elearning per utente $ute ($idmoodle)", "", "success");
-                } else if (($tipoutente == 'D' | $tipoutente == 'S') & $_SESSION['tokenservizimoodle'] != '')
-                {
-                    $ndocente = $idutente - 1000000000;
-                    $ute = "doc" . $_SESSION['suffisso'] . $ndocente;
-                    $idmoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $ute);
-                    cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idmoodle, $ute, $npass);
-                    alert("Password cambiata correttamente anche per l'elearning per utente $ute ($idmoodle)", "", "success");
-                } else
                 alert("Password cambiata correttamente", "", "success");
             }
             else
             {
                 alert("Errore nel database, contattare il sistemista", "", "danger", "exclamation-octagon");
+            }
+        } else {
+            alert("La password inserita è diversa dalla conferma", "", "danger", "exclamation-octagon");
+        }
+    }
+
+} else {
+    //Esecuzione query
+    $sql = "SELECT * FROM tbl_utenti WHERE userid='" . $ute . "' AND  password=md5('" . $pwd . "')";
+    $result = eseguiQuery($con, $sql);
+    if (mysqli_num_rows($result) <= 0)
+    {
+        alert("Nome utente e password non risultano presenti: verificare.", "", "warning", "question-octagon");
+    } else
+    {
+        $rec = mysqli_fetch_array($result);
+        $passwordprecedenti = $rec['passprecedenti'];
+        if ($npass != $rnpass | $npass == $pwd)
+        {
+            alert("La password inserita è diversa dalla conferma o coincide con la vecchia password!", "", "danger", "exclamation-octagon");
+        } else
+        {
+            $penultimapassword = substr($passwordprecedenti, strlen($passwordprecedenti) - 33, 32);
+            if ($penultimapassword == md5(md5($npass))) // CONTROLLO CHE NON SIA STATA USATA DI RECENTE
+            {
+                alert("La password inserita è stata usata di recente!", "", "danger", "exclamation-octagon");
+            } else
+            {
+                $query = "UPDATE tbl_utenti SET password = '" . md5(md5($npass)) . "',passprecedenti=concat(passprecedenti,md5('" . $pwd . "'),'|') WHERE userid='" . $ute . "'";
+
+                $result = eseguiQuery($con, $query);
+
+                if (mysqli_affected_rows($con) == 1)
+                {
+                    if ($tipoutente == 'L' & $_SESSION['tokenservizimoodle'] != '')
+                    {
+                        $idmoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $ute);
+                        cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idmoodle, $ute, $npass);
+                        alert("Password cambiata correttamente anche per l'elearning per utente $ute ($idmoodle)", "", "success");
+                    } else if (($tipoutente == 'D' | $tipoutente == 'S') & $_SESSION['tokenservizimoodle'] != '')
+                    {
+                        $ndocente = $idutente - 1000000000;
+                        $ute = "doc" . $_SESSION['suffisso'] . $ndocente;
+                        $idmoodle = getIdMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $ute);
+                        cambiaPasswordMoodle($_SESSION['tokenservizimoodle'], $_SESSION['urlmoodle'], $idmoodle, $ute, $npass);
+                        alert("Password cambiata correttamente anche per l'elearning per utente $ute ($idmoodle)", "", "success");
+                    } else
+                    alert("Password cambiata correttamente", "", "success");
+                }
+                else
+                {
+                    alert("Errore nel database, contattare il sistemista", "", "danger", "exclamation-octagon");
+                }
             }
         }
     }

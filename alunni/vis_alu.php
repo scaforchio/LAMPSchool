@@ -130,7 +130,32 @@ $result = eseguiQuery($con, $sql);
                     <td><?php echo $dati['cognome']; ?></td>
                     <td><?php echo $dati['nome']; ?></td>
                     <td><?php echo data_italiana($dati['datanascita']); ?></td>
-                    <td><?php echo $dati['userid']; ?></td>
+                    <td>
+                        <?php echo $dati['userid']; ?>
+                        <?php
+                        // cerca se l'utente del gentore ha password secondarie
+                        $sql = "SELECT * FROM tbl_passwordalt WHERE userid = '" . $dati['userid'] . "'";
+                        $res = eseguiQuery($con, $sql);
+
+                        if (mysqli_num_rows($res) > 0){ 
+                            
+                        $ttt = "L'utente ha password secondarie: <br> <br>";
+                        while ($dati2 = mysqli_fetch_array($res)) {
+                            $ttt .= "<b>-</b> " . $dati2['descrizione'] . "<br>";
+                        }
+
+                        $ttt .= "<br> Utilizza la pagina <b>ANAGRAFICHE -> UTENZE SECONDARIE</b> per gestirle";
+                            
+                        ?>
+                            <span style="color: #ffb336; padding-left: 5px;">
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+                                    <a href="#" class="alert-link"  data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" data-bs-title="<?= $ttt ?>">
+                                    CRED. SEC.
+                                </a>
+                            </span>  
+                        <?php } 
+                        ?>
+                    </td>
                     <td><?php echo ($dati['telefono']) ? $dati['telefono'] : $dati['telcel']; ?></td>
                     <td><a href='mailto:<?php echo $dati['email']; ?>'><?php echo $dati['email']; ?></a> <a href='mailto:<?php echo $dati['email2']; ?>'><?php echo $dati['email2']; ?></a></td>
                     <td><?php echo ($dati['certificato']) ? "<i style='color: #198753;' class='bi bi-check2-all'></i>" : "<i class='bi bi-x'>"; ?></td>
@@ -226,6 +251,8 @@ $result = eseguiQuery($con, $sql);
     <input type='hidden' id='form_agg_idcla' name='idcla' value=''>
 </form>
 
+<script src="../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.js"></script>
+
 <script>
     function torna_elenco_classi() {
         window.location.href = 'vis_alu_cla.php';
@@ -239,6 +266,9 @@ $result = eseguiQuery($con, $sql);
     function stampa_elenco_alunni() {
         window.open('vis_alu_stampa.php?idcla=<?php echo $n; ?>', '_blank');
     }
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 </script>
 
 <?php

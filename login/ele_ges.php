@@ -637,6 +637,7 @@ if ($tipoutente == 'S') {
     menu_item('../alunni/vis_alu_cla.php', 'ALUNNI');
     menu_item('../alunni/attr_classe.php', 'Attribuisci classe ad alunni');
     menu_item('../alunni/vis_alu_ricerca.php', 'Ricerca alunni');
+    menu_item('../password/utenzesecondarie.php', 'UTENZE SECONDARIE');
     menu_item('../alunni/CRUD_autorizzazioni.php', 'Gestione autorizzazioni');
     menu_item('../segreteria/vis_imp.php', 'IMPIEGATI DI SEGRETERIA');
     menu_item('../docenti/vis_doc.php', 'DOCENTI');
@@ -923,6 +924,7 @@ if ($tipoutente == 'M') {  // Amministratore
     menu_item('../alunni/attr_classe.php', 'Attribuisci classe ad alunni');
 
     menu_item('../alunni/vis_alu_ricerca.php', 'Ricerca alunni');
+    menu_item('../password/utenzesecondarie.php', 'UTENZE SECONDARIE');
     menu_item('../segreteria/vis_imp.php', 'IMPIEGATI DI SEGRETERIA');
     menu_item('../docenti/vis_doc.php', 'DOCENTI');
     menu_item("../docenti/carica_docenti_da_csv.php?par=1!0!1!1!2!99!99!99!99!99!99!99", "Carica docenti da file CSV generico");
