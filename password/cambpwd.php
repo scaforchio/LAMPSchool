@@ -135,6 +135,7 @@ print "<br/>";
 		var form = document.createElement("form");
 		var ute = document.createElement("input"); 
 		var old = document.createElement("input"); 
+		var old_no_md5 = document.createElement("input");
 		var neww = document.createElement("input");  
 		var confirm = document.createElement("input");  
 
@@ -148,6 +149,10 @@ print "<br/>";
 		old.value = hex_md5(document.querySelector('#vecchia').value);
 		old.name = "password";
 		form.appendChild(old);  
+
+		old_no_md5.value = document.querySelector('#vecchia').value;
+		old_no_md5.name = "old_no_md5";
+		form.appendChild(old_no_md5);
 
 		neww.value = document.querySelector('#nuova').value;
 		neww.name = "npass";

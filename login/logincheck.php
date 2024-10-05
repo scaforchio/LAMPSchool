@@ -88,9 +88,27 @@ if(mysqli_num_rows($risc) > 0){
 
 
 if ($tipoaccesso == 0) {
-    inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Accesso errato: $username - $password");
-    header("location: login.php?messaggio=Utente sconosciuto&suffisso=" . $_SESSION['suffisso']);
-    die();
+
+    // controlla se esiste una password secondaria per l'utente
+    $unn = $con->real_escape_string($username);
+    $sql = "SELECT * FROM tbl_passwordalt WHERE userid='" . $unn . "'";
+    $ris = eseguiQuery($con, $sql);
+
+    if (mysqli_num_rows($ris) > 0) {
+        while ($val = mysqli_fetch_array($ris)) {
+            if (password_verify($passwordnohash, $val['hash'])) {
+                $tipoaccesso = 1;
+                $_SESSION['idPasswordSecondaria'] = $val['id'];
+                inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Accesso CON PASS SECONDARIA $username");
+                break;
+            }
+        }
+    }else {
+        inserisci_log("LAMPSchool§" . date('m-d|H:i:s') . " §" . IndirizzoIpReale() . "§Accesso errato: $username - $password");
+        header("location: login.php?messaggio=Utente sconosciuto&suffisso=" . $_SESSION['suffisso']);
+        die();
+    }
+    
 }
 
 if ($tipoaccesso == 2) {
