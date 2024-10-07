@@ -251,8 +251,6 @@ $result = eseguiQuery($con, $sql);
     <input type='hidden' id='form_agg_idcla' name='idcla' value=''>
 </form>
 
-<script src="../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.js"></script>
-
 <script>
     function torna_elenco_classi() {
         window.location.href = 'vis_alu_cla.php';
@@ -266,9 +264,6 @@ $result = eseguiQuery($con, $sql);
     function stampa_elenco_alunni() {
         window.open('vis_alu_stampa.php?idcla=<?php echo $n; ?>', '_blank');
     }
-
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 </script>
 
 <?php
