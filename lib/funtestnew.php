@@ -569,6 +569,10 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
         </footer>
 
         <script src="../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        </script>
         <script src="../lib/js/lightbox/js/lightbox.min.js"></script>
 
         <?php
