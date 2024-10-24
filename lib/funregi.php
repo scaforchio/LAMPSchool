@@ -197,7 +197,7 @@ function stampa_reg_classe($data, $idclasse, $iddocente, $numoremax, $conn, $sta
                 $collegamenti .= "<a href='../assenze/rit.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese'>Ritardi</a>&nbsp;&nbsp;&nbsp;";
                 $collegamenti .= "<a href='../assenze/usc.php?goback=$gotoPage&cl=$idclasse&gio=$gio&meseanno=$mese'>Uscite anticipate</a>&nbsp;&nbsp;&nbsp;";
             }
-            $collegamenti .= "<a href='../note/notecl.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&meseanno=$mese'>Note di classe</a>&nbsp;&nbsp;&nbsp;";
+            $collegamenti .= "<a href='../note/notecl.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&mese=$mese'>Note di classe</a>&nbsp;&nbsp;&nbsp;";
             $collegamenti .= "<a href='../note/noteindmul.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&mese=$mese'>Note individuali</a>&nbsp;&nbsp;&nbsp;";
             $collegamenti .= "<a href='../regclasse/annotaz.php?goback=$gotoPage&idclasse=$idclasse&gio=$gio&mese=$mese'>Annotazioni</a>";
             print "<div style=\"text-align: center;\"><br>$collegamenti</div>";
