@@ -225,15 +225,15 @@ if (mysqli_num_rows($risass) == 0)
         </div>
     ");
 
-    // Output pulsante Richiesta Assemblea
-    if($alurapp){
-        print "<form action='ricgen.php' method='POST'>";
-        print " <p align='center'><input type=hidden value='" . $idclasse . "' name='idclasse'></p>";
-        print "	<p align='center'><input type=submit class='btn btn-outline-secondary btn-sm' value='Richiedi nuova assemblea'>";
-        print "</form>";
-    }
+    
 }
-
+// Output pulsante Richiesta Assemblea
+if($alurapp){
+    print "<form action='ricgen.php' method='POST'>";
+    print " <p align='center'><input type=hidden value='" . $idclasse . "' name='idclasse'></p>";
+    print "	<p align='center'><input type=submit class='btn btn-outline-secondary btn-sm' value='Richiedi nuova assemblea'>";
+    print "</form>";
+}
 ?>
 
 <?php
