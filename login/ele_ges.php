@@ -445,7 +445,7 @@ if ($tipoutente == 'S') {
     if ($_SESSION['livello_scuola'] == '4') {
         menu_title_begin('ASSEMBLEE DI CLASSE');
         menu_item("../assemblee/assdoc.php", 'ASSEMBLEE PROPRIE ORE');
-        menu_item("../assemblee/ass.php", 'AUTORIZZAZIONE ASSEMBLEE');
+        menu_item("../assemblee/assstaff.php", 'AUTORIZZAZIONE ASSEMBLEE');
         menu_item("../assemblee/contver.php", 'VERIFICA VERBALI');
         menu_item("../assemblee/visionaverbali.php", 'SITUAZIONE ASSEMBLEE');
         menu_item("../assemblee/reportassemblee.php", 'RAPPORTO PER DIRIGENTE');
