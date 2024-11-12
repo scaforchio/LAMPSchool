@@ -96,7 +96,7 @@ while($sond = mysqli_fetch_array($ris)){
             $risp = "NESSUNA RISPOSTA";
             $col = "#ff0000";
         }elseif($sond['idopzione']> -1){
-            $risp = strtoupper($risposte[$sond['idopzione']][1]);
+            $risp = strtoupper($risposte[$sond['idopzione']][1]) . " (" . $sond['ts'] . ")";
             $col = "000";
             
         }
@@ -107,7 +107,7 @@ while($sond = mysqli_fetch_array($ris)){
             $risp = "NESSUNA RISPOSTA";
             $col = "#ff0000";
         }elseif($sond['idopzione']> -1){
-            $risp = strtoupper($risposte[$sond['idopzione']][1]);
+            $risp = strtoupper($risposte[$sond['idopzione']][1]) . " (" . $sond['ts'] . ")";
             $col = "000";
         }
     }
