@@ -32,7 +32,7 @@ Se vorresti iniziare a fornire assistenza commerciale su LAMPSchool, prepara una
 
 Si segnala anche l'esistenza dei seguenti registri elettronici liberi, attivi sul territorio:
 
-* [registro elettronico giuia@school](https://github.com/trinko/giuaschool) - nato successivamente a LAMPSchool e al momento focalizzato solo sull'istituto I.I.S. Michele Giua
+* [registro elettronico giua@school](https://github.com/trinko/giuaschool) - nato successivamente a LAMPSchool e al momento focalizzato solo sull'istituto I.I.S. Michele Giua
 
 ## Segnalazioni
 
