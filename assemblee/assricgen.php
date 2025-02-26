@@ -20,7 +20,7 @@ require_once '../lib/req_apertura_sessione.php';
  */
 
 //
-//    VISUALIZZAZIONE DELLE ASSEMBLEE DI CLASSE PER I GENITORI
+//    VISUALIZZAZIONE DELLE ASSEMBLEE DI CLASSE PER GLI ALUNNI
 //	  E
 //	  RICHIESTA DI ASSEMBLEE DI CLASSE PER GLI ALUNNI 
 //
@@ -187,23 +187,53 @@ if (mysqli_num_rows($risass) == 0)
             if($alurapp){
                 // Check se verbale non è stato inviato
                 if($dataass['verbale'] == NULL & $dataass['autorizzato'] == 1 & date('Y-m-d') >= $dataass['dataassemblea']){
+                    // Status per blocco richieste assemblee di classe
+                    $noverb = true;
                     // Pulsante invio verbale
                     print("<a tabindex='0' class='btn btn-outline-danger' href='insver.php?idassemblea=$idassemblea' role='button' data-bs-toggle='popover' data-bs-trigger='hover' data-bs-content='Inserisci Verbale!'><i class='bi bi-file-post-fill'></i> Inserisci</a>");
+                    // Stampa ritardo di invio verbale
+                    $ritardogg = date_diff(date_create($dataass['dataassemblea']), date_create(date('Y-m-d')), true)->days;
+                    if($ritardogg < 10){
+                        print("<span class='ms-2 badge bg-warning'>Ritardo! ($ritardogg giorni)</span>");
+                    }elseif($ritardogg >= 10){
+                        print("<span class='ms-2 badge bg-danger'>Ritardo! ($ritardogg giorni)</span>");
+                    }
                 }else{
                     // Check se siamo in data dell'assemblea oppure no
                     if(date('Y-m-d') >= $dataass['dataassemblea']){
                         // Check se verbale non è firmato dal presidente
                         if($dataass['alunnopresidente'] == 0 & $idalunno != $dataass['alunnosegretario'] & $dataass['autorizzato'] == 1){
+                            // Status per blocco richieste assemblee di classe
+                            $noverb = true;
                             print("<a tabindex='0' class='btn btn-outline-success' href='registra_firmapresidente.php?idassemblea=$idassemblea' role='button' data-bs-toggle='popover' data-bs-trigger='hover' data-bs-content='Conferma e Registra Firma Presidente!'><i class='bi bi-send-check-fill'></i> Firma e Invia</a>");
                             // Stampa verbale
                             print($modalverb);
                             print("<button type='button' class='btn btn-outline-primary' data-bs-toggle='modal' data-bs-target='#modalAss$idassemblea'><i class='bi bi-eye-fill'> Visualizza</i></button>");
                             // Fine stampa verbale
                             print(" <a tabindex='0' class='btn btn-outline-warning' href='insver.php?idassemblea=$idassemblea' role='button' data-bs-toggle='popover' data-bs-trigger='hover' data-bs-content='Correggi Verbale'><i class='bi bi-pencil-square'></i> Correggi</a>");
+                            // Stampa ritardo di invio verbale
+                            $ritardogg = date_diff(date_create($dataass['dataassemblea']), date_create(date('Y-m-d')), true)->days;
+                            if($ritardogg < 10){
+                                print("<span class='ms-2 badge bg-warning'>Ritardo! ($ritardogg giorni)</span>");
+                            }elseif($ritardogg >= 10){
+                                print("<span class='ms-2 badge bg-danger'>Ritardo! ($ritardogg giorni)</span>");
+                            }
+                        // Se alunno è segretario e verbale non firmato dal presidente
                         }elseif($dataass['autorizzato'] == 1 & $dataass['alunnopresidente'] == 0){
+                            // Status per blocco richieste assemblee di classe
+                            $noverb = true;
+                            // Stampa pulsanti verbale
                             print($modalverb);
                             print("<button type='button' class='btn btn-outline-primary' data-bs-toggle='modal' data-bs-target='#modalAss$idassemblea'><i class='bi bi-eye-fill'> Visualizza</i></button>");
                             print(" <a tabindex='0' class='btn btn-outline-warning' href='insver.php?idassemblea=$idassemblea' role='button' data-bs-toggle='popover' data-bs-trigger='hover' data-bs-content='Correggi Verbale'><i class='bi bi-pencil-square'></i> Correggi</a>");
+                            // Stampa ritardo di invio verbale
+                            $ritardogg = date_diff(date_create($dataass['dataassemblea']), date_create(date('Y-m-d')), true)->days;
+                            if($ritardogg < 10){
+                                print("<span class='ms-2 badge bg-warning'>Ritardo! ($ritardogg giorni)</span>");
+                            }elseif($ritardogg >= 10){
+                                print("<span class='ms-2 badge bg-danger'>Ritardo! ($ritardogg giorni)</span>");
+                            }
+                            // Se sono presenti entrambi le firme (solo visualizzazione)
                         }elseif($dataass['autorizzato'] == 1){
                             print($modalverb);
                             print("<button type='button' class='btn btn-outline-primary' data-bs-toggle='modal' data-bs-target='#modalAss$idassemblea'><i class='bi bi-eye-fill'> Visualizza</i></button>");
@@ -229,10 +259,25 @@ if (mysqli_num_rows($risass) == 0)
 }
 // Output pulsante Richiesta Assemblea
 if($alurapp){
-    print "<form action='ricgen.php' method='POST'>";
-    print " <p align='center'><input type=hidden value='" . $idclasse . "' name='idclasse'></p>";
-    print "	<p align='center'><input type=submit class='btn btn-outline-secondary btn-sm' value='Richiedi nuova assemblea'>";
-    print "</form>";
+    if($noverb == true){
+        ?>
+            <p align='center'> <span class="d-inline-block" tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-content="Impossible richiedere nuove assemblee di classe finché non hai inserito/inviato il verbale della precedente!">
+                <button class="btn btn-outline-secondary btn-sm" type="button" disabled>Richiedi nuova assemblea</button>
+            </span></p>
+        <?php
+        }else{
+        ?>
+            <form action='ricgen.php' method='POST'>
+                <p align='center'><input type=hidden value='<?= $idclasse; ?>' name='idclasse'></p>
+                <p align='center'><input type=submit class='btn btn-outline-secondary btn-sm' value='Richiedi nuova assemblea'></p>
+            </form>
+        <?php
+        /* print "<form action='ricgen.php' method='POST'>";
+        print " <p align='center'><input type=hidden value='" . $idclasse . "' name='idclasse'></p>";
+        print "	<p align='center'><input type=submit class='btn btn-outline-secondary btn-sm' value='Richiedi nuova assemblea'>";
+        print "</form>"; */
+    }
+
 }
 ?>
 

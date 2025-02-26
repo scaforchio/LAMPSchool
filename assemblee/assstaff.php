@@ -47,31 +47,29 @@ $script = "<script type='text/javascript'>
                }
          //-->
          </script>";
-stampa_head($titolo, "", $script, "SP");
-stampa_testata("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
+stampa_head_new($titolo, "", $script, "SP");
+stampa_testata_new("<a href='../login/ele_ges.php'>PAGINA PRINCIPALE</a> - $titolo", "", $_SESSION['nome_scuola'], $_SESSION['comune_scuola']);
 $con = mysqli_connect($db_server, $db_user, $db_password, $db_nome) or die("Errore durante la connessione: " . mysqli_error($con));
 
 $iddocente = $_SESSION['idutente'];
 $assaut = "SELECT * FROM tbl_assemblee WHERE docenteautorizzante=0 OR autorizzato=0";
 $ris1 = eseguiQuery($con, $assaut);
-print "<CENTER><table border ='1' cellpadding='5'>";
+print ("
+        <div>
+            <h5 align='center' class='mt-2'>Assemblee da autorizzare</h5>
+            <table class='table table-striped table-bordered' width='100%'>
+                <thead><tr class='prima'>
+                    <td>Classe e Data</td> 
+                    <td>Richiedenti</td>
+                    <td>Docenti concedenti</td>
+                    <td>OdG</td>
+                    <td>Autorizza?</td>
+                    <td>Note</td>
+                    <td>Conferma</td>
+                </tr></thead>
+    ");
 
 //ELENCO RICHIESTE ASSEMBLEE DA AUTORIZZARE
-print "<tr class='prima'>
-		<td colspan='9'><font size='2'>ASSEMBLEE DA AUTORIZZARE</font></td>
-	   </tr>";
-
-print "<tr class='prima'>
-                        <td>Richiesta</td>
-			
-			
-                        <td>Docenti concedenti</td>
-			<td>Rappresentanti di classe</td>
-			
-			<td>O.d.G.</td>
-                        <td>Autorizza</td>
-			<td>Note</td>
-		   </tr>";
 $i = 0;
 if (mysqli_num_rows($ris1) == 0)
 {
@@ -99,30 +97,16 @@ if (mysqli_num_rows($ris1) == 0)
             print "<form action='registra_autorizzazione.php' method='GET'>";
             print "<tr>";
 
-            //AUTORIZZAZIONE ASSEMBLEA
-            print "<td>Classe: ";
+            // Stampa Classe
+            print "<td><i class='bi bi-people-fill'></i><b> ";
             print decodifica_classe($dataass['idclasse'], $con);
-
-
-            //DATA RICHIESTA
-            print "<br>Data rich.: " . data_italiana($dataass['datarichiesta']);
-            //DATA ASSEMBLEA
-            print "<br>Data ass.: " . data_italiana($dataass['dataassemblea']);
-            // ORA ASSEMBLEA
-            print "<br>Ora: " . $dataass['orainizio'] . "-" . $dataass['orafine'] . "</td>";
-            //DOCENTI
-            print "<td>";
-            if ($dataass['docenteconcedente1'] != 0)
-            {
-                print estrai_dati_docente($dataass['docenteconcedente1'], $con) . "<br>";
-            }
-            if ($dataass['docenteconcedente2'] != 0)
-            {
-                print estrai_dati_docente($dataass['docenteconcedente2'], $con) . "<br>";
-            }
-
-            print "</td>";
-            //RAPPRESENTANTI
+            // Stampa Data Richiesta
+            print "</b><br><i class='bi bi-calendar-plus'></i> " . data_italiana($dataass['datarichiesta']);
+            // Stampa Data Assemblea
+            print "<br><i class='bi bi-calendar-check'></i> " . data_italiana($dataass['dataassemblea']);
+            // Stampa ora inizio e ora fine
+            print "<br><i class='bi bi-clock'></i> " . $dataass['orainizio'] . "-" . $dataass['orafine'] . "</td>";
+            // Stampa Richiedenti
             $alu = "SELECT cognome,nome FROM tbl_alunni 
 					WHERE idalunno=" . $dataass['rappresentante1'] . "
 					OR idalunno=" . $dataass['rappresentante2'] . "
@@ -135,31 +119,36 @@ if (mysqli_num_rows($ris1) == 0)
                 print ($dataalu['cognome'] . "&nbsp;" . $dataalu['nome'] . "<br/>");
             }
             print "</td>";
+            // Stampa Docenti
+            print "<td>";
+            if ($dataass['docenteconcedente1'] != 0)
+            {
+                print estrai_dati_docente($dataass['docenteconcedente1'], $con) . "<br>";
+            }
+            if ($dataass['docenteconcedente2'] != 0)
+            {
+                print estrai_dati_docente($dataass['docenteconcedente2'], $con) . "<br>";
+            }
 
-
-
-
-
-            //ORDINE DEL GIORNO
+            print "</td>";
+            // Stampa Ordine del Giorno
             print "<td>" . nl2br($dataass['odg']) . "</td>";
-            // CONCESSIONE
+            // Autorizzazione (select)
             print "<td align='center'>";
             $idclasse = $dataass['idclasse'];
             $queryverifica = "select * from tbl_assemblee where idclasse=$idclasse and autorizzato=1 and consegna_verbale=0";
             $risverifica = eseguiQuery($con, $queryverifica);
             if (mysqli_num_rows($risverifica) > 0)
                 print "<a href=javascript:Popup('visionaverbali.php?idclasse=$idclasse')><img src='../immagini/alert.png'></a><br>";
-            print "                
-            
-					<select name='autorizza'>
+            print " 
+					<select class='form-select' name='autorizza'>
 						<option value='1'>si</option>
 						<option value='2'>no</option>
 					</select></td>";
-            //NOTE
-            print "<td><p align='center'><textarea cols=20 rows=5 name='note'></textarea></p></td>";
-
-            //BOTTONE AUTORIZZAZIONE
-            print "<td><input type='submit' value='Registra'></td>";
+            // Inserimento note
+            print "<td><p align='center'><textarea class='form-control' cols=20 rows=5 name='note'></textarea></p></td>";
+            // Conferma PULSANTE
+            print "<td><button class='btn btn-outline-success btn-sm' type='submit'><i class='bi bi-check'></i> Registra</button></td>";
             print "<input type='hidden' name='idassemblea' value='" . $dataass['idassemblea'] . "'>";
             print "<input type='hidden' name='iddocente' value='" . $iddocente . "'>";
             print "<input type='hidden' name='idclasse' value='" . $dataass['idclasse'] . "'>";
@@ -173,5 +162,5 @@ if (mysqli_num_rows($ris1) == 0)
     }
 }
 print "</table>";
-stampa_piede("");
+stampa_piede_new("");
 mysqli_close($con);

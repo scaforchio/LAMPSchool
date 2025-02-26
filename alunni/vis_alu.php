@@ -121,8 +121,7 @@ $result = eseguiQuery($con, $sql);
         } else
         {
             $contatore = 0;
-            while ($dati = mysqli_fetch_array($result))
-            {
+            while ($dati = mysqli_fetch_array($result)){
                 $contatore++;
                 ?>
                 <tr>
@@ -138,27 +137,28 @@ $result = eseguiQuery($con, $sql);
                         $res = eseguiQuery($con, $sql);
 
                         if (mysqli_num_rows($res) > 0){ 
-                            
-                        $ttt = "L'utente ha password secondarie: <br> <br>";
-                        while ($dati2 = mysqli_fetch_array($res)) {
-                            $ttt .= "<b>-</b> " . $dati2['descrizione'] . "<br>";
-                        }
-
-                        $ttt .= "<br> Utilizza la pagina <b>ANAGRAFICHE -> UTENZE SECONDARIE</b> per gestirle";
-                            
-                        ?>
+                            $ttt = "L'utente ha password secondarie: <br> <br>";
+                            while ($dati2 = mysqli_fetch_array($res)) {
+                                $ttt .= "<b>-</b> " . $dati2['descrizione'] . "<br>";
+                            }
+                            $ttt .= "<br> Utilizza la pagina <b>ANAGRAFICHE -> UTENZE SECONDARIE</b> per gestirle"; 
+                            ?>
                             <span style="color: #ffb336; padding-left: 5px;">
                                 <i class="bi bi-exclamation-triangle-fill"></i>
                                     <a href="#" class="alert-link"  data-bs-toggle="tooltip" data-bs-html="true" data-bs-placement="top" data-bs-title="<?= $ttt ?>">
                                     CRED. SEC.
                                 </a>
                             </span>  
-                        <?php } 
+                            <?php 
+                        } 
                         ?>
                     </td>
                     <td><?php echo ($dati['telefono']) ? $dati['telefono'] : $dati['telcel']; ?></td>
-                    <td><a href='mailto:<?php echo $dati['email']; ?>'><?php echo $dati['email']; ?></a> <a href='mailto:<?php echo $dati['email2']; ?>'><?php echo $dati['email2']; ?></a></td>
-                    <td><?php echo ($dati['certificato']) ? "<i style='color: #198753;' class='bi bi-check2-all'></i>" : "<i class='bi bi-x'>"; ?></td>
+                    <td>
+                        <a href='mailto:<?php echo $dati['email']; ?>'><?php echo $dati['email']; ?></a> 
+                        <a href='mailto:<?php echo $dati['email2']; ?>'><?php echo $dati['email2']; ?></a>
+                    </td>
+                    <td><?php echo ($dati['certificato']) ? "<i style='color: #198753;' class='bi bi-check2-all'></i>" : "<i class='bi bi-x'></i>"; ?></td>
                     <td><?php echo ($dati['liberatoria'] == 0) ? "<i class='bi bi-x'>" : "<i style='color: #198753;' class='bi bi-check2-all'></i>"; ?></td>
                     <?php echo maggiorenne_new($dati['datanascita']); ?>
                     <?php echo censito_new($dati['datanascita'], $dati['censito'], $dati['cognome'], $dati['nome']); ?>
@@ -170,7 +170,6 @@ $result = eseguiQuery($con, $sql);
                                 Azioni
                             </button>
                             <ul class="dropdown-menu">
-
                                 <li>
                                     <a class="dropdown-item" href='vis_alu_mod.php?idal=<?=$dati['idalunno']?>'>
                                         <i class="bi spa bi-pencil"></i>
@@ -251,8 +250,6 @@ $result = eseguiQuery($con, $sql);
     <input type='hidden' id='form_agg_idcla' name='idcla' value=''>
 </form>
 
-<script src="../vendor/twbs/bootstrap/dist/js/bootstrap.bundle.js"></script>
-
 <script>
     function torna_elenco_classi() {
         window.location.href = 'vis_alu_cla.php';
@@ -276,3 +273,4 @@ $result = eseguiQuery($con, $sql);
 insCodiceClientModalAnnuario();
 mysqli_close($con);
 stampa_piede_new("");
+?>
