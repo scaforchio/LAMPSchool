@@ -164,7 +164,7 @@ if ($suffisso != "*")
             LampSchool ver. 2023
         </p> 
         <ul class="nav col col-auto justify-content-end footer2">
-          <li class="nav-item hidewhen"><a href="http://lampschool.net" class="nav-link px-2 text-muted">Sito Web</a></li>
+          
           <li class="nav-item hidewhen"><a href="https://github.com/scaforchio/lampschool/" class="nav-link px-2 text-muted">GitHub</a></li>
           <li class="nav-item"><a href="../login/info.php" class="nav-link px-2 text-muted">Crediti</a></li>
           <button type="button" class="btn btn-sm btn-outline-secondary" onclick="flipTheme()" style="margin-left: 10px;">
