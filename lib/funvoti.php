@@ -13,7 +13,7 @@
  * @param string $voto
  * @return string
  */
-function dec_to_mod($voto)
+function dec_to_mod_old($voto)
 {
     // La riga seguente serve a normalizzare il voto (Es. 4.18 -> 4.25)
     $voto = round($voto * 4) / 4;
@@ -98,6 +98,144 @@ function dec_to_mod($voto)
         return "9&#189;";
     if ($voto == 9.75)
         return "10-";
+    if ($voto == 10)
+        return "10";
+    if ($voto == 99)
+        return "&nbsp;&nbsp;";
+    if ($voto == 11)
+        return "NC";
+    if ($voto == 12)
+        return $_SESSION['g02'];
+    if ($voto == 13)
+        return $_SESSION['g03'];
+    if ($voto == 14)
+        return $_SESSION['g04'];
+    if ($voto == 15)
+        return $_SESSION['g05'];
+    if ($voto == 16)
+        return $_SESSION['g06'];
+    if ($voto == 17)
+        return $_SESSION['g07'];
+    if ($voto == 18)
+        return $_SESSION['g08'];
+    if ($voto == 19)
+        return $_SESSION['g09'];
+    if ($voto == 20)
+        return $_SESSION['g10'];
+    if ($voto == 21)
+        return $_SESSION['gc01'];
+    if ($voto == 22)
+        return $_SESSION['gc02'];
+    if ($voto == 23)
+        return $_SESSION['gc03'];
+    if ($voto == 24)
+        return $_SESSION['gc04'];
+    if ($voto == 25)
+        return $_SESSION['gc05'];
+    if ($voto == 26)
+        return $_SESSION['gc06'];
+    if ($voto == 27)
+        return $_SESSION['gc07'];
+    if ($voto == 28)
+        return $_SESSION['gc08'];
+    if ($voto == 29)
+        return $_SESSION['gc09'];
+    if ($voto == 30)
+        return $_SESSION['gc10'];
+}
+
+/**
+ * Funzione che trasforma i decimali del voto in modificatori
+ * fix orripilante per reintrodurre i decimali senza sfondare il resto del programma
+ *
+ * @param string $voto
+ * @return string
+ */
+function dec_to_mod($voto)
+{
+    // La riga seguente serve a normalizzare il voto (Es. 4.18 -> 4.25)
+    $voto = round($voto * 4) / 4;
+
+    if ($voto == 0)
+        return "0&nbsp;";
+    if ($voto == 0.25)
+        return "0+ (0.25)";
+    if ($voto == 0.5)
+        return "0&#189; (0.5)";
+    if ($voto == 0.75)
+        return "1- (0.75)";
+    if ($voto == 1)
+        return "1&nbsp;";
+    if ($voto == 1.25)
+        return "1+ (1.25)";
+    if ($voto == 1.5)
+        return "1&#189; (1.5)";
+    if ($voto == 1.75)
+        return "2- (1.75)";
+    if ($voto == 2)
+        return "2&nbsp;";
+    if ($voto == 2.25)
+        return "2+ (2.25)";
+    if ($voto == 2.5)
+        return "2&#189; (2.5)";
+    if ($voto == 2.75)
+        return "3- (2.75)";
+    if ($voto == 3)
+        return "3&nbsp;";
+    if ($voto == 3.25)
+        return "3+ (3.25)";
+    if ($voto == 3.5)
+        return "3&#189; (3.5)";
+    if ($voto == 3.75)
+        return "4- (3.75)";
+    if ($voto == 4)
+        return "4&nbsp;";
+    if ($voto == 4.25)
+        return "4+ (4.25)";
+    if ($voto == 4.5)
+        return "4&#189; (4.5)";
+    if ($voto == 4.75)
+        return "5- (4.75)";
+    if ($voto == 5)
+        return "5&nbsp;";
+    if ($voto == 5.25)
+        return "5+ (5.25)";
+    if ($voto == 5.5)
+        return "5&#189; (5.5)";
+    if ($voto == 5.75)
+        return "6- (5.75)";
+    if ($voto == 6)
+        return "6&nbsp;";
+    if ($voto == 6.25)
+        return "6+ (6.25)";
+    if ($voto == 6.5)
+        return "6&#189; (6.5)";
+    if ($voto == 6.75)
+        return "7- (6.75)";
+    if ($voto == 7)
+        return "7&nbsp;";
+    if ($voto == 7.25)
+        return "7+ (7.25)";
+    if ($voto == 7.5)
+        return "7&#189; (7.5)";
+    if ($voto == 7.75)
+        return "8- (7.75)";
+    if ($voto == 8)
+        return "8&nbsp;";
+    if ($voto == 8.25)
+        return "8+ (8.25)";
+    if ($voto == 8.5)
+        return "8&#189; (8.5)";
+    if ($voto == 8.75)
+        return "9- (8.75)";
+    if ($voto == 9)
+        return "9&nbsp;";
+    if ($voto == 9.25)
+        return "9+ (9.25)";
+    if ($voto == 9.5)
+        return "9&#189; (9.5)";
+    if ($voto == 9.75)
+        return "10- (9.75)";
     if ($voto == 10)
         return "10";
     if ($voto == 99)

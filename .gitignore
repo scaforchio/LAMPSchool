@@ -16,3 +16,4 @@ unikey.txt
 .devmode
 node_modules
 /annuario/storage/a_*
+/buffer/*
