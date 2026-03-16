@@ -1,6 +1,6 @@
 {
     "titolo": "LAMPSchool",
-    "versione": "2024.2",
+    "versione": "2026.1",
     "url": "www.lampschool.it",
     "urlaggiornamento": "https://raw.githubusercontent.com/scaforchio/LAMPSchool/master/lampschool.json",
     "autore": {
@@ -8,7 +8,7 @@
         "mail": "pietro.tamburrano@gmail.com"
     },
     "database": {
-        "installazione": "sql/release/2024.2.sql",
+        "installazione": "sql/release/2026.1.sql",
         "aggiornamento": "sql/update/"
     }
 }

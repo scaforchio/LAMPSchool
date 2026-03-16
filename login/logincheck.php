@@ -5,6 +5,8 @@ session_start();
 require_once '../php-ini' . $_SESSION['suffisso'] . '.php';
 require_once '../lib/funzioni.php';
 require_once '../lib/admqtt.php';
+
+use RobThree\Auth\TwoFactorAuth;
 //@require_once("../lib/sms/php-send.php");
 /*
   Copyright (C) 2015 Pietro Tamburrano
@@ -65,6 +67,7 @@ $_SESSION['ultimoaccesso'] = "";
 $username = stringa_html('utente');
 $password = stringa_html('password');
 $passwordnohash = stringa_html('pass');
+$inputtotp = stringa_html('totp');
 
 // VERIFICO SE IP VIENE DA TOR
 
@@ -129,6 +132,22 @@ if ($tipoaccesso == 3) {// die("Sono qui!");
 
 $sql = "SELECT *,unix_timestamp(ultimamodifica) AS ultmod FROM tbl_utenti WHERE userid='" . $username . "'";
 $result = eseguiQuery($con, $sql);
+
+if ($tipoaccesso == 1) {
+    // verifica totp
+    $secret = mysqli_fetch_assoc(
+        eseguiQuery($con, "SELECT totpsecret FROM tbl_utenti WHERE idutente = " . (int)$data['idutente'])
+    )['totpsecret'];
+    $totpAttivo = ($secret !== 'disabled' && !empty($secret));
+    if ($totpAttivo) {
+        $tfa = new TwoFactorAuth($_SESSION['nome_scuola'] ?? 'LAMPSchool');
+        if (!$tfa->verifyCode($secret, $inputtotp)) {
+            header("location: login.php?messaggio=TOTP errrato&suffisso=" . $_SESSION['suffisso']);
+            die();
+        }
+    }
+}
+
 
 if ($tipoaccesso == 1 | $tipoaccesso == 2) {  // UTENTE TROVATO
     $data = mysqli_fetch_array($result);

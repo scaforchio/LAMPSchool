@@ -152,12 +152,17 @@ if (strlen($messaggio) > 0) {
 
                                 <div class="form-floating mb-3">
                                     <input type="username" class="form-control" name='utente' id='utente'>
-                                    <label for="utente">Username</label>
+                                    <label for="utente">Username *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="password" class="form-control" name='pass' id='password'>
+                                    <label for="password">Password *</label>
                                 </div>
 
                                 <div class="form-floating">
-                                    <input type="password" class="form-control" name='pass' id='password'>
-                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" name='totp' id='totp'>
+                                    <label for="totp">Codice TOTP (opzionale)</label>
                                 </div>
 
                                 <div class="d-grid gap-2 pt-3">

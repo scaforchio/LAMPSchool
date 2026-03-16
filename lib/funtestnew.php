@@ -233,6 +233,13 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
                                 </li>
 
                                 <li>
+                                    <a class="dropdown-item" href="../contr/2famanager.php">
+                                        <i class="bi bi-key"></i>
+                                        Gestione 2FA
+                                    </a>
+                                </li>
+
+                                <li>
                                     <a class="dropdown-item alt-theme" onclick="flipTheme()">
                                         <i class="bi bi-circle-half"></i>
                                         Cambia Tema
@@ -447,6 +454,13 @@ function stampa_head_new($titolo, $tipo, $script, $abil = "DSPMATL", $contr = tr
                                     <a class="dropdown-item" target="_blank" href="http://www.lampschool.net/help/help.php?modulo=<?php echo $nome; ?>&tipoutente=<?php echo $tipoutente; ?>">
                                         <i class="bi bi-question-octagon"></i>
                                         Documentazione
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="../contr/2famanager.php">
+                                        <i class="bi bi-key"></i>
+                                        Gestione 2FA
                                     </a>
                                 </li>
 

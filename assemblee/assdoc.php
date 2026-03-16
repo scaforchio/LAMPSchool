@@ -71,7 +71,7 @@ print ("
                     <th colspan=1 align=center width=40%>CONCESSIONE</th>
                 </tr></thead>
                 <tr class='prima'>
-                    <td>Classe e Data</td> 
+                    <td >Classe e Data</td> 
                     <td>Richiedenti</td>
                     <td>Ordine del Giorno </td>
                     <td>Concessione</td>
@@ -129,22 +129,22 @@ if (mysqli_num_rows($ris1) == 0){
 print "</table>";
 print("<hr/>");
 //ELENCO ASSEMBLEE CONCESSE
-print ("
-        <div>
-            <h5 align='center' class='mt-2'>Assemblee concesse</h5>
-            <table class='table table-striped table-bordered' id='assemblee' width='100%'>
-                <thead><tr class='prima'>
-                    <td data-priority='1'>Classe e data</td> 
-                    <td data-priority='2'>Richiedenti</td>
-                    <td data-priority='3' class='not-mobile'>Ordine del Giorno</td>
-                    <td data-priority='4' class='not-mobile'>Verbale</td>
-                </tr></thead>
-    ");
-// Query
 $ris2 = eseguiQuery($con, "SELECT * FROM tbl_assemblee WHERE ((docenteconcedente1=$iddocente AND concesso1=1) OR (docenteconcedente2=$iddocente AND concesso2=1))");
-if (mysqli_num_rows($ris2) == 0){
-    print "<td colspan='4' align='center'><b><i>Nessuna assemblea concessa</i></b></td>";
-}else{
+if(mysqli_num_rows($ris2) != 0){
+    print ("
+        <div>
+            <h5 align='center' class='mt-2'>Assemblee concesse</h5> 
+            <table class='table table-striped table-bordered' id='assemblee' width='100%'>
+                <thead>
+                    <tr class='prima'>
+                        <td data-priority='1'>Classe e data</td> 
+                        <td data-priority='2'>Richiedenti</td>
+                        <td data-priority='3' class='not-mobile'>Ordine del Giorno</td>
+                        <td data-priority='4' class='not-mobile'>Verbale</td>
+                        </tr>
+                    </thead>
+                <tbody>
+    ");
     while ($dataass = mysqli_fetch_array($ris2))
     {
         if ($dataass['docenteconcedente1'] == $iddocente){
@@ -207,14 +207,20 @@ if (mysqli_num_rows($ris2) == 0){
                         <span class='d-inline-block' tabindex='0' data-bs-toggle='popover' data-bs-trigger='hover focus' data-bs-content='Verbale non presente!'>
                             <button class='btn btn-secondary btn-sm' type='button' disabled><i class='bi bi-eye-fill'> Visualizza </i></button>
                         </span>
-                       </td>";
+                    </td>";
             }
             print "</tr>";
         }
     }
+    print "</tbody></table>";
+    import_datatables();
+}else {
+    print "<div> 
+            <h5 align='center' class='mt-2'>Assemblee concesse</h5> 
+            <div class='alert alert-info' role='alert'><i class='bi bi-exclamation-diamond'></i> Nessuna assemblea concessa! </div>
+           </div>";
 }
-print "</table>";
-import_datatables();
+
 ?>
 
 <script>

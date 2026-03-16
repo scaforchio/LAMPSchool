@@ -32,6 +32,7 @@
         "php-mqtt/client": "^1.8",
         "phpmailer/phpmailer": "^6.9",
         "picqer/php-barcode-generator": "^2.4",
+        "robthree/twofactorauth": "^1.8",
         "spomky-labs/otphp": "^10.0",
         "twbs/bootstrap": "^5.3",
         "twbs/bootstrap-icons": "^1.11"
