@@ -167,6 +167,12 @@ if ($tipoaccesso == 3) {
 $sql = "SELECT *,unix_timestamp(ultimamodifica) AS ultmod FROM tbl_utenti WHERE userid='" . $username . "'";
 $result = eseguiQuery($con, $sql);
 
+$data = null;
+
+if ($tipoaccesso == 1 | $tipoaccesso == 2) {
+    $data = mysqli_fetch_array($result);
+}
+
 if ($tipoaccesso == 1) {
     // verifica totp
     $secret = mysqli_fetch_assoc(
@@ -184,7 +190,6 @@ if ($tipoaccesso == 1) {
 
 
 if ($tipoaccesso == 1 | $tipoaccesso == 2) {  // UTENTE TROVATO
-    $data = mysqli_fetch_array($result);
     $_SESSION['userid'] = $data['userid'];
     $_SESSION['tipoutente'] = $data['tipo'];
     $_SESSION['sostegno'] = docente_sostegno($data['idutente'], $con);
