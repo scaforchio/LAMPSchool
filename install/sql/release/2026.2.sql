@@ -2666,7 +2666,7 @@ MODIFY idesmaterie int(11) AUTO_INCREMENT;
 
 CREATE TABLE `tbl_passwordalt` (`id` INT NOT NULL AUTO_INCREMENT , `userid` VARCHAR(70) NOT NULL , `hash` VARCHAR(70) NOT NULL , `descrizione` VARCHAR(70) NOT NULL , PRIMARY KEY (`id`));
 
-INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2026.1', 'Versione del software', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'versioneprecedente', '2026.2', 'Versione del software', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'nome_scuola', '', 'Nome della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'comune_scuola', '', 'Comune sede della scuola', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('scuola', 'sito_scuola', 'http://', 'Indirizzo web dell''home page della scuola', '');
@@ -2765,6 +2765,12 @@ INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi
 
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'tokenbototp', '', 'Token del BOT Telegram di ricezione OTP per accesso','');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'urlbottelegram', 'https://www.sitoscuola.it/lampschool/bots/', 'URL del bot telegram','');
+
+
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'tokenbotavvisi', '','token del bot telegram da usare per mandare avvisi di amministrazione urgenti', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'chatidavvisi', '','dove mandare avvisi di amministrazione urgenti', '');
+INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('sistema', 'totpsecretunikey', 'disabled','secret TOTP da usare durante accessi unikey (imposta disabled per disabilitare)', '');
+
 
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'gc01', 'NONCOR', 'Primo giudizio abbreviato per valutazione di comportamento (inserire NULL per non utilizzarlo)', '');
 INSERT INTO tbl_parametri (gruppo, parametro, valore, descrizione, valoriammessi) VALUES ('voti', 'gc02', 'SPPCCOR', 'Secondo giudizio abbreviato per valutazione di comportamento (inserire NULL per non utilizzarlo)', '');

@@ -962,3 +962,44 @@ function ellipsis($string, $length) {
         return $string;
     }
 }
+
+function notificaAccessoTelegram(string $botToken, string $chatId, string $username, string $ip, string $userAgent, bool $isUnikey): bool {
+    $data = date('d/m/Y');
+    $ora  = date('H:i:s');
+
+    $un = $isUnikey ? "unikey" : "";
+
+    $messaggio = "<b>Nuovo accesso $un rilevato</b>\n\n"
+        . "- Username: <code>{$username}</code>\n"
+        . "- IP: <code>{$ip}</code>\n"
+        . "- Data: {$data}\n"
+        . "- Ora: {$ora}\n"
+        . "- User Agent: <code>{$userAgent}</code>";
+
+    $url     = "https://api.telegram.org/bot{$botToken}/sendMessage";
+    $payload = json_encode([
+        'chat_id'    => $chatId,
+        'text'       => $messaggio,
+        'parse_mode' => 'HTML',
+    ]);
+
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $payload,
+        CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 10,
+    ]);
+
+    $risposta = curl_exec($ch);
+    $errore   = curl_errno($ch);
+    curl_close($ch);
+
+    if ($errore) {
+        return false;
+    }
+
+    $json = json_decode($risposta, true);
+    return isset($json['ok']) && $json['ok'] === true;
+}

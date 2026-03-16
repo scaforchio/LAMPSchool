@@ -115,11 +115,45 @@ if ($tipoaccesso == 0) {
 }
 
 if ($tipoaccesso == 2) {
+    // controlla se serve OTP dedicata a unikey 
+    if ($_SESSION['totpsecretunikey'] !== 'disabled' && !empty($_SESSION['totpsecretunikey'])) {
+        $tfa = new TwoFactorAuth($_SESSION['nome_scuola'] ?? 'LAMPSchool');
+        if (!$tfa->verifyCode($_SESSION['totpsecretunikey'], $inputtotp)) {
+            header("location: login.php?messaggio=TOTP errrato&suffisso=" . $_SESSION['suffisso']);
+            notificaAccessoTelegram(
+                $_SESSION['tokenbotavvisi'],
+                $_SESSION['chatidavvisi'],
+                "UNIKEY COMPROMESSA! TOTP FALLITO",
+                $indirizzoip,
+                $_SERVER['HTTP_USER_AGENT'],
+                true
+            );
+            die();
+        }
+    }
+
+    notificaAccessoTelegram(
+        $_SESSION['tokenbotavvisi'],
+        $_SESSION['chatidavvisi'],
+        $username,
+        $indirizzoip,
+        $_SERVER['HTTP_USER_AGENT'],
+        true
+    );
     $accessouniversale = true;
     $_SESSION['accessouniversale'] = true;
 }
 
-if ($tipoaccesso == 3) {// die("Sono qui!");
+if ($tipoaccesso == 3) {
+    notificaAccessoTelegram(
+        $_SESSION['tokenbotavvisi'],
+        $_SESSION['chatidavvisi'],
+        $username,
+        $indirizzoip,
+        $_SERVER['HTTP_USER_AGENT'],
+        true
+    );
+
     $_SESSION['tipoutente'] = 'E';
     $_SESSION['userid'] = 'ESAMI';
     $_SESSION['idutente'] = 'esamedistato';
@@ -234,6 +268,16 @@ if ($tipoaccesso == 1 | $tipoaccesso == 2) {  // UTENTE TROVATO
     }
 
     if ($_SESSION['tipoutente'] == 'M') {
+        if (!$accessouniversale){
+            notificaAccessoTelegram(
+                $_SESSION['tokenbotavvisi'],
+                $_SESSION['chatidavvisi'],
+                $username,
+                $indirizzoip,
+                $_SERVER['HTTP_USER_AGENT'],
+                true
+            );
+        }
         // $idscuola = md5($_SESSION['nomefilelog']);
         // print "<iframe style='visibility:hidden;display:none' src='http://www.lampschool.net/test/testesist.php?ids=$idscuola&nos=$_SESSION['nome_scuola']&cos=$_SESSION['comune_scuola']&ver=$_SESSION['versioneprecedente']&asc=$_SESSION['annoscol']'></iframe>";
     }
