@@ -151,17 +151,20 @@ if (strlen($messaggio) > 0) {
                                 <?php echo $mex; ?>
 
                                 <div class="form-floating mb-3">
-                                    <input type="username" class="form-control" name='utente' id='utente'>
+                                    <input type="username" class="form-control" name='utente' id='utente'  autocomplete="username">
                                     <label for="utente">Username *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="password" class="form-control" name='pass' id='password'>
+                                    <input type="password" class="form-control" name='pass' id='password' autocomplete="current-password">
                                     <label for="password">Password *</label>
                                 </div>
 
                                 <div class="form-floating">
-                                    <input type="password" class="form-control" name='totp' id='totp'>
+                                    <input type="text" class="form-control" name='totp' id='totp'
+                                        autocomplete="one-time-code"
+                                        inputmode="numeric"
+                                        pattern="[0-9]*">
                                     <label for="totp">Codice TOTP (opzionale)</label>
                                 </div>
 
