@@ -222,7 +222,6 @@ function stampa_testata($funzione, $ct, $ns, $cs, $isProfileSelector = false)
 
     print "<div class='titolo'>REGISTRO ON LINE$label</div>\n";
     print "<div class='sottotitolo'>$ns<br/>$annoscolastico</div></div>\n";
-    print "<div id='help'><a href='http://www.lampschool.net/help/help.php?modulo=$nome&tipoutente=$tipoutente' target='_blank'><img src='../immagini/help.png' title='HELP'></a></div>\n";
     print "<div id='funzione'>$funzione</div><br/>\n";
 }
 
