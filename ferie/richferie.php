@@ -35,6 +35,12 @@ if ($tipoutente == "")
 }
 
 $titolo = "Richiesta astensione dal lavoro";
+
+// DATA MINIMA SELEZIONABILE: una richiesta di astensione non puo' essere
+// inoltrata a meno di tre giorni dalla data di assenza (la malattia, non
+// programmabile, e' esclusa dal limite e viene gestita dal controllo server-side)
+$dataminima = data_italiana(data_minima_astensione_docente());
+
 $script = "<script>
 			
 
@@ -63,14 +69,14 @@ $script = "<script>
 				$.datepicker.setDefaults($.datepicker.regional['it']);
 			});
                         $(document).ready(function(){
-				 $('#datainizio').datepicker({ dateFormat: 'dd/mm/yy', minDate:new Date() });
+				 $('#datainizio').datepicker({ dateFormat: 'dd/mm/yy', minDate:'$dataminima' });
 			 });
                          $(document).ready(function(){
-				 $('#datafine').datepicker({ dateFormat: 'dd/mm/yy' });
+				 $('#datafine').datepicker({ dateFormat: 'dd/mm/yy', minDate:'$dataminima' });
 			 });
-                         
+
                          $(document).ready(function(){
-				 $('#giornopermessobreve').datepicker({ dateFormat: 'dd/mm/yy', minDate:new Date() });
+				 $('#giornopermessobreve').datepicker({ dateFormat: 'dd/mm/yy', minDate:'$dataminima' });
 			 });
                          $(document).ready(function(){
 					$('#orainiziopermessobreve').datetimepicker({
@@ -268,6 +274,19 @@ per un totale di ore <input type='number' class='narrow' id='orepermessobreve' n
                                 }
                                 
                                // console.log(selezione);
+
+                                // la malattia non e' soggetta al preavviso minimo di tre giorni
+                                if (selezione==2)
+                                {
+                                   $('#datainizio').datepicker('option', 'minDate', new Date());
+                                   $('#datafine').datepicker('option', 'minDate', new Date());
+                                }
+                                else
+                                {
+                                   $('#datainizio').datepicker('option', 'minDate', '$dataminima');
+                                   $('#datafine').datepicker('option', 'minDate', '$dataminima');
+                                }
+
                                 if (selezione!=7)
                                 {
                                    document.getElementById('datainizio').setAttribute('required',true);

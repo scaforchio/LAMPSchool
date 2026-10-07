@@ -259,7 +259,9 @@ if ($idalunno != '') {
 
     $rs1 = eseguiQuery($con, "select * from tbl_alunni where idalunno=$idalunno");
     $rs2 = eseguiQuery($con, "select count(*) as numerotblassenze from tbl_assenze where idalunno=$idalunno $seledata");
-    $rs3 = eseguiQuery($con, "select count(*) as numerotblritardi from tbl_ritardi where idalunno=$idalunno $seledata");
+    $riepilorit = calcola_ritardi_ore($con, $idalunno, $seledata);
+    $numerotblritardi = isset($riepilorit[$idalunno]['numrit']) ? $riepilorit[$idalunno]['numrit'] : 0;
+    $oreritardo = isset($riepilorit[$idalunno]['ore']) ? $riepilorit[$idalunno]['ore'] : 0;
     $rs4 = eseguiQuery($con, "select count(*) as numerouscite from tbl_usciteanticipate where idalunno=$idalunno $seledata");
     $rs5 = eseguiQuery($con, "select * from tbl_assenze where idalunno=$idalunno $seledata order by data desc");
     $rs6 = eseguiQuery($con, "select * from tbl_ritardi where idalunno=$idalunno $seledata order by data desc");
@@ -295,17 +297,12 @@ if ($idalunno != '') {
 	 </tr>';
     }
 
-    // conteggio tbl_ritardi
+    // conteggio tbl_ritardi e ore di ritardo
 
-    if ($rs3) {
-
-        if ($val3 = mysqli_fetch_array($rs3)) {
-            echo '
+    echo '
 	 <tr class="prima">
-	  <td colspan="3"><b>Ritardi: ' . $val3["numerotblritardi"] . '</b></td>
+	  <td colspan="3"><b>Ritardi: ' . $numerotblritardi . ' - Ore di ritardo: ' . $oreritardo . '</b></td>
 	 </tr>';
-        }
-    }
 
     // conteggio uscite anticipate
 

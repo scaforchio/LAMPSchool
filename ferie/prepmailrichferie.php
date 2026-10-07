@@ -59,6 +59,20 @@ $tempo = stringa_html('tempo');
 $to = $_SESSION['indirizzomailassenze'];
 $reason = stringa_html('reason');
 $permstudio = stringa_html('permstudio');
+
+// CONTROLLO DEL PREAVVISO MINIMO: una richiesta di astensione non puo' essere
+// inoltrata a meno di tre giorni dalla data di assenza (esclusa la malattia)
+if (!controllo_data_richiesta_astensione($reason, $datainizio, $datafine, stringa_html('giornopermessobreve')))
+{
+    print "<center><font color='red' size='4'><b>Impossibile preparare la richiesta!<br><br>
+           La data di assenza deve distare almeno tre giorni dalla data odierna.<br>
+           Le richieste di malattia non sono soggette al limite.</b></font></center><br>";
+    print "<center><a href='richferie.php'>Torna alla compilazione della richiesta</a></center>";
+    mysqli_close($con);
+    stampa_piede("");
+    die;
+}
+
 if ($reason != 7)
     $subject = "Richiesta astensione di " . stringa_html('nominativo') . " da " . stringa_html('datainizio') . " a " . stringa_html('datafine');
 else
@@ -127,7 +141,11 @@ print "<br><form action='inviamailrichferie.php' method='post' name='inviorichie
         . "<input type='hidden' name='subject' value='$subject'>"
         . "<input type='hidden' name='testomail' value='$testomail'>"
         . "<input type='hidden' name='numerogiorni' value='$numerogiorni'>"
-        . "<input type='hidden' name='orepermessobreve' value='$orepermessobreve'>";
+        . "<input type='hidden' name='orepermessobreve' value='$orepermessobreve'>"
+        . "<input type='hidden' name='reason' value='$reason'>"
+        . "<input type='hidden' name='datainizio' value='$datainizio'>"
+        . "<input type='hidden' name='datafine' value='$datafine'>"
+        . "<input type='hidden' name='giornopermessobreve' value='" . stringa_html('giornopermessobreve') . "'>";
 print "<center><input type='submit' value='Inoltra'><br></center>";
 
 mysqli_close($con);

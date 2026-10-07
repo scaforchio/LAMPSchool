@@ -106,7 +106,13 @@ if ($codalunno != '')
    
 
     print "<br><br><center><b>SITUAZIONE MENSILE<br><br>";
-    print "<table border=1 align=center><tr class='prima'><td>Mese</td><td>Ass.</td><td>Rit.</td><td>Usc.</td></tr>";
+
+    //
+    // RIEPILOGO MENSILE RITARDI E ORE DI RITARDO (UNA SOLA QUERY)
+    //
+    $riepilomensile = calcola_ritardi_ore($con, $codalunno, '', true);
+
+    print "<table border=1 align=center><tr class='prima'><td>Mese</td><td>Ass.</td><td>Rit.</td><td>Ore rit.</td><td>Usc.</td></tr>";
     for ($i = 9; $i <= 12; $i++)
     {
         print "<tr><td>$i</td>";
@@ -115,12 +121,9 @@ if ($codalunno != '')
         $rec = mysqli_fetch_array($rs);
         $numev = $rec['numeroassenze'];
         print "<td>$numev</td>";
-        $q="select count(*) as numeroritardi from tbl_ritardi where idalunno=$codalunno  and month(data)=$i";
-        
-        $rs = eseguiQuery($con, $q);
-        $rec = mysqli_fetch_array($rs);
-        $numev = $rec['numeroritardi'];
-        print "<td>$numev</td>";
+        $numrit = isset($riepilomensile[$codalunno][$i]['numrit']) ? $riepilomensile[$codalunno][$i]['numrit'] : 0;
+        $orerit = isset($riepilomensile[$codalunno][$i]['ore']) ? $riepilomensile[$codalunno][$i]['ore'] : 0;
+        print "<td>$numrit</td><td>$orerit</td>";
         $q="select count(*) as numerouscite from tbl_usciteanticipate where idalunno=$codalunno  and month(data)=$i";
         $rs = eseguiQuery($con, $q);
         $rec = mysqli_fetch_array($rs);
@@ -137,12 +140,9 @@ if ($codalunno != '')
         $rec = mysqli_fetch_array($rs);
         $numev = $rec['numeroassenze'];
         print "<td>$numev</td>";
-        $q="select count(*) as numeroritardi from tbl_ritardi where idalunno=$codalunno  and month(data)=$i";
-        
-        $rs = eseguiQuery($con, $q);
-        $rec = mysqli_fetch_array($rs);
-        $numev = $rec['numeroritardi'];
-        print "<td>$numev</td>";
+        $numrit = isset($riepilomensile[$codalunno][$i]['numrit']) ? $riepilomensile[$codalunno][$i]['numrit'] : 0;
+        $orerit = isset($riepilomensile[$codalunno][$i]['ore']) ? $riepilomensile[$codalunno][$i]['ore'] : 0;
+        print "<td>$numrit</td><td>$orerit</td>";
         $q="select count(*) as numerouscite from tbl_usciteanticipate where idalunno=$codalunno  and month(data)=$i";
         $rs = eseguiQuery($con, $q);
         $rec = mysqli_fetch_array($rs);

@@ -283,11 +283,17 @@ if ($nome != "")
         $oresettimanali = $val["oresett"];
         $numoretot = round(33 * $oresettimanali);  // 33.3333 ?
     }
-    $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
+    $query = 'SELECT idalunno FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
     $ris = eseguiQuery($con, $query);
 
-    $c = mysqli_fetch_array($ris);
-    if ($c == NULL)
+    $elencoalunni = '';
+    while ($c = mysqli_fetch_array($ris))
+    {
+        if ($elencoalunni != '')
+            $elencoalunni .= ',';
+        $elencoalunni .= $c['idalunno'];
+    }
+    if ($elencoalunni == '')
     {
         echo '
                     <p align="center">
@@ -295,6 +301,11 @@ if ($nome != "")
                    ';
         exit;
     }
+
+    //
+    // RIEPILOGO RITARDI E ORE DI RITARDO PER LA CLASSE (UNA SOLA QUERY)
+    //
+    $riepilorit = calcola_ritardi_ore($con, $elencoalunni, $seledata);
     echo "<p align='center'>
           <font size=4 color='black'>Assenze della classe $classe <br>
                                      nel periodo $datainizio - $datafine
@@ -307,7 +318,7 @@ if ($nome != "")
           <td><font size=1><b> Cognome </b></td>
           <td><font size=1><b> Nome  </b></td>
           <td><font size=1><b> Data di nascita </b></td>';
-    print ("<td><font size=1><center>Ass</td><td><font size=1><center>Rit (Rit. Brevi)</td><td><font size=1><center>Usc</td><td align=center><font size=1>Perc. ass.<br/>su monte ore<br/>($numoretot)</td><td align=center><font size=1>Perc. ass.<br/>su monte ore<br/>(con deroghe)</td><td align=center><font size=1>Perc. ass.<br/>su ore svolte<br/>(con deroghe)</td></tr>");
+    print ("<td><font size=1><center>Ass</td><td><font size=1><center>Rit (Rit. Brevi)</td><td><font size=1><center>Ore rit.</td><td><font size=1><center>Usc</td><td align=center><font size=1>Perc. ass.<br/>su monte ore<br/>($numoretot)</td><td align=center><font size=1>Perc. ass.<br/>su monte ore<br/>(con deroghe)</td><td align=center><font size=1>Perc. ass.<br/>su ore svolte<br/>(con deroghe)</td></tr>");
 
 
     $query = 'SELECT * FROM tbl_alunni WHERE idclasse="' . $idclasse . '" ORDER BY cognome,nome,datanascita';
@@ -323,11 +334,9 @@ if ($nome != "")
                 ';
 
         $queryass = "SELECT count(*) AS numass FROM tbl_assenze WHERE idalunno = '" . $val['idalunno'] . "' " . $seledata;
-        $queryrit = "SELECT count(*) AS numrit FROM tbl_ritardi WHERE idalunno = '" . $val['idalunno'] . "' " . $seledata;
         $queryusc = "SELECT count(*) AS numusc FROM tbl_usciteanticipate WHERE idalunno = '" . $val["idalunno"] . "' " . $seledata;
 
         $risass = eseguiQuery($con, $queryass);
-        $risrit = eseguiQuery($con, $queryrit);
         $numritardibrevi = calcola_ritardi_brevi($val['idalunno'], $con, $_SESSION['ritardobreve'], $seledata);
         $risusc = eseguiQuery($con, $queryusc);
         while ($ass = mysqli_fetch_array($risass))
@@ -335,10 +344,8 @@ if ($nome != "")
 
             $numass = $ass['numass'];
         }
-        while ($rit = mysqli_fetch_array($risrit))
-        {
-            $numrit = $rit['numrit'];
-        }
+        $numrit = isset($riepilorit[$idalunno]['numrit']) ? $riepilorit[$idalunno]['numrit'] : 0;
+        $oreritardo = isset($riepilorit[$idalunno]['ore']) ? $riepilorit[$idalunno]['ore'] : 0;
 
         while ($usc = mysqli_fetch_array($risusc))
         {
@@ -361,7 +368,7 @@ if ($nome != "")
         $percassder = round($oreassenzader / $numoretot * 100, 2);
         $percasssusvolte = round($oreassenzader / $oresvolte * 100, 2);
 
-        print "<td><center>$numass</td><td><center>$numrit ($numritardibrevi) </td><td><center>$numusc</td><td align=center>$percass (Ore: $oreassenza) </td><td align=center>$percassder (Ore: $oreassenzader) </td><td><center>$percasssusvolte</td></tr>";
+        print "<td><center>$numass</td><td><center>$numrit ($numritardibrevi) </td><td><center>$oreritardo</td><td><center>$numusc</td><td align=center>$percass (Ore: $oreassenza) </td><td align=center>$percassder (Ore: $oreassenzader) </td><td><center>$percasssusvolte</td></tr>";
     }
 
     echo '</table>';
