@@ -65,6 +65,23 @@ if ($numerogiorni == '')
     $numerogiorni = 0;
 if ($orepermessobreve == '')
     $orepermessobreve = 0;
+
+// CONTROLLO FINALE DEL PREAVVISO MINIMO (coerenza con prepmailrichferie.php):
+// i campi nascosti potrebbero non esserci per richieste preparate prima
+// dell'aggiornamento, in tal caso il controllo viene saltato
+$reason = stringa_html('reason');
+if ($reason != '')
+{
+    if (!controllo_data_richiesta_astensione($reason, stringa_html('datainizio'), stringa_html('datafine'), stringa_html('giornopermessobreve')))
+    {
+        print "<center><font color='red' size='4'><b>Impossibile registrare la richiesta!<br><br>
+               La data di assenza deve distare almeno tre giorni dalla data odierna.</b></font></center><br>";
+        mysqli_close($con);
+        stampa_piede("");
+        die;
+    }
+}
+
 $query = "insert into tbl_richiesteferie(iddocente, subject, testomail,numerogiorni,orepermessobreve,orariorichiesta) values ('$iddocente','$subject','$testomail',$numerogiorni,$orepermessobreve,'".date('H:i')."')";
 eseguiQuery($con, $query);
 $idrichiesta = mysqli_insert_id($con);

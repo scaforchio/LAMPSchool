@@ -48,7 +48,9 @@ $idclasse= estrai_classe_alunno($codalunno, $con);
 
 $rs1 = eseguiQuery($con,"select * from tbl_alunni where idalunno=$codalunno");
 $rs2 = eseguiQuery($con,"select count(*) as numerotblassenze from tbl_assenze where idalunno=$codalunno");
-$rs3 = eseguiQuery($con,"select count(*) as numerotblritardi from tbl_ritardi where idalunno=$codalunno");
+$riepilorit = calcola_ritardi_ore($con, $codalunno);
+$numerotblritardi = isset($riepilorit[$codalunno]['numrit']) ? $riepilorit[$codalunno]['numrit'] : 0;
+$oreritardo = isset($riepilorit[$codalunno]['ore']) ? $riepilorit[$codalunno]['ore'] : 0;
 $rs4 = eseguiQuery($con,"select count(*) as numerouscite from tbl_usciteanticipate where idalunno=$codalunno");
 $rs5 = eseguiQuery($con,"select * from tbl_assenze where idalunno=$codalunno order by data desc");
 $rs6 = eseguiQuery($con,"select * from tbl_ritardi where idalunno=$codalunno order by data desc");
@@ -82,17 +84,12 @@ if ($val2 = mysqli_fetch_array($rs2))
   <td colspan="3"><b>Assenze: ' . $val2["numerotblassenze"] . '</b></td>
  </tr>';
 
-// conteggio tbl_ritardi
+// conteggio tbl_ritardi e ore di ritardo
 
-if ($rs3)
-{
-
-    if ($val3 = mysqli_fetch_array($rs3))
-        echo ' 
+echo '
  <tr>
-  <td colspan="3"><b>Ritardi: ' . $val3["numerotblritardi"] . '</b></td>
+  <td colspan="3"><b>Ritardi: ' . $numerotblritardi . ' - Ore di ritardo: ' . $oreritardo . '</b></td>
  </tr>';
-}
 
 // conteggio uscite anticipate
 

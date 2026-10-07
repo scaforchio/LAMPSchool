@@ -597,6 +597,51 @@ function calcola_ritardi_brevi($idalunno, $con, $ritardobreve, $rangedate = '') 
     return $numritardibrevi;
 }
 
+/*
+ *  RIEPILOGO RITARDI E ORE DI RITARDO PER UN INSIEME DI ALUNNI
+ *
+ *  Con una sola query restituisce, per ogni alunno, il numero di ritardi e le
+ *  ore di ritardo complessive. Le ore sono calcolate per singolo ritardo come
+ *  differenza in minuti tra l'ora di entrata e l'inizio della prima ora di
+ *  lezione del giorno (tbl_orario), arrotondata all'ora (round(minuti/60)),
+ *  e poi sommate. I ritardi in giorni senza orario valido contribuiscono al
+ *  conteggio ma con 0 ore.
+ *
+ *  @param object $con Connessione al db
+ *  @param string $elencoalunni Elenco di idalunno separati da virgola (o un solo id)
+ *  @param string $rangedata Filtro aggiuntivo sul periodo, es. " and data >= '2026-09-01' "
+ *  @param bool $mensile Se true raggruppa anche per mese: array[idalunno][mese]
+ *  @return array array[idalunno] = array('numrit'=>n, 'ore'=>n)
+ */
+function calcola_ritardi_ore($con, $elencoalunni, $rangedata = '', $mensile = false) {
+
+    $riepilogo = array();
+
+    $query = "select r.idalunno, count(*) as numrit,
+              sum(round(greatest(timestampdiff(minute, o.inizio, r.oraentrata), 0) / 60)) as oreritardo";
+    if ($mensile) {
+        $query .= ", month(r.data) as mese";
+    }
+    $query .= " from tbl_ritardi r
+              left join tbl_orario o on o.ora=1 and o.giorno=weekday(r.data)+1 and o.valido
+              where r.idalunno in ($elencoalunni) $rangedata
+              group by r.idalunno";
+    if ($mensile) {
+        $query .= ", month(r.data)";
+    }
+
+    $ris = eseguiQuery($con, $query);
+    while ($rec = mysqli_fetch_array($ris)) {
+        $dati = array('numrit' => $rec['numrit'], 'ore' => (int) $rec['oreritardo']);
+        if ($mensile) {
+            $riepilogo[$rec['idalunno']][$rec['mese']] = $dati;
+        } else {
+            $riepilogo[$rec['idalunno']] = $dati;
+        }
+    }
+    return $riepilogo;
+}
+
 function esiste_assenza_alunno($idalunno, $data, $con) {
     $query = "select * from tbl_assenze where idalunno='$idalunno' and data='$data'";
     $ris = eseguiQuery($con, $query);

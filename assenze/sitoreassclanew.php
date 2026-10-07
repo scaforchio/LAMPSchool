@@ -31,6 +31,13 @@ if ($tipoutente == "")
 }
 
 
+//
+// DATA DI RIFERIMENTO DEL RIEPILOGO: non essendo passata da alcun form,
+// viene impostata alla data odierna (in formato AAAA-MM-GG); in assenza di
+// default il confronto con una data vuota e' rifiutato da MySQL
+//
+$dataassora = date('Y-m-d');
+
 $titolo = "Situazione ore di assenza al " . data_italiana($dataassora);
 
 stampa_head($titolo, "", "", "MSPD");
@@ -120,11 +127,17 @@ if ($val = mysqli_fetch_array($ris))
     $numoresett = $val["oresett"];
 }
 
-$query = 'select * from tbl_alunni where idclasse="' . $idclasse . '" order by cognome,nome,datanascita';
+$query = 'select idalunno from tbl_alunni where idclasse="' . $idclasse . '" order by cognome,nome,datanascita';
 $ris = eseguiQuery($con, $query);
 
-$c = mysqli_fetch_array($ris);
-if ($c == NULL)
+$elencoalunni = '';
+while ($c = mysqli_fetch_array($ris))
+{
+    if ($elencoalunni != '')
+        $elencoalunni .= ',';
+    $elencoalunni .= $c['idalunno'];
+}
+if ($elencoalunni == '')
 {
     echo '
                     <p align="center">
@@ -132,6 +145,11 @@ if ($c == NULL)
                    ';
     exit;
 }
+
+//
+// RIEPILOGO RITARDI E ORE DI RITARDO PER LA CLASSE (UNA SOLA QUERY)
+//
+$riepilorit = calcola_ritardi_ore($con, $elencoalunni, " and data <= '" . $dataassora . "'");
 echo '<p align="center">
           <font size=4 color="black">Ore assenza della classe ' . $classe . '</font>
           
@@ -161,25 +179,21 @@ while ($val = mysqli_fetch_array($ris))
                 ';
 
 
-    // Codice per ricerca ore tbl_assenze 
-    $queryoreass = "SELECT sum(numeroore) as totore FROM `oreassenza` WHERE idalunno = " . $val["idalunno"] . " AND DATA = '" . $dataassora . "'";
+    // Codice per ricerca ore tbl_assenze
     $queryass = "select count(*) as numass from tbl_assenze where idalunno = '" . $val["idalunno"] . "' and data <= '" . $dataassora . "'";
-    $queryrit = "select count(*) as numrit from tbl_ritardi where idalunno = '" . $val["idalunno"] . "' and data <=  '" . $dataassora . "'";
     $queryusc = "select count(*) as numusc from tbl_usciteanticipate where idalunno = '" . $val["idalunno"] . "' and data <=  '" . $dataassora . "'";
 
-    $risoreass = eseguiQuery($con, $queryoreass);
     $risass = eseguiQuery($con, $queryass);
-    $risrit = eseguiQuery($con, $queryrit);
     $risusc = eseguiQuery($con, $queryusc);
 
-    $oreass = mysqli_fetch_array($risoreass);
-    $oass = $oreass['totore'];
+    // le ore di assenza inserite si calcolano dal registro (tbl_asslezione):
+    // la tabella legacy oreassenza non esiste piu' nello schema
+    $oass = calcola_ore_assenza($val["idalunno"], '', data_italiana($dataassora), $con);
 
     $ass = mysqli_fetch_array($risass);
     $nass = $ass['numass'];
 
-    $rit = mysqli_fetch_array($risrit);
-    $nrit = $rit['numrit'];
+    $oreritardo = isset($riepilorit[$val['idalunno']]['ore']) ? $riepilorit[$val['idalunno']]['ore'] : 0;
 
     $usc = mysqli_fetch_array($risusc);
     $nusc = $usc['numusc'];
@@ -187,7 +201,7 @@ while ($val = mysqli_fetch_array($ris))
 
     $oremass = round($numoreanno * ($percentuale / 100) * ($percrischio / 100));
 
-    $orestimate = round($nass * ($numoresett / 6) + $nrit * 1 + $nusc * 2);
+    $orestimate = round($nass * ($numoresett / 6) + $oreritardo + $nusc * 2);
 
     print"<td>$oass</td><td>$orestimate</td><td>";
 
@@ -215,7 +229,7 @@ while ($val = mysqli_fetch_array($ris))
 
 echo'</table>';
 
-print "<center><sup>*</sup><font size=1> (Assenze x Ore Giornaliere medie) + (tbl_ritardi x 1) + (Uscite x 2)</font></center>";
+print "<center><sup>*</sup><font size=1> (Assenze x Ore Giornaliere medie) + (Ore di ritardo) + (Uscite x 2)</font></center>";
 
 print "<br/><center><sup>**</sup><font size=1> Differenza tra stima e ore inserite maggiore del 40%</font></center>";
 

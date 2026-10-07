@@ -90,27 +90,21 @@ if ($val1 = mysqli_fetch_array($ris1)) //->fetch())
 ';
 }
 
-// conteggio ritardi
-$query3 = "select count(*) as numeroritardi from tbl_ritardi where idalunno='$codalunno'";
-$ris3 = eseguiQuery($con, $query3); //$lQuery->query($query3);
+// conteggio ritardi e ore di ritardo
+$riepilorit = calcola_ritardi_ore($con, $codalunno);
+$numeroritardi = isset($riepilorit[$codalunno]['numrit']) ? $riepilorit[$codalunno]['numrit'] : 0;
+$oreritardo = isset($riepilorit[$codalunno]['ore']) ? $riepilorit[$codalunno]['ore'] : 0;
 
-if ($val3 = mysqli_fetch_array($ris3)) //$ris3->fetch())
-{
-// conteggio assenze non giustificate
-    //  if ($_SESSION['giustifica_ritardi']=='yes')
-    //  {
-    $query4 = "select count(*) as numeroritardi from tbl_ritardi where idalunno='$codalunno' and (isnull(giustifica) or giustifica=0)";
-    $ris4 = eseguiQuery($con, $query4);
-    $val4 = mysqli_fetch_array($ris4);
-    $numritnongiust = $val4['numeroritardi'];
-    //  }
-    //  else
-    //      $numritnongiust=0;
-    echo '
+// conteggio ritardi non giustificati
+$query4 = "select count(*) as numeroritardi from tbl_ritardi where idalunno='$codalunno' and (isnull(giustifica) or giustifica=0)";
+$ris4 = eseguiQuery($con, $query4);
+$val4 = mysqli_fetch_array($ris4);
+$numritnongiust = $val4['numeroritardi'];
+
+echo '
  <tr>
-  <td colspan="3"><b>Ritardi: ' . $val3["numeroritardi"] . ' <font color="red">(' . $numritnongiust . ')</font></b></td>
+  <td colspan="3"><b>Ritardi: ' . $numeroritardi . ' <font color="red">(' . $numritnongiust . ')</font> - Ore di ritardo: ' . $oreritardo . '</b></td>
  </tr>';
-}
 
 // conteggio uscite anticipate
 $query5 = "select count(*) as numerouscite from tbl_usciteanticipate where idalunno='$codalunno'";

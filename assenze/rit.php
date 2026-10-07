@@ -255,8 +255,8 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
           <td><b> Orario(HH:MM)</b></td>
           <td><b> Dettaglio </b></td> 
           <td><b> Giust. </b></td>
-          <td><b> Rit. 1˚Q.</b></td>
-          <td><b> Rit. 2˚Q.</b></td>
+          <td><b> Rit. 1˚Q. (ore)</b></td>
+          <td><b> Rit. 2˚Q. (ore)</b></td>
           <td><b> Maggiorenne</b></td>
           <td><b> Censito</b></td>
    </tr>
@@ -269,16 +269,31 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
     $iniziosecondo = date_format($fpdt,"Y-m-d");
     $fineprimo = $_SESSION['fineprimo'];
 
-    $query = "SELECT * FROM tbl_alunni WHERE idalunno in (" . estrai_alunni_classe_data($idclasse, $anno . '-' . $mese . '-' . $giorno, $con) . ")  order by cognome, nome, datanascita";
+    $elencoalunni = estrai_alunni_classe_data($idclasse, $anno . '-' . $mese . '-' . $giorno, $con);
+
+    //
+    // RIEPILOGO RITARDI E ORE DI RITARDO PER QUADRIMESTRE (UNA SOLA QUERY PER QUADRIMESTRE)
+    //
+    $riepiloritprimo = array();
+    $riepiloritsecondo = array();
+    if ($elencoalunni != '')
+    {
+        $riepiloritprimo = calcola_ritardi_ore($con, $elencoalunni, " and data < '$iniziosecondo'");
+        $riepiloritsecondo = calcola_ritardi_ore($con, $elencoalunni, " and data > '$fineprimo'");
+    }
+
+    $query = "SELECT * FROM tbl_alunni WHERE idalunno in (" . $elencoalunni . ")  order by cognome, nome, datanascita";
 
     $ris = eseguiQuery($con, $query);
     $cont = 0;
     while ($val = mysqli_fetch_array($ris))
     {
         $idalu = $val["idalunno"];
-        // conta ritardi per quadrimestre selezionato
-        $ritprimo = eseguiQuery($con, "select count(*) as numrit from tbl_ritardi where idalunno = $idalu and data < '$iniziosecondo'")->fetch_assoc()['numrit'];
-        $ritsecondo = eseguiQuery($con, "select count(*) as numrit from tbl_ritardi where idalunno = $idalu and data > '$fineprimo'")->fetch_assoc()['numrit'];
+        // conteggio ritardi e ore di ritardo per quadrimestre (dal riepilogo pre-calcolato)
+        $ritprimo = isset($riepiloritprimo[$idalu]['numrit']) ? $riepiloritprimo[$idalu]['numrit'] : 0;
+        $oreprimo = isset($riepiloritprimo[$idalu]['ore']) ? $riepiloritprimo[$idalu]['ore'] : 0;
+        $ritsecondo = isset($riepiloritsecondo[$idalu]['numrit']) ? $riepiloritsecondo[$idalu]['numrit'] : 0;
+        $oresecondo = isset($riepiloritsecondo[$idalu]['ore']) ? $riepiloritsecondo[$idalu]['ore'] : 0;
         
         $cont++;
         if ($val['autentrata'] != "")
@@ -333,18 +348,18 @@ if (($nome != "") && ((checkdate($m, $g, $a)) & !($giornosettimana == "Dom")))
         // conteggio ritardi
         if ($ritprimo >= $_SESSION['entrate_max']){
             //troppi
-            print("<td><center> <img src='../immagini/ritwarn.png' style='margin-right: 2px;' width='20' height='20'> <b style='padding-top: 2px;'>$ritprimo</b></center></td>");
+            print("<td><center> <img src='../immagini/ritwarn.png' style='margin-right: 2px;' width='20' height='20'> <b style='padding-top: 2px;'>$ritprimo ($oreprimo)</b></center></td>");
         }else {
             //normale
-            print("<td><center>$ritprimo</center></td>");
+            print("<td><center>$ritprimo ($oreprimo)</center></td>");
         }
 
         if ($ritsecondo >= $_SESSION['entrate_max']){
             //troppi
-            print("<td><center> <img src='../immagini/ritwarn.png' style='margin-right: 2px;' width='20' height='20'> <b style='padding-top: 2px;'>$ritsecondo</b></center></td>");
+            print("<td><center> <img src='../immagini/ritwarn.png' style='margin-right: 2px;' width='20' height='20'> <b style='padding-top: 2px;'>$ritsecondo ($oresecondo)</b></center></td>");
         }else {
             //normale
-            print("<td><center>$ritsecondo</center></td>");
+            print("<td><center>$ritsecondo ($oresecondo)</center></td>");
         }
 
         print(maggiorenneok($val["datanascita"]));

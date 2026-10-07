@@ -237,7 +237,7 @@ if ($perclim != '')
           <td><font size=1><b> Cognome </b></td>
           <td><font size=1><b> Nome  </b></td>
           <td><font size=1><b> Data di nascita </b></td><td><b>Classe</b></td>';
-    print ("<td><font size=1><center>Ass</td><td><font size=1><center>Rit (Ent. Post.)</td><td><font size=1><center>Usc</td><td align=center><font size=1>Perc. ass.<br/>su monte ore<br/>della classe</td></tr>");
+    print ("<td><font size=1><center>Ass</td><td><font size=1><center>Rit (Ent. Post.)</td><td><font size=1><center>Ore rit.</td><td><font size=1><center>Usc</td><td align=center><font size=1>Perc. ass.<br/>su monte ore<br/>della classe</td></tr>");
 
     if ($tipoutente=='D')
         $query = "SELECT * FROM tbl_alunni,tbl_classi WHERE
@@ -251,6 +251,38 @@ if ($perclim != '')
             tbl_alunni.idclasse=tbl_classi.idclasse AND tbl_alunni.idclasse<>'' ORDER BY specializzazione,anno,sezione,cognome,nome,datanascita";
     
     $ris = eseguiQuery($con, $query);
+
+    //
+    // RIEPILOGO RITARDI E ORE DI RITARDO PER TUTTI GLI ALUNNI (UNA SOLA QUERY)
+    //
+    $seledata = "";
+    if ($datainizio != "")
+    {
+        $seledata = $seledata . " and data >= '" . data_to_db($datainizio) . "' ";
+    }
+
+    if ($datafine != "")
+    {
+        $seledata = $seledata . " and data <= '" . data_to_db($datafine) . "' ";
+    }
+
+    if ($tipoutente == 'D')
+        $queryid = "SELECT idalunno FROM tbl_alunni WHERE idclasse IN
+                   (SELECT idclasse from tbl_classi where idcoordinatore=" . $_SESSION['idutente'] . ")";
+    else
+        $queryid = "SELECT idalunno FROM tbl_alunni WHERE idclasse<>''";
+    $risid = eseguiQuery($con, $queryid);
+    $elencoalunni = '';
+    while ($recid = mysqli_fetch_array($risid))
+    {
+        if ($elencoalunni != '')
+            $elencoalunni .= ',';
+        $elencoalunni .= $recid['idalunno'];
+    }
+    $riepilorit = array();
+    if ($elencoalunni != '')
+        $riepilorit = calcola_ritardi_ore($con, $elencoalunni, $seledata);
+
     while ($val = mysqli_fetch_array($ris))
     {
         $query = 'SELECT * FROM tbl_classi WHERE idclasse="' . $val['idclasse'] . '" ';
@@ -262,27 +294,13 @@ if ($perclim != '')
             $numoretot = round(33 * $oresettimanali);  // 33 = numero settimane di lezione convenzionale
         }
         $idalunno = $val["idalunno"];
-        
-
-        $seledata = "";
-        if ($datainizio != "")
-        {
-            $seledata = $seledata . " and data >= '" . data_to_db($datainizio) . "' ";
-        }
-
-        if ($datafine != "")
-        {
-            $seledata = $seledata . " and data <= '" . data_to_db($datafine) . "' ";
-        }
 
 
         $queryass = "SELECT count(*) AS numass FROM tbl_assenze WHERE idalunno = '" . $val['idalunno'] . "' " . $seledata;
-        $queryrit = "SELECT count(*) AS numrit FROM tbl_ritardi WHERE idalunno = '" . $val['idalunno'] . "' " . $seledata;
         $queryentpost = "SELECT count(*) AS numentpost FROM tbl_ritardi WHERE numeroore<>0 AND idalunno = '" . $val['idalunno'] . "' " . $seledata;
         $queryusc = "SELECT count(*) AS numusc FROM tbl_usciteanticipate WHERE idalunno = '" . $val["idalunno"] . "' " . $seledata;
 
         $risass = eseguiQuery($con, $queryass);
-        $risrit = eseguiQuery($con, $queryrit);
         $risentpost = eseguiQuery($con, $queryentpost);
 
         $risusc = eseguiQuery($con, $queryusc);
@@ -291,10 +309,8 @@ if ($perclim != '')
 
             $numass = $ass['numass'];
         }
-        while ($rit = mysqli_fetch_array($risrit))
-        {
-            $numrit = $rit['numrit'];
-        }
+        $numrit = isset($riepilorit[$idalunno]['numrit']) ? $riepilorit[$idalunno]['numrit'] : 0;
+        $oreritardo = isset($riepilorit[$idalunno]['ore']) ? $riepilorit[$idalunno]['ore'] : 0;
         while ($rit = mysqli_fetch_array($risentpost))
         {
             $numentpost = $rit['numentpost'];
@@ -377,7 +393,7 @@ if ($perclim != '')
                 <td><font size=1><b> ' . data_italiana($val["datanascita"]) . ' </b></td>
                 <td><font size=1><b> ' . $val["anno"] . ' ' . $val["sezione"] . ' ' . $val["specializzazione"] . '</b></td>
                 ';
-            print "<td><center>$numass</td><td><center>$numrit ($numentpost) </td><td><center>$numusc</td><td align=center>$percassder (Ore: $oreassenzader) </td></tr>";
+            print "<td><center>$numass</td><td><center>$numrit ($numentpost) </td><td><center>$oreritardo</td><td><center>$numusc</td><td align=center>$percassder (Ore: $oreassenzader) </td></tr>";
         }
     }
 

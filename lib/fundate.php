@@ -308,6 +308,35 @@ function aggiungi_giorni($datainglese, $giorni)
 }
 
 //
+//  RESTITUISCE LA PRIMA DATA PER CUI SI PUO' RICHIEDERE UN'ASTENSIONE DAL SERVIZIO
+//  (in formato AAAA-MM-GG): una richiesta di astensione docente non puo' essere
+//  inoltrata a meno di tre giorni dalla data di assenza
+//
+function data_minima_astensione_docente()
+{
+    return aggiungi_giorni(date('Y-m-d'), 3);
+}
+
+//
+//  VERIFICA CHE LE DATE DI UNA RICHIESTA DI ASTENSIONE DOCENTE RISPETTINO IL
+//  PREAVVISO MINIMO DI TRE GIORNI. LE RICHIESTE DI MALATTIA (MOTIVO 2), NON
+//  PROGRAMMABILI, SONO ESCLUSE DAL CONTROLLO. IL MOTIVO 7 E' IL PERMESSO BREVE,
+//  PER CUI VA VERIFICATA LA DATA DEL GIORNO DEL PERMESSO
+//
+function controllo_data_richiesta_astensione($reason, $datainizio, $datafine, $giornopermessobreve)
+{
+    $dataminima = data_minima_astensione_docente();
+    if ($reason == 2) {
+        return true;
+    }
+    if ($reason == 7) {
+        return ControlloData($giornopermessobreve) && data_to_db($giornopermessobreve) >= $dataminima;
+    }
+    return ControlloData($datainizio) && ControlloData($datafine)
+            && data_to_db($datainizio) >= $dataminima && data_to_db($datafine) >= data_to_db($datainizio);
+}
+
+//
 //  Restituisce l'orario di inizio di un'ora di lezione
 //
 function orainizio($h, $g, $conn)
